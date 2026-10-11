@@ -685,16 +685,32 @@ def test_the_empty_column_is_in_the_table(tmp_path):
     assert row.count("|") == header.count("|"), "row and header must line up"
 
 
-def test_the_named_pages_are_capped_but_the_count_is_not(tmp_path):
-    """Twenty names is a hint, not an inventory; the number stays exact."""
+def test_the_report_names_twenty_pages_and_the_record_holds_them_all(tmp_path):
+    """The cap belongs to the rendering, not to the record.
+
+    Until #616 this test read "twenty names is a hint, not an inventory; the
+    number stays exact" and the cap sat on the collection: the twenty-first
+    empty page was counted and then dropped, so no file held its key. That was
+    tolerable while the list was only prose for a reader, and wrong as soon as
+    the flagged pages became the selection for the next run — `report.md` named
+    21 of the 33 pages `gemini-300-strict` flagged, and the other twelve existed
+    nowhere.
+
+    So the hint is still a hint, in the Markdown, and the inventory is complete
+    behind it.
+    """
     names = tuple(f"p{i:03d}.jpg" for i in range(30))
     src, out = make_corpus(tmp_path / "src", names), tmp_path / "out"
     rec = Recorder(default=reading(text=""))
     report = batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out, rec)
 
     assert report.models[0].empty == 30
-    assert len(report.models[0].empty_keys) == 20
-    assert "… 10 more" in batch.format_report(report)
+    assert len(report.models[0].empty_keys) == 30
+    assert len(report.flagged_keys) == 30
+
+    rendered = batch.format_report(report)
+    assert rendered.count("  - p") == 20
+    assert "… 10 more" in rendered
 
 
 def test_the_empty_count_reaches_report_json(tmp_path):

@@ -183,3 +183,88 @@ def test_report_run_dry_run_leaves_the_files_alone(run_dir, capsys):
     assert mod.report_run(args) == 0
     assert (run_dir / "report.md").read_text(encoding="utf-8") == "the old one"
     assert "not written" in capsys.readouterr().out
+
+
+# ── the pages a report flags are a selection the next run can take (#616) ────
+
+def test_a_flagged_page_is_named_not_only_counted(run_dir):
+    """The count says the corpus is short; only the key says where.
+
+    Before this, `truncated` had a column and no list, so the only record of
+    *which* pages were cut off was the runner's warning — and that names the
+    image file (`002.jpg`), not the page key a selection is made of.
+    """
+    write_result(run_dir, "trocr-kurrent", "p004", "Bis hierhin und nicht",
+                 truncated=True, at="2026-09-17T07:40:41+00:00")
+
+    report = batch.report_from_outputs(run_dir)
+    outcome = report.models[0]
+
+    assert outcome.truncated == 1
+    assert outcome.truncated_keys == ["p004"]
+
+
+def test_the_three_defects_make_one_selection(run_dir):
+    """Empty, padded and cut off want different remedies and the same re-read."""
+    write_result(run_dir, "trocr-kurrent", "p004", "Bis hierhin",
+                 truncated=True, at="2026-09-17T07:40:41+00:00")
+    write_result(run_dir, "trocr-kurrent", "p005", "7" * 4000,
+                 at="2026-09-17T07:50:41+00:00")
+
+    report = batch.report_from_outputs(run_dir)
+    outcome = report.models[0]
+
+    assert outcome.empty_keys == ["p002"]
+    assert outcome.repetitive_keys == ["p005"]
+    assert outcome.truncated_keys == ["p004"]
+    # One sorted list, which is what `--keys-from` reads.
+    assert outcome.flagged_keys == ["p002", "p004", "p005"]
+    assert report.flagged_keys == ["p002", "p004", "p005"]
+
+
+def test_a_page_flagged_twice_is_re_read_once(run_dir):
+    """A cut-off page can also be padded; two defects are still one page."""
+    write_result(run_dir, "trocr-kurrent", "p004", "7" * 4000,
+                 truncated=True, at="2026-09-17T07:40:41+00:00")
+
+    report = batch.report_from_outputs(run_dir)
+    outcome = report.models[0]
+
+    assert outcome.repetitive_keys == ["p004"]
+    assert outcome.truncated_keys == ["p004"]
+    assert outcome.flagged_keys == ["p002", "p004"]
+
+
+def test_the_selection_spans_the_models_because_it_names_pages(run_dir):
+    """A page one model lost and another read is still worth re-reading."""
+    write_result(run_dir, "kraken-de", "p001", "Euer Hochwohlgeboren")
+    write_result(run_dir, "kraken-de", "p009", "")
+
+    report = batch.report_from_outputs(run_dir)
+
+    assert report.flagged_keys == ["p002", "p009"]
+
+
+def test_more_flagged_pages_than_the_report_shows_are_still_in_the_list(run_dir):
+    """The cap belongs to the rendering, not to the record.
+
+    It used to sit on the collection: the twenty-first empty page was counted
+    and then dropped, so neither `report.json` nor any selection could name it
+    while the table still said how many there were.
+    """
+    for n in range(30):
+        write_result(run_dir, "trocr-kurrent", f"e{n:03d}", "",
+                     at="2026-09-17T08:00:41+00:00")
+
+    report = batch.report_from_outputs(run_dir)
+    outcome = report.models[0]
+
+    assert outcome.empty == 31                      # p002 and the thirty
+    assert len(outcome.empty_keys) == 31
+    assert len(report.flagged_keys) == 31
+
+    rendered = batch.format_report(report)
+    assert "e000" in rendered
+    assert "e029" not in rendered                   # capped for reading
+    assert "11 more" in rendered                    # and says so
+    assert "e029" in json.dumps(report.to_dict())   # kept where it belongs

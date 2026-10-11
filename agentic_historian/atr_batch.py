@@ -654,6 +654,11 @@ class ModelOutcome:
     chars: int = 0
     lines: int = 0
     truncated: int = 0
+    #: Which pages were cut off, not merely how many. The count alone said that
+    #: the corpus is short without saying where, so the only way to re-read the
+    #: affected pages was to grep the log for the warning — and the log names the
+    #: image file, not the page key the runner selects by (#616).
+    truncated_keys: list[str] = field(default_factory=list)
     #: Pages the model read without producing a single character. A success by
     #: every other measure — 200, no error, a file on disk — and empty. Counted
     #: and named, because a corpus is silently short by however many of these it
@@ -691,6 +696,24 @@ class ModelOutcome:
     @property
     def attempted(self) -> int:
         return self.done + self.skipped + self.failed
+
+    @property
+    def flagged_keys(self) -> list[str]:
+        """The pages this report asks somebody to look at, as a selection.
+
+        Empty, padded and cut off are three different defects with three
+        different remedies, but they share one property that the report could not
+        act on: each is a page whose reading is not worth keeping. Naming them in
+        prose left the next step manual — read the Markdown, copy the keys out by
+        hand, write a list file. As one sorted list they are what `--keys-from`
+        takes, so "re-read what went wrong" is a selection rather than an
+        instruction to a reader (#616).
+
+        Deduplicated: a page can be cut off *and* padded, and re-reading it twice
+        would be a second call for one page.
+        """
+        return sorted(set(self.empty_keys) | set(self.repetitive_keys)
+                      | set(self.truncated_keys))
 
     @property
     def mean_chars(self) -> float:
@@ -736,6 +759,19 @@ class BatchReport:
     def any_aborted(self) -> bool:
         return any(m.aborted for m in self.models)
 
+    @property
+    def flagged_keys(self) -> list[str]:
+        """Every model's flagged pages in one sorted selection (#616).
+
+        Across models rather than per model, because the next run reads the
+        *pages*: a page one model lost and another read is still a page worth
+        re-reading, and the selection a run takes names pages, not pairs.
+        """
+        keys: set[str] = set()
+        for m in self.models:
+            keys |= set(m.flagged_keys)
+        return sorted(keys)
+
     def to_dict(self) -> dict:
         return {
             "schema": SCHEMA,
@@ -755,7 +791,9 @@ class BatchReport:
                 {
                     "model": m.model, "done": m.done, "skipped": m.skipped,
                     "failed": m.failed, "chars": m.chars, "lines": m.lines,
-                    "truncated": m.truncated, "empty": m.empty,
+                    "truncated": m.truncated,
+                    "truncated_keys": list(m.truncated_keys),
+                    "empty": m.empty,
                     "empty_keys": list(m.empty_keys),
                     "repetitive": m.repetitive,
                     "repetitive_keys": list(m.repetitive_keys),
@@ -1226,6 +1264,8 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
         outcome.lines += res.lines
         outcome.recognition_ms += res.timing_ms
         outcome.truncated += int(res.truncated)
+        if res.truncated:
+            outcome.truncated_keys.append(res.key)
 
     def _record(index: int, res: PageOutcome) -> bool:
         """Fold one page outcome in. Returns False when the model must stop.
@@ -1243,6 +1283,8 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             outcome.lines += res.lines
             outcome.recognition_ms += res.timing_ms
             outcome.truncated += int(res.truncated)
+            if res.truncated:
+                outcome.truncated_keys.append(res.key)
             # From the page's own verdict, never recomputed here (#483). `empty`
             # used to be `res.chars == 0`, which is a *different* question:
             # `chars` is the length of the raw text and the verdict strips
@@ -1254,12 +1296,10 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             outcome.verdicts[verdict] = outcome.verdicts.get(verdict, 0) + 1
             if verdict == "empty":
                 outcome.empty += 1
-                if len(outcome.empty_keys) < 20:
-                    outcome.empty_keys.append(res.key)
+                outcome.empty_keys.append(res.key)
             elif verdict == "repetitive":
                 outcome.repetitive += 1
-                if len(outcome.repetitive_keys) < 20:
-                    outcome.repetitive_keys.append(res.key)
+                outcome.repetitive_keys.append(res.key)
         elif res.status == "skipped":
             outcome.skipped += 1
         else:
@@ -1651,6 +1691,8 @@ def report_from_outputs(run_dir: Path) -> BatchReport:
             outcome.lines += len(data.get("lines") or [])
             outcome.recognition_ms += int(data.get("timing_ms") or 0)
             outcome.truncated += int(bool(data.get("truncated")))
+            if data.get("truncated"):
+                outcome.truncated_keys.append(json_path.stem)
             # Recomputed rather than read from the stored verdict: a run that
             # finished before `quality` existed has none, and the whole point of
             # a rebuilt report is to describe what is on disk. One call, so the
@@ -1659,12 +1701,10 @@ def report_from_outputs(run_dir: Path) -> BatchReport:
             outcome.verdicts[verdict] = outcome.verdicts.get(verdict, 0) + 1
             if verdict == "empty":
                 outcome.empty += 1
-                if len(outcome.empty_keys) < 20:
-                    outcome.empty_keys.append(json_path.stem)
+                outcome.empty_keys.append(json_path.stem)
             elif verdict == "repetitive":
                 outcome.repetitive += 1
-                if len(outcome.repetitive_keys) < 20:
-                    outcome.repetitive_keys.append(json_path.stem)
+                outcome.repetitive_keys.append(json_path.stem)
             when = _parse_stamp(data.get("recognised_at"))
             if when:
                 seen.append(when)
@@ -1700,6 +1740,22 @@ def _parse_stamp(value) -> Optional[datetime]:
         return None
 
 
+#: How many flagged keys a report section spells out. The lists behind them are
+#: complete — the cap used to be on the collection, which made the report the
+#: only record and quietly lost the twenty-first page (#616). `report.json`
+#: carries all of them, and `--keys-out` writes them as a selection.
+KEYS_SHOWN = 20
+
+
+def _flagged_lines(keys: list[str], total: int) -> list[str]:
+    """The indented key list under a section heading, capped for reading."""
+    out = [f"  - {key}" for key in keys[:KEYS_SHOWN]]
+    if total > KEYS_SHOWN:
+        out.append(f"  - … {total - KEYS_SHOWN} more "
+                   "(all of them in `report.json`, or `--keys-out`)")
+    return out
+
+
 def _repetitive_section(report: BatchReport) -> list[str]:
     """The pages the model padded — the other way a reading fails silently.
 
@@ -1717,11 +1773,7 @@ def _repetitive_section(report: BatchReport) -> list[str]:
         share = 100.0 * m.repetitive / m.done if m.done else 0.0
         out.append(f"- `{m.model}`: {m.repetitive} of {m.done} page(s) "
                    f"({share:.0f}%)")
-        for key in m.repetitive_keys:
-            out.append(f"  - {key}")
-        if m.repetitive > len(m.repetitive_keys):
-            out.append(f"  - … {m.repetitive - len(m.repetitive_keys)} more "
-                       f"(see `manifest.jsonl`)")
+        out += _flagged_lines(m.repetitive_keys, m.repetitive)
     out += ["",
             "A run of one character twenty long or half the lines repeating is not "
             "a reading of a page. **These carry text, so every average over them "
@@ -1740,11 +1792,17 @@ def _empty_section(report: BatchReport) -> list[str]:
     moves. Measured on a 25-page sample of the Lassberg share on 2026-09-16:
     **three pages**, 12%, which over the whole corpus is several hundred.
 
-    Two causes, and they want opposite responses. A blank verso or an envelope
-    flap *should* be empty, and the count is then a property of the corpus worth
+    Causes, and they want opposite responses. A blank verso or an envelope flap
+    *should* be empty, and the count is then a property of the corpus worth
     knowing before anyone extrapolates a cost per page. A written page that comes
-    back empty means the segmenter found no lines on it, and that is a defect —
-    invisible in every other number here.
+    back empty is a defect, invisible in every other number here — and which
+    defect depends on the route. Through the gateway it means the segmenter found
+    no lines on the page. Through an external reader there is no segmenter: the
+    model was asked for the page and answered with nothing, which a prompt
+    forbidding guesses makes *more* likely rather than less. Measured 2026-10-10
+    on 300 pages read by `gemini-3.8-flash` with the strict prompt: 28 empty,
+    and 21 of those were pages the same model had read with text under the
+    original prompt (#616).
     """
     hit = [m for m in report.models if m.empty]
     if not hit:
@@ -1753,18 +1811,20 @@ def _empty_section(report: BatchReport) -> list[str]:
     for m in hit:
         share = 100.0 * m.empty / m.done if m.done else 0.0
         out.append(f"- `{m.model}`: {m.empty} of {m.done} page(s) ({share:.0f}%)")
-        out += [f"  - {key}" for key in m.empty_keys]
-        if m.empty > len(m.empty_keys):
-            out.append(f"  - … {m.empty - len(m.empty_keys)} more (see `manifest.jsonl`)")
+        out += _flagged_lines(m.empty_keys, m.empty)
     out += [
         "",
         "These are successes by every signal this runner has: a 200, no error, "
         "both files on disk, and `is_complete` will skip them on every later run. "
         "**Look at the images before reading anything into the number.** A blank "
         "verso or an envelope flap is genuinely empty, and knowing how many the "
-        "corpus holds is worth having before extrapolating a cost per page; a "
-        "written page that comes back empty means the segmenter found no lines "
-        "on it, which no other column in this report would ever show.",
+        "corpus holds is worth having before extrapolating a cost per page. A "
+        "*written* page that comes back empty is a defect no other column here "
+        "would ever show — the segmenter found no lines on it (gateway), or the "
+        "model answered the page with nothing at all (external reader). The "
+        "second is a reading the prompt refused, not a page the model could not "
+        "fetch: compare the same pages under another prompt before concluding "
+        "anything about the corpus.",
     ]
     return out
 
@@ -1777,20 +1837,30 @@ def _truncation_section(report: BatchReport) -> list[str]:
     there is just less of it than the page has. It ends mid-sentence and reads
     exactly like a model that gave up — so without this note, the natural response
     is to blame the model and try another one, when the fix is a larger ceiling.
+
+    The pages are named as well as counted (#616). The count says the corpus is
+    short; only the keys say where, and the runner's warning names the image file
+    rather than the key a selection is made of.
     """
     hit = [m for m in report.models if m.truncated]
     if not hit:
         return []
     out = ["", "## Readings that were cut off", ""]
-    out += [f"- `{m.model}`: {m.truncated} of {m.done} page(s)" for m in hit]
+    for m in hit:
+        out.append(f"- `{m.model}`: {m.truncated} of {m.done} page(s)")
+        out += _flagged_lines(m.truncated_keys, m.truncated)
     out += [
         "",
         "These pages hit the model's token ceiling and stop mid-text. The request "
         "succeeded and the text is real — there is just less of it than the page "
         "has, and it reads like a model that gave up rather than one that was "
-        "interrupted. Raise `ATR_VLLM_MAX_NEW_TOKENS` on the gateway, restart it, "
-        "delete the affected results and re-run: the batch re-reads only what is "
-        "missing.",
+        "interrupted. Raise the ceiling — `ATR_VLLM_MAX_NEW_TOKENS` on the "
+        "gateway, `GEMINI_MAX_TOKENS` for an external reader — delete the "
+        "affected results and re-run: the batch re-reads only what is missing. "
+        "A reasoning model spends the same ceiling on thinking before it writes "
+        "a character, so lowering the thinking level buys page as surely as "
+        "raising the ceiling does (#611) — check the thinking level before "
+        "buying tokens.",
     ]
     return out
 

@@ -873,6 +873,16 @@ def report_run(args: argparse.Namespace) -> int:
         print(f"Error: no model output under {run_dir}", file=sys.stderr)
         return 1
     print(batch.format_report(report))
+    if args.keys_out:
+        # Written even under --dry-run: the flag asks for a selection, not for a
+        # report, and refusing to write it because the report was not written
+        # would make the dry run the only way to get the numbers and the only
+        # way not to get the list (#616).
+        keys = report.flagged_keys
+        out = Path(args.keys_out).resolve()
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text("\n".join(keys) + ("\n" if keys else ""), encoding="utf-8")
+        print(f"\nflagged: {len(keys)} page(s) → {out}")
     if args.dry_run:
         print("(dry run — report.md and report.json not written)")
         return 0
@@ -1220,6 +1230,10 @@ def build_parser() -> argparse.ArgumentParser:
     p_rep.add_argument("--run-dir", required=True, help="The run directory")
     p_rep.add_argument("--dry-run", action="store_true",
                        help="Print the report without overwriting the files")
+    p_rep.add_argument("--keys-out",
+                       help="Write the keys of the pages the report flags "
+                            "(empty, padded, cut off) to this file, one per "
+                            "line — the selection `atr-batch --keys-from` takes")
     p_rep.set_defaults(func=report_run)
 
     p_gt = sub.add_parser(

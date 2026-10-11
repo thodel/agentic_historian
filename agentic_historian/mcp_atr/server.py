@@ -699,23 +699,40 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
-    def batch_report(run: str) -> dict:
+    def batch_report(run: str, keys_out: Optional[str] = None) -> dict:
         """The report of a finished (or running) run: what each model produced,
         what it cost, and how many pages were cut off at the token ceiling.
 
         None of those columns is quality — there is no ground truth in a
         comparison run, and a model that hallucinates fluently leads the
         characters-per-page column.
+
+        ``keys_out`` turns the report's complaints into the next run's input: the
+        pages that came back **empty**, **padded** or **cut off** are written as
+        a page-key list under the ground-truth root, by name, which
+        `start_batch(keys_from=...)` reads back. The keys are recounted from the
+        results on disk, not parsed out of `report.md`, because a resumed run's
+        report is the one place those counts are known to be short.
         """
         try:
             checked = jobs.validate_run(run)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
         progress = jobs.run_progress(checked)
+        if not progress:
+            return {"ok": False, "error": f"no run directory for {checked!r}"}
         report = Path(config.VLM_TEST_ROOT) / checked / "report.md"
         if report.is_file():
             progress["report_md"] = report.read_text(encoding="utf-8")[:40000]
-        return progress or {"ok": False, "error": f"no run directory for {checked!r}"}
+        try:
+            progress["flagged"] = jobs.flagged_keys(checked, keys_out=keys_out)
+        except jobs.JobError as exc:
+            # A report without the selection is still the report that was asked
+            # for: the rebuild walks every result file and can fail on a run
+            # whose output is half-written, and losing the numbers to that would
+            # be the wrong trade.
+            progress["flagged"] = {"ok": False, "error": str(exc)}
+        return progress
 
     return server
 

@@ -55,6 +55,77 @@ es war — ein Versionssprung hätte jede Seite jedes früheren Laufs für unfer
 erklärt und ein Korpus neu gelesen, um ein Feld zu gewinnen, das darin überall
 `None` ist.
 
+## Der 300-Seiten-Lauf, 10. Oktober 2026
+
+300 Seiten des Laßberg-Korpus, Stichprobe (Seed 20260915) aus 6466 noch nicht
+transkribierten, `gemini-3.8-flash`, Prompt `lassberg_atr_strict.md @03c5a660`,
+`--reasoning low`. Lauf `gemini-300-strict`.
+
+| | |
+|---|---|
+| gelesen | **300 von 300**, 0 Fehler, 0 übersprungen |
+| Wanduhr | 32,4 min · 6,4 s/Seite |
+| `cut off` | **4 von 300** (1,3 %) |
+| `empty` | 28 von 300 (9 %) |
+| `looped` | 1 von 300 |
+| Tokens | 450.566 Eingabe + 74.785 Ausgabe über 300 Aufrufe |
+| Seitenbilder | 175 aus dem Cache, **125 aus dem Archiv**, 0 vom Share geholt |
+
+**Die Deckel-Hypothese hält.** Unter der Default-Denkstufe waren drei der ersten
+dreizehn Seiten abgeschnitten; mit `low` sind es vier von 300. Pro Seite 1.502
+Eingabe- und **249** Ausgabe-Tokens — der längere Prompt kostet mehr Eingabe, und
+die Ausgabe sinkt trotzdem von 380 auf 249, weil das Nachdenken nicht mehr aus
+demselben Budget bezahlt wird. Die Schätzung von ~0,71 $ für 300 Seiten bleibt in
+der Größenordnung; teuer ist die Ausgabeseite, und die ist kleiner geworden.
+
+**Die Form hält auch.** Keine Vorrede, keine erfundenen Strukturlabels, kein
+Markdown, Zeilenumbrüche erhalten, `[durchgestrichen: …]` und `wort[?]` wie
+vereinbart — über 300 Seiten, nicht über drei.
+
+### Was der strikte Prompt eingetauscht hat: Schweigen
+
+`compare_readings` zwischen `gemini-300` (Original-Prompt) und
+`gemini-300-strict` über die 205 gemeinsamen Seiten:
+
+| | |
+|---|---|
+| leer **nur** im strikten Lauf | **21** |
+| leer **nur** im Original-Lauf | 1 |
+| leer in beiden | 0 |
+| verglichen (beidseitig ≥100 Zeichen) | 163, Median-Abweichung 23,4 % |
+
+21 Seiten, die dasselbe Modell unter dem Original-Prompt mit Text gelesen hat,
+kommen unter dem strikten leer zurück. Die markierte `looped`-Seite zeigt
+dieselbe Bewegung in ihrer anderen Form — 24 Zeilen `[...]` hintereinander, also
+genau die Verwendung des Zeichens, die der Prompt verbietet („never as a place to
+put a guess").
+
+**Was diese Zahlen nicht sagen: welche Seite richtiger ist.** Es gibt hier keine
+Referenz. Die 21 Lesungen des Original-Prompts können gelesene Seiten sein oder
+flüssig erfundene; der strikte Prompt verweigert, wo der andere schrieb, und ob
+Verweigerung besser ist als Erfindung, entscheidet ein Blick aufs Bild oder eine
+Ground Truth, nicht diese Tabelle.
+
+**Und der Lauf trennt die Ursache nicht.** Zwischen den beiden Läufen haben sich
+*zwei* Dinge geändert, Prompt *und* Denkstufe. Die unterscheidende Messung ist
+billig und steht aus: dieselben Seiten, Original-Prompt, `--reasoning low`. Kommt
+Text zurück, war es der Prompt; bleibt es leer, war es die Denkstufe.
+
+```bash
+python3 -m agentic_historian report-run \
+  --run-dir agentic_historian/data/vlm_test/gemini-300-strict \
+  --dry-run --keys-out "$GT_ROOT/strict-flagged.txt"
+python3 -m agentic_historian atr-batch --source "dav:digitalisate" \
+  --cache-dir "$ATR_PAGE_CACHE" --models gemini-3.8-flash \
+  --run gemini-strict-silence --keys-from "$GT_ROOT/strict-flagged.txt" \
+  --via external --prompt lassberg_atr.md --reasoning low
+```
+
+Eine leere Seite ist dabei **nicht** gleich einer leeren Seite: durch die Gateway
+heißt leer „der Segmentierer fand keine Zeilen", durch einen externen Leser gibt
+es keinen Segmentierer — das Modell wurde nach der Seite gefragt und antwortete
+mit nichts. Der Bericht sagt das inzwischen auch so.
+
 ## Der erste externe Lauf, 10. Oktober 2026 — und was er über den Prompt sagt
 
 Drei Seiten, `gemini-3.8-flash`, Prompt `lassberg_atr.md @092fb6b0`.
@@ -790,9 +861,43 @@ pages of 899, 8.6 %, and its original report had no empty column at all.)
 **Check the "cut off" column first.** It counts pages where the model stopped at
 its token ceiling instead of at the end of the text. Those readings are real but
 short, and they end mid-sentence — indistinguishable, reading them, from a model
-that gave up. If the column is not zero, raise `ATR_VLLM_MAX_NEW_TOKENS` on the
-gateway, restart it, delete the affected `.json` files, and re-run the same
-command: only the missing pages are read again.
+that gave up. If the column is not zero, raise the ceiling —
+`ATR_VLLM_MAX_NEW_TOKENS` on the gateway, `GEMINI_MAX_TOKENS` for an external
+reader — delete the affected `.json` files, and re-run the same command: only the
+missing pages are read again. Before buying tokens, check the thinking level: a
+reasoning model spends the same ceiling on thinking before it writes a character,
+and `--reasoning low` bought back 300 pages that a larger ceiling would have been
+billed for (§ *The ceiling is spent on thinking first*).
+
+### The pages a report flags are a selection
+
+Empty, padded and cut off are three defects with three remedies and one next
+step: read those pages again. The report names them, and `--keys-out` writes
+them as the page-key list `--keys-from` takes, so that step is a selection
+rather than an instruction to a reader:
+
+```bash
+# what went wrong in this run, as a list
+python3 -m agentic_historian report-run \
+  --run-dir agentic_historian/data/vlm_test/gemini-300-strict \
+  --dry-run --keys-out agentic_historian/data/gt/strict-flagged.txt
+# → flagged: 33 page(s)
+
+# read exactly those again, under whatever the report said to change
+python3 -m agentic_historian atr-batch --source dav:digitalisate \
+  --models gemini-3.8-flash --run gemini-300-strict-retry \
+  --keys-from agentic_historian/data/gt/strict-flagged.txt \
+  --via external --prompt lassberg_atr.md --reasoning low
+```
+
+Over MCP it is `batch_report(run=…, keys_out="strict-flagged.txt")` — a name
+under the ground-truth root, never a path — and then
+`start_batch(keys_from="strict-flagged.txt", …)`.
+
+Two things the keys are counted from, not parsed: `report.md` caps each list at
+twenty names for reading, and a **resumed** run's report says nothing about the
+pages it skipped. `--keys-out` and the MCP tool both walk the results on disk, so
+neither inherits either gap. `report.json` carries every key as well.
 
 It counts zero if the gateway does not report truncation at all (before
 serving-atr-inference#123), so a zero there is "not reported", not "did not
