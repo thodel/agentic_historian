@@ -1037,6 +1037,82 @@ uncorrelated errors. The `above no-merge` column is the share of pages
 
 ---
 
+## Eine leere Antwort ist manchmal eine Eigenschaft des Versuchs
+
+Das Rauschen zwischen zwei identischen Läufen hatte ich nie gemessen, und einen
+Tag lang Prompt-Effekte aus Lauf-Differenzen gelesen. Nachgeholt am 11. Oktober:
+`gemini-strict2-repeat` — dieselben 25 beanstandeten Seiten, **derselbe** Prompt
+`@9e0503e8`, dieselbe Denkstufe, zweiter Versuch.
+
+| | |
+|---|---:|
+| Seiten | 25 |
+| in beiden Läufen leer | 21 |
+| **leer im ersten, gelesen im zweiten** | **3** |
+| umgekehrt | 0 |
+
+Und was in diesen drei Seiten steht, ist nicht Beifang:
+
+- `Winterthur__310-MsBRH_513-91-131` — **978 Zeichen**, ein vollständiger Brief
+  von Justizrat Zellweger, Trogen, 27. April 1831. Diese Seite war in **vier**
+  vorherigen Läufen leer: `gemini-300-strict`, `gemini-strict-silence` (anderer
+  Prompt!), `gemini-strict2-check` und `gemini-300-strict2`. Beim fünften
+  Versuch liest sie sich durch.
+- `StATG …1339_00101` — 902 Zeichen, der Pupikofer-Brief. Dritter Versuch
+  derselben Seite mit demselben Prompt: Text, leer, Text.
+- `Marbach__HS00911718_0004` — leer → `[unlesbar]`.
+
+**Das korrigiert zwei Aussagen von heute Vormittag.** „22 von 22 Leerseiten
+bleiben leer" war die Kontrolle *eines* Versuchs, und `Winterthur` war unter
+diesen 22 — als unbeschrieben verbucht, obwohl dort ein Brief steht. Und „21 der
+28 sind unbeschriebene Rückseiten" hat dieselbe Seite als leer gezählt.
+
+Auf gewöhnlichen Seiten ist die Streuung dagegen klein: 6,6 % Median zwischen
+zwei *verschiedenen* Prompts über 240 Seiten. Das Rauschen sitzt nicht im
+Fließtext, sondern an der Kippe zwischen „lese ich" und „antworte ich nichts".
+
+### Was daraus folgt: n Versuche statt eines Blicks
+
+Der Bericht sagt bei `empty` „look at the images". Das trägt bei 28 Seiten und
+nicht bei 2800. Billiger und schärfer ist: **dieselbe Seite nochmal lesen.** Eine
+Seite ist leer, wenn sie in *jedem* Versuch leer ist — und nur die beanstandeten
+Seiten brauchen den zweiten Versuch, also 25 Aufrufe statt 300.
+
+Resumierbarkeit-durch-Anwesenheit verhindert das aktiv: `is_complete`
+überspringt die Seite. Ein zweiter Versuch braucht deshalb einen **neuen
+Laufnamen**, und der Vergleich der beiden Läufe ist die Messung.
+
+```bash
+python3 -m agentic_historian atr-batch … --run <lauf>-repeat \
+  --keys-from "$GT_ROOT/<lauf>-flagged.txt" --prompt … --reasoning low
+# dann: compare_readings(["<lauf>", "<lauf>-repeat"]) → "empty only in …"
+```
+
+## Ein Lauf aus 80 Unterstrichen ist eine Linie
+
+Die dritte Seite dieses Korpus, die für ihr eigenes Layout als Füllmaterial
+beschuldigt wurde. Die erste war eine rechtsbündige Unterschrift mit 34
+Leerzeichen (#606). Diese ist ein Einlegezettel des DLA Marbach, von
+`strict2` korrekt transkribiert und korrekt als `[fremde hand: …]`
+gekennzeichnet — mit einer gedruckten Trennlinie aus 80 Unterstrichen.
+
+`_` namentlich auszuschliessen wäre der dritte Flicken derselben Form gewesen,
+und das nächste Formular zieht seine Linie mit Punkten. Was eine Linie von
+Füllmaterial trennt, ist nicht das Zeichen, sondern **wo der Lauf sitzt**:
+
+| | Anteil | eigene Zeile | |
+|---|---:|---|---|
+| 20 Nullen am Satzende | 0,14 | nein | Füllmaterial |
+| 80 Unterstriche im Formular | 0,10 | ja | **Linie** |
+| 3000 Nullen in einer Textzeile | 0,997 | nein | Füllmaterial |
+| 8000 Nullen als eigene Zeile | 0,99 | ja | Füllmaterial (Anteil) |
+
+Ein langer Lauf wird also nur verschont, wenn er **eine Zeile für sich** ist
+*und* unter einem Viertel der Seite bleibt. Beide Masse stehen in jedem
+Ergebnis (`run_share`, `run_on_own_line`), eine Schwellenänderung bleibt
+Arithmetik. Je ein gemessener Fall pro Ecke — dünn, aber jede Ecke ist eine
+echte Seite dieses Korpus.
+
 ## Welcher Code hat geantwortet?
 
 Nicht jede Änderung braucht denselben Deployment-Schritt, und der Unterschied
