@@ -493,6 +493,40 @@ Three things worth separating:
 acting on what the column is called. The name encodes a guess about the
 mechanism, and `cut off` was a guess that held for one page of four.
 
+## 13. The same mistake, one hour later, in my own fix for it
+
+§8 of this document is "a configuration nobody set is not a default that works".
+§10 is "a count is a complaint; only the keys are a task". An hour after writing
+the detector for pages that argue with themselves, I asked the tool how many
+pages of the 300-page run were affected and got back:
+
+```
+"per_model": [{"model": "gemini-3.8-flash", "empty": 28,
+               "repetitive": 1, "truncated": 4, "flagged": 33}]
+```
+
+No `deliberated`. I had added the verdict to the classifier, to the report table
+and to the key lists, and left the MCP reply listing the three counts it was born
+with. The reply did not say "I do not know"; it said nothing, which reads as
+nothing found — against a run I was about to publish, and the second time in two
+days that a number which was never computed presented itself as a measurement
+(§7: a mechanism that keeps a log is not a mechanism to search for).
+
+What the field-per-defect shape made inevitable: every new verdict needs three
+edits in three files and the one that is forgotten is silent. So the reply now
+carries the classifier's own `verdicts` table, which gains a key when
+`page_quality` gains a verdict, and the list of verdicts lives in one place —
+`page_quality.VERDICTS` and `DEFECTS` — instead of in a comment on a dataclass
+field that nothing could check itself against. A test walks `DEFECTS` and
+requires each to have somewhere in the reply to be counted.
+
+**The generalisation, and it is the uncomfortable one:** writing a rule down,
+even writing it down well, does not make the next instance of it visible. Both
+times what exposed the gap was asking a concrete question of real data and
+noticing that the answer was shaped wrong — not a review of the diff, which I
+had done, and not the lesson, which I had written. The check that works is
+reading the answer with the question still in hand.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.

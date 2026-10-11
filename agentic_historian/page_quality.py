@@ -131,12 +131,27 @@ MIN_LINES_FOR_DELIBERATION = 4
 _RUN_RE = re.compile(r"([^\s])\1*")
 
 
+#: Every verdict :func:`classify` can return, named once (#620).
+#:
+#: It was a comment on the field below, and a comment is not something another
+#: module can check itself against: #619 added `deliberation` to the classifier
+#: and the MCP reply went on listing the three counts it was born with, so a
+#: caller asking how many pages argue with themselves got no answer and no sign
+#: that none was given. Anything that enumerates verdicts reads this.
+#:
+#: `ok` and `short` are not defects: nothing to re-read, nothing to flag.
+VERDICTS = ("ok", "empty", "short", "repetitive", "deliberation")
+
+#: The verdicts that mean a page's reading is not worth keeping — what
+#: `BatchReport.flagged_keys` collects and what a re-read is for.
+DEFECTS = ("empty", "repetitive", "deliberation")
+
+
 @dataclass
 class PageQuality:
     """One reading's verdict, with everything it was derived from."""
 
-    verdict: str                 # "ok" | "empty" | "short" | "repetitive"
-                                 #           | "deliberation"
+    verdict: str                 #: one of :data:`VERDICTS`
     chars: int = 0
     lines: int = 0
     longest_char_run: int = 0
