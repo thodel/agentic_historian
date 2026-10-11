@@ -527,6 +527,41 @@ noticing that the answer was shaped wrong — not a review of the diff, which I
 had done, and not the lesson, which I had written. The check that works is
 reading the answer with the question still in hand.
 
+## 14. "Deployed" is a claim about a process, not about a checkout
+
+Three merges in a row this morning were followed by "pull und restart sind
+durch", and the third time the reply still had the shape it had before any of
+them. Everything before that had worked, which is the part worth understanding:
+`start_batch` runs the stack as a **subprocess**, and a subprocess reads the
+files on disk, so a pull alone was enough for a new prompt, a new flag, a new
+classifier used by a batch. `batch_report` was the first tool this session used
+that computes *in the server process* — and that process had been serving code
+it loaded hours earlier.
+
+From the reply alone, three states were indistinguishable: the pull did not
+land, the restart did not happen, and there is nothing to find. The last one is
+the dangerous reading, and it was the one available at the moment somebody could
+have published a corpus on the strength of it.
+
+What makes it decidable is a distinction the obvious implementation gets wrong.
+`provenance.git_commit()` already existed and reads the checkout — which after a
+pull without a restart reports the **new** commit while the old code answers. A
+reply stamped with that is not merely uninformative, it is a false
+reassurance. So the stamp has two halves:
+
+- `loaded` — fixed when the module was **imported**, so it is the code that is
+  actually answering. Read from `.git` directly rather than through a
+  subprocess, because a module-level call has to be cheap enough for every CLI
+  invocation to pay it.
+- `checkout` — read now. `stale` is the comparison, and it is `null` when either
+  half is unknown, because "cannot tell" and "up to date" are different claims
+  and collapsing them is exactly how this was missed.
+
+**The generalisation:** a long-lived process is a cache of your source code, and
+nothing in a reply tells you so unless the reply says which source it came
+from. Any answer that is computed rather than read from a file should carry the
+version of the thing that computed it.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.

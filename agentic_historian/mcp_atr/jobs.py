@@ -946,6 +946,7 @@ def flagged_keys(run: str, keys_out: Optional[str] = None) -> dict:
         raise JobError(f"no run directory for {run!r}")
 
     import atr_batch as batch
+    import provenance
 
     report = batch.report_from_outputs(run_dir)
     if not report.models:
@@ -953,6 +954,12 @@ def flagged_keys(run: str, keys_out: Optional[str] = None) -> dict:
     keys = report.flagged_keys
     out: dict = {
         "run": run,
+        # Which code answered, and whether it is the code on disk (#621). These
+        # numbers are computed *in the server process*, so a `git pull` without
+        # a restart leaves them the old code's answer while the checkout reports
+        # the new commit. `stale: true` says the reply is out of date; `stale:
+        # null` says it cannot be established, which is not the same as false.
+        "code": provenance.code_state(),
         "flagged": len(keys),
         # Capped in the reply, complete in the file: a thousand keys is not an
         # answer a caller can read, and truncating the *file* would hand back a
