@@ -336,6 +336,78 @@ def git_commit(repo: Optional[Path] = None) -> Optional[str]:
     return sha if out.returncode == 0 and sha else None
 
 
+def head_commit(repo: Optional[Path] = None) -> str:
+    """The checkout's commit, read from ``.git`` without shelling out.
+
+    A second reader beside :func:`git_commit` because this one is cheap enough
+    to run at **import** time, which is the only moment that can answer the
+    question that matters: not "what is on disk" but "what did this process
+    load". `git_commit` spawns a subprocess and a module cannot pay that on
+    every CLI invocation.
+
+    "" when there is no answer — no ``.git``, an unreadable ref — and never an
+    exception: a process must not fail to start over a missing commit.
+    """
+    root = Path(repo) if repo else Path(__file__).resolve().parent
+    for parent in [root, *root.parents]:
+        head = parent / ".git" / "HEAD"
+        if not head.is_file():
+            continue
+        try:
+            text = head.read_text(encoding="utf-8").strip()
+            if not text.startswith("ref:"):
+                return text[:12]
+            ref = parent / ".git" / text.split(" ", 1)[1].strip()
+            if ref.is_file():
+                return ref.read_text(encoding="utf-8").strip()[:12]
+            # A packed ref: the loose file is gone after `git gc`.
+            packed = parent / ".git" / "packed-refs"
+            name = text.split(" ", 1)[1].strip()
+            if packed.is_file():
+                for line in packed.read_text(encoding="utf-8").splitlines():
+                    if line.endswith(f" {name}"):
+                        return line.split(" ", 1)[0][:12]
+            return ""
+        except OSError:
+            return ""
+    return ""
+
+
+#: The commit this **process** loaded, fixed when the module was imported.
+#:
+#: The distinction is the whole point (#621). A long-lived server that was
+#: `git pull`ed and not restarted serves the old code from memory while the
+#: checkout on disk reports the new commit — so a reply stamped with the
+#: checkout's commit is not merely uninformative, it is a false reassurance.
+#: Measured 2026-10-11: three merges in a row were reported as deployed, and the
+#: tool that computes in the server process answered with the shape it had
+#: before any of them.
+IMPORTED_COMMIT = head_commit()
+
+#: When this process started, for the same reason: a restart is the event that
+#: makes `IMPORTED_COMMIT` current, and a human comparing it against a merge
+#: time needs both halves.
+_PROCESS_STARTED = _now()
+
+
+def code_state(repo: Optional[Path] = None) -> dict:
+    """Which code is answering, and whether it is the code on disk.
+
+    ``stale`` is the field worth reading: true means somebody pulled and did not
+    restart, and every number computed in this process is the old code's answer.
+    Unknown on either side leaves it None rather than false — "cannot tell" and
+    "up to date" are different, and conflating them is how this was missed.
+    """
+    checkout = head_commit(repo)
+    loaded = IMPORTED_COMMIT
+    stale: Optional[bool] = None
+    if loaded and checkout:
+        stale = loaded != checkout
+    return {"loaded": loaded or None, "checkout": checkout or None,
+            "stale": stale,
+            "started_at": _PROCESS_STARTED}
+
+
 def runner_identity(commit: Optional[str] = None,
                     *, resolve: bool = True) -> dict:
     """Which runner produced the readings.

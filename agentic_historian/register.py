@@ -159,20 +159,15 @@ def _revision(folder: Path) -> str:
     """The checkout's commit, read from .git without shelling out. "" when there
     is none — a dataset card should be able to name which version of somebody
     else's register assigned its labels, and a missing answer is better than a
-    wrong one."""
-    for parent in [folder, *folder.parents]:
-        head = parent / ".git" / "HEAD"
-        if not head.is_file():
-            continue
-        try:
-            text = head.read_text(encoding="utf-8").strip()
-            if text.startswith("ref:"):
-                ref = (parent / ".git" / text.split(" ", 1)[1].strip())
-                return ref.read_text(encoding="utf-8").strip()[:12] if ref.is_file() else ""
-            return text[:12]
-        except OSError:
-            return ""
-    return ""
+    wrong one.
+
+    One implementation, in `provenance` (#621), which grew a packed-refs
+    fallback this one never had: after `git gc` the loose ref is gone and this
+    returned "" for a checkout that has a perfectly good commit.
+    """
+    from provenance import head_commit
+
+    return head_commit(folder)
 
 
 def read_register(folder: Path) -> Register:

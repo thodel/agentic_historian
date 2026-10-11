@@ -199,3 +199,43 @@ def test_every_defect_the_classifier_can_reach_has_a_counted_field(stack):
     for defect in pq.DEFECTS:
         name = field.get(defect, defect)
         assert name in row, f"the classifier can return {defect!r} and the reply cannot say so"
+
+
+# ── which code answered (#621) ───────────────────────────────────────────────
+#
+# These numbers are computed in the server process. On 2026-10-11 three merges
+# in a row were reported as deployed and the reply kept the shape it had before
+# any of them: the process was serving code it had loaded hours earlier. From
+# the reply alone "pull did not land" and "restart did not happen" looked
+# identical, and neither could be told from "there is nothing to find".
+
+def test_the_reply_says_which_code_computed_it(stack):
+    out = jobs.flagged_keys("gemini-300-strict")
+
+    assert set(out["code"]) == {"loaded", "checkout", "stale", "started_at"}
+
+
+def test_a_pulled_but_unrestarted_process_reports_itself_stale(monkeypatch):
+    """The field that matters. `loaded` is fixed at import; `checkout` is read
+    now — so a pull that nobody restarted for shows up as a difference."""
+    import provenance
+
+    monkeypatch.setattr(provenance, "IMPORTED_COMMIT", "aaaaaaaaaaaa")
+    monkeypatch.setattr(provenance, "head_commit", lambda repo=None: "bbbbbbbbbbbb")
+
+    state = provenance.code_state()
+    assert state == {"loaded": "aaaaaaaaaaaa", "checkout": "bbbbbbbbbbbb",
+                     "stale": True, "started_at": state["started_at"]}
+
+
+def test_cannot_tell_is_not_up_to_date(monkeypatch):
+    """A deployed copy with no `.git` answers "", and "" must not read as
+    agreement — conflating the two is how this was missed in the first place."""
+    import provenance
+
+    monkeypatch.setattr(provenance, "IMPORTED_COMMIT", "")
+    monkeypatch.setattr(provenance, "head_commit", lambda repo=None: "")
+
+    state = provenance.code_state()
+    assert state["stale"] is None
+    assert state["loaded"] is None and state["checkout"] is None

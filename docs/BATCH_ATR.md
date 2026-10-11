@@ -1003,6 +1003,35 @@ uncorrelated errors. The `above no-merge` column is the share of pages
 
 ---
 
+## Welcher Code hat geantwortet?
+
+Nicht jede Änderung braucht denselben Deployment-Schritt, und der Unterschied
+hat am 11. Oktober dreimal zugeschlagen:
+
+| was sich geändert hat | nötig auf tei |
+|---|---|
+| Prompt, CLI-Flag, Klassifikator **für einen Lauf** | `git pull` — `start_batch` startet einen Unterprozess, der die Dateien frisch liest |
+| alles, was `batch_report`, `flagged_keys`, `letter_register` **im Server** rechnet | `git pull` **und** `systemctl restart atr-mcp` |
+
+Ein langlebiger Prozess ist ein Cache deines Quelltexts. Darum trägt die Antwort
+von `batch_report` jetzt einen `code`-Block:
+
+```json
+"code": {"loaded": "5bc95782919c", "checkout": "5bc95782919c",
+         "stale": false, "started_at": "2026-10-11T10:31:54+00:00"}
+```
+
+`loaded` steht fest, sobald das Modul **importiert** wurde — das ist der Code,
+der tatsächlich antwortet. `checkout` wird jetzt gelesen. `stale: true` heisst
+also: jemand hat gepullt und nicht neu gestartet, und jede Zahl in dieser
+Antwort ist die des alten Codes. `stale: null` heisst, es lässt sich nicht
+feststellen — nicht dasselbe wie `false`.
+
+Die naheliegende Implementierung wäre falsch gewesen: `provenance.git_commit()`
+liest die Platte und hätte nach einem Pull ohne Restart den **neuen** Commit
+gemeldet, während der alte Code antwortet. Das ist keine fehlende Angabe, das
+ist eine falsche Beruhigung.
+
 ## 5 · Reading the result
 
 `report.md` gives, per model: pages read, pages skipped, pages failed, **pages
