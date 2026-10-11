@@ -284,8 +284,94 @@ def test_it_narrows_the_illegibility_mark_to_a_word():
 
 def test_both_prompts_keep_the_palaeographic_framing():
     """It is the useful half of the original and survives unchanged."""
-    for name in ("lassberg_atr.md", "lassberg_atr_strict.md"):
+    for name in ("lassberg_atr.md", "lassberg_atr_strict.md",
+                 "lassberg_atr_strict2.md"):
         assert "palaeographer" in ex.load_prompt(name)[0]
+
+
+# ── what the 300-page run showed the strict prompt had wrong ─────────────────
+#
+# Measured 2026-10-10/11. The format discipline held over 300 pages, and 21 of
+# the 28 pages it answered with nothing were blank versos, where nothing *is*
+# the transcription. The other 7 are two failures of one sentence: `An empty
+# page is an empty answer` was its only statement about emptiness, so the model
+# applied it to two *written* pages and to three pages carrying a library stamp
+# or an archivist's docket — text the prompt never said was text.
+#
+# A third file again, because `03c5a660` is what read those 300 pages.
+
+def test_the_variant_is_a_third_file_with_its_own_digest():
+    first, first_digest = ex.load_prompt("lassberg_atr_strict.md")
+    second, second_digest = ex.load_prompt("lassberg_atr_strict2.md")
+
+    assert first_digest == "03c5a660"          # what the 300-page run measured
+    assert second_digest != first_digest
+    assert second != first
+
+
+def test_the_variant_keeps_the_output_discipline_that_held():
+    """The 300 pages showed these four rules working; they survive verbatim."""
+    first = ex.load_prompt("lassberg_atr_strict.md")[0]
+    second = ex.load_prompt("lassberg_atr_strict2.md")[0]
+
+    for rule in ("No preamble", "[Anrede:]", "No Markdown",
+                 "Keep the line breaks of the page",
+                 "[...] for a single word you cannot read",
+                 "[durchgestrichen: word]", "[einfügung: word]"):
+        assert rule in first and rule in second
+
+
+def test_an_empty_answer_now_asserts_a_blank_leaf():
+    """The ambiguity is the defect: an empty answer meant both "this leaf is
+    blank" and "I would rather not write this page out", and a reader of the
+    corpus cannot tell which. Two written pages were lost inside the second
+    meaning."""
+    text = ex.load_prompt("lassberg_atr_strict2.md")[0]
+
+    assert "for a leaf with no writing on it" in text
+    assert "do not give one for a page that is\nwritten" in text
+    assert "a page you find hard is still transcribed" in text
+
+
+def test_a_decline_is_recorded_rather_than_looking_blank():
+    """The run also produced a column of 24 `[...]` for one page, which is the
+    other way of declining — and the one that inflates a character count."""
+    text = ex.load_prompt("lassberg_atr_strict2.md")[0]
+
+    assert "[unlesbar] alone on a line" in text
+    assert "Once, not a column of [...]" in text
+
+
+@pytest.mark.parametrize("mark", ["[stempel: text]", "[fremde hand: text]"])
+def test_what_is_on_the_leaf_but_not_in_the_letter_has_a_mark(mark):
+    """Three of the five lost pages carried only a library stamp or a docket.
+    Marked rather than plain, so it can be stripped before anything is scored:
+    an unlabelled "Schillermuseum 11551" inside a transcription is worse than
+    no stamp at all."""
+    assert mark in ex.load_prompt("lassberg_atr_strict2.md")[0]
+
+
+def test_it_refuses_the_prose_that_the_other_prompt_wrote_about_blank_pages():
+    """21 of 28 "empty" pages were blank versos that the original prompt
+    answered with a description of the paper — show-through, a watermark, fold
+    lines. That is what the column `empty` was being compared against."""
+    text = ex.load_prompt("lassberg_atr_strict2.md")[0]
+
+    assert "showing through from the other side" in text
+    assert "watermark" in text
+    assert "never write a\nsentence saying that a page is blank" in text.lower()
+
+
+def test_the_variant_adds_no_mark_it_cannot_point_at_a_page_for():
+    """Every mark in this prompt answers something a measured run produced. A
+    closed set is the point: the first strict prompt exists because silence on
+    deletions had the model inventing `~~strikethrough~~` per page."""
+    text = ex.load_prompt("lassberg_atr_strict2.md")[0]
+    marks = {line[2:].split("]")[0] + "]"
+             for line in text.splitlines() if line.startswith("- [")}
+
+    assert marks == {"[...]", "[durchgestrichen: word]", "[einfügung: word]",
+                     "[stempel: text]", "[fremde hand: text]", "[unlesbar]"}
 
 
 # ── reasoning tokens are output tokens ───────────────────────────────────────

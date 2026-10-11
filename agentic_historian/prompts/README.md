@@ -47,3 +47,46 @@ one is a commit with a diff rather than an edit to a shell line somebody pasted.
   The edition publishes TEI and these outputs are plain text, so the mapping to
   `<del>`/`<add>` happens later and whoever owns that mapping should pick the
   marks. Changing them is a new prompt file and a new digest.
+
+- `lassberg_atr_strict2.md` — the strict prompt with the one thing the 300-page
+  run showed it had wrong. Again a **new file**: `03c5a660` is what read those
+  300 pages and stays that way.
+
+  What the strict prompt got right, measured on 300 pages: the format discipline
+  held throughout, and of the 28 pages it answered with nothing, **21 were blank
+  versos** — where nothing *is* the transcription, and where the original prompt
+  wrote museum prose into the transcription field ("*[Die Seite enthält keinen
+  handschriftlichen Text / vacat. In der Papiermitte ist schwach ein
+  Wasserzeichen erkennbar.]*"). The silence was the feature and this prompt
+  keeps it, now said outright: never a sentence saying a page is blank.
+
+  What it got wrong is 5 of those 28, and all five are the same confusion. `An
+  empty page is an empty answer` was the prompt's only statement about
+  emptiness, and the model read it as covering any page it did not want to
+  write out:
+
+  - two **written** pages came back empty (`Donaueschingen …0258__002`, 1143
+    characters under the other prompt; `StATG …1339_00101`, a Pupikofer letter
+    of 25 July 1829)
+  - three pages carried only a library stamp or an archivist's docket, which
+    the prompt never said was text — it names the correspondence and nothing
+    else on the leaf
+
+  So: an empty answer now *asserts* that the leaf is blank, and the two other
+  cases get their own answers. A hard page is still transcribed. A page that is
+  written and illegible is `[unlesbar]`, once — because the alternative, which
+  the run also produced, is a column of 24 `[...]` standing in for a page.
+
+  Show-through, watermarks and the physical state of the paper are named as
+  *not* text, since that is what most of the 21 blank-page descriptions were
+  made of.
+
+  **The marks are my editorial decision, as before, and open to being
+  overruled.** `[stempel: …]` and `[fremde hand: …]` continue the lowercase
+  German bracket family of `[durchgestrichen: …]`; the point is that a stamp or
+  a docket is *recoverable and strippable* rather than silently joining the
+  letter — an unlabelled "Schillermuseum 11551" in a transcription is worse than
+  no stamp at all. `[unlesbar]` exists so that a decline is recorded instead of
+  being indistinguishable from a blank leaf: an empty answer is a success by
+  every signal the runner has, which is exactly how 5 lost pages hid inside a
+  column called `empty`.

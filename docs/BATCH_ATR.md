@@ -166,6 +166,52 @@ Prompt-Ergänzung, keine Modellfrage: der strikte Prompt sagt, was *nicht* zu
 schreiben ist, und nennt nie, dass Stempel, Foliierung und fremdhändige Vermerke
 zum Seitenbefund gehören.
 
+### Die Variante `lassberg_atr_strict2.md @9e0503e8`
+
+Alle fünf Verluste gehen auf **einen Satz** zurück. `An empty page is an empty
+answer` war die einzige Aussage des strikten Prompts über Leere, und das Modell
+hat sie auf jede Seite angewandt, die es nicht ausschreiben wollte. Eine leere
+Antwort hieß damit zweierlei — „dieses Blatt ist unbeschrieben" und „diese Seite
+schreibe ich nicht aus" —, und genau in der zweiten Bedeutung sind zwei
+beschriebene Seiten verschwunden. Eine leere Antwort ist für jedes Signal des
+Runners ein Erfolg; darum konnten sich fünf Seiten in einer Spalte namens
+`empty` verstecken.
+
+Die Variante trennt die drei Fälle und gibt jedem eine eigene Antwort:
+
+| auf der Seite | Antwort |
+|---|---|
+| kein Schriftzug | leere Antwort — und sie **behauptet** jetzt, dass das Blatt leer ist |
+| Schrift, lesbar | Transkription, `[...]` und `wort[?]` wo nötig |
+| Schrift, nichts davon lesbar | `[unlesbar]`, einmal — nicht 24 Zeilen `[...]` |
+| Stempel, Akzessionsnummer | `[stempel: …]` |
+| Foliierung, Dorsualnotiz, spätere Hand | `[fremde hand: …]` |
+
+Dazu dreierlei, was ausdrücklich **kein** Text dieser Seite ist und weder
+transkribiert noch beschrieben wird: Durchschlag von der Gegenseite,
+Wasserzeichen und Papierzustand, und alles Erschlossene. Das ist der Stoff, aus
+dem die 21 Leerseiten-Beschreibungen des Original-Prompts bestanden — und der
+Satz „schreib nie, dass eine Seite leer ist" steht jetzt da, statt sich aus
+„keine Vorrede" ergeben zu müssen.
+
+Die Ausgabedisziplin, die über 300 Seiten gehalten hat, ist wörtlich übernommen.
+Was dazukommt, sind zwei Marken und eine; jede zeigt auf eine Seite eines
+gemessenen Laufs. Dass ein Stempel **markiert** statt nackt transkribiert wird,
+ist die Überlegung dahinter: ein unmarkiertes „Schillermuseum 11551" mitten in
+einer Transkription ist schlimmer als kein Stempel, weil es sich nicht mehr
+entfernen lässt. Die Marken sind eine editorische Entscheidung und in
+`agentic_historian/prompts/README.md` als solche ausgewiesen.
+
+Validiert wird sie an denselben 33 Seiten, die den Befund ergeben haben — die 21
+leeren als Kontrolle, die 5 Verluste als Probe:
+
+```bash
+python3 -m agentic_historian atr-batch --source "dav:digitalisate" \
+  --cache-dir "$ATR_PAGE_CACHE" --models gemini-3.8-flash \
+  --run gemini-strict2-check --keys-from "$GT_ROOT/strict-flagged.txt" \
+  --via external --prompt lassberg_atr_strict2.md --reasoning low
+```
+
 Eine leere Seite ist dabei **nicht** gleich einer leeren Seite: durch die Gateway
 heißt leer „der Segmentierer fand keine Zeilen", durch einen externen Leser gibt
 es keinen Segmentierer — das Modell wurde nach der Seite gefragt und antwortete
