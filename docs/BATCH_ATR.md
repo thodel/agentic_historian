@@ -72,6 +72,40 @@ Die vierte Seite (`wlb stuttgart__Cod.hist.qt.407__32`) war eine echte, am
 Deckel mitten im Wort abgeschnittene Transkription — dafür gilt der
 Deckel-Rat weiter.
 
+### Wie viele Seiten rätselten, ohne in den Deckel zu laufen: keine
+
+Das war die offene Frage, und sie war die bedrohliche: die drei Seiten fielen
+nur auf, weil das Rätseln in den Token-Deckel lief. Eine Seite, die
+vierhundert Zeichen rätselt und dann sauber endet, hätte keine Spalte bewegt.
+`gemini-300-strict` am 11. Oktober mit dem neuen Urteil neu klassifiziert:
+
+| Urteil | Seiten | |
+|---|---:|---|
+| `ok` | **249** | 83 % |
+| `short` | 19 | Stempel, `[unlesbar]`, Adressfelder — kein Defekt |
+| `empty` | 28 | davon 21 echte Leerseiten |
+| `deliberation` | **3** | |
+| `repetitive` | 1 | |
+| *davon* `cut off` | 4 | überschneidet sich mit `deliberation` |
+| **beanstandet** | **33** | 11 % |
+
+Die drei sind genau die drei, die der Deckel verraten hatte. **Keine vierte.**
+Das Problem ist auf 33 bekannte Seiten begrenzt, nicht über das Korpus
+verstreut.
+
+Zwei Dinge, die diese Zahl erst zu einer Messung machen, und beide haben in
+dieser Session je einen Anlauf gekostet:
+
+- `verdicts` summiert auf `pages` — 249 + 19 + 28 + 3 + 1 = 300. Eine
+  Urteilstabelle, die nicht aufgeht, ist kein Ergebnis (#620).
+- `code.stale` war `false`. Ein Lauf vorher antwortete derselbe Aufruf mit der
+  Struktur von #619, weil der Server-Prozess Code von Stunden vorher bediente
+  (#621, § *Welcher Code hat geantwortet?*).
+
+**Und was die Zahl nicht sagt:** dass die 249 `ok`-Seiten richtig gelesen sind.
+`ok` heisst „keiner der bekannten Defekte", nicht „korrekt" — dafür gibt es in
+diesem Lauf keine Referenz.
+
 ## Eine abgeschnittene Seite galt als gelesen
 
 Das war die Falle darunter. Eine Seite am Token-Deckel kommt als gewöhnlicher
