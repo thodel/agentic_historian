@@ -392,9 +392,11 @@ and whether the report can produce its argument.
 The strict prompt fixed what it was written for: no preamble, no invented
 structure labels, no Markdown, over 300 pages rather than three. It also made the
 model stop answering. Of the 205 pages both runs read, **21 came back empty under
-the strict prompt that the same model had read with text under the original** —
-and one more came back as 24 consecutive lines of `[...]`, which is the refusal
-marker used as exactly the line filler the prompt forbids.
+the strict prompt that the same model had answered with text under the original**
+— and one more came back as 24 consecutive lines of `[...]`, which is the refusal
+marker used as exactly the line filler the prompt forbids. "Answered with text"
+is as far as that measurement reaches, and the distance between it and "read" is
+the whole lesson below.
 
 An empty page is a success by every signal the runner has: HTTP 200, no
 exception, both files on disk, and `is_complete` will skip it for ever. The
@@ -403,17 +405,48 @@ explanation was still the gateway's ("the segmenter found no lines"), which for 
 chat completion is not merely wrong but points the reader at a component that is
 not in the path.
 
-Two things worth keeping separate here, because the temptation is to collapse
-them:
+So the number was read the wrong way round, including by me when I first reported
+it. Prompt *and* thinking level had changed between the two runs, so the run did
+not isolate the cause; the discriminating run — the same 33 keys, original
+prompt, thinking held at `low` — took two minutes and a few cents, and is the
+reason lesson 10 exists at all: it needed the keys.
 
-- **Refusing to read is not the same as reading badly, and neither is visible in
-  these numbers.** The 21 readings the original prompt produced may be readings
-  or fluent invention. Without ground truth or a look at the image, "21 pages
-  lost" and "21 guesses avoided" are the same measurement.
-- **The run does not isolate the cause.** Prompt *and* thinking level changed
-  between the two runs. The discriminating run is 33 pages, two minutes and a few
-  cents — the same keys, original prompt, `--reasoning low` — and is the reason
-  lesson 10 exists at all: it needed the keys.
+**The prompt was the cause: 26 of the 28 empty pages come back with text.** And
+reading those 28 one by one is what the number was actually worth:
+
+| what is on the page | pages |
+|---|---:|
+| a real transcription the strict prompt lost | **2** |
+| a stamp or an archival note — text, but not the letter's hand | 3 |
+| **prose about a blank page** ("Vakatseite", show-through, a watermark) | 21 |
+| empty under both prompts | 2 |
+
+Twenty-one of twenty-eight were blank versos, and on a blank page **nothing is
+the correct transcription**. The strict prompt was right; the other one wrote
+museum-label prose into the transcription field, and `page_quality` counted it as
+a reading. The `empty` column looked like a 9 % failure because the comparison
+was against a run that never left a page unanswered.
+
+That inverts which run is damaged. Every run made with the original prompt
+carries, for each blank page, an invented *Befund* where the transcription should
+be — publish that and it is attributed fabrication. The silence was the feature.
+
+What is genuinely lost is 5 pages of 28, and it has a shape: the strict prompt
+also keeps quiet where something *is* written that is not the letter's hand — two
+written pages and three library stamps or registry notes. That is a sentence
+missing from the prompt, not a model failure: the prompt says at length what not
+to write and never says that stamps, foliation and later hands are part of the
+page.
+
+Two things this cost me, both worth saying plainly:
+
+- **I reported "21 pages the model read with text" before knowing what that text
+  was.** It was accurate about the files and wrong about the thing anybody would
+  conclude from it. A character count is not evidence that a page was read.
+- **The cheap instrument was not the image.** The report says "look at the images
+  before reading anything into the number", and that is good advice for 28 pages
+  and useless for 2 800. What settled it was reading the *same* pages under the
+  other prompt — a comparison the stack already had a tool for.
 
 ## What held up
 
