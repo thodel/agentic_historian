@@ -82,6 +82,9 @@ __all__ = [
     "Preflight",
     "preflight",
     "report_from_outputs",
+    "merge_runs",
+    "format_merge_report",
+    "MERGE_RANK",
     "format_report",
 ]
 
@@ -1658,6 +1661,205 @@ def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
     report.elapsed_s = time.perf_counter() - started
     report.ended_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     return report
+
+
+# ── several attempts at the same page ────────────────────────────────────────
+#
+# An empty answer turned out to be, on some pages, a property of the *attempt*
+# rather than of the page (#623). Measured 2026-10-11 on the 25 pages
+# `gemini-300-strict2` flagged, re-read twice with the same prompt and settings:
+# the second attempt read 3 of them, among which two complete letters of ~950
+# characters that five earlier readings had answered with nothing; the third
+# attempt added two scraps and no letter. So the yield collapses after the
+# second attempt, and a corpus wants the best of the attempts rather than the
+# first.
+#
+# Which leaves the assembly, and `publish-batch` publishes one directory.
+
+#: How a verdict ranks when the same page was read several times (#624).
+#:
+#: The one judgement in this module that is not a measurement, so it is written
+#: here rather than buried in a comparison, and it is overridable:
+#:
+#: * `ok` is a reading of the page.
+#: * `short` carries little — a stamp, `[unlesbar]`, an address panel — but what
+#:   it carries is on the page.
+#: * `empty` claims nothing.
+#: * `repetitive` and `deliberation` rank **below** `empty`, which is the part
+#:   worth arguing about: they carry text that is not a reading of the page, and
+#:   published in an edition that is attributed invention. Nothing is better
+#:   than something fabricated.
+MERGE_RANK = {"ok": 3, "short": 2, "empty": 1, "repetitive": 0,
+              "deliberation": 0}
+
+
+@dataclass
+class MergeChoice:
+    """Which attempt a merged page came from, and what else was on offer."""
+
+    key: str
+    model: str
+    run: str
+    verdict: str
+    attempt: int                    #: 1-based index into the runs as given
+    #: The earliest run that holds this page at all, which is not always the
+    #: first run given: a retry may cover pages the canonical run never did.
+    first_attempt: int = 1
+    considered: list = field(default_factory=list)   #: [(run, verdict), …]
+
+    @property
+    def improved(self) -> bool:
+        """True when a later attempt beat an earlier one *of the same page*.
+
+        Against `first_attempt` rather than against 1: a page that exists only
+        in the third run was not improved by it, it was only found there, and
+        counting it as an improvement would inflate the one number this merge
+        exists to report.
+        """
+        return self.attempt > self.first_attempt
+
+
+@dataclass
+class MergeReport:
+    out_root: Path
+    runs: list = field(default_factory=list)
+    choices: list = field(default_factory=list)
+    #: Pages present in a later run and in none before it. Not an error — the
+    #: later run may have read pages the first never covered — but worth saying,
+    #: because it is also what a typo in a run name looks like.
+    only_later: list = field(default_factory=list)
+
+    @property
+    def pages(self) -> int:
+        return len(self.choices)
+
+    @property
+    def improved(self) -> list:
+        return [c for c in self.choices if c.improved]
+
+    def per_run(self) -> dict:
+        """``{run: pages taken from it}``, in the order the runs were given."""
+        counts = {r: 0 for r in self.runs}
+        for choice in self.choices:
+            counts[choice.run] = counts.get(choice.run, 0) + 1
+        return counts
+
+
+def merge_runs(run_dirs: Sequence[Path], out_root: Path, *,
+               rank: Optional[dict] = None,
+               dry_run: bool = False) -> MergeReport:
+    """Write a run that holds the best attempt at each page.
+
+    The runs are **ordered**: earlier is preferred, and the order is how a
+    caller says which run is canonical. Within one rank the earliest wins, so
+    merging a run with itself changes nothing and merging a canonical run with
+    its retries keeps the canonical reading wherever the retry did no better.
+
+    Ranking is by verdict (:data:`MERGE_RANK`) and *not* by length. A longer
+    reading is not a better one — that is the column this project has refused to
+    treat as quality since #326, and the pages that made the point are here: the
+    `deliberation` pages carry 800–900 characters of the model arguing with
+    itself and would win any length comparison against the transcription that
+    replaced them.
+
+    Every merged page keeps the payload of the attempt that produced it, so its
+    `settings`, `gateway_version` and timings stay true, and gains a
+    ``merged_from`` block naming that attempt and what the others said. Without
+    it the result is a corpus assembled from three runs that cannot say which
+    page came from which — and the whole reason the readings are comparable is
+    that each one records what produced it.
+
+    ``SCHEMA`` is not bumped: the block is additive, exactly as `settings` was
+    in #613, so a merged page still reads as complete to `is_complete`.
+    """
+    ranking = dict(rank or MERGE_RANK)
+    out_root = Path(out_root)
+    runs = [Path(d) for d in run_dirs]
+    if not runs:
+        raise ValueError("merging needs at least one run")
+    for directory in runs:
+        if not directory.is_dir():
+            raise FileNotFoundError(f"not a run directory: {directory}")
+
+    report = MergeReport(out_root=out_root, runs=[d.name for d in runs])
+
+    # {(model, key): [(attempt, run, payload, verdict), …]} in the given order.
+    seen: dict = {}
+    for attempt, directory in enumerate(runs, start=1):
+        for model_dir in sorted(p for p in directory.iterdir() if p.is_dir()):
+            for json_path in sorted(model_dir.glob("*.json")):
+                data = _read_result(json_path)
+                if data is None:
+                    continue
+                verdict = page_quality.classify(data["text"]).verdict
+                seen.setdefault((model_dir.name, json_path.stem), []).append(
+                    (attempt, directory.name, data, verdict))
+
+    for (model, key), attempts in sorted(seen.items()):
+        best = min(attempts,
+                   key=lambda a: (-ranking.get(a[3], 0), a[0]))
+        attempt, run, data, verdict = best
+        choice = MergeChoice(
+            key=key, model=model, run=run, verdict=verdict, attempt=attempt,
+            first_attempt=attempts[0][0],
+            considered=[(r, v) for _, r, _, v in attempts])
+        report.choices.append(choice)
+        if attempts[0][0] != 1:
+            report.only_later.append(choice)
+        if dry_run:
+            continue
+
+        out_dir = out_root / model
+        out_dir.mkdir(parents=True, exist_ok=True)
+        txt_path, json_path = result_paths(out_dir, key)
+        payload = dict(data)
+        payload["run"] = out_root.name
+        payload["merged_from"] = {
+            "run": run,
+            "attempt": attempt,
+            "verdict": verdict,
+            "of": len(attempts),
+            "considered": [{"run": r, "verdict": v}
+                           for _, r, _, v in attempts],
+        }
+        txt_path.write_text(payload["text"], encoding="utf-8")
+        json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2),
+                             encoding="utf-8")
+
+    return report
+
+
+def format_merge_report(report: MergeReport) -> str:
+    """What the merge took from where, for a human."""
+    lines = [f"# Merged run — {report.out_root.name}", "",
+             f"- pages: **{report.pages}**",
+             f"- runs, in order of preference: "
+             + ", ".join(f"`{r}`" for r in report.runs), ""]
+    lines += ["| run | pages taken |", "|---|---:|"]
+    for run, count in report.per_run().items():
+        lines.append(f"| `{run}` | {count} |")
+
+    improved = report.improved
+    lines += ["", f"**{len(improved)} page(s) came from a later attempt.** "
+              "On this corpus that is where two complete letters were found "
+              "that five earlier readings had answered with nothing (#623), so "
+              "the number is worth reading rather than skimming."]
+    for choice in improved[:20]:
+        was = ", ".join(f"{r}: {v}" for r, v in choice.considered)
+        lines.append(f"  - {choice.key} → `{choice.run}` ({choice.verdict}) "
+                     f"[{was}]")
+    if len(improved) > 20:
+        lines.append(f"  - … {len(improved) - 20} more")
+
+    if report.only_later:
+        lines += ["", f"**{len(report.only_later)} page(s) appear only in a "
+                  "later run** and in none before it. That is legitimate when a "
+                  "retry covered pages the first run never did — and it is also "
+                  "what a mistyped run name looks like."]
+    lines += ["", "Ranking is by verdict, never by length: a `deliberation` "
+              "page carries 800 characters of the model arguing with itself and "
+              "would win any comparison by size."]
+    return "\n".join(lines) + "\n"
 
 
 def report_from_outputs(run_dir: Path) -> BatchReport:

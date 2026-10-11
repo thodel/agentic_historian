@@ -699,6 +699,30 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def merge_runs(runs: list[str], run: str, dry_run: bool = False) -> dict:
+        """One run holding the best attempt at each page, from several runs.
+
+        ``runs`` is **ordered**: earlier is preferred where the verdicts tie, so
+        the canonical run goes first and its retries after it. Pages are chosen
+        by verdict — a reading beats a little text, a little text beats nothing,
+        and **nothing beats text that is not a reading of the page**
+        (`repetitive`, `deliberation`): published in an edition that is
+        attributed invention.
+
+        Never by length. A page of the model arguing with itself carries 800
+        characters and would win any comparison by size.
+
+        Each merged page keeps the payload of the attempt that produced it and
+        gains a ``merged_from`` block naming that attempt and what the others
+        said, so a corpus assembled from three runs can still say which page
+        came from which.
+        """
+        try:
+            return jobs.merge_runs(runs, run, dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def batch_report(run: str, keys_out: Optional[str] = None) -> dict:
         """The report of a finished (or running) run: what each model produced,
         what it cost, and how many pages were cut off at the token ceiling.
