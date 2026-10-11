@@ -448,6 +448,51 @@ Two things this cost me, both worth saying plainly:
   and useless for 2 800. What settled it was reading the *same* pages under the
   other prompt — a comparison the stack already had a tool for.
 
+## 12. A column can hide a different failure than the one it names
+
+`gemini-300-strict` reported four pages as `cut off`. The column's own
+explanation — in this repository, written by me the day before — said a longer
+ceiling fixes those, delete the results and re-run. Reading them showed that
+**three carried no transcription at all**:
+
+```
+- e - n - k - t !
+LOOK AT WORD 3:
+g - e - s - c - h - e - n - k - t !
+Wait, does it have 'sch'?
+…
+Entry stroke, downstroke, loop up to the right... THAT'S A 'V'!
+```
+
+The model's deliberation in the content channel. For those pages the advice was
+exactly inverted: a bigger budget buys more arguing. And every signal the
+pipeline has said they were fine — not `empty`, not `repetitive` (every line
+different, longest character run 3), not `short` (816–928 characters). They were
+visible *only* because the arguing happened to run into a ceiling. A page that
+argues for four hundred characters and stops cleanly would have gone into the
+edition as a transcription of Laßberg's hand.
+
+Three things worth separating:
+
+- **The find came from validating something else.** I was checking whether a
+  prompt variant recovered five lost pages. The variant's readings of the
+  *other* pages were what made the old ones legible as nonsense. Comparing two
+  readings of the same page keeps paying for itself in ways no single run's
+  report can: the report has no column for "this is not a transcription", and
+  the comparison does not need one.
+- **A detector with no measured negative is a guess.** The cue threshold (0.2)
+  sits between 0.38–0.70 on the three leaked pages and 0.00 on clean readings of
+  the same pages. Both sides are real pages of this corpus, not invented text,
+  which is why the margin can be stated rather than hoped for.
+- **Where the column goes matters as much as that it exists.** `arguing` sits
+  next to `empty` and `looped` in the same table, and its pages join
+  `flagged_keys` — so the response is a selection (#616) rather than a sentence
+  in a document somebody has to read.
+
+**The generalisation:** when a column is not zero, read a page it names before
+acting on what the column is called. The name encodes a guess about the
+mechanism, and `cut off` was a guess that held for one page of four.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.

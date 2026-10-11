@@ -671,6 +671,13 @@ class ModelOutcome:
     #: average that includes it, which `empty` does not.
     repetitive: int = 0
     repetitive_keys: list[str] = field(default_factory=list)
+    #: Pages where the reading argues with itself instead of giving the page
+    #: (#619). Three of the four `cut off` pages of `gemini-300-strict` were
+    #: this, and the only reason anybody saw them is that the arguing ran into
+    #: the token ceiling — the same class of silent failure as `empty` and
+    #: `repetitive`, and it had no column either.
+    deliberated: int = 0
+    deliberation_keys: list[str] = field(default_factory=list)
     #: Every verdict, counted (#483): ``{"ok": n, "empty": n, "short": n,
     #: "repetitive": n}``. `empty` and `repetitive` have their own columns
     #: because the report names those pages, but `short` and `ok` had nowhere to
@@ -713,7 +720,7 @@ class ModelOutcome:
         would be a second call for one page.
         """
         return sorted(set(self.empty_keys) | set(self.repetitive_keys)
-                      | set(self.truncated_keys))
+                      | set(self.truncated_keys) | set(self.deliberation_keys))
 
     @property
     def mean_chars(self) -> float:
@@ -797,6 +804,8 @@ class BatchReport:
                     "empty_keys": list(m.empty_keys),
                     "repetitive": m.repetitive,
                     "repetitive_keys": list(m.repetitive_keys),
+                    "deliberated": m.deliberated,
+                    "deliberation_keys": list(m.deliberation_keys),
                     "verdicts": dict(m.verdicts),
                     "recognition_ms": m.recognition_ms,
                     "elapsed_s": round(m.elapsed_s, 1),
@@ -1300,6 +1309,9 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             elif verdict == "repetitive":
                 outcome.repetitive += 1
                 outcome.repetitive_keys.append(res.key)
+            elif verdict == "deliberation":
+                outcome.deliberated += 1
+                outcome.deliberation_keys.append(res.key)
         elif res.status == "skipped":
             outcome.skipped += 1
         else:
@@ -1705,6 +1717,9 @@ def report_from_outputs(run_dir: Path) -> BatchReport:
             elif verdict == "repetitive":
                 outcome.repetitive += 1
                 outcome.repetitive_keys.append(json_path.stem)
+            elif verdict == "deliberation":
+                outcome.deliberated += 1
+                outcome.deliberation_keys.append(json_path.stem)
             when = _parse_stamp(data.get("recognised_at"))
             if when:
                 seen.append(when)
@@ -1780,6 +1795,44 @@ def _repetitive_section(report: BatchReport) -> list[str]:
             "is wrong** — characters per page most of all. They are described, not "
             "removed: whether the page itself is a table, a ruled form or a scan "
             "the model could not hold on to is settled by looking at it."]
+    return out
+
+
+def _deliberation_section(report: BatchReport) -> list[str]:
+    """The pages where the reading argues with itself (#619).
+
+    The third silent failure, and the one that was hiding behind another column.
+    On 2026-10-11 three of the four pages `gemini-300-strict` reported as
+    `cut off` held no transcription at all — the model spelling letters out and
+    talking itself through them ("LOOK AT WORD 3", "THAT'S A 'V'!") until the
+    token ceiling stopped it. Nothing else moved: not `empty`, not `repetitive`
+    (every line different, no character runs), not `short` (816–928 characters).
+
+    Which makes the `cut off` advice wrong for exactly these pages. A longer
+    ceiling buys more arguing; what they need is another prompt or another
+    thinking level. And a page that argues for four hundred characters and then
+    stops cleanly never reaches a ceiling at all, so without this column it is
+    simply part of the corpus.
+    """
+    hit = [m for m in report.models if m.deliberated]
+    if not hit:
+        return []
+    out = ["", "## Readings that argue with themselves", ""]
+    for m in hit:
+        share = 100.0 * m.deliberated / m.done if m.done else 0.0
+        out.append(f"- `{m.model}`: {m.deliberated} of {m.done} page(s) "
+                   f"({share:.0f}%)")
+        out += _flagged_lines(m.deliberation_keys, m.deliberated)
+    out += [
+        "",
+        "These carry the model's own deliberation where the transcription "
+        "should be — English, second-person, about the page rather than from "
+        "it. **Published as a transcription this is attributed invention**, and "
+        "no other column in this report moves when it happens. Raising the "
+        "token ceiling is the wrong response: it buys more arguing. Re-read "
+        "these pages under a prompt that gives the model somewhere to put a "
+        "page it cannot read, or at another thinking level.",
+    ]
     return out
 
 
@@ -2039,14 +2092,14 @@ def format_report(report: BatchReport) -> str:
         f"- wall time: {report.elapsed_s / 60:.1f} min",
         *_skipped_lines(report),
         "",
-        "| model | read | skipped | failed | empty | looped | cut off | "
-        "chars/page | s/page | wall |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "| model | read | skipped | failed | empty | looped | arguing | "
+        "cut off | chars/page | s/page | wall |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for m in report.models:
         lines.append(
             f"| `{m.model}` | {m.done} | {m.skipped} | {m.failed} | {m.empty} | "
-            f"{m.repetitive} | {m.truncated} | "
+            f"{m.repetitive} | {m.deliberated} | {m.truncated} | "
             f"{m.mean_chars:.0f} | {m.mean_ms / 1000:.1f} | {m.elapsed_s / 60:.1f} min |"
         )
     lines += [
@@ -2068,7 +2121,8 @@ def format_report(report: BatchReport) -> str:
             "and this does not — is read from the results themselves.",
         ]
     lines += _truncation_section(report)
-    lines += _empty_section(report) + _repetitive_section(report)
+    lines += (_empty_section(report) + _repetitive_section(report)
+              + _deliberation_section(report))
     aborted = [m for m in report.models if m.aborted]
     if aborted:
         lines += ["", "## Abandoned", ""]

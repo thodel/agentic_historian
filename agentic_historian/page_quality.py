@@ -77,6 +77,41 @@ MIN_LINES_FOR_REPEAT = 6
 REPEAT_RATIO_SHORT_LINES = 0.3
 SHORT_LINE_CHARS = 12.0
 
+#: A reading that argues with itself instead of reproducing the page (#619).
+#: Measured 2026-10-11 on `gemini-300-strict`, where **three of the four pages
+#: the report called `cut off`** carried no transcription at all:
+#:
+#:     - e - n - k - t !
+#:     LOOK AT WORD 3:
+#:     g - e - s - c - h - e - n - k - t !
+#:     Wait, does it have 'sch'?
+#:     ...
+#:     Entry stroke, downstroke, loop up to the right... THAT'S A 'V'!
+#:
+#: This is the model's deliberation in the content channel. It is not `empty`,
+#: not `repetitive` (no character runs, every line different) and not `short`
+#: (816–928 characters), so no column moved — and the pages were only noticed at
+#: all because the arguing ran into the token ceiling. A page that deliberates
+#: for four hundred characters and then stops is invisible.
+#:
+#: The cues are English, second-person and *about* the page: a transcription of
+#: this corpus reproduces German and Latin and never addresses itself. Measured
+#: share of cue lines: **0.38, 0.55, 0.70** on the three leaked pages against
+#: **0.00** on every clean reading of the same run. 0.2 sits far from both.
+DELIBERATION_CUES = re.compile(
+    r"^\s*(?:wait|hold on|hmm+|let'?s|let me|look at|actually|so,|okay|ok,)\b"
+    r"|^\s*(?:line|word)\s+\d+\b"
+    r"|^\s*(?:yes|no)[!.]\s*$"
+    r"|\b(?:is it|could it be|what if|does it have|what about)\b",
+    re.I)
+
+#: Share of lines carrying a cue, above which the reading is deliberation rather
+#: than a text, plus the two floors that keep a one-off from deciding it: a page
+#: needs lines to have a share at all, and one cue line is not an argument.
+DELIBERATION_SHARE = 0.2
+MIN_CUE_LINES = 2
+MIN_LINES_FOR_DELIBERATION = 4
+
 #: A run of the same **non-whitespace** character. Whitespace is excluded, and
 #: that exclusion has a measured cause: on 2026-10-10 a VLM reading of
 #: `Basel__lassberg-letter-1743__PA 82a B 9_Seite_030` was marked `repetitive`
@@ -101,6 +136,7 @@ class PageQuality:
     """One reading's verdict, with everything it was derived from."""
 
     verdict: str                 # "ok" | "empty" | "short" | "repetitive"
+                                 #           | "deliberation"
     chars: int = 0
     lines: int = 0
     longest_char_run: int = 0
@@ -109,6 +145,8 @@ class PageQuality:
     #: list is as short-lined as a loop — but with `repeat_ratio` it is what
     #: tells filler from a page somebody wrote.
     mean_line_chars: float = 0.0
+    #: Share of lines that talk about the page instead of reproducing it (#619).
+    deliberation_ratio: float = 0.0
 
     def as_dict(self) -> dict:
         return asdict(self)
@@ -151,6 +189,39 @@ def repeat_ratio(lines: list[str]) -> float:
     return repeats / len(lines)
 
 
+def deliberation_ratio(lines: list[str]) -> float:
+    """Share of non-empty lines that talk about the page rather than give it.
+
+    Counted per line rather than per occurrence: a line with four "Wait"s is one
+    line of deliberation, and weighting it four times would let a single
+    excitable line decide a page.
+    """
+    if not lines:
+        return 0.0
+    return sum(1 for ln in lines if DELIBERATION_CUES.search(ln)) / len(lines)
+
+
+def looks_deliberated(quality: "PageQuality", *,
+                      deliberation_share: float = DELIBERATION_SHARE,
+                      min_cue_lines: int = MIN_CUE_LINES,
+                      min_lines: int = MIN_LINES_FOR_DELIBERATION) -> bool:
+    """Whether these measures describe a model arguing with itself (#619).
+
+    Three floors rather than one threshold, for the same reason the loop test
+    has three paths: a share needs lines to be a share, one cue line is not an
+    argument, and the share itself is what separates a reading that quotes a
+    stray English phrase from one that never transcribed anything.
+
+    Measured on the three leaked pages of `gemini-300-strict`: 0.38, 0.55, 0.70
+    against 0.00 on the clean readings of the same pages under another prompt.
+    """
+    if quality.lines < min_lines:
+        return False
+    if quality.deliberation_ratio * quality.lines < min_cue_lines:
+        return False
+    return quality.deliberation_ratio >= deliberation_share
+
+
 def looks_repetitive(quality: "PageQuality", *,
                      max_char_run: int = MAX_CHAR_RUN,
                      max_repeat_ratio: float = MAX_REPEAT_RATIO,
@@ -191,7 +262,8 @@ def classify(text: str, *, short_chars: int = SHORT_CHARS,
              max_char_run: int = MAX_CHAR_RUN,
              max_repeat_ratio: float = MAX_REPEAT_RATIO,
              repeat_ratio_short_lines: float = REPEAT_RATIO_SHORT_LINES,
-             short_line_chars: float = SHORT_LINE_CHARS) -> PageQuality:
+             short_line_chars: float = SHORT_LINE_CHARS,
+             deliberation_share: float = DELIBERATION_SHARE) -> PageQuality:
     """The verdict for one reading, and the measures behind it.
 
     Order: empty, then repetitive, then short. Shortness used to be checked
@@ -217,9 +289,16 @@ def classify(text: str, *, short_chars: int = SHORT_CHARS,
         longest_char_run=longest_char_run(stripped),
         repeat_ratio=round(repeat_ratio(lines), 4),
         mean_line_chars=round(mean_line_chars(lines), 2),
+        deliberation_ratio=round(deliberation_ratio(lines), 4),
     )
     if not stripped:
         quality.verdict = "empty"
+    elif looks_deliberated(quality, deliberation_share=deliberation_share):
+        # Before the loop test and before shortness, for the reason this module
+        # already gives for naming a loop over a short page: `repetitive` and
+        # `short` describe the shape of the text, and this names what produced
+        # it. A page of "Wait, is it...?" is not a page the model padded.
+        quality.verdict = "deliberation"
     elif looks_repetitive(quality, max_char_run=max_char_run,
                           max_repeat_ratio=max_repeat_ratio,
                           repeat_ratio_short_lines=repeat_ratio_short_lines,

@@ -31,6 +31,47 @@ Schlussfolgerungsaufgabe. `GEMINI_REASONING=low` ist deshalb der Default.
 Nebeneffekt, gemessen: **6,6 s/Seite statt 23,3** — 300 Seiten in gut einer
 halben Stunde statt in zwei.
 
+## Drei von vier „abgeschnittenen" Seiten waren keine Transkription
+
+Das fiel erst bei der Validierung des zweiten Prompts auf, und es korrigiert
+einen Rat, der vorher in diesem Dokument stand. `gemini-300-strict` meldete vier
+Seiten als `cut off`. Drei davon tragen **keinen Text der Seite**, sondern das
+Modell, das sich laut durch die Schrift rätselt:
+
+```
+- e - n - k - t !
+LOOK AT WORD 3:
+g - e - s - c - h - e - n - k - t !
+Wait, does it have 'sch'?
+…
+Entry stroke, downstroke, loop up to the right... THAT'S A 'V'!
+```
+
+Das ist der Denkprozess im Inhaltskanal. Die Seiten sind nicht `empty`, nicht
+`repetitive` (jede Zeile anders, längster Zeichenlauf 3) und nicht `short`
+(816–928 Zeichen) — **keine Spalte bewegte sich**. Gesehen wurden sie
+ausschliesslich, weil das Rätseln in den Token-Deckel lief. Eine Seite, die
+vierhundert Zeichen lang rätselt und dann sauber endet, wäre Teil des Korpus
+geworden.
+
+Und damit war der naheliegende Rat für genau diese Seiten falsch: **Deckel hoch
+kauft mehr Rätseln.** Was sie brauchen, ist ein anderer Prompt oder eine andere
+Denkstufe — unter `lassberg_atr_strict2.md` sind alle vier saubere
+Transkriptionen beziehungsweise ein `[unlesbar]`.
+
+`page_quality` hat dafür jetzt ein Urteil, `deliberation`, und der Bericht eine
+Spalte `arguing`. Die Erkennung läuft über die Dichte englischer, selbstadres-
+sierter Zeilenanfänge („Wait", „Look at", „Line 12:"): gemessen **0,38 / 0,55 /
+0,70** auf den drei geleakten Seiten gegen **0,00** auf jeder sauberen Lesung
+derselben Seiten. Die Schwelle liegt bei 0,2, also weit von beiden Seiten. Eine
+Transkription dieses Korpus gibt Deutsch und Latein und spricht sich nie selbst
+an; ein englischer Einschub mitten in einer Zeile zählt nicht, nur ein
+Zeilenanfang.
+
+Die vierte Seite (`wlb stuttgart__Cod.hist.qt.407__32`) war eine echte, am
+Deckel mitten im Wort abgeschnittene Transkription — dafür gilt der
+Deckel-Rat weiter.
+
 ## Eine abgeschnittene Seite galt als gelesen
 
 Das war die Falle darunter. Eine Seite am Token-Deckel kommt als gewöhnlicher
@@ -202,8 +243,8 @@ einer Transkription ist schlimmer als kein Stempel, weil es sich nicht mehr
 entfernen lässt. Die Marken sind eine editorische Entscheidung und in
 `agentic_historian/prompts/README.md` als solche ausgewiesen.
 
-Validiert wird sie an denselben 33 Seiten, die den Befund ergeben haben — die 21
-leeren als Kontrolle, die 5 Verluste als Probe:
+Validiert an denselben 33 Seiten, die den Befund ergeben haben — die 21 leeren
+als Kontrolle, die 5 Verluste als Probe:
 
 ```bash
 python3 -m agentic_historian atr-batch --source "dav:digitalisate" \
@@ -211,6 +252,28 @@ python3 -m agentic_historian atr-batch --source "dav:digitalisate" \
   --run gemini-strict2-check --keys-from "$GT_ROOT/strict-flagged.txt" \
   --via external --prompt lassberg_atr_strict2.md --reasoning low
 ```
+
+Lauf `gemini-strict2-check`, 11. Oktober: 33 von 33, 0 Fehler, 1,8 min,
+`cut off: 0`, `looped: 0`.
+
+| | |
+|---|---|
+| Leerseiten-Kontrolle | **22 von 22 bleiben leer** — keine Seite hat Prosa dazubekommen |
+| von den 5 Verlusten zurück | **4**: beide beschriebenen Seiten, beide Stempel |
+| noch verloren | 1 — die Dorsualnotiz `blb lassberg__K 2911,132__page_0003` |
+| neu gefunden | 2: ein Randfragment und eine Archivnummer |
+
+Die Marken tun, was sie sollen:
+
+```
+Marbach__HS00755396_150dpi_0007:  [stempel: Schillermuseum Marbach] [fremde hand: 11551]
+Ms_M_8_32_a_0040:                 [fremde hand: 61 a]
+UB Bern__Mss_h_h_XXVI_105_5_44:   [unlesbar]
+```
+
+Die letzte Zeile ist die aussagekräftigste: dieselbe Seite, die unter dem ersten
+strikten Prompt 24 Zeilen `[...]` hintereinander produzierte, meldet jetzt eine
+einzige aufgezeichnete Verweigerung.
 
 Eine leere Seite ist dabei **nicht** gleich einer leeren Seite: durch die Gateway
 heißt leer „der Segmentierer fand keine Zeilen", durch einen externen Leser gibt
@@ -951,8 +1014,15 @@ nothing about it, including how many pages came back empty. `report-run --run-di
 <dir>` reads the results on disk instead. (The 2026-09-17 corpus run had 77 blank
 pages of 899, 8.6 %, and its original report had no empty column at all.)
 
-**Check the "cut off" column first.** It counts pages where the model stopped at
-its token ceiling instead of at the end of the text. Those readings are real but
+**Read the "arguing" column with the "cut off" one.** A page can hit the ceiling
+because it is long, or because the model talked itself through the hand until the
+budget ran out — and on 2026-10-11 the second was **three of four**. Raising the
+ceiling buys more arguing, so check `arguing` before buying tokens; those pages
+need another prompt or another thinking level (§ *Drei von vier „abgeschnittenen"
+Seiten waren keine Transkription*).
+
+**Then the "cut off" column.** It counts pages where the model stopped at its
+token ceiling instead of at the end of the text. Those readings are real but
 short, and they end mid-sentence — indistinguishable, reading them, from a model
 that gave up. If the column is not zero, raise the ceiling —
 `ATR_VLLM_MAX_NEW_TOKENS` on the gateway, `GEMINI_MAX_TOKENS` for an external

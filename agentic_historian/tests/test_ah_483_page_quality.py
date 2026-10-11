@@ -93,7 +93,7 @@ def test_the_measures_are_kept_beside_the_verdict():
     assert q.chars > 3000 and q.lines == 2
     assert set(q.as_dict()) == {"verdict", "chars", "lines",
                                 "longest_char_run", "repeat_ratio",
-                                "mean_line_chars"}
+                                "mean_line_chars", "deliberation_ratio"}
 
 
 def test_a_lowered_threshold_reclassifies_without_rereading():
