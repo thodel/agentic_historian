@@ -933,6 +933,12 @@ def flagged_keys(run: str, keys_out: Optional[str] = None) -> dict:
     `start_batch(keys_from=...)` takes back. That handover is the point: before
     it, re-reading the pages a report flags meant reading Markdown and typing
     keys out by hand (#616).
+
+    The counts come back as the classifier's own ``verdicts`` table, so a verdict
+    added to `page_quality` appears here without anybody remembering to pass it
+    through (#620). Note the asymmetry with ``batch_report``: the ``report_md``
+    it returns is the file the *run* wrote, with the columns the code had then,
+    while everything here is recomputed now.
     """
     run = validate_run(run)
     run_dir = Path(config.VLM_TEST_ROOT) / run
@@ -953,9 +959,21 @@ def flagged_keys(run: str, keys_out: Optional[str] = None) -> dict:
         # selection quietly shorter than the defect it names.
         "keys": keys[:200],
         "keys_shown": min(len(keys), 200),
+        # `verdicts` rather than one field per defect (#620). The four counts
+        # stayed and `deliberated` was added in the same breath as the verdict
+        # that produces it — and then #619 added that verdict to the classifier
+        # while this dict kept listing three. Asked how many pages of the
+        # 300-page run argue with themselves, the reply could not say, and said
+        # nothing rather than saying so: a zero that means "not asked" is the
+        # failure this whole report exists to prevent.
+        #
+        # So the reply carries the classifier's own verdict table, which gains a
+        # key whenever `page_quality` gains a verdict and cannot fall behind it.
         "per_model": [
-            {"model": m.model, "empty": m.empty, "repetitive": m.repetitive,
-             "truncated": m.truncated, "flagged": len(m.flagged_keys)}
+            {"model": m.model, "pages": m.done, "verdicts": dict(m.verdicts),
+             "empty": m.empty, "repetitive": m.repetitive,
+             "deliberated": m.deliberated, "truncated": m.truncated,
+             "flagged": len(m.flagged_keys)}
             for m in report.models
         ],
     }

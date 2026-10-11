@@ -77,8 +77,15 @@ def test_the_three_defects_come_back_as_one_selection(stack):
 
     assert out["flagged"] == 3
     assert out["keys"] == ["UB-Bern__blank", "UB-Bern__cutoff", "UB-Bern__padded"]
-    assert out["per_model"] == [{"model": "gemini-3.8-flash", "empty": 1,
-                                "repetitive": 1, "truncated": 1, "flagged": 3}]
+    assert out["per_model"] == [{
+        "model": "gemini-3.8-flash", "pages": 4,
+        # Two `short` pages: the fixture's readable page and its cut-off one are
+        # both under SHORT_CHARS. Neither is flagged for being short — `short`
+        # says "too little to judge", which is not a defect to re-read.
+        "verdicts": {"short": 2, "empty": 1, "repetitive": 1},
+        "empty": 1, "repetitive": 1, "deliberated": 0, "truncated": 1,
+        "flagged": 3,
+    }]
 
 
 def test_a_page_that_read_is_not_in_it(stack):
@@ -154,3 +161,41 @@ def test_a_clean_run_writes_an_empty_file_rather_than_none(stack, tmp_path):
     # and a caller that finds no file cannot tell it from a tool that failed.
     assert dest.is_file()
     assert dest.read_text(encoding="utf-8") == ""
+
+
+# ── the reply cannot fall behind the classifier (#620) ───────────────────────
+#
+# #619 added the verdict `deliberation` to `page_quality` and to the report's
+# table, and this reply kept listing the three counts it was born with. Asked
+# how many pages of the 300-page run argue with themselves, it could not say —
+# and said nothing rather than saying so. A zero that means "not asked" is the
+# failure the whole report exists to prevent.
+
+def test_the_reply_carries_the_classifiers_own_verdict_table(stack):
+    """Not one field per defect: a table that gains a key when the classifier
+    gains a verdict, so nobody has to remember to pass the next one through."""
+    import page_quality as pq
+
+    out = jobs.flagged_keys("gemini-300-strict")
+    row = out["per_model"][0]
+
+    assert sum(row["verdicts"].values()) == row["pages"] == 4
+    assert set(row["verdicts"]) <= set(pq.VERDICTS)
+
+
+def test_every_defect_the_classifier_can_reach_has_a_counted_field(stack):
+    """The guard that would have caught #619's omission.
+
+    `page_quality.DEFECTS` is the one list of what counts as a page worth
+    re-reading, and every entry needs somewhere in this reply to be counted. A
+    verdict added to the classifier and nowhere else fails here rather than
+    being reported as a silent zero.
+    """
+    import page_quality as pq
+
+    row = jobs.flagged_keys("gemini-300-strict")["per_model"][0]
+    field = {"deliberation": "deliberated"}
+
+    for defect in pq.DEFECTS:
+        name = field.get(defect, defect)
+        assert name in row, f"the classifier can return {defect!r} and the reply cannot say so"

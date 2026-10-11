@@ -453,3 +453,26 @@ def test_a_run_broken_only_by_layout_is_not_merged():
                                  " " * 40])
 def test_no_kind_of_whitespace_counts(gap):
     assert pq.longest_char_run(f"Ihr ergebenster{gap}JvLaßberg.") < 10
+
+
+# ── the verdicts are named once (#620) ───────────────────────────────────────
+
+def test_every_verdict_classify_reaches_is_in_the_named_set():
+    """It was a comment on a dataclass field, which nothing could check itself
+    against — so the MCP reply went on counting three verdicts after a fourth
+    existed (#619/#620)."""
+    reached = {
+        pq.classify("").verdict,                            # empty
+        pq.classify("kurz").verdict,                        # short
+        pq.classify("0" * 3000).verdict,                    # repetitive
+        pq.classify("\n".join(["Wait, is it an 'f'?", "Look at word 2:",
+                               "Line 3: 'u'", "YES!"])).verdict,  # deliberation
+        pq.classify("Eppishausen am 21 Januar 1831. " * 8).verdict,  # ok
+    }
+
+    assert reached == set(pq.VERDICTS)
+
+
+def test_the_defects_are_the_verdicts_worth_re_reading():
+    assert set(pq.DEFECTS) < set(pq.VERDICTS)
+    assert "ok" not in pq.DEFECTS and "short" not in pq.DEFECTS

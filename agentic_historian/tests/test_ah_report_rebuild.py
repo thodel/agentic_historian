@@ -268,3 +268,24 @@ def test_more_flagged_pages_than_the_report_shows_are_still_in_the_list(run_dir)
     assert "e029" not in rendered                   # capped for reading
     assert "11 more" in rendered                    # and says so
     assert "e029" in json.dumps(report.to_dict())   # kept where it belongs
+
+
+def test_the_selection_covers_every_defect_the_classifier_names(run_dir):
+    """`flagged_keys` unions one list per defect, so a defect added to
+    `page_quality` without a list here would be counted and never selected
+    (#620)."""
+    import page_quality as pq
+
+    write_result(run_dir, "trocr-kurrent", "p004", "0" * 3000)
+    write_result(run_dir, "trocr-kurrent", "p005",
+                 "\n".join(["Wait, is it an 'f'?", "Look at word 2:",
+                            "Line 3: 'u'", "YES!"]))
+
+    outcome = batch.report_from_outputs(run_dir).models[0]
+    lists = {"empty": outcome.empty_keys, "repetitive": outcome.repetitive_keys,
+             "deliberation": outcome.deliberation_keys}
+
+    assert set(lists) == set(pq.DEFECTS)
+    for keys in lists.values():
+        assert keys, "each defect of this fixture contributes a key"
+        assert set(keys) <= set(outcome.flagged_keys)
