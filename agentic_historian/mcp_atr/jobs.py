@@ -920,6 +920,63 @@ def _status_mix(scored: Sequence) -> dict:
     return out
 
 
+def merge_runs(runs: Sequence[str], run: str,
+               dry_run: bool = False) -> dict:
+    """One run holding the best attempt at each page (#624).
+
+    The runs are **ordered** and named, never pathed: each goes through
+    `validate_run` and is joined onto ``VLM_TEST_ROOT``, same containment rule
+    as every tool on this path. The destination is a new run name under the same
+    root and may not be one of the inputs.
+
+    Why this exists: an empty answer is on some pages a property of the attempt
+    (#623), so a corpus wants the best of several attempts — and `publish-batch`
+    publishes one directory. Ranking is by verdict, not by length.
+    """
+    names: list[str] = [validate_run(r) for r in runs or []]
+    if not names:
+        raise JobError("merging needs at least one run")
+    if len(names) > MAX_COMPARE_RUNS:
+        raise JobError(f"{len(names)} runs requested; at most {MAX_COMPARE_RUNS}")
+    if len(set(names)) != len(names):
+        raise JobError("a run is given twice — the order would be meaningless")
+
+    target = validate_run(run)
+    if target in names:
+        raise JobError(f"{target!r} is also an input run")
+
+    root = Path(config.VLM_TEST_ROOT)
+    for name in names:
+        if not (root / name).is_dir():
+            raise JobError(f"no run directory for {name!r}")
+
+    import atr_batch as batch
+    import provenance
+
+    report = batch.merge_runs([root / n for n in names], root / target,
+                              dry_run=dry_run)
+    out: dict = {
+        "run": target,
+        "code": provenance.code_state(),
+        "dry_run": bool(dry_run),
+        "pages": report.pages,
+        "runs": report.runs,
+        "per_run": report.per_run(),
+        "improved": [
+            {"key": c.key, "run": c.run, "attempt": c.attempt,
+             "verdict": c.verdict,
+             "considered": [{"run": r, "verdict": v} for r, v in c.considered]}
+            for c in report.improved
+        ],
+        "only_later": [c.key for c in report.only_later],
+        "report_md": batch.format_merge_report(report)[:40000],
+    }
+    if not dry_run:
+        out["report"] = str(batch.write_report(
+            batch.report_from_outputs(root / target)))
+    return out
+
+
 def flagged_keys(run: str, keys_out: Optional[str] = None) -> dict:
     """The pages a run's own output shows as unusable, as a selection.
 

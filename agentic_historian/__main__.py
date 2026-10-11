@@ -890,6 +890,30 @@ def report_run(args: argparse.Namespace) -> int:
     return 0
 
 
+def merge_runs_cmd(args: argparse.Namespace) -> int:
+    """Assemble one run from several attempts at the same pages (#624)."""
+    import atr_batch as batch
+
+    run_dirs = [Path(d).resolve() for d in args.run_dir]
+    out = Path(args.out).resolve()
+    if out in run_dirs:
+        print(f"Error: --out is also an input run: {out}", file=sys.stderr)
+        return 2
+    try:
+        report = batch.merge_runs(run_dirs, out, dry_run=args.dry_run)
+    except (FileNotFoundError, ValueError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+
+    print(batch.format_merge_report(report))
+    if args.dry_run:
+        print(f"(dry run — nothing written to {out})")
+        return 0
+    print(f"merged: {out}")
+    print(f"report: {batch.write_report(batch.report_from_outputs(out))}")
+    return 0
+
+
 def publish_batch(args: argparse.Namespace) -> int:
     """Propose a finished run directory to a GitHub repository as a pull request.
 
@@ -1235,6 +1259,19 @@ def build_parser() -> argparse.ArgumentParser:
                             "(empty, padded, cut off) to this file, one per "
                             "line — the selection `atr-batch --keys-from` takes")
     p_rep.set_defaults(func=report_run)
+
+    p_merge = sub.add_parser(
+        "merge-runs",
+        help="One run from several attempts at the same pages, best verdict wins")
+    p_merge.add_argument("--run-dir", action="append", required=True,
+                         metavar="DIR",
+                         help="A run directory; repeat it. ORDER MATTERS: "
+                              "earlier is preferred where the verdicts tie")
+    p_merge.add_argument("--out", required=True,
+                         help="The run directory to write (must not be an input)")
+    p_merge.add_argument("--dry-run", action="store_true",
+                         help="Say what would be taken from where, write nothing")
+    p_merge.set_defaults(func=merge_runs_cmd)
 
     p_gt = sub.add_parser(
         "harvest-gt",

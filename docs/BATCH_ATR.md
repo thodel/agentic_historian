@@ -1071,6 +1071,70 @@ Auf gewöhnlichen Seiten ist die Streuung dagegen klein: 6,6 % Median zwischen
 zwei *verschiedenen* Prompts über 240 Seiten. Das Rauschen sitzt nicht im
 Fließtext, sondern an der Kippe zwischen „lese ich" und „antworte ich nichts".
 
+### Zwei Versuche, nicht drei
+
+Dritter Versuch über die 19 nach zwei Versuchen noch leeren Seiten
+(`gemini-strict2-third`):
+
+| Versuch | leer danach | neu gelesen | davon Text von Substanz |
+|---|---:|---:|---|
+| 1 (der 300er-Lauf) | 24 | — | — |
+| 2 `repeat` | 21 | 3 | **2 vollständige Briefe** (978 + 902 Zeichen) |
+| 3 `third` | 19 | 2 | **0** |
+
+Die beiden Neufunde des dritten Versuchs sind Wortenden (`en, d [...]; nden
+stels eiten mir,`) und eine als fremde Hand markierte Unlesbarkeit — beide
+`short`, zu Recht. **Der zweite Versuch holt die Briefe, der dritte nur noch
+Schnipsel.** Zwei Versuche ist also die Politik, die sich belegen lässt, und die
+19 danach sind die plausibel wirklich leeren Blätter. Ein vierter Versuch könnte
+theoretisch noch eine Seite umdrehen; gemessen ist nur, dass der Ertrag
+kollabiert, nicht dass er null ist.
+
+Nach Seiten gezählt sähe das aus wie 3, dann 2 — also kaum ein Abfall. Erst der
+Blick in die Seiten zeigt den Einbruch. Eine Zählung von Seiten ist keine
+Zählung von Text.
+
+### `merge-runs`: die Versuche zu einem Korpus
+
+Die Versuche liegen in getrennten Laufverzeichnissen, und `publish-batch`
+publiziert genau eines. `merge-runs` schreibt daraus einen Lauf, der pro Seite
+den **besten** Versuch hält:
+
+```bash
+python3 -m agentic_historian merge-runs \
+  --run-dir …/vlm_test/gemini-300-strict2 \
+  --run-dir …/vlm_test/gemini-strict2-repeat \
+  --run-dir …/vlm_test/gemini-strict2-third \
+  --out    …/vlm_test/gemini-300-final --dry-run
+```
+
+Aus einer Session: `merge_runs(runs=[…], run="gemini-300-final")`.
+
+**Die Reihenfolge zählt** und ist die Aussage des Aufrufers, welcher Lauf der
+kanonische ist: bei gleichem Urteil gewinnt der frühere. Entschieden wird nach
+Urteil, nie nach Länge:
+
+| Urteil | Rang | |
+|---|---:|---|
+| `ok` | 3 | eine Lesung der Seite |
+| `short` | 2 | wenig, aber es steht auf der Seite |
+| `empty` | 1 | behauptet nichts |
+| `repetitive`, `deliberation` | 0 | **unter `empty`** |
+
+Der letzte Rang ist die eigentliche Entscheidung und sie ist diskutabel: diese
+Seiten tragen Text, der keine Lesung der Seite ist, und in einer Edition
+publiziert ist das ausgewiesene Erfindung. Nichts ist besser als etwas
+Erfundenes. Nach Länge zu entscheiden wäre genau falsch — eine `deliberation`-
+Seite trägt 800 Zeichen Selbstgespräch und gewinnt jeden Grössenvergleich gegen
+die Transkription, die sie ersetzt.
+
+Jede zusammengeführte Seite behält die Nutzlast ihres Versuchs — `settings`,
+`gateway_version`, Zeiten bleiben wahr — und bekommt einen `merged_from`-Block
+mit dem gewählten Versuch und dem, was die anderen geantwortet haben. Ohne den
+wäre das Ergebnis ein Korpus aus drei Läufen, das nicht sagen kann, welche Seite
+aus welchem stammt. `SCHEMA` bleibt, wo es ist: der Block ist additiv, wie
+`settings` in #613.
+
 ### Was daraus folgt: n Versuche statt eines Blicks
 
 Der Bericht sagt bei `empty` „look at the images". Das trägt bei 28 Seiten und
