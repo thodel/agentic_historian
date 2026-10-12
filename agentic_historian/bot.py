@@ -1406,6 +1406,10 @@ def _view_for_confirm(entry):
     if entry.kind == "atr_restart":
         return _RestartView(token=entry.token, requester=entry.requester,
                             engine=str(entry.data.get("engine", "")))
+    if entry.kind == "train_start":
+        return _TrainStartView(token=entry.token, requester=entry.requester,
+                               preset=str(entry.data.get("preset", "")),
+                               model_id=str(entry.data.get("model_id", "")))
     return None
 
 
@@ -1942,6 +1946,125 @@ async def atr_restart_cmd(
         token=token, kind="atr_restart", channel_id=str(ctx.channel_id or 0),
         message_id=str(getattr(sent, "id", 0) or 0), requester=requester_id,
         data={"engine": engine}))
+
+
+# ── /train_start (#362): named presets, admin gate, confirm view ─────────────
+#
+# A run occupies GPU 1 of a shared box for hours or days, so this is the second
+# command (after /update) that spends a shared resource on a click. It therefore
+# takes the same shape — and the **fixed** shape: a persistent view plus a
+# record on disk (#614), not the timed view that `/update` had, which died on
+# any restart. A training confirmation is exactly the kind that sits unanswered
+# while somebody checks whether the box is free.
+
+#: Preset names, as a literal for the decorator (which runs at import). The test
+#: asserts it against `training_presets.names()`, the same way
+#: `_RESTARTABLE_CHOICES` is held to `atr_engines.RESTARTABLE`.
+_TRAIN_PRESET_CHOICES = ("medieval-smoke", "medieval-10epoch", "medieval-full")
+
+
+class _TrainStartView(View):
+    """Confirm / Cancel for one training run."""
+
+    def __init__(self, token: str, requester: str, preset: str, model_id: str,
+                 *, timeout: None = None):
+        # Persistent (#614).
+        super().__init__(timeout=timeout)
+        self.token = token
+        self.requester = requester
+        self.preset = preset
+        self.model_id = model_id
+
+    async def interaction_check(self, interaction, /) -> bool:
+        if str(interaction.user.id) != self.requester:
+            await interaction.response.send_message(
+                "⛔ Nur wer /train_start aufgerufen hat, kann bestätigen.",
+                ephemeral=True)
+            return False
+        return True
+
+    @discord.ui.button(label="✅ Lauf starten", style=ButtonStyle.danger,
+                       custom_id="train_start:confirm")
+    async def confirm(self, button: Button, interaction: Interaction):
+        await interaction.response.defer(thinking=True, ephemeral=False)
+        import pending_confirm
+        status, pending = pending_confirm.lookup(self.token)
+        if status != pending_confirm.LIVE or pending is None:
+            age = f" ({pending.age_s() / 60:.0f} min alt)" if pending else ""
+            await interaction.followup.send(
+                f"⚠️ Diese Anfrage ist abgelaufen{age} — bitte /train_start "
+                f"erneut aufrufen.", ephemeral=True)
+            pending_confirm.drop(self.token)
+            return
+        pending_confirm.drop(self.token)
+
+        preset = str(pending.data.get("preset", self.preset))
+        model_id = str(pending.data.get("model_id", self.model_id))
+        try:
+            import training_presets
+            from agent_a.training_client import submit_training_job
+            body = training_presets.resolve(preset, model_id)
+            job = await asyncio.to_thread(submit_training_job, body)
+        except Exception as exc:  # noqa: BLE001
+            # The trainer's own detail, not a generic failure: a 507 names the
+            # full filesystem and a 409 says the job is already terminal, and
+            # those say what to do (#361).
+            logger.warning(f"[train_start] {preset}: {exc}")
+            await interaction.followup.send(
+                f"❌ Der Trainer hat den Lauf nicht angenommen:\n```\n{exc}\n```",
+                ephemeral=True)
+            return
+
+        logger.info(f"[train_start] {pending.requester}: {preset} → {job.id}")
+        queued = getattr(job, "queued_reason", None) or ""
+        await interaction.followup.send(
+            f"🎓 Lauf **{job.id}** gestartet — Preset `{preset}`, Ziel "
+            f"`{model_id}`, Status `{getattr(job, 'status', '?')}`"
+            + (f"\n_Wartet: {queued}_" if queued else "")
+            + "\n_Fortschritt: `/atr_jobs`, `/atr_progress job_id:" f"{job.id}`._")
+
+    @discord.ui.button(label="✖ Abbrechen", style=ButtonStyle.secondary,
+                       custom_id="train_start:cancel")
+    async def cancel(self, button: Button, interaction: Interaction):
+        import pending_confirm
+        pending_confirm.drop(self.token)
+        await interaction.response.edit_message(
+            content="❌ Training abgebrochen — es wurde nichts gestartet.",
+            view=None)
+
+
+@bot.slash_command(
+    name="train_start",
+    description="Admin: ein Training aus einem benannten Preset starten")
+@admin_only
+async def train_start_cmd(
+    ctx,
+    preset: Option(str, "Welches Preset", required=True,
+                   choices=list(_TRAIN_PRESET_CHOICES)),
+    model_id: Option(str, "Ziel-Id des fertigen Modells, z. B. 10.5281/zenodo.123",
+                     required=True),
+):
+    """Resolve a preset, show what it costs, and start only on a click (#362)."""
+    import pending_confirm
+    import training_presets
+
+    await ctx.defer()
+    try:
+        card = training_presets.describe(preset, model_id)
+    except training_presets.PresetError as exc:
+        await ctx.followup.send(f"❌ {exc}")
+        return
+
+    token = _make_token()
+    requester_id = str(ctx.author.id)
+    view = _TrainStartView(token=token, requester=requester_id,
+                           preset=preset, model_id=model_id)
+    msg = await ctx.followup.send(card, view=view)
+    pending_confirm.add(pending_confirm.Pending(
+        token=token, kind="train_start", channel_id=str(ctx.channel.id),
+        message_id=str(msg.id), requester=requester_id,
+        data={"preset": preset, "model_id": model_id}))
+    bot.add_view(view, message_id=msg.id)
 
 
 def main() -> None:

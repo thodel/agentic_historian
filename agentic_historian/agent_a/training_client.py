@@ -222,6 +222,29 @@ class TrainingClient:
 
     # ── public API ─────────────────────────────────────────────────────────
 
+    def submit(self, request: dict) -> TrainJob:
+        """
+        POST /train/jobs — start a run from a **complete** request body.
+
+        The shape #361 specified, and the only one the trainer accepts: its
+        ``TrainRequest`` has no ``preset`` field. It requires ``engine``,
+        ``model_id`` and at least one ``datasets`` entry, and defaults the rest —
+        including ``params.spec``, the VGSL architecture, which therefore stays
+        in the repository that trains with it.
+
+        Resolving a preset name into this body is the *bot's* job
+        (``training_presets.resolve``), because the body is also what the
+        confirmation card has to show: what somebody approves must be what is
+        sent (#362).
+
+        Raises TrainingClientError on network or HTTP errors, with the trainer's
+        own ``detail`` attached — a 507 names the full filesystem and a 409 says
+        the job is already terminal, and those are actionable in a way that
+        "training failed" is not.
+        """
+        resp = self._post("/train/jobs", json=dict(request))
+        return TrainJob.from_dict(resp.json())
+
     def create_job(
         self,
         preset:   str,
@@ -230,29 +253,24 @@ class TrainingClient:
         extra: Optional[dict] = None,
     ) -> TrainJob:
         """
-        POST /train/jobs — start a new training run.
+        Start a run from a **preset name** — resolved here, not by the trainer.
 
-        Parameters
-        ----------
-        preset   : name of a named preset registered in the trainer (e.g.
-                   "catmus_medieval"). The trainer resolves this to a complete
-                   VGSL spec, dataset, and hyper-parameters — the bot never
-                   sends raw hyper-parameters over Discord.
-        model_id : target model id for the finished model (e.g.
-                   "10.5281/zenodo.XXXXXXX"). The trainer registers the output
-                   under this id when the run succeeds.
-        extra    : optional dict of additional fields to merge into the request
-                   body (e.g. {"epochs": 100} for a preset that accepts an
-                   override). Most calls should omit this.
+        This used to send ``{"preset": …, "model_id": …}`` and its docstring said
+        the trainer resolved it. The trainer does not: ``TrainRequest`` has no
+        ``preset`` field and requires ``datasets``, so that body was refused at
+        validation. Nothing in production called it, which is why the contract
+        could stay wrong this long (#362 found it).
 
-        Returns a TrainJob with status QUEUED (or an error from the trainer).
-        Raises TrainingClientError on network or HTTP errors.
+        ``extra`` is merged last, so a caller can override one field of a preset
+        without a new preset — ``{"params": {"epochs": 100}}`` replaces the
+        params block, it does not merge into it.
         """
-        body: dict[str, Any] = {"preset": preset, "model_id": model_id}
+        import training_presets
+
+        body: dict[str, Any] = training_presets.resolve(preset, model_id)
         if extra:
             body.update(extra)
-        resp = self._post("/train/jobs", json=body)
-        return TrainJob.from_dict(resp.json())
+        return self.submit(body)
 
     def get_job(self, job_id: str) -> TrainJob:
         """
@@ -386,6 +404,22 @@ def create_training_job(
     url = base_url or config.ATR_GATEWAY_URL
     with TrainingClient(base_url=url) as client:
         return client.create_job(preset=preset, model_id=model_id, extra=extra)
+
+
+def submit_training_job(
+    request:  dict,
+    base_url: Optional[str] = None,
+) -> TrainJob:
+    """One-shot ``TrainingClient`` for a complete request body.
+
+    Beside ``create_training_job``, which resolves a preset name into one. This
+    is the seam the Discord command uses, so the blocking call it runs in a
+    thread is a plain function rather than a context manager opened by hand —
+    a client entered without being exited leaks its connection pool.
+    """
+    url = base_url or config.ATR_GATEWAY_URL
+    with TrainingClient(base_url=url) as client:
+        return client.submit(request)
 
 
 def get_training_job(
