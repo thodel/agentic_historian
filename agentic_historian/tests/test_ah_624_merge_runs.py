@@ -272,3 +272,54 @@ def test_the_destination_cannot_be_an_input(stack):
 
     with pytest.raises(jobs.JobError, match="also an input run"):
         jobs.merge_runs(["canon", "retry"], "canon")
+
+
+# ── the one recomputed field (#625) ──────────────────────────────────────────
+#
+# A merged page carried the `quality` block of the run that read it, and on
+# 2026-10-12 a page published into the edition held two contradictory verdicts:
+#
+#     merged_from.verdict : ok           (the merge, with the current rules)
+#     quality.verdict     : repetitive   (the reading, before #623)
+#
+# `quality` is the only part of the payload that is not a fact about the call.
+
+def test_the_stored_verdict_cannot_contradict_the_chosen_one(runs):
+    """By construction, not by coincidence: one classification, used for both."""
+    merged(runs)
+
+    for key in ("p-read", "p-blank", "p-arguing", "p-padded", "p-only-here"):
+        page = read(runs, key)
+        assert page["quality"]["verdict"] == page["merged_from"]["verdict"], key
+
+
+def test_a_stale_verdict_from_the_reading_run_is_not_carried_forward(runs):
+    """The Marbach case, reconstructed: a page read under an older classifier
+    that called it `repetitive`, which the current rules do not."""
+    d = runs / "canon" / "gemini-3.8-flash"
+    stale = json.loads((d / "p-read.json").read_text(encoding="utf-8"))
+    stale["quality"] = {"verdict": "repetitive", "chars": 416, "lines": 8,
+                        "longest_char_run": 80, "repeat_ratio": 0.0,
+                        "mean_line_chars": 52.0}
+    (d / "p-read.json").write_text(json.dumps(stale), encoding="utf-8")
+
+    merged(runs)
+    page = read(runs, "p-read")
+
+    assert page["quality"]["verdict"] == "ok"
+    # And it carries the measures the current classifier stores, so the page
+    # can be re-judged from its own numbers rather than read again.
+    assert "run_share" in page["quality"]
+    assert "deliberation_ratio" in page["quality"]
+
+
+def test_what_the_call_did_is_never_rewritten(runs):
+    """The reason `quality` is the *only* recomputed field: everything else
+    records what the API was asked and what it answered."""
+    merged(runs)
+    page = read(runs, "p-blank")
+
+    assert page["settings"] == "prompt-x|retry"
+    assert page["gateway_version"] == "gemini@retry"
+    assert page["timing_ms"] == 6400
+    assert page["recognised_at"] == "2026-10-11T18:00:00+00:00"

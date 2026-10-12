@@ -1769,6 +1769,22 @@ def merge_runs(run_dirs: Sequence[Path], out_root: Path, *,
     page came from which — and the whole reason the readings are comparable is
     that each one records what produced it.
 
+    **One field is recomputed rather than carried: `quality` (#625.)** It is the
+    only part of the payload that is not a fact about the call. `settings`,
+    `timing_ms` and `gateway_version` record what the API was asked and what it
+    answered, and rewriting those would be a lie; `quality` is a verdict this
+    code derives from the text, and carrying an old one forward published a page
+    whose two verdicts contradicted each other —
+
+        merged_from.verdict : ok           (computed by the merge, today)
+        quality.verdict     : repetitive   (computed when the page was read)
+
+    — on a Marbach insert slip whose printed rule #623 had since stopped calling
+    filler. The carried block was also missing the measures the current
+    classifier stores, so it could not even be re-judged from its own numbers.
+    Recomputed, the two verdicts are the same number by construction and the
+    merged run's pages agree with the report written beside them.
+
     ``SCHEMA`` is not bumped: the block is additive, exactly as `settings` was
     in #613, so a merged page still reads as complete to `is_complete`.
     """
@@ -1791,18 +1807,22 @@ def merge_runs(run_dirs: Sequence[Path], out_root: Path, *,
                 data = _read_result(json_path)
                 if data is None:
                     continue
-                verdict = page_quality.classify(data["text"]).verdict
+                # The whole verdict object, not only its name: the merged page
+                # stores the measures too, and classifying the same text twice
+                # is how the stored verdict and the chosen one drift apart.
+                quality = page_quality.classify(data["text"])
                 seen.setdefault((model_dir.name, json_path.stem), []).append(
-                    (attempt, directory.name, data, verdict))
+                    (attempt, directory.name, data, quality))
 
     for (model, key), attempts in sorted(seen.items()):
         best = min(attempts,
-                   key=lambda a: (-ranking.get(a[3], 0), a[0]))
-        attempt, run, data, verdict = best
+                   key=lambda a: (-ranking.get(a[3].verdict, 0), a[0]))
+        attempt, run, data, quality = best
+        verdict = quality.verdict
         choice = MergeChoice(
             key=key, model=model, run=run, verdict=verdict, attempt=attempt,
             first_attempt=attempts[0][0],
-            considered=[(r, v) for _, r, _, v in attempts])
+            considered=[(r, q.verdict) for _, r, _, q in attempts])
         report.choices.append(choice)
         if attempts[0][0] != 1:
             report.only_later.append(choice)
@@ -1814,13 +1834,17 @@ def merge_runs(run_dirs: Sequence[Path], out_root: Path, *,
         txt_path, json_path = result_paths(out_dir, key)
         payload = dict(data)
         payload["run"] = out_root.name
+        # The one recomputed field; see the note in this function's docstring.
+        # Taken from `verdict` rather than classified again, so the page's
+        # stored verdict and the one the merge chose it by cannot drift.
+        payload["quality"] = quality.as_dict()
         payload["merged_from"] = {
             "run": run,
             "attempt": attempt,
             "verdict": verdict,
             "of": len(attempts),
-            "considered": [{"run": r, "verdict": v}
-                           for _, r, _, v in attempts],
+            "considered": [{"run": r, "verdict": q.verdict}
+                           for _, r, _, q in attempts],
         }
         txt_path.write_text(payload["text"], encoding="utf-8")
         json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2),

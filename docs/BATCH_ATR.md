@@ -1135,6 +1135,26 @@ wäre das Ergebnis ein Korpus aus drei Läufen, das nicht sagen kann, welche Sei
 aus welchem stammt. `SCHEMA` bleibt, wo es ist: der Block ist additiv, wie
 `settings` in #613.
 
+**Ein Feld wird neu gerechnet statt mitgenommen: `quality`.** Es ist der einzige
+Teil der Nutzlast, der keine Tatsache über den Aufruf ist. `settings`,
+`timing_ms` und `gateway_version` halten fest, was die API gefragt wurde und was
+sie antwortete — die umzuschreiben wäre eine Lüge. `quality` ist ein Urteil, das
+*dieser* Code aus dem Text ableitet, und ein mitgenommenes altes hat am
+12. Oktober eine in die Edition publizierte Seite mit zwei einander
+widersprechenden Urteilen hinterlassen:
+
+```
+merged_from.verdict : ok           ← vom Zusammenführen, heutige Regeln
+quality.verdict     : repetitive   ← vom Lesen, vor #623
+```
+
+Der Marbacher Einlegezettel, dessen gedruckte Trennlinie seit #623 nicht mehr
+als Füllmaterial gilt. Der mitgenommene Block hatte zudem die Masse nicht, die
+der heutige Klassifikator speichert (`run_share`, `run_on_own_line`) — er liess
+sich also nicht einmal aus seinen eigenen Zahlen neu beurteilen. Neu gerechnet
+sind die beiden Urteile *konstruktionsbedingt* dieselbe Zahl, und die Seiten
+eines zusammengeführten Laufs stimmen mit dem Bericht daneben überein.
+
 ### Was daraus folgt: n Versuche statt eines Blicks
 
 Der Bericht sagt bei `empty` „look at the images". Das trägt bei 28 Seiten und
