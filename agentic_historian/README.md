@@ -86,6 +86,7 @@ runs its start path (up to `bot.run`) without any `workspace/`.
 | `/hotfolder` | Process all files in the hot folder |
 | `/pull [folder] [recursive]` | Pull images from a mailbox folder and process each. The answer names the way it took — share or account (#592) |
 | `/pull_folder [folder] [reprocess]` | Process each mailbox subfolder as one multi-page document |
+| `/train_start preset:<name> model_id:<id>` | Admin: start a training run from a **named** preset (#362). A VGSL spec is 130 characters where one transposed digit silently trains a different network, so the command takes a name — changing anything else is a reviewed code change. The confirmation card is rendered from the **resolved request body**, so what is approved is what is sent, and each cost figure says whether it was measured or estimated |
 | `/update` | Admin: pull `main` and restart. The Confirm button **survives the restart it causes** (#614) — it is a persistent view and the pending confirmation is on disk, the same pattern #150 uses for the gate cards. The five-minute deadline is checked in the callback, not by a view timeout, because a timeout only lives as long as the process |
 | `/pull_preflight [folder]` | Which of the four mailbox layers is broken — config, host, credentials, path — each reported separately, with the ones behind a failure left as *unchecked* rather than failed. For a share it also reports **which public endpoint answered** |
 | `/env_reload` | Admin: re-read the `.env` files without a restart, then run the preflight so success is shown rather than claimed. Only the keys that came *from a file* — a value from the process environment wins over every `.env` (#106) and is named as unchangeable from here |
@@ -318,6 +319,54 @@ Three things this gets right that are easy to get wrong:
 corpus share on the GWDG instance, which is mounted and read in place (#487).
 Pointing the hot folder at a 160 GB holding is the one confusion #592 says not to
 reintroduce.
+
+### Starting a training run from Discord (#362)
+
+```
+/train_start preset:medieval-smoke model_id:10.5281/zenodo.123
+```
+
+Three presets, in `training_presets.py`, spanning the three reasons to start a
+run: prove the chain, train something usable, train the real thing.
+
+| preset | bound | epochs | estimated cost |
+|---|---|---|---|
+| `medieval-smoke` | 40 pages | 1 | ~9 min |
+| `medieval-10epoch` | 18 000 pages | 10 | ~6 h |
+| `medieval-full` | 548 000 pages | trainer default | ~3 days |
+
+Four decisions worth knowing, because each could have gone the lazy way:
+
+**No preset carries a VGSL spec.** The trainer defaults `params.spec` to its own
+`KRAKEN_PLUS_SPEC`, which lives beside the code that trains with it. Copying
+that string here would make this the second copy of an architecture, free to
+drift from the first — and the drift would be invisible until a curve came out
+wrong. A test fails on any preset that sets one.
+
+**Every preset is bounded.** `all_projects=True` requires `max_pages`, and the
+trainer's guard says why: the medieval corpus is 694 projects and ~6.6 TB,
+"larger than the disk". There is no "everything" preset because there is no disk
+for one — `medieval-full` is bounded too, despite the name.
+
+**A cost figure says whether it was measured.** `pages`/`lines`/`hours` are
+`None` when nobody has measured them — never 0, which would read as "free" — and
+the card says `geschätzt aus den Dataset-Karten` or `gemessen`. None of the three
+presets claims measured figures yet, because none has been run through this
+command. The trainer's own `corpus_plan.py` states the same discipline for the
+same reason.
+
+**What is approved is what is sent.** `training_presets.resolve` builds the
+request body and the card is rendered *from that body*; the confirm callback
+sends the same body. A card assembled separately would eventually describe a run
+that is not the one submitted — and the person clicking Confirm is approving
+hours of a shared GPU on the strength of it.
+
+The confirm view is **persistent** and its pending record is on disk (#614), not
+the timed view `/update` used to have: a training confirmation is exactly the
+kind that sits unanswered while somebody checks whether the box is free, and a
+restart in between must not kill it. A trainer refusal comes back with its own
+detail — a `507` names the full filesystem, a `409` says the job is already
+terminal — because those say what to do and "training failed" does not.
 
 ## Publishing outputs — GitHub + Pages
 

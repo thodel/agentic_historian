@@ -270,46 +270,67 @@ class TestTrainingClientInit:
 # ── TrainingClient.create_job ─────────────────────────────────────────────────
 
 class TestCreateJob:
-    """POST /train/jobs."""
+    """POST /train/jobs.
 
-    def test_sends_preset_and_model_id(self, mock_httpx):
+    The body changed with #362, and the old one was wrong: these tests used to
+    assert ``{"preset": …, "model_id": …}``, which the trainer refuses —
+    ``TrainRequest`` has no ``preset`` field and requires ``datasets``. The bot
+    resolves the preset (``training_presets``), because the resolved body is
+    also what the confirmation card must show.
+    """
+
+    def test_sends_the_resolved_request_body(self, mock_httpx):
+        import training_presets
+
         mock_httpx.post.return_value = _make_response({
-            "id": "job-new", "status": "queued",
-            "preset": "catmus_medieval", "model_id": "10.5281/zenodo.1",
+            "id": "job-new", "status": "queued", "model_id": "10.5281/zenodo.1",
         })
         with TrainingClient(base_url="http://localhost:8200") as client:
             client._client = mock_httpx
-            job = client.create_job(preset="catmus_medieval",
+            job = client.create_job(preset="medieval-smoke",
                                     model_id="10.5281/zenodo.1")
 
         mock_httpx.post.assert_called_once()
         call_args = mock_httpx.post.call_args
         assert call_args[0][0] == "/train/jobs"
-        assert call_args[1]["json"] == {
-            "preset": "catmus_medieval",
-            "model_id": "10.5281/zenodo.1",
-        }
+        # Exactly what `resolve` built — not a body assembled a second time.
+        assert call_args[1]["json"] == training_presets.resolve(
+            "medieval-smoke", "10.5281/zenodo.1")
+        assert "preset" not in call_args[1]["json"]
         assert job.id == "job-new"
         assert job.status == JobStatus.QUEUED
 
+    def test_submit_sends_a_complete_body_unchanged(self, mock_httpx):
+        """The shape #361 specified: `submit(request: dict)`."""
+        mock_httpx.post.return_value = _make_response({"id": "j", "status": "queued"})
+        body = {"engine": "kraken", "model_id": "m",
+                "datasets": [{"hf_repo": "dh-unibe/x", "max_pages": 1,
+                              "all_projects": True}]}
+        with TrainingClient(base_url="http://localhost") as client:
+            client._client = mock_httpx
+            client.submit(body)
+        assert mock_httpx.post.call_args[1]["json"] == body
+
     def test_extra_fields_merged_into_body(self, mock_httpx):
         mock_httpx.post.return_value = _make_response({
-            "id": "j1", "status": "queued", "preset": "x", "model_id": "y",
+            "id": "j1", "status": "queued", "model_id": "y",
         })
         with TrainingClient(base_url="http://localhost") as client:
             client._client = mock_httpx
-            client.create_job(preset="x", model_id="y", extra={"epochs": 50})
+            client.create_job(preset="medieval-smoke", model_id="y",
+                              extra={"notes": "von Hand"})
 
         body = mock_httpx.post.call_args[1]["json"]
-        assert body["epochs"] == 50
-        assert body["preset"] == "x"
+        assert body["notes"] == "von Hand"
+        assert body["model_id"] == "y"
+        assert body["datasets"][0]["hf_repo"]
 
     def test_raises_on_http_error(self, mock_httpx):
         mock_httpx.post.return_value = _make_response({}, status_code=507)
         with TrainingClient(base_url="http://localhost") as client:
             client._client = mock_httpx
             with pytest.raises(TrainingClientError, match="507"):
-                client.create_job("preset", "model-id")
+                client.create_job("medieval-smoke", "model-id")
 
     def test_raises_on_network_error(self, mock_httpx):
         # _check will read status_code first (returns 200 from PropertyMock),
@@ -318,7 +339,7 @@ class TestCreateJob:
         with TrainingClient(base_url="http://localhost") as client:
             client._client = mock_httpx
             with pytest.raises(TrainingClientError, match="error"):
-                client.create_job("preset", "model-id")
+                client.create_job("medieval-smoke", "model-id")
 
 
 # ── TrainingClient.get_job ────────────────────────────────────────────────────
@@ -524,12 +545,14 @@ class TestConvenienceHelpers:
             })
             mock_client.post.return_value = mock_response
 
-            job = create_training_job("preset-x", "model-y")
+            job = create_training_job("medieval-smoke", "model-y")
 
         assert job.id == "j1"
-        mock_client.post.assert_called_once_with("/train/jobs", json={
-            "preset": "preset-x", "model_id": "model-y"
-        })
+        # The resolved body (#362), not a preset name the trainer cannot read.
+        import training_presets
+        mock_client.post.assert_called_once_with(
+            "/train/jobs",
+            json=training_presets.resolve("medieval-smoke", "model-y"))
 
     def test_get_training_job(self):
         with patch("agent_a.training_client.config") as cfg, \
