@@ -967,6 +967,65 @@ maintainer decides what enters it; a token with write access would work and woul
 make that decision for them. The commits land in our own fork
 (`GITHUB_TEXT_FORK`), so this needs no rights on the target repository at all.
 
+### Der Laßberg-Gemini-Korpus, publiziert 12. Oktober 2026
+
+300 Seiten als weitere Version in [PR #3](https://github.com/michaelscho/lassberg/pull/3),
+mit `--push` in den Branch des Forks, aus dem der PR offen ist:
+
+```bash
+python3 -m agentic_historian publish-batch \
+  --run-dir $VLM_TEST_ROOT/gemini-300-final \
+  --repo    thodel/lassberg \
+  --branch  textrecognition/atr_corpus_qwen35_line \
+  --path    data/textrecognition/gemini-300-final --push
+```
+
+`--repo thodel/lassberg` ist dabei nicht kosmetisch: ohne das ginge der Push
+gegen die Edition selbst.
+
+| | |
+|---|---:|
+| Seiten | **300** |
+| mit Text | **281** |
+| leer | 19 |
+| `looped` / `arguing` / `cut off` | 0 / 0 / 0 |
+| Dateien im Baum | 602 (300 `.txt`, 300 `.json`, `report.md`, `report.json`) |
+| Prompt | `lassberg_atr_strict2 @9e0503e8`, `reasoning low` |
+
+### Geprüft wird im publizierten Baum, nicht im Log
+
+Das Publikations-Log sagt „200 file(s) (1/4)" viermal, und daraus lässt sich
+rechnen, dass 602 Dateien gingen. Es sagt nicht, was in ihnen steht. Ein
+Shallow-Sparse-Clone des Branches kostet Sekunden und beantwortet beides:
+
+```bash
+GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 --filter=blob:none --sparse \
+  --branch <branch> https://github.com/thodel/lassberg verify
+git -C verify -c core.quotePath=false ls-tree -r --name-only HEAD -- <pfad> | wc -l
+```
+
+Zwei Dinge, die dieser Blick zutage brachte und die kein Log gezeigt hätte:
+
+- **Eine Seite trug zwei einander widersprechende Urteile** —
+  `merged_from.verdict: ok` neben `quality.verdict: repetitive` (§ *`merge-runs`*).
+  Gefunden, weil die Datei selbst gelesen wurde.
+- **`core.quotePath`.** Ein erstes Zählen ergab 276 `.txt` statt 300 und sah aus
+  wie ein unvollständiger Push. Git quotiert Pfade mit Nicht-ASCII, und die
+  Laßberg-Schlüssel sind voll von `Zürrich` und `Mülinen` — die Zeilen enden
+  dann auf `"` und nicht auf `.txt`. Eine Zählung, die von der Darstellung eines
+  Werkzeugs abhängt, ist keine Zählung der Sache.
+
+Und eine Nicht-Beobachtung, die wie ein Befund aussieht: ein `git fetch` in
+einen **Shallow**-Clone meldet `+ alt...neu (forced update)` auch für ein
+gewöhnliches Fortschreiben, weil die Abstammung jenseits der Shallow-Grenze
+nicht beweisbar ist. Das ist kein Hinweis auf eine umgeschriebene Historie in
+einem geteilten PR-Branch. Beweisen lässt es sich mit etwas mehr Tiefe:
+
+```bash
+git -C verify fetch --depth 12 origin <branch>
+git -C verify merge-base --is-ancestor <alt> <neu> && echo fortgeschrieben
+```
+
 The branch is cut from the **upstream's** head, not the fork's. A fork that has
 not been synced for a while has a stale `main`, and a pull request from a branch
 off that stale main shows every upstream commit since as a deletion — a two-file

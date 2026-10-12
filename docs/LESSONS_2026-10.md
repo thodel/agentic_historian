@@ -601,6 +601,52 @@ changed, measure what changes when you change nothing. With a sampled model that
 is not a formality; it is the denominator. I had the tool for it (`compare_readings`
 over two runs) on the first day and used it only across prompts.
 
+## 16. A function that preserves on purpose is not a function that refreshes
+
+A page published into the edition held two contradictory verdicts for itself:
+`merged_from.verdict: ok` beside `quality.verdict: repetitive`. I said a second
+`merge-runs` would smooth it over. It would not have: `merge_runs` copies the
+attempt's payload **deliberately**, so that `settings`, `timing_ms` and
+`gateway_version` stay true to the call — and a stale verdict rides along on
+exactly that guarantee. Re-running it would have written the same wrong number a
+second time, and I would have reported the fix as done.
+
+What saved it was reading the artifact rather than the log: the two fields sit
+four lines apart in the published JSON and disagree.
+
+The repair is a distinction worth keeping: in a record of a machine reading,
+some fields are **facts about the call** — what was asked, when, by which
+version — and some are **judgements our code derives from the answer**. The
+first must never be rewritten. The second must never be stale. `quality` was in
+the wrong group.
+
+**The generalisation:** before claiming that re-running something fixes it, name
+the line that would change. I claimed a remedy from the shape of the problem
+rather than from the code, and the code was built to do the opposite.
+
+## 17. Two non-observations in one verification
+
+Both looked like findings, and neither was.
+
+**276 of 300 files.** The first count of the published tree came back 276 `.txt`
+and 277 `.json`, which reads as an incomplete push into somebody else's
+edition. Git quotes paths containing non-ASCII — and the Laßberg keys are full
+of `Zürrich` and `Mülinen` — so those lines end in `"` and my `grep '\.txt$'`
+skipped them. `-c core.quotePath=false` gives 300 and 300. A count that depends
+on how a tool *displays* a name is not a count of the thing.
+
+**"forced update".** Fetching the republished branch printed
+`+ 794ed54...5eab78c (forced update)`, which on a shared pull-request branch
+would mean somebody rewrote history under the reviewers. In a **shallow** clone
+that message appears for an ordinary fast-forward too, because ancestry cannot
+be proved past the shallow boundary. `git fetch --depth 12` then
+`merge-base --is-ancestor` settles it: appended, not rewritten.
+
+Both belong to the same family as §6 and §7 of this document, and the family
+keeps growing: the cheapest way to turn a non-observation into a finding is to
+accept a tool's output as an answer to the question you had in mind, rather than
+to the question the tool was actually asked.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
