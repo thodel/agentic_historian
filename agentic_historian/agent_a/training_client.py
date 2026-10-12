@@ -449,7 +449,8 @@ class TrainingClient:
         resp = self._post(f"/train/jobs/{job_id}/cancel", json={})
         return TrainJob.from_dict(resp.json())
 
-    def get_log(self, job_id: str, stage: Optional[Stage] = None) -> str:
+    def get_log(self, job_id: str, stage: Optional[Stage] = None,
+                lines: Optional[int] = None) -> str:
         """
         GET /train/jobs/{job_id}/log?stage=<stage> — fetch the log for a stage.
 
@@ -457,17 +458,30 @@ class TrainingClient:
         ----------
         job_id : job whose log to fetch.
         stage  : specific stage to fetch (prepare | compile | train | test |
-                 register). When None returns the job-level log_tail.
+                 register). When None the route's own default (``train``) applies.
+        lines  : how many lines from the end; the trainer allows 1–5000 and
+                 defaults to 200. Omitted means "the trainer's default".
 
-        Returns the log text (multiline string). Returns "" when the gateway
-        has no log for the requested stage yet.
-        Raises TrainingClientError if the job does not exist.
+        Returns the log text (multiline string).
+
+        The trainer answers ``{"job_id", "stage", "lines": [...]}`` — a **list**
+        of lines, under ``lines``. This read ``log``, a key the route does not
+        have, so it returned ``""`` for every log that exists: "the stage has no
+        output yet" for a run that was printing one. `atr_status.log` had the
+        right key all along, which is why nobody noticed (#364).
+
+        A stage with no log on disk is a **404**, not an empty list, so it
+        arrives as ``TrainingJobNotFound`` — and so does an unknown job id. The
+        two need different sentences, and only the job record can tell them
+        apart; `train_ops` does that rather than reading the detail text.
         """
         params: dict[str, Any] = {}
         if stage:
             params["stage"] = stage.value
+        if lines is not None:
+            params["lines"] = lines
         resp = self._get(f"/train/jobs/{job_id}/log", params=params)
-        return resp.json().get("log", "")
+        return _text(resp.json().get("lines", resp.json().get("log"))) or ""
 
     # ── internals ───────────────────────────────────────────────────────────
 
@@ -512,9 +526,11 @@ class TrainingClient:
             # unreachable one.
             if resp.status_code == 404:
                 raise TrainingJobNotFound(
-                    f"Trainer gateway 404 at {self.base_url}{path}: {body}")
+                    f"Trainer gateway 404 at {self.base_url}{path}: {body}",
+                    status_code=404)
             raise TrainingClientError(
-                f"Trainer gateway {resp.status_code} at {self.base_url}{path}: {body}"
+                f"Trainer gateway {resp.status_code} at {self.base_url}{path}: {body}",
+                status_code=resp.status_code,
             )
         return resp
 
@@ -522,8 +538,17 @@ class TrainingClient:
 # ── exceptions ───────────────────────────────────────────────────────────────
 
 class TrainingClientError(Exception):
-    """Raised when the trainer HTTP service returns an error or is unreachable."""
-    pass
+    """Raised when the trainer HTTP service returns an error or is unreachable.
+
+    ``status_code`` is the HTTP status when there was one and **None** when the
+    request never got an answer. Callers that need to tell a refusal from an
+    outage read it instead of matching the message text, which is this module's
+    own wording and not a contract (#364).
+    """
+
+    def __init__(self, message: str, *, status_code: Optional[int] = None) -> None:
+        super().__init__(message)
+        self.status_code = status_code
 
 
 class TrainingJobNotFound(TrainingClientError):
@@ -580,6 +605,22 @@ def get_training_job(
     url = base_url or config.ATR_GATEWAY_URL
     with TrainingClient(base_url=url) as client:
         return client.get_job(job_id)
+
+
+def cancel_training_job(
+    job_id:   str,
+    base_url: Optional[str] = None,
+) -> TrainJob:
+    """One-shot ``TrainingClient`` for a cancel.
+
+    Beside ``submit_training_job`` and for the same reason: the Discord command
+    runs this in a thread, so it has to be a plain function rather than a
+    context manager opened by hand — a client entered without being exited leaks
+    its connection pool (#362).
+    """
+    url = base_url or config.ATR_GATEWAY_URL
+    with TrainingClient(base_url=url) as client:
+        return client.cancel_job(job_id)
 
 
 def list_training_jobs(

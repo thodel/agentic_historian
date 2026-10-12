@@ -176,6 +176,12 @@ port and no firewall exception on this path.
   what it costs and submits only on confirmation; it is admin-gated, and the
   confirmation is a persistent view with a record on disk, so a restart in
   between does not kill it (#362, #614).
+- **Reading and stopping a run.** `/train_log` gives the tail of one stage's
+  log — cut at the front, marked, in a code block, because a traceback is at the
+  end — and answers a missing log by naming the stages the job actually reached.
+  `/train_cancel` is admin-gated with a confirmation and reports what the record
+  says rather than assuming: the trainer signals the process group, the runner
+  writes the terminal state, and the watcher announces it (#364).
 - **A started run is watched until it ends.** `train_watch.py` keeps one message
   per run current — stage trail, `queued_reason` verbatim, CER/WER and the log
   tail at the end — and its registry is on **disk**: a six-hour job cannot sit in

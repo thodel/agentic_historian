@@ -1536,6 +1536,9 @@ def _view_for_confirm(entry):
         return _TrainStartView(token=entry.token, requester=entry.requester,
                                preset=str(entry.data.get("preset", "")),
                                model_id=str(entry.data.get("model_id", "")))
+    if entry.kind == "train_cancel":
+        return _TrainCancelView(token=entry.token, requester=entry.requester,
+                                job_id=str(entry.data.get("job_id", "")))
     return None
 
 
@@ -2218,6 +2221,179 @@ async def train_start_cmd(
         token=token, kind="train_start", channel_id=str(ctx.channel.id),
         message_id=str(msg.id), requester=requester_id,
         data={"preset": preset, "model_id": model_id}))
+    bot.add_view(view, message_id=msg.id)
+
+
+# ── /train_log, /train_cancel (#364) ─────────────────────────────────────────
+
+_STAGE_CHOICES = ("prepare", "compile", "train", "test", "register")
+
+
+@bot.slash_command(name="train_log",
+                   description="Das Ende eines Stufen-Logs eines Trainings-Laufs")
+@require_role
+async def train_log_cmd(
+    ctx,
+    job_id: Option(str, "Job-Id", required=True),
+    stage: Option(str, "Welche Stufe", required=False,
+                  choices=list(_STAGE_CHOICES)) = "train",
+    lines: Option(int, "Wie viele Zeilen vom Ende (max. 500)",
+                  required=False) = None,
+):
+    """The tail of one stage's log, cut at the front and marked (#364).
+
+    Two refusals are told apart by the job record rather than by the trainer's
+    wording: a 404 here means either "no such job" or "that stage has no log
+    yet", and only the record knows which.
+    """
+    import atr_status
+    import train_ops
+    from agent_a.training_client import TrainJob
+
+    await ctx.defer(ephemeral=True)
+    if stage not in train_ops.STAGES:
+        # Reachable despite the choices: a stale client, or a future stage name.
+        await ctx.followup.send(train_ops.unknown_stage(stage), ephemeral=True)
+        return
+    want = min(max(int(lines or train_ops.LOG_LINES_DEFAULT), 1),
+               train_ops.LOG_LINES_MAX)
+    try:
+        payload = await atr_status.log(job_id, lines=want, stage=stage)
+    except atr_status.AtrStatusError as exc:
+        if getattr(exc, "status_code", None) != 404:
+            await ctx.followup.send(f"❌ {exc}", ephemeral=True)
+            return
+        # The job record decides which 404 this is.
+        try:
+            job = TrainJob.from_dict(await atr_status.job(job_id) or {})
+        except atr_status.AtrStatusError:
+            await ctx.followup.send(
+                f"❌ Der Trainer kennt den Lauf **{job_id}** nicht.",
+                ephemeral=True)
+            return
+        await ctx.followup.send(train_ops.stage_hint(stage, job), ephemeral=True)
+        return
+
+    tail = train_ops.log_tail((payload or {}).get("lines"))
+    if not tail:
+        await ctx.followup.send(
+            f"Das `{stage}`-Log von **{job_id}** ist leer.", ephemeral=True)
+        return
+    await ctx.followup.send(f"**{job_id}** · `{stage}`\n{tail}", ephemeral=True)
+
+
+class _TrainCancelView(View):
+    """Confirm / Cancel for stopping a run.
+
+    #364 asks only for the admin gate. The confirmation is this repository's own
+    standard for a command that destroys shared work — `/update`, `/atr_restart`
+    and `/train_start` all take it — and a cancel is the one here that cannot be
+    undone: a run ten hours in loses those ten hours. Persistent view plus a
+    record on disk (#614), because the question "is the box free again?" is
+    exactly the kind that gets asked before the click.
+    """
+
+    def __init__(self, token: str, requester: str, job_id: str,
+                 *, timeout: None = None):
+        super().__init__(timeout=timeout)
+        self.token = token
+        self.requester = requester
+        self.job_id = job_id
+
+    async def interaction_check(self, interaction, /) -> bool:
+        if str(interaction.user.id) != self.requester:
+            await interaction.response.send_message(
+                "⛔ Nur wer /train_cancel aufgerufen hat, kann bestätigen.",
+                ephemeral=True)
+            return False
+        return True
+
+    @discord.ui.button(label="⏹️ Lauf abbrechen", style=ButtonStyle.danger,
+                       custom_id="train_cancel:confirm")
+    async def confirm(self, button: Button, interaction: Interaction):
+        await interaction.response.defer(thinking=True, ephemeral=False)
+        import atr_status
+        import pending_confirm
+        import train_ops
+        from agent_a.training_client import (TrainJob, TrainingClientError,
+                                             cancel_training_job)
+
+        status, pending = pending_confirm.lookup(self.token)
+        if status != pending_confirm.LIVE or pending is None:
+            age = f" ({pending.age_s() / 60:.0f} min alt)" if pending else ""
+            await interaction.followup.send(
+                f"⚠️ Diese Anfrage ist abgelaufen{age} — bitte /train_cancel "
+                f"erneut aufrufen.", ephemeral=True)
+            pending_confirm.drop(self.token)
+            return
+        pending_confirm.drop(self.token)
+
+        job_id = str(pending.data.get("job_id", self.job_id))
+        try:
+            job = await asyncio.to_thread(cancel_training_job, job_id)
+        except TrainingClientError as exc:
+            if getattr(exc, "status_code", None) != 409:
+                await interaction.followup.send(
+                    f"❌ Der Abbruch wurde nicht angenommen:\n```\n{exc}\n```")
+                return
+            # A 409 means one of two opposite things; the record says which.
+            record = None
+            try:
+                record = TrainJob.from_dict(await atr_status.job(job_id) or {})
+            except atr_status.AtrStatusError as inner:
+                logger.warning(f"[train_cancel] {job_id}: {inner}")
+            await interaction.followup.send(
+                train_ops.conflict(job_id, record, str(exc)))
+            return
+
+        logger.info(f"[train_cancel] {pending.requester}: {job_id}")
+        await interaction.followup.send(train_ops.cancel_result(job))
+
+    @discord.ui.button(label="✖ Weiterlaufen lassen", style=ButtonStyle.secondary,
+                       custom_id="train_cancel:cancel")
+    async def keep(self, button: Button, interaction: Interaction):
+        import pending_confirm
+        pending_confirm.drop(self.token)
+        await interaction.response.edit_message(
+            content="✅ Nichts abgebrochen — der Lauf läuft weiter.", view=None)
+
+
+@bot.slash_command(name="train_cancel",
+                   description="Admin: einen Trainings-Lauf abbrechen")
+@admin_only
+async def train_cancel_cmd(ctx, job_id: Option(str, "Job-Id", required=True)):
+    """Show what would be lost, and stop the run only on a click (#364)."""
+    import atr_status
+    import pending_confirm
+    import train_ops
+    import train_watch
+    from agent_a.training_client import TrainJob
+
+    await ctx.defer()
+    try:
+        job = TrainJob.from_dict(await atr_status.job(job_id) or {})
+    except atr_status.AtrStatusError as exc:
+        await ctx.followup.send(f"❌ {exc}")
+        return
+    if job.is_terminal():
+        # Nothing to ask about: say what it already is, and stop here.
+        await ctx.followup.send(train_ops.conflict(job_id, job))
+        return
+
+    held = train_watch.wall_s(job)
+    card = (f"⚠️ **{job_id}** abbrechen?\n"
+            f"Status `{train_ops.status_of(job)}`, Stufe "
+            f"`{job.stage or '—'}`, Laufzeit "
+            f"{train_watch.hours(held)} — diese Zeit ist danach weg.\n"
+            f"Der Trainer schickt SIGTERM an die ganze Prozessgruppe.")
+    token = _make_token()
+    requester_id = str(ctx.author.id)
+    view = _TrainCancelView(token=token, requester=requester_id, job_id=job_id)
+    msg = await ctx.followup.send(card, view=view)
+    pending_confirm.add(pending_confirm.Pending(
+        token=token, kind="train_cancel", channel_id=str(ctx.channel.id),
+        message_id=str(msg.id), requester=requester_id,
+        data={"job_id": job_id}))
     bot.add_view(view, message_id=msg.id)
 
 
