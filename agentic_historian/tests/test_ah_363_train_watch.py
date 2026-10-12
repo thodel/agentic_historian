@@ -685,6 +685,19 @@ def test_train_list_asks_for_the_full_records_but_only_ten():
     assert "summary=True" not in block
 
 
+def test_both_commands_register_with_an_optional_job_id():
+    """py-cord actually accepts the signatures — an `Option` with a default is
+    the subtle part, and a source guard cannot see it."""
+    import bot as bot_module
+
+    commands = {c.name: c for c in bot_module.bot.pending_application_commands}
+    assert "train_list" in commands
+    assert commands["train_list"].options == []
+    [job_id] = commands["train_status"].options
+    assert job_id.name == "job_id"
+    assert job_id.required is False      # `/train_status` with no argument
+
+
 def test_the_board_is_edited_in_place_rather_than_posted_per_tick():
     source = _source()
     block = source[source.index("async def _train_board("):]
