@@ -282,6 +282,26 @@ def authority_uri(source: str, ident: str) -> str | None:
     return tmpl.format(id=ident)
 
 
+def authority_base(source: str) -> str | None:
+    """Everything before the id in a source's public URI, or None.
+
+    So that code which has to *recognise* one of these URIs — the corpus-health
+    query in ``knowledge_hub/queries.py`` reads the source off the link — asks
+    this table instead of writing the prefix out again. Two of the three were
+    already written out a second time elsewhere, and both copies were wrong
+    (#331).
+    """
+    tmpl = _URI_TEMPLATES.get(source)
+    if not tmpl:
+        return None
+    return tmpl.split("{id}", 1)[0]
+
+
+def authority_sources() -> tuple[str, ...]:
+    """The sources that have a public URI at all, in a stable order."""
+    return tuple(sorted(_URI_TEMPLATES))
+
+
 def _lower(conf: str) -> str:
     """Drop one confidence notch (high→medium→low), floored at ``low``."""
     try:
