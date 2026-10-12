@@ -109,53 +109,80 @@ class TestTrainJobFromDict:
         assert job.queued_reason is None
         assert job.cer is None
 
-    def test_unknown_status_becomes_queued(self):
-        """The trainer may add new statuses; we treat unknown as QUEUED."""
+    def test_unknown_status_becomes_unknown_not_queued(self):
+        """A status this build cannot read is unknown, not "has not started".
+
+        It did become QUEUED, and the trainer's own ``completed`` was one of the
+        statuses this enum did not have — it had ``done``, which the trainer
+        never sends — so every finished run parsed as "still waiting for a
+        card". The authority is ``JobStatus`` in the trainer's ``contracts.py``;
+        #363 found it, because a watcher cannot survive it.
+        """
         d = {"id": "j1", "status": "super_new_status", "preset": "x", "model_id": "y"}
         job = TrainJob.from_dict(d)
-        assert job.status == JobStatus.QUEUED
+        assert job.status == JobStatus.UNKNOWN
+        assert job.status_raw == "super_new_status"
+        assert job.is_active() is True
 
-    def test_stages_parsed_correctly(self):
+    def test_stages_parsed_from_the_records_list(self):
+        """``stages`` is a **list** of stage records in the trainer's contract.
+
+        It was read as a mapping, so ``.items()`` raised on any job that had
+        started a stage — unparseable, and unnoticed because nothing read a job
+        record until the watcher did (#363). The value kept is the stage's
+        *status*: its ``log`` field is a path on the training box, which is of
+        no use from here.
+        """
         d = {
             "id":       "j1",
             "status":   "training",
             "preset":   "x",
             "model_id": "y",
-            "stages":   {
-                "prepare": "downloading dataset...",
-                "train":   "epoch 1/10 loss=0.5",
-            },
+            "stages":   [
+                {"name": "prepare", "status": "completed"},
+                {"name": "train",   "status": "running"},
+            ],
         }
         job = TrainJob.from_dict(d)
-        assert job.stages[Stage.PREPARE] == "downloading dataset..."
-        assert job.stages[Stage.TRAIN] == "epoch 1/10 loss=0.5"
+        assert job.stages[Stage.PREPARE] == "completed"
+        assert job.stages[Stage.TRAIN] == "running"
         assert Stage.COMPILE not in job.stages
+
+    def test_a_mapping_of_stages_is_still_accepted(self):
+        """The payloads recorded before the contract was read have one."""
+        d = {
+            "id": "j1", "status": "training", "preset": "x", "model_id": "y",
+            "stages": {"prepare": "completed"},
+        }
+        job = TrainJob.from_dict(d)
+        assert job.stages[Stage.PREPARE] == "completed"
 
     def test_invalid_stage_in_stages_dict_skipped(self):
         d = {
             "id":       "j1",
-            "status":   "done",
+            "status":   "completed",
             "preset":   "x",
             "model_id": "y",
-            "stages": {"prepare": "ok", "unknown_stage": "skip me"},
+            "stages": [{"name": "prepare", "status": "completed"},
+                       {"name": "unknown_stage", "status": "running"}],
         }
         job = TrainJob.from_dict(d)
         assert Stage.PREPARE in job.stages
         assert "unknown_stage" not in job.stages
 
     def test_empty_stages_handled(self):
-        d = {"id": "j1", "status": "done", "preset": "x", "model_id": "y", "stages": {}}
+        d = {"id": "j1", "status": "completed", "preset": "x", "model_id": "y", "stages": {}}
         job = TrainJob.from_dict(d)
         assert job.stages == {}
 
     def test_none_stages_handled(self):
-        d = {"id": "j1", "status": "done", "preset": "x", "model_id": "y", "stages": None}
+        d = {"id": "j1", "status": "completed", "preset": "x", "model_id": "y", "stages": None}
         job = TrainJob.from_dict(d)
         assert job.stages == {}
 
     def test_iso_date_with_timezone_offset(self):
         d = {
-            "id": "j1", "status": "done", "preset": "x", "model_id": "y",
+            "id": "j1", "status": "completed", "preset": "x", "model_id": "y",
             "created_at": "2026-08-01T10:00:00+02:00",
         }
         job = TrainJob.from_dict(d)
@@ -170,7 +197,7 @@ class TestTrainJobFromDict:
 
     def test_cer_wer_invalid_values_become_none(self):
         d = {
-            "id": "j1", "status": "done", "preset": "x", "model_id": "y",
+            "id": "j1", "status": "completed", "preset": "x", "model_id": "y",
             "cer": "not a number", "wer": None,
         }
         job = TrainJob.from_dict(d)
@@ -182,7 +209,7 @@ class TestTrainJobHelpers:
     """is_terminal, is_active, stage_description."""
 
     @pytest.mark.parametrize("status,expected", [
-        (JobStatus.DONE,        True),
+        (JobStatus.COMPLETED,        True),
         (JobStatus.FAILED,      True),
         (JobStatus.CANCELLED,   True),
         (JobStatus.QUEUED,      False),
@@ -197,7 +224,7 @@ class TestTrainJobHelpers:
         assert job.is_terminal() is expected
 
     @pytest.mark.parametrize("status,expected", [
-        (JobStatus.DONE,      False),
+        (JobStatus.COMPLETED,      False),
         (JobStatus.FAILED,    False),
         (JobStatus.CANCELLED, False),
         (JobStatus.QUEUED,    True),
@@ -376,7 +403,7 @@ class TestListJobs:
     def test_returns_list_of_train_job(self, mock_httpx):
         mock_httpx.get.return_value = _make_response({
             "jobs": [
-                {"id": "j1", "status": "done",     "preset": "a", "model_id": "x"},
+                {"id": "j1", "status": "completed", "preset": "a", "model_id": "x"},
                 {"id": "j2", "status": "training", "preset": "b", "model_id": "y"},
             ]
         })
@@ -587,12 +614,12 @@ class TestConvenienceHelpers:
             mock_response = _make_response({"jobs": []})
             mock_client.get.return_value = mock_response
 
-            jobs = list_training_jobs(limit=5, status=JobStatus.DONE)
+            jobs = list_training_jobs(limit=5, status=JobStatus.COMPLETED)
 
         assert jobs == []
         call_kwargs = mock_client.get.call_args[1]
         assert call_kwargs["params"]["limit"] == 5
-        assert call_kwargs["params"]["status"] == "done"
+        assert call_kwargs["params"]["status"] == "completed"
 
 
 # ── httpx importable in module ────────────────────────────────────────────────

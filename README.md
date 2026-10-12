@@ -155,7 +155,10 @@ port and no firewall exception on this path.
 - **Typed client.** `agent_a/training_client.py` mirrors the recognition client:
   `POST /train/jobs`, `GET /train/jobs[/{id}]`, `/cancel`, `/log?stage=…`, same
   key, same lifecycle, job states `queued → preparing → compiling → training →
-  testing → registering → done|failed|cancelled`.
+  testing → registering → completed|failed|cancelled`. The authority for those
+  words is the trainer's own `contracts.py`, and reading it mattered: this said
+  `done`, which the trainer never sends, so a finished run parsed as `queued` —
+  "still waiting for a card" for a run that was over (#363).
 - **Today's bot surface is read-only.** `/atr_jobs`, `/atr_job`, `/atr_gpu`,
   `/atr_progress` (`atr_status.py`) report both machines and label them for what
   they are: `GET /gpu` is idhefix's cards — the ones recognition runs on — and
@@ -168,11 +171,21 @@ port and no firewall exception on this path.
   worker holding 27,530 MiB for sixteen hours while both cards read 0 % utilisation.
   It is silent on first sight after a restart, so a deploy never pastes the job
   history into a channel.
-- **Starting runs is designed, not shipped.** Presets rather than raw
-  hyperparameters, admin-gated with a cost confirmation, fire-and-forget plus
-  polling with a persisted watch registry — a six-hour job cannot sit in the bot's
-  single FIFO queue or survive inside Discord's 15-minute interaction window. The
-  design and its milestones are in
+- **Starting a run goes through a named preset and a click.** `/train_start`
+  (`training_presets.py`) resolves a preset into the complete request body, shows
+  what it costs and submits only on confirmation; it is admin-gated, and the
+  confirmation is a persistent view with a record on disk, so a restart in
+  between does not kill it (#362, #614).
+- **A started run is watched until it ends.** `train_watch.py` keeps one message
+  per run current — stage trail, `queued_reason` verbatim, CER/WER and the log
+  tail at the end — and its registry is on **disk**: a six-hour job cannot sit in
+  the bot's single FIFO queue or inside Discord's 15-minute interaction window,
+  and `/update` restarts this bot by design, so a restart must reattach rather
+  than forget. `/train_status` adopts a run nobody is watching (one started from
+  the API, or before a restart that lost its board); `/train_list` shows the
+  recent ones. Unlike `atr_watch` it is **not** silent on first sight: every run
+  in its registry was put there on purpose, so a run that finished while the bot
+  was down is reported on the next poll (#363). The remaining milestones are in
   [`docs/TRAINING_INTEGRATION_PLAN.md`](docs/TRAINING_INTEGRATION_PLAN.md).
 - **The loop closes through the registry, not through this repo.** A finished run
   registers on the shared research share; the serving gateway picks the
