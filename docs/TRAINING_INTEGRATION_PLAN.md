@@ -65,8 +65,8 @@ did not start — after a restart, or from a different channel.
 | `/train_start preset:<name> model_id:<id>` | admin | resolve preset → confirm → `POST /train/jobs` |
 | `/train_status [job_id]` | role | one run, or the active one |
 | `/train_list` | role | recent runs, newest first |
-| `/train_log job_id:<id> stage:<stage>` | role | tail of a stage log |
-| `/train_cancel job_id:<id>` | admin | `POST /train/jobs/{id}/cancel` |
+| `/train_log job_id:<id> stage:<stage> [lines]` | role | tail of a stage log |
+| `/train_cancel job_id:<id>` | admin + confirm | `POST /train/jobs/{id}/cancel` |
 
 **Presets, not raw hyperparameters.** Discord is a poor place to type a VGSL
 spec. `config.TRAINING_PRESETS` (or a small YAML next to it) maps a name to a
@@ -124,6 +124,37 @@ Polling, not webhooks: the trainer has no outbound path to tei, and one HTTP GET
 per minute per active run is nothing. One run at a time is the trainer's own
 limit, so this is at most a handful of requests per hour.
 
+### As built (#364)
+
+`train_ops.py` holds the wording for both commands as pure functions. Two
+things in it are there because the obvious version is wrong:
+
+- **The log tail keeps the end.** A traceback is at the bottom of a log, and
+  `atr_status._fence` cuts the other way (`body[:limit]`) — right for a table,
+  wrong for a log. The cut is marked with how many lines were dropped, because
+  an unmarked tail reads as the whole log. `/atr_progress` goes through the same
+  function now, so its own tail is cut at the right end too.
+- **A 404 and a 409 each mean two things on these routes, and the record says
+  which.** The trainer answers 404 both for an unknown job and for a stage whose
+  log is not on disk; 409 both for a job that is *already terminal* and for one
+  being *started this instant* (`_cancel_unstarted` holds a claim and says "ask
+  again in a few seconds"). Neither is told apart by reading the detail text:
+  after a refusal the job record is fetched and asked. An operator told the
+  wrong 409 either waits for a run that ended hours ago or stops waiting for one
+  that is about to start.
+
+`/train_cancel` takes a confirmation beyond the admin gate #364 asked for. It is
+this repository's standard for a command that spends or destroys shared work
+(`/update`, `/atr_restart`, `/train_start`), and the cancel is the one that
+cannot be undone: a run ten hours in loses those ten hours. Persistent view plus
+a record on disk (#614), because "is the box free again?" is exactly the
+question that gets asked between the card and the click.
+
+The cancel does **not** claim success: the trainer SIGTERMs the process group
+and the *runner* marks the job cancelled, so the record that comes back can
+still say `training`. The command says the signal is away and the watcher (#363)
+reports the terminal state when it arrives.
+
 ## 5. What lands on the public site
 
 On completion the trainer writes `training.json` (serving-atr-inference#38, now
@@ -166,5 +197,5 @@ disagree.
 | T1 | `TrainingClient` — typed HTTP client for `/train/*`, mirroring `kraken_client` | serving#35 | **done** (#361) |
 | T2 | presets + `/train_start` with the confirm view | T1 | **done** (#362) |
 | T3 | watcher task + persisted registry + `/train_status`, `/train_list` | T1 | **done** (#363) |
-| T4 | `/train_log`, `/train_cancel` | T1 | open (#364) |
+| T4 | `/train_log`, `/train_cancel` | T1 | **done** (#364) |
 | T5 | publish `training.json` to the outputs repo on completion | serving#38, outputs epic | open |

@@ -54,7 +54,7 @@ __all__ = [
     "FORGOTTEN_GRACE_S", "WatchedRun", "Update", "decide", "board",
     "terminal_notice", "note_unreachable", "note_reachable", "note_missing",
     "format_list", "path", "load", "save", "register", "drop", "find",
-    "rebind", "wall_s",
+    "rebind", "wall_s", "hours",
 ]
 
 #: How often to ask about one run. A stage boundary is worth knowing about within
@@ -297,7 +297,7 @@ def _reached(job: Any) -> tuple[str, ...]:
 LIMIT = 1900
 
 
-def _hours(seconds: Optional[float]) -> str:
+def hours(seconds: Optional[float]) -> str:
     """A duration, or the word for not having one. Never a fabricated zero."""
     if seconds is None:
         return "unbekannt"
@@ -419,7 +419,7 @@ def board(run: WatchedRun, job: Any, *, now: Optional[float] = None) -> str:
         lines.append(f"Fortschritt: {progress}")
 
     held = wall_s(job, now=now)
-    lines.append(f"Laufzeit: {_hours(held)}")
+    lines.append(f"Laufzeit: {hours(held)}")
 
     if getattr(job, "is_terminal", lambda: False)():
         if status == "failed":
@@ -448,7 +448,7 @@ def terminal_notice(run: WatchedRun, job: Any, *,
     """
     status = _status_of(job)
     job_id = getattr(job, "id", "") or run.job_id
-    held = _hours(wall_s(job, now=now))
+    held = hours(wall_s(job, now=now))
     if status == "failed":
         error = (getattr(job, "error", None) or "ohne Begründung im Job-Record")
         return (f"❌ Training **{job_id}** ist nach {held} fehlgeschlagen — "
@@ -479,7 +479,7 @@ def note_unreachable(run: WatchedRun, now: float, *,
     if run.unreachable_told or held < grace_s:
         return "", replace(run, unreachable_since=started)
     last = run.last_status or "unbekannt"
-    return (f"⚠️ Der Trainer antwortet seit {_hours(held)} nicht mehr über Lauf "
+    return (f"⚠️ Der Trainer antwortet seit {hours(held)} nicht mehr über Lauf "
             f"**{run.job_id}** — zuletzt gesehen: `{last}`. Ob er noch läuft, "
             f"sagt nur die Box selbst.",
             replace(run, unreachable_since=started, unreachable_told=True))
@@ -494,7 +494,7 @@ def note_reachable(run: WatchedRun, now: float) -> tuple[str, WatchedRun]:
     if not run.unreachable_told:
         return "", clean
     return (f"Der Trainer antwortet wieder über Lauf **{run.job_id}**, nach "
-            f"{_hours(held)}.", clean)
+            f"{hours(held)}.", clean)
 
 
 def note_missing(run: WatchedRun, now: float, *,
@@ -513,7 +513,7 @@ def note_missing(run: WatchedRun, now: float, *,
     held = now - started
     if held < grace_s:
         return "", replace(run, missing_since=started), False
-    return (f"❓ Der Trainer kennt den Lauf **{run.job_id}** seit {_hours(held)} "
+    return (f"❓ Der Trainer kennt den Lauf **{run.job_id}** seit {hours(held)} "
             f"nicht mehr — er wird nicht weiter beobachtet. Zuletzt gesehen: "
             f"`{run.last_status or 'unbekannt'}`.",
             replace(run, missing_since=started), True)

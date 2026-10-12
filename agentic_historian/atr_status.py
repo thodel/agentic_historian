@@ -391,10 +391,17 @@ def format_gpu_views(views: list[tuple[str, dict | None, str | None]]) -> list[s
 
 
 def format_log(payload: dict, job_id: str) -> str:
-    """The tail of the train log — the only place an ETA appears."""
+    """The tail of the train log — the only place an ETA appears.
+
+    Through ``train_ops.log_tail``, so the cut keeps the **end**. ``_fence``
+    keeps ``body[:limit]``, which is right for a table and wrong for a log: a
+    traceback is at the end, and twelve lines of a kraken log can exceed a
+    Discord message on their own (#364).
+    """
     lines = (payload or {}).get("lines")
     if isinstance(lines, str):
         lines = lines.splitlines()
     if not lines:
         return f"Kein Log für {job_id} (die Stufe hat vielleicht noch nicht begonnen)."
-    return _fence("\n".join(lines[-12:]))
+    import train_ops
+    return train_ops.log_tail(lines[-12:])
