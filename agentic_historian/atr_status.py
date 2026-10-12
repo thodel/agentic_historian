@@ -41,7 +41,18 @@ _JOB_ID_RE = re.compile(r"^[A-Za-z0-9._-]{1,64}$")
 
 
 class AtrStatusError(RuntimeError):
-    """The gateway could not answer. Carries what to tell the user."""
+    """The gateway could not answer. Carries what to tell the user.
+
+    ``status_code`` is the HTTP status when there was one, and **None** when the
+    request never got an answer at all. The two need opposite handling in the
+    training watcher (#363): a 404 means the trainer has no such job and the run
+    should stop being watched, while no answer means keep the run and try again.
+    Every existing caller prints ``str(exc)`` and is unaffected.
+    """
+
+    def __init__(self, message: str, *, status_code: int | None = None) -> None:
+        super().__init__(message)
+        self.status_code = status_code
 
 
 def _safe_job_id(job_id: str) -> str:
@@ -75,16 +86,18 @@ async def _get(path: str, params: dict | None = None):
         logger.warning("[atr] {} talking to {}", type(exc).__name__, url)
         raise AtrStatusError("Das ATR-Gateway ist nicht erreichbar.") from exc
     if response.status_code == 401:
-        raise AtrStatusError("the gateway rejected the API key (401)")
+        raise AtrStatusError("the gateway rejected the API key (401)",
+                             status_code=401)
     if response.status_code >= 400:
         logger.warning("[atr] {} answered {}: {}", url, response.status_code,
                        response.text[:200])
         raise AtrStatusError(
-            f"Das ATR-Gateway hat mit Status {response.status_code} geantwortet.")
+            f"Das ATR-Gateway hat mit Status {response.status_code} geantwortet.",
+            status_code=response.status_code)
     return response.json()
 
 
-async def jobs(summary: bool = False) -> dict:
+async def jobs(summary: bool = False, limit: int | None = None) -> dict:
     """The trainer's job list, newest first.
 
     ``summary=True`` asks the gateway for the six fields a list view shows
@@ -105,8 +118,14 @@ async def jobs(summary: bool = False) -> dict:
       answer. Dropping the ``request`` objects is where nearly all the bytes
       are anyway.
     """
-    params = {"fields": "summary"} if summary else None
-    return await _get("/train/jobs", params)
+    params: dict = {"fields": "summary"} if summary else {}
+    if limit is not None:
+        # Opt-in, so the default request stays byte-identical. A caller that
+        # does not print a total may ask for fewer: `/train_list` shows ten rows
+        # and needs the full records for their CER, which is the one combination
+        # that would otherwise pay 807 KB for ten lines of output.
+        params["limit"] = limit
+    return await _get("/train/jobs", params or None)
 
 
 async def job(job_id: str) -> dict:

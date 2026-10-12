@@ -575,6 +575,16 @@ DATA_DIR = BASE_DIR / "data"
 # What the ATR watcher has already announced (#418), see above.
 ATR_WATCH_STATE = DATA_DIR / "atr_watch.json"
 
+# ── Training watch (#363) ────────────────────────────────────────────────────
+#: How often each watched training run is asked about. A stage boundary is worth
+#: knowing about within the minute; a training step is not. The trainer runs one
+#: job at a time, so this is a handful of requests an hour.
+#:
+#: No channel and no enable flag, unlike the two watchers above: every watched
+#: run carries the channel it was started in, so there is nothing to choose and
+#: nothing to get wrong, and with an empty registry the loop is a sleep.
+TRAIN_WATCH_INTERVAL_S = float(_get("TRAIN_WATCH_INTERVAL_S", "60"))
+
 # ── Credential watch (#589) ──────────────────────────────────────────────────
 #: Poll interval for the mailbox-credential watcher. Hourly: an App Passcode
 #: does not break every minute, and the cost of noticing an hour late is far

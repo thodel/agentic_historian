@@ -31,12 +31,9 @@ Run: pytest agentic_historian/tests/test_ah_361_training_client.py -v
 
 from __future__ import annotations
 
-import io
-import json
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from pathlib import Path
 from typing import Any, Optional
 
 import httpx
@@ -47,7 +44,23 @@ import config
 # ── enums ────────────────────────────────────────────────────────────────────
 
 class JobStatus(str, Enum):
-    """Terminal and transitional job states returned by the trainer."""
+    """The trainer's nine statuses, plus one for a value this build does not know.
+
+    The authority is the trainer's own ``JobStatus`` literal in
+    ``src/atr_training/contracts.py`` (training-atr-models), not this file. It
+    reads::
+
+        "queued", "preparing", "compiling", "training", "testing",
+        "registering", "completed", "failed", "cancelled"
+
+    This enum said ``DONE = "done"``, a value the trainer never sends. A
+    finished job therefore hit the unknown-status branch and came back as
+    ``QUEUED`` — "has not started yet" for a run that was over. Nothing noticed
+    because nothing read a job record until the watcher did (#363), which cannot
+    survive it: a run whose terminal state never arrives is polled for ever and
+    never reported. The same class of mistake as the request body #362 found,
+    and the same fix: read the contract rather than guess it.
+    """
 
     QUEUED      = "queued"
     PREPARING   = "preparing"
@@ -55,9 +68,19 @@ class JobStatus(str, Enum):
     TRAINING    = "training"
     TESTING     = "testing"
     REGISTERING = "registering"
-    DONE        = "done"
+    COMPLETED   = "completed"
     FAILED      = "failed"
     CANCELLED   = "cancelled"
+    #: Not the trainer's. A status this build has never heard of — a newer
+    #: trainer's — kept distinct from every real one. See ``from_dict``.
+    UNKNOWN     = "unknown"
+
+
+#: Finished moving. Mirrors the trainer's ``TERMINAL_STATUSES`` frozenset.
+#: ``UNKNOWN`` is deliberately absent: a status we cannot read is not evidence
+#: that a run is over, and treating it as terminal would stop the watcher on the
+#: one record it understands least.
+TERMINAL = (JobStatus.COMPLETED, JobStatus.FAILED, JobStatus.CANCELLED)
 
 
 class Stage(str, Enum):
@@ -77,6 +100,19 @@ class TrainJob:
     """
     A training job record returned by every /train/* endpoint.
 
+    The shape is the trainer's ``TrainJob`` model (``contracts.py``), which the
+    gateway forwards unchanged. Three of its fields are not where this class
+    first assumed they were, and the watcher (#363) reads all three:
+
+    * ``stages`` is a **list** of stage records, not a mapping. ``.items()`` on
+      it raises, so any job that had started a stage was unparseable — hidden
+      only by the fact that nothing read a job record until now.
+    * ``log_tail`` is a **list of lines**, joined here into the text a reader
+      wants.
+    * ``model_id`` and ``engine`` live inside the submitted ``request``, and
+      ``cer``/``wer`` inside ``metrics``. The flat keys are read as a fallback,
+      because the recorded payloads in the tests have them there.
+
     Fields that may not be present in older recordings are typed as Optional
     so that a partial record from a live watcher reattach is still loadable.
     """
@@ -85,6 +121,14 @@ class TrainJob:
     status:         JobStatus
     preset:         str
     model_id:       str
+    #: The status exactly as the trainer wrote it. Equal to ``status.value`` for
+    #: the nine known ones; for anything else ``status`` is ``UNKNOWN`` and this
+    #: is the only place the real word survives, so a message can print it.
+    status_raw:     str                = ""
+    #: Which of the five stages the job is in, from the record's own ``stage``
+    #: field. None while queued, and on a terminal job.
+    stage:          Optional[str]      = None
+    engine:         str                = ""
     created_at:     Optional[datetime] = None
     started_at:     Optional[datetime] = None
     finished_at:    Optional[datetime] = None
@@ -93,7 +137,20 @@ class TrainJob:
     cer:            Optional[float]    = None     # test set CER on completion
     wer:            Optional[float]    = None
     log_tail:       Optional[str]      = None     # last lines of the job log
-    stages:         dict[Stage, str]   = field(default_factory=dict)  # stage → log
+    #: stage → that stage's status ("pending" | "running" | "completed" |
+    #: "failed" | "cancelled"). The *status*, not the log: a stage that ran is
+    #: what a progress board and a reattach after a restart both need, and the
+    #: record's ``log`` field is a path on the training box, which is of no use
+    #: from here.
+    stages:         dict[Stage, str]   = field(default_factory=dict)
+    #: ``epoch``, ``epochs``, ``total_steps``, … — passed through as given.
+    progress:       dict[str, Any]     = field(default_factory=dict)
+    #: ``cer``, ``wer``, ``samples``, ``benchmark_cer``, … — as given.
+    metrics:        dict[str, Any]     = field(default_factory=dict)
+    #: Filled by the register stage.
+    model_path:     Optional[str]      = None
+    #: What auto-publish did, in words — including why it did nothing.
+    published:      Optional[str]      = None
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> "TrainJob":
@@ -108,41 +165,66 @@ class TrainJob:
             except ValueError:
                 return None
 
-        raw_status = (d.get("status") or "queued").lower()
+        raw_status = str(d.get("status") or "queued").lower()
         try:
             status = JobStatus(raw_status)
         except ValueError:
-            status = JobStatus.QUEUED
+            # Not QUEUED. A status this build cannot read is unknown, and
+            # "unknown" and "has not started yet" are different facts: the first
+            # draft returned the second for both, so the trainer's "completed"
+            # — which this enum did not have — read as a run still waiting for
+            # a card. UNKNOWN is neither terminal nor progress, so the watcher
+            # keeps polling and says the word the trainer used.
+            status = JobStatus.UNKNOWN
 
-        stages_raw = d.get("stages", {}) or {}
-        stages = {}
-        for stage_name, log in stages_raw.items():
-            try:
-                stages[Stage(stage_name.lower())] = log or ""
-            except ValueError:
-                pass
+        request = d.get("request") or {}
+        if not isinstance(request, dict):
+            request = {}
+        metrics = d.get("metrics") or {}
+        if not isinstance(metrics, dict):
+            metrics = {}
+        progress = d.get("progress") or {}
+        if not isinstance(progress, dict):
+            progress = {}
 
         return cls(
             id              = d.get("id", ""),
             status          = status,
+            status_raw      = raw_status,
+            stage           = d.get("stage") or None,
+            # The trainer's record has no ``preset``: a preset is the bot's own
+            # naming for a request body (#362), so the gateway cannot return
+            # one. It stays readable here for the 202 of a submit and for the
+            # recorded payloads; the watcher takes the preset from its registry,
+            # which is where that fact actually lives.
             preset          = d.get("preset", ""),
-            model_id        = d.get("model_id", ""),
+            model_id        = request.get("model_id") or d.get("model_id", ""),
+            engine          = request.get("engine") or d.get("engine", ""),
             created_at      = _dt(d.get("created_at")),
             started_at      = _dt(d.get("started_at")),
             finished_at     = _dt(d.get("finished_at")),
             queued_reason   = d.get("queued_reason"),
             error           = d.get("error"),
-            cer             = _float_or_none(d.get("cer")),
-            wer             = _float_or_none(d.get("wer")),
-            log_tail        = d.get("log_tail"),
-            stages          = stages,
+            cer             = _float_or_none(_first(metrics.get("cer"), d.get("cer"))),
+            wer             = _float_or_none(_first(metrics.get("wer"), d.get("wer"))),
+            log_tail        = _text(d.get("log_tail")),
+            stages          = _stages(d.get("stages")),
+            progress        = progress,
+            metrics         = metrics,
+            model_path      = d.get("model_path"),
+            published       = d.get("published"),
         )
 
     def is_terminal(self) -> bool:
-        return self.status in (JobStatus.DONE, JobStatus.FAILED, JobStatus.CANCELLED)
+        return self.status in TERMINAL
 
     def is_active(self) -> bool:
-        """True when the watcher should keep polling this job."""
+        """True when the watcher should keep polling this job.
+
+        An ``UNKNOWN`` status counts as active, which is the safe direction: a
+        word this build does not know is not a finished run, and dropping it
+        would stop watching the one job we understand least.
+        """
         return not self.is_terminal()
 
     def stage_description(self) -> str:
@@ -154,11 +236,13 @@ class TrainJob:
             JobStatus.TRAINING:    "training",
             JobStatus.TESTING:     "running test set",
             JobStatus.REGISTERING: "registering model",
-            JobStatus.DONE:        "done",
+            JobStatus.COMPLETED:   "completed",
             JobStatus.FAILED:      f"failed: {self.error}" if self.error else "failed",
             JobStatus.CANCELLED:   "cancelled",
         }
-        return desc.get(self.status, str(self.status))
+        # The trainer's own word for an unknown status, not "unknown": the
+        # reader can look that up, and we cannot.
+        return desc.get(self.status, self.status_raw or str(self.status.value))
 
 
 def _float_or_none(v: Any) -> Optional[float]:
@@ -168,6 +252,53 @@ def _float_or_none(v: Any) -> Optional[float]:
         return float(v)
     except (TypeError, ValueError):
         return None
+
+
+def _first(*values: Any) -> Any:
+    """The first value that is not None. ``0`` and ``0.0`` are values.
+
+    A CER of 0.0 is a measurement, not a missing one, so this may not fall
+    through on falsiness — the project's recurring mistake, in the one field
+    where a zero is the best possible result.
+    """
+    for value in values:
+        if value is not None:
+            return value
+    return None
+
+
+def _text(v: Any) -> Optional[str]:
+    """``log_tail`` as text. The record holds a list of lines; older ones a str."""
+    if v is None:
+        return None
+    if isinstance(v, str):
+        return v
+    if isinstance(v, (list, tuple)):
+        return "\n".join(str(line) for line in v)
+    return str(v)
+
+
+def _stages(raw: Any) -> dict[Stage, str]:
+    """stage → its status, from the record's ``stages`` **list**.
+
+    A mapping is also accepted, because the payloads recorded before the
+    contract was read have one; its values are taken as given. Anything whose
+    stage name this build does not know is skipped rather than guessed.
+    """
+    out: dict[Stage, str] = {}
+    if isinstance(raw, dict):
+        items = raw.items()
+    elif isinstance(raw, (list, tuple)):
+        items = [(e.get("name"), e.get("status") or "pending")
+                 for e in raw if isinstance(e, dict)]
+    else:
+        return out
+    for name, value in items:
+        try:
+            out[Stage(str(name).lower())] = str(value or "")
+        except ValueError:
+            continue
+    return out
 
 
 # ── client ────────────────────────────────────────────────────────────────────
@@ -372,6 +503,16 @@ class TrainingClient:
         """Surface 4xx/5xx as TrainingClientError with the response body."""
         if resp.status_code >= 400:
             body = resp.text[:500]
+            # 404 gets its own class. "The trainer does not know this job" and
+            # "the trainer did not answer" need opposite handling in the watcher:
+            # the first means stop watching an id that will never resolve, the
+            # second means keep the run and try again. Collapsed into one
+            # exception, the watcher would have to guess — the same distinction
+            # serving-atr-inference#149 drew between a busy engine and an
+            # unreachable one.
+            if resp.status_code == 404:
+                raise TrainingJobNotFound(
+                    f"Trainer gateway 404 at {self.base_url}{path}: {body}")
             raise TrainingClientError(
                 f"Trainer gateway {resp.status_code} at {self.base_url}{path}: {body}"
             )
@@ -382,6 +523,15 @@ class TrainingClient:
 
 class TrainingClientError(Exception):
     """Raised when the trainer HTTP service returns an error or is unreachable."""
+    pass
+
+
+class TrainingJobNotFound(TrainingClientError):
+    """The gateway answered, and the trainer has no such job (404).
+
+    A subclass, so every ``except TrainingClientError`` still catches it and
+    only the callers that care about the difference have to say so.
+    """
     pass
 
 

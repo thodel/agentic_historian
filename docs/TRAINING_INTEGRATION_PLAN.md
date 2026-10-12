@@ -104,6 +104,22 @@ state: a restart must reattach, not forget. `/train_status <job_id>` can adopt a
 run that is not in the registry, so a run started from the API or by a colleague
 can still be watched from Discord.
 
+As built (#363), `train_watch.py` holds the registry and every decision as pure
+functions; `bot.py` holds the socket, the clock and the message edit. Three
+things it does on purpose, each the opposite of the obvious first draft:
+
+- **No silence on first sight.** `atr_watch` announces nothing on its first poll
+  because it watches the whole box; this watcher only ever sees runs somebody
+  asked about, so a terminal state reached while the bot was down is reported
+  rather than swallowed. There is deliberately no `seeded` flag.
+- **A failed poll never drops a run.** The gateway is restarted for every deploy
+  of the serving stack. Silence is announced once after half an hour and the run
+  is kept; a **404** is a different fact — the gateway answered and the trainer
+  has no such job — and is given up on only after a day, with a message.
+- **A stage is claimed only where the record says it ran.** A run that adopts a
+  cached artefact never prepares, so the trail marks `prepare` as not reached
+  instead of inferring it from the current stage.
+
 Polling, not webhooks: the trainer has no outbound path to tei, and one HTTP GET
 per minute per active run is nothing. One run at a time is the trainer's own
 limit, so this is at most a handful of requests per hour.
@@ -145,10 +161,10 @@ disagree.
 
 ## 7. Milestones
 
-| # | milestone | depends on |
-|---|---|---|
-| T1 | `TrainingClient` — typed HTTP client for `/train/*`, mirroring `kraken_client` | serving#35 |
-| T2 | presets + `/train_start` with the confirm view | T1 |
-| T3 | watcher task + persisted registry + `/train_status`, `/train_list` | T1 |
-| T4 | `/train_log`, `/train_cancel` | T1 |
-| T5 | publish `training.json` to the outputs repo on completion | serving#38, outputs epic |
+| # | milestone | depends on | state |
+|---|---|---|---|
+| T1 | `TrainingClient` — typed HTTP client for `/train/*`, mirroring `kraken_client` | serving#35 | **done** (#361) |
+| T2 | presets + `/train_start` with the confirm view | T1 | **done** (#362) |
+| T3 | watcher task + persisted registry + `/train_status`, `/train_list` | T1 | **done** (#363) |
+| T4 | `/train_log`, `/train_cancel` | T1 | open (#364) |
+| T5 | publish `training.json` to the outputs repo on completion | serving#38, outputs epic | open |

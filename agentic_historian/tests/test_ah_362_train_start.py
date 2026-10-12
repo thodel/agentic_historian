@@ -423,12 +423,15 @@ def test_a_started_run_reports_its_job_id_and_status():
         token="t", kind="train_start", channel_id="1", message_id="2",
         requester="9", data={"preset": "medieval-smoke", "model_id": MODEL}))
 
-    job = MagicMock()
-    job.id = "20261012-kraken-smoke"
-    job.status = "queued"
-    job.queued_reason = "GPU 1 belegt"
+    # A real TrainJob, parsed from a real 202 body, rather than a MagicMock: the
+    # message says `stage_description()`, and a mock answers that with a mock.
+    job = tc.TrainJob.from_dict({
+        "id": "20261012-kraken-smoke", "status": "queued",
+        "queued_reason": "GPU 1 belegt",
+        "request": {"engine": "kraken", "model_id": MODEL}})
 
     interaction = MagicMock()
+    interaction.channel_id = 4242
     interaction.response.defer = AsyncMock()
     interaction.followup.send = AsyncMock()
 
@@ -451,6 +454,15 @@ def test_a_started_run_reports_its_job_id_and_status():
     assert "GPU 1 belegt" in said          # queued_reason, when there is one
     # The record is gone, so a second click cannot start the run twice.
     assert pending_confirm.lookup("t")[0] == pending_confirm.MISSING
+
+    # And the run is now watched (#363): that message becomes its board, and the
+    # registry entry is what lets a restarted bot find it again.
+    import train_watch
+    watched = train_watch.find(job.id)
+    assert watched is not None
+    assert watched.channel_id == "4242"
+    assert watched.started_by == "9"
+    assert watched.preset == "medieval-smoke"
 
 
 def test_the_confirmation_belongs_to_whoever_asked():

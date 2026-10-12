@@ -528,6 +528,132 @@ async def _credential_watch_loop() -> None:
         await asyncio.sleep(config.CREDENTIAL_WATCH_INTERVAL_S)
 
 
+async def _train_board(run, content: str):
+    """Edit this run's one message, or post a new one if it is gone.
+
+    Returns the run, with a new ``message_id`` when the board had to be
+    re-posted. A deleted message may not end a watch: the run keeps going on the
+    training box either way, and losing the board is exactly the failure this
+    watcher exists to prevent.
+    """
+    import train_watch
+
+    channel = bot.get_channel(int(run.channel_id))
+    if channel is None:
+        logger.warning("[trainwatch] channel {} not visible — {} unwatched this "
+                       "poll", run.channel_id, run.job_id)
+        return run
+    try:
+        message = await channel.fetch_message(int(run.message_id))
+        await message.edit(content=content)
+        return run
+    except Exception as exc:  # noqa: BLE001 — deleted, or never ours
+        logger.info("[trainwatch] {}: board gone ({}), reposting", run.job_id, exc)
+        sent = await channel.send(content)
+        return train_watch.rebind(run, str(sent.id))
+
+
+async def _train_watch_loop() -> None:
+    """Keep every watched training run's board current (#363).
+
+    The deciding is in ``train_watch``, which is pure and tested offline; this is
+    the part that cannot be — a socket, a clock and a message.
+
+    Started unconditionally, unlike the other two watchers, and with no channel
+    of its own: every run carries the channel it was started in, so there is
+    nothing to configure and nothing to get wrong. With an empty registry this
+    is a sleep.
+
+    The registry is saved **after** the messages are away, so a crash in between
+    repeats an edit rather than losing a terminal report. One run's failure never
+    ends the loop: the gateway is restarted for every deploy of the serving
+    stack, and a watcher that dies on that is a watcher that is not running when
+    it matters.
+    """
+    import atr_status
+    import train_watch
+    from agent_a.training_client import TrainJob
+
+    logger.info("[trainwatch] every {:.0f}s, {} run(s) in the registry",
+                config.TRAIN_WATCH_INTERVAL_S, len(train_watch.load()))
+
+    while True:
+        try:
+            runs = train_watch.load()
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("[trainwatch] registry unreadable: {}", exc)
+            runs = []
+
+        for run in runs:
+            try:
+                await _train_watch_one(run, atr_status, train_watch, TrainJob)
+            except Exception as exc:  # noqa: BLE001 — never the end of the loop
+                logger.warning("[trainwatch] {}: {}", run.job_id, exc)
+
+        await asyncio.sleep(config.TRAIN_WATCH_INTERVAL_S)
+
+
+async def _train_watch_one(run, atr_status, train_watch, TrainJob) -> None:
+    """One poll for one run. Writes the registry entry it ends with."""
+    now = time.time()
+    try:
+        payload = await atr_status.job(run.job_id)
+    except atr_status.AtrStatusError as exc:
+        # A 404 and a silent gateway are opposite facts: the trainer answering
+        # "no such job" is an answer, and the run can be given up on after a
+        # grace; no answer at all means keep it and ask again (#363).
+        if getattr(exc, "status_code", None) == 404:
+            notice, run, give_up = train_watch.note_missing(run, now)
+            if notice:
+                await _train_say(run, notice)
+            if give_up:
+                train_watch.drop(run.job_id)
+                return
+        else:
+            notice, run = train_watch.note_unreachable(run, now)
+            if notice:
+                await _train_say(run, notice)
+        train_watch.register(run)
+        return
+
+    back, run = train_watch.note_reachable(run, now)
+    if back:
+        await _train_say(run, back)
+
+    job = TrainJob.from_dict(payload or {})
+    update, fresh = train_watch.decide(run, job, now=now)
+    if update.changed:
+        posted = await _train_board(run, update.board)
+        fresh = train_watch.rebind(fresh, posted.message_id)
+    if update.stages_new:
+        logger.info("[trainwatch] {}: {}", run.job_id,
+                    " → ".join(update.stages_new))
+    if update.notice:
+        await _train_say(fresh, update.notice, urgent=update.urgent)
+    if update.terminal:
+        # Dropped only after the report is away: an entry re-polled once is
+        # noise, a result never posted is the thing this watches for.
+        train_watch.drop(fresh.job_id)
+        logger.info("[trainwatch] {} is {} — no longer watched",
+                    fresh.job_id, fresh.last_status)
+        return
+    train_watch.register(fresh)
+
+
+async def _train_say(run, text: str, *, urgent: bool = False) -> None:
+    """Post a message of its own into the run's channel. Never raises."""
+    try:
+        channel = bot.get_channel(int(run.channel_id))
+        if channel is None:
+            logger.warning("[trainwatch] channel {} not visible — not said: {}",
+                           run.channel_id, text[:80])
+            return
+        mention = config.ATR_WATCH_MENTION if urgent else ""
+        await channel.send((f"{mention} {text}" if mention else text)[:1900])
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("[trainwatch] could not post for {}: {}", run.job_id, exc)
+
+
 # ── Commands ─────────────────────────────────────────────────────────────────
 
 @bot.slash_command(name="status", description="Overall pipeline status")
@@ -1487,6 +1613,15 @@ async def on_ready():
         except Exception as e:
             logger.warning(f"[atr-watch] start failed: {e}")
 
+    # Keep the board of every watched training run current (#363). No flag and
+    # no channel: a run that was registered was registered on purpose, and it
+    # carries the channel it was started in. The reattach *is* this line — the
+    # registry is on disk, so a run started before a restart keeps its board.
+    try:
+        asyncio.create_task(_train_watch_loop())
+    except Exception as e:  # noqa: BLE001
+        logger.warning(f"[trainwatch] start failed: {e}")
+
     # Say when the mailbox credentials break, instead of letting somebody find
     # out through a failed pull (#589). Off unless a channel was chosen.
     if config.ENABLE_CREDENTIAL_WATCH:
@@ -2017,11 +2152,30 @@ class _TrainStartView(View):
 
         logger.info(f"[train_start] {pending.requester}: {preset} → {job.id}")
         queued = getattr(job, "queued_reason", None) or ""
-        await interaction.followup.send(
+        sent = await interaction.followup.send(
             f"🎓 Lauf **{job.id}** gestartet — Preset `{preset}`, Ziel "
-            f"`{model_id}`, Status `{getattr(job, 'status', '?')}`"
+            f"`{model_id}`, Status `{job.stage_description()}`"
             + (f"\n_Wartet: {queued}_" if queued else "")
-            + "\n_Fortschritt: `/atr_jobs`, `/atr_progress job_id:" f"{job.id}`._")
+            + "\n_Diese Nachricht wird zur Fortschrittstafel._")
+
+        # The message just sent becomes this run's board, and the registry entry
+        # is what lets a restarted bot find it again (#363). Written after the
+        # send, because it needs the message id — and never fatal: a run that is
+        # already training may not be lost to a failed registry write, it can be
+        # picked up again with `/train_status`.
+        try:
+            import train_watch
+            train_watch.register(train_watch.WatchedRun(
+                job_id=job.id,
+                channel_id=str(interaction.channel_id or 0),
+                message_id=str(getattr(sent, "id", 0) or 0),
+                started_by=pending.requester,
+                preset=preset, model_id=model_id))
+        except Exception as exc:  # noqa: BLE001
+            logger.warning(f"[trainwatch] could not watch {job.id}: {exc}")
+            await interaction.followup.send(
+                f"⚠️ Der Lauf läuft, wird aber nicht beobachtet ({exc}) — "
+                f"`/train_status job_id:{job.id}` holt ihn nach.", ephemeral=True)
 
     @discord.ui.button(label="✖ Abbrechen", style=ButtonStyle.secondary,
                        custom_id="train_start:cancel")
@@ -2065,6 +2219,119 @@ async def train_start_cmd(
         message_id=str(msg.id), requester=requester_id,
         data={"preset": preset, "model_id": model_id}))
     bot.add_view(view, message_id=msg.id)
+
+
+# ── /train_status, /train_list (#363) ────────────────────────────────────────
+
+@bot.slash_command(
+    name="train_status",
+    description="Status eines Trainings-Laufs (ohne Angabe: die beobachteten)")
+@require_role
+async def train_status_cmd(
+    ctx,
+    job_id: Option(str, "Job-Id — holt einen Lauf, der noch nicht beobachtet wird",
+                   required=False) = None,
+):
+    """The board for a run, and adoption for one nobody is watching yet.
+
+    Adoption is the point of the id parameter: a run started from the API, by a
+    colleague, or by a bot that was restarted before it could write its registry
+    entry is otherwise invisible from Discord for its whole length. The gateway
+    is asked **first** — a run is only adopted once the trainer has confirmed it
+    exists, so a typo'd id cannot sit in the registry being polled for ever.
+    """
+    import atr_status
+    import train_watch
+    from agent_a.training_client import TrainJob
+
+    await ctx.defer()
+
+    if not job_id:
+        runs = train_watch.load()
+        if not runs:
+            # Not "nothing is training": nothing is being *watched*, which is a
+            # different fact, and the gateway can answer the other one.
+            try:
+                payload = await atr_status.jobs(summary=True, limit=5)
+            except atr_status.AtrStatusError as exc:
+                await ctx.followup.send(f"❌ {exc}")
+                return
+            jobs = [TrainJob.from_dict(j)
+                    for j in (payload or {}).get("jobs") or []]
+            active = [j for j in jobs if j.is_active()]
+            if not active:
+                await ctx.followup.send(
+                    "Kein Lauf wird beobachtet, und der Trainer hat auch keinen "
+                    "laufenden.")
+                return
+            await ctx.followup.send(
+                "Kein Lauf wird beobachtet. Laufend beim Trainer:\n"
+                + train_watch.format_list(active)
+                + "\n`/train_status job_id:…` übernimmt einen davon.")
+            return
+        for run in runs:
+            try:
+                job = TrainJob.from_dict(await atr_status.job(run.job_id) or {})
+                await ctx.followup.send(train_watch.board(run, job))
+            except atr_status.AtrStatusError as exc:
+                await ctx.followup.send(
+                    f"**{run.job_id}** — der Trainer antwortet nicht ({exc}). "
+                    f"Zuletzt gesehen: `{run.last_status or 'noch nichts'}`.")
+        return
+
+    try:
+        payload = await atr_status.job(job_id)
+    except atr_status.AtrStatusError as exc:
+        await ctx.followup.send(f"❌ {exc}")
+        return
+    job = TrainJob.from_dict(payload or {})
+    run = train_watch.find(job_id)
+    if run is not None:
+        await ctx.followup.send(train_watch.board(run, job))
+        return
+    if job.is_terminal():
+        # Nothing to watch on a run that is over; its result is the answer.
+        await ctx.followup.send(train_watch.terminal_notice(
+            train_watch.WatchedRun(job_id=job_id, channel_id="0", message_id="0",
+                                   started_by=str(ctx.author.id)), job))
+        return
+
+    adopted = train_watch.WatchedRun(
+        job_id=job_id, channel_id=str(ctx.channel.id), message_id="0",
+        started_by=str(ctx.author.id), model_id=job.model_id)
+    msg = await ctx.followup.send(train_watch.board(adopted, job))
+    train_watch.register(train_watch.rebind(adopted, str(msg.id)))
+    await ctx.followup.send(
+        f"👀 **{job_id}** wird jetzt beobachtet — diese Tafel wird alle "
+        f"{config.TRAIN_WATCH_INTERVAL_S / 60:.0f} min aktualisiert.",
+        ephemeral=True)
+
+
+@bot.slash_command(name="train_list",
+                   description="Die letzten Trainings-Läufe, neueste zuerst")
+@require_role
+async def train_list_cmd(ctx):
+    """Recent runs with status and CER.
+
+    The **full** records, limited to ten at the gateway: the summary shape
+    (serving-atr-inference#107) carries six keys and ``metrics`` is not one of
+    them, so a CER column needs the whole record — and the server-side limit is
+    what keeps that from being 807 KB for ten lines of output.
+    """
+    import atr_status
+    import train_watch
+    from agent_a.training_client import TrainJob
+
+    await ctx.defer()
+    try:
+        payload = await atr_status.jobs(limit=10)
+    except atr_status.AtrStatusError as exc:
+        await ctx.followup.send(f"❌ {exc}")
+        return
+    jobs = [TrainJob.from_dict(j) for j in (payload or {}).get("jobs") or []]
+    watched = {r.job_id for r in train_watch.load()}
+    note = (f"\n_{len(watched)} davon beobachtet._" if watched else "")
+    await ctx.followup.send(train_watch.format_list(jobs) + note)
 
 
 def main() -> None:
