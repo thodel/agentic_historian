@@ -2224,6 +2224,88 @@ async def train_start_cmd(
     bot.add_view(view, message_id=msg.id)
 
 
+# ── /sparql (KG-5, #331) ─────────────────────────────────────────────────────
+#
+# Named questions, not free-text SPARQL. #331 prefers the canned route and the
+# reason is not only usability: a free-text endpoint in a chat box is an
+# arbitrary query against a graph about welfare cases, run by whoever holds the
+# role, with no record of what was asked. A named query is reviewable, testable,
+# and says in the answer where the graph came from.
+
+_SPARQL_CHOICES = ("persons-in-care-documents", "readings-of-page",
+                   "authority-coverage", "co-occurrence")
+
+
+@bot.slash_command(
+    name="sparql",
+    description="Eine benannte Frage an den Korpus-Graphen (ohne Angabe: die Liste)")
+@require_role
+async def sparql_cmd(
+    ctx,
+    frage: Option(str, "Welche Frage", required=False,
+                  choices=list(_SPARQL_CHOICES)) = None,
+    argument: Option(str, "Jahrhundert (z. B. 15) oder Dokument-Id",
+                     required=False) = None,
+    zeige_sparql: Option(bool, "Nur die SPARQL-Abfrage zeigen, nicht ausführen",
+                         required=False) = False,
+):
+    """Run one canned query, or list the questions (#331)."""
+    from knowledge_hub import queries
+
+    await ctx.defer()
+    if not frage:
+        await ctx.followup.send(queries.describe_all())
+        return
+
+    try:
+        query = queries.get(frage)
+    except queries.QueryError as exc:
+        await ctx.followup.send(f"❌ {exc}")
+        return
+
+    # One argument, bound to whatever this query requires. Every canned query
+    # takes at most one, which is what makes `/sparql <name> <arg>` enough.
+    params = {}
+    if argument:
+        if not query.required:
+            await ctx.followup.send(
+                f"❌ `{query.name}` nimmt kein Argument — die Frage gilt für das "
+                f"ganze Korpus.")
+            return
+        params[query.required[0]] = argument
+
+    if zeige_sparql:
+        # The query itself, for somebody who wants to adapt it at the public
+        # endpoint. Rendered through `as_text`, which escapes the bound terms.
+        try:
+            text = queries.as_text(frage, **params)
+        except queries.QueryError as exc:
+            await ctx.followup.send(f"❌ {exc}")
+            return
+        await ctx.followup.send(f"**{query.name}**\n```sparql\n{text[:1700]}\n```")
+        return
+
+    try:
+        graph, source = await asyncio.to_thread(queries.load_graph)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning(f"[sparql] graph unavailable: {exc}")
+        await ctx.followup.send(
+            f"❌ Der Korpus-Graph ist nicht lesbar: {exc}\n"
+            f"_Bauen mit `python -m knowledge_hub.corpus_build --out "
+            f"build/corpus.ttl`._")
+        return
+
+    try:
+        answer = await asyncio.to_thread(
+            queries.run, frage, graph, source=source, triples=len(graph),
+            **params)
+    except queries.QueryError as exc:
+        await ctx.followup.send(f"❌ {exc}")
+        return
+
+    await ctx.followup.send(queries.format_answer(answer))
+
+
 # ── /train_log, /train_cancel (#364) ─────────────────────────────────────────
 
 _STAGE_CHOICES = ("prepare", "compile", "train", "test", "register")

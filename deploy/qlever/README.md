@@ -122,6 +122,15 @@ bash deploy/qlever/refresh.sh
 Safe to run on a cron or after a batch. If the graph is unchanged it exits
 without touching the index.
 
+## The canned queries
+
+The questions a historian actually asks do not get typed into this endpoint by
+hand — they are named, parameterised and tested in
+`agentic_historian/knowledge_hub/queries.py` and reachable from Discord as
+`/sparql`. See [`docs/KG_QUERIES.md`](../../docs/KG_QUERIES.md) (KG-5, #331).
+`/sparql frage:<name> zeige_sparql:true` prints the query text for pasting into
+the endpoint's own UI, with its parameters already bound.
+
 ## A real query
 
 "Which readings of a page exist, what produced each, and which did a historian

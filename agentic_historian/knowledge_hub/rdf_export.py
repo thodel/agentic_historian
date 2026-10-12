@@ -18,7 +18,7 @@ CIDOC-CRM classes used:
 Linked data:
   - Wikidata via wdt: predicates (Wikidata entity URIs)
   - GND via GND URI (https://d-nb.info/gnd/)
-  - HLS via HLS URI (https://www.hls-dhs-dss.ch/)
+  - HLS via HLS URI (https://hls-dhs-dss.ch/de/articles/)
 
 Usage:
   graph = hub.to_rdf()          # add hub entities to a new graph
@@ -39,7 +39,11 @@ SDHSS = Namespace("https://sdhss.org/ontology/")
 WD = Namespace("https://www.wikidata.org/entity/")        # entity (resolve)
 WDT = Namespace("https://www.wikidata.org/prop/direct/")  # direct claim
 GND = Namespace("https://d-nb.info/gnd/")
-HLS = Namespace("https://www.hls-dhs-dss.ch/articles/")
+# The base ``entity_index.authority_uri`` actually mints HLS links at. It was
+# declared as ``https://www.hls-dhs-dss.ch/articles/`` here, which abbreviated
+# nothing in the published Turtle: a prefix that matches no URI in the file
+# tells a consumer that HLS links look a way they do not (#331).
+HLS = Namespace("https://hls-dhs-dss.ch/de/articles/")
 
 GEO = Namespace("http://www.w3.org/2003/01/geo/wgs84_pos#")
 SCHEMA = Namespace("https://schema.org/")
@@ -591,6 +595,10 @@ def document_to_rdf(g: Graph, doc: dict, ns: Namespace = AH) -> Optional[URIRef]
     if doc.get("source_url"):
         g.add((d_uri, SCHEMA["image"], URIRef(str(doc["source_url"]))))
 
+    # KG-5: the two document facts the care/century query needs (#331).
+    add_care_flag(g, d_uri, doc)
+    add_dating(g, d_uri, doc)
+
     readings = _readings_of(doc)
     working_uri: Optional[URIRef] = None
     readings_by_key: dict[str, URIRef] = {}
@@ -641,6 +649,188 @@ def document_to_rdf(g: Graph, doc: dict, ns: Namespace = AH) -> Optional[URIRef]
                         readings_by_key, ns)
 
     return d_uri
+
+
+# ── Document facts for the scholarly queries (KG-5, #331) ───────────────────
+#
+# KG-2 emitted the readings and their mentions; KG-5's first canned query asks
+# for "persons in care-related documents of a given century", and the graph
+# carried neither the care flag nor the dating. Both live in Agent B's
+# description record and both are *judgements*, so they are emitted with what
+# qualifies them rather than as bare facts.
+
+#: Roman numerals that appear in a 14th–16th c. dating. Not a general converter:
+#: this corpus does not reach XIII or XVII, and a half-right parser that quietly
+#: guesses is worse here than one that declines.
+_ROMAN_CENTURIES = {
+    "xiii": 13, "xiv": 14, "xv": 15, "xvi": 16, "xvii": 17,
+}
+
+#: The words a century is written with in this corpus's datings. The inflected
+#: endings matter: "Schrift des 16. Jahrhunderts" is the ordinary way to write
+#: this in German, and a pattern anchored on the nominative misses every
+#: genitive — which is most of them.
+_CENTURY_WORD = r"(?:jahrhundert(?:s|e|en)?|jahrh|jhdt|jhd|jh)"
+#: "14./15. Jahrhundert" — TWO centuries in one phrase, and the reason this is
+#: matched before the single form: the single pattern sees only the "15." and
+#: would answer a question the dating does not answer.
+_SPAN_RE = re.compile(
+    r"\b(\d{1,2})\s*\.?\s*[/\u2013\u2014-]\s*(\d{1,2})\s*\.\s*" + _CENTURY_WORD,
+    re.IGNORECASE)
+#: "15. Jahrhundert", "15. Jh.", "15. Jhdt" — a century stated as such.
+_CENTURY_RE = re.compile(r"\b(\d{1,2})\s*\.\s*" + _CENTURY_WORD + r"\b",
+                         re.IGNORECASE)
+#: A four-digit year anywhere in the text.
+_YEAR_RE = re.compile(r"\b(1[0-9]{3})\b")
+#: "XV. Jahrhundert" and "saec. XV" — the Roman form, but only ever with the
+#: word that makes it a century. A bare "xv" in prose is not a dating, and a
+#: pattern loose enough to catch one is loose enough to invent one.
+_ROMAN_AFTER_RE = re.compile(r"\b([ivx]{1,5})\s*\.?\s*" + _CENTURY_WORD + r"\b",
+                             re.IGNORECASE)
+_ROMAN_BEFORE_RE = re.compile(r"\bsaec(?:ulum)?\.?\s*([ivx]{1,5})\b",
+                              re.IGNORECASE)
+
+#: Words that make a dating a guess rather than a reading of the source. The
+#: `unsicher` flag is the primary signal; these catch the dating whose prose
+#: hedges while the flag was never set.
+_HEDGES = ("um ", "ca", "circa", "wohl", "vermutlich", "etwa", "zwischen",
+           "vor ", "nach ", "?")
+
+
+def century_of(text: str) -> Optional[int]:
+    """The century a free-text dating names, or **None** when it does not.
+
+    ``Datierung`` is prose an LLM or a historian wrote: "15. Jahrhundert",
+    "1431", "um 1450", "14./15. Jh.", "zwischen 1430 und 1440". A query that
+    filters by century needs a number, and the only safe failure is *no number*:
+    a guessed century would put a document into a historian's result set on the
+    strength of a regex, which is precisely the kind of claim this project does
+    not make.
+
+    Rules, in order:
+
+    * an explicit century wins ("15. Jahrhundert" → 15);
+    * a year is converted ("1431" → 15), because that conversion is arithmetic
+      and not interpretation;
+    * **two centuries yield None.** "14./15. Jh." names two and picking one
+      would be an editorial decision taken by a regular expression. A *range
+      inside one* century ("zwischen 1430 und 1440") is that century — the
+      arithmetic is the same for both ends — and its hedge is carried by
+      ``datingUncertain`` rather than by throwing the number away.
+    """
+    raw = (text or "").strip()
+    if not raw:
+        return None
+
+    span = _SPAN_RE.search(raw)
+    if span:
+        values = {int(span.group(1)), int(span.group(2))}
+        return values.pop() if len(values) == 1 else None
+
+    explicit = _CENTURY_RE.findall(raw)
+    if explicit:
+        values = {int(v) for v in explicit}
+        return values.pop() if len(values) == 1 else None
+
+    years = _YEAR_RE.findall(raw)
+    if years:
+        values = {(int(y) - 1) // 100 + 1 for y in years}
+        return values.pop() if len(values) == 1 else None
+
+    romans = {_ROMAN_CENTURIES[m.lower()]
+              for pattern in (_ROMAN_AFTER_RE, _ROMAN_BEFORE_RE)
+              for m in pattern.findall(raw)
+              if m.lower() in _ROMAN_CENTURIES}
+    if len(romans) == 1:
+        return romans.pop()
+    return None
+
+
+def dating_is_uncertain(element: dict) -> bool:
+    """Whether a dating is a guess — from the flag, or from its own wording.
+
+    ``unsicher`` is Agent B's own field and the primary signal. The prose is
+    read as well because "um 1450" with the flag unset is still a guess, and a
+    historian narrowing by century has to be able to exclude those.
+    """
+    if not isinstance(element, dict):
+        return False
+    if element.get("unsicher"):
+        return True
+    text = str(element.get("wert") or "").lower()
+    return any(h in text for h in _HEDGES)
+
+
+def _dating_element(doc: dict) -> dict:
+    desc = doc.get("description")
+    if not isinstance(desc, dict):
+        return {}
+    source_json = desc.get("source_json")
+    if not isinstance(source_json, dict):
+        return {}
+    element = source_json.get("Datierung")
+    return element if isinstance(element, dict) else {}
+
+
+def add_dating(g: Graph, d_uri: URIRef, doc: dict) -> Optional[int]:
+    """Attach the dating verbatim, its uncertainty, and the century if clear.
+
+    The verbatim text is always emitted when there is one; the century only
+    when :func:`century_of` could read it. The two are separate predicates on
+    purpose: ``sdhss:dating`` is what the source (or Agent B) says, and
+    ``sdhss:century`` is a number this code derived from it — conflating them
+    would hide that the filter a historian uses is our arithmetic, not the
+    document's statement.
+    """
+    element = _dating_element(doc)
+    text = str(element.get("wert") or "").strip()
+    if not text:
+        return None
+    g.add((d_uri, SDHSS["dating"], _safe_literal(text)))
+    uncertain = dating_is_uncertain(element)
+    if uncertain:
+        g.add((d_uri, SDHSS["datingUncertain"], Literal(True)))
+    if element.get("notiz"):
+        g.add((d_uri, SDHSS["datingNote"], _safe_literal(str(element["notiz"]))))
+    century = century_of(text)
+    if century is None:
+        return None
+    g.add((d_uri, SDHSS["century"], Literal(century, datatype=XSD["integer"])))
+    # The century of an uncertain dating is as uncertain as the dating. Carried
+    # on the derived value too, so a query that selects on ?century can exclude
+    # the guesses without joining back to the prose.
+    if uncertain:
+        g.add((d_uri, SDHSS["centuryUncertain"], Literal(True)))
+    return century
+
+
+def add_care_flag(g: Graph, d_uri: URIRef, doc: dict) -> bool:
+    """Attach the care classification — **only the positive claim**.
+
+    ``_care_flag`` in ``agents/source_description.py`` returns
+    ``is_care_related: False`` both when the model said no *and* when the call
+    failed (its exception path returns the same default). From the stored record
+    the two cannot be told apart, so a published ``careRelated false`` would
+    assert something nobody measured. Absence therefore means "not flagged, or
+    never classified", and the graph says nothing it cannot support.
+
+    ``care_context`` is deliberately **not** emitted. The owner approved
+    publishing care-flagged documents (``corpus_build``'s scope, 2026-07-30),
+    which is not the same as publishing an LLM's prose about who was involved in
+    a welfare case into an open endpoint. ``care_types`` are a short controlled
+    vocabulary and are emitted, because they are what makes the classification
+    queryable at all.
+    """
+    desc = doc.get("description")
+    flag = desc.get("care_flag") if isinstance(desc, dict) else None
+    if not isinstance(flag, dict) or not flag.get("is_care_related"):
+        return False
+    g.add((d_uri, SDHSS["careRelated"], Literal(True)))
+    for care_type in flag.get("care_types") or []:
+        value = str(care_type).strip()
+        if value:
+            g.add((d_uri, SDHSS["careType"], _safe_literal(value)))
+    return True
 
 
 def corpus_to_graph(outputs_dir: str | Path, ns: Namespace = AH) -> Graph:

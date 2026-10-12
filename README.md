@@ -193,6 +193,14 @@ port and no firewall exception on this path.
   in its registry was put there on purpose, so a run that finished while the bot
   was down is reported on the next poll (#363). The remaining milestones are in
   [`docs/TRAINING_INTEGRATION_PLAN.md`](docs/TRAINING_INTEGRATION_PLAN.md).
+- **Four questions, not an endpoint.** The corpus graph is reachable as named
+  queries — persons in care-related documents of a century, every reading of a
+  page with its model and the historian's choice, which authority source links
+  the most and which documents stay unlinked, and who is named alongside whom.
+  `/sparql` runs them; `knowledge_hub/queries.py` holds them. Every row carries
+  the document it came from, enforced in the constructor rather than by review,
+  and no caller's text ever becomes query syntax
+  ([`docs/KG_QUERIES.md`](docs/KG_QUERIES.md), #331).
 - **The loop closes through the registry, not through this repo.** A finished run
   registers on the shared research share; the serving gateway picks the
   registration up and advertises the model at `/models`; the next
