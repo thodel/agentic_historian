@@ -37,7 +37,19 @@ TIMEOUT_S = 30
 #: it must not be able to steer the request. Letters, digits, dot, underscore and
 #: hyphen only, 1–64 chars (SEC-6, #577). Real ids — uuids, ``train-<date>-…`` —
 #: fit; ``../../models``, ``?x=1`` and ``#frag`` do not.
-_JOB_ID_RE = re.compile(r"^[A-Za-z0-9._-]{1,64}$")
+#:
+#: **Public on purpose** (SEC-18, #641). ``agent_a.training_client`` is a second
+#: client against the same gateway and needs the same rule; it was written after
+#: SEC-6 was fixed here and interpolated ``job_id`` raw, because nothing tied the
+#: two together. One pattern, imported by both, and a test that feeds the same
+#: strings to both validators — so the next client cannot drift either.
+JOB_ID_RE = re.compile(r"^[A-Za-z0-9._-]{1,64}$")
+
+#: ``.`` and ``..`` match the character class above but are exactly the traversal
+#: specials, so they are refused by name rather than by pattern.
+JOB_ID_REFUSED = (".", "..")
+
+_JOB_ID_RE = JOB_ID_RE  # backwards-compatible alias
 
 
 class AtrStatusError(RuntimeError):
@@ -67,7 +79,7 @@ def _safe_job_id(job_id: str) -> str:
     caller sees instead of a redirected request.
     """
     jid = (job_id or "").strip()
-    if jid in (".", "..") or not _JOB_ID_RE.match(jid):
+    if jid in JOB_ID_REFUSED or not JOB_ID_RE.match(jid):
         raise AtrStatusError(
             f"ungültige Job-ID {job_id!r} — erlaubt sind Buchstaben, Ziffern, "
             "'.', '_' und '-' (max. 64 Zeichen)")

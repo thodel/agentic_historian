@@ -362,11 +362,23 @@ class TestCreateJob:
     def test_raises_on_network_error(self, mock_httpx):
         # _check will read status_code first (returns 200 from PropertyMock),
         # then _post calls json() which raises RequestError
+        #
+        # Asserted on the contract, not the wording: ``status_code`` is None when
+        # the request never got an answer, and that is what callers read — the
+        # class docstring says so, and the watcher depends on it. This used to
+        # match the word "error" in the message, which SEC-18 (#641) then
+        # rewrote to drop the internal gateway host.
         mock_httpx.post.side_effect = httpx.RequestError("connection refused")
         with TrainingClient(base_url="http://localhost") as client:
             client._client = mock_httpx
-            with pytest.raises(TrainingClientError, match="error"):
+            with pytest.raises(TrainingClientError) as err:
                 client.create_job("medieval-smoke", "model-id")
+        assert err.value.status_code is None, (
+            "a transport failure has no HTTP status — that is how the watcher "
+            "tells it from a refusal")
+        assert "localhost" not in str(err.value), (
+            "SEC-18 (#641): the gateway host belongs in the log, not in a "
+            "message bot.py posts into the channel")
 
 
 # ── TrainingClient.get_job ────────────────────────────────────────────────────

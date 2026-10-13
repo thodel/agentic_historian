@@ -37,7 +37,9 @@ from enum import Enum
 from typing import Any, Optional
 
 import httpx
+from loguru import logger
 
+import atr_status
 import config
 
 
@@ -301,6 +303,63 @@ def _stages(raw: Any) -> dict[Stage, str]:
     return out
 
 
+# ── url safety (SEC-18, #641) ────────────────────────────────────────────────
+#
+# Every route below one of two shapes puts a caller-supplied id into the URL
+# *path*: ``/train/jobs/{job_id}`` and ``/train/jobs/{job_id}/log``. Unchecked,
+# the id does not merely name a job — it chooses which route is addressed, and
+# the request carries the bot's gateway API key either way. Measured against
+# ``httpx.Client(base_url=…)``:
+#
+#   ``../../../admin/keys``  → GET  https://<gateway>/admin/keys
+#   ``x?token=stolen``       → a query parameter, ahead of the legitimate ones
+#   ``x#frag``               → ``/train/jobs/x/log`` collapses to ``/train/jobs/x``,
+#                              so a log call returns the job record instead
+#
+# ``atr_status`` has validated this since SEC-6 (#577). This module did not: it
+# was written afterwards, against the same gateway, and nothing connected the
+# two. So it shares ``atr_status``' pattern rather than carrying a second copy
+# of it — a copy is how the rule drifts, and this bug *is* that drift.
+
+def _safe_job_id(job_id: Any) -> str:
+    """Validate *job_id* before it is interpolated into a gateway URL path.
+
+    Raises ``TrainingClientError`` so a caller handling gateway failures already
+    handles this one; the message names the rule rather than the attempt.
+    """
+    jid = str(job_id or "").strip()
+    if jid in atr_status.JOB_ID_REFUSED or not atr_status.JOB_ID_RE.match(jid):
+        raise TrainingClientError(
+            f"ungültige Job-ID {job_id!r} — erlaubt sind Buchstaben, Ziffern, "
+            "'.', '_' und '-' (max. 64 Zeichen)")
+    return jid
+
+
+#: Characters and sequences that let a *path* choose a different route than the
+#: one its format string spells out. Checked on the whole assembled path in
+#: ``_get``/``_post``, which is the one place every request passes through.
+_PATH_REFUSED = ("..", "?", "#", "//", "\\")
+
+
+def _safe_path(path: str) -> str:
+    """Refuse an assembled request path that could steer the request.
+
+    The backstop to ``_safe_job_id``, and the reason it exists separately: a
+    validator helps only the call sites that remember it, while this covers
+    every request by construction — including the next route somebody adds. Each
+    path in this module is a literal with validated ids interpolated, so a
+    refusal here is a bug in this module, not bad input.
+    """
+    for bad in _PATH_REFUSED:
+        if bad in path:
+            raise TrainingClientError(
+                f"unsicherer Anfragepfad {path!r} — enthält {bad!r}")
+    if not path.startswith("/"):
+        raise TrainingClientError(
+            f"unsicherer Anfragepfad {path!r} — muss mit '/' beginnen")
+    return path
+
+
 # ── client ────────────────────────────────────────────────────────────────────
 
 class TrainingClient:
@@ -410,7 +469,7 @@ class TrainingClient:
         Returns a TrainJob. Raises TrainingClientError if the job does not
         exist or the gateway is unreachable.
         """
-        resp = self._get(f"/train/jobs/{job_id}")
+        resp = self._get(f"/train/jobs/{_safe_job_id(job_id)}")
         return TrainJob.from_dict(resp.json())
 
     def list_jobs(
@@ -446,7 +505,7 @@ class TrainingClient:
         depending on how far the job got before the cancel was processed).
         Raises TrainingClientError if the job does not exist.
         """
-        resp = self._post(f"/train/jobs/{job_id}/cancel", json={})
+        resp = self._post(f"/train/jobs/{_safe_job_id(job_id)}/cancel", json={})
         return TrainJob.from_dict(resp.json())
 
     def get_log(self, job_id: str, stage: Optional[Stage] = None,
@@ -480,7 +539,7 @@ class TrainingClient:
             params["stage"] = stage.value
         if lines is not None:
             params["lines"] = lines
-        resp = self._get(f"/train/jobs/{job_id}/log", params=params)
+        resp = self._get(f"/train/jobs/{_safe_job_id(job_id)}/log", params=params)
         return _text(resp.json().get("lines", resp.json().get("log"))) or ""
 
     # ── internals ───────────────────────────────────────────────────────────
@@ -492,11 +551,9 @@ class TrainingClient:
     ) -> httpx.Response:
         assert self._client is not None
         try:
-            resp = self._client.get(path, params=params)
+            resp = self._client.get(_safe_path(path), params=params)
         except httpx.RequestError as exc:
-            raise TrainingClientError(
-                f"Trainer gateway unreachable at {self.base_url}{path}: {exc}"
-            ) from exc
+            raise TrainingClientError(self._transport_error(path, exc)) from exc
         return self._check(resp, path)
 
     def _post(
@@ -506,17 +563,36 @@ class TrainingClient:
     ) -> httpx.Response:
         assert self._client is not None
         try:
-            resp = self._client.post(path, json=json)
+            resp = self._client.post(_safe_path(path), json=json)
         except httpx.RequestError as exc:
-            raise TrainingClientError(
-                f"Trainer gateway error at {self.base_url}{path}: {exc}"
-            ) from exc
+            raise TrainingClientError(self._transport_error(path, exc)) from exc
         return self._check(resp, path)
 
+    def _transport_error(self, path: str, exc: Exception) -> str:
+        """Log where the request went; return what the channel may be told.
+
+        SEC-18 (#641). The message used to carry ``self.base_url`` — the internal
+        VPN host and port — and bot.py posts these verbatim into Discord. The
+        host is also the one thing in that message which explains nothing: a
+        caller cannot act on it, and the operator reading the log has it anyway.
+        ``atr_status`` has drawn this line since SEC-14 (#585); this did not.
+        """
+        logger.warning("[training-client] {} talking to {}{}",
+                       type(exc).__name__, self.base_url, path)
+        return "Der Trainer ist nicht erreichbar."
+
     def _check(self, resp: httpx.Response, path: str) -> httpx.Response:
-        """Surface 4xx/5xx as TrainingClientError with the response body."""
+        """Surface 4xx/5xx as TrainingClientError with the response body.
+
+        The **body stays** in the message, deliberately (#361): a 507 names the
+        full filesystem and a 409 says the job is already terminal, and those say
+        what to do. Both callers that show it are ``admin_only``. Only the
+        internal URL is dropped, and it goes to the log instead (SEC-18, #641).
+        """
         if resp.status_code >= 400:
             body = resp.text[:500]
+            logger.warning("[training-client] {}{} answered {}: {}",
+                           self.base_url, path, resp.status_code, body[:200])
             # 404 gets its own class. "The trainer does not know this job" and
             # "the trainer did not answer" need opposite handling in the watcher:
             # the first means stop watching an id that will never resolve, the
@@ -526,10 +602,10 @@ class TrainingClient:
             # unreachable one.
             if resp.status_code == 404:
                 raise TrainingJobNotFound(
-                    f"Trainer gateway 404 at {self.base_url}{path}: {body}",
+                    f"Der Trainer kennt diesen Lauf nicht (404): {body}",
                     status_code=404)
             raise TrainingClientError(
-                f"Trainer gateway {resp.status_code} at {self.base_url}{path}: {body}",
+                f"Der Trainer hat mit Status {resp.status_code} geantwortet: {body}",
                 status_code=resp.status_code,
             )
         return resp

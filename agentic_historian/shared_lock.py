@@ -123,7 +123,7 @@ def _write_atomic(path: Path, data: Any) -> None:
 
 
 @contextlib.contextmanager
-def locked_json(path: Path, default: Any = None):
+def locked_json(path: Path, default: Any = None, coerce: Any = None):
     """Read, mutate and write back one JSON file under **one** lock.
 
     The critical section this module described but did not provide. Its own
@@ -146,6 +146,24 @@ def locked_json(path: Path, default: Any = None):
     **An exception inside the block writes nothing.** A half-applied mutation is
     worse than none: the caller will retry, and it cannot retry against a file
     that already holds half of the last attempt.
+
+    ``coerce`` is how a caller says *what shape it needs* (#643). The object
+    yielded here is the object written back, so the caller can change it but
+    cannot **replace** it: a ``data = {}`` inside the block rebinds the caller's
+    name and leaves the file untouched. That is not a hypothetical — it is what
+    ``knowledge_hub.hub._mutate`` was doing on a hub whose file held readable
+    JSON of the wrong type, and the file and the cache then diverged in silence.
+    Pass a callable and it is applied to the loaded value before the yield; what
+    it returns is both yielded and written::
+
+        def _as_mapping(value):
+            return value if isinstance(value, dict) else {}
+
+        with locked_json(path, default=dict, coerce=_as_mapping) as data:
+            data["persons"] = …          # a dict, whatever the file held
+
+    Without it the caller has to trust a file that another worker wrote, which
+    is the one thing this module exists not to do.
     """
     path = Path(path)
     lock_path = _lock_path(path)
@@ -159,6 +177,8 @@ def locked_json(path: Path, default: Any = None):
                 data = default() if callable(default) else default
         else:
             data = default() if callable(default) else default
+        if coerce is not None:
+            data = coerce(data)
         yield data
         _write_atomic(path, data)
     finally:

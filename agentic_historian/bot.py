@@ -105,6 +105,47 @@ def _authorised(ctx, role_id, *, what: str) -> bool:
     return _is_guild_admin(ctx)
 
 
+#: The commands that deliberately carry **no** permission gate, with the reason
+#: each one is allowed to (SEC-18, #641).
+#:
+#: SEC-1 (#572) gated the state-changing and expensive commands and left these
+#: four open as read-only. That was a decision, but it was written down nowhere,
+#: so the next sweep could not tell it from an oversight — and nothing stopped a
+#: *new* ungated command from slipping in: the SEC-1 tests name their commands
+#: one by one, so ten commands added after the audit were covered by discipline
+#: alone. ``test_ah_641`` now walks every registered command and requires either
+#: a gate or an entry here, which makes adding one a decision somebody has to
+#: write down.
+#:
+#: Entries are not a blessing. ``/search`` is the weakest of the four: it makes
+#: federated MCP calls, so it spends somebody else's I/O budget, and it is the
+#: one to gate first if these are revisited.
+OPEN_COMMANDS = {
+    "status":   "read-only: renders the pipeline report from local state",
+    "progress": "read-only: phase status from local state",
+    "entity":   "read-only: local entity index, cached per SEC-11 (#582)",
+    "search":   "read-only, but federated MCP I/O — gate this one first",
+}
+
+
+#: Name of the attribute each gate decorator stamps onto its wrapper, read by
+#: the SEC-18 (#641) coverage test. A marker rather than "does it have
+#: ``__wrapped__``": any ``functools.wraps`` decorator has that, so it cannot
+#: tell a gate from an unrelated wrapper, and a coverage test that cannot tell
+#: the difference is the kind that passes while the gate is gone.
+GATE_ATTR = "__ah_gate__"
+
+
+def _mark_gate(wrapper, name: str):
+    """Stamp *wrapper* as a permission gate.
+
+    Set **after** ``functools.wraps``, which copies ``__dict__`` from the wrapped
+    function and would otherwise overwrite it.
+    """
+    setattr(wrapper, GATE_ATTR, name)
+    return wrapper
+
+
 def require_role(func):
     """Decorator: reject non-guild users and callers not authorised by the gate.
 
@@ -119,7 +160,7 @@ def require_role(func):
             return
         return await func(ctx, *args, **kwargs)
     # Preserve command metadata so py-cord registers it correctly
-    return functools.wraps(func)(wrapper)
+    return _mark_gate(functools.wraps(func)(wrapper), "require_role")
 
 
 def admin_only(func):
@@ -137,7 +178,7 @@ def admin_only(func):
             await ctx.respond("⛔ Dieser Befehl ist admins reserviert.", ephemeral=True)
             return
         return await func(ctx, *args, **kwargs)
-    return functools.wraps(func)(wrapper)
+    return _mark_gate(functools.wraps(func)(wrapper), "admin_only")
 
 
 def deploy_admin_only(func):
@@ -174,7 +215,7 @@ def deploy_admin_only(func):
             await ctx.respond("⛔ Dieser Befehl ist der Deploy-Admin-Rolle vorbehalten.", ephemeral=True)
             return
         return await func(ctx, *args, **kwargs)
-    return functools.wraps(func)(wrapper)
+    return _mark_gate(functools.wraps(func)(wrapper), "deploy_admin_only")
 
 
 # ── Cost / DoS throttle (SEC-11, #582) ───────────────────────────────────────
@@ -2367,11 +2408,14 @@ async def sparql_cmd(
     try:
         graph, source = await asyncio.to_thread(queries.load_graph)
     except Exception as exc:  # noqa: BLE001
-        logger.warning(f"[sparql] graph unavailable: {exc}")
-        await ctx.followup.send(
-            f"❌ Der Korpus-Graph ist nicht lesbar: {exc}\n"
-            f"_Bauen mit `python -m knowledge_hub.corpus_build --out "
-            f"build/corpus.ttl`._")
+        # SEC-18 (#641): an OSError or rdflib parse error here names the graph's
+        # absolute path, and /sparql is require_role — any role-holder, not just
+        # an admin. The hint is the actionable half and stays; the exception goes
+        # to the log, as SEC-14 (#585) requires.
+        await _report_error(
+            ctx, exc,
+            note="Der Korpus-Graph ist nicht lesbar (bauen mit "
+                 "`python -m knowledge_hub.corpus_build --out build/corpus.ttl`)")
         return
 
     try:
