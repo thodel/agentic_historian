@@ -105,6 +105,100 @@ def _authorised(ctx, role_id, *, what: str) -> bool:
     return _is_guild_admin(ctx)
 
 
+# ── Security posture at startup (SEC-19, #646) ───────────────────────────────
+#
+# `config.py` claimed the bot "warns at startup" when no role is configured. It
+# did not: the only warning sat in `_authorised` and fired **per command
+# invocation**, so whoever put the bot into an open server got no signal until a
+# member happened to run a gated command and somebody happened to read the log.
+# The epic's goal is a bot that can be deployed into an open server, and the
+# three things left are settings — a commit cannot set them, but it can make it
+# impossible to deploy without seeing whether they are set.
+#
+# **Three-valued, not two** (#119, #595, #631, #633 — the same lesson each time).
+# The server-side command permissions in Discord are the layer that acts *before*
+# this code (SEC-1, point 5) and cannot be read from inside this process. A row
+# claiming "fine" because it measured nothing is exactly the defect this epic
+# removed in four other places, so "not checkable from here" is its own state and
+# never counts as a pass.
+
+#: What a posture row's ``ok`` means: True measured and set, False measured and
+#: not set, **None** not determinable from inside this process.
+POSTURE_UNKNOWN = None
+
+
+def security_posture(cfg=None) -> list[tuple[str, "bool | None", str]]:
+    """The security-relevant settings, as ``(label, ok, consequence)`` rows.
+
+    Pure and takes its config as an argument so it can be exercised against any
+    combination; ``None`` uses the live module.
+    """
+    cfg = cfg if cfg is not None else config
+    base = getattr(cfg, "REQUIRED_DISCORD_ROLE_ID", None)
+    # The admin role as EXPLICITLY set — captured in config.py before the
+    # base-role inheritance. This, and not the effective value, is what /update
+    # reads (SEC-5, #576).
+    deploy = getattr(cfg, "DEPLOY_ADMIN_ROLE_ID", None)
+    admin = getattr(cfg, "REQUIRED_ADMIN_ROLE_ID", None)
+    guild = getattr(cfg, "DISCORD_GUILD_ID", None)
+
+    rows: list[tuple[str, "bool | None", str]] = [
+        ("REQUIRED_DISCORD_ROLE_ID", bool(base),
+         "gesetzt — gegatete Befehle verlangen diese Rolle" if base else
+         "NICHT gesetzt — gegatete Befehle sind für alle ausser Server-Admins "
+         "und dem Guild-Owner gesperrt (fail-closed, SEC-1)"),
+
+        ("REQUIRED_ADMIN_ROLE_ID (ausdrücklich)", bool(deploy),
+         "gesetzt — /update ist für diese Rolle freigegeben" if deploy else
+         "NICHT ausdrücklich gesetzt — /update ist für ALLE gesperrt "
+         "(SEC-5, so gewollt: ein Deploy zieht beliebigen main mit allen Secrets)"),
+
+        ("Admin-Rolle, effektiv", bool(admin),
+         (f"von der Basisrolle geerbt" if admin and not deploy else
+          "eigene Rolle" if admin else
+          "keine — Admin-Befehle sind auf Server-Admins beschränkt")),
+
+        ("DISCORD_GUILD_ID", bool(guild),
+         "gesetzt — neue Befehle sind nach dem Neustart sofort da" if guild else
+         "NICHT gesetzt — Befehle werden global registriert, Discord verteilt sie "
+         "mit bis zu einer Stunde Verzögerung (#589)"),
+
+        ("Befehlsberechtigungen in Discord", POSTURE_UNKNOWN,
+         "von hier aus nicht prüfbar — diese Schicht wirkt VOR dem Code und ist "
+         "im Server einzustellen (SEC-1, Punkt 5)"),
+    ]
+    return rows
+
+
+def format_posture(rows) -> list[str]:
+    """One line per row, with the unmeasurable ones marked as such."""
+    marks = {True: "ok  ", False: "FEHLT", POSTURE_UNKNOWN: "?   "}
+    return [f"[{marks[ok]}] {label}: {note}" for label, ok, note in rows]
+
+
+def log_security_posture(cfg=None) -> list[str]:
+    """Report the posture once, to the log and the console.
+
+    The console matters as much as the log: starting the service is where the
+    operator is looking, and a line only in the log is a line nobody reads while
+    deploying.
+    """
+    rows = security_posture(cfg)
+    lines = format_posture(rows)
+    missing = [label for label, ok, _ in rows if ok is False]
+    header = ("[sec] Sicherheitslage — alles Prüfbare gesetzt"
+              if not missing else
+              f"[sec] Sicherheitslage — {len(missing)} Einstellung(en) fehlen: "
+              + ", ".join(missing))
+    logger.warning(header) if missing else logger.info(header)
+    for line in lines:
+        logger.info(f"[sec] {line}")
+    print(header)
+    for line in lines:
+        print(f"  {line}")
+    return lines
+
+
 #: The commands that deliberately carry **no** permission gate, with the reason
 #: each one is allowed to (SEC-18, #641).
 #:
@@ -1608,6 +1702,12 @@ async def _retire_confirm(entry, why: str) -> None:
 async def on_ready():
     logger.info(f"Logged in as {bot.user} (ID: {bot.user.id})")
     print(f"Bot ready as {bot.user}")
+    # SEC-19 (#646): say once, where the operator is looking, how this process is
+    # actually gated. Never the reason the bot fails to start.
+    try:
+        log_security_posture()
+    except Exception as exc:  # noqa: BLE001
+        logger.warning(f"[sec] posture report failed: {exc}")
     # Re-bind HITL gate views so clicks on pre-restart messages still work (#150).
     try:
         import persistent_views
