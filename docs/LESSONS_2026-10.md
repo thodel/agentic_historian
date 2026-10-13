@@ -647,6 +647,87 @@ keeps growing: the cheapest way to turn a non-observation into a finding is to
 accept a tool's output as an answer to the question you had in mind, rather than
 to the question the tool was actually asked.
 
+## 18. My own remedy from §15 had the right shape and the wrong axis
+
+§15 ends with a definition I was pleased with: *a page is blank when it is empty
+in every attempt*. It is wrong, and it is wrong in the one direction that
+matters — it measures the variance of **one reader** and reports it as a property
+of the **page**.
+
+Measured on 13 October, on the 19 pages the published corpus still had empty:
+
+| | Pages recovered |
+|---|---:|
+| A fourth attempt, same reader, same prompt, same thinking level | **0 of 19** |
+| A second *reader* — two local engines from other families, one of them with line segmentation | **1 of 19** |
+
+The yield curve over four attempts of the same reader is 3 → 2 → 0. So the
+two-attempt policy survives, and "try again" is exhausted as a lever. The page
+that came back is `blb lassberg__K 2911,93__page_0001`: both local engines return
+**24 lines**, 14 of the 24 agree, they agree on the shelfmark in line 1, on `67`
+in line 2, on a salutation in line 3, and both end the last line with a
+hyphen — the text runs on. Neither reading is usable as a transcription. That was
+never the question; the question was whether there is ink on the leaf.
+
+The same measurement produced its own negative control, which is what makes it a
+measurement rather than a hope. On five of the nineteen, both engines also
+returned something, and all three signals say it is noise over a nearly blank
+page: **zero** shared words of five characters or more across those five pages,
+each engine repeating its own phrases on different leaves
+(`haußhaltung zu Buchstetten verschicken`, verbatim, twice), and the engine
+trained on the 16th–17th century dating a Laßberg leaf to `1655`. Agreement
+between independent readers is evidence; output from independent readers is not.
+
+**The generalisation:** repeating a measurement with the same instrument
+estimates that instrument's noise. It cannot distinguish a property of the object
+from a bias of the instrument — for that the instrument has to change. §15 got
+"re-read rather than look at images" right and then varied the one parameter
+that could not answer the question.
+
+A second thing this settles, and it is not about blankness: the prompt tells the
+model, in so many words, that an empty answer asserts the leaf is blank and that
+a page it cannot read is `[unlesbar]`. Four times it took exactly the route the
+sentence forbids. **A sentence in a prompt is not an enforcement mechanism** —
+which is the same lesson as §11, now with the instruction present rather than
+missing.
+
+## 19. A verdict is currency inside one reader and not between two
+
+Having found the written page, the obvious move was to merge the gateway run into
+the published corpus and let the ranking pick the better reading. I ran it as a
+dry run first, and the result was not what I expected:
+
+```
+merge_runs(["gemini-300-final", "gateway-final-empty-19"]) →
+pages: 338    improved: []    38 page(s) appear only in a later run
+```
+
+300 + 38 = 338. **A page is identified by (model, key), not by key alone**, so
+the two engines' readings never met the Gemini pages at all, and `improved` is
+empty because nothing was compared.
+
+That is the safe side of the mistake, and it took the dry run to see which side I
+was on. Had the merge keyed on the page alone, the five **noise** pages would
+have won: their verdict is `short` (rank 2) and the Gemini pages' is `empty`
+(rank 1), so `orchecker classica` would have been published as a transcription in
+somebody else's edition. The ranking was built to keep `repetitive` and
+`deliberation` below `empty`, on the grounds that nothing is better than
+something invented. A *short, fluent* invention by a foreign model walks straight
+past that guard, because the guard reads the verdict and the verdict was computed
+per reading, not per reader.
+
+So `MERGE_RANK` compares attempts of one reader, and between readers a verdict is
+not a common currency: `short` from a 16th-century line model and `short` from
+the engine that read the corpus are not the same claim. Nothing in the merge says
+so, and the one line in its report that pointed at the situation —
+"38 page(s) appear only in a later run … also what a mistyped run name looks
+like" — was written for a different mistake and fired correctly for this one.
+
+**What I will not do:** reach for the ranking to import a cross-engine reading.
+Taking one page's reading from another model is an editorial act, it has to name
+the model on that page, and it belongs in a decision by the edition's maintainer
+rather than in a merge that looks like bookkeeping.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
