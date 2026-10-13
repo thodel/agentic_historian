@@ -15,6 +15,7 @@ from loguru import logger
 import care_flag
 import config
 from utils import gpustack_client as gs
+from utils import llm_json
 from agents.source_heuristic import (
     MANUSCRIPT_SYSTEM,
     full_codicological,
@@ -350,7 +351,12 @@ def _parse_response(raw: str) -> tuple[dict, str]:
     # whether the LLM happened to use a heading that run.
     if json_start and (md_start == -1 or json_start.start() < md_start):
         json_text = raw[json_start.start():]
-        json_text = _extract_balanced_json(json_text)
+        # The shared extractor (#633). This one needs the *text*, not the
+        # parsed object, because the markdown that follows is split off by its
+        # length — and it gains the string-awareness the private copy lacked: a
+        # brace inside an element value used to truncate the 16-element JSON and
+        # swallow the description behind it.
+        json_text = llm_json.extract_balanced_json(json_text)
         if json_text:
             try:
                 source_json = json.loads(json_text)
@@ -359,22 +365,6 @@ def _parse_response(raw: str) -> tuple[dict, str]:
             except (json.JSONDecodeError, ValueError) as e:
                 logger.warning(f"[Agent B] JSON parsing failed: {e}")
     return {}, raw
-
-
-def _extract_balanced_json(text: str) -> str:
-    """Extract the first balanced JSON object from text."""
-    depth = 0
-    start = None
-    for i, c in enumerate(text):
-        if c == "{":
-            if start is None:
-                start = i
-            depth += 1
-        elif c == "}":
-            depth -= 1
-            if start is not None and depth == 0:
-                return text[start:i + 1]
-    return ""
 
 
 def _care_flag(transcription: str) -> dict:
@@ -396,10 +386,9 @@ def _care_flag(transcription: str) -> dict:
         # before the JSON, so 800 truncated the answer to null. Give it room.
         raw = gs.chat_text(prompt, system=None, max_tokens=2500, **_sampling())
         # Parse defensively: the JSON may be wrapped in reasoning text / fences.
-        json_text = _extract_balanced_json(raw or "")
-        if not json_text:
-            raise ValueError("no JSON object found in care-flag response")
-        parsed = json.loads(json_text)
+        # Through the shared extractor (#633), which is also string-aware — the
+        # private copy here counted braces inside string values.
+        parsed = llm_json.loads(raw or "", what="Care-Flag-Antwort")
     except Exception as e:
         # NOT the same record as a negative (#631). This returned
         # `is_care_related: False` here, so a failed call was stored as the
