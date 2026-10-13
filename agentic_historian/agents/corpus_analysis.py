@@ -18,6 +18,7 @@ from loguru import logger
 
 import config
 from utils import gpustack_client as gs
+from utils import llm_json
 
 SYSTEM = (
     "Du bist ein Digital Humanities Forscher, spezialisiert auf korpusbasierte "
@@ -138,42 +139,120 @@ def _chunks(text: str, size: int = LLM_CHUNK_SIZE) -> list[str]:
     return result
 
 
-def _merge_json_results(results: list[dict], key: str) -> dict:
-    merged = {}
-    for r in results:
-        if isinstance(r, dict) and key in r:
-            sub = r[key]
-            if isinstance(sub, list):
-                merged.setdefault(key, []).extend(sub)
-            elif isinstance(sub, dict):
-                merged.setdefault(key, {}).update(sub)
+def _entry_key(entry) -> str:
+    """A stable key for one finding, so the chunk overlap is not counted twice.
+
+    ``_chunks`` overlaps by 500 characters on purpose — a care instance sitting
+    on a seam would otherwise be lost — but the merge used to ``.extend`` the
+    lists with no comparison, so a finding in the overlap was reported **twice**
+    and every count over a long corpus came out high (#633).
+
+    The key is the entry itself, canonically dumped, lowercased and with its
+    whitespace collapsed: the same passage quoted by the same model in two
+    chunks produces the same entry, and that is the duplicate worth removing.
+    Two findings that differ in any field stay — merging those would be a
+    judgement about whether the model meant the same thing twice, which this
+    function is in no position to make.
+    """
+    try:
+        text = json.dumps(entry, sort_keys=True, ensure_ascii=False)
+    except (TypeError, ValueError):
+        text = str(entry)
+    return " ".join(text.lower().split())
+
+
+def _merge_json_results(results: list[dict]) -> dict:
+    """Merge every key of every chunk's result, de-duplicated.
+
+    It used to take **one** key and drop the rest. ``_care_analysis`` answers
+    with three (``care_instances``, ``patterns``, ``gender_aspects``) and was
+    merged on ``care_instances``, so for any corpus over ``LLM_CHUNK_SIZE`` the
+    other two vanished from ``care_analysis.json`` without a word (#633).
+
+    Lists concatenate (minus duplicates), dicts update, and a scalar keeps the
+    first chunk that had one — a scalar per chunk is not something to add up,
+    and picking the last would mean the answer depended on chunk order.
+    """
+    merged: dict = {}
+    seen: dict[str, set] = {}
+    for result in results:
+        if not isinstance(result, dict):
+            continue
+        for key, value in result.items():
+            if isinstance(value, list):
+                bucket = merged.setdefault(key, [])
+                known = seen.setdefault(key, set())
+                for entry in value:
+                    entry_key = _entry_key(entry)
+                    if entry_key in known:
+                        continue
+                    known.add(entry_key)
+                    bucket.append(entry)
+            elif isinstance(value, dict):
+                merged.setdefault(key, {}).update(value)
+            else:
+                merged.setdefault(key, value)
     return merged
 
 
+def _analyse_large(text: str, analyse) -> dict:
+    """Run one per-chunk analysis over the whole text and merge the results.
+
+    Through the same merge whether there is one chunk or seven. The single-chunk
+    case used to return ``results[0]`` unmerged, which made the *shape* of the
+    output depend on the corpus size: a short corpus kept all three care keys, a
+    long one kept one. Two corpora were then not comparable (#633).
+    """
+    return _merge_json_results([analyse(chunk) for chunk in _chunks(text)])
+
+
 def _topics_large(text: str) -> dict:
-    cs = _chunks(text)
-    results = [_topics(c) for c in cs]
-    return results[0] if len(results) == 1 else _merge_json_results(results, "topics")
+    return _analyse_large(text, _topics)
 
 
 def _taxonomy_large(text: str) -> dict:
-    cs = _chunks(text)
-    results = [_taxonomy(c) for c in cs]
-    return results[0] if len(results) == 1 else _merge_json_results(results, "taxonomies")
+    return _analyse_large(text, _taxonomy)
 
 
 def _care_analysis_large(text: str) -> dict:
-    cs = _chunks(text)
-    results = [_care_analysis(c) for c in cs]
-    return results[0] if len(results) == 1 else _merge_json_results(results, "care_instances")
+    return _analyse_large(text, _care_analysis)
 
 
 # ── Per-chunk LLM calls ──────────────────────────────────────────────────────
 
+def _ask(prompt: str, what: str) -> dict:
+    """One analysis call: a budget the model can finish in, and a tolerant parse.
+
+    Two things this fixes, both already written down in this repository (#633):
+
+    * ``max_tokens`` comes from ``config.GPUSTACK_TEXT_MAX_TOKENS``. These calls
+      passed **2000**, below the floor ``config.py`` introduced for exactly this
+      model with the note "it spends tokens on reasoning_content before emitting
+      content. Give text calls a generous budget or content comes back null".
+    * the answer goes through ``llm_json.loads``, because a reasoning model puts
+      prose or a fence around the object and ``json.loads`` on the raw answer
+      therefore fails routinely rather than exceptionally.
+
+    Raises on failure. The caller decides what an un-answered chunk means, and
+    today each one still returns its empty container, which reads as a finding.
+    That is #634, decided and waiting on this change: the result carries a
+    ``provenance`` block with the chunks that answered and the character range
+    of each one that did not.
+    """
+    answer = gs.chat_text(prompt, system=None,
+                          max_tokens=config.GPUSTACK_TEXT_MAX_TOKENS)
+    # Always a dict: `llm_json.loads` either parses an object literal or raises,
+    # and it refuses an array element outright — a model answering
+    # `[{"name": …}]` has given the wrong shape and must not be handed back as
+    # a plausible answer object. So no isinstance check here; one would be dead
+    # code, and dead code is untestable by definition.
+    return llm_json.loads(answer, what=what)
+
+
 def _topics(text: str) -> dict:
     prompt = SYSTEM + "\n\nIdentifiziere 5–10 Topics mit Namen und Schlüsselwörtern.\n\n" + text + "\n\nAntworte als JSON: {topics: [{name, keywords: []}]}"
     try:
-        return json.loads(gs.chat_text(prompt, system=None, max_tokens=2000))
+        return _ask(prompt, "Topics-Antwort")
     except Exception as e:
         logger.warning(f"[Agent D] Topics fehlgeschlagen: {e}")
         return {"topics": []}
@@ -182,7 +261,7 @@ def _topics(text: str) -> dict:
 def _taxonomy(text: str) -> dict:
     prompt = SYSTEM + "\n\nAnalysiere soziale Taxonomien: arme lüt, erbar lüt, Bürger, Hintersässe, Juden, Zigeuner, Vaganten, gesellen, Knecht, Magd, Witwe, Waise.\n\n" + text + "\n\nAntworte als JSON: {taxonomies: [{term, count, contexts: []}]}"
     try:
-        return json.loads(gs.chat_text(prompt, system=None, max_tokens=2000))
+        return _ask(prompt, "Taxonomie-Antwort")
     except Exception as e:
         logger.warning(f"[Agent D] Taxonomy fehlgeschlagen: {e}")
         return {"taxonomies": []}
@@ -191,7 +270,7 @@ def _taxonomy(text: str) -> dict:
 def _care_analysis(text: str) -> dict:
     prompt = SYSTEM + "\n\nAnalysiere Care-relevante Inhalte: Care-Instanzen, Arrangements, Entlohnung, Gender, Lebensläufe.\n\n" + text + "\n\nAntworte als JSON: {care_instances: [], patterns: [], gender_aspects: []}"
     try:
-        return json.loads(gs.chat_text(prompt, system=None, max_tokens=2000))
+        return _ask(prompt, "Care-Analyse-Antwort")
     except Exception as e:
         logger.warning(f"[Agent D] Care-Analyse fehlgeschlagen: {e}")
         return {"care_instances": [], "patterns": [], "gender_aspects": []}
