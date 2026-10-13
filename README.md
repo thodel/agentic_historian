@@ -203,6 +203,16 @@ port and no firewall exception on this path.
   in its registry was put there on purpose, so a run that finished while the bot
   was down is reported on the next poll (#363). The remaining milestones are in
   [`docs/TRAINING_INTEGRATION_PLAN.md`](docs/TRAINING_INTEGRATION_PLAN.md).
+- **Shared state is safe for parallel workers.** One serial worker made plain
+  file I/O safe; R2's workers made it a lottery. `shared_lock.py` now has the
+  piece it was missing: `locked_json`, one lock held across a read, a change and
+  an atomic write. Without it `mark_processed` read the order list, added one id
+  and wrote the whole thing back — two workers finishing two orders each kept
+  their own and erased the other's, so the lost order was re-ingested on the
+  next pull. Measured on the regression: with the old code **12 of 120** ids
+  survived. The knowledge hub was worse, caching the file at construction and
+  rewriting it from that snapshot, so two processes raced for as long as their
+  objects lived (#393).
 - **Four questions, not an endpoint.** The corpus graph is reachable as named
   queries — persons in care-related documents of a century, every reading of a
   page with its model and the historian's choice, which authority source links

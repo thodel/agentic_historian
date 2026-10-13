@@ -429,13 +429,20 @@ def resolve_index(
 
 
 def write_index_json(index: EntityIndex, path: str | Path) -> Path:
-    """Persist the identity records as ``entity_index.json`` (deterministic)."""
+    """Persist the identity records as ``entity_index.json`` (deterministic).
+
+    Through ``shared_lock.write_json_atomic`` (#393): the index is built from
+    *every* document, so a crash during the write left a truncated file that
+    every later reader would have taken for the index. It is a full rewrite from
+    a freshly built index, so it needs the atomic write and not the
+    read-modify-write section.
+    """
+    from shared_lock import write_json_atomic
+
     path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
     payload = {slug: entry.as_dict()
                for slug, entry in sorted(index.entries.items())}
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-                    encoding="utf-8")
+    write_json_atomic(path, payload)
     return path
 
 

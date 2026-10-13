@@ -80,10 +80,24 @@ def test_apply_entity_link_triggers_writeback(monkeypatch):
 def test_next_document_links_hub_exact(monkeypatch, tmp_path):
     """After write-back, a fresh hub lookup for the observed spelling matches —
     i.e. the next document would link hub_exact with zero interaction."""
-    # isolate the hub singleton onto a temp store
+    # Isolate the hub singleton onto a temp store, **by path**.
+    #
+    # This used to stub `KnowledgeHub._save` to a no-op, which stopped working
+    # when R3 (#393) moved the mutators off `_save`: a mutation now reads the
+    # file under a lock, changes it and writes it back, so a stubbed `_save` no
+    # longer isolates anything — this test wrote into the live `hub.json` and
+    # then failed on its own leftovers the next time it ran.
+    #
+    # Pointing `HUB_PATH` at `tmp_path` isolates whatever the mutators do, now
+    # and after the next change to them.
+    # The singleton is `_hub`. The old line patched `_HUB` with
+    # `raising=False`, which silently created a new attribute and isolated
+    # nothing — so this test was always writing to the live store, and only
+    # `_save` being stubbed kept that invisible.
     import knowledge_hub.hub as hubmod
-    monkeypatch.setattr(hubmod, "_HUB", None, raising=False)
-    monkeypatch.setattr(hubmod.KnowledgeHub, "_save", lambda self: None)
+    store = tmp_path / "hub.json"
+    monkeypatch.setattr(hubmod, "HUB_PATH", store)
+    monkeypatch.setattr(hubmod, "_hub", hubmod.KnowledgeHub(path=store))
 
     h = hub.get_hub()
     before = hub.find_person("Hanns Wyler")
