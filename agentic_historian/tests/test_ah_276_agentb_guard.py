@@ -39,7 +39,11 @@ def test_degenerate_skips_llm_and_returns_honest_result(monkeypatch):
     assert all(e in r["source_json"] for e in HANDSCHRIFTEN_ELEMENTS)
     assert r["source_json"]["Schrift"] is None
     # care-flag is the safe default (also not an LLM call)
-    assert r["care_flag"]["is_care_related"] is False
+    # Unknown, not negative (#631): the care flag reads the transcription, and
+    # a degenerate one was never classified. Storing False recorded a judgement
+    # about a welfare document that nobody made.
+    assert r["care_flag"]["is_care_related"] is None
+    assert r["care_flag"]["classified"] is False
 
 
 def test_degenerate_still_applies_human_pins(monkeypatch):

@@ -91,19 +91,27 @@ Ein geratenes Jahrhundert würde ein Dokument auf die Kraft einer Regex hin in
 das Ergebnis einer Historikerin setzen. Der einzige sichere Fehlschlag ist
 *keine Zahl*.
 
-### Der Care-Flag wird nur positiv behauptet
+### Der Care-Flag ist dreiwertig (seit #631)
 
 ```turtle
-ah:document/x sdhss:careRelated true ;
-              sdhss:careType    "Almosen"@de .
+ah:document/a sdhss:careClassified true  ; sdhss:careRelated true ;
+              sdhss:careType "Almosen"@de .   # geprüft, care-relevant
+ah:document/b sdhss:careClassified true  ; sdhss:careRelated false .
+                                              # geprüft, nicht care-relevant
+ah:document/c sdhss:careClassified false .    # nie geprüft
 ```
 
-`_care_flag` in `agents/source_description.py` gibt `is_care_related: False`
-zurück, wenn das Modell nein gesagt hat **und** wenn der Aufruf
-fehlgeschlagen ist — der Exception-Pfad liefert denselben Default. Aus dem
-gespeicherten Record sind die beiden nicht zu unterscheiden, also würde ein
-veröffentlichtes `careRelated false` etwas behaupten, das niemand gemessen hat.
-**Abwesenheit heißt deshalb „nicht geflaggt, oder nie klassifiziert“.**
+`careClassified` wird ausdrücklich emittiert und nicht aus einem fehlenden
+`careRelated` erschlossen: Abwesenheit in einem Graphen ist mehrdeutig — sie
+könnte genauso einen älteren Build bedeuten —, und „dieses Fürsorgedokument
+wurde nie geprüft“ ist eine Tatsache, auf die eine Gesundheitsabfrage selektieren
+können muss.
+
+Bis #631 konnte der Record das Negativ nicht tragen: Agent Bs Fehlerpfad
+speicherte dasselbe `is_care_related: False` wie eine echte Negativ-Antwort, also
+wurde hier nur das Positiv emittiert. `care_flag.read()` löst beide Jahrgänge
+auf — ein `False` von vor #631 liest sich weiterhin als *ungeprüft*, denn das war
+es. Siehe #631 und `agentic_historian/care_flag.py`.
 
 Nicht emittiert werden:
 
@@ -114,6 +122,13 @@ Nicht emittiert werden:
 - `beteiligte` — Namen, die ein LLM aus dem Care-Kontext gelesen hat, nicht die
   NER-Ausgabe, aus der alle anderen Personenknoten des Graphen stammen. Sie als
   Entitäten zu publizieren wäre eine Erfindung.
+- der **Grund**, warum eine Klassifikation fehlschlug — der kann einen
+  Modellnamen oder eine interne URL enthalten und gehört in den Record und ins
+  Log, nicht in einen offenen Endpoint.
+
+Die `care_types` eines Negativs wandern ebenfalls nicht mit: ein Modell, das
+„nein“ antwortet und trotzdem Care-Typen füllt, hat sich selbst widersprochen,
+und der Flag ist die Antwort.
 
 ## Eine Präfix-Drift, gefunden beim Schreiben der Abfragen
 

@@ -25,6 +25,11 @@ records what was approved:
       - person nodes            → ALL published, authority id not required
       - endpoint                → public, read-only SELECT
 
+    The graph says which of the three the classification was (#631): care, not
+    care, or never classified. ``BuildReport.care`` counts them, so "3 of 20 are
+    care-related" and "3 of 20, with 6 classifications that failed" can be told
+    apart from the manifest of a published build.
+
     Rationale: the processed corpus is 14th–16th c. administrative material, so
     the "recent enough to matter" concern behind the issue's privacy note does
     not bite here.
@@ -32,6 +37,13 @@ records what was approved:
 Every knob remains switchable via config/env, so a narrower scope can be applied
 later without touching this module — and ``BuildReport.withheld`` always states
 how many documents a narrower scope removed, so an omission is never silent.
+
+``include_care_flagged=False`` withholds two sets, counted separately (#631):
+the documents classified as care-related, and the ones **never classified**. The
+second is the point of that fix — an unclassified document may be care-related,
+so publishing it under a scope chosen to exclude care documents is the opposite
+of what the scope is for. It used to be published, because Agent B stored a
+failed classification as ``is_care_related: False``.
 """
 
 from __future__ import annotations
@@ -46,6 +58,7 @@ from typing import Optional
 
 from rdflib import Graph, RDF
 
+import care_flag
 from knowledge_hub import rdf_export as rx
 
 # Entity types treated as identifying a natural person.
@@ -106,6 +119,11 @@ class BuildReport:
     authority_links: dict = field(default_factory=dict)
     withheld: dict = field(default_factory=dict)
     scope: dict = field(default_factory=dict)
+    #: ``{"yes": n, "no": n, "unknown": n}`` — how many documents were actually
+    #: classified (#631). Reported even in the wide scope, where nothing is
+    #: withheld: "3 of 20 are care-related" and "3 of 20, with 6 classifications
+    #: that failed" are different statements about the same corpus.
+    care: dict = field(default_factory=dict)
 
     def as_dict(self) -> dict:
         return asdict(self)
@@ -123,6 +141,9 @@ class BuildReport:
         if self.authority_links:
             links = ", ".join(f"{k}={v}" for k, v in sorted(self.authority_links.items()))
             lines.append(f"  links       {links}")
+        if self.care:
+            lines.append("  care        " + ", ".join(
+                f"{k}={v}" for k, v in sorted(self.care.items())))
         withheld = {k: v for k, v in self.withheld.items() if v}
         if withheld:
             lines.append("  withheld    " +
@@ -131,11 +152,20 @@ class BuildReport:
 
 
 def _is_care_flagged(doc: dict) -> bool:
-    desc = doc.get("description")
-    if not isinstance(desc, dict):
-        return False
-    flag = desc.get("care_flag")
-    return bool(isinstance(flag, dict) and flag.get("is_care_related"))
+    """Whether this document **is** care-related, as far as anybody checked."""
+    return care_flag.is_care_flagged(doc)
+
+
+def _is_unclassified(doc: dict) -> bool:
+    """Whether nobody ever classified it (#631).
+
+    A separate question from the one above, and the narrower scope has to
+    withhold both: a document that was never classified *may* be care-related,
+    and not publishing those is the whole purpose of the narrow setting. Until
+    #631 an unclassified document was stored as ``is_care_related: False`` and
+    this check passed it through — the opposite of what the setting is for.
+    """
+    return care_flag.needs_classification(doc)
 
 
 def _entities_of(doc: dict) -> list:
@@ -147,9 +177,19 @@ def _entities_of(doc: dict) -> list:
 
 def _apply_scope(doc: dict, scope: PublicationScope, withheld: dict) -> Optional[dict]:
     """Return the document as it may be published, or None to withhold it."""
-    if not scope.include_care_flagged and _is_care_flagged(doc):
-        withheld["care_flagged_documents"] = withheld.get("care_flagged_documents", 0) + 1
-        return None
+    if not scope.include_care_flagged:
+        if _is_care_flagged(doc):
+            withheld["care_flagged_documents"] = (
+                withheld.get("care_flagged_documents", 0) + 1)
+            return None
+        if _is_unclassified(doc):
+            # Counted on its own line, because "we dropped 4 care documents" and
+            # "we also dropped 11 we never classified" are different facts about
+            # the same build — and `BuildReport.withheld` exists so that an
+            # omission is never silent.
+            withheld["unclassified_documents"] = (
+                withheld.get("unclassified_documents", 0) + 1)
+            return None
 
     entities = _entities_of(doc)
     kept = []
@@ -187,6 +227,19 @@ def _count(g: Graph) -> dict:
             key = "other"
         authority[key] = authority.get(key, 0) + 1
 
+    # Care classification, three-valued and read straight off the graph like
+    # everything else here (#631). Over the documents that were *published*,
+    # which is the right denominator for a report about the published graph —
+    # what a narrower scope withheld is on `BuildReport.withheld`.
+    care = {
+        "yes": sum(1 for o in g.objects(None, rx.SDHSS["careRelated"])
+                   if bool(o.toPython())),
+        "no": sum(1 for o in g.objects(None, rx.SDHSS["careRelated"])
+                  if not bool(o.toPython())),
+        "unknown": sum(1 for o in g.objects(None, rx.SDHSS["careClassified"])
+                       if not bool(o.toPython())),
+    }
+
     return {
         "triples": len(g),
         "documents": len(set(g.subjects(RDF.type, rx.CRM["E31_Document"]))),
@@ -194,6 +247,7 @@ def _count(g: Graph) -> dict:
         "mentions": len(list(g.triples((None, rx.CRM["P67_refers_to"], None)))),
         "entities": len(set(g.subjects(rx.SDHSS["entityType"], None))),
         "authority_links": authority,
+        "care": care,
     }
 
 

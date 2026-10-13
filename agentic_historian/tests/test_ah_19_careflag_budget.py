@@ -45,20 +45,33 @@ def test_parses_json_wrapped_in_reasoning_text(monkeypatch):
 
 
 def test_defensive_defaults_on_empty_or_bad(monkeypatch):
-    """Empty/None/garbage response -> the full default dict, never a crash."""
+    """Empty/None/garbage response -> an **unclassified** record, never a crash.
+
+    This asserted the flat `False` default, which was the bug #631 found: a
+    response the parser could not read was stored as the judgement "not
+    care-related". It is now `None` with the reason, and `classified: False`
+    says the model never answered.
+    """
+    import care_flag
     from agents import source_description as sd
 
     for bad in ("", None, "kein json hier", "{broken"):
         monkeypatch.setattr(sd.gs, "chat_text", lambda *a, _b=bad, **k: _b)
         out = sd._care_flag("text")
-        assert out == {"is_care_related": False, "care_context": "",
-                       "care_types": [], "beteiligte": []}
+        assert out["is_care_related"] is None
+        assert out["classified"] is False
+        assert out["error"]
+        assert out["care_context"] == "" and out["care_types"] == []
+        assert care_flag.read(out).state == care_flag.UNKNOWN
 
 
 def test_normalises_missing_keys(monkeypatch):
-    """Partial JSON still yields all four keys with correct types."""
+    """Partial JSON still yields all the keys with correct types."""
     from agents import source_description as sd
     monkeypatch.setattr(sd.gs, "chat_text", lambda *a, **k: '{"is_care_related": true}')
     out = sd._care_flag("text")
     assert out["is_care_related"] is True
     assert out["care_context"] == "" and out["care_types"] == [] and out["beteiligte"] == []
+    # And it says the model actually answered — which is what distinguishes
+    # this from the failure path above (#631).
+    assert out["classified"] is True

@@ -804,33 +804,46 @@ def add_dating(g: Graph, d_uri: URIRef, doc: dict) -> Optional[int]:
     return century
 
 
-def add_care_flag(g: Graph, d_uri: URIRef, doc: dict) -> bool:
-    """Attach the care classification — **only the positive claim**.
+def add_care_flag(g: Graph, d_uri: URIRef, doc: dict) -> Optional[bool]:
+    """Attach the care classification, three-valued (#631). Returns the answer.
 
-    ``_care_flag`` in ``agents/source_description.py`` returns
-    ``is_care_related: False`` both when the model said no *and* when the call
-    failed (its exception path returns the same default). From the stored record
-    the two cannot be told apart, so a published ``careRelated false`` would
-    assert something nobody measured. Absence therefore means "not flagged, or
-    never classified", and the graph says nothing it cannot support.
+    Two predicates, because there are three answers::
 
-    ``care_context`` is deliberately **not** emitted. The owner approved
-    publishing care-flagged documents (``corpus_build``'s scope, 2026-07-30),
-    which is not the same as publishing an LLM's prose about who was involved in
-    a welfare case into an open endpoint. ``care_types`` are a short controlled
-    vocabulary and are emitted, because they are what makes the classification
-    queryable at all.
+        careClassified true  + careRelated true    the model looked, and yes
+        careClassified true  + careRelated false   the model looked, and no
+        careClassified false                       nobody looked
+
+    ``careClassified`` is emitted explicitly rather than left to be inferred
+    from a missing ``careRelated``: absence in a graph is ambiguous — it could
+    equally mean an older build — and "we never checked this welfare document"
+    is a fact a corpus-health query must be able to select on.
+
+    Until #631 the record could not support the negative at all: Agent B's
+    failure path stored the same ``is_care_related: False`` as a real negative,
+    so this emitted only the positive. ``care_flag.read`` resolves both vintages,
+    and a pre-#631 ``False`` still reads as unclassified — which is what it was.
+
+    ``care_context`` and ``beteiligte`` are deliberately **not** emitted. The
+    owner approved publishing care-flagged documents (``corpus_build``'s scope,
+    2026-07-30), which is not the same as publishing an LLM's prose about who
+    was involved in a welfare case into an open endpoint. Nor is the *reason* a
+    classification failed: that can carry a model name or a URL and belongs in
+    the record and the log. ``care_types`` are a short controlled vocabulary and
+    are emitted, because they are what makes the classification queryable.
     """
-    desc = doc.get("description")
-    flag = desc.get("care_flag") if isinstance(desc, dict) else None
-    if not isinstance(flag, dict) or not flag.get("is_care_related"):
-        return False
-    g.add((d_uri, SDHSS["careRelated"], Literal(True)))
-    for care_type in flag.get("care_types") or []:
-        value = str(care_type).strip()
-        if value:
-            g.add((d_uri, SDHSS["careType"], _safe_literal(value)))
-    return True
+    import care_flag as cf
+
+    flag = cf.read(doc)
+    g.add((d_uri, SDHSS["careClassified"], Literal(flag.measured)))
+    if not flag.measured:
+        return None
+    g.add((d_uri, SDHSS["careRelated"], Literal(flag.state == cf.YES)))
+    if flag.state == cf.YES:
+        for care_type in flag.types:
+            value = str(care_type).strip()
+            if value:
+                g.add((d_uri, SDHSS["careType"], _safe_literal(value)))
+    return flag.state == cf.YES
 
 
 def corpus_to_graph(outputs_dir: str | Path, ns: Namespace = AH) -> Graph:

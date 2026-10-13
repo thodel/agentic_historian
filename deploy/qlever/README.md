@@ -15,6 +15,7 @@ Approved by the project owner (T. Hodel) on **2026-07-30**:
 |---|---|
 | Endpoint | public, read-only SELECT |
 | Care-flagged documents | **included** |
+| Unclassified documents | included, and marked as unclassified (`sdhss:careClassified false`, #631) |
 | Person nodes | **all published**, authority id not required |
 
 Rationale: the processed corpus is 14th–16th c. administrative material, so the
@@ -25,7 +26,7 @@ The scope is not hard-coded. To narrow it later, set any of these and re-run
 silent:
 
 ```bash
-KG_PUBLISH_CARE_FLAGGED=false          # drop care-flagged documents
+KG_PUBLISH_CARE_FLAGGED=false          # drop care-flagged AND unclassified documents
 KG_PUBLISH_PERSON_NODES=false          # drop PERSON / CARE_ACTOR nodes
 KG_PUBLISH_REQUIRE_AUTHORITY_ID=true   # keep only persons with a GND/HLS/Wikidata id
 ```
