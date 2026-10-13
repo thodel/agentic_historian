@@ -176,6 +176,16 @@ port and no firewall exception on this path.
   what it costs and submits only on confirmation; it is admin-gated, and the
   confirmation is a persistent view with a record on disk, so a restart in
   between does not kill it (#362, #614).
+- **A finished run gets a page, with every number labelled.** `/train_publish`
+  and the watcher commit `docs/training/<run_id>/` to the outputs repo: the raw
+  `training.json` and job record, plus a page that gives each measurement its
+  scope, its unit and which way is good. A kraken run carries four numbers that
+  all look like accuracy — the benchmark CER, the `ketos test` CER on line crops
+  from the ground-truth segmentation, kraken's own `val_metric` (an accuracy,
+  pointing the other way, over the ten best checkpoints only) and the
+  eval-harness CER, which this record does **not** have and which therefore
+  prints as not measured rather than letting the `ketos test` number stand in
+  for it (#638).
 - **Reading and stopping a run.** `/train_log` gives the tail of one stage's
   log — cut at the front, marked, in a code block, because a traceback is at the
   end — and answers a missing log by naming the stages the job actually reached.

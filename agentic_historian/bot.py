@@ -631,6 +631,13 @@ async def _train_watch_one(run, atr_status, train_watch, TrainJob) -> None:
     if update.notice:
         await _train_say(fresh, update.notice, urgent=update.urgent)
     if update.terminal:
+        # A finished run's report goes to the outputs repo (T5, #638) — only a
+        # completed one, automatically: a catalogue entry about a failed run is
+        # a decision, not a side effect, and `/train_publish` makes it by hand.
+        if fresh.last_status == "completed":
+            posted = await _publish_training(fresh.job_id)
+            if posted:
+                await _train_say(fresh, f"📄 Bericht publiziert: {posted}")
         # Dropped only after the report is away: an entry re-polled once is
         # noise, a result never posted is the thing this watches for.
         train_watch.drop(fresh.job_id)
@@ -2222,6 +2229,78 @@ async def train_start_cmd(
         message_id=str(msg.id), requester=requester_id,
         data={"preset": preset, "model_id": model_id}))
     bot.add_view(view, message_id=msg.id)
+
+
+# ── Training reports to the outputs repo (T5, #638) ──────────────────────────
+
+async def _publish_training(job_id: str) -> "str | None":
+    """Fetch one run's record and curve and commit its report. Never raises.
+
+    The curve is optional: a run that never reached the train stage has none,
+    and a report without a curve is still worth having — it says what was asked
+    for and what it cost. A missing curve is not a reason to publish nothing.
+    """
+    import atr_status
+    import training_report
+    from utils import publish_github
+
+    try:
+        job = await atr_status.job(job_id)
+    except atr_status.AtrStatusError as exc:
+        logger.warning(f"[train-publish] {job_id}: record unreadable: {exc}")
+        return None
+    curve = None
+    try:
+        curve = await atr_status.curve(job_id)
+    except atr_status.AtrStatusError as exc:
+        logger.info(f"[train-publish] {job_id}: no curve ({exc})")
+
+    try:
+        files = training_report.files(job or {}, curve)
+    except training_report.RunIdRefused as exc:
+        logger.warning(f"[train-publish] {job_id}: {exc}")
+        return None
+    return await asyncio.to_thread(
+        publish_github.publish_training, job_id, files)
+
+
+@bot.slash_command(
+    name="train_publish",
+    description="Admin: den Bericht eines Trainings-Laufs in die Outputs publizieren")
+@admin_only
+async def train_publish_cmd(ctx, job_id: Option(str, "Job-Id", required=True)):
+    """Publish one run's report by hand (T5, #638).
+
+    The watcher does this for a `completed` run on its own. By hand is for the
+    other cases: a run that failed and is worth a record anyway, one that
+    finished before the watcher existed, or a report that needs re-committing
+    after the page template changed.
+    """
+    import training_report
+    from utils import publish_github
+
+    await ctx.defer()
+    if not publish_github.is_enabled():
+        await ctx.followup.send(
+            "❌ Publizieren ist aus (`ENABLE_GITHUB_PUBLISH=false`).")
+        return
+    try:
+        training_report.run_path(job_id)
+    except training_report.RunIdRefused as exc:
+        await ctx.followup.send(f"❌ {exc}")
+        return
+
+    url = await _publish_training(job_id)
+    if url:
+        await ctx.followup.send(
+            f"📄 Bericht für **{job_id}** publiziert: {url}")
+        return
+    # Three causes that must not be confused — the same distinction
+    # `BatchPublish` draws for documents.
+    await ctx.followup.send(
+        f"Kein Commit für **{job_id}**: entweder ist der Bericht schon aktuell, "
+        f"oder der Trainer kennt den Lauf nicht, oder der Commit ist "
+        f"fehlgeschlagen. Das Log sagt, welches davon.")
 
 
 # ── /sparql (KG-5, #331) ─────────────────────────────────────────────────────
