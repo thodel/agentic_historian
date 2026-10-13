@@ -10,7 +10,6 @@ Used by the bot's /pull command to bring a whole folder of source images into th
 local hot folder for processing.
 """
 
-import json
 from pathlib import Path
 from typing import Optional
 
@@ -264,18 +263,35 @@ def list_subdirs(remote_dir: Optional[str] = None) -> list[str]:
 
 
 def load_processed() -> set:
-    """Set of already-processed order ids."""
-    try:
-        return set(json.loads(_PROCESSED_FILE.read_text(encoding="utf-8")))
-    except Exception:
-        return set()
+    """Set of already-processed order ids.
+
+    Through ``shared_lock.read_json``, which **logs** an unreadable file
+    instead of swallowing it. The bare ``except`` here returned an empty set
+    for a truncated file, so a half-written ``processed_orders.json`` silently
+    read as "nothing has been processed" and the next ingest would do every
+    order again. The write below can no longer truncate, but the reason the
+    file was trusted has to be visible either way (#393).
+    """
+    from shared_lock import read_json
+
+    return set(read_json(_PROCESSED_FILE, default=list) or [])
 
 
 def mark_processed(order_id: str) -> None:
-    """Record an order id as processed."""
-    done = load_processed()
-    done.add(order_id)
-    _PROCESSED_FILE.parent.mkdir(parents=True, exist_ok=True)
-    _PROCESSED_FILE.write_text(
-        json.dumps(sorted(done), ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    """Record an order id as processed — safely for N workers (#393).
+
+    This read the file, added one id and wrote the whole thing back with plain
+    file I/O. Two workers finishing two different orders at the same time each
+    read the same list, each added their own id, and the second write erased the
+    first: **one order marked, the other silently unmarked and re-ingested on
+    the next pull.** One serial worker made that safe; R2's workers do not.
+
+    ``locked_json`` holds one lock across the read, the change and an atomic
+    write, which is the only shape that closes the gap.
+    """
+    from shared_lock import locked_json
+
+    with locked_json(_PROCESSED_FILE, default=list) as done:
+        ids = set(done or [])
+        ids.add(order_id)
+        done[:] = sorted(ids)

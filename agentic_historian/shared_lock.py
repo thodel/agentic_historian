@@ -6,11 +6,24 @@ Guiding principles
 -----------------
 * JSONL appends (preferences, feedback, votes) are part of the published
   methodology and **must stay as JSONL files**.
-* Every write in this module is wrapped with a ``FileLock`` (blocking,
-  exclusive) around an ``fcntl.flock`` on a lock-file adjacent to the target.
-  This makes the critical sections safe for N workers even when they share
-  the same filesystem (SMB / NFS with ``actimeo=0`` caveats apply — documented
-  in the AGENTS.md note in this module).
+* Every write in this module is wrapped with a blocking, exclusive
+  ``fcntl.flock`` on a lock-file adjacent to the target. That makes the
+  critical sections safe for N workers of this host.
+
+**Where this holds, and where it would not.** Every file routed through here
+lives under ``BASE_DIR`` — ``DATA_DIR`` (``processed_orders.json``, the run
+states, the JSONL logs) and ``KH_DIR`` (``hub.json``) are both local disk, so
+``flock`` is doing what it says. It would **not** carry over to the SMB share
+(``/mnt/wbkolleg_dh_1``): ``flock`` over CIFS depends on the mount and the
+server, and nothing here should be taken as a promise about a file that lives
+there. Nothing routed through this module does.
+
+``flock`` is also held per *open file description*, which has two consequences
+worth stating: two threads of one process do not serialise against each other
+through it (the knowledge hub keeps a ``threading.Lock`` for that layer), and a
+second ``os.open`` + ``LOCK_EX`` on the same file from inside a section this
+module already holds blocks for ever — which is why the holders write through
+the unlocked ``_write_atomic``.
 * The atomic-write helper (``write_atomic``) uses ``tempfile`` + ``os.replace``
   and is only used for JSON files that are fully re-written; it does NOT need
   a cross-process lock because it writes a temp file in the same directory first,
@@ -20,11 +33,31 @@ Guiding principles
 
 Usage
 -----
-    from shared_lock import locked_append, read_json, write_json_atomic
+    from shared_lock import locked_append, locked_json, read_json, write_json_atomic
 
     locked_append(config.PREFERENCES_LOG_PATH, json.dumps(record))
     data = read_json(config.PREFERENCES_LOG_PATH, default=[])
     write_json_atomic(config.META_LOG_PATH, data)          # safe for N workers
+
+    with locked_json(path, default=list) as rows:          # read-modify-write
+        rows.append(record)
+
+Which one to reach for
+----------------------
+* **Append a record** → ``locked_append``. The published JSONL formats stay
+  JSONL; only the append is serialised.
+* **Replace a whole file** with something computed from elsewhere →
+  ``write_json_atomic``.
+* **Read a file, change part of it, write it back** → ``locked_json``, and
+  nothing else. The other two cannot do this between them: the gap between a
+  ``read_json`` and a ``write_json_atomic`` is exactly where another worker's
+  write gets overwritten. That gap was real in ``switchdrive.mark_processed``
+  and in ``knowledge_hub.hub`` (#393).
+* **A file only one document's worker ever touches** → nothing needed, and
+  ``runstate.RunState`` is the example: its path is derived from the doc id, so
+  two workers never address the same file. It still writes through
+  ``write_json_atomic``, which costs nothing and means a crash mid-write cannot
+  leave a half-written run.
 """
 
 from __future__ import annotations
@@ -66,6 +99,72 @@ def _release(fd: int) -> None:
 # Public API
 # ---------------------------------------------------------------------------
 
+def _write_atomic(path: Path, data: Any) -> None:
+    """Write ``data`` to ``path`` via a temp file in the same directory.
+
+    **Takes no lock**, and that is why it exists separately: ``flock`` is held
+    per open-file-description, so a second ``os.open`` + ``LOCK_EX`` on the same
+    file from the same process blocks for ever. Calling the locking
+    ``write_json_atomic`` from inside a critical section this module already
+    holds would deadlock, so every holder of the lock writes through this.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_fd, tmp_name = tempfile.mkstemp(suffix=".tmp", dir=path.parent)
+    try:
+        with os.fdopen(tmp_fd, "w", encoding="utf-8") as tmp:
+            json.dump(data, tmp, ensure_ascii=False, indent=2)
+        os.replace(tmp_name, path)
+    finally:
+        if os.path.exists(tmp_name):
+            try:
+                os.unlink(tmp_name)
+            except OSError:
+                pass
+
+
+@contextlib.contextmanager
+def locked_json(path: Path, default: Any = None):
+    """Read, mutate and write back one JSON file under **one** lock.
+
+    The critical section this module described but did not provide. Its own
+    docstring said callers that read *and* write a shared file "need BOTH the
+    lock and the atomic write" — and there was no way to do that: ``read_json``
+    takes no lock and ``write_json_atomic`` acquires and releases its own, so
+    between a caller's read and its write another worker could land a write that
+    the caller then overwrote. That is a **lost update**, and it is what
+    ``mark_processed`` and the knowledge hub were both doing (#393).
+
+    Usage::
+
+        with locked_json(path, default=list) as data:
+            data.append(record)          # written back atomically on exit
+
+    The object yielded is whatever the file held (or ``default``); mutate it in
+    place or use ``data[:]`` / ``data.clear()`` to replace its contents — the
+    object that comes back is what gets written.
+
+    **An exception inside the block writes nothing.** A half-applied mutation is
+    worse than none: the caller will retry, and it cannot retry against a file
+    that already holds half of the last attempt.
+    """
+    path = Path(path)
+    lock_path = _lock_path(path)
+    fd = _acquire(lock_path)
+    try:
+        if path.exists():
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, OSError) as exc:
+                logger.warning(f"[shared_lock] unreadable {path.name}: {exc}")
+                data = default() if callable(default) else default
+        else:
+            data = default() if callable(default) else default
+        yield data
+        _write_atomic(path, data)
+    finally:
+        _release(fd)
+
+
 def locked_append(path: Path, line: str) -> None:
     """Append ``line`` (already JSON-serialised) to ``path``, safely.
 
@@ -91,22 +190,10 @@ def write_json_atomic(path: Path, data: Any) -> None:
     (e.g. data/runs/*.json, hub.json, processed_orders.json, META_LOG_PATH).
     """
     path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
     lock_path = _lock_path(path)
     fd = _acquire(lock_path)
     try:
-        # Write to a temp file in the same directory so rename is atomic.
-        tmp_fd, tmp_name = tempfile.mkstemp(suffix=".tmp", dir=path.parent)
-        try:
-            with os.fdopen(tmp_fd, "w", encoding="utf-8") as tmp:
-                json.dump(data, tmp, ensure_ascii=False, indent=2)
-            os.replace(tmp_name, path)
-        finally:
-            if os.path.exists(tmp_name):
-                try:
-                    os.unlink(tmp_name)
-                except OSError:
-                    pass
+        _write_atomic(path, data)
     finally:
         _release(fd)
 

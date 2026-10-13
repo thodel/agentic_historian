@@ -119,11 +119,36 @@ def _matches(query: str, entry: dict) -> bool:
     return any(q in (n or "").lower() or (n or "").lower() in q for n in names if n)
 
 
+def _upsert(rows: list, record: dict) -> None:
+    """Replace the row with this ``id``, or append. In place, on fresh data.
+
+    Pulled out of the mutators so the change a mutation makes is a function of
+    the data it was handed — which is what lets ``_mutate`` apply it to the file
+    as it is *now* rather than to a snapshot from when the object was built.
+    """
+    for index, existing in enumerate(rows):
+        if existing.get("id") and existing.get("id") == record.get("id"):
+            rows[index] = record
+            return
+    rows.append(record)
+
+
+def _add_once(rows: list, value: str) -> None:
+    """Append ``value`` unless it is already there. The duplicate check has to
+    run on the fresh list: another process may have added it meanwhile."""
+    if value not in rows:
+        rows.append(value)
+
+
 class KnowledgeHub:
     """JSON-persistent knowledge base for the Agentic Historian."""
 
-    def __init__(self, path: Path = HUB_PATH):
-        self.path = Path(path)
+    def __init__(self, path: Optional[Path] = None):
+        # `HUB_PATH` read at construction, not bound as a default argument: a
+        # default is evaluated at import, so pointing the module attribute at a
+        # temporary directory could not move an instance built afterwards — and
+        # a store whose path cannot be moved cannot be isolated in a test (#393).
+        self.path = Path(path) if path is not None else Path(HUB_PATH)
         self._lock = threading.Lock()
         self._data = self._load()
 
@@ -143,12 +168,55 @@ class KnowledgeHub:
         return data
 
     def _write(self, data: dict) -> None:
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.path.write_text(
-            json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
+        """Replace the file. Atomic, so a crash cannot leave half a hub (#393)."""
+        from shared_lock import write_json_atomic
+
+        write_json_atomic(self.path, data)
+
+    def _mutate(self, change) -> None:
+        """Apply ``change(data)`` to the file: read fresh, change, write back.
+
+        The whole of R3's fix for this class (#393). It used to mutate
+        ``self._data`` — a copy read once, when the object was built — and then
+        rewrite the entire file from that copy. Two processes with a hub each
+        therefore did not race for milliseconds but for as long as their objects
+        lived: whichever saved second wrote its own stale snapshot over
+        everything the other had added, and nothing anywhere said so.
+
+        So a mutation now reads the file under the lock, applies the change to
+        *that*, writes it atomically, and points the cache at what was actually
+        written. ``threading.Lock`` stays as the in-process layer: ``flock``
+        does not serialise two threads of one process, because they share the
+        open-file description.
+
+        Readers (``get_persons`` and friends) still answer from the cache, which
+        can be behind the file when another process has written to it. That is
+        staleness, not corruption, and it is refreshed by the next mutation or
+        by :meth:`reload`.
+        """
+        from shared_lock import locked_json
+
+        with self._lock:
+            with locked_json(self.path, default=dict) as data:
+                if not isinstance(data, dict):
+                    data = {}
+                for key, value in DEFAULTS.items():
+                    data.setdefault(key, copy.deepcopy(value))
+                change(data)
+            self._data = data
+
+    def reload(self) -> None:
+        """Re-read the file, discarding the cache.
+
+        For a long-lived reader that wants what another process has added since
+        it started. A mutation does this on its own.
+        """
+        with self._lock:
+            self._data = self._load()
 
     def _save(self) -> None:
+        """Write the cache as-is. **Not** for mutating shared state — see
+        :meth:`_mutate`, which is what the mutators use."""
         with self._lock:
             self._write(self._data)
 
@@ -164,14 +232,7 @@ class KnowledgeHub:
         return matches[0] if matches else None
 
     def add_person(self, person: dict) -> None:
-        persons = self._data["persons"]
-        for i, p in enumerate(persons):
-            if p.get("id") and p.get("id") == person.get("id"):
-                persons[i] = person
-                self._save()
-                return
-        persons.append(person)
-        self._save()
+        self._mutate(lambda data: _upsert(data["persons"], person))
 
     def all_persons(self) -> list[Person]:
         """Return all persons as dataclass instances (for RDF export)."""
@@ -224,23 +285,16 @@ class KnowledgeHub:
         return matches[0] if matches else None
 
     def add_place(self, place: dict) -> None:
-        places = self._data["places"]
-        for i, p in enumerate(places):
-            if p.get("id") and p.get("id") == place.get("id"):
-                places[i] = place
-                self._save()
-                return
-        places.append(place)
-        self._save()
+        self._mutate(lambda data: _upsert(data["places"], place))
 
     # ── vocabulary / document types ──────────────────────────────────────────
     def get_controlled_vocabulary(self) -> list[str]:
         return self._data["controlled_vocabulary"]
 
     def add_keyword(self, term: str) -> None:
-        if term and term not in self._data["controlled_vocabulary"]:
-            self._data["controlled_vocabulary"].append(term)
-            self._save()
+        if not term:
+            return
+        self._mutate(lambda data: _add_once(data["controlled_vocabulary"], term))
 
     def match_vocabulary(self, term: str) -> Optional[str]:
         """Return the controlled-vocabulary entry matching `term` (the taxonomy
@@ -267,9 +321,9 @@ class KnowledgeHub:
         return self._data["document_types"]
 
     def add_document_type(self, dtype: str) -> None:
-        if dtype and dtype not in self._data["document_types"]:
-            self._data["document_types"].append(dtype)
-            self._save()
+        if not dtype:
+            return
+        self._mutate(lambda data: _add_once(data["document_types"], dtype))
 
     # ── summary ──────────────────────────────────────────────────────────────
     def summary(self) -> str:

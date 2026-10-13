@@ -34,6 +34,12 @@ data/outputs/
 data/runs/
 data/feedback/
 *.json
+# Lock files from shared_lock (#393) — one appears next to every file the
+# wrappers protect, named .<target>.lock. Per-host runtime artefacts: a
+# committed one means nothing anywhere else. The *.json rule above does not
+# match them, so they were showing up as untracked next to hub.json.
+*.lock
+.*.lock
 
 # OS
 .DS_Store
