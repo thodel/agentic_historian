@@ -232,6 +232,14 @@ port and no firewall exception on this path.
   can never choose a command, a flag or a path outside the corpus roots.
   ([`deploy/mcp-atr/`](deploy/mcp-atr), [`docs/CLAUDE_CODE_CONNECTIVITY.md`](docs/CLAUDE_CODE_CONNECTIVITY.md))
 - **Voyant** at `tei.dh.unibe.ch/voyant/` backs Agent D's corpus views.
+- **A corpus analysis says how much of the corpus it saw.** Agent D cuts a long
+  corpus into overlapping chunks and asks the model per chunk; a chunk that does
+  not answer now shows up as a `provenance` block — how many chunks there were,
+  how many answered, and the character range of each gap — instead of
+  contributing an empty list that reads as "nothing found" (#634). `complete:
+  true` with an empty list therefore means *measured, nothing there*. The three
+  analyses also appear in `report.md`, which named only words and characters
+  before and so hid both the results and their gaps.
 - **Nextcloud / SwitchDrive** shares are the ingestion side: a folder of scans is
   mirrored, or read straight over WebDAV with a page cache in front of it.
 

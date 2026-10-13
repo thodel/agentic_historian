@@ -59,7 +59,8 @@ def test_a_long_care_analysis_keeps_all_three_keys(monkeypatch):
     monkeypatch.setattr(ca.gs, "chat_text", lambda *a, **k: next(answers))
 
     out = ca._care_analysis_large("x" * (2 * ca.LLM_CHUNK_SIZE + 10))
-    assert set(out) == {"care_instances", "patterns", "gender_aspects"}
+    assert set(out) == {"care_instances", "patterns", "gender_aspects",
+                        ca.PROVENANCE_KEY}       # + the provenance block (#634)
     assert len(out["care_instances"]) == 3
     assert out["patterns"] == ["p1", "p2", "p3"]
     assert out["gender_aspects"] == ["g1", "g2", "g3"]
@@ -209,9 +210,14 @@ def test_a_reasoning_preamble_or_a_fence_still_parses(monkeypatch, answer):
     assert ca._topics("text") == {"topics": [{"name": "Fürsorge"}]}
 
 
-def test_an_answer_with_no_json_falls_back_and_logs(monkeypatch):
+def test_an_answer_with_no_json_raises_rather_than_looking_like_a_finding(
+        monkeypatch):
+    """This returned `{"topics": []}` from its own exception handler, which is
+    the same thing a measured "no topics here" looks like. Since #634 the
+    per-chunk call raises and `_analyse_large` records the gap."""
     monkeypatch.setattr(ca.gs, "chat_text", lambda *a, **k: "Ich bin unsicher.")
-    assert ca._topics("text") == {"topics": []}
+    with pytest.raises(llm_json.LlmJsonError):
+        ca._topics("text")
 
 
 def test_a_json_array_is_refused_rather_than_returned(monkeypatch):
@@ -219,9 +225,13 @@ def test_a_json_array_is_refused_rather_than_returned(monkeypatch):
     would put the wrong keys into the merged result — `name` where `taxonomies`
     belonged — and look like an answer while doing it."""
     monkeypatch.setattr(ca.gs, "chat_text", lambda *a, **k: '[{"name": "x"}]')
-    assert ca._taxonomy("text") == {"taxonomies": []}
-    # And the merged corpus result therefore carries no stray key.
-    assert "name" not in ca._merge_json_results([ca._taxonomy("text")])
+    with pytest.raises(llm_json.LlmJsonError):
+        ca._taxonomy("text")
+    # And the corpus result therefore carries no stray key — only the empty
+    # list and the provenance that says why it is empty (#634).
+    out = ca._taxonomy_large("text")
+    assert "name" not in out
+    assert out["taxonomies"] == []
 
 
 def test_all_three_analyses_go_through_the_same_call(monkeypatch):
