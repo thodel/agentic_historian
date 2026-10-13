@@ -426,10 +426,31 @@ class Entry:
 
 @dataclass
 class Rejected:
-    """A page left out, and why. Counted, never silent."""
+    """A page left out, and why. Counted, never silent.
+
+    ``reason`` is the sentence a human reads. The two sizes are carried
+    **beside** it rather than read back out of it: grouping 43 rejections by
+    their signature means comparing numbers, and a report that parses its own
+    prose is one rename away from counting nothing (#624).
+    """
 
     key: str
     reason: str
+    #: What the XML claims and what the image is, for a geometry rejection.
+    claimed: Optional[tuple[int, int]] = None
+    actual: Optional[tuple[int, int]] = None
+
+    @property
+    def category(self) -> str:
+        """The reason's first word — what ``Plan.reasons`` counts by."""
+        return self.reason.split(":", 1)[0]
+
+    @property
+    def signature(self) -> Optional[tuple[tuple[int, int], tuple[int, int]]]:
+        """The (claimed, actual) pair, when both are known."""
+        if self.claimed is None or self.actual is None:
+            return None
+        return self.claimed, self.actual
 
 
 @dataclass
@@ -453,8 +474,25 @@ class Plan:
     def reasons(self) -> dict[str, int]:
         out: dict[str, int] = {}
         for r in self.rejected:
-            head = r.reason.split(":", 1)[0]
+            head = r.category
             out[head] = out.get(head, 0) + 1
+        return out
+
+    @property
+    def signatures(self) -> dict[tuple[tuple[int, int], tuple[int, int]], int]:
+        """How many pages each (claimed, actual) size pair accounts for.
+
+        The count of geometry rejections says how many pages are out; the
+        signature says **why**, and the three causes are told apart by numbers
+        alone. A swap is a rotated scan, a few pixels is one renderer against
+        another, and a different aspect ratio is a different derivative of the
+        scan — only the last is a page this export can do nothing about.
+        """
+        out: dict[tuple[tuple[int, int], tuple[int, int]], int] = {}
+        for r in self.rejected:
+            sig = r.signature
+            if sig is not None:
+                out[sig] = out.get(sig, 0) + 1
         return out
 
 
@@ -599,7 +637,8 @@ def plan(scored: Sequence, index: dict[str, Path], *,
                 out.rejected.append(Rejected(
                     name, f"geometry: XML says {claimed[0]}x{claimed[1]}, the image "
                           f"is {actual[0]}x{actual[1]} — the line polygons do not "
-                          f"describe this image"))
+                          f"describe this image",
+                    claimed=claimed, actual=actual))
                 continue
         # The dateline is read either way: when the register also covers this
         # letter the two can be compared, and a disagreement means one of them is
@@ -626,6 +665,68 @@ def plan(scored: Sequence, index: dict[str, Path], *,
     out.hands.disputed = disputed
     out.hands.from_register = sum(1 for e in out.entries if e.from_register)
     return out
+
+
+#: How many pixels two sizes may differ by and still count as the same page
+#: rendered twice. One renderer rounding a page's width where another truncates
+#: it is a sub-pixel disagreement; it is named here so that reading it as
+#: "a different scan" is not possible.
+ROUNDING_PX = 2
+
+#: How far two axes' scale factors may differ and still count as one uniform
+#: rescale (0.5 %). Below it the polygons are recoverable by multiplication;
+#: above it the two images are not the same crop.
+UNIFORM_TOLERANCE = 0.005
+
+#: Signatures printed in the plan. The rest are in the rejection table — the cap
+#: belongs where the report is rendered, never where the rows are collected (#617).
+SIGNATURES_SHOWN = 8
+
+#: Rejected pages named in the plan, for the same reason.
+REJECTED_SHOWN = 5
+
+
+def describe_signature(claimed: tuple[int, int], actual: tuple[int, int]) -> str:
+    """What a (claimed, actual) size pair says about the two images.
+
+    Four shapes, told apart by arithmetic rather than by looking at the pages:
+    a swap is a rotated scan, a couple of pixels is one renderer against
+    another, one scale factor on both axes is a derivative whose polygons would
+    survive multiplication, and anything else is a different crop of the page —
+    the only one of the four that nothing here can repair.
+    """
+    cw, ch = claimed
+    aw, ah = actual
+    if (cw, ch) == (ah, aw):
+        return "rotated: the same pixels, width and height exchanged"
+    if max(abs(cw - aw), abs(ch - ah)) <= ROUNDING_PX:
+        return (f"rounding: {abs(cw - aw)}x{abs(ch - ah)} px apart — one "
+                f"renderer against another, not a different scan")
+    sw, sh = cw / aw, ch / ah
+    if abs(sw - sh) <= UNIFORM_TOLERANCE * max(sw, sh):
+        return (f"scaled: one factor on both axes ({sw:.3f}) — the polygons "
+                f"would describe this image after multiplication")
+    return (f"different crop: {sw:.3f} wide against {sh:.3f} high, "
+            f"aspect {cw / ch:.4f} against {aw / ah:.4f} — two derivatives of "
+            f"the page, not one rescaled")
+
+
+def rejected_table(p: Plan) -> str:
+    """Every rejected page, one per row, with its reason and both sizes.
+
+    The plan prints counts and a handful of names, which is a complaint rather
+    than a task: diagnosing 43 geometry rejections needs the 43 keys, and the
+    next step needs them in a file (#616). Collected in full here, capped only
+    where it is displayed.
+    """
+    rows = ["key\tcategory\tclaimed\tactual\tshape\treason"]
+    for r in p.rejected:
+        sig = r.signature
+        claimed = f"{r.claimed[0]}x{r.claimed[1]}" if r.claimed else ""
+        actual = f"{r.actual[0]}x{r.actual[1]}" if r.actual else ""
+        shape = describe_signature(*sig).split(":", 1)[0] if sig else ""
+        rows.append(f"{r.key}\t{r.category}\t{claimed}\t{actual}\t{shape}\t{r.reason}")
+    return "\n".join(rows) + "\n"
 
 
 def format_plan(p: Plan) -> str:
@@ -686,9 +787,24 @@ def format_plan(p: Plan) -> str:
         lines += ["", f"left out: {len(p.rejected)}"]
         for reason, n in sorted(p.reasons.items(), key=lambda kv: -kv[1]):
             lines.append(f"  {reason:18} {n:>4}")
+        sigs = p.signatures
+        if sigs:
+            lines += ["", f"the geometry rejections are {len(sigs)} distinct size "
+                          f"pair(s), and the pair says which of them is repairable:"]
+            for (claimed, actual), n in sorted(sigs.items(), key=lambda kv: -kv[1])[:SIGNATURES_SHOWN]:
+                lines.append(f"  {n:>4} page(s)  XML {claimed[0]}x{claimed[1]} → "
+                             f"image {actual[0]}x{actual[1]}")
+                lines.append(f"        {describe_signature(claimed, actual)}")
+            if len(sigs) > SIGNATURES_SHOWN:
+                lines.append(f"  … and {len(sigs) - SIGNATURES_SHOWN} more pair(s); "
+                             f"all of them are in the rejection table")
         lines += ["", "first few:"]
-        for r in p.rejected[:5]:
+        for r in p.rejected[:REJECTED_SHOWN]:
             lines.append(f"  - {r.key}: {r.reason}")
+        if len(p.rejected) > REJECTED_SHOWN:
+            lines.append(f"  … and {len(p.rejected) - REJECTED_SHOWN} more. A count "
+                         f"is a complaint and only the keys are a task: "
+                         f"--rejected-out writes all {len(p.rejected)}")
     return "\n".join(lines)
 
 

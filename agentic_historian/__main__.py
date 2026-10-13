@@ -632,6 +632,15 @@ def export_hf(args: argparse.Namespace) -> int:
         out.write_text(hf.writers_table(plan), encoding="utf-8")
         print(f"\nthe hand of every page: {out}")
 
+    # The same argument, for the pages that did not make it: the plan prints
+    # counts and five names, and 43 geometry rejections cannot be diagnosed from
+    # five. Written on a dry run too — a dry run is exactly when this is read.
+    if getattr(args, "rejected_out", None) and plan.rejected:
+        out = Path(args.rejected_out).expanduser()
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(hf.rejected_table(plan), encoding="utf-8")
+        print(f"every page left out: {out}")
+
     # When the index holds pages but none of the wanted keys, the counts alone
     # cannot say why — and guessing cost two rounds on 2026-10-02/03, first on a
     # PDF renderer and then on a cache eviction that turned out not to be it. The
@@ -1376,6 +1385,11 @@ def build_parser() -> argparse.ArgumentParser:
                            "was inherited. Written on a dry run too, because the "
                            "plan's counts are a claim about an inference and this "
                            "is what makes it checkable")
+    p_hf.add_argument("--rejected-out",
+                      help="Write one row per page left out — its reason, and for "
+                           "a geometry rejection both sizes and what the pair "
+                           "says. The plan names five of them, which is a count "
+                           "and not a task: diagnosing them needs every key")
     p_hf.add_argument("--repo-id", default="dh-unibe/image-text_lassberg-correspondence_xix",
                       help="Dataset repo for the printed pagexml-hf command")
     p_hf.add_argument("--dry-run", action="store_true",
