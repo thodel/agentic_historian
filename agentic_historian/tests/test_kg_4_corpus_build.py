@@ -21,11 +21,18 @@ from knowledge_hub import corpus_build as cb
 
 
 def _doc(doc_id="doc-1", care=False, entities=None, recognitions=None):
+    # The care flag as Agent B writes it since #631: `classified` says the model
+    # actually looked, so `care=False` means "checked, not care-related" rather
+    # than the old `False` that also covered a failed call. Without it these
+    # records read as unclassified — and the narrower scope withholds those too,
+    # which is the fix #631 made.
+    import care_flag
+
     return {
         "doc_id": doc_id,
         "transcription": "unser fruntlich gruos",
         "description": {"source_description": "desc",
-                        "care_flag": {"is_care_related": care, "care_context": ""}},
+                        "care_flag": care_flag.classified(care)},
         "entities": {"entities": entities if entities is not None else [
             {"text": "Heinrich von Wiler", "type": "PERSON",
              "normalised": "Heinrich von Wiler", "gnd": "12175376X"},
@@ -158,6 +165,23 @@ def test_narrower_scope_can_exclude_care_flagged_and_says_so(tmp_path):
     assert report.documents == 1
     assert report.withheld["care_flagged_documents"] == 1
     assert "withheld" in report.render()
+
+
+def test_the_narrower_scope_also_withholds_what_was_never_classified(tmp_path):
+    """#631: an unclassified document *may* be care-related, and not publishing
+    those is the whole purpose of the narrow setting. It used to be stored as
+    `is_care_related: False` and passed straight through."""
+    unchecked = _doc("unchecked")
+    unchecked["description"]["care_flag"] = {"is_care_related": False}  # vintage
+    _corpus(tmp_path, _doc("open", care=False), unchecked)
+    scope = cb.PublicationScope(include_care_flagged=False)
+
+    report = cb.build(tmp_path, tmp_path / "corpus.ttl", scope)
+    assert report.documents == 1
+    # Counted on its own line: "4 care documents" and "11 never classified" are
+    # different facts about the same build.
+    assert report.withheld["unclassified_documents"] == 1
+    assert "care_flagged_documents" not in report.withheld
 
 
 def test_narrower_scope_can_drop_person_nodes(tmp_path):

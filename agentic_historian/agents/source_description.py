@@ -12,6 +12,7 @@ from typing import Optional
 
 from loguru import logger
 
+import care_flag
 import config
 from utils import gpustack_client as gs
 from agents.source_heuristic import (
@@ -126,8 +127,11 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
                                    "(Wiederholungskollaps) — keine belastbare "
                                    "Quellenbeschreibung möglich."),
             "source_json": source_json,
-            "care_flag": {"is_care_related": False, "care_context": "",
-                          "care_types": [], "beteiligte": []},
+            # Unknown, not negative (#631): the care flag reads the
+            # transcription, and there is no usable one here. Storing False
+            # would record a judgement about a welfare document that nobody made.
+            "care_flag": care_flag.unclassified(
+                "Transkription unlesbar/degeneriert — nicht klassifiziert"),
             "image_path": image_path or "none",
             "low_confidence": True,
         }
@@ -290,9 +294,10 @@ def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict]) -> 
             + description_md
         ),
         "source_json": source_json,
-        # No care-flag: that reads the transcription, and there isn't a usable one.
-        "care_flag": {"is_care_related": False, "care_context": "",
-                      "care_types": [], "beteiligte": []},
+        # No care-flag: that reads the transcription, and there isn't a usable
+        # one. Which is exactly "unknown" and was stored as "no" (#631).
+        "care_flag": care_flag.unclassified(
+            "nur Bildbeschreibung — Care-Flag braucht die Transkription"),
         "image_path": str(image_path),
         "low_confidence": True,       # honest: this is not a text-backed reading
         "source": "image-only",
@@ -386,7 +391,6 @@ def _care_flag(transcription: str) -> dict:
         "Antworte als JSON: {is_care_related: bool, care_context: str, "
         "care_types: [string], beteiligte: [string]}"
     )
-    default = {"is_care_related": False, "care_context": "", "care_types": [], "beteiligte": []}
     try:
         # gpt-oss is a reasoning model — it spends tokens on reasoning_content
         # before the JSON, so 800 truncated the answer to null. Give it room.
@@ -397,15 +401,17 @@ def _care_flag(transcription: str) -> dict:
             raise ValueError("no JSON object found in care-flag response")
         parsed = json.loads(json_text)
     except Exception as e:
+        # NOT the same record as a negative (#631). This returned
+        # `is_care_related: False` here, so a failed call was stored as the
+        # judgement "not care-related" — one nobody made. Three values: the
+        # unknown says so, and says why.
         logger.warning(f"[Agent B] Care-Flag fehlgeschlagen: {e}")
-        return dict(default)
-    # Normalise: always return the expected keys with the expected types.
-    return {
-        "is_care_related": bool(parsed.get("is_care_related", False)),
-        "care_context": parsed.get("care_context") or "",
-        "care_types": parsed.get("care_types") or [],
-        "beteiligte": parsed.get("beteiligte") or [],
-    }
+        return care_flag.unclassified(f"{type(e).__name__}: {e}")
+    return care_flag.classified(
+        bool(parsed.get("is_care_related", False)),
+        context=parsed.get("care_context") or "",
+        types=parsed.get("care_types") or [],
+        participants=parsed.get("beteiligte") or [])
 
 
 def _save(doc_id: str, result: dict):
@@ -426,8 +432,8 @@ def _save(doc_id: str, result: dict):
         f"{result.get('source_description', '—')}\n\n"
         f"---\n\n"
         f"## Care-Flag\n\n"
-        f"- **Care-relevant:** {'Ja' if care.get('is_care_related') else 'Nein'}\n"
-        f"- **Kontext:** {care.get('care_context', '—')}\n"
+        f"- **Care-relevant:** {care_flag.read(care).line()}\n"
+        f"- **Kontext:** {care.get('care_context') or '—'}\n"
         f"- **Care-Typen:** {', '.join(care.get('care_types', []) or ['—'])}\n"
         f"- **Beteiligte:** {', '.join(care.get('beteiligte', []) or ['—'])}\n\n"
         f"_Bildgrundlage: {result.get('image_path', 'none')}_\n"
