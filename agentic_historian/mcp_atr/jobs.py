@@ -494,6 +494,7 @@ def letter_register_job(sender_gnd: Optional[str] = None,
 def export_hf_argv(runs: Sequence[Path], *, gt_dir: Optional[Path] = None,
                    out: Optional[Path] = None,
                    writers_out: Optional[Path] = None,
+                   rejected_out: Optional[Path] = None,
                    dry_run: bool = True) -> list[str]:
     """The exact argv for one ``export-hf`` run.
 
@@ -511,6 +512,8 @@ def export_hf_argv(runs: Sequence[Path], *, gt_dir: Optional[Path] = None,
         argv += ["--out", str(out)]
     if writers_out is not None:
         argv += ["--writers-out", str(writers_out)]
+    if rejected_out is not None:
+        argv += ["--rejected-out", str(rejected_out)]
     if dry_run:
         argv.append("--dry-run")
     return argv
@@ -543,10 +546,16 @@ def export_hf_job(runs: Sequence[str], gt_dir: Optional[str] = None,
     # writers table is how the inferred hand can be disagreed with, and the key
     # list that lived in /tmp did not survive tei's reboot (#535).
     writers = Path(config.VLM_TEST_ROOT) / f"hf-writers-{stamp}.tsv"
+    # And the pages that did not make it, for the same reason: the plan prints
+    # five names, and the 43 geometry rejections of 2026-10-13 could not be
+    # diagnosed from five (#616 again, in a second report).
+    rejected = Path(config.VLM_TEST_ROOT) / f"hf-rejected-{stamp}.tsv"
     argv = export_hf_argv([_run_dir(n) for n in names], gt_dir=folder, out=out,
-                          writers_out=writers, dry_run=dry_run)
+                          writers_out=writers, rejected_out=rejected,
+                          dry_run=dry_run)
     return {"ok": True, "runs": names, "ground_truth_dir": str(folder),
             "out_dir": str(out) if out else None, "writers": str(writers),
+            "rejected": str(rejected),
             **start_and_peek("export-hf", argv)}
 
 

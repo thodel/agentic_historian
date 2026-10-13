@@ -105,6 +105,61 @@ absent is not "matches".
 `--no-geometry-check` exists for the case where somebody has established that the
 two scans are the same and the attribute is simply wrong. It is off by default.
 
+### Die Zahl ist 43, nicht 27 — und das Paar sagt, was zu tun ist
+
+Zwei Korrekturen in einer. **43** Seiten wies der Lauf vom 13. Oktober wegen
+Geometrie ab; die 27, die ich wochenlang als „Geometrie-Abweisungen" mitgeführt
+habe, sind die Spalte `unbestimmt` desselben Berichts — Seiten ohne erkennbare
+Datumszeile. Zwei Zahlen aus einer Ausgabe, eine davon falsch erinnert, und keine
+Prüfung dazwischen. Dieselbe Familie wie § *5. Files are not pages* in
+`LESSONS_2026-10.md`.
+
+Und die Zahl allein beantwortet nichts. Der Plan nannte fünf Namen von 311
+Abweisungen, und aus fünf lässt sich keine Ursache bestimmen — die naheliegende
+Reaktion wäre `--no-geometry-check` gewesen, also genau die Entscheidung, die
+dieser Abschnitt verbietet. Was entscheidet, ist das **Paar der beiden Grössen**,
+und es entscheidet durch Arithmetik:
+
+| Signatur | was sie bedeutet | reparierbar |
+|---|---|---|
+| Breite/Höhe vertauscht | ein Scan, gedreht | ja, durch Drehen |
+| ein oder zwei Pixel daneben | ein Renderer gegen einen anderen | ja, es *ist* die Seite |
+| ein Faktor auf beiden Achsen | eine skalierte Ableitung | ja, durch Multiplizieren |
+| anderes Seitenverhältnis | zwei verschiedene Beschnitte | **nein** |
+
+Darum trägt `Rejected` beide Grössen als Zahlen *neben* dem Satz statt in ihm,
+`Plan.signatures` gruppiert danach, und der Bericht nennt pro Signatur die
+Seitenzahl und die Deutung:
+
+```
+the geometry rejections are N distinct size pair(s) …
+    12 page(s)  XML 3333x4391 → image 1420x1781
+        different crop: 2.347 wide against 2.465 high, aspect 0.7591 against
+        0.7973 — two derivatives of the page, not one rescaled
+```
+
+Die Seiten selbst gehen in eine Datei, weil eine Zählung eine Beschwerde ist und
+nur die Schlüssel eine Aufgabe sind (§ *10* in `LESSONS_2026-10.md`, dort für
+`batch_report`, hier dasselbe im zweiten Bericht):
+
+```bash
+python3 -m agentic_historian export-hf --run-dir … --dry-run \
+  --writers-out  "$VLM_TEST_ROOT/hf-writers.tsv" \
+  --rejected-out "$VLM_TEST_ROOT/hf-rejected.tsv"
+```
+
+Aus einer Session schreibt `export_hf` beide Tabellen von selbst; die Pfade stehen
+im Ergebnis unter `writers` und `rejected`. Das ist eine Änderung im
+**Serverprozess** — `git pull` **und** `systemctl restart atr-mcp`, siehe
+§ *Welcher Code hat geantwortet?* in `BATCH_ATR.md`.
+
+Die eine Signatur, die der Bericht vom 13. Oktober zeigte, ist die unreparierbare:
+`doc12635749`, XML 3333×4391 gegen Bild 1420×1781 — 14,6 Megapixel gegen 2,5, und
+die Höhe 90 px kürzer, als der Breitenfaktor ergäbe. Der Share hält dort eine
+kleinere, anders beschnittene Ableitung als Transkribus. Für diese Seiten ist die
+Abweisung richtig, und die offene Frage ist keine Code-Frage: welcher Scan ist der
+autoritative. Wie die anderen 41 aussehen, sagt die Tabelle beim nächsten Lauf.
+
 ## Do not pass `$ATR_PAGE_CACHE`
 
 This page used to. On 2026-10-03 that shell variable was **set and not
