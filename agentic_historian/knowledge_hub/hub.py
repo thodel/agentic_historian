@@ -140,6 +140,19 @@ def _add_once(rows: list, value: str) -> None:
         rows.append(value)
 
 
+def _as_mapping(value):
+    """The hub file read as an object, whatever it actually held (#643).
+
+    ``hub.json`` is written by every worker, so what comes back is not
+    guaranteed to be an object at all. Readable JSON of the wrong type used to
+    raise ``AttributeError`` out of the constructor — ``except (JSONDecodeError,
+    OSError)`` does not catch it — which took down everything that builds a hub.
+    Wrong shape is treated as no content, which is what corrupt content already
+    got.
+    """
+    return value if isinstance(value, dict) else {}
+
+
 class KnowledgeHub:
     """JSON-persistent knowledge base for the Agentic Historian."""
 
@@ -154,18 +167,26 @@ class KnowledgeHub:
 
     # ── persistence ─────────────────────────────────────────────────────────
     def _load(self) -> dict:
-        if self.path.exists():
-            try:
-                data = json.loads(self.path.read_text(encoding="utf-8"))
-                # ensure all top-level keys exist
-                for k, v in DEFAULTS.items():
-                    data.setdefault(k, copy.deepcopy(v) if not isinstance(v, list) else [])
-                return data
-            except (json.JSONDecodeError, OSError):
-                pass
-        data = copy.deepcopy(DEFAULTS)
-        self._write(data)
-        return data
+        """Read the hub, seeding the missing top-level keys, under one lock.
+
+        Seeding used to be a blind ``_write(copy.deepcopy(DEFAULTS))`` whenever
+        the file was absent, and that is a **lost update** of exactly the kind
+        #393 was about — one level up, where #393 did not look. Two hubs built
+        moments apart against a fresh path: the second constructor wrote an empty
+        hub over everything the first had already added. Measured at 49 of 50
+        persons kept, five blind writes (#643). ``write_json_atomic`` made it
+        atomic, which is not the same as correct — an atomic write that does not
+        know what it is writing over still loses the other worker's work.
+
+        So the seed is a read-modify-write like any other: whoever holds the lock
+        sees what is in the file and only fills in what is **missing**.
+        """
+        from shared_lock import locked_json
+
+        with locked_json(self.path, default=dict, coerce=_as_mapping) as data:
+            for key, value in DEFAULTS.items():
+                data.setdefault(key, copy.deepcopy(value))
+            return data
 
     def _write(self, data: dict) -> None:
         """Replace the file. Atomic, so a crash cannot leave half a hub (#393)."""
@@ -185,9 +206,17 @@ class KnowledgeHub:
 
         So a mutation now reads the file under the lock, applies the change to
         *that*, writes it atomically, and points the cache at what was actually
-        written. ``threading.Lock`` stays as the in-process layer: ``flock``
-        does not serialise two threads of one process, because they share the
-        open-file description.
+        written.
+
+        ``threading.Lock`` stays, but not for the reason this docstring used to
+        give (#643). It claimed ``flock`` does not serialise two threads of one
+        process "because they share the open-file description" — they do not:
+        ``_acquire`` opens the lock file per call, so each caller holds its own
+        description and ``flock`` does conflict between them. What the
+        ``threading.Lock`` actually guards is narrower and still worth having:
+        it is **per instance**, so it serialises the threads that share one hub
+        object, and it keeps the cache assignment below from interleaving with
+        another thread's read of it.
 
         Readers (``get_persons`` and friends) still answer from the cache, which
         can be behind the file when another process has written to it. That is
@@ -197,9 +226,7 @@ class KnowledgeHub:
         from shared_lock import locked_json
 
         with self._lock:
-            with locked_json(self.path, default=dict) as data:
-                if not isinstance(data, dict):
-                    data = {}
+            with locked_json(self.path, default=dict, coerce=_as_mapping) as data:
                 for key, value in DEFAULTS.items():
                     data.setdefault(key, copy.deepcopy(value))
                 change(data)

@@ -277,6 +277,16 @@ def load_processed() -> set:
     return set(read_json(_PROCESSED_FILE, default=list) or [])
 
 
+def _as_sequence(value):
+    """The processed-order file read as a list, whatever it held (#643).
+
+    ``done[:] = …`` below needs a list. The file is written by every worker, so
+    a dict or a scalar in there would raise instead of being treated as nothing
+    worth keeping.
+    """
+    return value if isinstance(value, list) else []
+
+
 def mark_processed(order_id: str) -> None:
     """Record an order id as processed — safely for N workers (#393).
 
@@ -291,7 +301,7 @@ def mark_processed(order_id: str) -> None:
     """
     from shared_lock import locked_json
 
-    with locked_json(_PROCESSED_FILE, default=list) as done:
+    with locked_json(_PROCESSED_FILE, default=list, coerce=_as_sequence) as done:
         ids = set(done or [])
         ids.add(order_id)
         done[:] = sorted(ids)
