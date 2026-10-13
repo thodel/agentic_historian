@@ -127,16 +127,34 @@ def _stats(text: str) -> dict:
 
 # ── Chunking (fixes 5k-char truncation) ─────────────────────────────────────
 
-def _chunks(text: str, size: int = LLM_CHUNK_SIZE) -> list[str]:
+#: How far consecutive chunks overlap, so a finding on a seam is not lost. The
+#: merge removes the duplicate that this produces (#633).
+CHUNK_OVERLAP = 500
+
+#: Reserved key in an analysis result. Ours wins on a collision: a model that
+#: invents a ``provenance`` key has not produced provenance.
+PROVENANCE_KEY = "provenance"
+
+
+def _chunk_spans(text: str, size: int = LLM_CHUNK_SIZE) -> list[tuple[int, int]]:
+    """``[(start, end), …]`` over *text*.
+
+    The spans rather than only the substrings, because a chunk that does not
+    answer has to be locatable afterwards: "character 88 500–118 500 is
+    missing" sends somebody to the passage, "a chunk failed" does not (#634).
+    """
     if len(text) <= size:
-        return [text]
-    overlap = 500
-    result = []
+        return [(0, len(text))]
+    spans = []
     start = 0
     while start < len(text):
-        result.append(text[start:start + size])
-        start = start + size - overlap
-    return result
+        spans.append((start, min(start + size, len(text))))
+        start = start + size - CHUNK_OVERLAP
+    return spans
+
+
+def _chunks(text: str, size: int = LLM_CHUNK_SIZE) -> list[str]:
+    return [text[start:end] for start, end in _chunk_spans(text, size)]
 
 
 def _entry_key(entry) -> str:
@@ -195,27 +213,72 @@ def _merge_json_results(results: list[dict]) -> dict:
     return merged
 
 
-def _analyse_large(text: str, analyse) -> dict:
-    """Run one per-chunk analysis over the whole text and merge the results.
+def _analyse_large(text: str, analyse, keys: tuple[str, ...],
+                   label: str) -> dict:
+    """Run one per-chunk analysis over the whole text, merged and **marked**.
 
     Through the same merge whether there is one chunk or seven. The single-chunk
     case used to return ``results[0]`` unmerged, which made the *shape* of the
-    output depend on the corpus size: a short corpus kept all three care keys, a
-    long one kept one. Two corpora were then not comparable (#633).
+    output depend on the corpus size (#633).
+
+    This is also the one place that catches a chunk's failure, and that is the
+    point of #634. The per-chunk functions used to swallow their own exception
+    and return an empty container, which left two readings indistinguishable:
+    "the model read the corpus and found nothing" — a result, and for a care
+    corpus a surprising one — and "the call never came back". Worse, the empty
+    containers were merged in, so a run with one failed chunk out of seven
+    described **six sevenths** of the corpus while claiming to describe all of
+    it, and nothing recorded the gap.
+
+    So every result carries a ``provenance`` block: how many chunks there were,
+    how many answered, whether that is all of them, and the character range of
+    each one that did not. ``complete: true`` with an empty list therefore means
+    *measured, nothing found*; ``complete: false`` means *incomplete*; and a
+    result with no block at all is simply not assessable — which is all that
+    needs saying about the records written before this (owner decision,
+    13.10.2026: they are deleted rather than migrated).
+
+    *keys* are the keys this analysis answers with, in order. They are filled in
+    empty when no chunk answered, so a consumer does not have to handle both a
+    missing key and an empty one — the provenance already says which it is — and
+    ``keys[0]`` is the list the report counts.
     """
-    return _merge_json_results([analyse(chunk) for chunk in _chunks(text)])
+    spans = _chunk_spans(text)
+    results: list[dict] = []
+    failures: list[dict] = []
+    for number, (start, end) in enumerate(spans, start=1):
+        try:
+            results.append(analyse(text[start:end]))
+        except Exception as e:  # noqa: BLE001 — one chunk may not end the run
+            logger.warning(f"[Agent D] {label}, Abschnitt {number}/{len(spans)} "
+                           f"(Zeichen {start}–{end}) fehlgeschlagen: {e}")
+            failures.append({"chunk": number, "range": [start, end],
+                             "error": f"{type(e).__name__}: {e}"})
+
+    merged = _merge_json_results(results)
+    for key in keys:
+        merged.setdefault(key, [])
+    merged[PROVENANCE_KEY] = {
+        "chunks_total": len(spans),
+        "chunks_answered": len(results),
+        "complete": not failures,
+        "failures": failures,
+    }
+    return merged
 
 
 def _topics_large(text: str) -> dict:
-    return _analyse_large(text, _topics)
+    return _analyse_large(text, _topics, ("topics",), "Topics")
 
 
 def _taxonomy_large(text: str) -> dict:
-    return _analyse_large(text, _taxonomy)
+    return _analyse_large(text, _taxonomy, ("taxonomies",), "Taxonomie")
 
 
 def _care_analysis_large(text: str) -> dict:
-    return _analyse_large(text, _care_analysis)
+    return _analyse_large(
+        text, _care_analysis,
+        ("care_instances", "patterns", "gender_aspects"), "Care-Analyse")
 
 
 # ── Per-chunk LLM calls ──────────────────────────────────────────────────────
@@ -249,34 +312,55 @@ def _ask(prompt: str, what: str) -> dict:
     return llm_json.loads(answer, what=what)
 
 
+# The three per-chunk analyses. None of them catches its own failure any more:
+# an empty container returned from an exception handler is indistinguishable
+# from a measured "nothing here" (#634). `_analyse_large` catches, records the
+# chunk and its character range, and carries on.
+
 def _topics(text: str) -> dict:
     prompt = SYSTEM + "\n\nIdentifiziere 5–10 Topics mit Namen und Schlüsselwörtern.\n\n" + text + "\n\nAntworte als JSON: {topics: [{name, keywords: []}]}"
-    try:
-        return _ask(prompt, "Topics-Antwort")
-    except Exception as e:
-        logger.warning(f"[Agent D] Topics fehlgeschlagen: {e}")
-        return {"topics": []}
+    return _ask(prompt, "Topics-Antwort")
 
 
 def _taxonomy(text: str) -> dict:
     prompt = SYSTEM + "\n\nAnalysiere soziale Taxonomien: arme lüt, erbar lüt, Bürger, Hintersässe, Juden, Zigeuner, Vaganten, gesellen, Knecht, Magd, Witwe, Waise.\n\n" + text + "\n\nAntworte als JSON: {taxonomies: [{term, count, contexts: []}]}"
-    try:
-        return _ask(prompt, "Taxonomie-Antwort")
-    except Exception as e:
-        logger.warning(f"[Agent D] Taxonomy fehlgeschlagen: {e}")
-        return {"taxonomies": []}
+    return _ask(prompt, "Taxonomie-Antwort")
 
 
 def _care_analysis(text: str) -> dict:
     prompt = SYSTEM + "\n\nAnalysiere Care-relevante Inhalte: Care-Instanzen, Arrangements, Entlohnung, Gender, Lebensläufe.\n\n" + text + "\n\nAntworte als JSON: {care_instances: [], patterns: [], gender_aspects: []}"
-    try:
-        return _ask(prompt, "Care-Analyse-Antwort")
-    except Exception as e:
-        logger.warning(f"[Agent D] Care-Analyse fehlgeschlagen: {e}")
-        return {"care_instances": [], "patterns": [], "gender_aspects": []}
+    return _ask(prompt, "Care-Analyse-Antwort")
 
 
 # ── Voyant + Persistence ─────────────────────────────────────────────────────
+
+def _analysis_line(label: str, result, key: str) -> str:
+    """One line of the report: what the analysis found, and whether it is all.
+
+    The report named only documents, characters, words and the Voyant link —
+    the three LLM analyses did not appear in it **at all**, so it hid both the
+    result and any gap in it (#634). A number alone would be the other half of
+    the same problem: "47 Care-Instanzen" over a corpus where one section never
+    answered is a number nobody should act on without knowing that.
+    """
+    entries = (result or {}).get(key)
+    count = len(entries) if isinstance(entries, (list, dict)) else 0
+    provenance = (result or {}).get(PROVENANCE_KEY)
+    if not isinstance(provenance, dict):
+        # No block: written before #634, or by a caller that bypassed
+        # `_analyse_large`. Not assessable, and said so rather than implied.
+        return f"- **{label}:** {count} _(Abdeckung nicht beurteilbar)_"
+    if provenance.get("complete"):
+        return f"- **{label}:** {count}"
+    answered = provenance.get("chunks_answered", 0)
+    total = provenance.get("chunks_total", 0)
+    gaps = ", ".join(
+        f"{f.get('range', ['?', '?'])[0]}–{f.get('range', ['?', '?'])[1]}"
+        for f in provenance.get("failures") or [])
+    return (f"- **{label}:** {count} — **unvollständig**: {answered} von "
+            f"{total} Abschnitten beantwortet"
+            + (f" (fehlt: Zeichen {gaps})" if gaps else ""))
+
 
 def _voyant_url(text: str, corpus_name: str) -> str:
     """Upload the corpus text to Voyant and return the shareable session URL.
@@ -401,10 +485,17 @@ def _save(corpus_name: str, result: dict):
     (out / "care_analysis.json").write_text(json.dumps(result["care_analysis"], ensure_ascii=False, indent=2), encoding="utf-8")
 
     s = result["stats"]
+    analyses = "\n".join([
+        _analysis_line("Topics", result.get("topics"), "topics"),
+        _analysis_line("Taxonomien", result.get("taxonomy"), "taxonomies"),
+        _analysis_line("Care-Instanzen", result.get("care_analysis"),
+                       "care_instances"),
+    ])
     (out / "report.md").write_text(
         f"# Korpus-Analyse: {corpus_name}\n\n"
         f"**Dokumente:** {result['doc_count']}  **Zeichen:** {result['total_chars']:,}  "
         f"**Wörter:** {s.get('total_words', 0):,}\n\n"
+        f"## Analysen\n\n{analyses}\n\n"
         f"## Voyant\n\n{result.get('voyant_url', '—')}\n",
         encoding="utf-8",
     )
