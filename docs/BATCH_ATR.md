@@ -1217,9 +1217,17 @@ eines zusammengeführten Laufs stimmen mit dem Bericht daneben überein.
 ### Was daraus folgt: n Versuche statt eines Blicks
 
 Der Bericht sagt bei `empty` „look at the images". Das trägt bei 28 Seiten und
-nicht bei 2800. Billiger und schärfer ist: **dieselbe Seite nochmal lesen.** Eine
-Seite ist leer, wenn sie in *jedem* Versuch leer ist — und nur die beanstandeten
-Seiten brauchen den zweiten Versuch, also 25 Aufrufe statt 300.
+nicht bei 2800. Billiger und schärfer ist: **dieselbe Seite nochmal lesen** — und
+nur die beanstandeten Seiten brauchen den zweiten Versuch, also 25 Aufrufe statt
+300.
+
+> **Korrektur vom 13. Oktober.** Hier stand: „Eine Seite ist leer, wenn sie in
+> *jedem* Versuch leer ist." Das ist als Definition falsch, und zwar an der
+> Stelle, die zählt — sie misst die Streuung *eines* Lesers, nicht die Seite.
+> Vier Versuche desselben Prompts haben eine beschriebene Seite viermal
+> verschwiegen; ein anderes Modell liest dort 24 Zeilen (§ *Der vierte Versuch
+> holt nichts, ein zweiter Leser eine ganze Seite*). Richtig ist: eine Seite ist
+> leer, wenn sie **mehrere Leser aus verschiedenen Familien** leer lassen.
 
 Resumierbarkeit-durch-Anwesenheit verhindert das aktiv: `is_complete`
 überspringt die Seite. Ein zweiter Versuch braucht deshalb einen **neuen
@@ -1230,6 +1238,159 @@ python3 -m agentic_historian atr-batch … --run <lauf>-repeat \
   --keys-from "$GT_ROOT/<lauf>-flagged.txt" --prompt … --reasoning low
 # dann: compare_readings(["<lauf>", "<lauf>-repeat"]) → "empty only in …"
 ```
+
+## Der vierte Versuch holt nichts, ein zweiter Leser eine ganze Seite
+
+Nach dem Merge blieben **19 Seiten** des publizierten Korpus leer, und die
+belegte Erwartung war, dass dort nichts steht. Beides ist am 13. Oktober
+nachgemessen worden, mit zwei Läufen und einem Dry-Run.
+
+### Die Schlüsselliste ist das Werkzeug, nicht die Zahl
+
+```bash
+# 19 Schlüssel aus dem Bericht in eine Liste, die --keys-from liest
+batch_report(run="gemini-300-final", keys_out="final-empty-19.txt")
+# → /…/data/gt/final-empty-19.txt, 19 Schlüssel
+```
+
+Dieselbe Liste treibt danach jeden Gegenversuch. Ohne sie wäre jeder davon eine
+Handauswahl und damit nicht wiederholbar (§ *10. A count is a complaint* in
+`LESSONS_2026-10.md`).
+
+### Vierter Versuch, derselbe Leser: 0 von 19
+
+```bash
+python3 -m agentic_historian atr-batch --source "dav:digitalisate" \
+  --cache-dir "$ATR_PAGE_CACHE" --models gemini-3.8-flash \
+  --run gemini-strict2-fourth --keys-from "$GT_ROOT/final-empty-19.txt" \
+  --via external --prompt lassberg_atr_strict2.md --reasoning low
+```
+
+| | |
+|---|---:|
+| gelesen | 19 von 19, 0 Fehler |
+| Wanduhr | 1,4 min · 4,3 s/Seite |
+| **leer** | **19 von 19** |
+
+Damit steht die Ertragskurve über vier Versuche: **3 → 2 → 0**. Die
+Zwei-Versuche-Politik ist bestätigt, und „noch ein Versuch" ist als Hebel
+erschöpft — nicht theoretisch, sondern gemessen.
+
+### Zweiter Leser, zwei andere Familien: 1 von 19
+
+```bash
+python3 -m agentic_historian atr-batch --source "dav:digitalisate" \
+  --cache-dir "$ATR_PAGE_CACHE" \
+  --models qwen3.5-4b-german-xix-v2,trocr-kurrent-xvi-xvii \
+  --run gateway-final-empty-19 --keys-from "$GT_ROOT/final-empty-19.txt"
+```
+
+19 Seiten × 2 Modelle = 38 Aufrufe, **5,9 min**, beide Modelle auf derselben
+Karte, 0 Fehler. `trocr-kurrent-xvi-xvii` segmentiert Zeilen — es fragt nicht
+„schreibe ich diese Seite aus", sondern „sind hier Zeilen".
+
+| Modell | gelesen | leer | Zeichen/Seite |
+|---|---:|---:|---:|
+| `qwen3.5-4b-german-xix-v2` | 19 | 13 | 33 |
+| `trocr-kurrent-xvi-xvii` | 19 | 13 | 43 |
+
+**Dieselben 13.** Was übrig bleibt, zerfällt in zwei Gruppen, und die Trennung
+ist keine Augenmaßfrage:
+
+| | Seiten | Befund |
+|---|---:|---|
+| von drei Lesern aus drei Familien stumm | **13** | leer, so weit eine Maschine das sagen kann |
+| Tintenspur, von beiden Segmentierern erfunden gelesen | **5** | Foliierung, Stempel, Durchschlag — kein Brieftext |
+| **beschrieben** | **1** | `blb lassberg__K 2911,93__page_0001` |
+
+### Woran man Rauschen erkennt, ohne das Bild zu sehen
+
+Die fünf Seiten der Mittelgruppe sind der negative Befund derselben Messung, und
+drei Masse belegen ihn:
+
+- **Null gemeinsame Wörter** ab fünf Zeichen zwischen den beiden Lesungen, über
+  alle fünf Seiten. Zwei Modelle, die dieselbe Tinte lesen, treffen sich
+  irgendwo.
+- **Jedes Modell wiederholt sich über verschiedene Blätter**: `qwen` schreibt
+  `orchecker`/`classica` auf zwei Seiten, `trocr` setzt
+  `haußhaltung zu Buchstetten verschicken` wörtlich auf zwei. Derselbe Satz auf
+  zwei Blättern ist eine Eigenschaft des Modells.
+- **`trocr` datiert sich aus dem Korpus heraus**: `1655`, `den 16t Aug.1792`,
+  `Buchstetten`. Es ist auf das 16./17. Jahrhundert trainiert und greift in seine
+  Trainingsverteilung; auf einem Laßberg-Blatt (1770–1855) kann 1655 nicht
+  stehen.
+
+Dass beide Modelle auf genau diesen fünf Seiten *etwas* produzieren und auf den
+13 nichts, ist dabei selbst ein Befund: dort liegt eine Spur, an der sich beide
+Segmentierer festmachen. Für eine davon gibt es eine unabhängige Aussage —
+`UB Bern__Mss_h_h_XLIV_180_32_169` ist die Seite, über die derselbe Gemini unter
+dem *ersten* Prompt „Vollständig unbeschrieben … Durchschlagen" geschrieben hat.
+`strict2` verbietet ausdrücklich, Durchschlag zu transkribieren, antwortet dort
+also richtig mit nichts.
+
+### Die eine beschriebene Seite
+
+`blb lassberg__K 2911,93__page_0001`, bei Gemini in vier Versuchen leer. Beide
+lokalen Modelle liefern **24 Zeilen**, und 14 der 24 stimmen überein:
+
+| # | `qwen3.5-4b-german-xix-v2` | `trocr-kurrent-xvi-xvii` |
+|---:|---|---|
+| 1 | `K 2941,93` | `k 2911 , 93` |
+| 2 | `67` | `67` |
+| 3 | `Gottesvollgeboren` | `Hochwolgebohrner` |
+| 5 | `berinnigen Monate habe ich nun gestern` | `hier einigen Monatio habe ich inen giessen` |
+| 7 | `benden für einen Dienst erlinder unss` | `branntus für einen dienst erliedern errichten` |
+| 17 | `zu führen.` | `zuführen ,` |
+| 24 | `… nicht neutral. welche diese Re-` | `… nicht naturalis , welche diche Hal¬` |
+
+Gleiche Zeilenzahl aus zwei Architekturen, dieselbe Signatur in Zeile 1,
+dieselbe `67` in Zeile 2, eine Anrede in Zeile 3, und beide brechen die letzte
+Zeile mit einem Trennstrich ab — der Text läuft auf die Folgeseite weiter.
+**Keine der beiden Lesungen ist brauchbar**; dass dort ein beschriebenes Blatt
+liegt, ist damit so gut belegt, wie es ohne Bild geht.
+
+Und es ist ein **Prompt-Verstoß**, kein Grenzfall. `strict2` sagt wörtlich, eine
+leere Antwort behaupte, das Blatt sei unbeschrieben, und eine Seite, von der man
+nichts lesen kann, sei `[unlesbar]`. Viermal nimmt das Modell genau die
+Abkürzung, die der Satz verbietet. Ein Satz im Prompt ist keine Durchsetzung.
+
+**Eine Kette ist nicht geschlossen:** beide Läufe lesen über denselben
+`--cache-dir`, also dieselbe Arbeitskopie. Nachweisen liesse sich das über die
+`source.sha256` beider Seiten-JSONs. Wäre die Arbeitskopie beschädigt, hätte
+`qwen3.5` daraus keine 462 Zeichen geholt — der Schluss ist sehr wahrscheinlich
+und nicht verifiziert.
+
+### `merge-runs` kann das nicht flicken, und das ist die sichere Seite
+
+Der naheliegende Reflex war, die Gateway-Lesung über `merge-runs` in den Korpus
+zu holen. Als Dry-Run gemessen statt vermutet:
+
+```
+merge_runs(runs=["gemini-300-final", "gateway-final-empty-19"], …, dry_run=True)
+→ pages: 338   improved: []   38 page(s) appear only in a later run
+```
+
+**Eine Seite wird über (Modell, Schlüssel) identifiziert, nicht über den
+Schlüssel allein.** 300 + 38 = 338: die Gateway-Lesungen kollidieren gar nicht
+mit den Gemini-Seiten, sie landen daneben, und `improved` ist leer, weil nichts
+verglichen wurde.
+
+Das ist die sichere Seite des Irrtums. Über den Schlüssel allein hätten die
+**fünf Rauschseiten** mit `short` (Rang 2) das `empty` (Rang 1) geschlagen, und
+`orchecker classica` stünde als Transkription in einer Edition. Die Rangfolge
+schützt gegen `repetitive` und `deliberation` — gegen eine *kurze, flüssige*
+Erfindung eines fremden Modells schützt sie nicht. Ein Urteil ist innerhalb
+eines Lesers eine Währung und zwischen zwei Lesern keine.
+
+### Was damit korrigiert ist
+
+- „Die 19 danach sind die plausibel wirklich leeren Blätter" → **18 plausibel
+  leere und eine beschriebene.**
+- „Eine Seite ist leer, wenn sie in jedem Versuch leer ist" → gilt pro Leser,
+  nicht pro Seite (Korrektur oben).
+- Publiziert ist nichts Falsches: eine leere `.txt` behauptet nicht, dass das
+  Blatt leer ist. Was fehlt, ist der Hinweis, welche der 19 beschrieben ist —
+  und das ist ein Nachtrag an der Edition, keine Änderung am Baum.
 
 ## Ein Lauf aus 80 Unterstrichen ist eine Linie
 
