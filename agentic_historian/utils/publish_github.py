@@ -679,6 +679,39 @@ def publish_doc(doc_id: str, source_url: Optional[str] = None,
     return result.url
 
 
+def publish_training(run_id: str, files: dict[str, bytes],
+                     session: Optional[requests.Session] = None) -> Optional[str]:
+    """Commit one training run's files to the output repo (T5, #638).
+
+    ``files`` comes from ``training_report.files`` — built there so that what a
+    run publishes is decided by a pure, tested function and this one only
+    commits it, exactly as ``publish_doc`` does for a document.
+
+    Non-fatal and returns the commit URL, or None when publishing is disabled,
+    there is nothing to commit, or the tree already matches (a retry after a 5xx
+    that actually landed). A training run that finished is not a failed run
+    because a commit did not happen.
+    """
+    if not files:
+        logger.info(f"[Publish] training {run_id}: nothing to publish")
+        return None
+    if not is_enabled():
+        logger.info(f"[Publish] training {run_id}: disabled "
+                    f"(ENABLE_GITHUB_PUBLISH=false)")
+        return None
+    try:
+        url = _commit_files(files, f"Publish training run {run_id}",
+                            session=session)
+    except Exception as e:                           # noqa: BLE001
+        logger.warning(f"[Publish] training {run_id} failed: {e}")
+        return None
+    if url:
+        logger.info(f"[Publish] training {run_id}: {len(files)} file(s) → {url}")
+    else:
+        logger.info(f"[Publish] training {run_id}: already up to date")
+    return url
+
+
 # ── publishing a directory tree (#batch) ─────────────────────────────────────
 
 #: What may be published from a local directory. An allowlist, not a denylist:

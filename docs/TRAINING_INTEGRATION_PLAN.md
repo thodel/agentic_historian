@@ -179,6 +179,50 @@ from ground-truth segmentation) visibly distinct from the eval-harness CER (full
 page through our own segmentation). They are different measurements and will
 disagree.
 
+### As built (#638)
+
+`training_report.py` is pure: a job record and a curve payload in, a dict of
+files out. `publish_github.publish_training` commits them; nothing else about
+publishing changed.
+
+Reading the contracts turned "two numbers" into **four**, all of which look like
+accuracy:
+
+| number | scope | unit |
+|---|---|---|
+| `metrics.cer` / `char_accuracy` (`ketos test`) | validation split, **line crops from the ground-truth segmentation**, and the split overlaps the training projects | fraction / percent |
+| `metrics.benchmark_cer` + `measured_on` | the named held-out benchmark — the trainer's own contract calls this the primary claim and `cer` a secondary check | fraction |
+| `best.val_metric` / `val_error` (`training.json`) | kraken's validation during training, over the **ten best checkpoints only** | fraction, but an **accuracy** — higher is better |
+| eval-harness CER | a full page through our own segmentation | **not in this record** |
+
+So the page states, for every row, its scope, its unit and **which way is
+good** — `val_metric` points the other way from everything around it, and
+`curves.py` emits both values for that reason. A number that was not measured
+has no direction at all, and prints none: giving an absence a property makes it
+look like a result.
+
+Two further honesty rules the page keeps:
+
+- **The curve is incomplete by construction** and says so with the reason.
+  `still_improving` is turned into the finding it implies: checkpoints 41–50
+  mean the run was still getting better when it stopped (train longer),
+  checkpoints 3–12 mean it peaked early and got worse for forty epochs (the data
+  or the configuration is the question). A live mid-run reading is marked as not
+  final.
+- **The missing eval-harness number is visibly missing.** Omitting it would let
+  the `ketos test` number stand in for it, which is exactly what this catalogue
+  refuses.
+
+Triggered by T3's watcher when a run reaches `completed`, and by
+`/train_publish` (admin) for any other case — a catalogue entry about a failed
+run is a decision, not a side effect. A run id is checked before it becomes a
+path, like a document id. `ENABLE_GITHUB_PUBLISH` gates it as it gates
+everything else.
+
+Not this issue: drawing the curves (the outputs repo's epic), and pushing the
+**model** to the hub — that is `ATR_TRAIN_AUTO_PUBLISH_MIN_ACCURACY` in the
+trainer, off by default, and untouched here.
+
 ## 6. Failure modes to handle explicitly
 
 | situation | behaviour |
@@ -198,4 +242,4 @@ disagree.
 | T2 | presets + `/train_start` with the confirm view | T1 | **done** (#362) |
 | T3 | watcher task + persisted registry + `/train_status`, `/train_list` | T1 | **done** (#363) |
 | T4 | `/train_log`, `/train_cancel` | T1 | **done** (#364) |
-| T5 | publish `training.json` to the outputs repo on completion | serving#38, outputs epic | open |
+| T5 | publish `training.json` to the outputs repo on completion | serving#38, outputs epic | **done** (#638) |

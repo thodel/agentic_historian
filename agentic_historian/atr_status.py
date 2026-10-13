@@ -147,6 +147,18 @@ async def serving_gpu() -> dict:
     return await _get("/gpu")
 
 
+async def curve(job_id: str) -> dict:
+    """The per-epoch record of one run — ``training.json``, or the live reading.
+
+    The trainer answers in one shape for three cases (training-atr-models#77):
+    the file the train stage wrote, a live reading off the checkpoint directory
+    mid-run (``live: true``), or an empty ``points`` list with a note when the
+    job has not reached training. Never a 404 for "not yet", so a caller does
+    not have to handle two bodies to ask one question.
+    """
+    return await _get(f"/train/jobs/{_safe_job_id(job_id)}/curve")
+
+
 async def log(job_id: str, lines: int = 30, stage: str = "train") -> dict:
     return await _get(f"/train/jobs/{_safe_job_id(job_id)}/log",
                       {"stage": stage, "lines": lines})
