@@ -27,7 +27,6 @@ Offline — the pipeline is a stub, no engines, no Discord. Run from the repo ro
 
 import sys
 import threading
-import time
 from pathlib import Path
 
 import pytest
@@ -373,26 +372,44 @@ def test_registering_is_additive_so_a_grown_bestand_resumes(tmp_path):
 
 # ── the heartbeat keeps a slow document alive ────────────────────────────────
 
+#: How long the slow-document test waits for the heartbeat thread. A tripwire
+#: against hanging, **not** an expectation: two beats at ``heartbeat_every=0.02``
+#: need 40ms, so this is some 250× the nominal time. It is only ever reached when
+#: the heartbeat is genuinely broken, and then a slow failure beats a wrong one.
+HEARTBEAT_WAIT_S = 10.0
+
+
 def test_a_slow_document_is_not_reclaimed_while_it_is_being_worked_on(tmp_path):
     """A worker inside the pipeline cannot beat its own heartbeat — the call
     blocks for minutes — so one daemon thread beats for every claim in flight.
-    Without it the runner is correct until the first order over 30 minutes."""
+    Without it the runner is correct until the first order over 30 minutes.
+
+    Waits on the **event**, not on the clock (#644). It used to spin for at most
+    200 × 10ms and then assert that two beats had arrived: idle that is a
+    hundredfold margin, but with the whole suite running alongside the daemon
+    thread does not reliably get two time slices in that window, and the test
+    went red in roughly one full-suite run in ten. It then reported "the
+    heartbeat never fired" while the heartbeat had fired — once. A test that
+    measures the clock cannot tell a broken heartbeat from a busy machine, and
+    one that is red one time in ten is worse than none: it teaches you to re-run
+    instead of to look.
+    """
     source = br.inspect_source(_pages(tmp_path / "f", ("slow.jpg",)))
     beats: list = []
     started = threading.Event()
+    two_beats = threading.Event()
 
     def pipeline(doc_id, paths, mode):
         started.set()
-        for _ in range(200):
-            if len(beats) >= 2:
-                return
-            time.sleep(0.01)
+        two_beats.wait(timeout=HEARTBEAT_WAIT_S)
 
     real = cm.heartbeat
 
     def spy(run_id, doc_id, **kw):
         ok = real(run_id, doc_id, **kw)
         beats.append((doc_id, kw.get("worker"), ok))
+        if len(beats) >= 2:
+            two_beats.set()
         return ok
 
     cm.heartbeat = spy
@@ -402,7 +419,10 @@ def test_a_slow_document_is_not_reclaimed_while_it_is_being_worked_on(tmp_path):
         cm.heartbeat = real
 
     assert started.is_set()
-    assert len(beats) >= 2, "the heartbeat never fired"
+    assert two_beats.is_set(), (
+        f"the heartbeat thread did not beat twice within {HEARTBEAT_WAIT_S}s "
+        f"— {len(beats)} beat(s) seen")
+    assert len(beats) >= 2
     assert all(ok for _d, _w, ok in beats), "a heartbeat was refused"
     assert {d for d, _w, _o in beats} == {"slow"}
 
