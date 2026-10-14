@@ -418,6 +418,12 @@ class Entry:
     basis: str = ""              # how that letter was identified
     inherited: bool = False      # the hand came from the letter, not this page
     from_register: bool = False  # the hand is recorded, not inferred
+    #: The factor the XML's coordinates are divided by on the way out, when the
+    #: ground truth describes the same scan at another resolution. ``None`` for
+    #: a page whose XML already describes its image, which is 241 of 257.
+    scale: Optional[float] = None
+    claimed: Optional[tuple[int, int]] = None   # the size the XML records
+    actual: Optional[tuple[int, int]] = None    # the size of the image
 
     def __post_init__(self) -> None:
         if not self.stem:
@@ -477,6 +483,16 @@ class Plan:
             head = r.category
             out[head] = out.get(head, 0) + 1
         return out
+
+    @property
+    def rescaled(self) -> list["Entry"]:
+        """The exported pages whose coordinates were divided by a factor.
+
+        A property rather than a counter kept during the walk: the entries are
+        the record, and a count maintained beside them is a second truth to
+        keep in step (#626).
+        """
+        return [e for e in self.entries if e.scale is not None]
 
     @property
     def signatures(self) -> dict[tuple[tuple[int, int], tuple[int, int]], int]:
@@ -623,6 +639,12 @@ def plan(scored: Sequence, index: dict[str, Path], *,
             continue
         xml_text = item.gt.source.read_text(encoding="utf-8", errors="replace")
         claimed = xml_size(xml_text)
+        # Set here and not inside the branch: with the check off, or with no
+        # geometry to read, there is no factor and no sizes to record — and a
+        # name that exists only on some paths is how a later `if scale` reads a
+        # previous page's value.
+        scale: Optional[float] = None
+        actual: Optional[tuple[int, int]] = None
         if require_geometry:
             if claimed is None:
                 out.rejected.append(Rejected(name, "no geometry: the XML records no "
@@ -634,12 +656,21 @@ def plan(scored: Sequence, index: dict[str, Path], *,
                 out.rejected.append(Rejected(name, f"unreadable image: {exc}"))
                 continue
             if actual != claimed:
-                out.rejected.append(Rejected(
-                    name, f"geometry: XML says {claimed[0]}x{claimed[1]}, the image "
-                          f"is {actual[0]}x{actual[1]} — the line polygons do not "
-                          f"describe this image",
-                    claimed=claimed, actual=actual))
-                continue
+                # Two sizes that one factor relates on both axes are the same
+                # scan at two resolutions, and the polygons survive division by
+                # it. Measured: the sixteen pages this admits agree to 0.11 %
+                # or better, the nearest rejected pair is 0.78 % out. Any other
+                # disagreement is two crops of the page, and no arithmetic
+                # relates those — that page stays out.
+                factor = uniform_scale(claimed, actual)
+                if factor is None:
+                    out.rejected.append(Rejected(
+                        name, f"geometry: XML says {claimed[0]}x{claimed[1]}, the "
+                              f"image is {actual[0]}x{actual[1]} — the line "
+                              f"polygons do not describe this image",
+                        claimed=claimed, actual=actual))
+                    continue
+                scale = factor
         # The dateline is read either way: when the register also covers this
         # letter the two can be compared, and a disagreement means one of them is
         # wrong about a specific letter.
@@ -647,7 +678,8 @@ def plan(scored: Sequence, index: dict[str, Path], *,
         recorded = register.get(letter_of(key).name) if register else None
         entry = Entry(key=key, image=image, xml_source=item.gt.source,
                       project=who.project, evidence=who.evidence,
-                      head=opening(item.gt.text, lines=survey_lines))
+                      head=opening(item.gt.text, lines=survey_lines),
+                      scale=scale, claimed=claimed, actual=actual)
         if recorded is not None:
             if who.certain and who.project != recorded.project:
                 out.hands.disputed.append((recorded.id, recorded.project,
@@ -685,6 +717,37 @@ SIGNATURES_SHOWN = 8
 #: Rejected pages named in the plan, for the same reason.
 REJECTED_SHOWN = 5
 
+#: Rescaled pages named in the plan. Sixteen on this corpus, so the cap is above
+#: the whole set deliberately: a page whose coordinates this pipeline rewrote is
+#: the one a reader should be able to go and look at.
+RESCALED_SHOWN = 20
+
+
+def uniform_scale(claimed: tuple[int, int],
+                  actual: tuple[int, int]) -> Optional[float]:
+    """The one factor between two sizes, when both axes agree on it.
+
+    ``None`` when they do not — then the two images are different crops of the
+    page and no multiplication relates them. The *one* place this is decided:
+    :func:`describe_signature` names it and :func:`plan` acts on it, and two
+    functions answering "is this a rescale" differently is how a page gets
+    exported with polygons nothing checked (#637).
+
+    Measured on this corpus, the sixteen rescaled pages agree to 0.11 % or
+    better, and the nearest rejected pair is 0.78 % out — so the boundary is not
+    in a crowded place. It is not one pipeline either: the factors are 1.58,
+    1.62, 1.99, 2.10, 2.26, 2.63 and 3.31, which is what nine archives
+    delivering their own derivatives looks like.
+    """
+    cw, ch = claimed
+    aw, ah = actual
+    if aw <= 0 or ah <= 0:
+        return None
+    sw, sh = cw / aw, ch / ah
+    if abs(sw - sh) > UNIFORM_TOLERANCE * max(sw, sh):
+        return None
+    return (sw + sh) / 2
+
 
 def describe_signature(claimed: tuple[int, int], actual: tuple[int, int]) -> str:
     """What a (claimed, actual) size pair says about the two images.
@@ -702,13 +765,77 @@ def describe_signature(claimed: tuple[int, int], actual: tuple[int, int]) -> str
     if max(abs(cw - aw), abs(ch - ah)) <= ROUNDING_PX:
         return (f"rounding: {abs(cw - aw)}x{abs(ch - ah)} px apart — one "
                 f"renderer against another, not a different scan")
+    factor = uniform_scale(claimed, actual)
+    if factor is not None:
+        return (f"scaled: one factor on both axes ({factor:.3f}) — the polygons "
+                f"describe this image after division by it")
     sw, sh = cw / aw, ch / ah
-    if abs(sw - sh) <= UNIFORM_TOLERANCE * max(sw, sh):
-        return (f"scaled: one factor on both axes ({sw:.3f}) — the polygons "
-                f"would describe this image after multiplication")
     return (f"different crop: {sw:.3f} wide against {sh:.3f} high, "
             f"aspect {cw / ch:.4f} against {aw / ah:.4f} — two derivatives of "
             f"the page, not one rescaled")
+
+
+#: Every attribute of a PAGE document that holds pixel coordinates. `Coords` is
+#: the region and line outline, `Baseline` the line's reading order — both are
+#: `points="x,y x,y …"`, and a rescale that moved one and not the other would
+#: crop correctly and sort the lines wrongly, which no column would show.
+_POINTS = re.compile(r'(points=")([^"]*)(")')
+
+#: What a rescaled page says about itself, inside the document it rewrites.
+#: The export tree is images and XML and nothing else, so a note beside it in a
+#: TSV does not reach whoever reads the dataset — and `pagexml-hf` carries the
+#: XML into a column verbatim, so a comment here travels with the page.
+_SCALE_NOTE = ("<!-- agentic_historian: line coordinates divided by {factor:.6f}; "
+               "the ground truth describes {cw}x{ch}, this image is {aw}x{ah}. "
+               "imageWidth/imageHeight rewritten to the image. The pixels are "
+               "the same scan at two resolutions: both axes agreed on the "
+               "factor to within {off:.3f} %. -->")
+
+
+def rescale_points(points: str, factor: float) -> str:
+    """One ``points`` attribute, divided by ``factor`` and rounded to pixels.
+
+    The ground truth's coordinates are in Transkribus's copy of the scan, which
+    this factor says is ``factor`` times the size of the image beside it. A
+    malformed pair is left alone rather than guessed at: a coordinate this
+    cannot parse is one it must not invent.
+    """
+    out = []
+    for pair in points.split():
+        x, _, y = pair.partition(",")
+        try:
+            out.append(f"{round(int(x) / factor)},{round(int(y) / factor)}")
+        except ValueError:
+            out.append(pair)
+    return " ".join(out)
+
+
+def rescale_xml(xml_text: str, factor: float,
+                claimed: tuple[int, int], actual: tuple[int, int]) -> str:
+    """The PAGE document with its coordinates in the image's pixels.
+
+    **This rewrites somebody else's data, so it says so in the data.** The
+    module refuses to rescale a page whose two sizes disagree about the crop,
+    because picking one of two scans is a judgement it has no standing to make.
+    A factor both axes agree on to a tenth of a percent is not that judgement:
+    it is the same scan at two resolutions, and the measurement is in the
+    comment this leaves behind.
+
+    ``imageWidth``/``imageHeight`` are rewritten too. Leaving them would hand
+    `pagexml-hf` a document that still contradicts its image — the check this
+    export exists for, failing one step further down where nothing runs it.
+    """
+    cw, ch = claimed
+    aw, ah = actual
+    off = abs((cw / aw) - (ch / ah)) / max(cw / aw, ch / ah) * 100
+    out = _POINTS.sub(lambda m: m.group(1) + rescale_points(m.group(2), factor)
+                      + m.group(3), xml_text)
+    out = re.sub(r'imageWidth="\d+"', f'imageWidth="{aw}"', out)
+    out = re.sub(r'imageHeight="\d+"', f'imageHeight="{ah}"', out)
+    note = _SCALE_NOTE.format(factor=factor, cw=cw, ch=ch, aw=aw, ah=ah, off=off)
+    # After the declaration, which has to stay first, and before the root.
+    m = re.match(r"\s*<\?xml[^>]*\?>", out)
+    return (out[:m.end()] + "\n" + note + out[m.end():]) if m else note + "\n" + out
 
 
 def rejected_table(p: Plan) -> str:
@@ -732,6 +859,19 @@ def rejected_table(p: Plan) -> str:
 def format_plan(p: Plan) -> str:
     """The plan a human reads before anything is uploaded."""
     lines = [f"pages to export: {len(p.entries)}", ""]
+    if p.rescaled:
+        lines += [f"**{len(p.rescaled)} of them carry rescaled coordinates.** The "
+                  f"ground truth describes the same scan at another resolution, "
+                  f"one factor on both axes, so the polygons are divided by it "
+                  f"and the page says so in its own first comment. Every other "
+                  f"size disagreement is still refused:"]
+        for e in sorted(p.rescaled, key=lambda e: e.key)[:RESCALED_SHOWN]:
+            lines.append(f"  {e.claimed[0]}x{e.claimed[1]} → "
+                         f"{e.actual[0]}x{e.actual[1]}  ÷{e.scale:.4f}  {e.key}")
+        if len(p.rescaled) > RESCALED_SHOWN:
+            lines.append(f"  … and {len(p.rescaled) - RESCALED_SHOWN} more; the "
+                         f"factor of every page is in the writers table")
+        lines.append("")
     for project, n in sorted(p.by_project.items()):
         lines.append(f"  {project:18} {n:>4}")
     h = p.hands
@@ -816,13 +956,14 @@ def writers_table(p: Plan) -> str:
     with it usefully is to read the pages it was wrong about. One row per
     exported page, sorted by letter so a letter's pages stand together.
     """
-    rows = ["key\tletter\tbasis\tproject\tsource\tevidence\thead"]
+    rows = ["key\tletter\tbasis\tproject\tsource\tevidence\tscale\thead"]
     for e in sorted(p.entries, key=lambda e: (e.group, e.key)):
         source = ("register" if e.from_register else
                   "inherited" if e.inherited else
                   "dateline" if e.evidence else "none")
         rows.append("\t".join([e.key, e.group or "—", e.basis or "—",
                                 e.project, source, e.evidence or "—",
+                                f"{e.scale:.6f}" if e.scale else "—",
                                 e.head or "—"]))
     return "\n".join(rows) + "\n"
 
@@ -951,13 +1092,26 @@ def build(p: Plan, out_dir: Path) -> dict:
     """Write the export tree. Returns what was written."""
     out_dir = Path(out_dir)
     written = 0
+    rescaled = 0
     for e in p.entries:
         project = out_dir / e.project
         (project / "page").mkdir(parents=True, exist_ok=True)
         dest_img = project / f"{e.stem}{e.image.suffix.lower()}"
         shutil.copy2(e.image, dest_img)
-        shutil.copy2(e.xml_source, project / "page" / f"{e.stem}.xml")
+        dest_xml = project / "page" / f"{e.stem}.xml"
+        if e.scale is not None and e.claimed and e.actual:
+            # The one page in the tree whose XML is not a copy. It says so in
+            # its own first comment, because the tree is images and XML and
+            # nothing a note beside it would reach.
+            dest_xml.write_text(
+                rescale_xml(e.xml_source.read_text(encoding="utf-8",
+                                                   errors="replace"),
+                            e.scale, e.claimed, e.actual), encoding="utf-8")
+            rescaled += 1
+        else:
+            shutil.copy2(e.xml_source, dest_xml)
         written += 1
-    logger.info(f"[hf] wrote {written} page(s) to {out_dir}")
-    return {"out_dir": str(out_dir), "pages": written,
+    logger.info(f"[hf] wrote {written} page(s) to {out_dir}"
+                + (f", {rescaled} with rescaled coordinates" if rescaled else ""))
+    return {"out_dir": str(out_dir), "pages": written, "rescaled": rescaled,
             "projects": p.by_project, "left_out": len(p.rejected)}

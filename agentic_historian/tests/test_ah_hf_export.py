@@ -127,20 +127,30 @@ def test_a_page_whose_xml_matches_its_image_is_exported(tmp_path):
     assert p.rejected == []
 
 
-def test_a_mismatched_page_is_refused_not_rescaled(tmp_path):
+def test_a_differently_cropped_page_is_refused_not_rescaled(tmp_path):
     """The failure this would paper over is invisible: the crops are plausible
-    images and the text is real text."""
-    img = _image(tmp_path / "src" / "Basel" / "p1.jpg", (1469, 1819))
+    images and the text is real text.
+
+    **This test used to say `a_mismatched_page`, with 2938x3638 against
+    1469x1819** — an exact halving. Since #638 that pair is the *repairable*
+    case: one factor on both axes is the same scan at two resolutions, the
+    coordinates are divided by it, and the page is exported saying so
+    (`test_ah_638_rescale_uniform.py`). So the fixture here is a pair no
+    arithmetic relates — 1420x1781, the fixed frame that 16 pages of three
+    different heights all landed in — and the policy it asserts is the one that
+    still holds: a page whose image is a different *crop* stays out.
+    """
+    img = _image(tmp_path / "src" / "Basel" / "p1.jpg", (1420, 1781))
     gt = tmp_path / "gt.xml"
-    gt.write_text(_xml(WACKERNAGEL, width=2938, height=3638), encoding="utf-8")
+    gt.write_text(_xml(WACKERNAGEL, width=3333, height=4362), encoding="utf-8")
 
     p = hf.plan([_Scored(gt, "\n".join(WACKERNAGEL), "Basel__p1")],
                 {"Basel__p1": img})
 
     assert p.entries == []
     assert "geometry" in p.rejected[0].reason
-    assert "2938x3638" in p.rejected[0].reason
-    assert "1469x1819" in p.rejected[0].reason
+    assert "3333x4362" in p.rejected[0].reason
+    assert "1420x1781" in p.rejected[0].reason
 
 
 def test_xml_without_geometry_is_unverifiable_not_fine(tmp_path):
@@ -873,7 +883,7 @@ def test_every_page_is_in_the_writers_table_with_its_letter(tmp_path):
     rows = hf.writers_table(hf.plan(scored, index)).strip().splitlines()
 
     assert rows[0].split("\t") == ["key", "letter", "basis", "project",
-                                   "source", "evidence", "head"]
+                                   "source", "evidence", "scale", "head"]
     assert len(rows) == 3
     assert [r.split("\t")[4] for r in rows[1:]] == ["dateline", "inherited"]
     assert all("lassberg-letter-1209" in r for r in rows[1:])
@@ -969,7 +979,8 @@ def test_every_pages_opening_is_in_the_writers_table(tmp_path):
 
     rows = hf.writers_table(hf.plan(scored, index)).strip().splitlines()
 
-    assert rows[1].split("\t")[6].startswith(WACKERNAGEL[0])
+    head = rows[0].split("\t").index("head")       # by name: #638 moved it
+    assert rows[1].split("\t")[head].startswith(WACKERNAGEL[0])
 
 
 # ── what the survey of 2026-10-08 actually showed ────────────────────────────
