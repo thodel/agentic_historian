@@ -1,0 +1,134 @@
+[
+ {
+  "ancestorClasses": [
+   1,
+   18,
+   19,
+   64,
+   66,
+   70,
+   83,
+   375,
+   380,
+   539,
+   881
+  ],
+  "classID": 21,
+  "classIdentifierInNamespace": "E21",
+  "classLabel": "Person",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises real persons who live or are assumed to have lived. Legendary figures that may have existed, such as Ulysses and King Arthur, fall into this class if the documentation refers to them as historical figures. In cases where doubt exists as to whether several persons are in fact identical, multiple instances can be created and linked to indicate their relationship. The CRM does not propose a specific form to support reasoning about possible identity.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "http://www.cidoc-crm.org/cidoc-crm/E21",
+  "entityBasicType": 8,
+  "entityBasicTypeLabel": "Persistent Item",
+  "namespaceID": 1,
+  "namespaceLabel": "CIDOC CRM version 6.2",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "crm",
+  "namespaceURI": "http://www.cidoc-crm.org/cidoc-crm/",
+  "parentClasses": [
+   20,
+   38,
+   1763
+  ],
+  "profileAssociationType": "inferred",
+  "profileID": 180,
+  "profileLabel": "Person - Social location ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   2,
+   380,
+   696
+  ],
+  "classID": 212,
+  "classIdentifierInNamespace": "C15",
+  "classLabel": "Epistemic Location of a Physical Thing",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises locations of instances of the crm:E18 Physical Thing class and subclasses on or inside other physical things (usually geographical places, buildings, features or human made objects), intended as their situation during a given time span as it is known in a given social context as being essentially true even if some absences are possible.\r\nThis means that the provided location is generally observable during the intended time-span even if at some point in time the entity is to be found in another location, e.g. a person going for a walk in the countryside, or an antique vase being loaned to another museum for an exhibition. If one needs to express these localisations of shorter duration, other instances of this same class will be created.\r\nShould the intended relative location be strictly physical, and not epistemic or social, the sdh:C41 Relative Location of a Physical Thing class should be used. To capture an official domicile, legal seat of an actor, etc. the sdh-so:C28 Legal Location of an Actor class must be used.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "https://sdhss.org/ontology/core/C15",
+  "entityBasicType": 9,
+  "entityBasicTypeLabel": "Temporal Entity",
+  "namespaceID": 365,
+  "namespaceLabel": "SDHSS Core v1.2",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "sdh",
+  "namespaceURI": "https://sdhss.org/ontology/core/",
+  "parentClasses": [
+   686
+  ],
+  "profileAssociationType": "selected",
+  "profileID": 180,
+  "profileLabel": "Person - Social location ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   18,
+   64,
+   66,
+   70,
+   83,
+   375,
+   380,
+   539
+  ],
+  "classID": 363,
+  "classIdentifierInNamespace": "C13",
+  "classLabel": "Geographical Place",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises parts of the Earth's surface that can be represented by photographs, paintings or maps, and that have some coherent characteristics related to their natural features (e.g., a mountain) or to the human activities that have shaped them (e.g., a harbour). These features make them identifiable and unique. The relevant portion of the surface of the Earth can be covered by buildings, water (river, sea, ...) which are part of the identifying features. The more specific identity of instances of this class is provided by a controlled vocabulary of geographical place types.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "https://sdhss.org/ontology/core/C13",
+  "entityBasicType": 8,
+  "entityBasicTypeLabel": "Persistent Item",
+  "namespaceID": 365,
+  "namespaceLabel": "SDHSS Core v1.2",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "sdh",
+  "namespaceURI": "https://sdhss.org/ontology/core/",
+  "parentClasses": [
+   25
+  ],
+  "profileAssociationType": "inferred",
+  "profileID": 180,
+  "profileLabel": "Person - Social location ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   27,
+   64,
+   65,
+   70,
+   380
+  ],
+  "classID": 449,
+  "classIdentifierInNamespace": "C16",
+  "classLabel": "Epistemic Location Type",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class groups the concepts (expressed as types) that provide the identity of the Epistemic Location of a Physical Thing, e.g. residence, visit, etc., i.e. the intended reason of the location.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "https://sdhss.org/ontology/core/C16",
+  "entityBasicType": 30,
+  "entityBasicTypeLabel": "Type (controlled vocabulary)",
+  "namespaceID": 365,
+  "namespaceLabel": "SDHSS Core v1.2",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "sdh",
+  "namespaceURI": "https://sdhss.org/ontology/core/",
+  "parentClasses": [
+   53
+  ],
+  "profileAssociationType": "inferred",
+  "profileID": 180,
+  "profileLabel": "Person - Social location ",
+  "profileLabelLanguage": "en"
+ }
+]

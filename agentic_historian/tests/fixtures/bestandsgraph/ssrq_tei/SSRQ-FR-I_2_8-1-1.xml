@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://www.ssrq-sds-fds.ch/tei/TEI_Schema_SSRQ.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://www.ssrq-sds-fds.ch/tei/TEI_Schema_SSRQ.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.tei-c.org/ns/1.0" 
+	xml:lang="de" xmlns:ssrq="http://ssrq-sds-fds.ch/ns/nonTEI">
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title>IX. Abteilung: Die Rechtsquellen des Kantons Freiburg, Erster Teil: Stadtrechte, Zweite Reihe: Das Recht der Stadt Freiburg,
+					Band 8: Freiburger Hexenprozesse 15.–18. Jahrhundert</title><editor>
+    <persName>Rita Binz-Wohlhauser</persName>
+</editor>
+<editor>
+    <persName>Lionel Dorthe</persName>
+</editor>
+				<respStmt>
+					<persName>Rita Binz-Wohlhauser</persName>
+					<persName>Lionel Dorthe</persName>
+					<resp key="transcript"/>
+				</respStmt>
+				<respStmt>
+					<persName>Rita Binz-Wohlhauser</persName><persName>Lionel Dorthe</persName>
+					<resp key="tagging"/>
+				</respStmt>
+			</titleStmt>
+			<publicationStmt><publisher>SSRQ-SDS-FDS</publisher>
+				<date type="electronic" when="2018-12-12"/>
+				<date type="print" when="2022-06-10"/>
+			<availability>
+    <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</licence>
+</availability></publicationStmt>
+			<seriesStmt xml:id="ssrq-sds-fds">
+				<title>Sammlung Schweizerischer Rechtsquellen</title>
+				<respStmt>
+					<orgName>Rechtsquellenstiftung des Schweizerischen Juristenvereins</orgName>
+					<resp>Herausgeberschaft</resp>
+				</respStmt>
+				<idno>SSRQ-FR-I_2_8-1-1</idno>
+			</seriesStmt>
+			<sourceDesc>
+				<msDesc>
+					<msIdentifier>
+						<repository xml:lang="de">Staatsarchiv Freiburg</repository>
+						<repository xml:lang="fr">Archives de l’État de Fribourg</repository>
+						<idno xml:lang="de">StAFR, Thurnrodel 2, fol. 15r–16v</idno>
+						<idno xml:lang="fr">AEF, Thurnrodel 2, fol. 15r–16v</idno>
+					</msIdentifier>
+					<head xml:lang="de">Jeannette Lasne – Verhör und Urteil</head>
+					<head xml:lang="fr">Jeannette Lasne – Interrogatoire et jugement</head>
+					<msContents>
+						<summary><p xml:lang="de">Die Witwe Jeannette Lasne wird der Hexerei angeklagt. Sie wird befragt und zum Scheiterhaufen verurteilt.</p>
+							<p xml:lang="fr">La veuve Jeannette Lasne est accusée de sorcellerie. Elle est interrogée et condamnée au bûcher. </p></summary>
+						<msItem>
+							<textLang xml:lang="fr"/>
+							<textLang xml:lang="la"/>
+							<filiation type="current"></filiation>
+						</msItem>
+					</msContents>
+					<physDesc>
+						<objectDesc>
+							<supportDesc><support><material>Papier</material></support></supportDesc>
+						</objectDesc>
+					</physDesc>
+					<history>
+						<origin>
+							<origDate from="1493-08-20"  to="1493-08-22"></origDate>													</origin>
+					</history>
+					<additional>
+						<listBibl>
+							<head>Edition</head>
+							<bibl><ref target="http://permalink.snl.ch/bib/chbsg000077109">Gyger 1998</ref>, Nr. 85, S. 310–312</bibl>
+							<bibl><ref target="http://permalink.snl.ch/bib/chbsg991001260648203977">Hansen 1901</ref>, Nr. 162, S. 590–592</bibl>
+							</listBibl>
+						<listBibl>
+						<head>Literatur</head>
+							<bibl><ref>Modestin et al. 2011</ref>, S. 282–283</bibl>
+						</listBibl>
+					</additional>
+				</msDesc>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc><editorialDecl><p><ref target="https://www.ssrq-sds-fds.ch/wiki/Transkriptionsrichtlinien"/></p></editorialDecl></encodingDesc>
+		<profileDesc>
+			<textClass default="false">
+				<keywords scheme="http://www.ssrq-sds-fds.ch/taxonomie">
+					<term ref="key000604"/>
+				</keywords>
+			</textClass>
+		</profileDesc>
+	</teiHeader>
+	<text>
+		<group>
+			<text>
+				<body>
+					<div>
+					<pb n="15r"/><p><lb/>Mardi le <origDate when="1493-08-20">xx<hi rend="sup">e</hi> jour du moys d’aoust l’an <abbr>etc</abbr> nonante et trois</origDate>,
+						<lb/>en presence de saiges, <term ref="lem017499.02">pourveables</term> et discrets conseillieurs
+						<lb/>de <placeName ref="loc001060.04">Frybourg</placeName>, <persName ref="per010051a.01">Jehan Mussillier</persName>, <persName ref="per010052a">Pierre Ramuz</persName>, <persName ref="per010053a.01">Jehan
+						<lb/>Cordey</persName>, <persName ref="per010054a">Hans Espagniod</persName>, <persName ref="per010055a.01">Guilliame Gastrod</persName>, <persName ref="per010056a.01">Wilhelm
+						<lb/>Reiff</persName>, et <persName ref="per010038a.01"><subst><del>J</del><add place="inline">H</add>H</subst>ans Techtermand</persName> <term ref="lem014993.05">grosoutier</term> dudit <placeName ref="loc001060.04">Frybourg</placeName>,
+						<lb/><persName ref="per009707a.01">Jehanneta</persName>, <term ref="lem019450.02">relexee</term> de <persName ref="per009706a">Estieven Lasne</persName> de <placeName ref="loc007639">Vacheresse</placeName><note>Il existe aussi un village nommé Vacheresse en Gruyère, mais selon les autres mentions de lieux faites dans le procès, il faut privilégier la provenance savoyarde.</note>,
+						<lb/>az <term ref="lem014868.02">regiqui</term>&#160;:</p>
+						<p><lb/>Item que par grand desconfort qu’elle avoit de ce que son
+							<lb/>mari susdit la battoyt, elle s’en allast de nuyt par ung boys,
+							<lb/>sur ung roché, et començzaz a cryer que Dieu ou le
+							<lb/><term ref="lem017521">diable</term> ly voulsisent aydier. Adonc venist a elle ung
+							<pb n="15v"/><lb/>qui se nomoit <persName ref="per011219a.09">Sathanaz</persName>, en forme obscure noire,
+							<lb/>qui ly desmandaz qu’elle vouloit et la cause de
+							<lb/>sa tristesse&#160;; auquel elle respondist qu’elle estoit
+							<lb/>toute desconfortee car son mari ne la faisoit que
+							<lb/>battre. Adonc ledit <persName ref="per011219a.09">Sathanaz</persName> ly dist que se elle
+							<lb/>le vouloit croyre et le prendre a <term ref="lem019555.05">maistre</term> et <term ref="lem019541.03">renyer</term> Dieu,
+							<lb/>qu’il la reconforteroit et son mari ne la battroit plus.
+							<lb/>Et a celle heure, elle <term ref="lem019541.21">renyast</term> Dieu et prist ledit
+							<lb/><persName ref="per011219a.09">Sathanaz</persName> pour son <term ref="lem019555.05">maistre</term> et, en ly faisant <term ref="lem018915.01">hommage</term>,
+							<lb/>le <term ref="lem019481.02">baisast</term> ou cul et ly donast d’<term ref="lem014862.02">enseignie</term> troys poilz
+							<lb/>de sa teste.</p>
+						<p><lb/>Item mais az elle <term ref="lem014868.02">regiqui</term> que, puys apprés, elle est allee et
+							<lb/>az frequenté la <term ref="lem017043.02">sette</term> qu’il tenoent en ung ancian chastel
+							<lb/><term ref="lem014863.02">desroché</term>, appellé en <placeName ref="loc007641">Berney</placeName><note>Il existe aussi un village nommé Bernex à Genève, mais selon les autres mentions de lieux faites dans le procès, il faut privilégier la provenance savoyarde.</note>,
+							<add place="left margin"  type="sign">par l’espace de <date dur-iso="P2Y">deux ans</date></add>, en laquelle <term ref="lem017043.02">sette</term>, ledit leur
+							<lb/><term ref="lem019555.05">maistre</term> <persName ref="per011219a.10">Sathanat</persName> les convoquoyt toutes les sepmaines
+							<lb/>deux foys, c’est assavoir le mescredi et le vendredi, et leur
+							<lb/>donnoit des bastonets sur lesqueulx eulx chevaucheoent
+							<lb/>en ladite <term ref="lem017043.02">sette</term>. Et se par aventure il ne ly vouloent aller,
+							<lb/>il les battoyt durement, et quant <subst><del>l’eulx</del> <add place="inline">l’eure</add></subst> estoit de departir,
+							<lb/>eulx chevaucheoent dessus lesdits bastonet, retornent chacun
+							<lb/>a son logis.</p>
+						<p><lb/>Item elle et ses complices cy apprés nommé se trovoent
+							<lb/>sur les jours susdits en ladite <term ref="lem017043.02">sette</term>, environ la mynuit, et
+							<lb/>quant il estoent tous amassés, il commençzoent tout premierement
+							<lb/>a danzer et faire bonne chiere, et puys apprés leur <term ref="lem019555.02">mestre</term>
+							<lb/><persName ref="per011219a.10">Sathanat</persName> leur appourtoit a mangier. Et ung qu’estoit
+							<lb/>de ladite <term ref="lem017043.02">sette</term>, appellé <persName>Pierre Sessel</persName> de <placeName ref="loc007642.02">Larrengez</placeName>, estoit
+							<lb/>leur cusiner.<del>e</del></p>
+						<p><lb/>Item ung de ses complices appellé <persName>Jehan Villie</persName> embrassaz
+							<lb/>unefoys une joefnez femme, grosse par le <term ref="lem014864.02">moiten</term>, et la
+							<lb/>pressast tellement que tantost apprés elle enfantast ung
+							<pb n="16r"/><lb/>filz, luquel n’eust point <term ref="lem019542.03">batisme</term>. Et quant il feust
+							<lb/>enterré, eulx allesrent occultement et le deterrasrent
+							<lb/>tout fres et le pourterent en ladite <term ref="lem017043.02">sette</term>, ou il <term ref="lem019170.05">rotisrent</term>
+							<lb/>et le mengasrent. Et pluseurs aultres enfans mengeoent
+							<lb/>ilz en ladite <term ref="lem017043.02">sette</term>, et ne sçait point d’out il venoent, mais
+							<lb/>il n’avoent point recehuz <term ref="lem019542.02">batesme</term>, car sur tels enfans
+							<lb/><term ref="lem019543.06">baptisés</term> n’ont ilz point de puissance.</p>
+						<p><lb/>Item quant il estoent en ladite <term ref="lem017043.03">settez</term>, il se <term ref="lem014865">mesloent</term>
+							<lb/>ensemble et touteffois non pas hors de nature.</p>
+						<p><lb/>Item pluseurs qui sont eu de ladite <term ref="lem017043.02">sette</term> sont <del>ehu</del>
+							<lb/><term ref="lem019496.04">brulés</term> et executé par justice.</p>
+						<p><lb/>Item ung de ses complices appellé <persName>Jehan Livret</persName>, <add place="right margin">luquel</add> <add place="left margin">az esté <term ref="lem019496.03">brulé</term></add>,
+							<lb/>sçavoit donné maladie aux gens et aux bestes
+							<lb/>atout de la <term ref="lem018382.05">grasse</term>, de quoy il les frotoit et
+							<lb/>puys les frappoit d’ung baston&#160;; et tantost il estoent
+							<lb/>malades et qui n’y mestoit remede, il povoent bien
+							<lb/>morir, mais quant on les ly presentoit, elle le sçavoit
+							<lb/>bien guerir par parolles qu’elle<sic>s</sic> sçait, lesquelles, depuys
+							<lb/>qu’elle <add place="above">est</add> prise <del><add place="above">est</add></del> es mains de la justice, ne sont de nulle
+							<lb/>value.</p>
+						<p><lb/>Item le mari qu’elle az desriement ehu en ceste
+							<lb/>ville az bien sceu qu’elle estoit <term ref="lem015855.02">heresge</term>, et
+							<lb/>celluy son mari quant il ouvroit pour les gens
+							<lb/>en leur maisons, il emploit ses <term ref="lem014866.03">solars</term> de
+							<lb/>lanne et en amassoit une quantité, puys la
+							<lb/>vendoit a <subst><del>ceulx de</del> <add place="below">aulcunes gens de</add></subst> <subst><del>Rom</del> <add place="inline"><placeName ref="loc007607">Moudon</placeName></add></subst>.</p>
+						<p><lb/><add place="bottom"><foreign xml:lang="la">Verte</foreign></add></p>
+						<pb n="16v"/><p><lb/>Et <subst><del>si</del> <add place="inline">cy</add></subst> apprés sont ceulx qui sont ehu de ladite <term ref="lem017043.02">sette</term>&#160;:
+							<lb/><persName>Pierre Morat</persName>&#160;; <persName>Berthet Dam<subst><del>a</del> <add place="above">o</add></subst>n</persName>&#160;; la femme ou
+							<lb/><persName>Gros Bovey</persName> de <placeName ref="loc007642.03">Larrenjoz</placeName>&#160;; la femme a <persName>Magniens</persName>&#160;;
+							<lb/><persName>Jehan Guilliame</persName> dou <placeName ref="loc007643" >Buaz</placeName>&#160;; le filz a <persName>Niccod de <placeName ref="loc007644">La
+							<lb/>Vernaz</placeName></persName>&#160;; et pluseurs aultres qui sont ehu executé
+							<lb/>par justice et desquelx elle n’est point <term ref="lem014867.02">raccordant</term>.</p>
+						<p><lb/><foreign xml:lang="la">Hec juditio presentata <origDate when="1493-08-22">xxii augusti</origDate>
+							<lb/><subst><del>u</del> <add place="overwritten">i</add></subst>gne cremari adjudicata est.</foreign></p>
+					</div>
+				</body>
+			</text>
+		</group>
+		<back>
+			<div>
+				<p/>
+			</div>
+		</back>
+	</text>
+</TEI>
+<?oxy_options track_changes="on"?>

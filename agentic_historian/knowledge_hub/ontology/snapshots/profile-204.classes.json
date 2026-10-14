@@ -1,0 +1,135 @@
+[
+ {
+  "ancestorClasses": [
+   1,
+   18,
+   19,
+   64,
+   66,
+   70,
+   83,
+   375,
+   380,
+   539,
+   881
+  ],
+  "classID": 21,
+  "classIdentifierInNamespace": "E21",
+  "classLabel": "Person",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises real persons who live or are assumed to have lived. Legendary figures that may have existed, such as Ulysses and King Arthur, fall into this class if the documentation refers to them as historical figures. In cases where doubt exists as to whether several persons are in fact identical, multiple instances can be created and linked to indicate their relationship. The CRM does not propose a specific form to support reasoning about possible identity.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "http://www.cidoc-crm.org/cidoc-crm/E21",
+  "entityBasicType": 8,
+  "entityBasicTypeLabel": "Persistent Item",
+  "namespaceID": 1,
+  "namespaceLabel": "CIDOC CRM version 6.2",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "crm",
+  "namespaceURI": "http://www.cidoc-crm.org/cidoc-crm/",
+  "parentClasses": [
+   20,
+   38,
+   1763
+  ],
+  "profileAssociationType": "selected",
+  "profileID": 204,
+  "profileLabel": "Person - Biological Family ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   2,
+   4,
+   5,
+   83,
+   380,
+   539
+  ],
+  "classID": 61,
+  "classIdentifierInNamespace": "E67",
+  "classLabel": "Birth",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises the births of human beings. E67 Birth is a biological event focussing on the context of people coming into life. (E63 Beginning of Existence comprises the coming into life of any living beings). Twins, triplets etc. are brought into life by the same E67 Birth event. The introduction of the E67 Birth event as a documentation element allows the description of a range of family relationships in a simple model. Suitable extensions may describe more details and the complexity of motherhood with the intervention of modern medicine. In this model, the biological father is not seen as a necessary participant in the E67 Birth event.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "http://www.cidoc-crm.org/cidoc-crm/E67",
+  "entityBasicType": 9,
+  "entityBasicTypeLabel": "Temporal Entity",
+  "namespaceID": 1,
+  "namespaceLabel": "CIDOC CRM version 6.2",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "crm",
+  "namespaceURI": "http://www.cidoc-crm.org/cidoc-crm/",
+  "parentClasses": [
+   57
+  ],
+  "profileAssociationType": "selected",
+  "profileID": 204,
+  "profileLabel": "Person - Biological Family ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   2,
+   4,
+   5,
+   83,
+   380,
+   539
+  ],
+  "classID": 633,
+  "classIdentifierInNamespace": "C9",
+  "classLabel": "Relationship",
+  "classLabelLanguage": "en",
+  "classScopeNote": "Any loving and/or sexual friendship between two people. This class comprises all kinds of relationships intended in the more basic, emotional and physical aspect, regardless of their social or legal form, and indicates the time span of their duration (start/end date). Same-sex unions are also to be encoded with this class.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "https://sdhss.org/ontology/social-life-core/C9",
+  "entityBasicType": 9,
+  "entityBasicTypeLabel": "Temporal Entity",
+  "namespaceID": 366,
+  "namespaceLabel": "SDHSS Social Life Core (v1.0)",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "sdh-slc",
+  "namespaceURI": "https://sdhss.org/ontology/social-life-core/",
+  "parentClasses": [
+   702
+  ],
+  "profileAssociationType": "selected",
+  "profileID": 204,
+  "profileLabel": "Person - Biological Family ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   27,
+   64,
+   65,
+   70,
+   380
+  ],
+  "classID": 634,
+  "classIdentifierInNamespace": "C10",
+  "classLabel": "Type of Persons' Interaction",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises concepts denoted by terms from thesauri and controlled vocabularies used to characterize and classify instances of the classs sdh:C18 Persons' Interaction.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "https://sdhss.org/ontology/social-life-core/C10",
+  "entityBasicType": 30,
+  "entityBasicTypeLabel": "Type (controlled vocabulary)",
+  "namespaceID": 366,
+  "namespaceLabel": "SDHSS Social Life Core (v1.0)",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "sdh-slc",
+  "namespaceURI": "https://sdhss.org/ontology/social-life-core/",
+  "parentClasses": [
+   53
+  ],
+  "profileAssociationType": "selected",
+  "profileID": 204,
+  "profileLabel": "Person - Biological Family ",
+  "profileLabelLanguage": "en"
+ }
+]

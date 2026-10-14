@@ -1,0 +1,164 @@
+[
+ {
+  "ancestorClasses": [
+   1,
+   18,
+   19,
+   64,
+   66,
+   70,
+   83,
+   375,
+   380,
+   539,
+   881
+  ],
+  "classID": 21,
+  "classIdentifierInNamespace": "E21",
+  "classLabel": "Person",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises real persons who live or are assumed to have lived. Legendary figures that may have existed, such as Ulysses and King Arthur, fall into this class if the documentation refers to them as historical figures. In cases where doubt exists as to whether several persons are in fact identical, multiple instances can be created and linked to indicate their relationship. The CRM does not propose a specific form to support reasoning about possible identity.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "http://www.cidoc-crm.org/cidoc-crm/E21",
+  "entityBasicType": 8,
+  "entityBasicTypeLabel": "Persistent Item",
+  "namespaceID": 1,
+  "namespaceLabel": "CIDOC CRM version 6.2",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "crm",
+  "namespaceURI": "http://www.cidoc-crm.org/cidoc-crm/",
+  "parentClasses": [
+   20,
+   38,
+   1763
+  ],
+  "profileAssociationType": "inferred",
+  "profileID": 208,
+  "profileLabel": "Person - Social Relationship ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   2,
+   211,
+   380,
+   756
+  ],
+  "classID": 334,
+  "classIdentifierInNamespace": "C3",
+  "classLabel": "Social Relationship",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises phenomenons of a social relation between people, groups or countries as it is perceived in the context of shared intention. In other words, this class does not model a physical interaction of actors in space and time (for persons this interaction is modelled with the C18 Persons' Interaction class) but the perception of a phenomenon like friendship, marriage, apprenticeship, etc. that happens in the minds and the social space.\r\nEach relationship generally involves only two instances of one or more classes. If more then two instances are involved (e.g. multilateral political relationships) the unity of time and social space must be given. If different persons or groups are socially interreladed at different times, or perceived as such in different social contexts, several instances of this class must be produced and provided with appropriate types.\r\nIf the relationship is symmetrical, the sdh-so:P15 involves partner property has to be used in order to associate the partners of the relationship. If the relationship is asymmetrical, the different roles actors can have in the relationship would be described through the intentional Actor's Role in a Social Relationship (a sub-class of crm:E89 Propositional Object).\r\nDeprecated\r\nIf the relationship is oriented from a source to a target (the partners having a different position in the relationship), the properties sdh-so:P17 has relationship source and sdh-so:P18 has relationship target will be used. This generic treatment allows to express a direction of the relationship. The meaning of the direction will be explicitly defined in the controlled vocabulary of relationship types.\r\nGiven their different meanings, it is absolutely necessary to avoid mixing the two types of relationships: either use the sdh-so:P15 property or the sdh-so:P17 / sdh-so:P18 – they are disjoint.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "https://sdhss.org/ontology/social-life-core/C3",
+  "entityBasicType": 9,
+  "entityBasicTypeLabel": "Temporal Entity",
+  "namespaceID": 366,
+  "namespaceLabel": "SDHSS Social Life Core (v1.0)",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "sdh-slc",
+  "namespaceURI": "https://sdhss.org/ontology/social-life-core/",
+  "parentClasses": [
+   699
+  ],
+  "profileAssociationType": "selected",
+  "profileID": 208,
+  "profileLabel": "Person - Social Relationship ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   27,
+   53,
+   64,
+   65,
+   70,
+   380
+  ],
+  "classID": 444,
+  "classIdentifierInNamespace": "C2",
+  "classLabel": "Actor's Social Quality",
+  "classLabelLanguage": "en",
+  "classScopeNote": "Professional, political, religious or whatever generic social quality of an actor, be it a person or a group, as it is perceived from the point of view of the representations of a human community. A social quality is a socially constructed concept (in the sense of the connotation of an entity with a crm:E55 Type) and it is used to socially classify individuals in the perspective of the community. \r\nThis class is not to be confused with the sdh-so:C12 Actor's Social Role class which models legally defined social roles and functions of actors and should be exclusively used for this kind of concepts. Social roles are formalisations of social qualities in relation to specific groups and custom or legal contexts.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "https://sdhss.org/ontology/social-life-core/C2",
+  "entityBasicType": 30,
+  "entityBasicTypeLabel": "Type (controlled vocabulary)",
+  "namespaceID": 366,
+  "namespaceLabel": "SDHSS Social Life Core (v1.0)",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "sdh-slc",
+  "namespaceURI": "https://sdhss.org/ontology/social-life-core/",
+  "parentClasses": [
+   706
+  ],
+  "profileAssociationType": "inferred",
+  "profileID": 208,
+  "profileLabel": "Person - Social Relationship ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   27,
+   64,
+   65,
+   70,
+   380
+  ],
+  "classID": 632,
+  "classIdentifierInNamespace": "C4",
+  "classLabel": "Social Relationship Type",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises concepts denoted by terms from thesauri and controlled vocabularies used to characterize and classify instances of the histC6 Relationship class.\r\nIf the relationship is oriented from a source to a target (the partners having a different position in the relationship), the properties histP49 has relationship source and histP50 has relationship target will be used. This generic treatment allows to express a direction of the relationship. The meaning of the direction will be explicitly defined in the definition of the terms in the controlled vocabulary of social relationship types.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "https://sdhss.org/ontology/social-life-core/C4",
+  "entityBasicType": 30,
+  "entityBasicTypeLabel": "Type (controlled vocabulary)",
+  "namespaceID": 366,
+  "namespaceLabel": "SDHSS Social Life Core (v1.0)",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "sdh-slc",
+  "namespaceURI": "https://sdhss.org/ontology/social-life-core/",
+  "parentClasses": [
+   53
+  ],
+  "profileAssociationType": "selected",
+  "profileID": 208,
+  "profileLabel": "Person - Social Relationship ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   27,
+   64,
+   65,
+   70,
+   380
+  ],
+  "classID": 1714,
+  "classIdentifierInNamespace": "C43",
+  "classLabel": "Actor's Role in a Social Relationship",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class expresses the intentional role of an Actor within a Social Relationship. This class is not a temporal phenomenon such as the class sdh:C1 Entity Quality or its subclasses, but a propositional object related to the temporal and intentional phenomenon of the Social Relationship.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "https://sdhss.org/ontology/social-life-core/C43",
+  "entityBasicType": 8,
+  "entityBasicTypeLabel": "Persistent Item",
+  "namespaceID": 366,
+  "namespaceLabel": "SDHSS Social Life Core (v1.0)",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "sdh-slc",
+  "namespaceURI": "https://sdhss.org/ontology/social-life-core/",
+  "parentClasses": [
+   81
+  ],
+  "profileAssociationType": "selected",
+  "profileID": 208,
+  "profileLabel": "Person - Social Relationship ",
+  "profileLabelLanguage": "en"
+ }
+]

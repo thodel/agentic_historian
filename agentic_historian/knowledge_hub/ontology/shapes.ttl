@@ -1,0 +1,79 @@
+# shapes.ttl — Formen für den Bestandsgraphen (KG-6, #650).
+#
+# Was eine Ontologie nicht sagt, sagt eine Form: wie viele, in welcher Gestalt,
+# aus welchem Namensraum. Geprüft mit pyshacl aus validate.py. Jede Form nennt
+# ihren Grund als rdfs:comment, damit ein Verstoss nicht nur eine Meldung ist.
+
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix crm:     <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix sdh-slc: <https://sdhss.org/ontology/social-life-core/> .
+@prefix shb:     <https://tei.dh.unibe.ch/ontology/> .
+
+shb:DocumentShape a sh:NodeShape ;
+    sh:targetClass crm:E31_Document ;
+    rdfs:comment "Ein Dokument ohne Label ist in keiner Antwortzeile lesbar; eines ohne Herkunft nicht zitierbar." ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:datatype xsd:string ;
+                  sh:message "E31 ohne rdfs:label" ] ;
+    sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:nodeKind sh:IRI ;
+                  sh:message "E31 ohne prov:wasDerivedFrom" ] .
+
+shb:PersonShape a sh:NodeShape ;
+    sh:targetClass crm:E21_Person ;
+    sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:message "E21 ohne Herkunft" ] .
+
+shb:GroupShape a sh:NodeShape ;
+    sh:targetClass crm:E74_Group ;
+    sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:message "E74 ohne Herkunft" ] .
+
+shb:PlaceShape a sh:NodeShape ;
+    sh:targetClass crm:E53_Place ;
+    rdfs:comment "Ein Ort darf ohne Namen sein (SSRQ loc-Ids), nie ohne Herkunft." ;
+    sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:message "E53 ohne Herkunft" ] .
+
+shb:PartnershipShape a sh:NodeShape ;
+    sh:targetClass sdh-slc:C9 ;
+    rdfs:comment "SDHSS: eine Relationship hat genau zwei Partner (Quantifizierung 2..2 im Profil 204)." ;
+    sh:property [ sh:path sdh-slc:P20 ; sh:minCount 2 ; sh:maxCount 2 ; sh:class crm:E21_Person ;
+                  sh:message "C9 braucht genau zwei P20-Partner vom Typ E21" ] .
+
+shb:RelationShape a sh:NodeShape ;
+    sh:targetClass sdh-slc:C3 ;
+    sh:property [ sh:path sdh-slc:P17 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "C3 braucht genau eine Quelle (P17)" ] ;
+    sh:property [ sh:path sdh-slc:P18 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "C3 braucht genau ein Ziel (P18)" ] .
+
+shb:MembershipShape a sh:NodeShape ;
+    sh:targetClass sdh-slc:C5 ;
+    sh:property [ sh:path sdh-slc:P1 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "C5 braucht genau eine Person (P1)" ] ;
+    sh:property [ sh:path sdh-slc:P2 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "C5 braucht genau eine Gruppe (P2)" ] .
+
+shb:IdentifierShape a sh:NodeShape ;
+    sh:targetClass crm:E42_Identifier ;
+    rdfs:comment "Eine Id ist ein Text (P190), und ihre Quelle ein Typ — nicht ein Literal an P2." ;
+    sh:property [ sh:path crm:P190_has_symbolic_content ; sh:minCount 1 ; sh:nodeKind sh:Literal ;
+                  sh:message "E42 ohne P190-Text" ] ;
+    sh:property [ sh:path crm:P2_has_type ; sh:minCount 1 ; sh:nodeKind sh:IRI ;
+                  sh:message "E42: P2 muss ein E55 (IRI) sein, kein Literal" ] .
+
+shb:TypedShape a sh:NodeShape ;
+    sh:targetSubjectsOf crm:P2_has_type ;
+    rdfs:comment "P2 has type hat den Range E55 Type. Der Korpusexporter schrieb Literale (KG-12)." ;
+    sh:property [ sh:path crm:P2_has_type ; sh:nodeKind sh:IRI ; sh:class crm:E55_Type ;
+                  sh:message "P2_has_type verlangt eine E55-Ressource" ] .
+
+shb:SameAsShape a sh:NodeShape ;
+    sh:targetSubjectsOf owl:sameAs ;
+    rdfs:comment "owl:sameAs nur in Namensräume, die wir kennen — eine erfundene Autoritäts-URI wäre die Lüge, die der Graph nicht erzählen darf." ;
+    sh:property [ sh:path owl:sameAs ; sh:nodeKind sh:IRI ;
+                  sh:pattern "^(https?://(www\\.)?(dodis\\.ch|ssrq-sds-fds\\.ch|www\\.wikidata\\.org|d-nb\\.info|hls-dhs-dss\\.ch|permalink\\.snl\\.ch|doi\\.org|www\\.e-periodica\\.ch|opendata\\.dodis\\.ch|github\\.com)/)" ;
+                  sh:message "owl:sameAs in unbekannten Namensraum" ] .
+
+shb:TimeSpanShape a sh:NodeShape ;
+    sh:targetClass crm:E52_Time-Span ;
+    sh:property [ sh:path crm:P82a_begin_of_the_begin ; sh:maxCount 1 ; sh:datatype xsd:date ;
+                  sh:message "P82a als xsd:date, höchstens einmal" ] ;
+    sh:property [ sh:path crm:P82b_end_of_the_end ; sh:maxCount 1 ; sh:datatype xsd:date ;
+                  sh:message "P82b als xsd:date, höchstens einmal" ] .
