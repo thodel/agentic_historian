@@ -1446,6 +1446,35 @@ liest die Platte und hätte nach einem Pull ohne Restart den **neuen** Commit
 gemeldet, während der alte Code antwortet. Das ist keine fehlende Angabe, das
 ist eine falsche Beruhigung.
 
+### Deployment ist eine Abstammungsfrage, keine Gleichheitsfrage
+
+`loaded` gegen den Commit zu prüfen, den man gemerged hat, ist der falsche Test.
+Am 14. Oktober meldete der Server nach einem Pull `3c360ccd`, mein Merge war
+`a94d80d` — und das Deployment war trotzdem korrekt, weil `main` inzwischen zwei
+weitere PRs aufgenommen hatte. Eine Gleichheitsprüfung hätte einen richtigen
+Zustand als Fehlschlag gemeldet und einen 27-Minuten-Lauf verhindert.
+
+Die Frage ist nicht „ist es *mein* Commit", sondern „**enthält** es meinen":
+
+```bash
+git fetch origin main
+git merge-base --is-ancestor <mein-commit> <loaded> && echo enthalten
+```
+
+Zwei Fälle, in denen die Abstammung ebenfalls die einzige brauchbare Antwort
+ist, und beide sind in diesem Projekt aufgetreten:
+
+- **Squash-Merge.** Der Branch-Commit ist nach dem Merge *kein* Vorfahre von
+  `main` — der Squash ist ein neuer Commit mit demselben Inhalt. Wer vor einem
+  `--force-with-lease` prüfen will, ob nichts verloren geht, vergleicht
+  deshalb **Bäume**, nicht Historie:
+  `git diff --stat <branch-commit> origin/main -- <die berührten Dateien>`,
+  und leer heisst: der Inhalt ist drin.
+- **Shallow Clone.** Dort scheitert `--is-ancestor` jenseits der Shallow-Grenze
+  und `git fetch` meldet `(forced update)` für ein gewöhnliches Fortschreiben
+  (§ *Geprüft wird im publizierten Baum*). Erst `--depth 12` macht die Frage
+  entscheidbar.
+
 ## 5 · Reading the result
 
 `report.md` gives, per model: pages read, pages skipped, pages failed, **pages

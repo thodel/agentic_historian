@@ -782,6 +782,67 @@ fixture is an *example* of a category, say in the test which property of the
 example matters. "A mismatched page" was a category with two members, and nobody
 had noticed it needed splitting until 43 real pages said so.
 
+## 22. "Is it my commit" is the wrong question about a deployment
+
+§14 ends with the fix: every report carries the commit the answering process
+actually holds, so "deployed" stops being a claim about a process and becomes a
+readable fact. Four days later that fact arrived and I nearly read it as a
+failure.
+
+The server reported `loaded: 3c360ccd`. My merge was `a94d80d`. Those are not
+equal, and the deployment was perfectly correct — `main` had taken two more pull
+requests from other sessions in between, and the pull brought all of it. An
+equality check would have reported a healthy state as broken and held back a
+27-minute run on the strength of it.
+
+**The question is containment, not identity:**
+
+```bash
+git merge-base --is-ancestor <my commit> <loaded>
+```
+
+Two neighbouring cases where ancestry is also the only usable answer, and this
+session hit both:
+
+- **After a squash merge, my branch commit is not an ancestor of `main`.** The
+  squash is a new commit with the same content, so a `--force-with-lease` that
+  wants to be sure nothing is lost has to compare *trees* —
+  `git diff --stat <branch> origin/main -- <the files it touched>` — and an
+  empty diff is the proof. Checking history there says "unmerged commits" about
+  a branch whose every line is already in `main`.
+- **In a shallow clone, ancestry cannot be computed at all** past the boundary,
+  which is why `git fetch` prints `(forced update)` for an ordinary
+  fast-forward (§17). Fetching a little more depth turns an unanswerable
+  question into an answerable one.
+
+**The generalisation**, and it is the same shape as §5 and the 27-against-43
+mix-up below: a verification compares two things, and its worth depends entirely
+on whether they are the two things the question is about. `loaded == my merge`
+and `loaded contains my merge` look alike and differ in exactly the case that
+matters — the ordinary one, where other people are working in the same
+repository.
+
+## 23. Two numbers from one printout, and I used the wrong one for days
+
+The export's report prints both `unbestimmt: 27` — pages whose hand no dateline
+names — and `geometry: 43`, pages whose transcription does not match their scan.
+I carried "27 geometry rejections" in my own task list from one reading of that
+output until the day I went to diagnose them, and the number was simply the
+wrong column's.
+
+Nothing in between could have caught it. There was no second source to disagree
+with, the figure appeared in my notes and not in any file, and 27 is a plausible
+count for either. It survived because it was never used for anything until it
+was.
+
+The family is §5 (*files are not pages*) one level up: not a file mistaken for a
+page, but one column's answer given to another column's question. What makes it
+worth its own entry is where the error lived — not in the code and not in the
+report, both of which were right, but in the sentence I wrote down about them.
+**A number copied out of a report loses the column header that made it true.**
+When it matters later, it has to be re-read from the report rather than
+remembered.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
