@@ -728,6 +728,60 @@ Taking one page's reading from another model is an editorial act, it has to name
 the model on that page, and it belongs in a decision by the edition's maintainer
 rather than in a merge that looks like bookkeeping.
 
+## 20. I made a rule out of the one signature the report let me see
+
+`export-hf` refused 43 pages for a geometry mismatch and printed five names, of
+which exactly **one** was a geometry case. From that single pair — XML
+3333×4391, image 1420×1781 — I wrote that the share holds "a smaller, differently
+cropped derivative", which was right, and then, once the report named eight
+pairs, that the most frequent factor 2.2548 is "300 against 133 dpi, a systematic
+relationship between two derivative pipelines". That second claim was a rule
+drawn from one number.
+
+The full table has **21 pairs** and seven factors: 1.58, 1.62, 1.99, 2.10, 2.26,
+2.63, 3.31. There is no single relationship to name. 2.2548 is the most frequent
+because six pages share it, not because anything normalises to it — nine archives
+delivered their own derivatives, which is what a correspondence held in nine
+houses looks like.
+
+This is the third time in two weeks, with the same shape each time: three pages
+became "8192 is a generous ceiling", one prompt comparison became a prompt
+effect (§15), and now one size pair became a dpi ratio. **The sample that shows
+me a pattern is not the sample that establishes it** — and in each case the full
+data was one command away, which is the part that stings.
+
+Two things the complete table gave that the single pair could not, and neither is
+a detail:
+
+- **1420×1781 is a fixed frame.** Sixteen pages, three different XML heights, one
+  identical image size. A derivative that maps pages of different heights onto
+  the same format is not scaled per page — arithmetic: that page at width 1420
+  would be 1858 high, not 1781. Unrepairable by construction, and I would have
+  called it "a smaller derivative" forever.
+- **Two pages are not the same picture at all.** `1566×2639 → 1566×1325` has
+  identical width and half the height — a scanned opening against one half-leaf.
+  `2479×3508 → 2968×2553` is portrait against landscape, and not a rotation
+  (rotated would be 3508×2479). For those, "which scan is authoritative" is the
+  wrong question; the question is which photograph shows the page.
+
+## 21. A fixture can encode a policy, and then the policy changes
+
+`test_a_mismatched_page_is_refused_not_rescaled` used 2938×3638 against
+1469×1819 — an exact halving — to prove that a page whose XML disagrees with its
+image is refused rather than rescaled. It was a good test of the policy it was
+written for.
+
+Since the measurement above, that pair is the **repairable** case: one factor on
+both axes is the same scan at two resolutions, so the coordinates are divided by
+it and the page is exported saying so in its own first comment. The fixture had
+quietly picked the one shape of mismatch that later turned out to be benign.
+
+So the test now uses 3333×4362 against 1420×1781, the fixed frame, and both
+versions stand in its docstring. The rule I am taking from it: when a test's
+fixture is an *example* of a category, say in the test which property of the
+example matters. "A mismatched page" was a category with two members, and nobody
+had noticed it needed splitting until 43 real pages said so.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.

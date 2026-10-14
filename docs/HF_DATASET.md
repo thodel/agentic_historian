@@ -153,12 +153,107 @@ im Ergebnis unter `writers` und `rejected`. Das ist eine Änderung im
 **Serverprozess** — `git pull` **und** `systemctl restart atr-mcp`, siehe
 § *Welcher Code hat geantwortet?* in `BATCH_ATR.md`.
 
-Die eine Signatur, die der Bericht vom 13. Oktober zeigte, ist die unreparierbare:
-`doc12635749`, XML 3333×4391 gegen Bild 1420×1781 — 14,6 Megapixel gegen 2,5, und
-die Höhe 90 px kürzer, als der Breitenfaktor ergäbe. Der Share hält dort eine
-kleinere, anders beschnittene Ableitung als Transkribus. Für diese Seiten ist die
-Abweisung richtig, und die offene Frage ist keine Code-Frage: welcher Scan ist der
-autoritative. Wie die anderen 41 aussehen, sagt die Tabelle beim nächsten Lauf.
+### Die vollständige Tafel: 21 Paare, zwei Gruppen
+
+Lauf vom 14. Oktober, alle 43 Abweisungen aus `hf-rejected-*.tsv` nach Signatur:
+
+| Seiten | XML | Bild | Faktor B / H | Abw. | Deutung |
+|---:|---|---|---|---:|---|
+| 8 | 3333×4362 | 1420×1781 | 2,347 / 2,449 | 4,2 % | Beschnitt |
+| 4 | 3333×4391 | 1420×1781 | 2,347 / 2,465 | 4,8 % | Beschnitt |
+| 4 | 3333×4304 | 1420×1781 | 2,347 / 2,417 | 2,9 % | Beschnitt |
+| 3 | 1698×2568 | 1655×2549 | 1,026 / 1,008 | 1,8 % | Beschnitt |
+| 2 | 2923×3690 | 1267×1612 | 2,307 / 2,289 | 0,78 % | Beschnitt |
+| 2 | 1770×2598 | 1296×1636 | 1,366 / 1,588 | 14,0 % | Beschnitt |
+| 1 | 1182×1506 | 1296×1636 | 0,912 / 0,921 | 0,92 % | Beschnitt |
+| 1 | 791×1158 | 1296×1636 | 0,610 / 0,708 | 13,8 % | Beschnitt |
+| 1 | 2479×3508 | **2968×2553** | 0,835 / 1,374 | 39,2 % | Beschnitt |
+| 1 | 1566×2639 | **1566×1325** | **1,000** / 1,992 | 49,8 % | Beschnitt |
+| 4 | 1770×2598 | 785×1152 | 2,2548 / 2,2552 | 0,02 % | **skaliert** |
+| 2 | 2923×3690 | 1296×1636 | 2,2554 / 2,2555 | 0,00 % | **skaliert** |
+| 2 | 1818×2457 | 913×1233 | 1,9912 / 1,9927 | 0,07 % | **skaliert** |
+| 1 | 1818×2457 | 1148×1551 | 1,5836 / 1,5841 | 0,03 % | **skaliert** |
+| 1 | 2171×2803 | 1371×1770 | 1,5835 / 1,5836 | 0,01 % | **skaliert** |
+| 1 | 1541×2309 | 773×1159 | 1,9935 / 1,9922 | 0,07 % | **skaliert** |
+| 1 | 1258×2015 | 775×1240 | 1,6232 / 1,6250 | 0,11 % | **skaliert** |
+| 1 | 1258×2015 | 600×960 | 2,0967 / 2,0990 | 0,11 % | **skaliert** |
+| 1 | 1258×1707 | 600×814 | 2,0967 / 2,0971 | 0,02 % | **skaliert** |
+| 1 | 3137×4016 | 1192×1527 | 2,6317 / 2,6300 | 0,07 % | **skaliert** |
+| 1 | 3137×4016 | 948×1213 | 3,3091 / 3,3108 | 0,05 % | **skaliert** |
+
+**16 skaliert, 27 Beschnitt.** Keine Drehung, keine Rundung — kein Paar liegt
+unter drei Pixel, der Rundungsverdacht aus der ersten Fassung dieses Abschnitts
+ist damit erledigt. Die Grenze sitzt nicht in einer dichten Gegend: die 16
+stimmen auf **0,11 % oder besser** überein, das nächste abgewiesene Paar ist
+**0,78 %** daneben.
+
+**Zwei Bildformate sind feste Rahmen**, und sie erklären den Beschnitt-Block:
+
+- **1420×1781 für 16 Seiten**, bei drei verschiedenen XML-Höhen und immer
+  derselben Breite 3333. Ein Derivat, das Seiten verschiedener Höhe auf ein
+  identisches Format bringt, ist nicht pro Seite skaliert — nachgerechnet: eine
+  3333×4362-Seite auf Breite 1420 wäre 1858 hoch, nicht 1781.
+- **1296×1636 für 6 Seiten**, aus *vier* verschiedenen XML-Formaten, darunter
+  zwei, bei denen das Bild **grösser** ist als das XML behauptet (791×1158 und
+  1182×1506). Ein Bild grösser als die Vorlage, über die die Polygone sprechen,
+  ist kein verkleinertes Derivat; da zeigen die beiden Dateien auf verschiedene
+  Vorlagen.
+
+**Zwei Einzelfälle sagen am meisten**, und beide sind keine Grössenfrage:
+`1566×2639 → 1566×1325` hat **identische Breite** und die **halbe** Höhe
+(Faktor 1,9917) — eine gescannte Doppelseite gegen ein halbiertes Blatt.
+`2479×3508 → 2968×2553` ist A4 bei 300 dpi gegen ein **Querformat**; keine
+Vertauschung (gedreht wäre 3508×2479), sondern eine andere Aufnahme,
+wahrscheinlich eine Öffnung über zwei Seiten.
+
+*Korrektur:* eine frühere Fassung dieses Abschnitts las den häufigsten Faktor
+2,2548 als „300 gegen 133 dpi" und damit als systematisches Verhältnis zweier
+Derivat-Pipelines. Die vollständige Tafel widerlegt das: die Faktoren sind
+**1,58 · 1,62 · 1,99 · 2,10 · 2,26 · 2,63 · 3,31** — sieben verschiedene. 2,2548
+trägt sechs Seiten und ist der häufigste, aber es gibt keine eine Beziehung zu
+benennen; es ist die Streuung dessen, was neun Archive geliefert haben. Aus der
+einen sichtbaren Signatur eine Regel zu machen, ist derselbe Fehler wie „8192 ist
+großzügig" aus drei Seiten (§ *20* in `LESSONS_2026-10.md`).
+
+### Die 16 kommen mit, und sie sagen es in ihren eigenen Daten
+
+Ein Faktor, auf den sich **beide Achsen** bis auf ein Zehntel Prozent einigen,
+ist nicht die Vermutung, die dieses Modul verweigert. „Welcher von zwei Scans ist
+autoritativ" ist eine Entscheidung ohne Grundlage; „dies ist derselbe Scan in
+zwei Auflösungen" ist eine Rechnung. Also werden die Polygone durch den Faktor
+geteilt und die Seite exportiert — 16 Seiten mehr auf 241, also **+6,6 %**
+Trainingsmaterial.
+
+Drei Dinge gehören dazu, und jedes verhindert einen stillen Ausfall:
+
+- **`imageWidth`/`imageHeight` werden mitgeschrieben.** Sonst widerspricht das
+  Dokument seinem Bild eine Stufe weiter unten — genau die Prüfung, für die
+  dieses Modul existiert, dort wo sie niemand laufen lässt.
+- **`Coords` *und* `Baseline`.** Eines zu verschieben und das andere nicht würde
+  richtig schneiden und die Zeilen falsch ordnen, und keine Spalte würde das
+  zeigen.
+- **Die Seite trägt ihren eigenen Vermerk**, als erster Kommentar im Dokument:
+
+  ```xml
+  <!-- agentic_historian: line coordinates divided by 2.255000; the ground truth
+       describes 1770x2598, this image is 785x1152. imageWidth/imageHeight
+       rewritten to the image. The pixels are the same scan at two resolutions:
+       both axes agreed on the factor to within 0.019 %. -->
+  ```
+
+  Der Exportbaum besteht aus Bildern und XML und sonst nichts, und `pagexml-hf`
+  trägt das XML wörtlich in eine Spalte — ein Hinweis in einer TSV daneben
+  erreicht niemanden, der den Datensatz liest. Dieser hier reist mit.
+
+Der Faktor jeder Seite steht zusätzlich in der Spalte `scale` der
+Writers-Tabelle, und der Plan nennt die umgerechneten Seiten einzeln. Eine Seite
+ohne Faktor bleibt eine **Byte-Kopie** — 241 von 257 sind unangetastet, und
+„unangetastet" soll das heissen.
+
+Die **27 Beschnitt-Seiten bleiben draussen**, und für sie ist die Frage keine
+Code-Frage: welcher Scan autoritativ ist, entscheiden Transkribus und die
+Share-Betreuer. Bei der Doppelseite und dem Querformat ist es nicht einmal eine
+Grössenfrage, sondern die, welche Aufnahme die Seite überhaupt zeigt.
 
 ## Do not pass `$ATR_PAGE_CACHE`
 
