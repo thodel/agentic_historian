@@ -26,6 +26,8 @@ knowledge_hub/
                           Gruppe, Erwähnung, Beziehung — nur Begriffe aus ontology/registry (KG-6)
   ontology/             — das Vokabular, von OntoMe verwaltet: Schnappschüsse der Profile (ontome.py),
                           CIDOC-RDFS (crm.py), Register (registry.py), Prüfung (validate.py, shapes.ttl)
+  sources/              — die Exporte je Bestand (dodis.py, KG-7; ssrq/kf folgen): sortierte N-Tripel
+                          plus Manifest mit den Zählungen gegen die Quelle
 utils/
   gpustack_client.py    — single GPUStack (OpenAI-compatible) client
   mcp_client.py         — async client over the KH MCP federation (PersonResult contract)
