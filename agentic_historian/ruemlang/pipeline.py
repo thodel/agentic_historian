@@ -452,24 +452,36 @@ def cmd_eval(args) -> int:
     docs = [int(d) for d in args.doc] if args.doc else None
     pages = tp.collection_pages(ts, int(col["colId"]), docs=docs)
     chosen = _page_selection(args.pages)
-    gt_pages = [p for p in pages if p.nr_transcribed_lines > 0 and p.nr_words > 0
-                and (chosen is None or p.page_nr in chosen)]
+    # The counts fulldoc gives are not to be trusted for "has text": on 15.10.
+    # pages 12-14, transcribed for months, matched neither nrOfTranscribedLines
+    # nor nrOfWords. A page with lines is a candidate; its PAGE XML decides.
+    candidates = [p for p in pages if p.nr_lines > 0 and (chosen is None or p.page_nr in chosen)]
     if args.limit:
-        gt_pages = gt_pages[:args.limit]
+        candidates = candidates[:max(args.limit * 2, args.limit)]
+    gt_pages: list[tp.PageInfo] = []
+    for p in candidates:
+        d = page_dir(root, p)
+        gt = d / "gt.xml"
+        if not gt.exists():
+            xml = tp.download_pagexml(ts, p)
+            if not xml:
+                continue
+            gt.write_text(xml, encoding="utf-8")
+        texts = [l["text"] for l in pagexml.parse_lines(gt.read_text(encoding="utf-8")) if l["text"].strip()]
+        if len(texts) >= 3:
+            gt_pages.append(p)
+        else:
+            logger.info(f"[ruemlang] {p.key}: {p.nr_lines} line(s) but {len(texts)} with text — not ground truth")
+        if args.limit and len(gt_pages) >= args.limit:
+            break
     if not gt_pages:
-        print("no transcribed pages in the selection")
+        print(f"no transcribed pages among {len(candidates)} candidate(s) in the selection")
         return 1
     plan = {"collection": {"colId": col.get("colId"), "colName": col.get("colName")},
             "eval": True, "pages": [p.to_dict() for p in gt_pages]}
     _save(root / "plan.json", plan)
     for p in gt_pages:
-        d = page_dir(root, p)
-        _save(d / "page.json", p.to_dict())
-        gt = d / "gt.xml"
-        if not gt.exists():
-            xml = tp.download_pagexml(ts, p)
-            if xml:
-                gt.write_text(xml, encoding="utf-8")
+        _save(page_dir(root, p) / "page.json", p.to_dict())
     print(f"eval set: {len(gt_pages)} transcribed page(s): {[p.page_nr for p in gt_pages]}")
     sub = argparse.Namespace(**vars(args))
     sub.out = str(root); sub.pages = None; sub.limit = None
