@@ -420,7 +420,9 @@ class Entry:
     from_register: bool = False  # the hand is recorded, not inferred
     #: The factor the XML's coordinates are divided by on the way out, when the
     #: ground truth describes the same scan at another resolution. ``None`` for
-    #: a page whose XML already describes its image, which is 241 of 257.
+    #: a page whose XML already describes its image, which is 241 of the 254
+    #: the run of 2026-10-14 exported. (The sixteen rescalable *files* describe
+    #: thirteen pages; three are second copies, refused as duplicates.)
     scale: Optional[float] = None
     claimed: Optional[tuple[int, int]] = None   # the size the XML records
     actual: Optional[tuple[int, int]] = None    # the size of the image
