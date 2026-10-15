@@ -305,6 +305,70 @@ drei Spalten passen exakt, und sonst hat sich nichts geändert; belegen liesse e
 sich mit einem `grep` der 13 Schlüssel in der Rückweisungstabelle unter
 `duplicate`.
 
+### Der Baum, 15. Oktober — und drei Prüfungen im Baum statt im Test
+
+`hf-export-20261015T043850`, **254 Seiten**, 27 Minuten (das Lokalisieren, dann
+254 Bilder aus dem kalten Tier). Dass ein Plan 13 umgerechnete Seiten *meldet*,
+heisst nicht, dass 13 Dateien umgerechnet auf der Platte liegen — also drei
+Prüfungen, und jede an einer anderen Stelle im Code:
+
+| | geprüft | Ergebnis |
+|---|---|---|
+| 1 | `build` zählt beim Schreiben, nicht im Plan | `254 page(s) …, 13 with rescaled coordinates` |
+| 2 | geschriebenes XML gegen das Bild daneben | 13 Zeilen, **0 Abweichungen** |
+| 3 | jede umgerechnete Datei weist sich aus | **13** XML mit Vermerk, keine weitere |
+
+**Prüfung 2 ist die eigentliche**, denn sie ist buchstäblich die Prüfung, die
+diese 13 Seiten vorher aus dem Export geworfen hat — `imageWidth`/`imageHeight`
+gegen die tatsächliche Bildgrösse —, jetzt auf den geschriebenen Dateien statt
+auf einer erfundenen Vorlage im Test:
+
+```bash
+cd /home/dh/agentic_historian
+.venv/bin/python3 - <<'PY'
+import sys, pathlib
+sys.path.insert(0, "agentic_historian")
+import hf_export as hf
+tree = pathlib.Path("agentic_historian/data/vlm_test/hf-export-<stempel>")
+NOTE = "agentic_historian: line coordinates divided"
+for x in sorted(tree.rglob("page/*.xml")):
+    text = x.read_text(encoding="utf-8", errors="replace")
+    if NOTE not in text:
+        continue
+    img, = [p for p in x.parent.parent.glob(x.stem + ".*") if p.is_file()][:1]
+    said, got = hf.xml_size(text), hf.image_size(img)
+    print(("OK    " if said == got else "FEHLER"), said, got, x.stem[:58])
+PY
+```
+
+Die Funktionen des Projekts aufzurufen statt die Prüfung nachzubauen ist Absicht:
+eine nachgebaute Prüfung prüft die Nachbildung.
+
+**Und eine vierte Übereinstimmung, die nicht geplant war:** die 13 Zeilen sind
+Seite für Seite dieselben wie im Plan, mit denselben Zielgrössen. Brief 2326
+trägt seine beiden verschiedenen Formate (600×960 und 775×1240), Brief 2921
+ebenso (913×1233 und 1148×1551), und 2902 liegt auf demselben 913×1233 wie
+2921-001. Die Streuung der Faktoren innerhalb eines Briefes steht damit als
+Dateigrösse im Baum. Plan, Schreiben und Datei sagen dasselbe, an drei Stellen
+im Code.
+
+Der Vermerk, wie er in der Datei steht — nach der Deklaration, vor `<PcGts>`:
+
+```xml
+<!-- agentic_historian: line coordinates divided by 2.254993; the ground truth
+     describes 1770x2598, this image is 785x1152. imageWidth/imageHeight
+     rewritten to the image. The pixels are the same scan at two resolutions:
+     both axes agreed on the factor to within 0.019 %. -->
+```
+
+**Was diese drei Prüfungen nicht zeigen**, und was vor einem Upload gesagt sein
+muss: ob die geteilten Polygone **auf der Tinte sitzen**. Konsistenz zwischen XML
+und Bild ist dreifach nachgerechnet, Korrektheit nicht — dafür braucht es einen
+Blick auf einen Zeilenschnitt aus einer der 13 Seiten. Und die 241 unveränderten
+Seiten sind in diesem Durchgang nicht gegen ihre Bilder geprüft; sie sind im Baum,
+*weil* sie dieselbe Prüfung im Plan bestanden haben, und ihre XML sind
+Byte-Kopien. Das ist Prüfung durch Konstruktion, nicht durch Nachsehen.
+
 ## Do not pass `$ATR_PAGE_CACHE`
 
 This page used to. On 2026-10-03 that shell variable was **set and not
