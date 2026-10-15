@@ -353,3 +353,32 @@ def test_cli_accepts_shared_options_on_either_side_of_the_subcommand():
     assert pipeline._page_selection(None) is None
     c = pipeline.build_parser().parse_args(["plan", "--dry-run"])
     assert c.collection == pipeline.DEFAULT_COLLECTION and c.doc is None
+
+
+def test_adjudicate_and_xml_fall_back_to_trocr_geometry(tmp_path, monkeypatch):
+    """Line model failed at the gateway, TrOCR read the page: the page is still
+    decided (single:B) and placed with TrOCR's line geometry."""
+    from ruemlang import pipeline
+    import json
+    root = tmp_path / "run"; (root / "pages").mkdir(parents=True)
+    page = tp.PageInfo(colid=5, docid=77, doc_title="R", page_nr=61, page_id=1, image_url="https://f/p61.jpg",
+                       width=1200, height=1600, ts_id=9, status="NEW", nr_regions=0, nr_lines=0, nr_words=0,
+                       xml_url=None)
+    tp.write_plan(root / "plan.json", {"colId": 5, "colName": "T"}, [page])
+    d = root / "pages" / page.key; d.mkdir()
+    (d / "rec_trocr-kurrent-xvi-xvii.json").write_text(json.dumps({
+        "model": "trocr-kurrent-xvi-xvii", "text": "a\nb", "scale_to_original": 1.0,
+        "lines": [{"order": 0, "text": "die kilch christi", "bbox": [10, 10, 500, 60]},
+                  {"order": 1, "text": "machet nit gsatz", "bbox": [10, 70, 480, 120]}]}), encoding="utf-8")
+    (d / "rec_qwen3vl-medieval-german-v3.error.json").write_text("{}", encoding="utf-8")
+    args = pipeline.build_parser().parse_args(["--out", str(root), "adjudicate", "--no-llm"])
+    assert pipeline.cmd_adjudicate(args) == 0
+    adj = json.loads((d / "adjudicated.json").read_text(encoding="utf-8"))
+    assert adj["meta"]["geometry_from"] == "B" and adj["meta"]["models_present"] == ["B"]
+    assert [x["basis"] for x in adj["decisions"]] == ["single:B", "single:B"]
+    args = pipeline.build_parser().parse_args(["--out", str(root), "xml"])
+    assert pipeline.cmd_xml(args) == 0
+    back = pagexml.parse_lines((d / "page.xml").read_text(encoding="utf-8"))
+    assert [l["text"] for l in back] == ["die kilch christi", "machet nit gsatz"]
+    assert back[0]["bbox"] == [10, 10, 500, 60]
+    assert '"geometry_from": "B"' in (d / "page.xml").read_text(encoding="utf-8")

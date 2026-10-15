@@ -194,9 +194,19 @@ def cmd_recognize(args) -> int:
         tp.download_image(ts, p, d / f"image{ext}")
         logger.info(f"[ruemlang] {p.key}: image fetched")
     failures = 0
+    abandoned: list[str] = []
     with KrakenHTTPClient(timeout=float(args.timeout)) as gw:
         for model in models:                                   # model-major
+            streak = 0
             for p in pages:
+                if streak >= args.give_up:
+                    # 502 "vLLM exited" or 503 "does not fit" on the first pages is
+                    # the gateway's state, not the page's; 493 more waits of 50 s
+                    # would say nothing new. Re-running resumes exactly here.
+                    logger.error(f"[ruemlang] {model}: {streak} consecutive failures, "
+                                 f"giving the model up for this run")
+                    abandoned.append(model)
+                    break
                 d = page_dir(root, p)
                 rec = d / f"rec_{model}.json"
                 if rec.exists() and not args.force:
@@ -208,12 +218,12 @@ def cmd_recognize(args) -> int:
                     res = gw.recognize(send, model=model)
                 except Exception as exc:                       # noqa: BLE001 — record, continue
                     failures += 1
+                    streak += 1
                     logger.error(f"[ruemlang] {p.key} {model}: {type(exc).__name__}: {exc}")
                     _save(d / f"rec_{model}.error.json",
                           {"model": model, "error": f"{type(exc).__name__}: {exc}"})
-                    if failures >= 5 and failures == sum(1 for _ in d.parent.glob("*/rec_*.error.json")):
-                        pass
                     continue
+                streak = 0
                 payload = {
                     "model": model, "engine": res.engine, "text": res.text,
                     "lines": list(res.lines or []), "confidence": res.confidence,
@@ -225,8 +235,10 @@ def cmd_recognize(args) -> int:
                 _save(rec, payload)
                 logger.info(f"[ruemlang] {p.key} {model}: {len(res.lines or [])} line(s), "
                             f"{len(res.text or '')} chars, {payload['wall_s']}s")
-    print(f"recognized {len(pages)} page(s) x {len(models)} model(s); failures: {failures}")
-    return 1 if failures and failures == len(pages) * len(models) else 0
+    have = {m: sum(1 for p in pages if (page_dir(root, p) / f"rec_{m}.json").exists()) for m in models}
+    print(f"recognized {len(pages)} page(s) x {len(models)} model(s); failures: {failures}; "
+          f"results per model: {have}" + (f"; given up: {abandoned}" if abandoned else ""))
+    return 1 if not any(have.values()) else 0
 
 
 # ── adjudicate ───────────────────────────────────────────────────────────────
@@ -258,6 +270,20 @@ def _anchors(args) -> dict[int, tuple[int, int]]:
     return out
 
 
+def _geometry_source(d: Path, args) -> tuple[Optional[str], Optional[dict]]:
+    """Which line-level result carries this page's geometry: A, else B.
+
+    Both are read through the gateway's kraken segmentation, so TrOCR's lines
+    have bboxes and baselines too. Without the line model the page is still
+    placeable — with fewer candidates, which the decisions then say.
+    """
+    for label, model in (("A", args.line_model), ("B", args.trocr_model)):
+        rec = _load(d / f"rec_{model}.json")
+        if rec and rec.get("lines"):
+            return label, rec
+    return None, None
+
+
 def cmd_adjudicate(args) -> int:
     root = out_root(args)
     collection, pages = _planned(root, args)
@@ -271,17 +297,23 @@ def cmd_adjudicate(args) -> int:
         if out.exists() and not args.force:
             done += 1
             continue
-        a = _load(d / f"rec_{args.line_model}.json")
-        if not a or not a.get("lines"):
-            logger.warning(f"[ruemlang] {p.key}: no line-model result, skipped")
+        geom_label, geom = _geometry_source(d, args)
+        if geom is None:
+            logger.warning(f"[ruemlang] {p.key}: no line-level result (neither {args.line_model} "
+                           f"nor {args.trocr_model}), skipped")
             continue
+        a = _load(d / f"rec_{args.line_model}.json") or {}
         b = _load(d / f"rec_{args.trocr_model}.json") or {}
         c = _load(d / f"rec_{args.page_model}.json") or {}
-        a_lines = [(ln.get("text") or "") for ln in a["lines"]]
+        n = len(geom["lines"])
+        a_lines = [(ln.get("text") or "") for ln in (a.get("lines") or [])] or [""] * n
         b_lines = [(ln.get("text") or "") for ln in (b.get("lines") or [])]
         cases, meta = adjudicate.build_cases(a_lines, b_lines, c.get("text") or "", ref,
                                              page_hint=anchors.get(p.page_nr))
-        decisions = adjudicate.decide_page(cases, llm, batch=args.batch)
+        meta["geometry_from"] = geom_label
+        meta["models_present"] = [lbl for lbl, r in (("A", a), ("B", b), ("C", c)) if r]
+        primary = "A" if any(a_lines) else "B"
+        decisions = adjudicate.decide_page(cases, llm, primary=primary, batch=args.batch)
         summary = {}
         for dec in decisions:
             k = dec.basis.split(":")[0]
@@ -313,7 +345,7 @@ def cmd_xml(args) -> int:
         if out.exists() and not args.force:
             written += 1
             continue
-        a = _load(d / f"rec_{args.line_model}.json")
+        _label, a = _geometry_source(d, args)
         adj = _load(d / "adjudicated.json")
         if not a or not adj:
             logger.warning(f"[ruemlang] {p.key}: missing recognition or adjudication, skipped")
@@ -336,6 +368,8 @@ def cmd_xml(args) -> int:
         img_name = Path(p.image_url.split("?")[0]).name or f"{p.key}.jpg"
         comment = pagexml.provenance_comment({
             "pipeline": "agentic_historian ruemlang", "models": adj["models"],
+            "models_present": adj["meta"].get("models_present"),
+            "geometry_from": adj["meta"].get("geometry_from"),
             "arbiter": adj.get("arbiter"), "print_passage_score":
                 adj["meta"]["passage"]["score"] if adj["meta"].get("passage") else None,
             "summary": adj.get("summary")})
@@ -441,6 +475,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("recognize", help="read every planned page with the three models", parents=[shared])
     p.add_argument("--timeout", type=float, default=600.0)
+    p.add_argument("--give-up", type=int, default=3,
+                   help="consecutive failures after which a model is skipped for this run")
     p.set_defaults(func=cmd_recognize)
 
     def _adj_args(p):
@@ -468,6 +504,7 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("run", help="all steps in order; --dry-run plans, reads, adjudicates "
                                    "and builds XML, but posts nothing", parents=[shared])
     _plan_args(p); p.add_argument("--timeout", type=float, default=600.0)
+    p.add_argument("--give-up", type=int, default=3)
     _adj_args(p); _up_args(p, dry=False); p.set_defaults(func=cmd_run)
     return ap
 

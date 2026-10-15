@@ -131,6 +131,48 @@ darf, aber nie den Wortlaut der Handschrift ersetzt.
   Lauf statt drei pro Seite. Jeder Smoke-Lauf mit `--limit` kostet dieselben Wechsel.
 - Bildgrenze 3500 px für den Gateway bleibt; Koordinaten werden zurückskaliert.
 
+## Erster Lauf auf tei, 15.10. 09:13 — und woran er hing
+
+`plan` stimmt mit dem Spiegel überein: 561 Seiten, **493 ohne Zeilen**, 0 mit
+Zeilen ohne Text (Statusverteilung NEW 492, DONE 10, IN_PROGRESS 59). Login über
+`/auth/login`. `run --pages 61-63 --dry-run`:
+
+| Modell | Ergebnis |
+|---|---|
+| `trocr-kurrent-xvi-xvii` | 38 / 41 / 38 Zeilen, 56–88 s pro Seite — läuft |
+| `qwen3vl-medieval-german-v3` | 502 „vLLM process exited (code 1) during startup“ — Journal des Gateways auf idhefix lesen |
+| `qwen3.5-4b-german-kurrent-xvi-xix-page-v1` | 503 „GPU 1 has 12538 MB free, needs 15848 MB“ |
+
+Karte 1 danach (`gateway_models`, 09:20): ollama 22 334 MiB (root), party 5 264,
+trocr 3 040, kraken 2 310 → **12 538 MiB frei**; beide 4B-Modelle brauchen nach der
+Gateway-Formel 15 848 (12 000 × 1.15 + 2 048). Kein vLLM-Modell ist mehr resident.
+Solange ollama bleibt, startet auf Karte 1 **keines** der beiden. Karte 0 hat
+18 536 MiB frei (RAG-Worker 10 GiB, ollama 16.6 GiB), die Modelle sind aber mit
+`gpu_affinity: 1` registriert.
+
+Drei Wege, alle auf dem Serving-Rechner (idhefix), keiner aus der Pipeline heraus:
+
+1. **party pausieren** für den Lauf (`systemctl stop atr-party.service`, 5.3 GiB):
+   12.5 + 5.3 = 17.8 GiB ≥ 15.8 → ein 4B-Modell passt, der Gateway lädt beim
+   Modellwechsel um. party ist nur die „zweite Meinung“ und wird hier nicht gebraucht.
+2. **`gpu_affinity: 0`** für eines oder beide Modelle in `config/models.yaml` von
+   serving-atr-inference (Karte 0 hat 18.5 GiB frei), Gateway neu starten. Dann
+   läuft ein Modell je Karte, ohne Umladen — der schnellste Lauf, aber Karte 0
+   gehört den Nachbarn.
+3. ollama verkleinern (kleinerer Kontext als 262 144 oder kleineres Modell) — als
+   nicht gewünscht markiert.
+
+Der 502 beim Zeilenmodell ist davon unabhängig zu prüfen: `journalctl -u
+atr-gateway.service` auf idhefix, der vLLM-Traceback steht dort. Wahrscheinlich
+CUDA-OOM beim Start in die knappe Karte, dann erledigt 1. oder 2. auch das.
+
+Die Pipeline verhält sich bei beidem seit Commit 3 so: ein Modell wird nach drei
+aufeinanderfolgenden Fehlern für diesen Lauf aufgegeben (`--give-up`), die
+anderen laufen weiter; fehlt das Zeilenmodell, nimmt `adjudicate`/`xml` die
+Geometrie aus TrOCR (gleiche kraken-Segmentierung) und sagt das in
+`meta.geometry_from` und in `<Comments>`. Ein erneutes `recognize` liest nur
+nach, was fehlt — die drei TrOCR-Ergebnisse bleiben.
+
 ## Noch offen
 
 1. **Teilweise transkribierte Seiten** (9–11, 60, 100–103, 107): haben Zeilen *mit*
