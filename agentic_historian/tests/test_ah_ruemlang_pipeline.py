@@ -382,3 +382,18 @@ def test_adjudicate_and_xml_fall_back_to_trocr_geometry(tmp_path, monkeypatch):
     assert [l["text"] for l in back] == ["die kilch christi", "machet nit gsatz"]
     assert back[0]["bbox"] == [10, 10, 500, 60]
     assert '"geometry_from": "B"' in (d / "page.xml").read_text(encoding="utf-8")
+
+
+def test_build_cases_pairs_page_model_against_trocr_when_line_model_is_missing():
+    """What the first tei run showed: A absent, B and C present, every line 'single'."""
+    b = ["die kilch christi machet nit gsatz vnd bott on gotes wort",
+         "deshalb all menschen satzungen so man nempt der kilchen bott vns nit",
+         "wyter bindend dan sy in gotlichem wort gegrundt vnd botten sind"]
+    page_text = "\n".join(["die kilch christi machet nit gsatz vnd bott on gottes wort", b[1],
+                           "wyter bindend dann sy in gotlichem wort gegrundt und botten sind"])
+    cases, meta = adjudicate.build_cases([""] * 3, b, page_text, textalign.Reference(PRINT))
+    assert meta["page_model_paired"] == 3
+    assert [sorted(c.available()) for c in cases] == [["B", "C"]] * 3
+    assert meta["passage"] is not None and meta["lines_with_print"] == 3
+    decisions = adjudicate.decide_page(cases, None, primary="B")
+    assert [d.basis for d in decisions] == ["no_llm:B", "consensus", "no_llm:B"]

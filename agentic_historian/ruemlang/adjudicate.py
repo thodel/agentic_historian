@@ -243,22 +243,28 @@ def build_cases(line_texts: list[str], trocr_texts: list[Optional[str]],
     """
     n = len(line_texts)
     if len(trocr_texts) != n:
-        pairing = textalign.align_line_lists(line_texts, [t or "" for t in trocr_texts])
+        anchor = line_texts if any(line_texts) else [t or "" for t in trocr_texts]
+        pairing = textalign.align_line_lists(anchor, [t or "" for t in trocr_texts]) \
+            if any(line_texts) else list(range(min(n, len(trocr_texts)))) + [None] * max(0, n - len(trocr_texts))
         trocr_texts = [trocr_texts[j] if j is not None else None for j in pairing]
+    # The text each line is known by: A's reading, or B's where A has none.
+    # Aligning C against empty strings pairs nothing (the first run on tei,
+    # 15.10. 14:28: 117 lines, every one of them "single").
+    known = [(line_texts[i] or trocr_texts[i] or "") for i in range(n)]
     c_lines = textalign.split_page_text(page_text)
-    pairing = textalign.align_line_lists(line_texts, c_lines) if c_lines else [None] * n
+    pairing = textalign.align_line_lists(known, c_lines) if c_lines and any(known) else [None] * n
     page_c = [c_lines[j] if j is not None else None for j in pairing]
 
     passage = None
     if reference is not None:
-        probe = "\n".join(t for t in line_texts if t) or page_text
+        probe = "\n".join(t for t in known if t) or page_text
         passage = reference.locate(probe, pages=page_hint)
     cases: list[LineCase] = []
     for i in range(n):
         cands = {"A": line_texts[i] or "", "B": trocr_texts[i] or "", "C": page_c[i] or ""}
         snippet, score = (None, 0.0)
         if passage is not None:
-            probe_line = line_texts[i] or trocr_texts[i] or page_c[i] or ""
+            probe_line = known[i] or page_c[i] or ""
             snippet, score = textalign.Reference.snippet(probe_line, passage)
         cases.append(LineCase(index=i, candidates=cands, print_snippet=snippet, print_score=score))
     meta = {"passage": None if passage is None else {
