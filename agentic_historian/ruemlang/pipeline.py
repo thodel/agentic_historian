@@ -94,11 +94,35 @@ def _login() -> tp.TkSession:
     return ts
 
 
+def _page_selection(spec: Optional[str]) -> Optional[set[int]]:
+    """``--pages 61,62,70-75`` → {61, 62, 70, …, 75}; None when not given."""
+    if not spec:
+        return None
+    out: set[int] = set()
+    for part in str(spec).split(","):
+        part = part.strip()
+        if not part:
+            continue
+        if "-" in part:
+            a, b = part.split("-", 1)
+            out.update(range(int(a), int(b) + 1))
+        else:
+            out.add(int(part))
+    return out
+
+
 def _planned(root: Path, args) -> tuple[dict, list[tp.PageInfo]]:
     plan = root / "plan.json"
     if not plan.exists():
-        raise SystemExit(f"no plan at {plan} — run `plan --collection …` first")
+        raise SystemExit(f"no plan at {plan} — run `plan` first")
     collection, pages = tp.read_plan(plan)
+    chosen = _page_selection(getattr(args, "pages", None))
+    if chosen is not None:
+        pages = [p for p in pages if p.page_nr in chosen]
+        missing = chosen - {p.page_nr for p in pages}
+        if missing:
+            logger.warning(f"[ruemlang] --pages names {len(missing)} page(s) not in the plan "
+                           f"(segmented already, or outside the document): {sorted(missing)[:20]}")
     if getattr(args, "limit", None):
         pages = pages[:args.limit]
     return collection, pages
@@ -378,13 +402,27 @@ def cmd_run(args) -> int:
 # ── CLI ──────────────────────────────────────────────────────────────────────
 
 def build_parser() -> argparse.ArgumentParser:
-    ap = argparse.ArgumentParser(prog="ruemlang", description=__doc__.splitlines()[0])
-    ap.add_argument("--out", help="run directory (default VLM_TEST_ROOT/ruemlang)")
-    ap.add_argument("--limit", type=int, help="only the first N planned pages")
-    ap.add_argument("--force", action="store_true", help="redo steps whose output exists")
-    ap.add_argument("--line-model", default=DEFAULT_LINE_MODEL)
-    ap.add_argument("--trocr-model", default=DEFAULT_TROCR_MODEL)
-    ap.add_argument("--page-model", default=DEFAULT_PAGE_MODEL)
+    # The shared options live on a parent parser and are attached to every
+    # subcommand too, so `run --limit 3` works as well as `--limit 3 run`
+    # (argparse otherwise accepts top-level options only before the subcommand).
+    def _shared(for_sub: bool) -> argparse.ArgumentParser:
+        # On the subcommand copy every default is SUPPRESS: argparse applies a
+        # subparser's defaults *after* the top level parsed, and a None there
+        # would erase a `--limit 3` given before the subcommand.
+        d = {"default": argparse.SUPPRESS} if for_sub else {}
+        sp = argparse.ArgumentParser(add_help=False)
+        sp.add_argument("--out", help="run directory (default VLM_TEST_ROOT/ruemlang)", **d)
+        sp.add_argument("--limit", type=int, help="only the first N planned pages", **d)
+        sp.add_argument("--pages", help="only these Transkribus page numbers, e.g. 61,62,70-75", **d)
+        sp.add_argument("--force", action="store_true", help="redo steps whose output exists", **d)
+        sp.add_argument("--line-model", **(d or {"default": DEFAULT_LINE_MODEL}))
+        sp.add_argument("--trocr-model", **(d or {"default": DEFAULT_TROCR_MODEL}))
+        sp.add_argument("--page-model", **(d or {"default": DEFAULT_PAGE_MODEL}))
+        return sp
+
+    shared = _shared(for_sub=True)
+    ap = argparse.ArgumentParser(prog="ruemlang", description=__doc__.splitlines()[0],
+                                 parents=[_shared(for_sub=False)])
     sub = ap.add_subparsers(dest="command", required=True)
 
     def _plan_args(p):
@@ -398,10 +436,10 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("--show", type=int, default=15)
         p.add_argument("--dry-run", action="store_true")
 
-    p = sub.add_parser("plan", help="which pages have no segmentation")
+    p = sub.add_parser("plan", help="which pages have no segmentation", parents=[shared])
     _plan_args(p); p.set_defaults(func=cmd_plan)
 
-    p = sub.add_parser("recognize", help="read every planned page with the three models")
+    p = sub.add_parser("recognize", help="read every planned page with the three models", parents=[shared])
     p.add_argument("--timeout", type=float, default=600.0)
     p.set_defaults(func=cmd_recognize)
 
@@ -412,10 +450,10 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("--no-llm", action="store_true", help="deterministic only, no arbiter")
         p.add_argument("--batch", type=int, default=30, help="contested lines per arbiter call")
 
-    p = sub.add_parser("adjudicate", help="collate the readings and the print, decide per line")
+    p = sub.add_parser("adjudicate", help="collate the readings and the print, decide per line", parents=[shared])
     _adj_args(p); p.set_defaults(func=cmd_adjudicate)
 
-    p = sub.add_parser("xml", help="build a PAGE XML per page")
+    p = sub.add_parser("xml", help="build a PAGE XML per page", parents=[shared])
     p.set_defaults(func=cmd_xml)
 
     def _up_args(p, dry: bool = True):
@@ -424,11 +462,11 @@ def build_parser() -> argparse.ArgumentParser:
             p.add_argument("--dry-run", action="store_true",
                            help="say what would be posted, post nothing")
 
-    p = sub.add_parser("upload", help="post each PAGE XML to its Transkribus page")
+    p = sub.add_parser("upload", help="post each PAGE XML to its Transkribus page", parents=[shared])
     _up_args(p); p.set_defaults(func=cmd_upload)
 
-    p = sub.add_parser("run", help="all steps in order; --dry-run plans and reports, "
-                                   "reads and adjudicates, but writes no plan and posts nothing")
+    p = sub.add_parser("run", help="all steps in order; --dry-run plans, reads, adjudicates "
+                                   "and builds XML, but posts nothing", parents=[shared])
     _plan_args(p); p.add_argument("--timeout", type=float, default=600.0)
     _adj_args(p); _up_args(p, dry=False); p.set_defaults(func=cmd_run)
     return ap

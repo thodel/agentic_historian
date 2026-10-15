@@ -340,3 +340,16 @@ def test_ocr_reference_reads_alto_words_and_page_lines(tmp_path):
     text = ocr_reference.build(tmp_path, tmp_path / "canvases.tsv")
     assert "[e-rara 30973277 canvas 21 IIIr]\nDie erst Schluszred.\nund zů\n" in text
     assert "[e-rara 30973277 canvas 22 IIIv]\nDie erst schlußred\nund der selben gründ" in text
+
+
+# ── pipeline CLI ─────────────────────────────────────────────────────────────
+
+def test_cli_accepts_shared_options_on_either_side_of_the_subcommand():
+    from ruemlang import pipeline
+    a = pipeline.build_parser().parse_args(["run", "--limit", "3", "--dry-run", "--pages", "61,70-72"])
+    b = pipeline.build_parser().parse_args(["--limit", "3", "run", "--dry-run"])
+    assert a.limit == b.limit == 3 and a.command == b.command == "run" and a.dry_run and b.dry_run
+    assert pipeline._page_selection(a.pages) == {61, 70, 71, 72}
+    assert pipeline._page_selection(None) is None
+    c = pipeline.build_parser().parse_args(["plan", "--dry-run"])
+    assert c.collection == pipeline.DEFAULT_COLLECTION and c.doc is None
