@@ -24,10 +24,11 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Iterable, Optional
 
-NS = "http://schema.primaresearch.org/PAGE/gts/pagecontent/2019-07-15"
-XSI = "http://www.w3.org/2001/XMLSchema-instance"
-SCHEMA = (f"{NS} http://schema.primaresearch.org/PAGE/gts/pagecontent/"
-          "2019-07-15/pagecontent.xsd")
+#: Transkribus' own namespace. It writes 2013-07-15 and its server answered a
+#: 2019-07-15 document with an instant 500 (15.10.2026, three pages, 30 ms each):
+#: the parser is bound to this schema, so this is what goes back. ReadingOrder is
+#: carried the way Transkribus carries it, in each element's ``custom``.
+NS = "http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"
 
 
 @dataclass
@@ -56,11 +57,16 @@ def _rect(b: tuple[int, int, int, int]) -> list[tuple[int, int]]:
 
 
 def _custom(d: dict) -> str:
-    """Transkribus' ``custom`` syntax: ``key {k:v; k:v;}`` groups, no braces in values."""
+    """Transkribus' ``custom`` syntax: ``key {k:v; k:v;}`` groups.
+
+    Its parser splits on braces, semicolons **and colons**, so none of the three
+    may appear in a value: ``llm:A`` becomes ``llm-A``.
+    """
     parts = []
     for group, kv in d.items():
-        inner = " ".join(f"{k}:{str(v).replace('{', '(').replace('}', ')').replace(';', ',')};"
-                         for k, v in kv.items())
+        inner = " ".join(
+            f"{k}:{str(v).replace('{', '(').replace('}', ')').replace(';', ',').replace(':', '-')};"
+            for k, v in kv.items())
         parts.append(f"{group} {{{inner}}}")
     return " ".join(parts)
 
@@ -127,8 +133,7 @@ def build_pagexml(image_filename: str, width: int, height: int, lines: list[dict
                                                     min(g.bbox[0] for g in by_region[r])))
 
     ET.register_namespace("", NS)
-    ET.register_namespace("xsi", XSI)
-    root = ET.Element(f"{{{NS}}}PcGts", {f"{{{XSI}}}schemaLocation": SCHEMA})
+    root = ET.Element(f"{{{NS}}}PcGts")
     meta = ET.SubElement(root, f"{{{NS}}}Metadata")
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     ET.SubElement(meta, f"{{{NS}}}Creator").text = creator
@@ -139,13 +144,9 @@ def build_pagexml(image_filename: str, width: int, height: int, lines: list[dict
     page = ET.SubElement(root, f"{{{NS}}}Page", {
         "imageFilename": image_filename, "imageWidth": str(int(width)),
         "imageHeight": str(int(height))})
-    ro = ET.SubElement(ET.SubElement(page, f"{{{NS}}}ReadingOrder"),
-                       f"{{{NS}}}OrderedGroup", {"id": "ro_1", "caption": "Regions reading order"})
-
     for ri, rid in enumerate(region_order):
         group = by_region[rid]
         region_id = f"r_{ri + 1}"
-        ET.SubElement(ro, f"{{{NS}}}RegionRefIndexed", {"index": str(ri), "regionRef": region_id})
         pad = 6
         rb = (_clip(min(g.bbox[0] for g in group) - pad, 0, width - 1),
               _clip(min(g.bbox[1] for g in group) - pad, 0, height - 1),
@@ -158,7 +159,7 @@ def build_pagexml(image_filename: str, width: int, height: int, lines: list[dict
             custom = {"readingOrder": {"index": li}}
             custom.update(g.custom)
             line = ET.SubElement(region, f"{{{NS}}}TextLine", {
-                "id": f"{region_id}_l{li + 1}", "custom": _custom(custom)})
+                "id": f"{region_id}_tl_{li + 1}", "custom": _custom(custom)})
             ET.SubElement(line, f"{{{NS}}}Coords", {"points": _points(_rect(g.bbox))})
             if g.baseline and len(g.baseline) >= 2:
                 ET.SubElement(line, f"{{{NS}}}Baseline", {"points": _points(g.baseline)})

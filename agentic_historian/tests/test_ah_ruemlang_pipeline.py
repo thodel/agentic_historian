@@ -59,7 +59,9 @@ def test_custom_attribute_has_no_braces_in_values():
     lines = [{"order": 0, "text": "x", "bbox": [0, 0, 10, 10],
               "custom": {"atr": {"basis": "llm:{mixed}", "conf": "0.80"}}}]
     xml, _ = pagexml.build_pagexml("p.jpg", 100, 100, lines)
-    assert "atr {basis:llm:(mixed); conf:0.80;}" in xml
+    assert "atr {basis:llm-(mixed); conf:0.80;}" in xml
+    assert 'xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"' in xml
+    assert "ReadingOrder" not in xml and "schemaLocation" not in xml
 
 
 # ── textalign ────────────────────────────────────────────────────────────────
