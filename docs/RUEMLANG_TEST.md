@@ -193,6 +193,33 @@ Die Adjudikation des Laufs war wertlos — 117 × `single` — weil das Seitenmo
 gegen die leeren Zeilen des fehlenden Zeilenmodells aligniert wurde; behoben in
 dc33505 (Anker = A, sonst B). `adjudicate --force` rechnet neu.
 
+### Dritter Lauf, 15:21 (`ATR_VLLM_MAX_MODEL_LEN=8192`) — und der erste Upload, 17:46
+
+Alle drei Modelle lesen (Zeilenmodell 97 / 15 / 26 s, es lädt beim ersten Aufruf).
+Der Schiedsrichter entschied **alle 117 Zeilen** der drei Seiten — kein Konsens,
+kein `agree_norm`: die drei Lesungen dieser Hand stimmen nie wörtlich überein.
+60–90 s pro Seite für gpt-oss-120b. Entscheidungen verteilen sich über A, B, C;
+mit Druckstelle bleibt er bei der Handschrift. Druck lokalisiert für 61 (S. 52–53)
+und 63 (S. 53–54), 62 nur schwaches Fenster.
+
+Der Upload scheiterte zuerst mit 500 in 30 ms: Transkribus parst nur den
+Namensraum **2013-07-15** und verträgt keinen Doppelpunkt in `custom`-Werten.
+Danach: drei Seiten als `IN_PROGRESS`-Versionen hochgeladen, Transkribus zählt
+490 statt 493 Seiten ohne Zeilen.
+
+Ob der Schiedsrichter besser wählt als das beste Einzelmodell, misst
+`pipeline.py eval --pages 12-14` an transkribierten Seiten (CER je Modell und
+fusioniert, eigenes Verzeichnis, kein Upload).
+
+## Der Gesamtlauf
+
+`scripts/ruemlang_full_run.sh start` fährt plan → recognize → adjudicate → xml →
+upload unter `nohup`, Log unter `data/vlm_test/ruemlang/logs/`, `status`, `log`,
+`stop`; ein erneutes `start` setzt fort. `PAGES=…`, `NO_UPLOAD=1`,
+`ADJ_ARGS="--no-llm"` schränken ein. Rechne mit ~95 s pro Seite für die
+Erkennung und ~70 s für den Schiedsrichter: rund ein Tag für 490 Seiten, party
+bleibt dabei gestoppt.
+
 ## Noch offen
 
 1. **Teilweise transkribierte Seiten** (9–11, 60, 100–103, 107): haben Zeilen *mit*
