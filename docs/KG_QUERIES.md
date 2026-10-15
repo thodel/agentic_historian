@@ -1,4 +1,4 @@
-# Fragen an den Korpus-Graphen (KG-5, #331)
+# Fragen an den Korpus-Graphen und den Bestandsgraphen (KG-5 #331, KG-11 #654)
 
 Ein nackter SPARQL-Endpoint nützt einer Historikerin nichts, die kein SPARQL
 schreibt — und der Sinn dieses Graphen ist, dass er Fragen beantwortet, die
@@ -11,16 +11,73 @@ Fixture-Graphen getestet.
     /sparql frage:<name> zeige_sparql:true    → die SPARQL-Abfrage zum Anpassen
 
 Der Code liegt in `agentic_historian/knowledge_hub/queries.py`, die Tests in
-`agentic_historian/tests/test_kg_5_sparql_queries.py`.
+`agentic_historian/tests/test_kg_5_sparql_queries.py` (Korpus-Graph) und
+`agentic_historian/tests/test_kg_11_bestandsgraph_queries.py` (Bestandsgraph,
+beide zusammen).
 
-## Die vier Fragen
+## Die sieben Fragen
 
-| Name | Frage | Argument |
-|---|---|---|
-| `persons-in-care-documents` | Welche Personen kommen in care-relevanten Dokumenten eines Jahrhunderts vor — mit ihren GND-/HLS-Ids? | Jahrhundert, z. B. `15` |
-| `readings-of-page` | Welche Lesungen hat eine Seite, von welchem Modell — und welche hat ein Historiker als die nächste gewählt? | Dokument-Id |
-| `authority-coverage` | Welche Normdatenquelle liefert die meisten Verknüpfungen — und welche Dokumente haben unverknüpfte Entitäten? | — |
-| `co-occurrence` | Welche Personen werden im selben Dokument genannt — über das ganze Korpus? | — |
+Vier aus KG-5 über den Korpus-Graphen, seit KG-11 (#654) auch über den
+Bestandsgraphen (Dodis, Königsfelden, SSRQ — KG-7/8/9); drei aus KG-11 über den
+Bestandsgraphen allein.
+
+| Name | Frage | Argument | Graph |
+|---|---|---|---|
+| `persons-in-care-documents` | Welche Personen kommen in care-relevanten Dokumenten eines Jahrhunderts vor — mit ihren GND-/HLS-Ids? | Jahrhundert, z. B. `15` | Korpus (nur dort gibt es den Care-Flag) |
+| `readings-of-page` | Welche Lesungen hat eine Seite, von welchem Modell — und welche hat ein Historiker als die nächste gewählt? | Dokument-Id | Korpus (nur dort gibt es Lesungen; die Frage sagt es) |
+| `authority-coverage` | Welche Normdatenquelle liefert die meisten Verknüpfungen — und welche Dokumente haben unverknüpfte Entitäten? | — | beide |
+| `co-occurrence` | Welche Personen werden im selben Dokument genannt — über das ganze Korpus? | — | beide |
+| `persons-of-century-across-sources` | Welche Personen werden in Dokumenten eines Jahrhunderts genannt — über Dodis, Königsfelden und SSRQ hinweg, mit Bestand, Rolle und Normdaten-URI? | Jahrhundert | Bestand |
+| `co-signatories` | Wer unterzeichnet mit wem? — die signatory-Rolle (Dodis) als Kante zwischen zwei Personen desselben Dokuments | — | Bestand |
+| `families-and-places` | Welche Familien (E74) haben welche Mitglieder, und welche Orte hängt das Register an die Mitglieder? | — | Bestand (KF, SSRQ) |
+
+### Eine Frage, zwei Graphen
+
+Der Korpus-Graph hängt eine Erwähnung an die **Arbeitslesung** einer Seite
+(`P128_carries` → `P67_refers_to`); der Bestandsgraph hat keine Lesungen — der
+Datensatz selbst verweist (`P67` vom Dokument). `queries.MENTION` ist dieser
+Pfad, `(P128/P67)|P67`, und jede Frage nach «wer wird in diesem Dokument
+genannt» geht durch ihn. Nur die Arbeitslesung trägt `P67`, darum liefert der
+Pfad auch im Korpus-Graphen eine Zeile je Erwähnung, nie eine je Lesung.
+Personen sind in beiden Graphen `E21_Person` (der Korpus-Exporter typisiert
+PERSON und CARE_ACTOR so), darum braucht es den `entityType`-Filter nicht mehr.
+
+Drei Dinge, die der Bestandsgraph anders trägt, und wie die Fragen sie lesen:
+
+| Was | Korpus-Graph | Bestandsgraph | in der Frage |
+|---|---|---|---|
+| Jahrhundert | `sdhss:century 15` (aus der Datierung gerechnet) | `P82a_begin_of_the_begin` der **E65 Creation** (P4 verlangt eine zeitliche Entität, das Dokument ist keine) | `FLOOR((YEAR(?begin) − 1) / 100) + 1 = ?century` — dieselbe Arithmetik wie `century_of` |
+| Quelle einer Zeile | — | `prov:wasDerivedFrom` auf jedem Knoten (KG-6) | `?source` = Label des Datensatzes, Pflichtspalte der drei neuen Fragen |
+| Lokale Id | Literal am E42 | E42 mit `P2_has_type` → E55 «kf»/«ssrq» | `COALESCE(Label, Term)` in `authority-coverage` |
+
+Die drei Bestand-Fragen stehen in `queries.BESTAND_ONLY`: über den Korpus-Graphen
+allein liefern sie keine Zeile, und das ist die wahre Antwort — ein Test hält es
+fest, statt es als Fehler zu lesen.
+
+Zwei Grenzen von rdflib, die die Form der Abfragen bestimmt haben:
+
+- **Ein Präfix je Namensraum.** `rdf_export` schreibt `cidoc-crm:`, `bestandsgraph`
+  schreibt `crm:` für denselben Namensraum; rdflib bindet je Namensraum nur ein
+  Präfix, und das zweite `PREFIX` entbindet still das erste — jede `cidoc-crm:`-Form
+  schlägt dann mit «Unknown namespace prefix» fehl. `queries.PREFIXES` vereinigt
+  beide Tabellen, behält je Namensraum den Namen des Korpus-Exporters und
+  verweigert einen Widerspruch (gleicher Name, andere URI).
+- **Kein GROUP_CONCAT über ungebundene OPTIONALs.** rdflib wirft `NotBoundError`,
+  QLever nicht. Darum ist in `persons-of-century-across-sources` eine Person mit
+  GND *und* HLS zwei Zeilen, eine je Normdaten-Link — ehrlich, und auf beiden
+  Engines lauffähig. Normdaten sind nur GND, HLS, Wikidata; die eigene URI der
+  Quelle (`dodis.ch/P…`, das SSRQ-Register) ist auch `owl:sameAs`, aber keine.
+
+Die Rolle in `persons-of-century-across-sources` ist, was der Datensatz
+zugewiesen hat (E13: `signatory`, `adressee`, `address_of_copy` bei Dodis) oder
+die Autorschaft (`P14` der Creation); eine bloss genannte Person steht ohne
+Rolle in der Antwort, nicht ausserhalb. `co-signatories` fragt nicht nach
+Erwähnungen, sondern nach zwei E13-Zuweisungen desselben Rollentyps am selben
+Dokument — der Typknoten ist je Build einer, der Join darauf exakt.
+`families-and-places` liest die Familie als C5 Membership vom Typ «Familie», nicht
+über `P107` — das sagt *Familie* und nicht Bürgerrecht oder Amt; der Wohnort ist
+`P74`, sein Name OPTIONAL, weil die Orte des SSRQ-Registers ohne Namen ankommen
+(KG-9).
 
 ## Vier Regeln, jede weil die naheliegende Variante scheitert
 

@@ -28,7 +28,17 @@ namespace change cannot leave the queries silently matching nothing.
 **No rows is an answer.** It is reported as a sentence naming the question and
 the parameters it was asked with — never a blank, and never a crash.
 
-Run: pytest agentic_historian/tests/test_kg_5_sparql_queries.py -v
+**One question, two graphs** (KG-11, #654). The corpus graph (KG-2) hangs a
+mention on the *working reading* of a page — ``P128_carries`` → ``P67``;
+the Bestandsgraph (KG-7/8/9: Dodis, Königsfelden, SSRQ) has no readings, the
+record itself refers — ``P67`` from the document. :data:`MENTION` is that
+path, ``(P128/P67)|P67``, and every question that asks "who is named in this
+document" goes through it, so the same canned query answers over both graphs
+and over a union of them. ``readings-of-page`` is the exception and says so
+in its question: it asks about readings, which only the corpus graph has.
+
+Run: pytest agentic_historian/tests/test_kg_5_sparql_queries.py \
+            agentic_historian/tests/test_kg_11_bestandsgraph_queries.py -v
 """
 
 from __future__ import annotations
@@ -42,10 +52,11 @@ from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import XSD
 
 from knowledge_hub import rdf_export as rx
+from knowledge_hub import bestandsgraph as bg
 
 __all__ = [
-    "PREFIX_BLOCK", "CannedQuery", "QUERIES", "QueryError", "Answer",
-    "names", "get", "describe_all", "as_text", "run", "format_answer",
+    "PREFIX_BLOCK", "PREFIXES", "MENTION", "BESTAND_ONLY", "CannedQuery", "QUERIES", "QueryError",
+    "Answer", "names", "get", "describe_all", "as_text", "run", "format_answer",
     "load_graph", "PERSON_TYPES", "param_terms",
 ]
 
@@ -54,10 +65,44 @@ __all__ = [
 #: graph and in a query over it.
 PERSON_TYPES = ("PERSON", "CARE_ACTOR")
 
-#: Prefix block for every query, built from the exporter's own table — see the
+def _merged_prefixes() -> dict[str, str]:
+    """The two exporters' prefix tables, as one — refusing a disagreement.
+
+    ``rdf_export`` writes the corpus graph with ``cidoc-crm:``, ``bestandsgraph``
+    writes the Bestandsgraph with ``crm:``; both mean the same namespace and a
+    query may use either. What may not happen is one short name meaning two
+    URIs — that would make a query match one graph and silently miss the other.
+    """
+    merged: dict[str, str] = dict(rx.PREFIXES)
+    for short, uri in bg.PREFIXES.items():
+        if short in merged and merged[short] != uri:
+            raise ValueError(f"prefix {short}: is {merged[short]} in rdf_export "
+                             f"and {uri} in bestandsgraph")
+        if uri in merged.values():
+            # One name per namespace, the corpus exporter's: rdflib keeps a
+            # single prefix per URI, and a second declaration of the same
+            # namespace (``crm:`` beside ``cidoc-crm:``) silently unbinds the
+            # first — every ``cidoc-crm:`` term then fails to resolve. The
+            # Bestandsgraph's ``crm:`` is the same namespace and needs no
+            # second name here.
+            continue
+        merged[short] = uri
+    return merged
+
+
+#: Every prefix a query may use: the union of both exporters' tables.
+PREFIXES: dict[str, str] = _merged_prefixes()
+
+#: Prefix block for every query, built from the exporters' own tables — see the
 #: module docstring. Sorted, so the rendered query text is stable and diffable.
 PREFIX_BLOCK = "\n".join(
-    f"PREFIX {short}: <{uri}>" for short, uri in sorted(rx.PREFIXES.items()))
+    f"PREFIX {short}: <{uri}>" for short, uri in sorted(PREFIXES.items()))
+
+#: How a document refers to an entity, in both graphs (KG-11): through its
+#: working reading in the corpus graph, directly in the Bestandsgraph. Only
+#: the working reading carries ``P67`` (``rdf_export``), so the path yields
+#: one row per mention there too — never one per reading.
+MENTION = "(cidoc-crm:P128_carries/cidoc-crm:P67_refers_to)|cidoc-crm:P67_refers_to"
 
 
 class QueryError(ValueError):
@@ -195,6 +240,38 @@ def _person_filter(variable: str) -> str:
     return f"FILTER(?{variable} IN ({listed}))"
 
 
+def _authority_filter(link: str = "link") -> str:
+    """``FILTER`` keeping only links into a known authority (GND, HLS, Wikidata).
+
+    The Bestandsgraph writes ``owl:sameAs`` for the source's *own* URI as well
+    (``dodis.ch/P123``, the SSRQ register) — a link, not a Normdaten id. The
+    bases come from the same table as :func:`_source_bind`, so a new authority
+    reaches both without a second list.
+    """
+    tests = [f'STRSTARTS(STR(?{link}), "{b}")'
+             for bases in _authority_bases().values() for b in bases]
+    return "FILTER(" + " || ".join(tests) + ")"
+
+
+#: The century a document belongs to, in the Bestandsgraph: read off the
+#: begin of its E65 Creation's time-span (KG-7/8/9 date the creation, not
+#: the document — P4 wants a temporal entity). ``FLOOR((year-1)/100)+1`` is
+#: the same arithmetic ``rdf_export.century_of`` applies to a year. The
+#: corpus graph carries ``sdhss:century`` ready-made; the UNION in the care
+#: question takes whichever the graph has.
+_CENTURY_OF_CREATION = """
+  ?creation cidoc-crm:P94_has_created ?document ;
+            cidoc-crm:P4_has_time-span/cidoc-crm:P82a_begin_of_the_begin ?begin .
+  BIND(FLOOR((YEAR(?begin) - 1) / 100) + 1 AS ?computedCentury)
+  FILTER(?computedCentury = ?century)"""
+
+#: Where a row's document came from: the dataset it was derived from, by
+#: label (``prov:wasDerivedFrom`` is on every Bestandsgraph node, KG-6).
+_SOURCE_OF_DOCUMENT = """
+  ?document prov:wasDerivedFrom ?dataset .
+  ?dataset rdfs:label ?source ."""
+
+
 # ── the four questions ──────────────────────────────────────────────────────
 
 _PERSONS_IN_CARE = CannedQuery(
@@ -211,12 +288,12 @@ _PERSONS_IN_CARE = CannedQuery(
             sdhss:careRelated true ;
             sdhss:century ?century ;
             sdhss:dating ?dating .
-  ?document cidoc-crm:P128_carries ?reading .
-  ?reading sdhss:readingRole "working" ;
-           cidoc-crm:P67_refers_to ?person .
-  ?person rdfs:label ?personLabel ;
-          sdhss:entityType ?entityType .
-  {_person_filter("entityType")}
+  # The care flag exists only in the corpus graph, so this question answers
+  # from there; the mention still goes through the shared path (KG-11), so
+  # a union graph is asked the same way as a single one.
+  ?document {MENTION} ?person .
+  ?person a cidoc-crm:E21_Person ;
+          rdfs:label ?personLabel .
   # The authority link is OPTIONAL on purpose: a person without a GND id is
   # still in the result, marked as unlinked rather than dropped. Dropping them
   # would make the corpus look better linked than it is.
@@ -230,7 +307,8 @@ _PERSONS_IN_CARE = CannedQuery(
 _READINGS_OF_PAGE = CannedQuery(
     name="readings-of-page",
     question=("Welche Lesungen hat eine Seite, von welchem Modell — und welche "
-              "hat ein Historiker als die nächste gewählt?"),
+              "hat ein Historiker als die nächste gewählt? (Nur der Korpus-Graph "
+              "hat Lesungen; der Bestandsgraph antwortet hier nicht.)"),
     columns=("document", "reading", "engine", "modelId", "role", "closest",
              "editor", "editorialStatus", "text"),
     params={"document": _document},
@@ -267,12 +345,22 @@ _AUTHORITY_COVERAGE = CannedQuery(
               "welche Dokumente haben unverknüpfte Entitäten?"),
     columns=("document", "source", "entities"),
     aggregates={"entities": "COUNT(DISTINCT ?entity)"},
-    body="""
-  ?document cidoc-crm:P128_carries ?reading .
-  ?reading cidoc-crm:P67_refers_to ?entity .
-  OPTIONAL { ?entity owl:sameAs ?link }
-  OPTIONAL { ?entity cidoc-crm:P1_is_identified_by ?idNode .
-             ?idNode cidoc-crm:P2_has_type ?localSource . }
+    body=f"""
+  ?document {MENTION} ?entity .
+  OPTIONAL {{ ?entity owl:sameAs ?link }}
+  # The local id's source is a literal in the corpus graph and an E55 with a
+  # label in the Bestandsgraph (KG-6: identifier-source types); the label is
+  # taken where there is one, the term itself otherwise.
+  # E42 only: names are P1_is_identified_by as well (E41, typed std/orig in
+  # the Bestandsgraph), and a name's kind is not an identifier's source —
+  # measured on the real builds: 13 957 «orig» and 3 344 «std» rows before.
+  # As FILTER EXISTS, not as a type triple in the pattern: on 3.7 M triples
+  # Oxigraph answers this form in 3.6 s and the triple form not within 240 s.
+  OPTIONAL {{ ?entity cidoc-crm:P1_is_identified_by ?idNode .
+             ?idNode cidoc-crm:P2_has_type ?localType .
+             FILTER EXISTS {{ ?idNode a cidoc-crm:E42_Identifier }}
+             OPTIONAL {{ ?localType rdfs:label ?localTypeLabel }}
+             BIND(COALESCE(?localTypeLabel, ?localType) AS ?localSource) }}
   # The authority is read off the URI it points at, because that is where the
   # exporter put it: a public id becomes owl:sameAs into the authority's own
   # namespace, and one without a public URI stays a local E42 Identifier.
@@ -291,12 +379,9 @@ _CO_OCCURRENCE = CannedQuery(
              "labelB"),
     body=f"""
   ?document rdfs:label ?documentLabel ;
-            cidoc-crm:P128_carries ?reading .
-  ?reading cidoc-crm:P67_refers_to ?personA, ?personB .
-  ?personA rdfs:label ?labelA ; sdhss:entityType ?typeA .
-  ?personB rdfs:label ?labelB ; sdhss:entityType ?typeB .
-  {_person_filter("typeA")}
-  {_person_filter("typeB")}
+            {MENTION} ?personA, ?personB .
+  ?personA a cidoc-crm:E21_Person ; rdfs:label ?labelA .
+  ?personB a cidoc-crm:E21_Person ; rdfs:label ?labelB .
   # Each pair once, in a fixed order. Without this every pair appears twice
   # (A,B and B,A) and every person appears paired with themselves, which would
   # turn a co-occurrence count into a number nobody can interpret.
@@ -305,10 +390,107 @@ _CO_OCCURRENCE = CannedQuery(
     tail="ORDER BY ?documentLabel ?labelA ?labelB",
 )
 
+# ── the three questions over the Bestandsgraph (KG-11, #654) ────────────────
+
+_PERSONS_OF_CENTURY = CannedQuery(
+    name="persons-of-century-across-sources",
+    question=("Welche Personen werden in Dokumenten eines Jahrhunderts genannt — "
+              "über Dodis, Königsfelden und SSRQ hinweg, mit Bestand, Rolle und "
+              "Normdaten-URI?"),
+    columns=("document", "documentLabel", "source", "begin", "person",
+             "personLabel", "role", "authority"),
+    params={"century": _century},
+    required=("century",),
+    body=f"""
+  ?document a cidoc-crm:E31_Document ;
+            rdfs:label ?documentLabel .{_SOURCE_OF_DOCUMENT}{_CENTURY_OF_CREATION}
+  ?document {MENTION} ?person .
+  ?person a cidoc-crm:E21_Person ;
+          rdfs:label ?personLabel .
+  # The role is what the record assigned (E13, KG-7: signatory, adressee,
+  # address_of_copy) or authorship, which is the creation's P14 (KG-6 mapping).
+  # Both OPTIONAL: a person merely mentioned is still in the answer.
+  OPTIONAL {{ ?assignment cidoc-crm:P140_assigned_attribute_to ?document ;
+                          cidoc-crm:P141_assigned ?person ;
+                          cidoc-crm:P177_assigned_property_of_type/rdfs:label ?assigned }}
+  OPTIONAL {{ ?creation cidoc-crm:P14_carried_out_by ?person .
+             BIND("author" AS ?authored) }}
+  BIND(COALESCE(?authored, ?assigned) AS ?role)
+  # Normdaten only — the source's own URI is also owl:sameAs, see
+  # _authority_filter. A person with a GND *and* an HLS id is two rows, one per
+  # link: honest, and no GROUP_CONCAT — rdflib raises on aggregating an
+  # unbound OPTIONAL, and a canned query must run on both engines.
+  OPTIONAL {{ ?person owl:sameAs ?authority . {_authority_filter("authority")} }}
+""",
+    tail="ORDER BY ?source ?begin ?documentLabel ?personLabel ?role ?authority",
+)
+
+_CO_SIGNATORIES = CannedQuery(
+    name="co-signatories",
+    question=("Wer unterzeichnet mit wem? — die signatory-Rolle (Dodis) als Kante "
+              "zwischen zwei Personen desselben Dokuments"),
+    columns=("document", "documentLabel", "source", "personA", "labelA",
+             "personB", "labelB"),
+    body=f"""
+  ?document a cidoc-crm:E31_Document ;
+            rdfs:label ?documentLabel .{_SOURCE_OF_DOCUMENT}
+  # Two E13 assignments of the same role type on the same document. The type
+  # node is shared per build (KG-6 ``type_``), so joining on it is exact.
+  ?a cidoc-crm:P140_assigned_attribute_to ?document ;
+     cidoc-crm:P141_assigned ?personA ;
+     cidoc-crm:P177_assigned_property_of_type ?signing .
+  ?b cidoc-crm:P140_assigned_attribute_to ?document ;
+     cidoc-crm:P141_assigned ?personB ;
+     cidoc-crm:P177_assigned_property_of_type ?signing .
+  ?signing rdfs:label "signatory" .
+  ?personA rdfs:label ?labelA .
+  ?personB rdfs:label ?labelB .
+  # Each pair once and nobody with themselves — as in co-occurrence.
+  FILTER(STR(?personA) < STR(?personB))
+""",
+    tail="ORDER BY ?documentLabel ?labelA ?labelB",
+)
+
+_FAMILIES_AND_PLACES = CannedQuery(
+    name="families-and-places",
+    question=("Welche Familien (E74) haben welche Mitglieder, und welche Orte hängt "
+              "das Register an die Mitglieder? — SSRQ und Königsfelden, je mit dem "
+              "Dokument, das das Mitglied nennt"),
+    columns=("document", "documentLabel", "source", "family", "familyLabel",
+             "member", "memberLabel", "place", "placeLabel"),
+    body=f"""
+  ?document a cidoc-crm:E31_Document ;
+            rdfs:label ?documentLabel .{_SOURCE_OF_DOCUMENT}
+  ?document {MENTION} ?member .
+  # Family membership is the C5 with the type «Familie» (KG-6 mapping); P107
+  # on the group is written alongside, but the type is what says *family*
+  # rather than citizenship or office.
+  ?membership sdh-slc:P1 ?member ;
+              sdh-slc:P2 ?family ;
+              sdh-slc:P3/rdfs:label "Familie" .
+  ?family a cidoc-crm:E74_Group ;
+          rdfs:label ?familyLabel .
+  ?member rdfs:label ?memberLabel .
+  # The place is the register's residence (P74). Its label is OPTIONAL in
+  # turn: the SSRQ register's places arrive as URIs without a name (KG-9).
+  OPTIONAL {{ ?member cidoc-crm:P74_has_current_or_former_residence ?place .
+             OPTIONAL {{ ?place rdfs:label ?placeLabel }} }}
+""",
+    tail="ORDER BY ?source ?familyLabel ?memberLabel ?placeLabel",
+)
+
 QUERIES: dict[str, CannedQuery] = {
     q.name: q for q in (_PERSONS_IN_CARE, _READINGS_OF_PAGE,
-                        _AUTHORITY_COVERAGE, _CO_OCCURRENCE)
+                        _AUTHORITY_COVERAGE, _CO_OCCURRENCE,
+                        _PERSONS_OF_CENTURY, _CO_SIGNATORIES,
+                        _FAMILIES_AND_PLACES)
 }
+
+#: Questions that ask for what only the Bestandsgraph carries — a dataset per
+#: document (``prov:wasDerivedFrom``), E13 role assignments, C5 memberships.
+#: Over the corpus graph alone they return no rows, which is the true answer.
+BESTAND_ONLY = frozenset({_PERSONS_OF_CENTURY.name, _CO_SIGNATORIES.name,
+                          _FAMILIES_AND_PLACES.name})
 
 
 def names() -> tuple[str, ...]:
@@ -325,7 +507,7 @@ def get(name: str) -> CannedQuery:
 
 def describe_all() -> str:
     """The questions, for somebody deciding which to ask."""
-    lines = ["**Abfragen über den Korpus-Graphen** (KG-5):", ""]
+    lines = ["**Abfragen über den Korpus-Graphen und den Bestandsgraphen** (KG-5, KG-11):", ""]
     for query in QUERIES.values():
         args = "".join(f" <{p}>" for p in query.required)
         lines.append(f"`/sparql {query.name}{args}` — {query.question}")
@@ -498,9 +680,11 @@ def _short(value: Optional[str]) -> str:
     ``—`` for an unbound OPTIONAL: the cell has to say "no value here", and an
     empty cell in a code block reads as a formatting accident.
     """
-    if value is None:
+    if value is None or value == "":
+        # ``""`` is what GROUP_CONCAT yields over nothing — the same finding
+        # as an unbound OPTIONAL, and it must read the same.
         return "—"
-    for short, uri in rx.PREFIXES.items():
+    for short, uri in PREFIXES.items():
         if value.startswith(uri) and uri:
             return f"{short}:{value[len(uri):]}"
     return value
