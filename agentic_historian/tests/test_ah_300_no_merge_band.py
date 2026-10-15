@@ -43,7 +43,10 @@ BAT_TEXTS = {
 # The plan as it really came out (blind, Phase 1) — note the VLM's 1.0, which is a
 # placeholder from plan_models ("always run VLM first"), NOT a match score.
 BAT_PICKS = [
-    ModelPick("vlm", "internvl3-8b-instruct", 1.00),
+    # Unscored, as `plan_models` produces it since #649 — there is no VLM
+    # selector, so nothing measured this pick. It used to read `1.00` here, and
+    # the ranker had to special-case the engine name to stop it winning.
+    ModelPick("vlm", "internvl3-8b-instruct"),
     ModelPick("kraken", "10.5281/zenodo.7516057", 0.05),
     ModelPick("trocr", "dh-unibe/trocr-kurrent-XVI-XVII", 0.20),
     ModelPick("kraken", "10.5281/zenodo.6542744", 0.05),
@@ -73,10 +76,15 @@ def test_bat664_returns_the_trocr_reading_not_a_blend():
     assert "no-merge" in r.provenance[0]
 
 
-def test_the_vlm_placeholder_score_does_not_win():
-    """plan_models gives the VLM a hardcoded 1.0 meaning "always run it", not "best
-    match". Ranking on it naively would select the VLM every time — and the VLM is
-    the engine that collapsed into "uuuu" on u-17__."""
+def test_the_unscored_vlm_does_not_win():
+    """The VLM pick carries no score, so it ranks as no match.
+
+    It used to carry a hardcoded 1.0 meaning "always run it", and the ranker
+    special-cased `engine == "vlm"` to stop that winning. Since #649 the fact
+    lives in the value, which covers the gateway's `vllm` name too — the old
+    test missed it by one letter. The engine this protects against is the one
+    that collapsed into "uuuu" on u-17__.
+    """
     r = recognize_ensemble("img", None, _rec_fn(BAT_TEXTS), picks=BAT_PICKS,
                            min_engines=4, max_loops=0, no_merge_cer=0.35)
     assert r.text != VLM_POOR
@@ -105,6 +113,29 @@ def test_below_the_band_still_merges():
     assert r.max_pairwise_cer <= 0.35
     assert r.text.startswith("Wir Hans von Wiler")
     assert not r.provenance or "no-merge" not in str(r.provenance[0])
+
+
+def test_plan_models_never_hands_the_vlm_a_number(monkeypatch):
+    """The invariant behind the fixtures above.
+
+    They encode what `plan_models` produces, and a fixture that drifts from
+    production is how a test keeps passing about a shape nobody ships — the
+    failure SEC-18 (#641) was made of. So assert the source, not the copy.
+    """
+    import agent_a.ensemble as ens
+
+    monkeypatch.setattr(ens, "_default_vlm_model_id", lambda: "qwen3.8-27b")
+    monkeypatch.setattr("agent_a.model_selector.select_kraken_model",
+                        lambda c, top_k=3, **k: [])
+    monkeypatch.setattr("agent_a.model_selector.select_tocr_model",
+                        lambda c, top_k=3, **k: [])
+
+    vlm = ens.plan_models(None)[0]
+    assert vlm.engine == "vlm"
+    assert vlm.score is None, (
+        "the VLM pick carries a number again — nothing measures it (#539), so "
+        "any number there is a claim nobody made")
+    assert vlm.score_label() == "ungewertet"
 
 
 # ── select_best in isolation ─────────────────────────────────────────────────

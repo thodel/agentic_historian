@@ -34,11 +34,66 @@ sudo cp deploy/systemd/agentic-historian.service.d/hardening.conf /etc/systemd/s
 sudo systemctl daemon-reload && sudo systemctl restart agentic-historian
 ```
 
+## Nachgemessen auf tei, 2026-10-13
+
+Der Abschnitt oben beschreibt, was das Repo bereitstellt. Was auf dem Host **in
+Kraft** ist, war etwas anderes — gemessen, nicht angenommen:
+
+```
+systemctl cat agentic-historian | grep -E "EnvironmentFile|^Environment=|^User="
+→ User=dh          (kein EnvironmentFile, kein AH_ENV_FILE)
+
+Drop-In: /etc/systemd/system.control/agentic-historian.service.d/50-MemoryMax.conf
+         /etc/systemd/system/agentic-historian.service.d/restart.conf
+```
+
+Weder `secrets.conf` noch `hardening.conf` ist installiert. Der Bot liest seine
+Konfiguration also wie zuvor direkt aus den dotenv-Dateien im Checkout, läuft
+ohne systemd-Sandbox und als `dh`. **Keiner der drei Punkte von #567 ist auf dem
+Host wirksam**, obwohl die Repo-Seite als ✅ geführt wurde.
+
+### Und die Begründung hat sich verschoben
+
+`.env.gpustack` hält **36 Keys, und jeder gehört dem Bot** — kein `IMAP_*`, kein
+`SMTP_*`, kein `CALDAV_*`, kein SSH-Key. Der Satz oben, die Datei halte „the
+OpenClaw agent's mail / calendar / SSH credentials that the bot never needs",
+trifft auf diese Datei nicht mehr zu. Die Rechte sind ausserdem schon `0600
+dh:dh`, es liegt dort also nichts offen.
+
+Was real bleibt, ist die **umgekehrte** Richtung der ursprünglichen Sorge: beide
+Prozesse laufen als `dh`, also kann der OpenClaw-Agent die Secrets des **Bots**
+lesen — Discord-Token, GitHub-Token, GPUStack-Key, Transkribus- und
+SwitchDrive-Passwort. Dagegen hilft kein eigenes `EnvironmentFile`, sondern nur
+Punkt 3: ein eigener Benutzer. Das verschiebt die Gewichtung der drei Punkte,
+und es ist der Grund, 1 nicht länger als das Wichtige zu behandeln.
+
+### Der Konflikt, den Punkt 2 mitbringt
+
+`ProtectSystem=strict` macht alles schreibgeschützt, was nicht in
+`ReadWritePaths` steht. `/update` führt `git -C <checkout> pull` **und** `pip
+install -r requirements-dev.txt` aus — es braucht also Schreibrecht auf den
+Checkout und das venv, mithin die Erlaubnis, den Code dieses Prozesses zu
+überschreiben. Beides geht nicht zusammen:
+
+| | Confinement | `/update` |
+|---|---|---|
+| nur die Datenverzeichnisse | wirksam | bricht |
+| plus Checkout und venv | schützt alles ausser dem Wichtigsten | funktioniert |
+
+`hardening.conf` hat die zweite Variante aktiv, weil das dem heutigen Verhalten
+entspricht; die erste ist einen Kommentar entfernt. Die Entscheidung gehört zu
+`/update`, nicht zu dieser Datei.
+
 ## Items and status
 
 1. **Own `EnvironmentFile` with only the bot's secrets** — `dh-bot.env.example` +
-   `secrets.conf` + `AH_ENV_FILE` here. ✅ (repo side)
+   `secrets.conf` + `AH_ENV_FILE` here. ✅ (repo side) / ◻️ **nicht installiert**
+   (gemessen 2026-10-13). Nachrangig geworden, siehe oben.
 2. **Harden the unit like the MCP server** — `hardening.conf` (#580). ✅ (repo side)
+   / ◻️ **nicht installiert**. Die Datei trug bis 2026-10-13 einen `/srv`-Platzhalter
+   in `ReadWritePaths` und war damit auf diesem Host nicht installierbar, ohne sie
+   vorher zu korrigieren — die Pfade kommen jetzt aus
+   `writable_paths.py`, abgeleitet aus der laufenden Konfiguration.
 3. **Run as a dedicated, less-privileged user** — create a `dh-bot` user without
    read access to the OpenClaw secret file, then set `User=`/`Group=` in
    `secrets.conf`. ◻️ host action.

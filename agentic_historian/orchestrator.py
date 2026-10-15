@@ -908,9 +908,12 @@ def _emit_model_select(on_phase, doc_id: str, criteria, *, label: str) -> None:
         from agent_a import ensemble
         picks = ensemble.plan_models(
             criteria, per_engine=getattr(config, "ENSEMBLE_PER_ENGINE", 3))
-        top = "; ".join(f"{p.engine}/{p.model_id} {p.score:.2f}" for p in picks[:3])
+        # score_label, not f"{score:.2f}": an unscored pick must not reach a
+        # person as a number, least of all as 1.00 next to measured ones (#649).
+        top = "; ".join(f"{p.engine}/{p.model_id} {p.score_label()}" for p in picks[:3])
         _emit(on_phase, doc_id, "model_select", "A",
-              output=[f"{p.engine}/{p.model_id} score={p.score:.2f}" for p in picks[:5]],
+              output=[f"{p.engine}/{p.model_id} score={p.score_label()}"
+                      for p in picks[:5]],
               decision=f"{label}: {top}")
     except Exception as e:
         logger.warning(f"[Orchestrator] model_select emit skipped: {e}")

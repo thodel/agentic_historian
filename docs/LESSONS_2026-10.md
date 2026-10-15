@@ -843,6 +843,136 @@ report, both of which were right, but in the sentence I wrote down about them.
 When it matters later, it has to be re-read from the report rather than
 remembered.
 
+## 24. Eine Prüfung, die niemand prüft, verfällt — zweimal am selben Tag
+
+Beim Abschluss der Sicherheits-Epic #571 standen alle 17 Haken. Keiner war
+falsch. Beide Nachträge, die trotzdem nötig waren, haben dieselbe Form, und es
+ist nicht die Form der Befunde selbst.
+
+**SEC-18 (#641).** Jeder der 17 Belege pinnt eine *fest verdrahtete Liste*:
+`test_ah_105` nennt neun Befehle namentlich, SEC-6 prüft `atr_status`, SEC-14 die
+Aufrufstellen vom Oktober. Seit dem Audit sind zehn Befehle dazugekommen. Alle
+zehn sind gegatet — aus Disziplin, nicht durch Konstruktion; die Suite wäre
+genauso grün gewesen, wenn keiner es wäre. An einer Stelle ist die Disziplin
+tatsächlich gerissen: `agent_a/training_client.py`, ein zweiter HTTP-Client auf
+dasselbe Gateway, nach dem Audit geschrieben, mit dem umgekehrten Vertrag von
+`atr_status` auf *beiden* Punkten, die dem Audit wichtig waren — `job_id` roh im
+URL-Pfad und die interne VPN-Adresse in Meldungen, die bot.py in den Kanal
+postet. Alle Tests blieben grün.
+
+**SEC-19 (#646).** `config.py` behauptete über `REQUIRED_DISCORD_ROLE_ID`, der
+Bot „warns at startup". Tat er nicht. Die einzige Warnung sass in `_authorised`
+und lief *pro Befehlsaufruf* — wer den Bot in einen offenen Server stellte,
+bekam kein Signal, bis irgendwann ein Mitglied einen gegateten Befehl aufrief
+und jemand ins Log sah. Die Epic hat also auf eine Absicherung gezeigt, die es
+nicht gab, und zwar an der Stelle, an der ich selbst „liegt beim Operator"
+geschrieben hatte.
+
+Das ist dieselbe Familie wie §11, §23 und wie der Befund, der sich durch dieses
+Projekt zieht — ein Wert, der mehr behauptet, als gemessen wurde (#119, #595,
+#631, #633) —, nur eine Ebene höher: eine **Prüfung**, die mehr behauptet, als
+sie prüft. Und es ist der Grund, warum der Startbericht aus SEC-19 dreiwertig
+ist: die Discord-seitigen Befehlsberechtigungen wirken *vor* dem Code und sind
+aus dem Prozess nicht lesbar, also sind sie `[?]` und nicht `[ok]`. Ein
+Lagebericht ist genau die Stelle, an der der alte Fehler zurückkäme — eine
+saubere Liste ist, was ein Bericht gerne produziert.
+
+**Was daraus folgt:** die Regel gehört dorthin, wo sie bei Konstruktion gilt,
+nicht in eine Liste von Namen. Konkret: ein Abdeckungstest, der *jeden*
+registrierten Slash-Befehl aufzählt und für jeden ein Gate oder einen Eintrag
+auf `bot.OPEN_COMMANDS` mit Begründung verlangt; eine Regex, die beide Clients
+importieren, statt zweier Kopien, die driften; und eine Sperre in `_get`/`_post`
+statt eines Validators, an den jede Aufrufstelle denken muss.
+
+## 25. Ein Platzhalter, der vor dem Einsatz korrigiert werden muss, wird nicht installiert
+
+`deploy/systemd/hardening.conf` lag seit dem Audit im Repo, und #567 führte
+Punkt 2 als „✅ (repo side)". Auf tei war es nicht installiert. Der Grund stand
+in der Datei:
+
+```ini
+# CHANGEME: the bot's writable dirs. Example for a /srv checkout; edit for tei.
+ReadWritePaths=/srv/agentic_historian/agentic_historian/data
+```
+
+Das Checkout liegt unter `/home/dh`. Unverändert installiert macht die Datei
+`data/` schreibgeschützt, und mit `ProtectSystem=strict` ist das kein Degradieren,
+sondern ein Scheitern beim ersten Schreibvorgang. Die Reibung hat genau die
+Massnahme verhindert, die sie absichern sollte.
+
+Dieselbe Form bei `dh-bot.env.example`: der Kopf sagte, nicht-geheime
+Einstellungen hätten „defaults in config.py — set one here only to override it".
+Für einen Schwellwert stimmt das. Für `ENABLE_ATR_WATCH`, `ATR_WATCH_CHANNEL_ID`
+und `CREDENTIAL_WATCH_CHANNEL_ID` nicht: dort ist der Standard *aus*, ihn
+weglassen behält keinen Standard, sondern lässt eine Funktion nicht laufen — und
+eine Funktion, die nicht läuft, sieht aus wie eine kaputte. Wer die Datei aus dem
+Beispiel füllte, bekam einen Bot mit zwei still nicht laufenden Watchern.
+
+**Was daraus folgt:** eine Vorlage, deren Werte vom Host abhängen, soll die Werte
+*ableiten* statt sie als Beispiel zu zeigen. `deploy/systemd/writable_paths.py`
+liest sie aus der laufenden Konfiguration. Und beim Bauen davon fiel der Fall
+auf, der schlimmer gewesen wäre als kein Platzhalter: mit dem System-Python ist
+`sys.prefix` gleich `/usr`, die ausgegebene Zeile also `ReadWritePaths=/usr` —
+Schreibrecht auf das ganze System, und es sähe wie Härtung aus. Ein Pfad, der
+sich nicht messen lässt, wird benannt und nicht geraten.
+
+## 26. Zwei Diagnosefehler, die mir dieselbe Stunde zweimal gekostet haben
+
+Beim Einrichten des Bots meldete der Startbericht die Rollen als gesetzt,
+während keine der Dateien, die ich geprüft hatte, sie enthielt. Ich habe daraus
+einen Widerspruch gemacht und zwei Hypothesen gebaut — `export`-Präfixe, die
+`python-dotenv` toleriert, und eine Injektion durch systemd. Beide falsch.
+
+**Fehler eins: das Messwerkzeug hatte ein blindes Feld, das ich selbst gebaut
+hatte.** Meine Dateiliste liess `/home/dh/agentic_historian/.env` aus, weil ein
+früheres `ls` sie als nicht existent gemeldet hatte — *vor* dem `cat >>`, das
+meine eigene Anleitung dort hatte schreiben lassen. Die Datei war die Antwort.
+
+**Fehler zwei: `/proc/<pid>/environ` kann die Frage nicht beantworten.** Es zeigt
+die Umgebung, mit der der Prozess *gestartet* wurde; was `load_dotenv` zur
+Laufzeit in `os.environ` legt, steht dort nicht. Ich habe den Befehl als
+Unterscheidung dreier Fälle verkauft, obwohl er nur einen ausschliessen konnte.
+
+Die richtige Frage war die ganze Zeit verfügbar: `config.ENV_SOURCE` führt Buch,
+„welcher Key kam aus welcher Datei", und wurde für genau diesen Zweck gebaut.
+
+**Was daraus folgt:** wenn Messung und System sich widersprechen, erst das
+Messwerkzeug verdächtigen — und vor dem Bau eines eigenen prüfen, ob das System
+die Frage schon beantwortet. Die Folge reicht weiter als die verlorene Zeit: die
+„würden beim Umschalten wegfallen"-Liste von 37 Keys kam aus demselben `grep`
+und ist aus demselben Grund unzuverlässig. Sie kann zu kurz sein, nie zu lang —
+die Warnung „so nicht umschalten" galt also, die Vollständigkeit nie.
+
+## 27. Atomar ist nicht korrekt
+
+R3 (#393) hat die Mutatoren des Knowledge Hub in einen kritischen Abschnitt
+gelegt und den Konstruktor übersehen. `_load` endete in einem bedingungslosen
+`self._write(copy.deepcopy(DEFAULTS))`, sobald die Datei fehlte. Fünf Threads
+mit je einem Hub auf einem frischen Pfad:
+
+```
+persons kept: 49 of 50
+blind seeding writes from __init__: 5
+```
+
+`write_json_atomic` hat diesen Schreibvorgang atomar gemacht. Das ist eine
+andere Eigenschaft als richtig: ein atomarer Schreibvorgang, der nicht weiss,
+worüber er schreibt, verliert die Arbeit des anderen Workers genauso. Der Test
+aus #393 war deshalb in 5 von 12 Läufen rot — ein echter Fund, kein Flake.
+
+Die lehrreichste der zwölf Rückabwicklungen war **zuerst grün**: derselbe blinde
+Schreibvorgang hinter einem `if not self.path.exists()` lässt nur ein Fenster
+von Mikrosekunden offen und übersteht damit jeden Zeittest. Ein Test, der fast
+immer besteht, ist schlechter als keiner.
+
+**Was daraus folgt:** die Regel prüfen, nicht das Symptom. Der Test verlangt
+jetzt, dass der Konstruktor `_write` *gar nicht benutzt* — eine Methode, die die
+Datei aus einem Speicherabbild ersetzt, ohne sie gelesen zu haben, ist das Eine,
+was er nicht darf. Dieselbe Lehre in #644, von der anderen Seite: dort hing ein
+Test an 200 × 10 ms Wartezeit für zwei Heartbeats im 20-ms-Takt und war unter
+Last in etwa jedem zehnten Lauf rot — mit der Meldung „the heartbeat never
+fired", während er einmal geschlagen hatte. Er wartet jetzt auf ein `Event`,
+hängt also davon ab, *dass* geschlagen wird, und nicht davon, wie schnell.
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.

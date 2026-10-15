@@ -26,12 +26,63 @@ from typing import Any, Callable, Optional
 from loguru import logger
 
 
+def pick_match(pick) -> float:
+    """A pick's score for ranking — unscored ranks as no match (#649).
+
+    Module level and tolerant of duck-typed picks, because a ``hasattr`` dance
+    at each call site is where the formatted number crept back in: the fallback
+    branch had to say ``f"{score:.2f}"`` and therefore said it about unscored
+    picks too. An object without a ``score`` is unscored, which is the safe
+    reading of "I cannot tell".
+    """
+    score = getattr(pick, "score", None)
+    return float(score) if score is not None else 0.0
+
+
+def pick_score_label(pick) -> str:
+    """A pick's score for a human: a number when one was measured, else a word."""
+    score = getattr(pick, "score", None)
+    return "ungewertet" if score is None else f"{score:.2f}"
+
+
 @dataclass
 class ModelPick:
-    """One (engine, model) the ensemble may run."""
+    """One (engine, model) the ensemble may run.
+
+    ``score`` is the **source-match score** a script/century selector computed —
+    how well this model fits the page Agent B described. It is three-valued, and
+    that is the point (#649): ``None`` means *nobody measured*, which is a
+    different statement from ``0.0``, "measured and does not fit".
+
+    The VLM pick carries ``None`` because there is no VLM selector (#539). It
+    used to carry a hardcoded ``1.0``, which read as the best possible match in
+    the very card a person uses to judge the pick — a value claiming more than
+    was measured, the fifth time in this project (#119, #595, #631, #633).
+
+    Use :meth:`match` for ranking and :meth:`score_label` for display; neither
+    lets the unmeasured case pass as a number.
+    """
     engine: str            # "vlm" | "kraken" | "trocr" | "party"
     model_id: str
-    score: float = 0.0
+    score: Optional[float] = None
+
+    @property
+    def scored(self) -> bool:
+        return self.score is not None
+
+    def match(self) -> float:
+        """The score for ranking: unscored ranks as no match, never as a match.
+
+        Keyed off the **value**, not off the engine name as the ranker used to
+        be. The gateway calls its VLM engine ``vllm`` (#540), so an engine-name
+        test misses it by one letter — and a ``vllm`` pick carrying a
+        placeholder would then have outranked every measured candidate.
+        """
+        return pick_match(self)
+
+    def score_label(self) -> str:
+        """For a human: a number when one was measured, a word when none was."""
+        return pick_score_label(self)
 
 
 @dataclass
@@ -124,14 +175,31 @@ def plan_models(criteria, *, per_engine: int = 3,
     """Ordered pool of picks. The front guarantees **engine diversity** — VLM,
     the best kraken, the best TrOCR (≥3 when models exist) — and the tail is the
     next-ranked kraken/TrOCR models interleaved, which the feedback loop draws
-    from. Model selection reuses the script/century-aware selectors."""
+    from. Model selection reuses the script/century-aware selectors.
+
+    **Why exactly one VLM, and why unscored.** There is no VLM selector: the
+    script/century weighing that produces a kraken or TrOCR score has no VLM
+    counterpart (#539). So the VLM pick carries ``score=None`` — *nobody
+    measured* — rather than the hardcoded ``1.0`` it used to carry, which read
+    as a perfect match and was never one (#649).
+
+    Its position is unchanged: first, so the VLM always runs. That is a
+    throughput decision, not a judgement about fit, and the two were conflated
+    for as long as the placeholder looked like a score.
+
+    The tail holds no VLM either. Whether it should is open (#539) and rests on
+    two measurements rather than on symmetry: two VLMs came out 27.7% against
+    189.8% CER on the same pages, and #298 measured fusion voting a good reading
+    down — so an extra weak candidate makes the result worse, not better. #541
+    is the gate a second VLM has to clear first.
+    """
     from agent_a.model_selector import select_kraken_model, select_tocr_model
 
     vlm_model_id = vlm_model_id or _default_vlm_model_id()
     kraken = select_kraken_model(criteria, top_k=per_engine)
     trocr = select_tocr_model(criteria, top_k=per_engine)
 
-    picks: list[ModelPick] = [ModelPick("vlm", vlm_model_id, 1.0)]
+    picks: list[ModelPick] = [ModelPick("vlm", vlm_model_id, score=None)]
     if kraken:
         picks.append(ModelPick("kraken", kraken[0].model.model_id, float(kraken[0].score)))
     if trocr:
@@ -443,9 +511,11 @@ def rank_candidates(recognitions: list, ran: list, criteria=None) -> list:
 
     def rank(item):
         rec, pick = item
-        engine = getattr(pick, "engine", "") or ""
-        # VLM's 1.0 is a placeholder, not a match — see select_best's docstring.
-        match = 0.0 if engine == "vlm" else float(getattr(pick, "score", 0.0) or 0.0)
+        # Keyed off the value, not the engine name: an unscored pick ranks as
+        # no match whatever engine it names (#649). The gateway calls its VLM
+        # engine by a name one letter longer, so the old engine-name test
+        # missed it and would have let a placeholder outrank a measurement.
+        match = pick_match(pick)
         # A candidate that cannot be a reading of this page sorts below EVERY
         # plausible one, whatever its metadata match — the wrong writing system
         # (#358) or a length no transcription of this page could have (#421). It
@@ -764,9 +834,15 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
         best = select_best(recognitions, ran, criteria)
         if best is not None:
             rec, pick = best
+            # `score_label`, not a formatted number: this string is the
+            # **provenance** of the selected reading, so it goes into the record
+            # and not only into the log. An unscored pick written here as
+            # "match score 1.00" states a measurement that was never taken
+            # (#649) — and states it about the engine whose reading was chosen.
+            label = pick_score_label(pick)
             why = (f"no-merge: max pairwise CER {max_cer:.1%} > {no_merge_cer:.1%} — "
                    f"selected {pick.engine}/{pick.model_id} verbatim "
-                   f"(match score {getattr(pick, 'score', 0.0):.2f}); not blended")
+                   f"(match score {label}); not blended")
             logger.info(f"[ensemble] {why}")
             return EnsembleResult(
                 recognitions=recognitions, text=_text_of(rec)[0],
