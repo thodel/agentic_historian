@@ -45,3 +45,4 @@ rdflib==7.6.0
 numpy>=1.24.0
 # build backend — required for test_ah_109's editable install with --no-build-isolation
 setuptools>=61.0
+atr-client @ git+https://github.com/thodel/serving-atr-inference@ebb933506a7cf98f539819a8366be5e518097c5c#subdirectory=clients/python

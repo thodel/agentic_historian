@@ -1,35 +1,28 @@
 """
-ATR gateway HTTP client — calls the serving-atr-inference gateway (kraken +
-TrOCR + party + vllm) instead of running kraken CLI locally.
+Compatibility shim: the gateway client is the ``atr-client`` package.
 
-Endpoint + auth are configured in config.py:
-    ATR_GATEWAY_URL   base URL of the gateway (falls back to the legacy
-                      KRAKEN_SERVICE_URL for backward compatibility)
-    ATR_API_KEY       static secret sent as the `X-API-Key` header on every
-                      request (empty = no auth header, dev/local only)
+The client that used to live here now lives in serving-atr-inference under
+``clients/python`` — next to the routes it calls and tested there against the
+real app — and is installed, pinned to a commit, by this repository and by
+outremer (outremer ADR 0002, issue #87). Nothing in this file talks HTTP.
 
-API design
-──────────
-POST /ocr
-    Body (multipart/form-data):
-        image   – image file (JPEG, PNG, TIFF, …)
-        model   – kraken model identifier, e.g. "10.5281/zenodo.7516057"
-        seg_mode – "baseline" (default) or "lines"
-    Returns JSON:
-        {"text": "<OCR result string>", "confidence": 0.93, "model": "...", ...}
+Every name callers and tests import from here still exists and means the
+same thing:
 
-POST /segment
-    Body (multipart/form-data):
-        image   – image file
-        seg_mode – "baseline" (default) or "lines"
-    Returns JSON:
-        {"lines": [{"baseline": [[x0,y0],…], "mask": …}, …]}
+* ``KrakenHTTPClient`` — ``atr_client.AtrClient`` with this repository's
+  defaults (``config.ATR_GATEWAY_URL``, ``ATR_API_KEY``, ``ATR_HTTP_TIMEOUT``,
+  all read at call time) and the historical positional order
+  ``(base_url, timeout, api_key)``.
+* ``KrakenResult`` — ``atr_client.AtrResult``, accepting the historical
+  ``model_used=`` keyword; ``.model_used`` reads the same value as ``.model``.
+* ``KrakenClientError`` — ``atr_client.AtrClientError`` itself (``status_code``
+  is ``None`` when the gateway never answered).
+* ``OCR_ENGINES``, ``endpoint_for``, ``kraken_transcribe``, ``_timing_of``.
 
-GET /models
-    Returns JSON: {"models": ["10.5281/zenodo.7516057", …]}
-
-GET /health
-    Returns JSON: {"status": "ok", "models_loaded": ["10.5281/zenodo.xxx", …]}
+What moved with the code, so it is tuned once: the 300 s default budget, the
+engine → endpoint routing (#540), the status on the error, ``timing_ms`` as
+``None`` rather than ``0`` (#595). What stays here: the
+``KRAKEN_SERVICE_URL`` fallback (``config.ATR_GATEWAY_URL`` resolves it).
 """
 
 from __future__ import annotations
@@ -38,35 +31,37 @@ import io
 from pathlib import Path
 from typing import Optional
 
-import httpx
+import httpx  # noqa: F401  — tests patch ``kraken_client.httpx.Client``; the package reads the same module
 
 # Local imports
 import config
+from atr_client import OCR_ENGINES, AtrClient, AtrClientError, AtrResult, endpoint_for
+from atr_client.client import _timing_of
 
-#: The engines ``/ocr`` accepts. It is the page-level convenience endpoint and
-#: auto-segments for TrOCR; everything else the gateway refuses there with
-#: ``400: use /recognize for '<engine>'``.
-#:
-#: ``vlm`` is deliberately absent and is not a typo for ``vllm``. ``vlm`` is
-#: this repository's GPUStack path, which does not touch the gateway at all;
-#: ``vllm`` is the gateway's own engine for its seven fine-tuned VLMs. One
-#: letter, two backends (#540).
-OCR_ENGINES = frozenset({"kraken", "trocr"})
+__all__ = [
+    "OCR_ENGINES",
+    "KrakenClientError",
+    "KrakenHTTPClient",
+    "KrakenResult",
+    "endpoint_for",
+    "kraken_transcribe",
+]
 
-
-def endpoint_for(engine: str) -> str:
-    """Which gateway endpoint can read a model of this engine (#540).
-
-    Unknown engines go to ``/recognize``, not ``/ocr``. ``/recognize`` is the
-    general endpoint and ``/ocr`` the narrow convenience, so guessing ``/ocr``
-    for something new reproduces this bug for the next engine the gateway
-    gains — which is how the vllm models became unreachable in the first place.
-    """
-    return "/ocr" if str(engine or "").lower() in OCR_ENGINES else "/recognize"
+KrakenClientError = AtrClientError
 
 
-class KrakenHTTPClient:
-    """Thin HTTP wrapper around the remote kraken OCR service."""
+class KrakenResult(AtrResult):
+    """``AtrResult`` under its historical name, built with ``model_used=``."""
+
+    def __init__(self, text: str, confidence: float, model_used: str = "",
+                 service_version: str = "?", *, model: Optional[str] = None, **fields):
+        super().__init__(text=text, confidence=confidence,
+                         model=model_used if model is None else model,
+                         service_version=service_version, **fields)
+
+
+class KrakenHTTPClient(AtrClient):
+    """``AtrClient`` with this repository's configuration as its defaults."""
 
     def __init__(
         self,
@@ -74,314 +69,32 @@ class KrakenHTTPClient:
         timeout: Optional[float] = None,
         api_key: Optional[str] = None,
     ) -> None:
-        self.base_url = (base_url or config.ATR_GATEWAY_URL or "").rstrip("/")
-        # Default from config (300s) rather than a hardcoded 120s: see
-        # ATR_HTTP_TIMEOUT — a client budget tighter than the gateway's own turns
-        # slow-but-working engines into phantom timeouts.
-        self.timeout = config.ATR_HTTP_TIMEOUT if timeout is None else timeout
-        # X-API-Key for the gateway. Default from config; "" = no auth header.
-        self.api_key = config.ATR_API_KEY if api_key is None else api_key
-        self._client: Optional[httpx.Client] = None
-
-    # ── context manager ──────────────────────────────────────────────────────
-
-    def __enter__(self) -> "KrakenHTTPClient":
-        headers = {"X-API-Key": self.api_key} if self.api_key else {}
-        self._client = httpx.Client(
-            base_url=self.base_url,
-            timeout=self.timeout,
-            follow_redirects=True,
-            headers=headers,
-        )
-        return self
-
-    def __exit__(self, *args) -> None:
-        assert self._client is not None
-        self._client.close()
-        self._client = None
-
-    # ── public API ───────────────────────────────────────────────────────────
-
-    def segment(
-        self,
-        image: Path | bytes | io.BytesIO,
-        seg_mode: str = "baseline",
-    ) -> dict:
-        """
-        Send an image to the kraken service for segmentation only.
-
-        Returns a dict with a ``lines`` key listing polygon baselines
-        and text masks.  Raises ``KrakenClientError`` on HTTP errors.
-        """
-        files = self._prepare_files(image)
-        # model/seg_mode are Form(str) fields on the gateway — send as form data,
-        # NOT inside `files` (httpx would post them as file parts → 422).
-        resp = self._post("/segment", files=files, data={"seg_mode": seg_mode})
-        return resp.json()
-
-    def transcribe(
-        self,
-        image: Path | bytes | io.BytesIO,
-        model: str,
-        seg_mode: str = "baseline",
-    ) -> KrakenResult:
-        """
-        Send an image to the kraken service for HTR/OCR.
-
-        Parameters
-        ----------
-        image : file path, raw bytes, or BytesIO
-            The document image to process.
-        model : str
-            Full kraken model identifier, e.g. "10.5281/zenodo.7516057".
-        seg_mode : "baseline" | "lines"
-
-        Returns a ``KrakenResult`` dataclass (text, confidence, model_used).
-        Raises ``KrakenClientError`` on HTTP errors.
-        """
-        files: dict = self._prepare_files(image)
-        # model/seg_mode are Form(str) fields on the gateway — send as form data,
-        # NOT inside `files` (httpx would post them as file parts → 422, which was
-        # then silently parsed as an empty transcription).
-        resp = self._post("/ocr", files=files,
-                          data={"model": model, "seg_mode": seg_mode})
-        data = resp.json()
-        return KrakenResult(
-            text=data.get("text", ""),
-            confidence=data.get("confidence", 0.0),
-            model_used=data.get("model", model),
-            service_version=data.get("version", "?"),
+        super().__init__(
+            base_url or config.ATR_GATEWAY_URL or "",
+            api_key=config.ATR_API_KEY if api_key is None else api_key,
+            # Default from config (300 s), never a tighter hardcoded budget: a
+            # client stricter than its server manufactures phantom timeouts.
+            timeout=config.ATR_HTTP_TIMEOUT if timeout is None else timeout,
         )
 
-    def recognize(
-        self,
-        image: Path | bytes | io.BytesIO,
-        model: str,
-    ) -> KrakenResult:
-        """Send an image to the gateway's ``/recognize`` endpoint.
+    # The historical hook name; tests replace it on the instance.
+    _prepare_files = staticmethod(AtrClient._image_part)
 
-        ``/ocr`` only accepts kraken + trocr (it auto-segments a page). ``party``
-        is a page-level engine and the gateway rejects it on ``/ocr`` with
-        ``400: use /recognize for 'party'`` — so party must come through here, and
-        so must every ``vllm`` model (``400: use /recognize for 'vllm'``).
+    def _image_part(self, image: Path | bytes | io.BytesIO):  # type: ignore[override]
+        return self._prepare_files(image)
 
-        Unlike ``/ocr``, this endpoint returns the **whole** ``RecognitionResult``:
-        the per-line readings with their geometry, how long it took, what did the
-        segmentation, and party's parallel reading of the same image. The extra
-        fields are carried through rather than dropped — a batch that keeps only
-        the concatenated page text cannot say afterwards *which* line a model got
-        wrong, and re-running to find out costs the whole run again.
-        """
-        files: dict = self._prepare_files(image)
-        resp = self._post("/recognize", files=files, data={"model": model})
-        data = resp.json()
-        return KrakenResult(
-            text=data.get("text", ""),
-            confidence=data.get("confidence", 0.0),
-            model_used=data.get("model", model),
-            service_version=data.get("version", "?"),
-            lines=list(data.get("lines") or []),
-            engine=data.get("engine", ""),
-            segmented_by=data.get("segmented_by"),
-            timing_ms=_timing_of(data),
-            truncated=bool(data.get("truncated", False)),
-            second_opinion=data.get("second_opinion"),
-        )
+    def transcribe(self, image: Path | bytes | io.BytesIO, model: str,
+                   seg_mode: str = "baseline", **_ignored) -> AtrResult:
+        """``/ocr`` only, as it always was here; ``read()`` routes by engine."""
+        return self.ocr(image, model, seg_mode=seg_mode)
 
-    def read(
-        self,
-        image: Path | bytes | io.BytesIO,
-        model: str,
-        engine: str,
-        seg_mode: str = "baseline",
-    ) -> KrakenResult:
-        """Read *image* with *model*, on whichever endpoint its engine needs.
-
-        The gateway has two: ``/ocr`` auto-segments a page for kraken and
-        TrOCR, ``/recognize`` serves everything and returns the per-line
-        result. Callers that hardcoded ``transcribe`` could only ever address
-        the first two engines, and a vllm or party id sent there comes back as
-        a 400 naming the other endpoint (#540).
-
-        Choosing by engine rather than by caller means a new engine on the
-        gateway is reachable without another call site learning about it.
-        """
-        if endpoint_for(engine) == "/ocr":
-            return self.transcribe(image, model=model, seg_mode=seg_mode)
-        return self.recognize(image, model=model)
-
-    def list_models(self) -> list[dict]:
-        """Return the gateway model registry.
-
-        The gateway responds with ModelsResponse ``{"models": [ModelInfo, ...]}``
-        where each ModelInfo carries id/engine/scripts/centuries/languages/level
-        — the selection metadata #110 consumes. Returns the list of ModelInfo
-        dicts (empty list if the payload is malformed).
-        """
-        resp = self._get("/models")
-        models = resp.json().get("models", [])
-        return models if isinstance(models, list) else []
-
-    def list_model_ids(self) -> list[str]:
-        """Convenience: just the model ids from the gateway registry."""
-        return [m["id"] for m in self.list_models() if isinstance(m, dict) and "id" in m]
-
-    def health_check(self) -> dict:
-        """Return gateway health (HealthResponse: status, version, model_count,
-        resident_models, engines)."""
-        resp = self._get("/health")
-        return resp.json()
-
-    # ── internals ────────────────────────────────────────────────────────────
-
-    def _prepare_files(
-        self, image: Path | bytes | io.BytesIO
-    ) -> dict[str | tuple[str, bytes, str]]:
-        if isinstance(image, Path):
-            with open(image, "rb") as fh:
-                data = fh.read()
-            return {"image": (image.name, data, "application/octet-stream")}
-
-        if isinstance(image, bytes):
-            return {"image": ("image", image, "application/octet-stream")}
-
-        # Already a BytesIO — grab raw bytes
-        image.seek(0)
-        return {"image": ("image", image.read(), "application/octet-stream")}
-
-    def _get(self, path: str) -> httpx.Response:
-        assert self._client is not None
-        try:
-            resp = self._client.get(path)
-        except httpx.RequestError as exc:
-            raise KrakenClientError(
-                f"Kraken service unreachable at {self.base_url}{path}: {exc}"
-            ) from exc
-        return self._check(resp, path)
-
-    def _post(
-        self,
-        path: str,
-        files: dict,
-        data: Optional[dict] = None,
-    ) -> httpx.Response:
-        assert self._client is not None
-        try:
-            resp = self._client.post(path, files=files, data=data)
-        except httpx.RequestError as exc:
-            raise KrakenClientError(
-                f"Kraken service error at {self.base_url}{path}: {exc}"
-            ) from exc
-        return self._check(resp, path)
-
-    def _check(self, resp: httpx.Response, path: str) -> httpx.Response:
-        """Surface gateway 4xx/5xx as KrakenClientError instead of letting an
-        error body (e.g. a 422 validation payload) be silently parsed as an empty
-        OCR result."""
-        if resp.status_code >= 400:
-            raise KrakenClientError(
-                f"Kraken service {resp.status_code} at {self.base_url}{path}: "
-                f"{resp.text[:400]}",
-                status_code=resp.status_code,
-            )
-        return resp
-
-
-# ── result dataclass ──────────────────────────────────────────────────────────
-
-from dataclasses import dataclass, field
-
-
-@dataclass
-class KrakenResult:
-    """Result of a remote kraken HTR/OCR call.
-
-    The first four fields are the legacy ``/ocr`` shape and every existing caller
-    reads only those. The rest are what ``/recognize`` additionally returns; they
-    default to empty, so a result built from an ``/ocr`` response is unchanged and
-    no caller has to learn about them to keep working.
-    """
-
-    text: str
-    confidence: float
-    model_used: str
-    service_version: str = "?"
-    #: Per-line readings as the gateway returned them (order, baseline/bbox, text,
-    #: confidence). Empty for the page-level engines that never expose lines.
-    lines: list[dict] = field(default_factory=list)
-    #: Which engine answered ("kraken" | "trocr" | "party" | "vllm"), as reported
-    #: by the gateway — not inferred from the model id.
-    engine: str = ""
-    #: What produced the line geometry, when the engine did not segment itself.
-    segmented_by: str | None = None
-    #: Gateway-measured duration of the recognition, in milliseconds. ``None``
-    #: when the gateway did not report one — **not** ``0``. Zero milliseconds is
-    #: not a measurement, and it read as one: every recognition in the missiven
-    #: run of 2026-10-09 carried ``timing_ms: 0``, including an 824-character VLM
-    #: call that certainly took seconds (#595).
-    timing_ms: int | None = None
-    #: The model stopped at its token ceiling rather than at the end of the text,
-    #: so this reading is cut off. False also when the gateway cannot tell — see
-    #: serving-atr-inference#123; absence of the signal is not evidence of one.
-    truncated: bool = False
-    #: Party's reading of the same image, attached by the gateway to every
-    #: non-party result. ``None`` when it is switched off or party *is* the engine.
-    second_opinion: dict | None = None
-
-
-
-def _timing_of(data: dict) -> int | None:
-    """The gateway's ``timing_ms``, or ``None`` when it did not send one.
-
-    ``int(data.get("timing_ms") or 0)`` made absence indistinguishable from an
-    instant answer, and it also swallowed a reported ``0`` — which a gateway can
-    legitimately send and which then meant the same thing as silence. Both are
-    now distinct from each other and from a real duration.
-    """
-    raw = data.get("timing_ms")
-    if raw is None:
-        return None
-    try:
-        return int(raw)
-    except (TypeError, ValueError):
-        # A gateway that sends something unparsable has not measured anything we
-        # can use. Saying "unmeasured" is true; saying "0 ms" is not.
-        return None
-
-# ── exceptions ───────────────────────────────────────────────────────────────
-
-class KrakenClientError(Exception):
-    """Raised when the kraken HTTP service returns an error or is unreachable.
-
-    ``status_code`` is the gateway's HTTP status, or ``None`` when the request
-    never got an answer (unreachable host, connection reset, timeout). The
-    distinction matters to anything that retries: ``None`` and 5xx are worth
-    trying again, 404 (unknown model) and 401/403 will fail identically for ever,
-    and retrying them just delays the report that says so. Parsing the status back
-    out of the message would work until someone reworded the message.
-    """
-
-    def __init__(self, message: str, status_code: Optional[int] = None) -> None:
-        super().__init__(message)
-        self.status_code = status_code
-
-
-# ── convenience helper ───────────────────────────────────────────────────────
 
 def kraken_transcribe(
     image: Path | bytes | io.BytesIO,
     model: str,
     seg_mode: str = "baseline",
     service_url: Optional[str] = None,
-) -> KrakenResult:
-    """
-    One‑shot ``KrakenHTTPClient`` context manager helper.
-
-    Usage::
-
-        result = kraken_transcribe(Path("page.tif"), "10.5281/zenodo.7516057")
-        print(result.text, result.confidence)
-    """
-    url = service_url or config.ATR_GATEWAY_URL
-    with KrakenHTTPClient(base_url=url) as client:
+) -> AtrResult:
+    """One-shot ``KrakenHTTPClient`` helper (``/ocr``)."""
+    with KrakenHTTPClient(base_url=service_url or config.ATR_GATEWAY_URL) as client:
         return client.transcribe(image, model=model, seg_mode=seg_mode)
