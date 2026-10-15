@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 import time
 from pathlib import Path
@@ -389,6 +390,9 @@ def cmd_xml(args) -> int:
 
 def cmd_upload(args) -> int:
     root = out_root(args)
+    plan = _load(root / "plan.json") or {}
+    if plan.get("eval"):
+        raise SystemExit("this is an eval run: its pages are already transcribed, nothing is uploaded")
     collection, pages = _planned(root, args)
     ready = [p for p in pages if (page_dir(root, p) / "page.xml").exists()]
     todo = [p for p in ready if not (page_dir(root, p) / "uploaded.json").exists() or args.force]
@@ -418,6 +422,92 @@ def cmd_upload(args) -> int:
         logger.info(f"[ruemlang] {p.key}: uploaded")
     print(f"uploaded {ok}/{len(todo)} page(s)")
     return 0 if ok == len(todo) else 1
+
+
+# ── eval ─────────────────────────────────────────────────────────────────────
+
+def _cer(ref: str, hyp: str) -> Optional[float]:
+    from rapidfuzz.distance import Levenshtein
+    ref = re.sub(r"\s+", " ", ref).strip()
+    hyp = re.sub(r"\s+", " ", hyp).strip()
+    if not ref:
+        return None
+    return Levenshtein.distance(ref, hyp) / len(ref)
+
+
+def cmd_eval(args) -> int:
+    """Measure, on pages a human has transcribed, what each model and the
+    arbitrated result get wrong: CER against the Transkribus text.
+
+    Runs in its own directory (``<out>/eval``) with its own plan, so nothing
+    here is ever uploaded: the plan carries ``eval: true`` and ``upload``
+    refuses it. The question it answers is the one the project's own notes
+    raise — fusion was measured losing to the best single engine where one
+    dominates — and without this number the arbiter is a belief.
+    """
+    root = out_root(args) / "eval"
+    root.mkdir(exist_ok=True)
+    ts = _login()
+    col = tp.find_collection(ts, args.collection)
+    docs = [int(d) for d in args.doc] if args.doc else None
+    pages = tp.collection_pages(ts, int(col["colId"]), docs=docs)
+    chosen = _page_selection(args.pages)
+    gt_pages = [p for p in pages if p.nr_transcribed_lines > 0 and p.nr_words > 0
+                and (chosen is None or p.page_nr in chosen)]
+    if args.limit:
+        gt_pages = gt_pages[:args.limit]
+    if not gt_pages:
+        print("no transcribed pages in the selection")
+        return 1
+    plan = {"collection": {"colId": col.get("colId"), "colName": col.get("colName")},
+            "eval": True, "pages": [p.to_dict() for p in gt_pages]}
+    _save(root / "plan.json", plan)
+    for p in gt_pages:
+        d = page_dir(root, p)
+        _save(d / "page.json", p.to_dict())
+        gt = d / "gt.xml"
+        if not gt.exists():
+            xml = tp.download_pagexml(ts, p)
+            if xml:
+                gt.write_text(xml, encoding="utf-8")
+    print(f"eval set: {len(gt_pages)} transcribed page(s): {[p.page_nr for p in gt_pages]}")
+    sub = argparse.Namespace(**vars(args))
+    sub.out = str(root); sub.pages = None; sub.limit = None
+    cmd_recognize(sub)
+    cmd_adjudicate(sub)
+
+    rows = []
+    totals: dict[str, list[float]] = {}
+    for p in gt_pages:
+        d = page_dir(root, p)
+        gt = d / "gt.xml"
+        adj = _load(d / "adjudicated.json")
+        if not gt.exists() or not adj:
+            continue
+        gt_text = "\n".join(l["text"] for l in pagexml.parse_lines(gt.read_text(encoding="utf-8")) if l["text"])
+        hyps = {
+            "A": "\n".join((ln.get("text") or "") for ln in (_load(d / f"rec_{args.line_model}.json") or {}).get("lines", [])),
+            "B": "\n".join((ln.get("text") or "") for ln in (_load(d / f"rec_{args.trocr_model}.json") or {}).get("lines", [])),
+            "C": (_load(d / f"rec_{args.page_model}.json") or {}).get("text", ""),
+            "fused": "\n".join(x["text"] for x in adj["decisions"]),
+        }
+        row = {"page": p.page_nr, "gt_chars": len(gt_text)}
+        for k, h in hyps.items():
+            c = _cer(gt_text, h)
+            row[k] = c
+            if c is not None and h:
+                totals.setdefault(k, []).append(c)
+        row["summary"] = adj.get("summary")
+        rows.append(row)
+    _save(root / "eval.json", rows)
+    print(f"\n{'page':>5} {'gt':>5} {'A':>6} {'B':>6} {'C':>6} {'fused':>6}  decisions")
+    for r in rows:
+        f = lambda v: "   —  " if v is None else f"{v:6.3f}"
+        print(f"{r['page']:>5} {r['gt_chars']:>5} {f(r['A'])} {f(r['B'])} {f(r['C'])} {f(r['fused'])}  {r['summary']}")
+    print("mean " + " ".join(f"{k}={sum(v)/len(v):.3f}" for k, v in totals.items() if v))
+    print(f"table: {root / 'eval.json'} — CER = Levenshtein / len(GT) on whitespace-collapsed page text; "
+          "lower is better; the line order is the segmenter's on both sides")
+    return 0
 
 
 def cmd_run(args) -> int:
@@ -500,6 +590,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("upload", help="post each PAGE XML to its Transkribus page", parents=[shared])
     _up_args(p); p.set_defaults(func=cmd_upload)
+
+    p = sub.add_parser("eval", help="CER of A, B, C and the arbitrated text against pages "
+                                    "a human has transcribed; uploads nothing", parents=[shared])
+    _plan_args(p); p.add_argument("--timeout", type=float, default=600.0)
+    p.add_argument("--give-up", type=int, default=3)
+    _adj_args(p); p.set_defaults(func=cmd_eval)
 
     p = sub.add_parser("run", help="all steps in order; --dry-run plans, reads, adjudicates "
                                    "and builds XML, but posts nothing", parents=[shared])

@@ -397,3 +397,17 @@ def test_build_cases_pairs_page_model_against_trocr_when_line_model_is_missing()
     assert meta["passage"] is not None and meta["lines_with_print"] == 3
     decisions = adjudicate.decide_page(cases, None, primary="B")
     assert [d.basis for d in decisions] == ["no_llm:B", "consensus", "no_llm:B"]
+
+
+def test_cer_and_eval_guard(tmp_path):
+    from ruemlang import pipeline
+    assert pipeline._cer("abc def", "abc  def") == 0.0
+    assert pipeline._cer("abcd", "abxd") == 0.25
+    assert pipeline._cer("", "x") is None
+    root = tmp_path / "r"; root.mkdir()
+    (root / "plan.json").write_text('{"eval": true, "collection": {}, "pages": []}', encoding="utf-8")
+    args = pipeline.build_parser().parse_args(["--out", str(root), "upload", "--dry-run"])
+    with pytest.raises(SystemExit, match="eval run"):
+        pipeline.cmd_upload(args)
+    args = pipeline.build_parser().parse_args(["eval", "--pages", "12-14", "--limit", "2"])
+    assert args.command == "eval" and args.limit == 2
