@@ -199,6 +199,10 @@ def test_limit_nimmt_die_ersten_dokumente_und_nur_ihre_entitaeten(tmp_path):
 def test_das_datum_wird_nicht_erfunden():
     assert dodis._date_bounds("12.6.1967", 1967) == ("1967-06-12", "1967-06-12")
     assert dodis._date_bounds("7.1955", 1955) == ("1955-07-01", "1955-07-31")
+    # Der Monat endet, wo der Kalender endet — der Vollbau hat «2.1955» als
+    # 29. Februar geschrieben, und rdflib hat es abgewiesen.
+    assert dodis._date_bounds("2.1955", 1955) == ("1955-02-01", "1955-02-28")
+    assert dodis._date_bounds("2.1956", 1956) == ("1956-02-01", "1956-02-29")
     assert dodis._date_bounds("1955", None) == ("1955-01-01", "1955-12-31")
     assert dodis._date_bounds("ca. 1950er", None) == (None, None)
     # Ein unmöglicher Tag wird nicht zu einem unmöglichen xsd:date — das Jahr bleibt.

@@ -22,6 +22,7 @@ E55 über P129. Eine Kante auf eine Id ohne Datensatz wird gezählt
 from __future__ import annotations
 
 import argparse
+import calendar
 import re
 from datetime import date
 import sqlite3
@@ -65,7 +66,10 @@ def _date_bounds(doc_date: Optional[str], year: Optional[int]) -> tuple[Optional
     if m:
         mo, y = int(m.group(1)), int(m.group(2))
         if 1 <= mo <= 12:
-            last = {1: 31, 2: 29, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}[mo]
+            # calendar, nicht eine Tabelle: «2.1955» endete mit einer Tabelle am
+            # 29. Februar 1955 — ein Datum, das rdflib beim Vollbau zweimal
+            # abgewiesen hat (ValueError: day is out of range for month).
+            last = calendar.monthrange(y, mo)[1]
             return f"{y:04d}-{mo:02d}-01", f"{y:04d}-{mo:02d}-{last:02d}"
     m = _Y.match(s)
     if m:
