@@ -354,9 +354,11 @@ _AUTHORITY_COVERAGE = CannedQuery(
   # E42 only: names are P1_is_identified_by as well (E41, typed std/orig in
   # the Bestandsgraph), and a name's kind is not an identifier's source —
   # measured on the real builds: 13 957 «orig» and 3 344 «std» rows before.
+  # As FILTER EXISTS, not as a type triple in the pattern: on 3.7 M triples
+  # Oxigraph answers this form in 3.6 s and the triple form not within 240 s.
   OPTIONAL {{ ?entity cidoc-crm:P1_is_identified_by ?idNode .
-             ?idNode a cidoc-crm:E42_Identifier ;
-                     cidoc-crm:P2_has_type ?localType .
+             ?idNode cidoc-crm:P2_has_type ?localType .
+             FILTER EXISTS {{ ?idNode a cidoc-crm:E42_Identifier }}
              OPTIONAL {{ ?localType rdfs:label ?localTypeLabel }}
              BIND(COALESCE(?localTypeLabel, ?localType) AS ?localSource) }}
   # The authority is read off the URI it points at, because that is where the
