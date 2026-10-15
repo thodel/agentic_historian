@@ -110,11 +110,18 @@ def test_der_graph_ist_valide_mit_shacl(built):
     assert rep.validation["shacl"] is True
 
 
-def test_zweimal_gebaut_ist_byteidentisch(tmp_path):
+def test_zweimal_gebaut_ist_byteidentisch_bis_auf_die_bauzeit(tmp_path):
+    """Alles ausser den zwei Zeitstempeln der prov:Activity — die sagen, wann
+    gebaut wurde, und sollen sich unterscheiden. Auf idhefix gemessen: der
+    zweite Vollbau unterschied sich vom ersten in genau diesen Zeilen (und in
+    den zwei korrigierten Februar-Daten)."""
     db = _db(tmp_path)
     a = tmp_path / "a.nt"; b = tmp_path / "b.nt"
     dodis.export(db, a); dodis.export(db, b)
-    assert a.read_bytes() == b.read_bytes()
+    strip = lambda p: [l for l in p.read_text(encoding="utf-8").splitlines()  # noqa: E731
+                       if "prov#startedAtTime" not in l and "prov#endedAtTime" not in l]
+    assert strip(a) == strip(b)
+    assert len(strip(a)) == len(a.read_text(encoding="utf-8").splitlines()) - 2
 
 
 # ── Das Mapping im Einzelnen ────────────────────────────────────────────────

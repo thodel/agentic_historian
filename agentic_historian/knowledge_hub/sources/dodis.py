@@ -81,14 +81,15 @@ def _date_bounds(doc_date: Optional[str], year: Optional[int]) -> tuple[Optional
 
 
 def export(db: Path, out: Path, *, limit: Optional[int] = None,
-           validate: bool = False, shacl: bool = False) -> ExportReport:
+           validate: bool = False, shacl: bool = False,
+           commit: Optional[str] = None) -> ExportReport:
     t0 = time.monotonic()
     con = sqlite3.connect(f"file:{db}?mode=ro", uri=True)
     con.row_factory = sqlite3.Row
     q = con.execute
     b = bg.Build(DATASET)
     rep = ExportReport(source="dodis", built_at=now(), db=str(db), destination=str(out),
-                       commit=git_commit())
+                       commit=commit or git_commit())
     counts = {"documents": 0, "persons": 0, "places": 0, "topics": 0,
               "mentions_person": 0, "authors": 0, "roles": 0,
               "mentions_place": 0, "about": 0}
@@ -241,8 +242,11 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--limit", type=int, default=None, help="nur die ersten n Dokumente")
     ap.add_argument("--validate", action="store_true", help="KG-6-Prüfung (ohne SHACL) mitlaufen lassen")
     ap.add_argument("--shacl", action="store_true", help="auch SHACL — nur für kleine Graphen")
+    ap.add_argument("--commit", default=None,
+                    help="der Commit, der gebaut hat — wo das Paket ohne Git-Checkout läuft (idhefix)")
     args = ap.parse_args(argv)
-    rep = export(args.db, args.out, limit=args.limit, validate=args.validate, shacl=args.shacl)
+    rep = export(args.db, args.out, limit=args.limit, validate=args.validate, shacl=args.shacl,
+                 commit=args.commit)
     print(rep.render())
     return 0 if (not args.validate or rep.validation.get("ok")) else 1
 
