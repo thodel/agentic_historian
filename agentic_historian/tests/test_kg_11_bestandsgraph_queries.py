@@ -121,6 +121,19 @@ def test_authority_coverage_reads_the_bestandsgraph_identifier_source(bestand):
     assert not any(s.startswith("http") for s in sources)
 
 
+def test_a_name_kind_is_not_an_identifier_source():
+    """E41 names hang on P1 as well, typed std/orig; only an E42 is an id."""
+    b = bg.Build(bg.Dataset("ssrq", "SSRQ", "test"))
+    d = b.document("D", "D")
+    p = b.person("per1", "Hans Bürgi")
+    b.name(p, "Hans Burgi", kind="orig", key="per1-orig")
+    b.mention(d, p)
+    rows = _rows(b.g, "authority-coverage")
+    assert [r["source"] for r in rows] == ["unlinked"]
+    b.identifier(p, "ssrq", "per000001")
+    assert [r["source"] for r in _rows(b.g, "authority-coverage")] == ["ssrq"]
+
+
 def test_authority_coverage_still_works_over_the_corpus_graph(corpus):
     rows = _rows(corpus, "authority-coverage")
     assert {r["source"] for r in rows} & {"gnd", "unlinked"}

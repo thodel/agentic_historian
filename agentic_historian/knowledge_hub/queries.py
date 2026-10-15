@@ -351,8 +351,12 @@ _AUTHORITY_COVERAGE = CannedQuery(
   # The local id's source is a literal in the corpus graph and an E55 with a
   # label in the Bestandsgraph (KG-6: identifier-source types); the label is
   # taken where there is one, the term itself otherwise.
+  # E42 only: names are P1_is_identified_by as well (E41, typed std/orig in
+  # the Bestandsgraph), and a name's kind is not an identifier's source —
+  # measured on the real builds: 13 957 «orig» and 3 344 «std» rows before.
   OPTIONAL {{ ?entity cidoc-crm:P1_is_identified_by ?idNode .
-             ?idNode cidoc-crm:P2_has_type ?localType .
+             ?idNode a cidoc-crm:E42_Identifier ;
+                     cidoc-crm:P2_has_type ?localType .
              OPTIONAL {{ ?localType rdfs:label ?localTypeLabel }}
              BIND(COALESCE(?localTypeLabel, ?localType) AS ?localSource) }}
   # The authority is read off the URI it points at, because that is where the
