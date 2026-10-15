@@ -11,6 +11,9 @@ Keeping the three apart matters: an experiment that also argues for code changes
 tends to get read as advocacy, and a pipeline that cites its own benchmark tends
 to stop questioning it.
 
+Entity **linking** has its own instrument, with its own gold and its own
+boundary: [LINKING_EVALUATION.md](LINKING_EVALUATION.md).
+
 ## What it measures
 
 `score_model(lines, recognise, model, engine)` runs one recogniser over a set of

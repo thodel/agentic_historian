@@ -51,12 +51,32 @@ def fetch_candidates(text: str, k: int = 3) -> list[ResolvedEntity]:
     return resp.entities[:k]
 
 
+def candidate_ids(candidate: ResolvedEntity) -> list[str]:
+    """The system-qualified ids a candidate carries (``gnd:…``, ``hls:…``,
+    ``wikidata:…``) — the form `eval.linking` judges pairs in."""
+    ids = []
+    if candidate.gnd_id:
+        ids.append(f"gnd:{candidate.gnd_id}")
+    if candidate.hls_id:
+        ids.append(f"hls:{candidate.hls_id}")
+    if candidate.wikidata_id:
+        ids.append(f"wikidata:{candidate.wikidata_id}")
+    return ids
+
+
 def build_review_items(entities: list[dict]) -> list[dict]:
-    """[{entity, candidates}] for the entities that need review."""
+    """[{entity, candidates}] for the entities that need review.
+
+    The offered candidates' ids are written onto the entity
+    (``offered_candidates``), so a later evaluation can tell "the right record
+    was offered and not chosen" from "it was never a candidate" (outremer #89).
+    """
     items = []
     for ent in select_review_entities(entities):
         text = (ent.get("normalised") or ent.get("text") or "").strip()
-        items.append({"entity": ent, "candidates": fetch_candidates(text)})
+        candidates = fetch_candidates(text)
+        ent["offered_candidates"] = [pid for c in candidates for pid in candidate_ids(c)]
+        items.append({"entity": ent, "candidates": candidates})
     return items
 
 
@@ -97,12 +117,27 @@ def write_variant(ent: dict, candidate: Optional[ResolvedEntity]) -> None:
         _write_variant(hub.find_place, hub.add_place, candidate, observed)
 
 
+_PIPELINE_LINK_FIELDS = ("hub_id", "gnd", "hls", "wikidata", "hub_confidence",
+                         "link_method", "mcp_sources")
+HUMAN_METHODS = {"human_confirmed", "human_none"}
+
+
 def apply_entity_link(ent: dict, candidate: Optional[ResolvedEntity]) -> None:
     """Set (or clear) the authority link on an entity from a human choice, and —
-    on a confirmed link — write the observed spelling back to the hub (#152)."""
+    on a confirmed link — write the observed spelling back to the hub (#152).
+
+    Before the human choice overwrites the link, the pipeline's own proposal is
+    stashed once as ``pipeline_link``: a decision that destroys the prediction
+    it judged cannot become regression gold (outremer #89, `eval.linking`).
+    "kein Link" records the offered candidates as ``rejected_candidates`` — the
+    historian declined those, and said nothing about any other record.
+    """
+    if "pipeline_link" not in ent and ent.get("link_method") not in HUMAN_METHODS:
+        ent["pipeline_link"] = {k: ent.get(k) for k in _PIPELINE_LINK_FIELDS if k in ent}
     if candidate is None:                       # "kein Link"
         ent["link_method"] = "human_none"
         ent["hub_confidence"] = "unverified"
+        ent["rejected_candidates"] = list(ent.get("offered_candidates") or [])
         return
     ent["gnd"] = candidate.gnd_id or ""
     ent["hls"] = candidate.hls_id or ""
@@ -162,7 +197,11 @@ def build_view(state: RunState, review_items: list[dict], runners: Optional[dict
                          else self.item["candidates"][int(val)])
             apply_entity_link(self.item["entity"], candidate)
             state.gate_decisions.setdefault("entity_links", []).append(
-                {"text": self.item["entity"].get("text"), "value": val})
+                {"text": self.item["entity"].get("text"), "value": val,
+                 # ids, not positions: a position means nothing once the
+                 # candidate list is gone (outremer #89)
+                 "chosen": candidate_ids(candidate) if candidate else [],
+                 "offered": list(self.item["entity"].get("offered_candidates") or [])})
             state.invalidate("entity_link", value=val,
                              user=state.gate_decisions.get("user"))
             state.save()
