@@ -173,6 +173,26 @@ Geometrie aus TrOCR (gleiche kraken-Segmentierung) und sagt das in
 `meta.geometry_from` und in `<Comments>`. Ein erneutes `recognize` liest nur
 nach, was fehlt — die drei TrOCR-Ergebnisse bleiben.
 
+### Zweiter Lauf, 14:24, party gestoppt (17.8 GiB frei)
+
+Seitenmodell startet (vLLM: 8.82 GiB Gewichte, 1.9 GiB Aktivierung, 4.39 GiB KV
+bei utilisation 0.34) und liest drei Seiten in 85 / 7 / 15 s. Das **Zeilenmodell
+scheitert weiter**, und das Journal sagt genau woran: für `max_model_len` 16384
+braucht es 2.25 GiB KV-Cache, übrig sind 1.78 GiB; „estimated maximum model length
+is 12944“. Qwen3-VL-4B hat mehr Gewicht und Vision-Aktivierung als Qwen3.5-4B,
+und der Gateway vergibt nur, was nach Reserve frei ist. Kein Modellfehler.
+
+Abhilfe auf idhefix, in `~/Repo/serving-atr-inference/.env`:
+`ATR_VLLM_MAX_MODEL_LEN=8192`, dann `systemctl --user restart atr-gateway`.
+Gefahrlos, weil Bilder ohnehin auf das Trainingsbudget skaliert werden (Seite
+2048 visuelle Tokens, Zeile 262 144 px) und die Ausgabe einer Seite weit unter
+dem Rest bleibt; 8192 halbiert nur den KV-Bedarf. Wer 16384 behalten will,
+braucht ~3 GiB mehr auf der Karte.
+
+Die Adjudikation des Laufs war wertlos — 117 × `single` — weil das Seitenmodell
+gegen die leeren Zeilen des fehlenden Zeilenmodells aligniert wurde; behoben in
+dc33505 (Anker = A, sonst B). `adjudicate --force` rechnet neu.
+
 ## Noch offen
 
 1. **Teilweise transkribierte Seiten** (9–11, 60, 100–103, 107): haben Zeilen *mit*
