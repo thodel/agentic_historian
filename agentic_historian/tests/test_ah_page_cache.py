@@ -80,7 +80,10 @@ def test_cache_mirrors_the_share_structure(share, tmp_path):
     b, _ = cache.fetch(share / "letter-0002" / "001.png")
 
     assert a != b                            # same filename, different letters
-    assert a.relative_to(tmp_path / "cache").parts[0] == "letter-0001"
+    # One directory for the corpus root (#663), the share's own shape beneath it.
+    parts = a.relative_to(tmp_path / "cache").parts
+    assert parts[0] == cache.root_tag
+    assert parts[1] == "letter-0001"
 
 
 def test_a_file_already_compressed_is_copied_not_re_encoded(tmp_path):

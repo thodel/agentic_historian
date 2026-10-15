@@ -22,6 +22,7 @@ import hashlib
 import io
 import json
 import os
+import re
 from pathlib import Path
 from typing import Optional
 
@@ -284,6 +285,19 @@ def cold_fetch(dest: Path, cache_dir: Path, accepts, *,
     return record
 
 
+def _root_tag(root: Path) -> str:
+    """A unique, readable directory name for one corpus root (#663).
+
+    ``<basename>-<12 hex of the sha256 of the absolute path>``. The basename so
+    a person can see at a glance whose working copies these are; the digest
+    because two corpora may end in folders of the same name, and because a
+    path is not a safe directory component.
+    """
+    digest = hashlib.sha256(str(root).encode("utf-8")).hexdigest()[:12]
+    safe = re.sub(r"[^A-Za-z0-9._-]", "_", root.name) or "root"
+    return f"{safe}-{digest}"
+
+
 class PageCache:
     """Local working copies of pages that live somewhere expensive to read.
 
@@ -295,9 +309,21 @@ class PageCache:
 
     So a page is fetched once, converted to its JPEG working copy (about 0.7 MB
     at full resolution), and every later read — this model's retry, the next
-    model's pass, next week's re-run — is a local file. The cache is keyed by the
-    page's path relative to the corpus root, so it mirrors the share's structure
-    and two shares cannot collide in one cache directory.
+    model's pass, next week's re-run — is a local file.
+
+    **The key is the corpus root plus the page's path relative to it** (#663).
+    It used to be the relative path alone, with a docstring here claiming that
+    "two shares cannot collide in one cache directory". That was true only when
+    the root was a whole share, where the relative path keeps the folder
+    structure. Point the runner at a *single document folder* and the relative
+    path collapses to the file's own name — and on 2026-10-14 four batches over
+    four manuscripts of the Berner Disputation, each numbering its pages
+    ``page_N.jpg``, shared one default cache directory. The first filled it; the
+    next three read it back. Three runs transcribed the wrong manuscript, every
+    one of them reporting success, and only the recorded ``sha256`` of each
+    source file showed it.
+
+    So the root is in the path now, and the claim above is one the code keeps.
 
     Like the rest of the runner, its state is what is on disk: a cached copy with
     its sidecar is a hit, anything else is a miss. Nothing needs to be reconciled
@@ -309,6 +335,11 @@ class PageCache:
                  quality: int = WORKING_QUALITY) -> None:
         self.root = Path(root).resolve()
         self.cache_dir = Path(cache_dir).resolve()
+        #: The corpus root, folded into every cache path. The readable half is
+        #: for whoever has to look in the directory; the digest is what makes
+        #: it unique, because two corpora can perfectly well end in a folder of
+        #: the same name.
+        self.root_tag = _root_tag(self.root)
         self.quality = quality
         self.hits = 0
         #: Served by the cold tier on the share (#487). Counted apart from
@@ -326,9 +357,12 @@ class PageCache:
         answer one page rather than the container: ``letter.pdf`` with page 2 is
         ``letter_p0003.jpg``. The pages of one PDF therefore sit beside each
         other in the cache the way a folder of scans does.
+
+        **The corpus root is part of the key** (:attr:`root_tag`), and that is
+        not decoration — see the class docstring for the run it cost.
         """
         rel = Path(src).resolve().relative_to(self.root)
-        dest = self.cache_dir / rel
+        dest = self.cache_dir / self.root_tag / rel
         if pdf_page is not None:
             return pdf_page_path(dest, pdf_page)
         return working_path(dest) if needs_conversion(dest) else dest
@@ -344,13 +378,34 @@ class PageCache:
         index is compared for the same reason; a sidecar written before PDFs were
         rendered carries no ``pdf_page`` and so reads as None, which is what a
         plain image is, so no existing cache entry is invalidated.
+
+        **The size is compared too** (#663), and it is deliberately a second net
+        rather than the first. What makes a cross-corpus collision impossible is
+        the root in the key; size is what catches a file replaced in place under
+        a name the cache already holds. It is compared and not the ``sha256``
+        because a digest would mean reading the original — the one cost this
+        whole class exists to avoid. ``stat`` is free; equal size and equal name
+        is not identity, and this does not pretend otherwise.
         """
         src = Path(src)
         dest = self.path_for(src, pdf_page)
         side = dest.with_name(dest.name + SIDECAR_SUFFIX)
+        try:
+            src_bytes: Optional[int] = src.stat().st_size
+        except OSError:
+            src_bytes = None
+
         def accepts(candidate: dict) -> bool:
-            return (candidate.get("name") == src.name
-                    and candidate.get("pdf_page") == pdf_page)
+            if (candidate.get("name") != src.name
+                    or candidate.get("pdf_page") != pdf_page):
+                return False
+            # A PDF page's record carries the digest and size of the whole
+            # container, not of the rendered page, so the size that matters is
+            # still the source file's.
+            known = candidate.get("bytes")
+            if src_bytes is None or known is None:
+                return True        # nothing to compare; the name is all there is
+            return known == src_bytes
 
         record = _read_sidecar(side)
         if record and accepts(record) and dest.exists():
