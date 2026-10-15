@@ -20,6 +20,9 @@ tenacity>=8.2.0
 # path runs, which on tei meant the pull, not the start-up.
 Pillow>=10.0.0
 rdflib>=6.0.0
+# Die SHACL-Prüfung des Bestandsgraphen (KG-6, #650) läuft im Bau, und der Bau
+# läuft dort, wo QLever steht — nicht nur in den Tests. Reines Python auf rdflib.
+pyshacl>=0.30
 webdav4>=0.11.0   # SwitchDrive (WebDAV) ingestion — utils/switchdrive.py (/pull)
 numpy>=1.24.0   # semantic.py (#28): embeddings clustering
 

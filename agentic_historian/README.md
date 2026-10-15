@@ -22,6 +22,10 @@ knowledge_hub/
   mcp_registry.py       — declarative registry of the KH MCP sources (see docs/knowledge_hub.md)
   hub.py                — controlled vocabulary + thin cache (authority data via MCP federation)
   rdf_export.py         — CIDOC-CRM RDF/Turtle export (toward the QLEVER triple-store, WP4)
+  bestandsgraph.py      — Bausteine des Bestandsgraphen (Dodis, SSRQ, KF): Dokument, Person, Ort,
+                          Gruppe, Erwähnung, Beziehung — nur Begriffe aus ontology/registry (KG-6)
+  ontology/             — das Vokabular, von OntoMe verwaltet: Schnappschüsse der Profile (ontome.py),
+                          CIDOC-RDFS (crm.py), Register (registry.py), Prüfung (validate.py, shapes.ttl)
 utils/
   gpustack_client.py    — single GPUStack (OpenAI-compatible) client
   mcp_client.py         — async client over the KH MCP federation (PersonResult contract)

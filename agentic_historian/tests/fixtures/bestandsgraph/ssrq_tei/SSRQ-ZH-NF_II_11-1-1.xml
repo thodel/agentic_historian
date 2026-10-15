@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://www.ssrq-sds-fds.ch/tei/TEI_Schema_SSRQ.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://www.ssrq-sds-fds.ch/tei/TEI_Schema_SSRQ.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!---->
+<TEI  xmlns="http://www.tei-c.org/ns/1.0" xmlns:ssrq="http://ssrq-sds-fds.ch/ns/nonTEI"  xml:lang="de">
+<teiHeader>
+<fileDesc>
+<titleStmt>
+<title>I. Abteilung: Die Rechtsquellen des Kantons Zürich, Neue Folge, Zweiter Teil: Rechte der Landschaft, Band 11: Die Obervogteien um die Stadt Zürich</title><editor>
+    <persName>Ariane Huber Hernández</persName>
+</editor>
+<editor>
+    <persName>Michael Nadig</persName>
+</editor>
+<respStmt>
+<persName>Ariane Huber Hernández</persName>
+<persName>Michael Nadig</persName>
+<resp key="transcript"/>
+</respStmt>
+<respStmt>
+<persName>Ariane Huber Hernández</persName>
+<persName>Michael Nadig</persName>
+<resp key="tagging"/>
+</respStmt></titleStmt>
+<publicationStmt><publisher>SSRQ-SDS-FDS</publisher>
+<date type="electronic" when="2022-06-28"/>
+<date type="print" when="2022-06-28"/>
+<availability><p xml:id="facs">Staatsarchiv Zürich (StAZH)</p>
+    <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</licence>
+</availability></publicationStmt>
+<seriesStmt xml:id="ssrq-sds-fds">
+<title>Sammlung Schweizerischer Rechtsquellen</title>
+<respStmt>
+<orgName>Rechtsquellenstiftung des Schweizerischen Juristenvereins</orgName>
+<resp>Herausgeberschaft</resp>
+</respStmt>
+<idno>SSRQ-ZH-NF_II_11-1-1</idno>
+</seriesStmt>
+<sourceDesc>
+<msDesc><msIdentifier><repository xml:lang="de">Staatsarchiv Zürich</repository><idno source="https://suche.staatsarchiv.djiktzh.ch/detail.aspx?ID=580123" xml:lang="de">StAZH C II 1, Nr. 141</idno></msIdentifier><head>Verzicht der Brüder Walther und Mangold von Eschenbach auf eine mit dem Meier von Höngg verheiratete Leibeigene</head><msContents><summary>Walther und Mangold von Eschenbach verzichten zugunsten des Grossmünsterstifts von Zürich auf ihre Leibeigene Mechthild, Schwester von Rudolf und Heinrich, den Meiern von Sellenbüren, und Frau des Stephan, Meier von Höngg, und deren Kinder. Als Entschädigung erhalten die Brüder von Eschenbach von Propst und Kapitel des Grossmünsters 5 Pfund. Sie geben ihre Rechte an Mechthild und deren Kindern auf zugunsten Rudolfs von Wädenswil, Chorherr des Grossmünsterstifts von Zürich, in Gegenwart genannter Zeugen.  Die Aussteller siegeln.</summary><msItem><textLang xml:lang="de"/><filiation type="current">Original</filiation></msItem></msContents><physDesc><objectDesc><supportDesc><support><material>Pergament</material></support><extent><dimensions type="leaves"><height unit="cm" quantity="16.0"/><width unit="cm" quantity="22.0"/></dimensions><dimensions type="plica"><width unit="cm" quantity="1.5"/></dimensions></extent></supportDesc></objectDesc><sealDesc><seal xmlns:nontei="http://ssrq-sds-fds.ch/ns/nonTEI" n="1" nontei:material="wax" nontei:shape="peltade" nontei:attachment="sealed on a parchment tag" nontei:condition="well-preserved"><persName>Walther von Eschenbach</persName></seal><seal xmlns:nontei="http://ssrq-sds-fds.ch/ns/nonTEI" n="2" nontei:material="wax" nontei:shape="round" nontei:attachment="sealed on a parchment tag" nontei:condition="well-preserved"><persName>Mangold von Eschenbach</persName></seal></sealDesc></physDesc><history><origin><origDate when="1309-02-27"/><origPlace ref="loc010894">Schnabelburg</origPlace></origin></history><additional><listBibl><head>Edition</head><bibl><ref target="http://permalink.snl.ch/bib/chbsg000135491">UBZH</ref>, Bd. 8, Nr. 2962</bibl></listBibl></additional></msDesc></sourceDesc>
+</fileDesc>
+<encodingDesc><editorialDecl><p><ref target="https://www.ssrq-sds-fds.ch/wiki/Transkriptionsrichtlinien"/></p></editorialDecl></encodingDesc>
+<profileDesc><textClass default="false"><keywords scheme="http://www.ssrq-sds-fds.ch/taxonomie"><term ref="key000084">Leibeigenschaft</term></keywords></textClass></profileDesc></teiHeader>
+<text>
+<group>
+<text>
+<body>
+<div>
+<pb n="1r" facs="StAZH_C_II_1__Nr__141__r_"/>
+<p><seg><lb/>Wir, her <persName role="issuer" ref="per023587">Walther</persName> und <persName role="issuer" ref="per023586">Mangolt, herren von Eschibach</persName>, gebruͦder, ku̍nden allen, die disen
+ <lb/>brief sehent oder hoͤrent, daz wir alle die rehtunge, die wir han oder untz her gegebt hant,
+ <lb/>ez si von eigenschaft oder von vogtey ald swaz rehtunge geheissen mag, gegen <persName ref="per023491">Mehthilt</persName>, <persName ref="per023493"><choice><abbr>Ruͦd</abbr><expan>Ruͦdolf</expan></choice></persName>
+<lb/>und  <persName ref="per023492"><choice><abbr>Heinr</abbr><expan>Heinrich</expan></choice></persName>, der meier von <placeName ref="loc012241">Seͣldenbu̍rron</placeName> swester, du̍ elich wirtin ist <persName ref="per023591">Stephans</persName> dez meiers
+ <lb/>von <placeName ref="loc009768">Hoͤngge</placeName>,<note>Vgl. <bibl><ref target="urn:ssrq:SSRQ-ZH-NF_II_11-2-1">SSRQ ZH NF II/11 2-1</ref></bibl>.</note> oder ze ir kinden, du̍ si jetz hat ald noch gewinnet, verkoͧffet hant dien êr<lb break="no"/>wirdigen
+ herren, dem <orgName ref="org004352">probst und dem cappittel von <placeName ref="loc000065">Zu̍rich</placeName></orgName>, ze ir gotshuses wegen umb
+<lb/><measure type="currency" unit="lb" quantity="5" origin="ZH">fu̍nf pfunt pfenninge Zu̍rich</measure> genger und gaͤber, der pfenning wir von in alleklich <choice><abbr>gewt</abbr><expan>gewert</expan></choice>
+<lb/>sîn.</seg>
+<seg>Und hein uns dar umb entzigen und entzihen uns an disem gegenwu̍rtigen brieve
+<lb/>an dez erbern herren hant, meister <persName ref="per023592">Ruͦdolfs von Wediswiler</persName>, korherren <placeName ref="loc000065">Zu̍rich</placeName>, ze dez vorgnanden
+<lb/>gotshuses wegen fu̍r uns, fu̍r unser nakomen und fu̍r unser erben aller der rehtung,
+<lb/>so wir hant oder noch gewinnen moͤhtin, ez si von eigenschaft oder swaz rehtunge gesin mag,
+<lb/>ze der vorgnanden <persName ref="per023491">Mehthilt</persName> oder ze ir kinden, du̍ si jetz hat oder noch gewinnet.</seg>
+<seg>Und daz
+<lb/>diz war si und staͤte belibe und ze einem offen urku̍nde aller dir vorgeschribnen rede, so
+<lb/>geben wir dien vorgnanden herren, dem <orgName ref="org004352">probst und dem cappittel, und ir gotshuse</orgName> disen
+<lb/>brief, besigelt mit unser beider ingesigeln, <choice><sic>offensiche</sic><corr resp="ahh">offenliche</corr></choice>.</seg>
+<seg>Diz geschach und wart dirre brief
+<lb/>gegeben ze <origPlace ref="loc010894">Snabelburg</origPlace>, do man zalte von gottes geburt <origDate when="1309-02-27">drizehenhundert jar in dem
+<lb/>nu̍nden jare, da nach an dem donrstage vor in gêndem merzen</origDate>, da ze gegni waren meister
+<lb/><persName role="testis" ref="per023593">Walther</persName>, der kilchherre von <placeName ref="loc012139">Liela</placeName>, her <persName role="testis" ref="per023588"><choice><abbr>Ruͦd</abbr><expan>Ruͦdolf</expan></choice> Goggenhuser</persName>, priester, <persName role="testis" ref="per023589">C. von Hasla</persName>, <space quantity="2" unit="cm"/>, unser
+<lb/>kelner, <persName role="testis" ref="per023590">Arnolt</persName>, dez vorgnanden gotshuses kelner, und ander erber lu̍te gnuͦge.</seg></p></div>
+<pb n="1v" facs="StAZH_C_II_1__Nr__141__v_"/>
+<div><ab type="dorsal" place="verso" hand="hand14c"><lb/>Litera <persName ref="per023591"><choice><abbr>Stephi</abbr><expan>Stephani</expan></choice></persName> villici de <placeName ref="loc009768">Hoͤngge</placeName></ab></div>
+<div><ab type="dorsal" place="verso" hand="hand14c"><lb/>T</ab></div>
+<div><ab type="dorsal" place="verso" hand="hand14c"><lb/><choice><abbr>R</abbr><expan>Registrata</expan></choice><note>Verweis auf den Kopialband <bibl><ref target="https://suche.staatsarchiv.djiktzh.ch/detail.aspx?ID=3474856">StAZH G I 96, fol. 85r-v</ref></bibl>, vgl. <bibl><ref target="urn:ssrq:SSRQ-ZH-NF_II_11-2-1">SSRQ ZH NF II/11 2-1</ref>, Anm. 11</bibl>.</note></ab></div>
+<div><ab type="dorsal" place="verso" hand="hand17c"><lb/>Anno <date when="1309">1309</date></ab></div>
+</body>
+</text>
+</group>
+</text>
+</TEI>

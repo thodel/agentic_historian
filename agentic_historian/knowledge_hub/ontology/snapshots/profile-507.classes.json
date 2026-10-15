@@ -1,0 +1,173 @@
+[
+ {
+  "ancestorClasses": [
+   1,
+   18,
+   19,
+   64,
+   66,
+   70,
+   83,
+   375,
+   380,
+   539,
+   881
+  ],
+  "classID": 21,
+  "classIdentifierInNamespace": "E21",
+  "classLabel": "Person",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises real persons who live or are assumed to have lived. Legendary figures that may have existed, such as Ulysses and King Arthur, fall into this class if the documentation refers to them as historical figures. In cases where doubt exists as to whether several persons are in fact identical, multiple instances can be created and linked to indicate their relationship. The CRM does not propose a specific form to support reasoning about possible identity.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "http://www.cidoc-crm.org/cidoc-crm/E21",
+  "entityBasicType": 8,
+  "entityBasicTypeLabel": "Persistent Item",
+  "namespaceID": 1,
+  "namespaceLabel": "CIDOC CRM version 6.2",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "crm",
+  "namespaceURI": "http://www.cidoc-crm.org/cidoc-crm/",
+  "parentClasses": [
+   20,
+   38,
+   1763
+  ],
+  "profileAssociationType": "inferred",
+  "profileID": 507,
+  "profileLabel": "Person - Birth and Death  ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   2,
+   4,
+   5,
+   83,
+   380,
+   539
+  ],
+  "classID": 61,
+  "classIdentifierInNamespace": "E67",
+  "classLabel": "Birth",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises the births of human beings. E67 Birth is a biological event focussing on the context of people coming into life. (E63 Beginning of Existence comprises the coming into life of any living beings). Twins, triplets etc. are brought into life by the same E67 Birth event. The introduction of the E67 Birth event as a documentation element allows the description of a range of family relationships in a simple model. Suitable extensions may describe more details and the complexity of motherhood with the intervention of modern medicine. In this model, the biological father is not seen as a necessary participant in the E67 Birth event.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "http://www.cidoc-crm.org/cidoc-crm/E67",
+  "entityBasicType": 9,
+  "entityBasicTypeLabel": "Temporal Entity",
+  "namespaceID": 1,
+  "namespaceLabel": "CIDOC CRM version 6.2",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "crm",
+  "namespaceURI": "http://www.cidoc-crm.org/cidoc-crm/",
+  "parentClasses": [
+   57
+  ],
+  "profileAssociationType": "selected",
+  "profileID": 507,
+  "profileLabel": "Person - Birth and Death  ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   2,
+   4,
+   5,
+   83,
+   380,
+   539
+  ],
+  "classID": 63,
+  "classIdentifierInNamespace": "E69",
+  "classLabel": "Death",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises the deaths of human beings. If a person is killed, their death should be instantiated as E69 Death and as E7 Activity. The death or perishing of other living beings should be documented using E64 End of Existence.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "http://www.cidoc-crm.org/cidoc-crm/E69",
+  "entityBasicType": 9,
+  "entityBasicTypeLabel": "Temporal Entity",
+  "namespaceID": 1,
+  "namespaceLabel": "CIDOC CRM version 6.2",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "crm",
+  "namespaceURI": "http://www.cidoc-crm.org/cidoc-crm/",
+  "parentClasses": [
+   58
+  ],
+  "profileAssociationType": "selected",
+  "profileID": 507,
+  "profileLabel": "Person - Birth and Death  ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   18,
+   64,
+   66,
+   70,
+   83,
+   375,
+   380,
+   539
+  ],
+  "classID": 363,
+  "classIdentifierInNamespace": "C13",
+  "classLabel": "Geographical Place",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises parts of the Earth's surface that can be represented by photographs, paintings or maps, and that have some coherent characteristics related to their natural features (e.g., a mountain) or to the human activities that have shaped them (e.g., a harbour). These features make them identifiable and unique. The relevant portion of the surface of the Earth can be covered by buildings, water (river, sea, ...) which are part of the identifying features. The more specific identity of instances of this class is provided by a controlled vocabulary of geographical place types.",
+  "classScopeNoteLanguage": "en",
+  "classURI": "https://sdhss.org/ontology/core/C13",
+  "entityBasicType": 8,
+  "entityBasicTypeLabel": "Persistent Item",
+  "namespaceID": 365,
+  "namespaceLabel": "SDHSS Core v1.2",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "sdh",
+  "namespaceURI": "https://sdhss.org/ontology/core/",
+  "parentClasses": [
+   25
+  ],
+  "profileAssociationType": "selected",
+  "profileID": 507,
+  "profileLabel": "Person - Birth and Death  ",
+  "profileLabelLanguage": "en"
+ },
+ {
+  "ancestorClasses": [
+   1,
+   18,
+   64,
+   65,
+   66,
+   70,
+   83,
+   375,
+   380,
+   539
+  ],
+  "classID": 441,
+  "classIdentifierInNamespace": "C17",
+  "classLabel": "Construction",
+  "classLabelLanguage": "en",
+  "classScopeNote": "This class comprises instances of man-made things such as freestanding buildings, components of buildings, and complexes of buildings, but also all man-made parts of infrastructure (roads, lamp post, dams, etc.)",
+  "classScopeNoteLanguage": "en",
+  "classURI": "https://sdhss.org/ontology/core/C17",
+  "entityBasicType": 8,
+  "entityBasicTypeLabel": "Persistent Item",
+  "namespaceID": 365,
+  "namespaceLabel": "SDHSS Core v1.2",
+  "namespaceLabelLanguage": "en",
+  "namespacePrefix": "sdh",
+  "namespaceURI": "https://sdhss.org/ontology/core/",
+  "parentClasses": [
+   23
+  ],
+  "profileAssociationType": "selected",
+  "profileID": 507,
+  "profileLabel": "Person - Birth and Death  ",
+  "profileLabelLanguage": "en"
+ }
+]
