@@ -2453,7 +2453,9 @@ async def train_publish_cmd(ctx, job_id: Option(str, "Job-Id", required=True)):
 # and says in the answer where the graph came from.
 
 _SPARQL_CHOICES = ("persons-in-care-documents", "readings-of-page",
-                   "authority-coverage", "co-occurrence")
+                   "authority-coverage", "co-occurrence",
+                   "persons-of-century-across-sources", "co-signatories",
+                   "families-and-places")
 
 
 @bot.slash_command(

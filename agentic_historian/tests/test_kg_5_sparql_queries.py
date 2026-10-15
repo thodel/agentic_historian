@@ -122,7 +122,7 @@ def test_every_canned_query_parses_and_runs(graph):
 
 
 def test_four_questions_are_offered():
-    """The acceptance: at least four substantive questions."""
+    """The acceptance: at least four substantive questions (seven since KG-11)."""
     assert len(q.names()) >= 4
     for query in q.QUERIES.values():
         assert query.question.strip()
@@ -160,6 +160,12 @@ def test_every_row_of_every_query_carries_a_document_uri(graph):
         if "document" in q.get(name).required:
             params["document"] = "care-15-a"
         answer = q.run(name, graph, **params)
+        if name in q.BESTAND_ONLY:
+            # Asks for what only the Bestandsgraph carries (a dataset per
+            # document, E13 roles, C5 memberships); on the corpus fixture the
+            # honest answer is no rows. test_kg_11 covers them on their graph.
+            assert answer.rows == [], name
+            continue
         assert answer.rows, f"{name} returned nothing on the fixture"
         for row in answer.rows:
             assert row["document"], f"{name}: a row without a document"
@@ -525,7 +531,7 @@ def test_every_prefix_a_query_uses_is_one_the_exporter_writes():
     """A query cannot use a prefix the graph was not written with."""
     import re
 
-    known = set(rx.PREFIXES)
+    known = set(q.PREFIXES)      # both exporters' tables, merged (KG-11)
     for query in q.QUERIES.values():
         used = set(re.findall(r"\b([a-z][a-z0-9-]*):[A-Za-z_]", query.body))
         # String literals in a BIND carry http(s): — not a prefix.
