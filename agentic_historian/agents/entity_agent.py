@@ -532,6 +532,14 @@ def _mcp_link(text: str) -> dict | None:
     n = set(entity_resolver._norm_name(top.name).split())
     if not q or not (q <= n or n <= q):
         return None
+    # The runners-up, as system-qualified ids: `eval.linking` needs them to
+    # tell a ranking miss from a candidate-generation miss (outremer #89).
+    candidates = []
+    for cand in resp.entities[:3]:
+        for attr, system in (("gnd_id", "gnd"), ("hls_id", "hls"), ("wikidata_id", "wikidata")):
+            value = getattr(cand, attr, None)
+            if value:
+                candidates.append(f"{system}:{value}")
     return {
         "hub_id": top.gnd_id or (str(top.hls_id) if top.hls_id else top.name),
         "gnd": top.gnd_id or "",
@@ -540,6 +548,7 @@ def _mcp_link(text: str) -> dict | None:
         "hub_confidence": top.confidence,      # high | medium | low
         "link_method": "mcp_federation",
         "mcp_sources": top.sources,
+        "candidates": candidates,
     }
 
 
