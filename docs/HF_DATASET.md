@@ -221,8 +221,9 @@ Ein Faktor, auf den sich **beide Achsen** bis auf ein Zehntel Prozent einigen,
 ist nicht die Vermutung, die dieses Modul verweigert. „Welcher von zwei Scans ist
 autoritativ" ist eine Entscheidung ohne Grundlage; „dies ist derselbe Scan in
 zwei Auflösungen" ist eine Rechnung. Also werden die Polygone durch den Faktor
-geteilt und die Seite exportiert — 16 Seiten mehr auf 241, also **+6,6 %**
-Trainingsmaterial.
+geteilt und die Seite exportiert — 16 **Dateien**, die 13 Seiten beschreiben,
+also **+5,4 %** Trainingsmaterial (§ *Gemessen, 14. Oktober* unten; die Fassung
+vor dem Lauf rechnete hier mit 16 Seiten und 6,6 %).
 
 Drei Dinge gehören dazu, und jedes verhindert einen stillen Ausfall:
 
@@ -247,13 +248,62 @@ Drei Dinge gehören dazu, und jedes verhindert einen stillen Ausfall:
 
 Der Faktor jeder Seite steht zusätzlich in der Spalte `scale` der
 Writers-Tabelle, und der Plan nennt die umgerechneten Seiten einzeln. Eine Seite
-ohne Faktor bleibt eine **Byte-Kopie** — 241 von 257 sind unangetastet, und
-„unangetastet" soll das heissen.
+ohne Faktor bleibt eine **Byte-Kopie**, und „unangetastet" soll das heissen.
 
 Die **27 Beschnitt-Seiten bleiben draussen**, und für sie ist die Frage keine
 Code-Frage: welcher Scan autoritativ ist, entscheiden Transkribus und die
 Share-Betreuer. Bei der Doppelseite und dem Querformat ist es nicht einmal eine
 Grössenfrage, sondern die, welche Aufnahme die Seite überhaupt zeigt.
+
+### Gemessen, 14. Oktober: 13 Seiten, nicht 16
+
+| | vorhergesagt | **gemessen** |
+|---|---:|---:|
+| Seiten im Export | 257 | **254** |
+| davon umgerechnet | 16 | **13** |
+| Geometrie-Abweisungen | 27 | **27** |
+| Abweisungen gesamt | 295 | **298** |
+
+254 + 298 = 552, die Zahl der bewerteten Dateien — die Tafel geht auf. Nicht
+lokalisiert 195, Duplikat **76** (war 73), Geometrie **27** (war 43).
+
+**Die 16 sind 16 Dateien und beschreiben 13 Seiten.** Die anderen drei sind
+Zweitkopien derselben Seite unter einer anderen Transkribus-Dokument-ID. Vorher
+scheiterten beide Kopien an der Geometrie und wurden dort gezählt; jetzt wird die
+erste exportiert, die zweite korrekt als Duplikat verweigert. Daher wanderte die
+Duplikat-Spalte um +3, während die Geometrie-Spalte um −16 fiel: 241 + 13 = 254,
+73 + 3 = 76, 43 − 16 = 27. Drei Spalten, die sich gegenseitig bestätigen.
+
+Die Vorhersage 257 war meine, und sie war **Dateien auf eine Zählung von Seiten
+addiert** — § *5. Files are not pages* in `LESSONS_2026-10.md`, begangen in einer
+Vorhersage über einen Bericht, der die Warnung dagegen selbst druckt. Derselbe
+Satz galt schon für „552 Ground-Truth-Seiten" (es sind 454 Seiten in 552
+Dateien). Der Gewinn ist echt und ein Fünftel kleiner als angekündigt: **13 auf
+241, also 5,4 %**.
+
+Zwei Befunde, die erst der Lauf zeigte und die Arithmetik nicht:
+
+- **Die Faktoren schwanken innerhalb eines Briefes.** Brief 2326 liefert zwei
+  Seiten mit ÷2,0978 und ÷1,6241, Brief 2921 zwei mit ÷1,9920 und ÷1,5839. Die
+  Derivate sind also nicht einmal pro Haus oder pro Brief einheitlich — der
+  letzte Nagel für die „eine Pipeline, ein Verhältnis"-Deutung oben.
+- **Sieben der 13 landen in `unbestimmt`.** Eine gerettete Seite ist meist eine
+  Folgeseite, und eine Datumszeile steht auf der ersten. Der Anteil Seiten ohne
+  benannte Hand steigt von 11,2 % auf 13,4 % (27/241 → 34/254), und eine der
+  neuen Seiten bringt einen Hand-Konflikt mit (`lassberg-letter-2921`: eine
+  Seite datiert nach Laßberg, eine nach einem Korrespondenten, also vererbt der
+  Brief nichts). **Die Rettung bringt Material für ein Zeilenmodell und der
+  Hand-Stratifizierung nichts.**
+
+Zehn der 13 kommen von `UB Freiburg`, drei aus Basel. Jede steht einzeln im Plan
+mit Grössenpaar und Faktor, und der Faktor zusätzlich in der `scale`-Spalte der
+Writers-Tabelle — nachlesbar statt glaubenspflichtig.
+
+Eine Aussage bleibt eine **Folgerung aus der Arithmetik**: dass die drei
+zusätzlichen Duplikate genau die Zweitkopien der umgerechneten Seiten sind. Die
+drei Spalten passen exakt, und sonst hat sich nichts geändert; belegen liesse es
+sich mit einem `grep` der 13 Schlüssel in der Rückweisungstabelle unter
+`duplicate`.
 
 ## Do not pass `$ATR_PAGE_CACHE`
 

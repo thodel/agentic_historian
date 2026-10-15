@@ -274,7 +274,9 @@ def test_the_written_xml_describes_the_image_beside_it(tmp_path):
 
 
 def test_an_unscaled_page_is_still_a_byte_copy(tmp_path):
-    """241 of 257 pages are untouched, and 'untouched' has to mean it."""
+    """241 of the 254 exported pages are untouched, and 'untouched' has to mean
+    it. (The sixteen rescalable files describe thirteen pages — measured on
+    2026-10-14, after this docstring first said 257.)"""
     scored, img = _page(tmp_path, "p1", (785, 1152), (785, 1152))
     p = hf.plan([scored], {"Basel__p1": img})
 
