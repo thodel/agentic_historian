@@ -15,7 +15,7 @@ import json
 import re
 from pathlib import Path
 
-from rdflib import Graph, URIRef, RDF
+from rdflib import Graph, Literal, URIRef, RDF
 
 from knowledge_hub import bestandsgraph as bg
 
@@ -156,7 +156,7 @@ def ssrq_graph(person_uri: str | None = None) -> Graph:
         var = str(next(reg.objects(n, P("var_id")), "")).rsplit("#", 1)[-1] or f"{key}-{text}"
         nu = b.name(pu, text, lang=lang, kind=kind, key=var)
         occ = next(reg.objects(n, P("occurence")), None)
-        if occ is not None:
+        if isinstance(occ, Literal):          # ein Blank Node wäre kein Text und bei jedem Lesen ein anderer
             b.note(nu, f"Fundstelle: {occ}")
     # Geschlecht, Referenzen
     sex = next(reg.objects(chosen, P("sex")), None)
