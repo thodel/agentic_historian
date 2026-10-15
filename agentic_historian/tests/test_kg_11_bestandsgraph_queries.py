@@ -310,3 +310,110 @@ def test_an_empty_aggregate_renders_as_a_dash():
 def test_the_discord_choices_offer_all_seven():
     import bot as bot_module
     assert bot_module._SPARQL_CHOICES == q.names()
+
+
+# ── 4. the endpoint path (KG-11 → KG-4) ───────────────────────────────────
+
+import json as _json
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import parse_qs
+
+
+class _Sparql(BaseHTTPRequestHandler):
+    """A SPARQL-protocol stand-in: records the query, answers canned JSON."""
+    seen: list[dict] = []
+    status = 200
+    bindings: list[dict] = []
+
+    def do_POST(self):
+        length = int(self.headers.get("Content-Length", 0))
+        form = parse_qs(self.rfile.read(length).decode())
+        _Sparql.seen.append({"query": form.get("query", [""])[0],
+                             "accept": self.headers.get("Accept")})
+        body = _json.dumps({"head": {"vars": []},
+                            "results": {"bindings": _Sparql.bindings}}).encode()
+        self.send_response(_Sparql.status)
+        self.send_header("Content-Type", "application/sparql-results+json")
+        self.end_headers()
+        self.wfile.write(body if _Sparql.status == 200 else b"boom")
+
+    def log_message(self, *args):   # quiet
+        pass
+
+
+@pytest.fixture
+def endpoint():
+    server = HTTPServer(("127.0.0.1", 0), _Sparql)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    _Sparql.seen, _Sparql.status = [], 200
+    _Sparql.bindings = [
+        {"document": {"type": "uri", "value": "https://tei.dh.unibe.ch/id/kf/document/x"},
+         "documentLabel": {"type": "literal", "value": "StAAG X"},
+         "source": {"type": "literal", "value": "KF"},
+         "begin": {"type": "literal", "datatype": "http://www.w3.org/2001/XMLSchema#date",
+                   "value": "1408-01-01"},
+         "person": {"type": "uri", "value": "https://tei.dh.unibe.ch/id/kf/person/p"},
+         "personLabel": {"type": "literal", "value": "Heinrich Bürgi"}},
+    ]
+    yield f"http://127.0.0.1:{server.server_port}/sparql"
+    server.shutdown()
+
+
+def test_the_remote_path_sends_the_standalone_text_and_reads_the_rows(endpoint):
+    answer = q.run_remote("persons-of-century-across-sources", endpoint, century="15")
+    sent = _Sparql.seen[-1]
+    assert sent["accept"] == "application/sparql-results+json"
+    assert sent["query"] == q.as_text("persons-of-century-across-sources", century="15")
+    assert "VALUES (?century)" in sent["query"]
+    assert answer.rows == [{"document": "https://tei.dh.unibe.ch/id/kf/document/x",
+                            "documentLabel": "StAAG X", "source": "KF",
+                            "begin": "1408-01-01",
+                            "person": "https://tei.dh.unibe.ch/id/kf/person/p",
+                            "personLabel": "Heinrich Bürgi",
+                            "role": None, "authority": None}]
+    assert answer.source == endpoint and answer.triples is None
+    assert answer.took_s is not None
+
+
+def test_an_unbound_remote_cell_is_none_like_the_local_one(endpoint):
+    answer = q.run_remote("persons-of-century-across-sources", endpoint, century="15")
+    assert answer.rows[0]["role"] is None
+    assert "—" in q.format_answer(answer)
+
+
+def test_the_remote_answer_names_the_endpoint(endpoint):
+    answer = q.run_remote("co-signatories", endpoint)
+    assert endpoint in q.format_answer(answer)
+
+
+def test_a_failing_endpoint_is_an_error_not_a_local_fallback(endpoint):
+    _Sparql.status = 500
+    with pytest.raises(q.QueryError, match="500"):
+        q.run_remote("co-signatories", endpoint)
+
+
+def test_an_unreachable_endpoint_is_reported_as_such():
+    with pytest.raises(q.QueryError, match="antwortet nicht"):
+        q.run_remote("co-signatories", "http://127.0.0.1:9/sparql", timeout=2)
+
+
+def test_the_remote_path_refuses_the_same_parameters_as_the_local_one(endpoint):
+    with pytest.raises(q.QueryError):
+        q.run_remote("co-signatories", endpoint, century="15")
+    assert _Sparql.seen == []        # refused before anything went out
+
+
+def test_the_command_asks_the_endpoint_when_one_is_configured():
+    source = (PKG / "bot.py").read_text(encoding="utf-8")
+    block = source[source.index("async def sparql_cmd("):]
+    block = block[:block.index("\n# ── /train_log")]
+    assert "KG_SPARQL_ENDPOINT" in block and "queries.run_remote" in block
+    # The in-process path stays for a deployment without an endpoint.
+    assert "queries.load_graph" in block
+
+
+def test_the_endpoint_knob_defaults_to_none():
+    import config
+    assert config.KG_SPARQL_ENDPOINT == ""

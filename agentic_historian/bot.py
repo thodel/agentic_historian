@@ -2507,6 +2507,20 @@ async def sparql_cmd(
         await ctx.followup.send(f"**{query.name}**\n```sparql\n{text[:1700]}\n```")
         return
 
+    endpoint = getattr(config, "KG_SPARQL_ENDPOINT", "")
+    if endpoint:
+        # The public endpoint (KG-4) serves the Bestandsgraph; ask it and say
+        # so — an answer from another graph than the one the reader was
+        # promised must not look the same (KG-11).
+        try:
+            answer = await asyncio.to_thread(
+                queries.run_remote, frage, endpoint, **params)
+        except queries.QueryError as exc:
+            await ctx.followup.send(f"❌ {exc}")
+            return
+        await ctx.followup.send(queries.format_answer(answer))
+        return
+
     try:
         graph, source = await asyncio.to_thread(queries.load_graph)
     except Exception as exc:  # noqa: BLE001
