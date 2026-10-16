@@ -211,6 +211,28 @@ Ob der Schiedsrichter besser wählt als das beste Einzelmodell, misst
 `pipeline.py eval --pages 12-14` an transkribierten Seiten (CER je Modell und
 fusioniert, eigenes Verzeichnis, kein Upload).
 
+## Ergebnis des Gesamtlaufs, 15.10. 18:54 – 16.10. 12:54
+
+| Schritt | Ergebnis | Dauer |
+|---|---|---|
+| plan | 490 Seiten ohne Zeilen (nach den 3 Testseiten) | Sekunden |
+| recognize A (Zeilenmodell) | 490 Seiten, 5–30 s/Seite | ~2 h 15 |
+| recognize B (TrOCR) | 490 Seiten, ~23 s/Seite | ~3 h |
+| recognize C (Seitenmodell) | 490 Seiten | ~2 h 15 |
+| adjudicate (gpt-oss-120b) | 488 Seiten, ~80 s/Seite | ~10 h 40 |
+| xml + upload | **488 von 488** als `IN_PROGRESS`-Version | Minuten |
+
+Zusammen mit den Testseiten 61–63 tragen jetzt **491 Seiten** von A V 1446 eine
+maschinelle Transkription mit Zeilengeometrie. Ohne Upload blieben die Seiten,
+auf denen kein Modell eine Zeile fand (u. a. 6 und 32): leer oder nur Einband.
+Der Nachbar-ollama gab in der Nacht seinen Speicher frei; ab da waren Zeilen- und
+Seitenmodell gleichzeitig resident.
+
+**Was die Versionen sind.** Jede Zeile trägt `custom="… atr {basis:…; conf:…;}"`:
+`llm-A`/`llm-B`/`llm-C`/`llm-mixed` = Wahl des Schiedsrichters, `fallback` = seine
+Antwort wurde verworfen und A behalten. Die Lesungen haben nach der Messung an
+den Seiten 12–14 rund **25 % CER** — Rohmaterial für die Korrektur, keine Edition.
+
 ## Der Gesamtlauf
 
 `scripts/ruemlang_full_run.sh start` fährt plan → recognize → adjudicate → xml →
