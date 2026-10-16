@@ -780,6 +780,10 @@ KH_DIR = BASE_DIR / "knowledge_hub" / "data"
 # Active Knowledge-Hub backend (#26). "json" = the local KnowledgeHub store; a
 # QLEVER triple-store backend (WP4) is selected here without touching agents.
 KH_BACKEND = _get("KH_BACKEND", "json")
+# The public SPARQL endpoint over the Bestandsgraph (KG-4 #330, KG-11 #654).
+# Empty = none: /sparql then answers from the built corpus Turtle in-process.
+# Set, the canned queries are sent there and the answer names the endpoint.
+KG_SPARQL_ENDPOINT = _get("KG_SPARQL_ENDPOINT", "")
 
 
 def ensure_dirs():

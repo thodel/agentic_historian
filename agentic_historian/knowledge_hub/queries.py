@@ -57,7 +57,7 @@ from knowledge_hub import bestandsgraph as bg
 __all__ = [
     "PREFIX_BLOCK", "PREFIXES", "MENTION", "BESTAND_ONLY", "CannedQuery", "QUERIES", "QueryError",
     "Answer", "names", "get", "describe_all", "as_text", "run", "format_answer",
-    "load_graph", "PERSON_TYPES", "param_terms",
+    "load_graph", "PERSON_TYPES", "param_terms", "run_remote",
 ]
 
 #: Entity types that identify a natural person. The same pair
@@ -613,6 +613,47 @@ def _plain(term: Any) -> Optional[str]:
     if term is None:
         return None
     return str(term)
+
+
+def run_remote(name: str, endpoint: str, *, timeout: float = 60.0, **params) -> Answer:
+    """Run one canned query against a SPARQL endpoint (KG-11, #654).
+
+    The query goes out as the same standalone text ``as_text`` renders for a
+    paste — bound terms as a ``VALUES`` line through ``n3()``, so nothing a
+    caller typed becomes syntax on the wire either. SPARQL 1.1 protocol:
+    ``POST`` with ``query=`` as a form, ``application/sparql-results+json``
+    back; an unbound variable is ``None``, exactly as in :func:`run`, so a
+    consumer cannot tell the two paths apart except by ``Answer.source``,
+    which names the endpoint.
+
+    No retries, no fallback to the local graph: an endpoint that does not
+    answer is reported as such. Answering from a different graph than the one
+    the reader was promised is the failure this must not have.
+    """
+    import requests
+
+    query = get(name)
+    text = as_text(name, **params)
+    started = time.monotonic()
+    try:
+        response = requests.post(
+            endpoint, data={"query": text},
+            headers={"Accept": "application/sparql-results+json"},
+            timeout=timeout)
+    except requests.RequestException as exc:
+        raise QueryError(f"{query.name}: der Endpunkt {endpoint} antwortet nicht "
+                         f"({type(exc).__name__})") from exc
+    if response.status_code != 200:
+        raise QueryError(f"{query.name}: der Endpunkt antwortet {response.status_code}: "
+                         f"{response.text[:200]}")
+    try:
+        bindings = response.json()["results"]["bindings"]
+    except (ValueError, KeyError, TypeError) as exc:
+        raise QueryError(f"{query.name}: keine SPARQL-JSON-Antwort vom Endpunkt") from exc
+    rows = [{column: (cell["value"] if (cell := binding.get(column)) else None)
+             for column in query.columns} for binding in bindings]
+    return Answer(query=query, params=dict(params), rows=rows, source=endpoint,
+                  triples=None, took_s=time.monotonic() - started)
 
 
 # ── the graph to ask ────────────────────────────────────────────────────────
