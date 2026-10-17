@@ -103,21 +103,35 @@ def render(paths: list[Path]) -> str:
     return "\n".join(f"ReadWritePaths={p}" for p in paths)
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
+    """Print the writable paths, or just the data directories with ``--data-only``.
+
+    ``--data-only`` prints one bare path per line and nothing else, because
+    ``switch_to_own_user.sh`` reads it: a script that has to grep a commented
+    report for paths would break on the next comment, and typing the list into
+    the script instead is the drift that put a non-existent ``/srv`` path into
+    the unit in the first place (#567).
+    """
+    argv = sys.argv[1:] if argv is None else argv
     sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "agentic_historian"))
     import config
 
     data = data_paths(config)
     update = update_paths(config)
 
+    if "--data-only" in argv:
+        for path in data:
+            print(path)
+        return
+
     print("# ── Tier 1: normal operation ─────────────────────────────────────")
     print(render(data))
     print()
-    print("# ── Tier 2: additionally required for /update ───────────────────")
-    print("# These let the process rewrite its own code and dependencies.")
-    print("# Leave them out and /update fails; put them in and the sandbox no")
-    print("# longer protects the thing most worth protecting. That is a")
-    print("# decision about /update, not about this file (#567).")
+    print("# ── Additionally required to deploy INTO this checkout ──────────")
+    print("# These let a process rewrite the code and the dependencies it runs.")
+    print("# They are NOT in the bot's unit any more: `/update` reports and no")
+    print("# longer pulls (#567, decided 17.10.2026), so the deploy runs from")
+    print("# outside as whoever owns the checkout. Printed for that person.")
     print(render(update))
     if not in_virtualenv():
         print("# WARNUNG: mit dem System-Python gelaufen, nicht im venv des Bots.")

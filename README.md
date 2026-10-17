@@ -297,8 +297,8 @@ is a single `.env.gpustack` at the repository root (gitignored; template in
 In production the bot runs on tei under `agentic-historian.service`.
 
 As a **standalone** process (separation epic #565) it is decoupled from the OpenClaw
-agent: its own Discord token, its own secrets file (`deploy/systemd/dh-bot.env.example`
-→ `/etc/dh-bot.env`, read via `AH_ENV_FILE`) separate from the shared `.env.gpustack`,
+agent: its own Discord token, its own secrets file (`deploy/systemd/agentic_historian.env.example`
+→ `/etc/agentic_historian.env`, read via `AH_ENV_FILE`) separate from the shared `.env.gpustack`,
 a hardened systemd unit, the LLM-orchestration overlay off by default, and the
 OpenClaw home (`workspace/`) no longer in this repository (S3, #568) — see
 [`deploy/systemd/SEPARATION.md`](deploy/systemd/SEPARATION.md), which also says what

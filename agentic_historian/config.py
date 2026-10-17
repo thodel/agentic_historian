@@ -37,7 +37,7 @@ ENV_SOURCE: dict[str, Path] = {}
 #: order — a reload that read them in another order would hand a different file
 #: the win and change a value nobody edited.
 #:
-#: Separation (#567 / S2): when ``AH_ENV_FILE`` is set — the dh-bot systemd unit
+#: Separation (#567 / S2): when ``AH_ENV_FILE`` is set — the bot's systemd unit
 #: sets it — the bot reads ONLY that file for its file-sourced secrets and does
 #: NOT fall back to the shared ``.env.gpustack``, which also holds the OpenClaw
 #: agent's credentials (e-mail, calendar, SSH). The real process environment

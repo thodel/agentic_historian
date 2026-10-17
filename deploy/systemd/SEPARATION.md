@@ -8,10 +8,10 @@ its own user.
 
 ## What this repo provides
 
-- **`dh-bot.env.example`** — the bot's own secrets file, listing only the keys
+- **`agentic_historian.env.example`** — the bot's own secrets file, listing only the keys
   its commands need. No OpenClaw credentials.
 - **`agentic-historian.service.d/secrets.conf`** — a drop-in that points the unit
-  at `/etc/dh-bot.env` and sets `AH_ENV_FILE`, so the bot reads only its own
+  at `/etc/agentic_historian.env` and sets `AH_ENV_FILE`, so the bot reads only its own
   secrets.
 - **`config.py` `AH_ENV_FILE` support** — with `AH_ENV_FILE` set, the bot reads
   only that file for its file-sourced secrets and never falls back to
@@ -24,8 +24,8 @@ its own user.
 
 ```
 # 1. The bot's own secrets, root-owned and unreadable by other users.
-sudo install -m 600 -o root -g root dh-bot.env /etc/dh-bot.env
-#    fill it from dh-bot.env.example — copy ONLY the bot's keys out of the old
+sudo install -m 600 -o root -g root agentic_historian.env /etc/agentic_historian.env
+#    fill it from agentic_historian.env.example — copy ONLY the bot's keys out of the old
 #    .env.gpustack, never the OpenClaw mail/calendar/SSH ones.
 
 # 2. Point the unit at it, and sandbox the process.
@@ -86,7 +86,7 @@ entspricht; die erste ist einen Kommentar entfernt. Die Entscheidung gehört zu
 
 ## Items and status
 
-1. **Own `EnvironmentFile` with only the bot's secrets** — `dh-bot.env.example` +
+1. **Own `EnvironmentFile` with only the bot's secrets** — `agentic_historian.env.example` +
    `secrets.conf` + `AH_ENV_FILE` here. ✅ (repo side) / ◻️ **nicht installiert**
    (gemessen 2026-10-13). Nachrangig geworden, siehe oben.
 2. **Harden the unit like the MCP server** — `hardening.conf` (#580). ✅ (repo side)
@@ -94,7 +94,7 @@ entspricht; die erste ist einen Kommentar entfernt. Die Entscheidung gehört zu
    in `ReadWritePaths` und war damit auf diesem Host nicht installierbar, ohne sie
    vorher zu korrigieren — die Pfade kommen jetzt aus
    `writable_paths.py`, abgeleitet aus der laufenden Konfiguration.
-3. **Run as a dedicated, less-privileged user** — create a `dh-bot` user without
+3. **Run as a dedicated, less-privileged user** — create an `agentic_historian` user without
    read access to the OpenClaw secret file, then set `User=`/`Group=` in
    `secrets.conf`. ◻️ host action.
 
@@ -104,11 +104,11 @@ The bot process cannot read the OpenClaw credentials, runs hardened under system
 and writes only to its data directory. The repo pieces above make that
 configurable; the remaining steps are operator actions on the host:
 
-- [ ] `/etc/dh-bot.env` created (root:root 0600) with only the bot's keys.
+- [ ] `/etc/agentic_historian.env` created (root:root 0600) with only the bot's keys.
 - [ ] `secrets.conf` + `hardening.conf` installed; `systemd-analyze security
       agentic-historian` looks sane; `ReadWritePaths` in `hardening.conf` edited
       to the real data dir.
-- [ ] A dedicated `dh-bot` user that cannot read the OpenClaw secret file, with
+- [ ] A dedicated `agentic_historian` user that cannot read the OpenClaw secret file, with
       `User=` set — or, until then, OS permissions on the OpenClaw secret file so
       the bot's current user cannot read it.
 - [ ] Rotate any secret that lived only in the shared `.env.gpustack` and was
@@ -177,7 +177,7 @@ git archive --prefix=openclaw-workspace/ "${rm_commit}^" workspace | tar -x -C /
 `dh-bot` is the OpenClaw agent's Discord identity (user id `1519706253314756758`).
 Whether the Historian bot logs in through that same application — the same
 `DISCORD_BOT_TOKEN` — is recorded nowhere in this repository, and nothing in it
-can tell: the token lives on tei, in `.env.gpustack` (or `/etc/dh-bot.env` after
+can tell: the token lives on tei, in `.env.gpustack` (or `/etc/agentic_historian.env` after
 S2). Shared, the two bots share identity, permissions and blast radius: a leak
 of either process's token is a leak of both.
 
@@ -185,7 +185,7 @@ of either process's token is a leak of both.
 
 ```
 # Reads the token out of the file; never put it on a command line (argv is in ps).
-f=/etc/dh-bot.env; [ -r "$f" ] || f=/path/to/agentic_historian/.env.gpustack
+f=/etc/agentic_historian.env; [ -r "$f" ] || f=/path/to/agentic_historian/.env.gpustack
 tok=$(grep -m1 '^DISCORD_BOT_TOKEN=' "$f" | cut -d= -f2- | awk '{print $1}')
 curl -s -H @<(printf 'Authorization: Bot %s\n' "$tok") https://discord.com/api/v10/users/@me; echo
 ```
@@ -196,8 +196,9 @@ to step 5.
 
 ### 2. Create the application — Discord Developer Portal
 
-- *New Application* → its own name and avatar (this is what members see on every
-  reply; today they see `dh-bot`).
+- *New Application* → name it **`agentic_historian`** (decided 17.10.2026).
+  This is what members see on every reply; today they see `dh-bot`, which is
+  the OpenClaw agent's identity — the point of S1 is that they stop.
 - *Bot* → **Reset Token** → copy it once; it is shown once. **Public Bot: off.**
 - *Bot → Privileged Gateway Intents*: **Presence, Server Members, Message
   Content — all off.** The bot runs on `Intents.default()` (`bot.py`) and needs
@@ -224,7 +225,7 @@ them. Open the generated URL and pick the server.
 
 ### 4. Give the token to the bot — and only the bot
 
-`DISCORD_BOT_TOKEN=` goes into `/etc/dh-bot.env` (S2) and nowhere else; set
+`DISCORD_BOT_TOKEN=` goes into `/etc/agentic_historian.env` (S2) and nowhere else; set
 `DISCORD_GUILD_ID` too, so the commands appear at once instead of after
 Discord's hour-long global roll-out. Then:
 
@@ -255,7 +256,8 @@ processes shared, per #567's list.
 ### Definition of done (#566)
 
 - [ ] Step 1 answered — shared or not — and the answer noted on #566.
-- [ ] Own application, own name and avatar; its token in `/etc/dh-bot.env` only.
+- [ ] Own application named `agentic_historian`, own avatar; its token in
+      `/etc/agentic_historian.env` only.
 - [x] No privileged intent in code (`Intents.default()`, pinned by `test_ah_566`).
 - [ ] Privileged intents all off in the portal; Public Bot off.
 - [ ] Invited with `bot` + `applications.commands` and the six permissions above,
