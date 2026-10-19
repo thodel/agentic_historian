@@ -99,6 +99,30 @@ Gruppentyp (`sdh:P99` → `crm-sup:C9`).
 | TEI `persName/placeName/orgName @ref` | `P67_refers_to` vom E31 (Edition) | Suffixe `a`, `.01` auf den Stamm gekürzt |
 | TEI `<idno>` | `E42` (Quelle `ssrq`), `owl:sameAs` Editions-URL | |
 
+### Musiklexikon der Schweiz (`mls.db`, DaSCH-Projekt 0807, KG-13)
+
+`knowledge_hub/sources/mls.py`; gemessen am Ingest vom 16.10.2026, Zahlen im Docstring.
+
+| Feld | Begriff | Bemerkung |
+|---|---|---|
+| `lexica` | je ein `prov:Entity` (`Build.sub_dataset`), `rdfs:label` «Musiklexikon der Schweiz — <Lexikon>», `rdfs:comment` = `citation_form`, `prov:value` = Jahr, `owl:sameAs` ARK, `prov:wasDerivedFrom` → Bestand | 27 |
+| `lemmata` Typ Person / Institution / Ort / Sache | `E21_Person` / `E74_Group` / `E53_Place` / `E55_Type` (Schema `topic`) | 6 757 / 22 / 8 / 34; 18 ohne Typ: 3 mit Namen/Geschlecht → E21, 15 → E55 |
+| `lemmata.ark`, `gnd`, `viaf` | `owl:sameAs` ARK, `d-nb.info/gnd/<id>`, `viaf.org/viaf/<id>` | 883 GND, 784 VIAF; ISNI führt die Quelle nicht |
+| `family_name`, `given_name`, `pseudonym`, `variants` | `E41_Appellation`, P2 Typ «Familienname»/«Vorname»/«Pseudonym»/«Variante» | Mehrfachwerte an ` \| ` getrennt |
+| `sex` | `P2_has_type` → E55 (`sex`) | nur an E21 |
+| `start_date` + Info «geboren», «Geburt», «geboren um», «um», «vor», «nach», «getauft» | `E67_Birth` mit P4 (vor = nur P82b, nach = nur P82a, um = Jahr + Notiz, getauft = P82b) | 1 327 E67 (mit Geburtsorten) |
+| `end_date` + Info «gestorben», «Tod», «verstorben», «gestorben um», «um», «ca.», «vor», «nach» | `E69_Death` mit P4 | 944 E69 |
+| Datum mit anderer Info («nachgewiesen», «erwähnt», «Gründung» …) oder ohne Info; jedes Datum eines Nicht-Personen-Lemmas | `E13` P140 Lemma, P177 Info als E55 (`date-info`), P4 | 142; «-» und «unbekannt» → `withheld` |
+| `lemma_locations` Geburtsort / Todesort | `P7_took_place_at` an der E67/E69 | 133 / 77 |
+| `lemma_locations` Tätigkeitsort (Institution: Gründung) | `P74_has_current_or_former_residence` | 1 719; ohne Art (11) und an Ort-Lemmata (3) → `withheld`; **keine C3** (C3 verbindet zwei Personen) |
+| `locations` | `E53_Place`, Label `placename`, `E42` (`mls`) mit der MLS-Nummer, `owl:sameAs` ARK, Kanton/Land als P3 | 4 461 |
+| `lemma_occupations` → `occupations` | `sdh-slc:C13` → `C12` Rolle | 4 980 an Personen, 4 962 verschiedene; 18 an Nicht-Personen → `withheld` |
+| `articles` | `E31_Document`, Label «Lemma (Lexikon)», `E42` (`mls`) mit der Artikelnummer, `owl:sameAs` ARK, `P67_refers_to` → Lemma, `prov:wasDerivedFrom` → **Lexikon** (nicht der Bestand) | 17 084 |
+| `lexica.year` | `P4` an der `E65_Creation` des Artikels (Erscheinungsjahr) | 10 944 datiert; Online-Lexika ohne Jahr bleiben undatiert |
+| `articles.state`, `is_reference` | `P2_has_type` → E55 (`editorial-state`, `document-type` «HLS-Verweis») | 720 HLS-Verweise |
+| `articles.hls_code` `D`/`F` + 4–6 Ziffern | `owl:sameAs https://hls-dhs-dss.ch/de/articles/<id>/` am **Lemma** (Ziffern auf sechs Stellen) | 721 Lemmata; «-none-» → `withheld` |
+| `articles.text` | **nichts** | der Text bleibt im MCP; der Graph trägt, was das Lexikon über wen sagt, nicht wie |
+
 ## Was die Prüfung bemerkt
 
 `validate.py` meldet: unbekannte Klasse/Property (nicht im Register oder nicht in

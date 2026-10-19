@@ -68,7 +68,7 @@ shb:SameAsShape a sh:NodeShape ;
     sh:targetSubjectsOf owl:sameAs ;
     rdfs:comment "owl:sameAs nur in Namensräume, die wir kennen — eine erfundene Autoritäts-URI wäre die Lüge, die der Graph nicht erzählen darf." ;
     sh:property [ sh:path owl:sameAs ; sh:nodeKind sh:IRI ;
-                  sh:pattern "^(https?://(www\\.)?(dodis\\.ch|ssrq-sds-fds\\.ch|www\\.wikidata\\.org|d-nb\\.info|hls-dhs-dss\\.ch|permalink\\.snl\\.ch|doi\\.org|www\\.e-periodica\\.ch|opendata\\.dodis\\.ch|github\\.com)/)" ;
+                  sh:pattern "^(https?://(www\\.)?(dodis\\.ch|ssrq-sds-fds\\.ch|www\\.wikidata\\.org|d-nb\\.info|hls-dhs-dss\\.ch|permalink\\.snl\\.ch|doi\\.org|www\\.e-periodica\\.ch|opendata\\.dodis\\.ch|github\\.com|viaf\\.org|ark\\.dasch\\.swiss)/)" ;
                   sh:message "owl:sameAs in unbekannten Namensraum" ] .
 
 shb:TimeSpanShape a sh:NodeShape ;

@@ -9,7 +9,8 @@ Begriff einführen, den das Register nicht kennt.
 Drei Regeln:
 
 1. **Jeder Knoten trägt seine Herkunft.** ``prov:wasDerivedFrom`` zeigt auf den
-   Datensatz, aus dem er stammt (Dodis Open-Data 2024, SSRQ-Dump, KF-Edition).
+   Datensatz, aus dem er stammt (Dodis Open-Data 2024, SSRQ-Dump, KF-Edition,
+   beim MLS das Lexikon des Artikels).
    Der Graph sagt nicht, was wahr ist, sondern was welche Quelle behauptet.
 2. **Keine Blank Nodes.** Alle URIs kommen aus stabilen Schlüsseln, damit zwei
    Läufe byteidentisch sind und ein Diff etwas bedeutet (die Regel aus KG-2).
@@ -74,12 +75,33 @@ class Build:
     def _uri(self, kind: str, key: str) -> URIRef:
         return self.ns[f"{slug(self.ds.key)}/{kind}/{slug(key)}"]
 
-    def _node(self, kind: str, key: str, cls: URIRef, label: Optional[str]) -> URIRef:
+    def _node(self, kind: str, key: str, cls: URIRef, label: Optional[str],
+              derived_from: Optional[URIRef] = None) -> URIRef:
         u = self._uri(kind, key)
         self.g.add((u, RDF.type, cls))
         if label:
             self.g.add((u, RDFS.label, Literal(label)))
-        self.g.add((u, PROV["wasDerivedFrom"], self.dataset_uri))
+        self.g.add((u, PROV["wasDerivedFrom"], derived_from or self.dataset_uri))
+        return u
+
+    def sub_dataset(self, key: str, label: str, *, version: Optional[str] = None,
+                    uri: Optional[str] = None, comment: Optional[str] = None) -> URIRef:
+        """Ein Datensatz innerhalb des Bestands (KG-13): die 27 Lexika des
+        Musiklexikons der Schweiz sind je eine Quelle mit eigener Zitierform.
+        Ein Dokument, das aus einem davon stammt, zeigt mit
+        ``prov:wasDerivedFrom`` auf ihn und nur auf ihn; er selbst zeigt auf
+        den Bestand."""
+        u = self.ns[f"dataset/{slug(self.ds.key)}/{slug(key)}"]
+        g = self.g
+        g.add((u, RDF.type, PROV["Entity"]))
+        g.add((u, RDFS.label, Literal(label)))
+        g.add((u, PROV["wasDerivedFrom"], self.dataset_uri))
+        if version:
+            g.add((u, PROV["value"], Literal(version)))
+        if uri:
+            g.add((u, OWL["sameAs"], URIRef(uri)))
+        if comment:
+            g.add((u, RDFS.comment, Literal(comment)))
         return u
 
     def type_(self, label: str, scheme: str = "type") -> URIRef:
@@ -109,26 +131,31 @@ class Build:
     # ── Entitäten ─────────────────────────────────────────────────────────
     def document(self, key: str, label: str, *, same_as: Iterable[str] = (),
                  identifier: Optional[tuple[str, str]] = None,
-                 begin: Optional[int] = None, end: Optional[int] = None) -> URIRef:
+                 begin: Optional[int] = None, end: Optional[int] = None,
+                 derived_from: Optional[URIRef] = None) -> URIRef:
         """Die Datierung hängt **nicht** am Dokument: P4 verlangt eine E2 Temporal
         Entity, und ein Dokument ist keine. Sie hängt an seiner E65 Creation —
         dem Ausstellen der Urkunde, dem Schreiben des Regests. Die Prüfung hat
-        das beim ersten Bau gemeldet (``domain E31 → E2``); so ist es richtig."""
-        u = self._node("document", key, CRM["E31_Document"], label)
+        das beim ersten Bau gemeldet (``domain E31 → E2``); so ist es richtig.
+
+        ``derived_from`` ersetzt den Bestand als Herkunft, wo ein Dokument aus
+        einem Teil-Datensatz stammt (``sub_dataset``) — für das Dokument und
+        seine Creation, damit keine Antwortzeile zwei Quellen nennt."""
+        u = self._node("document", key, CRM["E31_Document"], label, derived_from)
         self.same_as(u, same_as)
         if identifier:
             self.identifier(u, *identifier)
         if begin is not None or end is not None:
-            self.timespan(self.creation(u), begin, end)
+            self.timespan(self.creation(u, derived_from), begin, end)
         return u
 
-    def creation(self, doc: URIRef) -> URIRef:
+    def creation(self, doc: URIRef, derived_from: Optional[URIRef] = None) -> URIRef:
         """Die eine E65 Creation je Dokument — Datierung und Autorschaft teilen sie."""
         u = URIRef(str(doc) + "/creation")
         if (u, RDF.type, CRM["E65_Creation"]) not in self.g:
             self.g.add((u, RDF.type, CRM["E65_Creation"]))
             self.g.add((u, CRM["P94_has_created"], doc))
-            self.g.add((u, PROV["wasDerivedFrom"], self.dataset_uri))
+            self.g.add((u, PROV["wasDerivedFrom"], derived_from or self.dataset_uri))
         return u
 
     def person(self, key: str, label: str, *, same_as: Iterable[str] = (),
