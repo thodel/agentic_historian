@@ -20,19 +20,78 @@ its own user.
   `ProtectSystem=strict`, `NoNewPrivileges`, narrow `ReadWritePaths`, …). This
   ships with the security epic (#580) and is installed alongside this drop-in.
 
-## Install on tei
+## Durchführung auf tei — ein Lauf, alle drei Punkte (#567)
+
+Vorbereitet am 21.10.2026, **auf tei noch nicht ausgeführt.** Die Reihenfolge
+ist Pflicht: ein Bot, der als neuer Benutzer startet, bevor seine Secrets-Datei
+existiert, kommt ohne Token hoch, weil `.env.gpustack` `0600 dh:dh` ist und
+der neue Benutzer sie nicht lesen kann — das ist der Zweck der Umstellung, und
+das Skript bricht deshalb vor dem Neustart ab, statt zu warnen.
 
 ```
-# 1. The bot's own secrets, root-owned and unreadable by other users.
-sudo install -m 600 -o root -g root agentic_historian.env /etc/agentic_historian.env
-#    fill it from agentic_historian.env.example — copy ONLY the bot's keys out of the old
-#    .env.gpustack, never the OpenClaw mail/calendar/SSH ones.
+# 0. als dh, im Checkout: auf den Stand von main bringen. Der Bot zieht nicht
+#    mehr selbst (/update berichtet nur noch), der Deploy läuft von aussen.
+cd /home/dh/agentic_historian && git pull --ff-only
 
-# 2. Point the unit at it, and sandbox the process.
-sudo cp deploy/systemd/agentic-historian.service.d/secrets.conf  /etc/systemd/system/agentic-historian.service.d/
-sudo cp deploy/systemd/agentic-historian.service.d/hardening.conf /etc/systemd/system/agentic-historian.service.d/
+# 1. Die Secrets-Datei des Bots — einmalig, von Hand, nie per Skript.
+#    Nur die Keys aus agentic_historian.env.example; die Werte aus .env.gpustack.
+sudo install -m 600 -o root -g root deploy/systemd/agentic_historian.env.example /etc/agentic_historian.env
+sudoedit /etc/agentic_historian.env
+#    Drei Keys stehen in .env.gpustack mehrfach (LASSBERG_REGISTER, NEXTCLOUD_REMOTE_DIR,
+#    NEXTCLOUD_SHARE_URL). python-dotenv nimmt die LETZTE Zuweisung — die gilt heute,
+#    und nur die gehört in die neue Datei.
+
+# 2. Trockenlauf: misst, ändert nichts. Endet mit "would run: systemctl restart", exit 0.
+sudo deploy/systemd/switch_to_own_user.sh --dry-run
+
+# 3. Umstellung — dieselben Schritte, diesmal ausgeführt; am Ende läuft check_separation.py.
+sudo deploy/systemd/switch_to_own_user.sh
+
+# 4. Die Definition of Done messen: den Pfad der OpenClaw-Credentials nennen.
+sudo deploy/systemd/check_separation.py --openclaw-secrets <pfad>
+```
+
+Was das Skript tut, in dieser Reihenfolge, und wo es stehen bleibt:
+
+| Schritt | tut | bleibt stehen (exit) wenn |
+|---|---|---|
+| 0 | liest die Datenverzeichnisse aus der laufenden Konfiguration (`writable_paths.py --data-only`) und prüft, dass `hardening.conf` jedes davon freigibt | keine Pfade lesbar (3); eines fehlt in `hardening.conf` (6) — unter `ProtectSystem=strict` wäre das ein Schreibfehler beim ersten Job (#643) |
+| 1 | `useradd --system` `agentic_historian`, ohne Login, ohne Home | — |
+| 2 | prüft, ob der neue Benutzer durch jedes Verzeichnis über Checkout und venv **hindurchkommt**. Ein Stock-`/home/dh` ist `0750`: er käme nicht, und der Dienst stürbe beim ersten Import mit *permission denied* auf einem Pfad, der sichtbar existiert. Abhilfe: `setfacl -m u:agentic_historian:--x` auf genau diese Verzeichnisse — Durchgang für einen Benutzer, nicht `o+rx` für alle | `setfacl` fehlt (5); danach, als `agentic_historian` gemessen, venv-Python oder `bot.py` trotzdem unlesbar (5) |
+| 3 | `/etc/agentic_historian.env` → `root:agentic_historian 0640` | die Datei fehlt (4) |
+| 4 | `chown -R agentic_historian` auf die Datenverzeichnisse | — |
+| 5 | installiert `secrets.conf`, `hardening.conf`, `user.conf`, `daemon-reload`, `restart` | — |
+| 6 | wartet 3 s, meldet `is-active` und den gemessenen `User=`, dann `check_separation.py --secrets /etc/agentic_historian.env` | — (der Bericht sagt es) |
+
+Nicht im Skript, mit Absicht: die Secrets-Datei füllen, den OpenClaw-Agenten
+anfassen, Checkout oder venv für den neuen Benutzer schreibbar machen.
+
+**Nach der Umstellung bleibt die Rotation (Punkt 4 der Definition of Done).**
+Die Keys, die nach `/etc/agentic_historian.env` kopiert wurden, stehen weiter
+in `.env.gpustack`, und die liest der OpenClaw-Agent als `dh` wie bisher. Die
+Trennung wirkt erst ab dem Moment, in dem die Werte dort nicht mehr gelten:
+Discord-Token über S1 (#566, eigene Application), GitHub-Token, GPUStack-Key,
+ATR-Key, HF-Token, SwitchDrive- und Nextcloud-Passwort neu ausstellen und nur
+noch in `/etc/agentic_historian.env` eintragen. Die Zeilen aus `.env.gpustack`
+erst entfernen, wenn feststeht, dass kein anderer Prozess sie liest.
+
+**Durchgang nach `/home/dh` heisst Lesbarkeit für alles, was dort `o+r` ist.**
+Der Bot kann `/home/dh` danach nicht auflisten, aber jede weltlesbare Datei
+darunter öffnen, deren Namen er kennt. `check_separation.py
+--openclaw-secrets` misst die eine Datei, die zählt; `find /home/dh -maxdepth 2
+-perm -o+r -type f` zeigt, ob es weitere gibt.
+
+**Rückweg**, falls der Dienst nicht hochkommt und `journalctl -u
+agentic-historian -n 50` es nicht erklärt:
+
+```
+sudo rm /etc/systemd/system/agentic-historian.service.d/{user,hardening,secrets}.conf
+sudo chown -R dh:dh /home/dh/agentic_historian/agentic_historian/data \
+                    /home/dh/agentic_historian/agentic_historian/knowledge_hub/data
 sudo systemctl daemon-reload && sudo systemctl restart agentic-historian
 ```
+
+Danach läuft er wieder als `dh` aus den dotenv-Dateien, wie vor der Umstellung.
 
 ## Nachgemessen auf tei, 2026-10-13
 
@@ -87,32 +146,39 @@ entspricht; die erste ist einen Kommentar entfernt. Die Entscheidung gehört zu
 ## Items and status
 
 1. **Own `EnvironmentFile` with only the bot's secrets** — `agentic_historian.env.example` +
-   `secrets.conf` + `AH_ENV_FILE` here. ✅ (repo side) / ◻️ **nicht installiert**
-   (gemessen 2026-10-13). Nachrangig geworden, siehe oben.
+   `secrets.conf` + `AH_ENV_FILE`. ✅ (repo side) / ◻️ **nicht installiert**
+   (gemessen 2026-10-13). Nachrangig geworden, siehe oben; installiert
+   `switch_to_own_user.sh` in einem Zug mit 2 und 3.
 2. **Harden the unit like the MCP server** — `hardening.conf` (#580). ✅ (repo side)
-   / ◻️ **nicht installiert**. Die Datei trug bis 2026-10-13 einen `/srv`-Platzhalter
-   in `ReadWritePaths` und war damit auf diesem Host nicht installierbar, ohne sie
-   vorher zu korrigieren — die Pfade kommen jetzt aus
-   `writable_paths.py`, abgeleitet aus der laufenden Konfiguration.
-3. **Run as a dedicated, less-privileged user** — create an `agentic_historian` user without
-   read access to the OpenClaw secret file, then set `User=`/`Group=` in
-   `secrets.conf`. ◻️ host action.
+   / ◻️ **nicht installiert**. Seit 17.10.2026 eine Stufe: nur die zwei
+   Datenverzeichnisse, abgeleitet aus der laufenden Konfiguration
+   (`writable_paths.py`); `/update` berichtet und zieht nicht mehr. Das Skript
+   prüft vor dem Neustart, dass die Datei jedes Verzeichnis freigibt, das die
+   Konfiguration schreibt.
+3. **Run as a dedicated, less-privileged user** — `agentic_historian` (nicht
+   `dh-bot`), `user.conf`. ✅ (repo side) / ◻️ **Host-Schritt**: der Lauf oben.
+4. **Rotate** what both processes handled while they shared a user — nach dem
+   Lauf, von Hand; siehe oben.
+
+Ob es in Kraft ist, sagt `deploy/systemd/check_separation.py` — es liest die
+wirksamen Eigenschaften von systemd, nicht die Dateien in diesem Checkout.
 
 ## Definition of done (#567)
 
 The bot process cannot read the OpenClaw credentials, runs hardened under systemd,
-and writes only to its data directory. The repo pieces above make that
-configurable; the remaining steps are operator actions on the host:
+and writes only to its data directory. Alles unten ist eine Messung auf tei, kein
+Repo-Zustand:
 
-- [ ] `/etc/agentic_historian.env` created (root:root 0600) with only the bot's keys.
-- [ ] `secrets.conf` + `hardening.conf` installed; `systemd-analyze security
-      agentic-historian` looks sane; `ReadWritePaths` in `hardening.conf` edited
-      to the real data dir.
-- [ ] A dedicated `agentic_historian` user that cannot read the OpenClaw secret file, with
-      `User=` set — or, until then, OS permissions on the OpenClaw secret file so
-      the bot's current user cannot read it.
-- [ ] Rotate any secret that lived only in the shared `.env.gpustack` and was
-      therefore handled by both processes.
+- [ ] `/etc/agentic_historian.env` exists (`root:agentic_historian 0640`) with only the
+      bot's keys — `check_separation.py` row for the file.
+- [ ] `secrets.conf` + `hardening.conf` + `user.conf` installed and loaded:
+      `check_separation.py` rows `User= (agentic_historian)`, `ProtectSystem=strict`,
+      `NoNewPrivileges=yes`, `PrivateTmp=yes`, `ReadWritePaths` all `ok`;
+      `systemd-analyze security agentic-historian` looks sane.
+- [ ] `check_separation.py --openclaw-secrets <path>` answers `ok` — the file is
+      neither world/group-readable nor owned by the service user.
+- [ ] Every secret that lived in the shared `.env.gpustack` rotated, the new value
+      in `/etc/agentic_historian.env` only.
 
 ## S3 — the OpenClaw home is no longer in this repo (#568)
 

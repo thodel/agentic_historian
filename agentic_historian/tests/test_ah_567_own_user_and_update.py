@@ -20,7 +20,9 @@ read as text.
 
 from __future__ import annotations
 
+import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -340,3 +342,88 @@ def test_the_data_only_mode_prints_bare_paths():
     assert lines, "nothing printed"
     assert all(line.startswith("/") for line in lines), lines
     assert not any(line.startswith("#") for line in lines), lines
+
+
+# ── the switch script, run: it stops before a restart that would fail ───────
+#
+# The checks above read the script as text. These run it — `--dry-run`, in a
+# copy whose `agentic_historian/` is a link to this checkout, so
+# `writable_paths.py` reads the real configuration — because the first version
+# of the script warned that the env file was missing and then restarted the
+# unit anyway: as a user that cannot read `.env.gpustack` (0600 dh:dh), the bot
+# would have come up with no token at all. A warning is not a stop.
+
+
+def _switch_copy(tmp_path: Path, *, hardening: str | None = None) -> Path:
+    """A repo-shaped copy with a hardening.conf that grants what config writes."""
+    root = tmp_path / "repo"
+    (root / "deploy").mkdir(parents=True)
+    subprocess.run(["cp", "-r", str(DEPLOY), str(root / "deploy" / "systemd")], check=True)
+    os.symlink(DEPLOY.parents[1] / "agentic_historian", root / "agentic_historian")
+    if hardening is None:
+        data = subprocess.run(
+            [sys.executable, str(root / "deploy" / "systemd" / "writable_paths.py"), "--data-only"],
+            capture_output=True, text=True, check=True).stdout.split()
+        hardening = "".join(f"ReadWritePaths={p}\n" for p in data)
+    (root / "deploy" / "systemd" / "agentic-historian.service.d" / "hardening.conf").write_text(
+        hardening, encoding="utf-8")
+    return root
+
+
+def _dry_run(root: Path, env_file: Path) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        ["bash", str(root / "deploy" / "systemd" / "switch_to_own_user.sh"), "--dry-run"],
+        capture_output=True, text=True, timeout=120,
+        env={**os.environ, "AH_ENV_FILE": str(env_file)})
+
+
+def test_without_the_secrets_file_the_script_stops_before_the_restart(tmp_path):
+    done = _dry_run(_switch_copy(tmp_path), tmp_path / "absent.env")
+
+    assert done.returncode == 4, done.stderr
+    assert "would stop here (exit 4)" in done.stderr
+    assert "systemctl restart" not in done.stdout, "it restarted a bot with no secrets"
+    assert "useradd" in done.stdout, "the user is created first; the env file is item 3"
+
+
+def test_with_the_secrets_file_it_installs_all_three_drop_ins_then_restarts(tmp_path):
+    env_file = tmp_path / "present.env"
+    env_file.write_text("", encoding="utf-8")
+
+    done = _dry_run(_switch_copy(tmp_path), env_file)
+
+    assert done.returncode == 0, done.stderr
+    out = done.stdout
+    for conf in ("secrets.conf", "hardening.conf", "user.conf"):
+        assert "would run: install -m 644 -D" in out and f"service.d/{conf}" in out, conf
+    assert out.index("secrets.conf") < out.index("systemctl daemon-reload") < out.index("systemctl restart")
+    assert f"chmod 640 {env_file}" in out and "chown root:agentic_historian" in out
+
+
+def test_a_directory_the_new_user_cannot_pass_through_is_found_and_granted(tmp_path):
+    """pytest's tmp_path is 0700: a user who is not its owner cannot traverse
+    it — exactly what a stock 0750 /home/dh does to `agentic_historian`."""
+    env_file = tmp_path / "present.env"
+    env_file.write_text("", encoding="utf-8")
+    os.chmod(tmp_path, 0o700)
+
+    done = _dry_run(_switch_copy(tmp_path), env_file)
+
+    assert done.returncode == 0, done.stderr
+    assert f"{tmp_path} — agentic_historian cannot pass through" in done.stdout
+    assert f"would run: setfacl -m u:agentic_historian:--x {tmp_path}" in done.stdout
+    assert "o+rx" not in done.stdout.replace("chmod o+x", ""), "traverse for one user, not for all"
+
+
+def test_a_data_directory_missing_from_hardening_conf_stops_everything(tmp_path):
+    """With ProtectSystem=strict a directory not in ReadWritePaths is a write
+    that fails at the first job (#643), so the script refuses before it
+    creates anything."""
+    env_file = tmp_path / "present.env"
+    env_file.write_text("", encoding="utf-8")
+
+    done = _dry_run(_switch_copy(tmp_path, hardening="ReadWritePaths=/nowhere\n"), env_file)
+
+    assert done.returncode == 6, done.stderr
+    assert "NOT in hardening.conf" in done.stdout
+    assert "useradd" not in done.stdout and "systemctl" not in done.stdout
