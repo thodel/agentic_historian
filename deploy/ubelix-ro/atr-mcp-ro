@@ -1,0 +1,158 @@
+#!/usr/bin/env python3
+"""atr-mcp-ro — the only thing the ATR MCP key may run on UBELIX (#674).
+
+Installed as the forced command of one key in ``~/.ssh/authorized_keys``::
+
+    restrict,command="$HOME/bin/atr-mcp-ro" ssh-ed25519 AAAA… atr-mcp@tei
+
+sshd then runs this script whatever the client asked for, and puts the request
+in ``SSH_ORIGINAL_COMMAND``. Three requests are understood, all read-only:
+
+* ``queue`` — this user's jobs in ``squeue``, with Slurm's start estimate.
+* ``job <slurm id>`` — ``sacct -D`` for one job, preemptions and requeues included.
+* ``record <job id> [lines]`` — the trainer's record (``job.json``) and the tail
+  of the log of its current stage.
+
+Everything else exits 2 without running anything. There is no shell on this path:
+the request is split on whitespace, every word is matched against a pattern, and
+what runs is a fixed argv handed to ``execve``. Python 3.7+ and the standard
+library only, because this runs on a login node with whatever ``python3`` it has.
+"""
+
+from __future__ import annotations
+
+import getpass
+import json
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+SLURM_ID_RE = re.compile(r"^[0-9]{1,12}$")
+RECORD_RE = re.compile(r"^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9._-]{0,120}$")
+STAGE_RE = re.compile(r"^[a-z_]{1,32}$")
+LINES_RE = re.compile(r"^[0-9]{1,3}$")
+
+MAX_LINES = 200
+DEFAULT_LINES = 40
+#: How much of a log's end is read to find its last lines. A training log can
+#: be gigabytes; its tail is all anybody asks for.
+TAIL_BYTES = 256 * 1024
+#: The record fields worth handing out. job.json carries the full request too,
+#: and nobody polling a queue needs that.
+RECORD_FIELDS = ("id", "status", "stage", "host", "created_at", "updated_at",
+                 "finished_at", "error")
+
+REFUSED = 2
+
+
+def user() -> str:
+    return os.environ.get("USER") or getpass.getuser()
+
+
+def jobs_root() -> Path:
+    """Where the trainer keeps its records on UBELIX (training-atr-models'
+    ``ubelix/`` scripts). ``ATR_MCP_RO_JOBS`` exists for the tests: sshd does
+    not pass a client's environment into a forced command unless ``AcceptEnv``
+    names it, and nothing names this one."""
+    override = os.environ.get("ATR_MCP_RO_JOBS")
+    if override:
+        return Path(override)
+    return Path("/scratch/network/users") / user() / "runs" / "jobs"
+
+
+def refuse(why: str) -> int:
+    print("refused: " + why, file=sys.stderr)
+    return REFUSED
+
+
+def run(argv: list) -> int:
+    try:
+        return subprocess.run(argv, timeout=20).returncode
+    except FileNotFoundError:
+        print(argv[0] + ": not found", file=sys.stderr)
+        return 127
+    except subprocess.TimeoutExpired:
+        print(argv[0] + ": timed out after 20 s", file=sys.stderr)
+        return 124
+
+
+def queue() -> int:
+    me = user()
+    code = run(["squeue", "-u", me,
+                "-o", "%.10i %.12P %.40j %.9T %.11M %.20S %R"])
+    print("== start estimates")
+    return code or run(["squeue", "-u", me, "--start", "-h",
+                        "-o", "%.10i %.20S %R"])
+
+
+def job(slurm_id: str) -> int:
+    return run(["sacct", "-j", slurm_id, "-u", user(), "-D", "-X",
+                "--format=JobID,JobName%40,State,Submit,Start,End,Elapsed,"
+                "NodeList%12,ExitCode"])
+
+
+def tail(path: Path, lines: int) -> list:
+    with path.open("rb") as fh:
+        fh.seek(0, os.SEEK_END)
+        size = fh.tell()
+        fh.seek(max(0, size - TAIL_BYTES))
+        data = fh.read()
+    return data.decode("utf-8", "replace").splitlines()[-lines:]
+
+
+def record(record_id: str, lines: int) -> int:
+    root = jobs_root()
+    path = root / record_id / "job.json"
+    try:
+        raw = json.loads(path.read_text())
+    except FileNotFoundError:
+        print(json.dumps({"id": record_id, "error": "no such record"}))
+        return 1
+    except (OSError, ValueError) as exc:
+        print(json.dumps({"id": record_id, "error": "unreadable: %s" % exc}))
+        return 1
+    out = {k: raw[k] for k in RECORD_FIELDS if k in raw}
+    out.setdefault("id", record_id)
+
+    logs = root / record_id / "logs"
+    stage = raw.get("stage")
+    candidates = []
+    if isinstance(stage, str) and STAGE_RE.match(stage):
+        candidates.append(logs / (stage + ".log"))
+    # In-process stages (prepare, compile) write only runner.log; the trainer's
+    # own _failure_log falls back the same way.
+    candidates.append(logs / "runner.log")
+    for log in candidates:
+        try:
+            if log.is_file() and log.stat().st_size:
+                out["log"] = {"path": str(log), "tail": tail(log, lines)}
+                break
+        except OSError:
+            continue
+    else:
+        out["log"] = None
+    print(json.dumps(out, ensure_ascii=False))
+    return 0
+
+
+def main() -> int:
+    words = os.environ.get("SSH_ORIGINAL_COMMAND", "").split()
+    if not words:
+        return refuse("no request; this key runs `queue`, `job ID` or `record ID [lines]`")
+    verb, args = words[0], words[1:]
+    if verb == "queue" and not args:
+        return queue()
+    if verb == "job" and len(args) == 1 and SLURM_ID_RE.match(args[0]):
+        return job(args[0])
+    if verb == "record" and len(args) in (1, 2) and RECORD_RE.match(args[0]):
+        if len(args) == 2 and not LINES_RE.match(args[1]):
+            return refuse("lines must be a number")
+        lines = min(MAX_LINES, max(1, int(args[1]))) if len(args) == 2 else DEFAULT_LINES
+        return record(args[0], lines)
+    return refuse("not one of `queue`, `job ID`, `record ID [lines]`")
+
+
+if __name__ == "__main__":
+    sys.exit(main())
