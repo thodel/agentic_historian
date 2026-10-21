@@ -814,6 +814,59 @@ klein, aber nicht null, und es ist die Form eines Lecks in einer
 Held-out-Messung. Hier ist nicht die Hand falsch, sondern eine Grenze
 durchlässig, und das ist ein anderer Fehler als der, vor dem die Karte warnt.
 
+### Sitzen die geteilten Polygone auf der Tinte? Ja — und der Weg dahin war der Lehrreiche
+
+Die Frage stand an drei Stellen als offen, und ein Blick auf einen Zeilenschnitt
+hätte sie mit „sieht richtig aus" beantwortet. Gemessen ist sie besser
+beantwortet: **jede Abweichung vom angewandten Faktor fängt weniger Tinte.**
+
+Das Mass ist der Anteil der Tintenpixel einer Seite, der **innerhalb** der
+Zeilenpolygone liegt (Otsu-Binarisierung, Polygonmaske). Ist der Faktor richtig,
+muss er ein **Optimum** sein: grössere, kleinere oder verschobene Kästen müssen
+schlechter abschneiden. Ein dunkler Scanrand verschiebt alle Varianten gleich
+und fällt damit aus dem Vergleich heraus — anders als beim Absolutwert.
+
+**12 der 13 Seiten: `s* = 1.00`, `dx* = dy* = 0`, exakt.** Kein Wert im Raster
+(0,90–1,10 Skalierung, ±4 % Verschiebung in beiden Achsen) bringt ein einziges
+Tintenpixel mehr.
+
+Die dreizehnte, `Basel__…Seite_164`, zeigte `s* = 1.10` mit `+4 % / −4 %`
+Verschiebung und einem Gewinn von 0,246 → 0,264. **Alle drei Parameter lagen am
+Rand des Rasters**, und das ist die Signatur eines Gradienten nach aussen, nicht
+eines Optimums: ein echtes Maximum liegt innen und bringt viel. Nachgemessen mit
+randfester Tintendefinition (innere 90 % der Seite, Pixel unter 20 als Rand
+verworfen):
+
+| Skalierung | 0,80 | 0,90 | **1,00** | 1,10 | 1,20 | 1,30 |
+|---|---:|---:|---:|---:|---:|---:|
+| Tinte im Kasten | 0,362 | 0,496 | **0,856** | 0,723 | 0,750 | 0,675 |
+
+| Verschiebung (Höhe) | −10 % | −5 % | **0** | +5 % | +10 % |
+|---|---:|---:|---:|---:|---:|
+| Tinte im Kasten | 0,678 | 0,454 | **0,856** | 0,452 | 0,719 |
+
+Inneres Maximum mit Abfall nach beiden Seiten, auf beiden Parametern. Der
+Tinteanteil der Seite fiel dabei von 0,195 auf **0,056** — fast drei Viertel der
+vorher gezählten „Tinte" war Rand, und 0,856 liegt mitten im Bereich der zehn
+Freiburger Seiten (0,747–0,912). Diese Seite war nie ein Ausreisser der Daten,
+sondern einer der Messung.
+
+Ein Nebenbefund, der die Sache dichter macht als geplant: die Täler bei ±5 % und
+die teilweise Erholung bei ±10 % sind der **Fingerabdruck der Zeilenperiodik** —
+um anderthalb Zeilenhöhen verschoben landen die Kästen zwischen den Zeilen
+(0,45), um dreieinhalb wieder näher an Zeilen (0,68–0,72). Diese Form hat nur
+eine korrekte Ausrichtung auf einem periodischen Raster.
+
+**Was dabei schiefging, ist die eigentliche Lehre.** Als Kontrolle liefen 25
+unberührte Seiten mit, deren Polygone *konstruktiv* richtig sind — sie sind im
+Baum, weil XML- und Bildgrösse ohne jede Änderung übereinstimmten. Ihr Median
+lag bei **0,166** mit Lift **0,54**, also deutlich *unter* den umgerechneten
+0,830. Das kann nicht an der Platzierung liegen; es liegt daran, dass Otsu auf
+Archivscans mit dunklem Rand den Rand als Tinte zählt. Die Kontrolle hat damit
+**das Instrument gemessen und nicht den Gegenstand** — und genau dadurch
+verhindert, dass ich 0,830 für einen Beweis nehme (§ *28* in
+`LESSONS_2026-10.md`).
+
 ## Die Datensatzkarte
 
 Sie steht als [`hf-dataset-card.md`](hf-dataset-card.md) im Repository, mit der

@@ -973,6 +973,54 @@ Test an 200 × 10 ms Wartezeit für zwei Heartbeats im 20-ms-Takt und war unter
 Last in etwa jedem zehnten Lauf rot — mit der Meldung „the heartbeat never
 fired", während er einmal geschlagen hatte. Er wartet jetzt auf ein `Event`,
 hängt also davon ab, *dass* geschlagen wird, und nicht davon, wie schnell.
+## 28. My control measured the instrument, and that is why I did not publish a wrong answer
+
+The question was whether the line polygons of the 13 rescaled pages sit on the
+ink after being divided by a measured factor. The metric: what share of a page's
+ink falls inside the line polygons. The control, chosen to calibrate it: 25
+pages whose polygons were never touched and are correct **by construction** —
+they are in the export because their XML and their image already agreed on size.
+
+The rescaled 13 scored a median of **0.830**. The control scored **0.166**.
+
+Taken at face value that reads as a triumph, and it is nothing of the kind. The
+control's polygons cannot be misplaced, so a score of 0.166 is not a statement
+about placement at all — it says the metric is dominated by something else. It
+was: Otsu binarisation on an archival scan with a dark surround counts the
+surround as ink, and the surround lies outside every line. One page carried
+**0.195 ink by area**, where a handwritten page carries 0.02–0.04; with a
+border-robust mask the same page measured 0.056, so 72 % of its "ink" was the
+edge of the scan.
+
+Without the control I would have reported 0.830 as proof. The answer would even
+have been **right** — the measurement that finally settled it agrees — and it
+would have been right for a reason I had not established. That is the failure
+mode this document keeps finding in a dozen shapes, and it is worse than being
+wrong, because nothing afterwards contradicts it.
+
+**Two sharper rules came out of the same hour.**
+
+*An argmax at the edge of the swept range is not an optimum.* One page reported
+its best fit at scale 1.10 with the maximum shift in both axes — all three
+parameters pinned to the boundary, for a gain of 0.246 → 0.264. A real optimum
+sits inside the range and pays much more; a boundary argmax with a small gain is
+a **gradient pointing out of the frame**, here towards the dark border. Widening
+the range and cleaning the mask put the peak at 1.00 with 0.856, falling away on
+both sides.
+
+*A confound can be indistinguishable from the defect you fear.* Those three low
+scores were all Basel pages, and "three pages from one holding are misaligned"
+is an entirely plausible defect — plausible enough that I was ready to pull them
+out of a published dataset. The thing that separated the two readings was not
+more thought about placement but **one column I had almost left out**: the ink
+fraction of the whole page. 0.177–0.245 against 0.016–0.043 said *image*, not
+*geometry*, in one glance.
+
+**The generalisation:** a control is not there to make the result look solid. It
+is there to tell you what your instrument is actually responding to — and when
+it disagrees with the thing you are measuring, believe the control first,
+because it is the half of the experiment whose answer you already know.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
