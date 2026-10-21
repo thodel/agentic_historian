@@ -67,11 +67,24 @@ guess. **It will be wrong on some pages.** 146 of the 254 come from the register
 44 from their own dateline, 30 are inherited; in five letters register and
 dateline disagree, and in one letter two dated pages disagree with each other.
 
+**And one letter crosses the boundary.** Where two dated pages of a letter
+disagree, nothing is inherited and each page keeps its own reading — so
+`lassberg-letter-2921` has one page under `korrespondenten` and one under
+`lassberg`. If you split train and test by `project_name`, that letter lands on
+both sides: one page left, one right, same writer, same paper, same ink. It is
+one letter of 96, so the effect is small, but it is the shape of a leak in a
+held-out measurement, and it is a different fault from the one above — here the
+hand may be right and the boundary is porous. Split by letter (the
+`lassberg-letter-NNNN` segment of `filename`) if a held-out number has to mean
+something.
+
 **2. `unbestimmt` means nothing said anything.** 34 pages have no recognisable
 dateline and no dated page in their letter. They are **not a third hand** — do
 not train a three-way split on this column without deciding what to do with
-them. A rescued page (see 4) is usually a continuation page, which is why this
-share rose rather than fell as pages were added.
+them. A rescued page (see 4) is usually a continuation page, and the shards show
+how strongly: **7 of the 13 rescaled pages sit in `unbestimmt`**, 21 % of that
+shard against 2.3 % and 3.4 % of the other two. This project is both the least
+labelled and the most repaired part of the dataset.
 
 **3. Status DONE counts as ground truth here.** This Transkribus collection used
 the GT tag on 19 of 552 pages, so requiring it would have discarded 96 % of the
@@ -98,8 +111,10 @@ as the first line of the document:
      both axes agreed on the factor to within 0.019 %. -->
 ```
 
-Filter on that string to find or exclude them. Their factors are 1.58 to 3.31 and
-vary **within a single letter**, so they are not one derivative pipeline.
+Filter on that string to find or exclude them — verified in the uploaded parquet:
+13 rows carry it, 3 + 3 + 7 across the three projects. Their factors are 1.58 to
+3.31 and vary **within a single letter**, so they are not one derivative
+pipeline.
 
 ## What is not in here, and why
 
@@ -134,6 +149,20 @@ from datasets import load_dataset
 ds = load_dataset("dh-unibe/image-text_lassberg-correspondence_xix", split="train")
 print(ds.features)                       # image, xml_content, filename, project_name
 lassberg = ds.filter(lambda r: r["project_name"] == "lassberg")
+```
+
+Reading one text column without downloading the images — the whole dataset is
+1.46 GB and almost all of it is pixels:
+
+```python
+from huggingface_hub import HfFileSystem
+import pyarrow.parquet as pq
+
+fs = HfFileSystem()                       # needs HF_TOKEN; the dataset is private
+base = "datasets/dh-unibe/image-text_lassberg-correspondence_xix/data/train"
+for shard in sorted(fs.glob(base + "/*/*.parquet")):
+    t = pq.read_table(shard, columns=["filename", "xml_content"], filesystem=fs)
+    print(shard.split("/")[-2], t.num_rows)
 ```
 
 The Dataset Viewer is unavailable for this repository: private datasets are

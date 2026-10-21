@@ -750,22 +750,69 @@ falsch gelesen: die Datensatzkarte schneidet ihre Feature-Liste nach
 selbst zeigt alle vier Spalten. Eine abgeschnittene Darstellung ist keine
 Aussage über den Inhalt (§ *17* in `LESSONS_2026-10.md`, dritter Fall).
 
-**Zwei Dinge, die der Upload nicht beantwortet.** Der Dataset Viewer verweigert
-private Datensätze außerhalb von PRO/Enterprise (`501 Not Implemented`) — keine
+**Was der Upload nicht beantwortet.** Der Dataset Viewer verweigert private
+Datensätze außerhalb von PRO/Enterprise (`501 Not Implemented`) — keine
 Zeilenvorschau, kein Parquet-Export, kein Schema-Browsing auf dem Hub;
-`load_dataset` geht, Hineinsehen heisst Herunterladen. Und ob die 13
-umgerechneten XML ihren Vermerk in der Spalte tragen, ist **im Baum** belegt und
-im Parquet nicht nachgesehen:
+`load_dataset` geht, Hineinsehen heisst Herunterladen.
+
+### Im Parquet nachgesehen: 13 von 13
+
+Die vierte Stelle, an der dieselben dreizehn Seiten auftauchen — nach Plan,
+Schreiben und geschriebener Datei:
 
 ```bash
-cd /home/dh/agentic_historian && .venv/bin/python3 - <<'PY'
-from datasets import load_dataset
-d = load_dataset("dh-unibe/image-text_lassberg-correspondence_xix", split="train")
-hit = [r["filename"] for r in d
-       if "agentic_historian: line coordinates divided" in r["xml_content"]]
-print(len(hit), "Zeile(n) mit Vermerk")      # erwartet: 13
+cd /home/dh/agentic_historian
+set -a; . ./.env; set +a          # Token in die Umgebung, nicht in die History
+/opt/pagexml-hf/bin/python3 - <<'PY'
+from huggingface_hub import HfFileSystem
+import pyarrow.parquet as pq
+
+fs = HfFileSystem()
+base = "datasets/dh-unibe/image-text_lassberg-correspondence_xix/data/train"
+NOTE = "agentic_historian: line coordinates divided"
+for shard in sorted(fs.glob(base + "/*/*.parquet")):
+    t = pq.read_table(shard, columns=["filename", "xml_content"], filesystem=fs)
+    hits = [f for f, x in zip(t["filename"].to_pylist(), t["xml_content"].to_pylist())
+            if NOTE in x]
+    print(f"{len(hits):3} von {t.num_rows:3}   {shard.split('/')[-2]}")
 PY
 ```
+
+**Der Interpreter ist `/opt/pagexml-hf/bin/python3` und nicht der des Projekts**
+— `datasets`/`pyarrow` liegen absichtlich nicht in der Venv des Dienstes (§ oben),
+und eine erste Fassung dieser Prüfung scheiterte an genau dem `import`. Dazu
+zweierlei, was sie billig macht: die **Spaltenprojektion über Range-Requests**
+holt zwei Textspalten statt 1,46 GB Bilder, und `set -a; . ./.env` bringt den
+Token in die Umgebung, ohne ihn in die History zu schreiben.
+
+| Shard | Zeilen | davon mit Vermerk |
+|---|---:|---:|
+| `korrespondenten` | **131** | 3 |
+| `lassberg` | **89** | 3 |
+| `unbestimmt` | **34** | **7** |
+| | 254 | **13** |
+
+Die Zeilenzahlen sind die des Plans, die dreizehn Dateinamen dieselben. Und zwei
+Befunde, die erst diese Verteilung zeigt:
+
+**Sieben der dreizehn liegen in `unbestimmt`** — 21 % jenes Shards gegen 2,3 %
+und 3,4 % der beiden anderen. Dass eine gerettete Seite meist eine Folgeseite
+ohne Datumszeile ist, war bisher eine Erklärung; jetzt ist es eine Verteilung,
+mit einer Überrepräsentation um den Faktor sieben bis neun.
+
+**Brief 2921 liegt in zwei verschiedenen Projekten**: `…-002` unter
+`korrespondenten`, `…-001` unter `lassberg`. Das ist der Hand-Konflikt, den der
+Plan als Warnzeile meldete („korrespondenten 1, lassberg 1") — zwei datierte
+Seiten, die sich widersprechen, also vererbt der Brief nichts und jede Seite
+behält ihre eigene Lesung. Im Datensatz sind daraus zwei Shards geworden, die
+zwei Seiten *eines* Briefes halten.
+
+Das hat eine Folge über Kosmetik hinaus: **wer nach `project_name` in Train und
+Test teilt, legt diesen Brief über die Grenze** — eine Seite links, eine rechts,
+derselbe Schreiber, dasselbe Papier, dieselbe Tinte. Ein Brief von 96, also
+klein, aber nicht null, und es ist die Form eines Lecks in einer
+Held-out-Messung. Hier ist nicht die Hand falsch, sondern eine Grenze
+durchlässig, und das ist ein anderer Fehler als der, vor dem die Karte warnt.
 
 ## Die Datensatzkarte
 
