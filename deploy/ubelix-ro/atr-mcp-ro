@@ -68,6 +68,9 @@ def refuse(why: str) -> int:
 
 
 def run(argv: list) -> int:
+    # The child writes straight to the fd; through ssh that is a pipe, where our
+    # own print()s sit in a buffer and would come out after it.
+    sys.stdout.flush()
     try:
         return subprocess.run(argv, timeout=20).returncode
     except FileNotFoundError:
