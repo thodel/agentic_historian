@@ -214,11 +214,11 @@ port and no firewall exception on this path.
   rewriting it from that snapshot, so two processes raced for as long as their
   objects lived (#393).
 - **Seven questions, not an endpoint.** The corpus graph and the Bestandsgraph
-  (Dodis, Königsfelden, SSRQ) are reachable as named queries — persons in
+  (Dodis, Königsfelden, SSRQ, Musiklexikon der Schweiz) are reachable as named queries — persons in
   care-related documents of a century, every reading of a page with its model
   and the historian's choice, which authority source links the most and which
   documents stay unlinked, who is named alongside whom; and, over the
-  Bestandsgraph, who is named in which century across the three holdings with
+  Bestandsgraph, who is named in which century across the four holdings with
   role and authority id, who signs with whom (Dodis), and which families have
   which members and places (KF, SSRQ). One mention path, `(P128/P67)|P67`,
   serves both graphs. `/sparql` runs them; `knowledge_hub/queries.py` holds

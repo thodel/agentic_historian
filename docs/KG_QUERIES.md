@@ -18,7 +18,8 @@ beide zusammen).
 ## Die sieben Fragen
 
 Vier aus KG-5 über den Korpus-Graphen, seit KG-11 (#654) auch über den
-Bestandsgraphen (Dodis, Königsfelden, SSRQ — KG-7/8/9); drei aus KG-11 über den
+Bestandsgraphen (Dodis, Königsfelden, SSRQ, Musiklexikon der Schweiz — KG-7/8/9/13);
+drei aus KG-11 über den
 Bestandsgraphen allein.
 
 | Name | Frage | Argument | Graph |
@@ -27,7 +28,7 @@ Bestandsgraphen allein.
 | `readings-of-page` | Welche Lesungen hat eine Seite, von welchem Modell — und welche hat ein Historiker als die nächste gewählt? | Dokument-Id | Korpus (nur dort gibt es Lesungen; die Frage sagt es) |
 | `authority-coverage` | Welche Normdatenquelle liefert die meisten Verknüpfungen — und welche Dokumente haben unverknüpfte Entitäten? | — | beide |
 | `co-occurrence` | Welche Personen werden im selben Dokument genannt — über das ganze Korpus? | — | beide |
-| `persons-of-century-across-sources` | Welche Personen werden in Dokumenten eines Jahrhunderts genannt — über Dodis, Königsfelden und SSRQ hinweg, mit Bestand, Rolle und Normdaten-URI? | Jahrhundert | Bestand |
+| `persons-of-century-across-sources` | Welche Personen werden in Dokumenten eines Jahrhunderts genannt — über Dodis, Königsfelden, SSRQ und das Musiklexikon der Schweiz hinweg, mit Bestand, Rolle und Normdaten-URI? | Jahrhundert | Bestand |
 | `co-signatories` | Wer unterzeichnet mit wem? — die signatory-Rolle (Dodis) als Kante zwischen zwei Personen desselben Dokuments | — | Bestand |
 | `families-and-places` | Welche Familien (E74) haben welche Mitglieder, und welche Orte hängt das Register an die Mitglieder? | — | Bestand (KF, SSRQ) |
 
@@ -47,7 +48,7 @@ Drei Dinge, die der Bestandsgraph anders trägt, und wie die Fragen sie lesen:
 | Was | Korpus-Graph | Bestandsgraph | in der Frage |
 |---|---|---|---|
 | Jahrhundert | `sdhss:century 15` (aus der Datierung gerechnet) | `P82a_begin_of_the_begin` der **E65 Creation** (P4 verlangt eine zeitliche Entität, das Dokument ist keine) | `FLOOR((YEAR(?begin) − 1) / 100) + 1 = ?century` — dieselbe Arithmetik wie `century_of` |
-| Quelle einer Zeile | — | `prov:wasDerivedFrom` auf jedem Knoten (KG-6) | `?source` = Label des Datensatzes, Pflichtspalte der drei neuen Fragen |
+| Quelle einer Zeile | — | `prov:wasDerivedFrom` auf jedem Knoten (KG-6); beim MLS das Lexikon des Artikels, «Musiklexikon der Schweiz — Becker 1874» (KG-13) | `?source` = Label des Datensatzes, Pflichtspalte der drei neuen Fragen |
 | Lokale Id | Literal am E42 | E42 mit `P2_has_type` → E55 «kf»/«ssrq» | `COALESCE(Label, Term)` in `authority-coverage` |
 
 Die drei Bestand-Fragen stehen in `queries.BESTAND_ONLY`: über den Korpus-Graphen

@@ -30,7 +30,7 @@ the parameters it was asked with — never a blank, and never a crash.
 
 **One question, two graphs** (KG-11, #654). The corpus graph (KG-2) hangs a
 mention on the *working reading* of a page — ``P128_carries`` → ``P67``;
-the Bestandsgraph (KG-7/8/9: Dodis, Königsfelden, SSRQ) has no readings, the
+the Bestandsgraph (KG-7/8/9/13: Dodis, Königsfelden, SSRQ, MLS) has no readings, the
 record itself refers — ``P67`` from the document. :data:`MENTION` is that
 path, ``(P128/P67)|P67``, and every question that asks "who is named in this
 document" goes through it, so the same canned query answers over both graphs
@@ -266,7 +266,10 @@ _CENTURY_OF_CREATION = """
   FILTER(?computedCentury = ?century)"""
 
 #: Where a row's document came from: the dataset it was derived from, by
-#: label (``prov:wasDerivedFrom`` is on every Bestandsgraph node, KG-6).
+#: label (``prov:wasDerivedFrom`` is on every Bestandsgraph node, KG-6). For
+#: the MLS that is the article's lexicon (KG-13), labelled «Musiklexikon der
+#: Schweiz — <Lexikon>», so the column names both the holding and the edition;
+#: a lexicon article is dated by its lexicon's year of publication.
 _SOURCE_OF_DOCUMENT = """
   ?document prov:wasDerivedFrom ?dataset .
   ?dataset rdfs:label ?source ."""
@@ -395,8 +398,8 @@ _CO_OCCURRENCE = CannedQuery(
 _PERSONS_OF_CENTURY = CannedQuery(
     name="persons-of-century-across-sources",
     question=("Welche Personen werden in Dokumenten eines Jahrhunderts genannt — "
-              "über Dodis, Königsfelden und SSRQ hinweg, mit Bestand, Rolle und "
-              "Normdaten-URI?"),
+              "über Dodis, Königsfelden, SSRQ und das Musiklexikon der Schweiz "
+              "hinweg, mit Bestand, Rolle und Normdaten-URI?"),
     columns=("document", "documentLabel", "source", "begin", "person",
              "personLabel", "role", "authority"),
     params={"century": _century},
