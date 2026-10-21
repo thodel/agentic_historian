@@ -81,6 +81,55 @@ def _run_git(runner: SubprocessRunner, *git_args: str) -> CmdResult:
     return runner.run(["git", "-C", str(_REPO_ROOT), *git_args])
 
 
+#: What `git ls-remote` is asked for. A full ref, not `main`: a short name also
+#: matches a tag of that name, and a tag is not the branch being deployed.
+MAIN_REF = "refs/heads/main"
+
+
+def remote_status(runner: SubprocessRunner | None = None) -> dict:
+    """What origin/main is, and what this process runs — **writing nothing** (#567).
+
+    ``fetch_status`` below writes: ``git fetch origin main:refs/remotes/origin/main``
+    updates a ref, and ``git status`` refreshes the index unless told not to.
+    Under the confinement S2 asks for, the checkout is read-only, so the bot
+    cannot run it — and it must not be made writable to get the answer back:
+
+    * making the **worktree** writable is what the sandbox exists to prevent —
+      the process would be able to rewrite the code it is about to run;
+    * making only **`.git`** writable looks narrower and is not: `.git/hooks/*`
+      runs as the service user on the next git operation, so write there is code
+      execution there.
+
+    So this asks the remote directly and compares two hashes. The price is
+    honest and named in the answer: without the objects locally, "behind" and
+    "diverged" cannot be told apart, and ``relation`` says ``"unknown"`` rather
+    than picking one. ``/update`` reports; a person deploys from outside.
+    """
+    r = runner or SubprocessRunner()
+
+    # --no-optional-locks: `git status` otherwise refreshes `.git/index`, which
+    # is a write, which is the thing this function exists to avoid.
+    head_r = _run_git(r, "--no-optional-locks", "rev-parse", "HEAD")
+    current_sha = head_r.stdout.strip()[:12] if head_r.ok else ""
+
+    remote_r = _run_git(r, "ls-remote", "origin", MAIN_REF)
+    if not remote_r.ok:
+        return dict(ok=False, current_sha=current_sha, target_sha=None,
+                    relation="unknown", writes_nothing=True,
+                    error=remote_r.stderr.strip() or "git ls-remote failed")
+
+    first = remote_r.stdout.split("\n", 1)[0].split()
+    target_sha = first[0][:12] if first else ""
+    if not target_sha:
+        return dict(ok=False, current_sha=current_sha, target_sha=None,
+                    relation="unknown", writes_nothing=True,
+                    error=f"origin has no {MAIN_REF}")
+
+    return dict(ok=True, current_sha=current_sha, target_sha=target_sha,
+                relation="same" if target_sha == current_sha else "unknown",
+                writes_nothing=True, error=None)
+
+
 def fetch_status(runner: SubprocessRunner | None = None) -> dict:
     """
     Run `git fetch origin main` and return a status dict:
@@ -148,6 +197,12 @@ def fetch_status(runner: SubprocessRunner | None = None) -> dict:
 
 
 def apply_update(runner: SubprocessRunner | None = None) -> dict:
+    # NOTE (#567): **the bot no longer calls this.** `/update` reports what
+    # origin/main is and stops there (see `remote_status`), because pulling means
+    # writing the code this process runs — and that is the one thing the
+    # confinement S2 asks for cannot allow. This stays as a tool for whoever
+    # already has write access to the checkout: `update.sh`, or a person on tei.
+    # It is not reachable from Discord, which is the point.
     """
     Safe update pipeline. Returns:
 

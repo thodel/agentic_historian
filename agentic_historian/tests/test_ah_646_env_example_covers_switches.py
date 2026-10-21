@@ -1,7 +1,7 @@
 """The operator's checklist has to list the switches that are off (#646).
 
-`deploy/systemd/dh-bot.env.example` is what somebody copies to
-`/etc/dh-bot.env` and works through when setting the bot up. Its header says
+`deploy/systemd/agentic_historian.env.example` is what somebody copies to
+`/etc/agentic_historian.env` and works through when setting the bot up. Its header says
 non-secret tunables "all have defaults in config.py — set one here only to
 override it", and for a threshold that is right. For a feature switch whose
 default is **off** it is not: leaving it out does not keep a default, it leaves
@@ -26,7 +26,7 @@ import pytest
 
 
 CFG = Path("agentic_historian/config.py")
-EXAMPLE = Path("deploy/systemd/dh-bot.env.example")
+EXAMPLE = Path("deploy/systemd/agentic_historian.env.example")
 
 #: Env keys the example deliberately omits, and why. An entry is a decision
 #: somebody wrote down, not a way to silence this test.
@@ -82,7 +82,7 @@ def test_the_example_lists_every_switch_the_code_reads():
     missing = sorted(switches - _example_keys() - set(NOT_ON_THE_CHECKLIST))
     assert not missing, (
         f"not on the operator's checklist: {missing}. Add each to "
-        f"deploy/systemd/dh-bot.env.example with its default and what it turns "
+        f"deploy/systemd/agentic_historian.env.example with its default and what it turns "
         f"on, or to NOT_ON_THE_CHECKLIST with the reason it may be left out")
 
 

@@ -1968,52 +1968,39 @@ class _ConfirmView(View):
             )
 
 
-@bot.slash_command(name="update", description="Admin: check for and apply bot updates")
+@bot.slash_command(name="update",
+                   description="Admin: report whether this process runs origin/main")
 @deploy_admin_only
 async def update_cmd(ctx):
-    """Check for updates; show commit list with Confirm/Cancel if behind main."""
+    """Report the two commits. **Does not deploy** (#567).
+
+    Pulling means writing the code this process is running, and the confinement
+    S2 asks for cannot allow that — not even through `.git`, whose `hooks/` run
+    as the service user. So this compares and stops: the deploy happens from
+    outside, by somebody who already has write access to the checkout.
+    """
     await ctx.defer()
 
     import updater
 
-    status = await _run_blocking(ctx, updater.fetch_status)
+    status = await _run_blocking(ctx, updater.remote_status)
     if not status.get("ok"):
-        await ctx.followup.send(f"❌ Status-Check fehlgeschlagen: {status.get('error', '?')}")
+        await ctx.followup.send(f"❌ Abfrage fehlgeschlagen: {status.get('error', '?')}")
         return
 
-    if status["ahead"] == 0:
-        sha = status["current_sha"][:12]
-        await ctx.followup.send(f"✅ Bereits auf dem neusten Stand — `{sha}`.")
+    here, there = status["current_sha"], status["target_sha"]
+    if status["relation"] == "same":
+        await ctx.followup.send(f"✅ Läuft auf `origin/main` — `{here}`.")
         return
 
-    # Build commit list
-    lines = [
-        f"📦 `{status['current_sha'][:12]}` → `{status['target_sha'][:12]}` — "
-        f"{status['ahead']} commit(s):"
-    ]
-    for c in status["commits"]:
-        lines.append(f"  • `{c['sha'][:7]}` {c['subject'][:72]}")
-    lines.append("")
-    lines.append("Bestätigen klicken zum Aktualisieren — der Bot wird anschliessend neu gestartet.")
+    await ctx.followup.send(
+        f"📦 `origin/main` ist `{there}`, dieser Prozess läuft `{here}`.\n"
+        f"Deployen von aussen: `git -C <checkout> pull --ff-only && "
+        f"pip install -r requirements-dev.txt && sudo systemctl restart "
+        f"agentic-historian`.\n"
+        f"_Welcher der beiden Stände der ältere ist, lässt sich von hier nicht "
+        f"sagen — dazu bräuchte es ein `git fetch`, und das schreibt (#567)._")
 
-    token = _make_token()
-    target_sha = status["target_sha"][:12]
-    requester_id = str(ctx.author.id)
-
-    view = _ConfirmView(token=token, requester=requester_id, target_sha=target_sha)
-    msg = await ctx.followup.send("\n".join(lines), view=view)
-
-    # Recorded only once the message exists, because its id is what binds the
-    # view back after a restart (#614) — the same thing #150 does for the gate
-    # cards. A record written before the send would name a message that may
-    # never have been posted.
-    import pending_confirm
-    pending_confirm.add(pending_confirm.Pending(
-        token=token, kind="update", channel_id=str(ctx.channel.id),
-        message_id=str(msg.id), requester=requester_id,
-        data={"target_sha": target_sha, "from_sha": status["current_sha"][:12]},
-    ))
-    bot.add_view(view, message_id=msg.id)
 
 
 # ── /mcp_propose (#229): probe an MCP source → reviewed PR (never hot-load) ────

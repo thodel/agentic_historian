@@ -77,7 +77,7 @@ process, decoupled from the OpenClaw agent `dh-bot`: its own Discord application
 token (S1, #566); its own secrets file read via `AH_ENV_FILE` instead of the shared
 `.env.gpustack`, plus a hardened systemd unit (S2, #567 — see
 [`deploy/systemd/SEPARATION.md`](../deploy/systemd/SEPARATION.md) and
-`deploy/systemd/dh-bot.env.example`); the LLM-orchestration overlay off by default
+`deploy/systemd/agentic_historian.env.example`); the LLM-orchestration overlay off by default
 (S4, #569); and the OpenClaw home (`workspace/` — AGENTS.md, SOUL.md, skills/, …)
 lifted out of this repository altogether (S3, #568; the env template moved to
 `deploy/gpustack.env.example`). CI's **standalone** job proves the bot imports and
@@ -153,7 +153,7 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `KH_BACKEND` | Knowledge-hub store backend (`json` today; QLEVER at WP4) |
 
 See `deploy/gpustack.env.example` for the full template (and
-`deploy/systemd/dh-bot.env.example` for the production secrets file).
+`deploy/systemd/agentic_historian.env.example` for the production secrets file).
 
 ## Reading a collection with several models — batch ATR
 
