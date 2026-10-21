@@ -134,12 +134,29 @@ pipeline.
   from the source share in October 2026; whether they were deleted, moved or
   renamed is a question for its custodians.
 
-## What has not been checked
+## What has been checked, and how
 
-**Whether the rescaled polygons sit on the ink.** That the XML and its image
-agree on their size is verified three ways, in the plan, in the writing, and in
-the written files. Consistency is not correctness: nobody has looked at a line
-crop from one of those 13 pages.
+**The rescaled polygons sit on the ink.** That the XML and its image agree on
+their size is verified in the plan, in the writing, in the written files and in
+the uploaded parquet — but consistency is not correctness, so it was measured:
+for each of the 13 pages, what share of the page's ink falls *inside* the line
+polygons, and whether the applied factor is the **optimum**. If it is, then
+larger, smaller or shifted boxes must all catch less ink; a dark scan border
+shifts every variant equally and so cancels out.
+
+**For 12 of the 13 the identity is exactly optimal** — no scale between 0.90 and
+1.10 and no shift up to ±4 % in either axis catches a single ink pixel more. The
+thirteenth (`Basel__…Seite_164`) needed a border-robust ink mask, because 72 % of
+its counted ink was the dark surround of the scan; with that mask its curve peaks
+at scale 1.00 (0.856, against 0.496 at 0.90 and 0.723 at 1.10) and at offset 0
+(0.856, against 0.45 at ±5 % of page height), and 0.856 sits inside the range of
+the other twelve (0.747–0.912). The dips at ±5 % and the partial recovery at
+±10 % are the periodicity of the text lines themselves, which is the shape only a
+correct alignment produces.
+
+What this does **not** establish: that every individual line box is tight around
+its own line, or that the transcription assigned to a line is the right one. It
+establishes that the geometry is in the right frame at the right size.
 
 ## Usage
 
