@@ -249,3 +249,7 @@ with a key that UBELIX's `authorized_keys` binds to one read-only script
 running, preempted, what does the log say" and nothing that submits or cancels.
 Before them, the two olmOCR arms of training-atr-models#180 took three pasted
 round trips on 20./21.10.2026 to tell which Slurm id was which arm.
+In operation since 21.10.2026 (service user `dh`, key accepted without a
+second factor; [`deploy/ubelix-ro/README.md`](../deploy/ubelix-ro/README.md#as-installed-21102026)).
+The richer `atr-results` MCP of training-atr-models reads the same queue but
+sits behind `auth_basic`, which the claude.ai connector cannot send.
