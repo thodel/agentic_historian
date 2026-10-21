@@ -112,6 +112,68 @@ start.
 
 Without both variables the tools answer "not configured" and do nothing.
 
+## As installed (21.10.2026)
+
+| | |
+|---|---|
+| MCP service user on tei | `dh` (`systemctl show -p User --value atr-mcp`) |
+| key | `/home/dh/.ssh/ubelix_mcp`, ed25519, `SHA256:dZmPE9GQi5YcHVs4wfozFpGE4Vwb+LeNgxhPF2b+TLo atr-mcp@tei` |
+| destination | `th19c587@submit02.unibe.ch` (130.92.20.12, also `submit02.hpc.unibe.ch`); direct from tei, no jump host, no `~/.ssh/config` entry |
+| script on UBELIX | `/storage/homefs/th19c587/bin/atr-mcp-ro`; the version with #678 has sha256 `a592320d06d1…` (`sha256sum ~/bin/atr-mcp-ro`) |
+| `/etc/atr-mcp.env` | `ATR_UBELIX_SSH_HOST=th19c587@submit02.unibe.ch`, `ATR_UBELIX_SSH_KEY=/home/dh/.ssh/ubelix_mcp` |
+
+The check from tei, as `dh`, with that key only:
+
+```
+Authenticated to submit02.unibe.ch ([130.92.20.12]:22) using "publickey".
+queue exit 0        (squeue for th19c587)
+refused: not one of `queue`, `job ID`, `record ID [lines]`
+hostname exit 2
+```
+
+UBELIX offers `publickey,keyboard-interactive` and accepted the key without a
+second factor. That settles the technical half of "Before installing"; whether
+the terms of use allow it is the account holder's call, made by installing it.
+
+**The key is readable by everything that runs as `dh` on tei**, the OpenClaw
+agent included (deploy/systemd/SEPARATION.md). The forced command is what
+limits that to reading the queue. If `atr-mcp` ever moves to its own user, the
+key moves with it: a new key in that user's home, the old line removed from
+UBELIX's `authorized_keys`.
+
+### What went wrong on the way, so it does not again
+
+- **A placeholder in a pasted command lands literally.** An `echo '… <public
+  key> …' >> ~/.ssh/authorized_keys` behind a failed `chmod` (without `&&`)
+  wrote the placeholder into `authorized_keys`, and `H=<host>` is a shell
+  redirection. sshd ignores such a line, but it has to be removed: `grep -n
+  atr-mcp ~/.ssh/authorized_keys` shows every line this setup added.
+- **`timeout` cannot run a shell function.** `timeout 20 as_svc ssh …` returns
+  127 without ever starting ssh, which reads like a connection failure.
+- **The script's own lines were buffered.** Through ssh stdout is a pipe;
+  Python held `== start estimates` back while `squeue` wrote straight to the fd,
+  so the header came out last (#678). If it still does, UBELIX has the old
+  script: compare the sha256 above.
+- **`| head` in a self-test** ends the script with `BrokenPipeError` and exit 120.
+  The MCP side reads the whole answer, so this happens only by hand.
+- **A Claude session sees tools as of its start.** After `systemctl restart
+  atr-mcp` the `ubelix_*` tools appear in sessions opened afterwards, not in the
+  one that asked for them.
+
+## Next to the results MCP
+
+training-atr-models has a much richer read path to the same queue: the results
+MCP (`atr-results`, training-atr-models `docs/RESULTS_MCP.md`), with `queue()`
+verdicts against the wall, `live`, `finished`, `deadlines` and both job stores.
+It runs on asteraix behind tei since 11.10.2026, but its door is nginx
+`auth_basic`, a header, and the claude.ai connector sends nothing but OAuth. A
+cloud session can therefore not add it, which is why it was not in the session
+that needed it on 20./21.10.2026 and why these three tools exist.
+
+They are the minimum, not a second results MCP. If `atr-results` gets an OAuth
+door like this server's (`mcp_atr/oauth.py`), it covers everything here and
+more, and this directory can be removed by its own last section.
+
 ## Removing it
 
 Delete the `atr-mcp-ro` line from UBELIX's `authorized_keys`. That alone closes
