@@ -30,6 +30,11 @@ would reach a machine with two A40s, so the blast radius of the token is exactly
 the set of tools below — which is why the set is short and why none of them takes
 free text that becomes a command.
 
+**One hop further: UBELIX** (#674). The ``ubelix_*`` tools ssh from tei to the
+Slurm cluster, read-only, with a key that UBELIX itself binds to one script
+(``deploy/ubelix-ro/atr-mcp-ro``). A stolen token reaches the queue and the
+trainer's records there, and nothing that submits, cancels or writes.
+
 **Auth.** OAuth, because the claude.ai web connector cannot send anything else:
 its dialog takes a URL and, under Advanced settings, an OAuth client id and
 secret. Given a 401 it discovers the protected-resource metadata, discovers the
@@ -68,6 +73,7 @@ if str(_PKG) not in sys.path:               # same flat-import arrangement as __
 
 import config                                # noqa: E402
 from mcp_atr import jobs                     # noqa: E402
+from mcp_atr import ubelix                   # noqa: E402
 from utils import atr_gpu                   # noqa: E402
 
 #: Per-request budget for the gateway probes in :func:`gateway_models`. Three run
@@ -220,7 +226,9 @@ def build_server(provider=None, auth_settings=None):
             "compare_readings puts two runs of the same pages side by side; its "
             "numbers are disagreement, never quality — there is no ground truth "
             "here, and a model that hallucinates fluently disagrees exactly as "
-            "much as one that reads badly."
+            "much as one that reads badly. "
+            "ubelix_queue, ubelix_job and ubelix_record read UBELIX's Slurm "
+            "queue and the trainer's records there; they cannot submit or cancel."
         ),
         auth_server_provider=provider,
         auth=auth_settings,
@@ -757,6 +765,35 @@ def build_server(provider=None, auth_settings=None):
             # be the wrong trade.
             progress["flagged"] = {"ok": False, "error": str(exc)}
         return progress
+
+    @server.tool()
+    def ubelix_queue() -> dict:
+        """This account's Slurm jobs on UBELIX, with Slurm's start estimates.
+
+        Read-only, over ssh from tei with a key that UBELIX binds to one script
+        (#674). On ``gpu-invest`` a job can be preempted and requeued several
+        times; ``ubelix_job`` shows that history, this only the current state.
+        """
+        return ubelix.queue()
+
+    @server.tool()
+    def ubelix_job(slurm_id: str) -> dict:
+        """``sacct -D`` for one UBELIX job: every start, preemption and requeue,
+        with node, elapsed time and exit code. Digits only."""
+        return ubelix.job(slurm_id)
+
+    @server.tool()
+    def ubelix_record(record_id: str, lines: Optional[int] = None) -> dict:
+        """The trainer's record for a UBELIX job (status, stage, timestamps) and
+        the last lines of its current stage's log, at most 200.
+
+        ``record_id`` is the trainer's job id, e.g.
+        ``20261019T180118Z-olmocr2-7b-medieval-page-px4m-native-r16`` — not the
+        Slurm id. Slurm only knows the job as ``vlm-train``; which record a Slurm
+        id belongs to shows in the timestamps: the record's ``updated_at`` falls
+        on the Slurm start.
+        """
+        return ubelix.record(record_id, lines)
 
     return server
 

@@ -533,6 +533,12 @@ ATR_GATEWAY_URL = (_get("ATR_GATEWAY_URL") or KRAKEN_SERVICE_URL).rstrip("/")
 # Static shared secret sent as the `X-API-Key` header. Empty = unauthenticated
 # (only works against a local/dev gateway that has auth disabled).
 ATR_API_KEY = _get("ATR_API_KEY")
+# UBELIX, read-only, for the MCP server's ubelix_* tools (#674). An ssh
+# destination (user@host or a ~/.ssh/config alias) and a key that UBELIX binds to
+# deploy/ubelix-ro/atr-mcp-ro as its forced command. Either empty = the tools say
+# they are not configured instead of trying.
+ATR_UBELIX_SSH_HOST = _get("ATR_UBELIX_SSH_HOST", "")
+ATR_UBELIX_SSH_KEY = _get("ATR_UBELIX_SSH_KEY", "")
 # How long to wait for one gateway call. Must not be TIGHTER than the gateway's
 # own engine budget (300s, HTTPEngineClient in serving-atr-inference), or we hang
 # up on work the gateway is still doing and record a phantom "timed out" for an
