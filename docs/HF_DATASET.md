@@ -718,14 +718,98 @@ die man glauben oder nicht glauben kann, und widersprechen kann man ihr nur, ind
 man die Seiten liest, bei denen sie falsch war. Über MCP nennt das Ergebnis die
 Datei im Feld `writers`; sie liegt unter `VLM_TEST_ROOT`, nicht in `/tmp`.
 
-## What the dataset card should say
+## Hochgeladen, 21. Oktober 2026
 
-Three things that are true of this data and not obvious from it:
+```
+upload_hf(tree="hf-export-20261015T043850", dry_run=false)
+→ pagexml-hf … --repo-id dh-unibe/image-text_lassberg-correspondence_xix \
+               --mode raw_xml --private
+```
 
-1. The split is inferred from datelines and will be wrong on some pages.
-2. Status DONE counts as ground truth here. This collection used the GT tag on 19
-   of 552 pages, so requiring it would have discarded 96 % of the available truth.
-3. Two harvested documents (`doc1350777`, `doc1350778`) are pages of a *printed
-   edition* of the correspondence rather than letter scans. They never reach the
-   export, because they locate nothing — but anyone comparing counts against the
-   Transkribus collection will find them missing and should know why.
+Exit 0, **11,5 min** (10 min Konversion bei ~2 s/Seite, dann der Transfer).
+`pagexml-hf 0.9.6+fork.1`, Python 3.12.3, installiert unter `/opt/pagexml-hf`
+mit einem Symlink in `/usr/local/bin` — **nicht** in die Venv des Dienstes, deren
+Pins `atr-mcp` bedient, und nicht nach `~/.local/bin`, das im PATH des Dienstes
+fehlt (§ *Welcher Code hat geantwortet?* in `BATCH_ATR.md` gilt auch für
+Werkzeuge, nicht nur für Code).
+
+Geprüft am Hub, nicht im Log — dieselbe Abfrage, die vorher „not found" ergab:
+
+| | |
+|---|---|
+| Status | 254 Beispiele, ein Split, 1,46 GB, **privat**, MIT |
+| Schema | `image` (decode: false), `xml_content`, `filename`, **`project_name`** |
+| `data/train/korrespondenten/…parquet` | 780,0 MB |
+| `data/train/lassberg/…parquet` | 521,8 MB |
+| `data/train/unbestimmt/…parquet` | 230,9 MB |
+
+**Die Projektaufteilung ist doppelt angekommen**, als Spalte und als Ablage —
+die Arbeit an der Hand steht damit im Datensatz und nicht nur im Plan. Fast
+falsch gelesen: die Datensatzkarte schneidet ihre Feature-Liste nach
+`xml_content…` ab, was aussieht, als fehle `project_name`. Erst die `README.md`
+selbst zeigt alle vier Spalten. Eine abgeschnittene Darstellung ist keine
+Aussage über den Inhalt (§ *17* in `LESSONS_2026-10.md`, dritter Fall).
+
+**Zwei Dinge, die der Upload nicht beantwortet.** Der Dataset Viewer verweigert
+private Datensätze außerhalb von PRO/Enterprise (`501 Not Implemented`) — keine
+Zeilenvorschau, kein Parquet-Export, kein Schema-Browsing auf dem Hub;
+`load_dataset` geht, Hineinsehen heisst Herunterladen. Und ob die 13
+umgerechneten XML ihren Vermerk in der Spalte tragen, ist **im Baum** belegt und
+im Parquet nicht nachgesehen:
+
+```bash
+cd /home/dh/agentic_historian && .venv/bin/python3 - <<'PY'
+from datasets import load_dataset
+d = load_dataset("dh-unibe/image-text_lassberg-correspondence_xix", split="train")
+hit = [r["filename"] for r in d
+       if "agentic_historian: line coordinates divided" in r["xml_content"]]
+print(len(hit), "Zeile(n) mit Vermerk")      # erwartet: 13
+PY
+```
+
+## Die Datensatzkarte
+
+Sie steht als [`hf-dataset-card.md`](hf-dataset-card.md) im Repository, mit der
+YAML-Kopfzeile von `pagexml-hf` **wörtlich** erhalten — `dataset_info` und
+`configs` liest der Hub, und sie neu zu tippen hiesse, die Grössen von Hand zu
+pflegen.
+
+Hochladen am einfachsten im Web-Editor der Datensatzseite (*Edit README*):
+einmalige Textänderung, kein Token, keine CLI. Von tei aus geht es auch, braucht
+dann aber zwei Umstände, die je eine eigene Falle sind — `hf` liegt nur in der
+Venv unter `/opt` und nicht auf dem PATH, und der Token steht in `.env`, das eine
+interaktive Bash nie liest:
+
+```bash
+cd /home/dh/agentic_historian && git pull
+set -a; . ./.env; set +a          # Token in die Umgebung, nicht in die History
+/opt/pagexml-hf/bin/hf upload dh-unibe/image-text_lassberg-correspondence_xix \
+  docs/hf-dataset-card.md README.md --repo-type dataset
+```
+
+`--token` wäre der dritte Weg und der schlechteste: ein Geheimnis in argv steht
+in `ps` und in `.bash_history`.
+
+Vier Dinge, die von diesen Daten gelten und ihnen nicht anzusehen sind — die
+ersten drei standen hier schon, bevor es den Datensatz gab, der vierte kam mit
+den umgerechneten Seiten dazu:
+
+1. Die Aufteilung ist aus Datumszeilen erschlossen und wird auf manchen Seiten
+   falsch sein. `unbestimmt` ist **keine dritte Hand**, sondern „nichts hat
+   etwas gesagt".
+2. Status DONE gilt hier als Ground Truth. Diese Sammlung hat das GT-Tag auf 19
+   von 552 Seiten benutzt; es zu verlangen hätte 96 % der verfügbaren Wahrheit
+   verworfen.
+3. Zwei geerntete Dokumente (`doc1350777`, `doc1350778`) sind Seiten einer
+   *gedruckten Edition* und keine Briefscans. Sie erreichen den Export nie, weil
+   sie nichts lokalisieren — aber wer Zahlen gegen die Transkribus-Sammlung
+   vergleicht, findet 85 Seiten fehlen und soll wissen, warum.
+4. Dreizehn Seiten tragen umgerechnete Koordinaten und weisen es im eigenen XML
+   aus; 27 weitere sind zwei verschiedene Aufnahmen eines Blattes und fehlen
+   deshalb. Wer die 13 sucht oder ausschliessen will, filtert auf
+   `agentic_historian: line coordinates divided`.
+
+Und was die Karte ausdrücklich sagt, weil es sonst niemand weiss: **die Bilder
+sind Digitalisate der besitzenden Häuser.** MIT gilt für die Konversion und die
+Struktur, nicht für die Scans; der Datensatz ist privat, und das ist die
+Bedingung, unter der er überhaupt entstehen durfte.
