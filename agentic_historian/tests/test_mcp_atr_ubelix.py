@@ -226,6 +226,9 @@ def test_queue_runs_squeue_for_this_user_only(ubelix_host):
     assert done.returncode == 0
     assert len(ran) == 2 and all(r.startswith("squeue -u th19c587 ") for r in ran)
     assert "--start" in ran[1]
+    # Through ssh stdout is a pipe, so Python buffers its own lines while
+    # squeue writes straight to the fd: unflushed, the header came out last.
+    assert done.stdout.splitlines() == ["squeue ran", "== start estimates", "squeue ran"]
 
 
 def test_job_runs_sacct_with_the_requeue_history(ubelix_host):
