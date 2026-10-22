@@ -4,7 +4,7 @@ through the gateway's ``/train/*`` (the trainer on asteraix), from tei.
     python agentic_historian/ruemlang/train_kraken.py request   # print the body, send nothing
     python agentic_historian/ruemlang/train_kraken.py submit    # POST /train/jobs
     python agentic_historian/ruemlang/train_kraken.py status JOB_ID
-    python agentic_historian/ruemlang/train_kraken.py log JOB_ID [--stage train]
+    python agentic_historian/ruemlang/train_kraken.py log [JOB_ID] [--stage train] [--lines N]
 
 The defaults are the Hertwig run (A V 1443): the private dataset that
 ``gt_export.py`` wrote and ``upload_hf`` published, its ``_train`` project only
@@ -86,13 +86,16 @@ def main(argv=None) -> int:
     p = sub.add_parser("status"); p.add_argument("job_id", nargs="?", default=None,
                                                  help="default: the newest job of the model id")
     p.add_argument("--model-id", default=DEFAULTS["model_id"])
-    p = sub.add_parser("log"); p.add_argument("job_id"); p.add_argument("--stage", default=None)
+    p = sub.add_parser("log"); p.add_argument("job_id", nargs="?", default=None)
+    p.add_argument("--model-id", default=DEFAULTS["model_id"])
+    p.add_argument("--stage", default=None, help="prepare|compile|train|test|register")
+    p.add_argument("--lines", type=int, default=None)
     args = ap.parse_args(argv)
 
     if args.cmd == "request":
         print(json.dumps(request_body(args), indent=1, ensure_ascii=False))
         return 0
-    from agent_a.training_client import TrainingClient
+    from agent_a.training_client import Stage, TrainingClient
     with TrainingClient() as tc:
         def newest(model_id):
             jobs = [j for j in tc.list_jobs(limit=50) if j.model_id == model_id]
@@ -130,11 +133,21 @@ def main(argv=None) -> int:
             prog = {k: job.progress[k] for k in shown if job.progress.get(k) is not None}
             if prog:
                 print("progress: " + ", ".join(f"{k}={v}" for k, v in prog.items()))
+            # The gate's verdict is on the record but not on TrainJob.
+            rec = tc._get(f"/train/jobs/{job.id}").json()
+            for k in ("promoted", "promotion_reason"):
+                if rec.get(k) is not None:
+                    print(f"{k}: {rec[k]}")
             if job.log_tail:
                 print("--- log tail ---")
                 print(job.log_tail[-2500:])
         else:
-            print(tc.get_log(args.job_id, stage=args.stage))
+            job_id = args.job_id or getattr(newest(args.model_id), "id", None)
+            if not job_id:
+                print(f"no job for {args.model_id}")
+                return 1
+            print(tc.get_log(job_id, stage=Stage(args.stage) if args.stage else None,
+                             lines=args.lines))
     return 0
 
 
