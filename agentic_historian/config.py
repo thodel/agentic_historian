@@ -770,6 +770,10 @@ ATR_BATCH_RETRIES = max(0, int(_get("ATR_BATCH_RETRIES", "2")))
 
 # ── HuggingFace (optional) ───────────────────────────────────────────────────
 HF_TOKEN = _get("HF_TOKEN", "")
+# The `hf` command line, for uploading a dataset card when `huggingface_hub` is
+# not importable from this venv (#691). On tei it lives in the pagexml-hf venv:
+# /opt/pagexml-hf/bin/hf. A bare name is looked up on PATH.
+HF_CLI = _get("HF_CLI", "hf")
 
 # ── Voyant (optional) ────────────────────────────────────────────────────────
 # Self-hosted Voyant instance (see README "Voyant Tools — Integration").

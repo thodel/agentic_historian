@@ -874,7 +874,15 @@ YAML-Kopfzeile von `pagexml-hf` **wörtlich** erhalten — `dataset_info` und
 `configs` liest der Hub, und sie neu zu tippen hiesse, die Grössen von Hand zu
 pflegen.
 
-Hochladen am einfachsten im Web-Editor der Datensatzseite (*Edit README*):
+**Seit #691 aus der Session:** `upload_hf_card(card="hf-dataset-card.md",
+repo_id=…)` — holt das README vom Hub, setzt dessen Frontmatter wörtlich in die
+Karte, schreibt die Karte nach `docs/` zurück und lädt sie als README hoch;
+`dry_run=True` (Vorgabe) zeigt nur den Spleiss. Und `upload_hf` endet jetzt mit
+dem, was der Hub hält (Zeilen, Bytes, Spalten, privat). Der Token kommt aus der
+Konfiguration, nie in die Kommandozeile; `hf` wird über `HF_CLI` gefunden (auf
+tei `/opt/pagexml-hf/bin/hf`), wenn `huggingface_hub` im venv fehlt.
+
+Von Hand, wie bisher — am einfachsten im Web-Editor der Datensatzseite (*Edit README*):
 einmalige Textänderung, kein Token, keine CLI. Von tei aus geht es auch, braucht
 dann aber zwei Umstände, die je eine eigene Falle sind — `hf` liegt nur in der
 Venv unter `/opt` und nicht auf dem PATH, und der Token steht in `.env`, das eine

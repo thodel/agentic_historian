@@ -888,6 +888,65 @@ def upload_hf(args: argparse.Namespace) -> int:
         return 1
     where = "private" if plan.private else "PUBLIC"
     print(f"\nuploaded {plan.pages} page(s) to {plan.repo_id} ({where})")
+    # And what the hub holds now, from the hub (#691): the check that ran over
+    # a second channel on 2026-10-22 — 281 rows? four columns? private?
+    print(hf.format_hub_state(hf.hub_state(plan.repo_id)))
+    return 0
+
+
+def upload_hf_card(args: argparse.Namespace) -> int:
+    """Put a dataset card from `docs/` on the hub as README.md (#691).
+
+    Before the upload the card's front matter is replaced by the one the hub
+    README carries — the block `pagexml-hf` wrote with the measured sizes — and
+    the spliced card is written back to `docs/`, so the card in the repository
+    is the card on the hub. A dry run prints the splice and writes nothing.
+    """
+    import hf_export as hf
+
+    try:
+        card = hf.resolve_card(args.card)
+    except (ValueError, FileNotFoundError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+    repo_id = args.repo_id or hf.DEFAULT_REPO_ID
+    if not hf._REPO_ID_RE.match(repo_id):
+        print(f"Error: repo id {repo_id!r} is not owner/name", file=sys.stderr)
+        return 2
+    if not hf.hub_token():
+        print("Error: no Hugging Face token — set HF_TOKEN in the environment "
+              "the upload runs in", file=sys.stderr)
+        return 2
+    readme = hf.hub_readme(repo_id)
+    if readme is None:
+        print(f"Error: {repo_id} has no README on the hub (or is not reachable "
+              f"with this token) — upload the dataset first; its sizes are "
+              f"measured there", file=sys.stderr)
+        return 1
+    try:
+        spliced = hf.splice_frontmatter(card.read_text(encoding="utf-8"), readme)
+    except ValueError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    fm, _ = hf.split_frontmatter(spliced)
+    print(f"card      : {card}")
+    print(f"repo      : {repo_id}")
+    print("frontmatter (from the hub, verbatim):")
+    print("\n".join("  " + ln for ln in (fm or "").splitlines()))
+    changed = spliced != card.read_text(encoding="utf-8")
+    print(f"card text : {'updated with the hub front matter' if changed else 'already carries it'}")
+    if args.dry_run:
+        print("\n(dry run — nothing written, nothing uploaded)")
+        return 0
+    if changed:
+        card.write_text(spliced, encoding="utf-8")
+    try:
+        how = hf.upload_card(repo_id, card)
+    except RuntimeError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    print(f"\nuploaded {card.name} as README.md to {repo_id} (via {how})")
+    print(hf.format_hub_state(hf.hub_state(repo_id)))
     return 0
 
 
@@ -1564,6 +1623,20 @@ def build_parser() -> argparse.ArgumentParser:
                       help="Check the tree, the tool, the token and the repo id, "
                            "print the command, upload nothing")
     p_up.set_defaults(func=upload_hf)
+
+    p_card = sub.add_parser(
+        "upload-hf-card",
+        help="Put a dataset card from docs/ on the hub as README.md, with the "
+             "hub's own front matter spliced in first")
+    p_card.add_argument("--card", required=True,
+                        help="A card's name under docs/ (hf-dataset-card*.md), "
+                             "not a path")
+    p_card.add_argument("--repo-id", default=None,
+                        help=f"Dataset repository (default: {hf_default_repo()})")
+    p_card.add_argument("--dry-run", action="store_true",
+                        help="Fetch the hub README, show the splice, write and "
+                             "upload nothing")
+    p_card.set_defaults(func=upload_hf_card)
 
     p_tk = sub.add_parser(
         "upload-transkribus",
