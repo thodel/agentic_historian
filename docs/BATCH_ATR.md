@@ -1495,12 +1495,46 @@ schon zusammenpassen:
      --via external --prompt lassberg_atr_strict2.md --reasoning low --dry-run
    ```
 
+   Dann, per CLI gegen das Archiv: Rauchtest `--limit 3`, Kontrolle des
+   Textendes einer Seite (eine Seite am Deckel bricht mitten im Satz ab und
+   sieht sonst wie ein Erfolg aus — sie endete in „Es ist mein sehnlicher",
+   ein Satzanfang, aber `cut off: 0` und `truncated: false` sagen, dass das
+   Modell selbst aufgehört hat), dann der Rest. Lauf `gemini-eval-random`:
+
+   | | |
+   |---|---:|
+   | gelesen | **35 von 35**, 0 Fehler, 0 übersprungen |
+   | Wanduhr | 2,9 min · 5,3 s/Seite · 32 Seiten aus dem Archiv geholt |
+   | `cut off` / `looped` / `arguing` | 0 / 0 / 0 |
+   | `empty` | 1 — `blb lassberg__K 2911,110__page_0002` |
+   | Urteile | 34× `ok`, 1× `empty`, 0× `short` |
+   | Zeichen/Seite | 1076 |
+
 4. Die Tabelle, die Qualität ist: beide Leser gegen dieselbe Referenz.
 
    ```
    score_ground_truth(runs=["gemini-eval-random", "atr_corpus_qwen35_line"],
                       gt_dir="eval-random")
    ```
+
+   | Leser | Seiten | Median-CER | p90 | beste | schlechteste |
+   |---|---:|---:|---:|---:|---:|
+   | `gemini-eval-random/gemini-3.8-flash` | 34 | **4,8 %** | 12,8 % | 0,7 % | 17,1 % |
+   | `atr_corpus_qwen35_line/qwen3.5-4b-german-xix-v2` | 34 | 14,5 % | 31,7 % | 6,6 % | 37,4 % |
+
+   34 statt 35, weil die Lokalisierung jetzt die **Einigkeit beider** Lesungen
+   verlangt und die eine Seite, die Gemini leer zurückgab, sich über ihren
+   (fehlenden) Inhalt nicht platzieren lässt. Dieselbe Regel, die das
+   Qwen-Ergebnis von 14,6 % (allein) auf 14,5 % (zu zweit) verschiebt: ein
+   anderer Nenner, nicht ein anderes Modell.
+
+   **Gemini liest den Eval-Split dreimal so genau wie das feinjustierte
+   Zeilenmodell**, über den ganzen Bereich: die schlechteste Gemini-Seite
+   (17,1 %) liegt unter dem Qwen-Median, der Gemini-p90 (12,8 %) unter der
+   besten Qwen-Seite (6,6 %)? — nein: über ihr, und das ist die Stelle, an der
+   die Spanne zählt. Die beste Qwen-Seite ist besser als Geminis p90; die
+   leichten Seiten liest das Zeilenmodell ordentlich, verloren wird auf den
+   schweren Händen, wo Qwen bis 37 % geht und Gemini bei 17 % bleibt.
 
 **Was der Lauf nicht misst:** Gemini liest ohne Zeilengeometrie, Qwen über die
 Segmentierung des Gateways; beide landen als Seitentext in derselben
@@ -1509,7 +1543,13 @@ anderen nicht vorkommen. Und 35 Seiten aus 12 Dokumenten sind 12 Hände, nicht 3
 — eine Seite mehr von Laßberg selbst verschiebt den Median spürbar. Der
 Eval-Split ist die Referenz des *Trainingsprojekts*, zufällig über Dokumente
 gezogen; dass er für einen Vergleich zweier Leser fair ist, folgt daraus nicht,
-aber er ist derselbe Massstab für beide.
+aber er ist derselbe Massstab für beide. **Und zwar zugunsten von Qwen, nicht
+gegen es:** `qwen3.5-4b-german-xix-v2` ist im September auf der
+Ground Truth dieses Projekts feinjustiert worden, die Aufteilung in
+`train`/`dev`/`eval` stammt vom 8. Oktober — ob die 35 Eval-Seiten in Qwens
+Trainingsmenge lagen, sagt kein Protokoll hier, aber ausschliessen lässt es
+sich nicht. Gemini hat sie sicher nie gesehen. Ein Vorsprung des Zeilenmodells
+wäre damit zu erklären gewesen; der Rückstand nicht.
 
 ## Ein Lauf aus 80 Unterstrichen ist eine Linie
 
