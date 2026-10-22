@@ -727,6 +727,21 @@ ATR_PAGE_CACHE_ARCHIVE = (
     Path(_get("ATR_PAGE_CACHE_ARCHIVE", ""))
     if _get("ATR_PAGE_CACHE_ARCHIVE", "") else None)
 
+#: The project's root on the research share, for the MCP's ``research_list``
+#: and ``import_ground_truth`` (#687). Empty = the tools say they are not
+#: configured instead of trying. On tei: ``/mnt/wbkolleg_dh_1/Projekt_Lassberg``.
+#:
+#: One root, so a caller names a path *relative to it* and can reach nothing
+#: beside it — the research share also holds other projects and the page
+#: cache's cold tier, and the containment rule here is the same one that keeps
+#: ``keys_from`` a name. The HTR training project keeps its ground truth and
+#: its train/dev/eval manifests under this root; the manifests name files by
+#: the mount point of the machine that wrote them (``/storage/research/…``),
+#: which is why the import maps paths onto this root rather than opening them.
+ATR_RESEARCH_DIR = (
+    Path(_get("ATR_RESEARCH_DIR", ""))
+    if _get("ATR_RESEARCH_DIR", "") else None)
+
 #: Where the share is mounted read-only. A batch may read pages from here as
 #: well as from the mirror: it *is* the corpus now, and the MCP path's
 #: containment check has to know that or every run over the mount is refused.

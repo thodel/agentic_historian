@@ -247,6 +247,209 @@ def cache_dir_for(source) -> Optional[Path]:
     return None
 
 
+#: A path inside the research project's root. Relative, never climbing out,
+#: and the character set the HTR project's folder names actually use:
+#: ``done_K 2911,17_9985431`` has a space and a comma, the holdings have
+#: parentheses ("Donaueschingen (via UB Freiburg)").
+RESEARCH_PATH_RE = re.compile(r"^(?!.*\.\.)(?!/)[\w .,()\-/]{1,400}$")
+
+
+def research_root() -> Path:
+    """The research project's root, or a `JobError` saying how to set it."""
+    if not config.ATR_RESEARCH_DIR:
+        raise JobError(
+            "ATR_RESEARCH_DIR is not set — it is the project's root on the "
+            "research share (on tei /mnt/wbkolleg_dh_1/Projekt_Lassberg), and "
+            "without it there is nothing to list or import")
+    root = Path(config.ATR_RESEARCH_DIR)
+    if not root.is_dir():
+        raise JobError(f"ATR_RESEARCH_DIR {root} is not a directory — is the "
+                       f"research share mounted?")
+    return root
+
+
+def research_path(rel: str) -> Path:
+    """A file or folder under the research root, by relative path.
+
+    Validated by pattern and then by containment on the **resolved** path, so a
+    symlink inside the project that points beside it is refused by the same
+    check that refuses ``..`` — the rule `resolve_source` states, applied to a
+    second root.
+    """
+    rel = (rel or "").strip().strip("/")
+    if rel and not RESEARCH_PATH_RE.match(rel):
+        raise JobError(
+            f"invalid research path {rel!r} — letters, digits, spaces, dots, "
+            "commas, parentheses, dashes, underscores and '/' only, relative to "
+            "the project root, no '..'")
+    root = research_root().resolve()
+    path = (root / rel).resolve() if rel else root
+    if path != root and not path.is_relative_to(root):
+        raise JobError(f"{rel!r} resolves outside the research root")
+    return path
+
+
+def research_list(folder: Optional[str] = None, limit: int = 500) -> dict:
+    """What is under a folder of the research project, with sizes (#687).
+
+    Synchronous: one ``listdir`` over CIFS, not a walk. ``limit`` caps the
+    entries and the reply says when it did, because a folder of 6000 scans is
+    a listing nobody asked to read in full.
+    """
+    path = research_path(folder or "")
+    if not path.is_dir():
+        raise JobError(f"no folder {folder!r} under the research root")
+    entries = []
+    for p in sorted(path.iterdir(), key=lambda p: p.name):
+        try:
+            st = p.stat()
+        except OSError:
+            continue
+        entries.append({"name": p.name,
+                        "type": "dir" if p.is_dir() else "file",
+                        "bytes": None if p.is_dir() else st.st_size})
+    truncated = len(entries) > limit
+    return {"ok": True, "root": str(research_root()), "folder": folder or "",
+            "entries": entries[:limit], "count": len(entries),
+            "truncated": truncated}
+
+
+def _manifest_relative(line: str, root: Path) -> Optional[str]:
+    """The path a manifest line names, relative to the research root.
+
+    The manifests are written on another machine, where the same share is
+    mounted elsewhere (``/storage/research/wbkolleg_dh_1/Projekt_Lassberg/…``
+    against ``/mnt/wbkolleg_dh_1/Projekt_Lassberg`` here). What both spellings
+    share is the project folder's name, so the path is cut after its last
+    occurrence of ``/<root.name>/``. A relative line is taken as it is. A line
+    that names neither is returned as None, and the caller reports it — a
+    manifest that quietly loses lines would be a split that quietly shrank.
+    """
+    raw = line.strip()
+    if not raw.startswith("/"):
+        return raw
+    marker = f"/{root.name}/"
+    idx = raw.rfind(marker)
+    if idx < 0:
+        return None
+    return raw[idx + len(marker):]
+
+
+def import_ground_truth(manifest: str, name: str, dry_run: bool = False) -> dict:
+    """Stage the PAGE XML files a manifest names as a ground-truth set under
+    ``GT_ROOT``, by name, with the findings the shell used to produce (#687).
+
+    On 2026-10-22 the HTR project's ``eval_manifest_random.txt`` (39 files, 12
+    documents) reached ``GT_ROOT/eval-random`` through a `while read … cp`
+    loop, a path remap, and two one-liners counting documents and statuses —
+    and only then could `score_ground_truth(gt_dir=…, keys_out=…)` and
+    `start_batch(keys_from=…)` take over. This is that loop, with its report.
+
+    - ``manifest``: a path relative to ``ATR_RESEARCH_DIR``; the files it names
+      are mapped onto the same root (see `_manifest_relative`) and read from
+      nowhere else.
+    - ``name``: the set's directory under ``GT_ROOT``, validated like a run
+      name — it is the ``gt_dir`` `score_ground_truth` takes.
+    - Each copy is named ``<document folder>__<file>``: ``001.xml`` occurs in
+      every document, and the collision was real.
+    - Resumable: a copy already present at the same size is skipped. A file the
+      share does not have, and a line that maps onto nothing, are **named**,
+      never dropped — ``missing`` and ``unmappable`` in the reply.
+    - The findings: documents with page counts, the Transkribus status mix,
+      and the files without transcribed text (the same test `score_ground_truth`
+      applies later, run now so the number is known before a run is started).
+
+    Synchronous: the files are small and the share reads at 410 MB/s; the
+    39-file import took under a second. A manifest of thousands of lines is a
+    training split, not an evaluation set, and belongs with the trainer.
+    """
+    from gt_score import GroundTruthError, read_pagexml
+
+    root = research_root().resolve()
+    source = research_path(manifest)
+    if not source.is_file():
+        raise JobError(f"no manifest at {manifest!r} under the research root")
+    dest_dir = Path(config.GT_ROOT) / validate_run(name)
+
+    lines = [ln.split("#", 1)[0].strip()
+             for ln in source.read_text(encoding="utf-8").splitlines()]
+    lines = [ln for ln in lines if ln]
+    if not lines:
+        raise JobError(f"manifest {manifest!r} names no files")
+
+    planned: dict[str, Path] = {}          # dest name -> source path
+    unmappable: list[str] = []
+    missing: list[str] = []
+    collisions: list[str] = []
+    for line in lines:
+        rel = _manifest_relative(line, root)
+        if rel is None or not RESEARCH_PATH_RE.match(rel):
+            unmappable.append(line)
+            continue
+        src = (root / rel).resolve()
+        if not src.is_relative_to(root):
+            unmappable.append(line)
+            continue
+        if not src.is_file():
+            missing.append(rel)
+            continue
+        dest_name = f"{src.parent.name}__{src.name}"
+        if dest_name in planned and planned[dest_name] != src:
+            collisions.append(dest_name)
+            continue
+        planned[dest_name] = src
+    if collisions:
+        raise JobError(
+            f"{len(collisions)} manifest line(s) would land on the same copy "
+            f"name: {', '.join(sorted(collisions)[:5])} — the document folder "
+            f"and file name do not identify them; nothing was written")
+    if not planned:
+        raise JobError(
+            f"none of the {len(lines)} manifest line(s) names a file under the "
+            f"research root ({len(unmappable)} unmappable, {len(missing)} "
+            f"missing)")
+
+    copied, present = 0, 0
+    if not dry_run:
+        dest_dir.mkdir(parents=True, exist_ok=True)
+    for dest_name, src in sorted(planned.items()):
+        dest = dest_dir / dest_name
+        if dest.exists() and dest.stat().st_size == src.stat().st_size:
+            present += 1
+            continue
+        if dry_run:
+            copied += 1
+            continue
+        data = src.read_bytes()
+        tmp = dest.with_name(dest.name + ".part")
+        tmp.write_bytes(data)
+        os.replace(tmp, dest)
+        copied += 1
+
+    documents: dict[str, int] = {}
+    statuses: dict[str, int] = {}
+    unusable: list[dict] = []
+    for dest_name, src in sorted(planned.items()):
+        documents[src.parent.name] = documents.get(src.parent.name, 0) + 1
+        try:
+            gt = read_pagexml(src)
+            statuses[gt.status or "none"] = statuses.get(gt.status or "none", 0) + 1
+        except GroundTruthError as exc:
+            unusable.append({"file": dest_name, "reason": str(exc)})
+            statuses["unreadable"] = statuses.get("unreadable", 0) + 1
+
+    return {"ok": True, "dry_run": dry_run, "manifest": str(source),
+            "name": dest_dir.name, "ground_truth_dir": str(dest_dir),
+            "lines": len(lines), "files": len(planned),
+            "copied": copied, "already_present": present,
+            "missing": missing, "unmappable": unmappable,
+            "documents": dict(sorted(documents.items(),
+                                     key=lambda kv: (-kv[1], kv[0]))),
+            "statuses": statuses, "unusable": unusable,
+            "next": (f"score_ground_truth(runs=[…], gt_dir={dest_dir.name!r}, "
+                     f"keys_out='{dest_dir.name}.txt')")}
+
+
 def resolve_keys_file(name: str) -> Path:
     """A page-key list by **name**, under the ground-truth root.
 

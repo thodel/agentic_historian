@@ -1426,6 +1426,21 @@ schon zusammenpassen:
    Mountpunkt der Maschine, die das Manifest geschrieben hat; auf tei heisst
    derselbe Share `/mnt/wbkolleg_dh_1/`.
 
+   **Aus einer Session, seit #687:** dieselbe Schleife mit ihrem Befund als
+   Werkzeug, Pfade relativ zu `ATR_RESEARCH_DIR` (`Projekt_Lassberg`):
+
+   ```
+   research_list("HTR/data/ground_truth/manifests")
+   import_ground_truth("HTR/data/ground_truth/manifests/eval_manifest_random.txt",
+                       name="eval-random", dry_run=True)   # dann ohne dry_run
+   ```
+
+   Die Antwort nennt Dateien, Dokumente mit Seitenzahl, die Statusverteilung,
+   Dateien ohne Text, und — benannt, nie verschluckt — Zeilen, die auf nichts
+   abbilden, und Dateien, die der Share nicht hat. Der Schlüssel
+   `ATR_RESEARCH_DIR` gehört in `agentic_historian/.env` neben `ATR_MOUNT_DIR`;
+   der Serverprozess liest ihn beim Start.
+
 2. Die Seiten **über ihren Inhalt** im Korpuslauf finden und die Schlüssel
    schreiben — `score_ground_truth` gegen `atr_corpus_qwen35_line`, den Lauf, der
    im September das ganze Share gelesen hat (6719 Seiten, also auch die seit dem
