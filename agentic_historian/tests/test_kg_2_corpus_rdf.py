@@ -73,14 +73,17 @@ def test_no_symbolic_content_is_ever_attached_to_the_document():
 
     d_uri = rx.document_uri("doc-1")
     assert list(g.objects(d_uri, CRM["P190_has_symbolic_content"])) == []
-    # and nothing marks one reading as the document's authoritative text
-    assert list(g.objects(d_uri, rx.SDHSS["hasClosestReading"])) == []
+    # and nothing marks one reading as the document's authoritative text —
+    # the closest-reading marker lives on readings only (KG-12: there is no
+    # document → reading «hasClosestReading» term any more, in any namespace)
+    assert list(g.objects(d_uri, rx.SHB["closestReading"])) == []
+    assert list(g.objects(d_uri, rx.SHB["readingRole"])) == []
 
 
 def test_engine_readings_are_distinguishable_by_their_provenance_stub():
     g = Graph()
     rx.document_to_rdf(g, _pipeline(recognitions=TWO_ENGINES))
-    engines = {str(o) for o in g.objects(None, rx.SDHSS["engine"])}
+    engines = {str(o) for o in g.objects(None, rx.SHB["engine"])}
     assert {"trocr", "kraken"} <= engines
 
 
@@ -111,7 +114,7 @@ def test_only_the_reading_agent_c_read_carries_the_mentions():
     subjects = set(g.subjects(CRM["P67_refers_to"], None))
     assert len(subjects) == 1
     working = next(iter(subjects))
-    assert (working, rx.SDHSS["readingRole"], Literal("working")) in g
+    assert (working, rx.SHB["readingRole"], Literal("working")) in g
 
 
 # ── link out, never invent ───────────────────────────────────────────────────

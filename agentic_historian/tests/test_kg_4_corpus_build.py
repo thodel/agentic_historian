@@ -132,6 +132,11 @@ def test_manifest_records_triple_count_and_build_time(tmp_path):
     assert manifest["built_at"] == report.built_at
     assert manifest["documents"] == 1
     assert manifest["scope"]["include_care_flagged"] is True
+    # The vocabulary gate ran before the file was written (KG-12), and the
+    # manifest says so — with what it checked.
+    assert manifest["validation"]["ok"] is True
+    assert manifest["validation"]["shacl"] is True
+    assert manifest["validation"]["checked"] > 0
 
 
 def test_read_manifest_is_none_before_any_build(tmp_path):

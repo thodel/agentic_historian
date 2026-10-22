@@ -174,9 +174,9 @@ def test_a_care_related_document_is_published_as_such():
     g = Graph()
     rx.document_to_rdf(g, _doc("yes", cf.classified(True, types=["Almosen"])))
     d = rx.document_uri("yes")
-    assert (d, rx.SDHSS["careClassified"], Literal(True)) in g
-    assert (d, rx.SDHSS["careRelated"], Literal(True)) in g
-    assert {str(o) for o in g.objects(d, rx.SDHSS["careType"])} == {"Almosen"}
+    assert (d, rx.SHB["careClassified"], Literal(True)) in g
+    assert (d, rx.SHB["careRelated"], Literal(True)) in g
+    assert {str(o) for o in g.objects(d, rx.SHB["careType"])} == {"Almosen"}
 
 
 def test_a_measured_negative_is_now_published_as_a_negative():
@@ -184,16 +184,16 @@ def test_a_measured_negative_is_now_published_as_a_negative():
     g = Graph()
     rx.document_to_rdf(g, _doc("no", cf.classified(False)))
     d = rx.document_uri("no")
-    assert (d, rx.SDHSS["careClassified"], Literal(True)) in g
-    assert (d, rx.SDHSS["careRelated"], Literal(False)) in g
+    assert (d, rx.SHB["careClassified"], Literal(True)) in g
+    assert (d, rx.SHB["careRelated"], Literal(False)) in g
 
 
 def test_an_unclassified_document_says_so_instead_of_claiming_a_negative():
     g = Graph()
     rx.document_to_rdf(g, _doc("unknown", cf.unclassified("timeout")))
     d = rx.document_uri("unknown")
-    assert (d, rx.SDHSS["careClassified"], Literal(False)) in g
-    assert not list(g.objects(d, rx.SDHSS["careRelated"]))
+    assert (d, rx.SHB["careClassified"], Literal(False)) in g
+    assert not list(g.objects(d, rx.SHB["careRelated"]))
 
 
 def test_the_unclassified_marker_is_explicit_and_not_merely_absent():
@@ -201,15 +201,15 @@ def test_the_unclassified_marker_is_explicit_and_not_merely_absent():
     checked this welfare document" is a fact a query has to select on."""
     g = Graph()
     rx.document_to_rdf(g, _doc("unknown", cf.unclassified("timeout")))
-    assert list(g.objects(rx.document_uri("unknown"), rx.SDHSS["careClassified"]))
+    assert list(g.objects(rx.document_uri("unknown"), rx.SHB["careClassified"]))
 
 
 def test_a_vintage_negative_is_published_as_unclassified():
     g = Graph()
     rx.document_to_rdf(g, _doc("old", {"is_care_related": False}))
     d = rx.document_uri("old")
-    assert (d, rx.SDHSS["careClassified"], Literal(False)) in g
-    assert not list(g.objects(d, rx.SDHSS["careRelated"]))
+    assert (d, rx.SHB["careClassified"], Literal(False)) in g
+    assert not list(g.objects(d, rx.SHB["careRelated"]))
 
 
 def test_the_reason_a_classification_failed_is_not_published():
@@ -237,7 +237,7 @@ def test_the_care_types_of_a_negative_are_not_emitted():
     g = Graph()
     rx.document_to_rdf(g, _doc("no", {**cf.classified(False),
                                       "care_types": ["Almosen"]}))
-    assert not list(g.objects(rx.document_uri("no"), rx.SDHSS["careType"]))
+    assert not list(g.objects(rx.document_uri("no"), rx.SHB["careType"]))
 
 
 def test_the_care_queries_still_only_find_the_positives():

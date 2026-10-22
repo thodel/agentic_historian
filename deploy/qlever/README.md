@@ -15,7 +15,7 @@ Approved by the project owner (T. Hodel) on **2026-07-30**:
 |---|---|
 | Endpoint | public, read-only SELECT |
 | Care-flagged documents | **included** |
-| Unclassified documents | included, and marked as unclassified (`sdhss:careClassified false`, #631) |
+| Unclassified documents | included, and marked as unclassified (`shb:careClassified false`, #631) |
 | Person nodes | **all published**, authority id not required |
 
 Rationale: the processed corpus is 14th–16th c. administrative material, so the
@@ -138,18 +138,25 @@ the endpoint's own UI, with its parameters already bound.
 prefer?" — the question the graph was built to answer:
 
 ```sparql
-PREFIX crm:   <http://www.cidoc-crm.org/cidoc-crm/>
-PREFIX prov:  <http://www.w3.org/ns/prov#>
-PREFIX sdhss: <https://sdhss.org/ontology/>
+PREFIX crm:  <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX shb:  <https://tei.dh.unibe.ch/ontology/>
 
 SELECT ?reading ?producer ?confidence ?preferred WHERE {
   ?doc crm:P128_carries ?reading .
   OPTIONAL { ?reading prov:wasGeneratedBy ?run .
              ?run prov:used ?producer .
-             OPTIONAL { ?run sdhss:confidence ?confidence } }
-  OPTIONAL { ?reading sdhss:closestReading ?preferred }
+             OPTIONAL { ?run shb:confidence ?confidence } }
+  OPTIONAL { ?reading shb:closestReading ?preferred }
 }
 ```
+
+`shb:` is our own vocabulary (KG-12, #659): what the pipeline says about a
+reading, a run or a decision, registered with domain and range in
+`knowledge_hub/ontology/registry.py`. Everything else is CIDOC CRM 7.1.3,
+SDHSS or PROV, and `corpus_build` refuses to write a graph that uses a term
+outside that register — so a failed `refresh.sh` with «vocabulary gate refused»
+in its output is the gate working, not the index.
 
 ## Troubleshooting
 
