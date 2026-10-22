@@ -81,7 +81,11 @@ def main(argv=None) -> int:
         p.add_argument("--batch-size", type=int, default=16)
         p.add_argument("--epochs", type=int, default=60)
         p.add_argument("--lrate", type=float, default=1e-4)
-    p = sub.add_parser("status"); p.add_argument("job_id")
+    p = sub.add_parser("list", help="recent jobs, newest first, with their ids")
+    p.add_argument("--model-id", default=DEFAULTS["model_id"])
+    p = sub.add_parser("status"); p.add_argument("job_id", nargs="?", default=None,
+                                                 help="default: the newest job of the model id")
+    p.add_argument("--model-id", default=DEFAULTS["model_id"])
     p = sub.add_parser("log"); p.add_argument("job_id"); p.add_argument("--stage", default=None)
     args = ap.parse_args(argv)
 
@@ -90,14 +94,41 @@ def main(argv=None) -> int:
         return 0
     from agent_a.training_client import TrainingClient
     with TrainingClient() as tc:
+        def newest(model_id):
+            jobs = [j for j in tc.list_jobs(limit=50) if j.model_id == model_id]
+            return jobs[0] if jobs else None
+
         if args.cmd == "submit":
             job = tc.submit(request_body(args))
-            print(f"submitted: {job.id}  status={job.status}")
-            print(f"follow: python agentic_historian/ruemlang/train_kraken.py status {job.id}")
+            # The 202 answer does not always carry the id under "id"
+            # (15.10.: it printed empty); the job list does.
+            job_id = job.id or getattr(newest(args.model_id), "id", "")
+            print(f"submitted: {job_id or '?'}  status={job.status.value}")
+            print("follow: python agentic_historian/ruemlang/train_kraken.py status "
+                  f"{job_id}".rstrip())
+        elif args.cmd == "list":
+            for j in tc.list_jobs(limit=20):
+                if args.model_id in ("", "all") or j.model_id == args.model_id:
+                    print(f"{j.id}  {j.status.value:10} stage={j.stage or '-':10} "
+                          f"cer={j.cer if j.cer is not None else '-'}  {j.model_id}")
         elif args.cmd == "status":
-            job = tc.get_job(args.job_id)
-            print(json.dumps(getattr(job, "raw", None) or job.__dict__, indent=1,
-                             default=str, ensure_ascii=False)[:6000])
+            job = tc.get_job(args.job_id) if args.job_id else newest(args.model_id)
+            if job is None:
+                print(f"no job for {args.model_id}")
+                return 1
+            print(f"{job.id}  status={job.status.value}  stage={job.stage}  cer={job.cer}  "
+                  f"wer={job.wer}")
+            if job.queued_reason:
+                print(f"queued: {job.queued_reason}")
+            if job.error:
+                print(f"error: {job.error}")
+            for stage, state in (job.stages or {}).items():
+                print(f"  {stage}: {state}")
+            if job.progress:
+                print("progress: " + ", ".join(f"{k}={v}" for k, v in job.progress.items()))
+            if job.log_tail:
+                print("--- log tail ---")
+                print(job.log_tail[-2500:])
         else:
             print(tc.get_log(args.job_id, stage=args.stage))
     return 0
