@@ -16,9 +16,10 @@ Drei Teile:
 Warum OntoMe und nicht nur das CIDOC-RDFS: der Bestandsgraph braucht Begriffe,
 die CIDOC nicht hat — Ehe, Mitgliedschaft, soziale Beziehung, Wohnort mit Zeit.
 SDHSS (Semantic Data for Humanities and Social Sciences) definiert sie, und
-OntoMe ist der Ort, an dem SDHSS gepflegt wird. Der bisherige Exporter hat 40
+OntoMe ist der Ort, an dem SDHSS gepflegt wird. Der Korpusexporter hatte 40
 Begriffe unter ``https://sdhss.org/ontology/`` *erfunden* — eine URI, die OntoMe
-mit «OntoME URI not found» beantwortet (gemessen 14.10.2026). Das soll nicht
-wieder vorkommen, und darum ist das Vokabular hier eine Prüfung und keine
-Konvention.
+mit «OntoME URI not found» beantwortet (gemessen 14.10.2026). KG-12 (#659) hat
+sie in unseren Namensraum ``shb:`` umgezogen und das Register um sie ergänzt;
+seither steht die Prüfung als Tor vor ``corpus_build``. Das soll nicht wieder
+vorkommen, und darum ist das Vokabular hier eine Prüfung und keine Konvention.
 """

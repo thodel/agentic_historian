@@ -257,7 +257,7 @@ def _authority_filter(link: str = "link") -> str:
 #: begin of its E65 Creation's time-span (KG-7/8/9 date the creation, not
 #: the document — P4 wants a temporal entity). ``FLOOR((year-1)/100)+1`` is
 #: the same arithmetic ``rdf_export.century_of`` applies to a year. The
-#: corpus graph carries ``sdhss:century`` ready-made; the UNION in the care
+#: corpus graph carries ``shb:century`` ready-made; the UNION in the care
 #: question takes whichever the graph has.
 _CENTURY_OF_CREATION = """
   ?creation cidoc-crm:P94_has_created ?document ;
@@ -288,9 +288,9 @@ _PERSONS_IN_CARE = CannedQuery(
     body=f"""
   ?document a cidoc-crm:E31_Document ;
             rdfs:label ?documentLabel ;
-            sdhss:careRelated true ;
-            sdhss:century ?century ;
-            sdhss:dating ?dating .
+            shb:careRelated true ;
+            shb:century ?century ;
+            shb:dating ?dating .
   # The care flag exists only in the corpus graph, so this question answers
   # from there; the mention still goes through the shared path (KG-11), so
   # a union graph is asked the same way as a single one.
@@ -302,7 +302,7 @@ _PERSONS_IN_CARE = CannedQuery(
   # would make the corpus look better linked than it is.
   OPTIONAL {{ ?person owl:sameAs ?authority }}
   # Carried so a historian can exclude the datings this pipeline guessed at.
-  OPTIONAL {{ ?document sdhss:centuryUncertain ?datingUncertain }}
+  OPTIONAL {{ ?document shb:centuryUncertain ?datingUncertain }}
 """,
     tail="ORDER BY ?documentLabel ?personLabel",
 )
@@ -324,18 +324,18 @@ _READINGS_OF_PAGE = CannedQuery(
   # independent OPTIONALs could take ?engine from the model and ?modelId from
   # a different attribution of the same reading.
   OPTIONAL { ?reading prov:wasAttributedTo ?model .
-             ?model a sdhss:RecognitionModel .
-             OPTIONAL { ?model sdhss:engine ?engine }
-             OPTIONAL { ?model sdhss:modelId ?modelId } }
-  OPTIONAL { ?reading sdhss:readingRole ?role }
-  OPTIONAL { ?reading sdhss:closestReading ?closest }
-  OPTIONAL { ?reading sdhss:editorialStatus ?editorialStatus }
-  # Who chose it. Reached by either path, because an endorsement and a
-  # combination attach the selection differently (KG-3): a verbatim choice is
-  # `selectedIn`, a combined text `wasGeneratedBy`. The type guard keeps the
-  # recognition run — also a `wasGeneratedBy` target — out of this.
-  OPTIONAL { ?reading (sdhss:selectedIn|prov:wasGeneratedBy) ?selection .
-             ?selection a sdhss:EditorialSelection ;
+             ?model a shb:RecognitionModel .
+             OPTIONAL { ?model shb:engine ?engine }
+             OPTIONAL { ?model shb:modelId ?modelId } }
+  OPTIONAL { ?reading shb:readingRole ?role }
+  OPTIONAL { ?reading shb:closestReading ?closest }
+  OPTIONAL { ?reading shb:editorialStatus ?editorialStatus }
+  # Who chose it. The selection is an E13 Attribute Assignment (KG-12) whose
+  # P140 names the reading it marked as closest — the same path for a verbatim
+  # choice and for a combined text (which is additionally `wasGeneratedBy` the
+  # E13). The type guard keeps the recognition run out of this.
+  OPTIONAL { ?selection a cidoc-crm:E13_Attribute_Assignment ;
+                        cidoc-crm:P140_assigned_attribute_to ?reading ;
                         prov:wasAssociatedWith ?agent .
              ?agent rdfs:label ?editor . }
 """,
@@ -351,9 +351,9 @@ _AUTHORITY_COVERAGE = CannedQuery(
     body=f"""
   ?document {MENTION} ?entity .
   OPTIONAL {{ ?entity owl:sameAs ?link }}
-  # The local id's source is a literal in the corpus graph and an E55 with a
-  # label in the Bestandsgraph (KG-6: identifier-source types); the label is
-  # taken where there is one, the term itself otherwise.
+  # The local id's source is an E55 with a label in both graphs (KG-6 for the
+  # Bestandsgraph, KG-12 for the corpus graph); the label is taken where there
+  # is one, the term itself otherwise.
   # E42 only: names are P1_is_identified_by as well (E41, typed std/orig in
   # the Bestandsgraph), and a name's kind is not an identifier's source —
   # measured on the real builds: 13 957 «orig» and 3 344 «std» rows before.

@@ -6,7 +6,9 @@ Vier Prüfungen, in dieser Reihenfolge, jede mit einem benannten Befund:
 
 1. ``unknown-class`` / ``unknown-property`` — ein Begriff, der weder im Register
    steht noch (bei ``ontome``-Begriffen) im Schnappschuss oder CRM-RDFS. Das ist
-   der Befund «erfunden»: 40 Mal im bisherigen Korpusexporter (KG-12).
+   der Befund «erfunden»: 40 Mal im Korpusexporter, bis KG-12 (#659) sie in
+   unseren Namensraum ``shb:`` umzog — seither steht diese Prüfung als Tor vor
+   ``corpus_build``.
 2. ``domain`` / ``range`` — Subjekt bzw. Objekt eines Tripels ist nicht vom
    Typ, den die Property verlangt, auch nicht über Unterklassen. Range
    ``rdfs:Literal`` verlangt ein Literal, alles andere eine Ressource mit
@@ -171,7 +173,7 @@ def _expected(prop: str, voc: ontome.Vocabulary, crm: crm_mod.Crm,
               term: registry.Term, h: "Hierarchy") -> list[tuple[Optional[str], Optional[str]]]:
     """Die zulässigen (Domain, Range)-Paare einer Property — mehrere, wenn
     OntoMe sie je Domain getrennt führt (P8 für E67 und für E69)."""
-    if term.source == "ours" or term.source == "w3c":
+    if term.source != "ontome":          # ours, w3c, foreign: das Register sagt es
         return [(term.domain, term.range)]
     pairs = []
     if prop in crm.properties:

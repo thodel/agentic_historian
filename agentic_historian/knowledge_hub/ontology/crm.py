@@ -6,10 +6,10 @@ cidoc-crm.org veröffentlicht (``snapshots/CIDOC_CRM_v7.1.3.rdfs``, 76 Klassen,
 309 Properties, geholt 14.10.2026 von
 https://cidoc-crm.org/rdfs/7.1.3/CIDOC_CRM_v7.1.3.rdfs).
 
-Eine Feststellung daraus, die den Korpusexporter betrifft: **E40 Legal Body
+Eine Feststellung daraus, die den Korpusexporter betraf: **E40 Legal Body
 gibt es in 7.1.3 nicht** (``grep -c E40``: 0). ``rdf_export._ENTITY_CLASS``
-bildet ORG darauf ab — ein Begriff, der in der Fassung, auf die wir uns
-berufen, nicht existiert (KG-12).
+bildete ORG darauf ab — ein Begriff, der in der Fassung, auf die wir uns
+berufen, nicht existiert; seit KG-12 ist ORG ein E74 mit ``sdh:P99``.
 """
 
 from __future__ import annotations

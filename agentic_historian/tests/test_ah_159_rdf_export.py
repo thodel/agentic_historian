@@ -8,7 +8,7 @@ Verifies (AH-159):
 2. person_to_rdf() → CRM E21 Person + RDFS.label + schema.sameAs (Wikidata, GND)
 3. place_to_rdf() → CRM E53 Place + geo:lat/geo:long + schema.sameAs
 4. entity_to_rdf() dispatches correctly for PERSON, PLACE, ORGANISATION, etc.
-5. vocabulary_term_to_rdf() → SDHSS.Concept (NOT schema.Concept)
+5. vocabulary_term_to_rdf() → CRM E55 Type (NOT schema.Concept, and no invented sdhss:Concept — KG-12)
 
 rdflib is required; tests skip cleanly if it is not installed.
 """
@@ -30,12 +30,14 @@ from knowledge_hub.rdf_export import (
     entity_to_rdf,
     wikipedia_id_to_qid,
     CRM,
-    SDHSS,
     WD,
     WDT,
     GND,
     GEO,
     SCHEMA,
+    SDH,
+    SHB,
+    group_type_uri,
 )
 
 
@@ -147,10 +149,10 @@ class TestHubToGraph:
         assert len(places) >= 2
 
     def test_vocabulary_concept_triples_present(self, empty_hub):
-        """Graph contains SDHSS.Concept triples for default seed vocabulary."""
+        """Graph contains E55 Type triples for default seed vocabulary."""
         g = hub_to_graph(empty_hub)
-        # vocabulary_term_to_rdf uses SDHSS["Concept"], NOT SCHEMA["Concept"]
-        concepts = subjects_of_type(g, SDHSS["Concept"])
+        # vocabulary_term_to_rdf uses CRM E55_Type, NOT SCHEMA["Concept"]
+        concepts = subjects_of_type(g, CRM["E55_Type"])
         assert len(concepts) >= 1
 
     def test_serializes_to_turtle(self, sample_hub):
@@ -339,7 +341,7 @@ class TestEntityToRdf:
         assert has_type(g, CRM["E53_Place"])
 
     def test_organisation_entity(self):
-        """type=ORGANISATION → CRM E40 Legal Body."""
+        """type=ORGANISATION → CRM E74 Group with sdh:P99 group type (E40 is not in CRM 7.1.3, KG-12)."""
         g = self._entity_graph({
             "type": "ORGANISATION",
             "name": "Test Spital",
@@ -347,7 +349,9 @@ class TestEntityToRdf:
             "gnd_id": "gnd:111",
             "notes": "",
         })
-        assert has_type(g, CRM["E40_Legal_Body"])
+        assert has_type(g, CRM["E74_Group"])
+        assert not has_type(g, CRM["E40_Legal_Body"])
+        assert (None, SDH["P99"], group_type_uri("organisation")) in g
 
     def test_social_group_entity(self):
         """type=SOCIAL_GROUP → CRM E74 Group."""
@@ -369,12 +373,12 @@ class TestEntityToRdf:
         assert has_type(g, CRM["E7_Activity"])
 
     def test_role_entity(self):
-        """type=ROLE → SDHSS.Role."""
+        """type=ROLE → CRM E55 Type (an invented sdhss:Role until KG-12)."""
         g = self._entity_graph({
             "type": "ROLE",
             "name": "Bürger",
         })
-        assert has_type(g, SDHSS["Role"])
+        assert has_type(g, CRM["E55_Type"])
 
     def test_date_entity(self):
         """type=DATE → CRM E50 Date."""
@@ -397,12 +401,14 @@ class TestEntityToRdf:
 # ── Individual function tests ──────────────────────────────────────────────────
 
 class TestOrganisationToRdf:
-    """organisation_to_rdf() → CRM E40 Legal Body."""
+    """organisation_to_rdf() → CRM E74 Group + sdh:P99 «organisation» (KG-12)."""
 
-    def test_e40_legal_body_type(self):
+    def test_e74_group_with_organisation_type(self):
         g = Graph()
         organisation_to_rdf(g, "Spital Thun", wikidata_id="Q123", gnd_id="gnd:456")
-        assert has_type(g, CRM["E40_Legal_Body"])
+        assert has_type(g, CRM["E74_Group"])
+        assert not has_type(g, CRM["E40_Legal_Body"])
+        assert (None, SDH["P99"], group_type_uri("organisation")) in g
 
     def test_rdfs_label(self):
         g = Graph()
@@ -429,16 +435,17 @@ class TestCareActionToRdf:
 
 
 class TestVocabularyTermToRdf:
-    """vocabulary_term_to_rdf() → SDHSS.Concept (NOT schema.Concept)."""
+    """vocabulary_term_to_rdf() → CRM E55 Type (NOT schema.Concept)."""
 
-    def test_sdhss_concept_type(self):
+    def test_e55_type(self):
         from knowledge_hub.hub import Vocabulary
         g = Graph()
         vocab = Vocabulary(term="erbar lüt", canonical_form="Erbarleut",
                            category="care_role", notes="")
         vocabulary_term_to_rdf(g, vocab)
-        # MUST use SDHSS["Concept"], not SCHEMA["Concept"]
-        assert has_type(g, SDHSS["Concept"])
+        # E55 Type — not SCHEMA["Concept"], and no term under sdhss: (KG-12)
+        assert has_type(g, CRM["E55_Type"])
+        assert (None, SHB["canonicalForm"], Literal("Erbarleut", lang="de")) in g
 
     def test_rdfs_label_from_term(self):
         from knowledge_hub.hub import Vocabulary

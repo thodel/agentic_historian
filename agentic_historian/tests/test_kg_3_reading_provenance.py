@@ -16,7 +16,7 @@ from rdflib import Graph, Literal, RDF, RDFS
 
 from knowledge_hub import rdf_export as rx
 
-CRM, PROV, SDHSS = rx.CRM, rx.PROV, rx.SDHSS
+CRM, PROV, SHB = rx.CRM, rx.PROV, rx.SHB
 
 
 def _rec(engine, model_id, text, confidence=0.5, **kw):
@@ -94,14 +94,14 @@ def test_model_node_carries_engine_and_model_id():
     g = _graph()
     m = rx.model_uri("trocr", "trocr-kurrent-xvi-xvii")
     assert (m, RDF.type, PROV["SoftwareAgent"]) in g
-    assert (m, SDHSS["engine"], Literal("trocr")) in g
-    assert (m, SDHSS["modelId"], Literal("trocr-kurrent-xvi-xvii")) in g
+    assert (m, SHB["engine"], Literal("trocr")) in g
+    assert (m, SHB["modelId"], Literal("trocr-kurrent-xvi-xvii")) in g
 
 
 def test_confidence_travels_with_the_run():
     g = _graph()
     run = rx.recognition_uri("BAT_664", "escriptmask")
-    assert (run, SDHSS["confidence"], Literal(0.22)) in g
+    assert (run, SHB["confidence"], Literal(0.22)) in g
 
 
 def test_timestamp_is_emitted_only_when_known():
@@ -121,24 +121,24 @@ def test_timestamp_is_emitted_only_when_known():
 def test_no_merge_decision_and_its_measured_cer_are_in_the_graph():
     g = _graph()
     dec = rx.fusion_decision_uri("BAT_664")
-    assert (rx.document_uri("BAT_664"), SDHSS["hasFusionDecision"], dec) in g
-    assert (dec, SDHSS["merged"], Literal(False)) in g
-    assert (dec, SDHSS["agreementCer"], Literal(1.05)) in g
-    assert (dec, SDHSS["fusionStrategy"], Literal("vote+no-merge")) in g
-    assert list(g.objects(dec, SDHSS["decisionReason"]))
+    assert (rx.document_uri("BAT_664"), SHB["hasFusionDecision"], dec) in g
+    assert (dec, SHB["merged"], Literal(False)) in g
+    assert (dec, SHB["agreementCer"], Literal(1.05)) in g
+    assert (dec, SHB["fusionStrategy"], Literal("vote+no-merge")) in g
+    assert list(g.objects(dec, SHB["decisionReason"]))
 
 
 def test_a_merged_document_records_merged_true():
     g = _graph(a_meta={"fusion_strategy": "vote", "fusion_agreement_cer": 0.05})
     dec = rx.fusion_decision_uri("BAT_664")
-    assert (dec, SDHSS["merged"], Literal(True)) in g
-    assert list(g.objects(dec, SDHSS["decisionReason"])) == []
+    assert (dec, SHB["merged"], Literal(True)) in g
+    assert list(g.objects(dec, SHB["decisionReason"])) == []
 
 
 def test_document_without_fusion_metadata_gets_no_decision_node():
     g = _graph(a_meta={})
     assert list(g.objects(rx.document_uri("BAT_664"),
-                          SDHSS["hasFusionDecision"])) == []
+                          SHB["hasFusionDecision"])) == []
 
 
 # ── the historian's selection: closest, never "the text" ─────────────────────
@@ -165,9 +165,9 @@ CLOSEST_COMBINED = {
 def test_selected_reading_is_marked_closest():
     g = _graph(closest=CLOSEST_SINGLE)
     chosen = rx.reading_uri("BAT_664", "escriptmask")
-    assert (chosen, SDHSS["closestReading"], Literal(True)) in g
-    assert (chosen, SDHSS["readingRole"], Literal("closest")) in g
-    assert list(g.objects(chosen, SDHSS["editorialCaveat"]))
+    assert (chosen, SHB["closestReading"], Literal(True)) in g
+    assert (chosen, SHB["readingRole"], Literal("closest")) in g
+    assert list(g.objects(chosen, SHB["editorialCaveat"]))
 
 
 def test_no_triple_asserts_the_closest_reading_as_the_documents_text():
@@ -177,29 +177,38 @@ def test_no_triple_asserts_the_closest_reading_as_the_documents_text():
 
     # nothing hangs text or a "the text" relation off the document
     assert list(g.objects(d, CRM["P190_has_symbolic_content"])) == []
-    assert list(g.objects(d, SDHSS["hasClosestReading"])) == []
+    assert list(g.objects(d, SHB["closestReading"])) == []
     for p in set(g.predicates(d, None)):
         assert "text" not in str(p).lower()
 
     # the marker lives on a reading, and says it is an editorial choice
-    marked = list(g.subjects(SDHSS["closestReading"], Literal(True)))
+    marked = list(g.subjects(SHB["closestReading"], Literal(True)))
     assert len(marked) == 1
     assert (marked[0], RDF.type, CRM["E33_Linguistic_Object"]) in g
-    assert (marked[0], SDHSS["editorialStatus"],
+    assert (marked[0], SHB["editorialStatus"],
             Literal("revisable_editorial_choice")) in g
 
 
 def test_selection_is_an_explicit_activity_attributed_to_the_historian():
+    """The selection is an E13 Attribute Assignment (KG-12): the historian
+    assigned the reading the type «closest». P140 names the reading — that is
+    the endorsement, and it replaces the invented ``sdhss:selectedIn``."""
     g = _graph(closest=CLOSEST_SINGLE)
     sel = rx.selection_uri("BAT_664")
     agent = rx.agent_uri("editor-9f2a1c")
     chosen = rx.reading_uri("BAT_664", "escriptmask")
 
-    assert (sel, RDF.type, SDHSS["EditorialSelection"]) in g
+    assert (sel, RDF.type, CRM["E13_Attribute_Assignment"]) in g
+    assert (sel, RDF.type, PROV["Activity"]) in g
     assert (sel, PROV["wasAssociatedWith"], agent) in g
+    assert (sel, CRM["P14_carried_out_by"], agent) in g
     assert (sel, PROV["used"], chosen) in g
-    assert (chosen, SDHSS["selectedIn"], sel) in g
+    assert (sel, CRM["P140_assigned_attribute_to"], chosen) in g
+    assert (sel, CRM["P141_assigned"], rx.type_uri("reading-role", "closest")) in g
+    assert (rx.type_uri("reading-role", "closest"), RDF.type, CRM["E55_Type"]) in g
     assert list(g.objects(sel, PROV["endedAtTime"]))
+    # The assignment derives from the corpus dataset like every core node.
+    assert (sel, PROV["wasDerivedFrom"], rx.dataset_uri()) in g
 
 
 def test_verbatim_choice_endorses_a_reading_rather_than_generating_it():
@@ -244,6 +253,8 @@ def test_combined_reading_is_generated_by_and_attributed_to_the_historian():
     combined = rx.reading_uri("BAT_664", "closest")
     assert (combined, PROV["wasGeneratedBy"], rx.selection_uri("BAT_664")) in g
     assert (combined, PROV["wasAttributedTo"], rx.agent_uri("editor-9f2a1c")) in g
+    # …and the E13 names the combined text as what it marked closest.
+    assert (rx.selection_uri("BAT_664"), CRM["P140_assigned_attribute_to"], combined) in g
 
 
 def test_combined_reading_records_wasderivedfrom_each_source():
@@ -253,15 +264,15 @@ def test_combined_reading_records_wasderivedfrom_each_source():
     sources = set(g.objects(combined, PROV["wasDerivedFrom"]))
     assert sources == {rx.reading_uri("BAT_664", "escriptmask"),
                        rx.reading_uri("BAT_664", "trocr")}
-    assert (combined, SDHSS["closestReading"], Literal(True)) in g
+    assert (combined, SHB["closestReading"], Literal(True)) in g
     # the combined text is a new object, attached like any other reading
     assert (rx.document_uri("BAT_664"), CRM["P128_carries"], combined) in g
 
 
 def test_page_without_a_human_decision_exports_cleanly():
     g = _graph()
-    assert list(g.subjects(SDHSS["closestReading"], Literal(True))) == []
-    assert list(g.subjects(RDF.type, SDHSS["EditorialSelection"])) == []
+    assert list(g.subjects(SHB["closestReading"], Literal(True))) == []
+    assert list(g.subjects(RDF.type, CRM["E13_Attribute_Assignment"])) == []
     # …and all readings are still there with their provenance
     assert len(set(g.objects(rx.document_uri("BAT_664"), CRM["P128_carries"]))) == 8
 
@@ -272,7 +283,11 @@ def test_historian_is_a_pseudonymous_agent():
     g = _graph(closest=CLOSEST_SINGLE)
     agent = rx.agent_uri("editor-9f2a1c")
     assert (agent, RDF.type, PROV["Agent"]) in g
-    assert (agent, SDHSS["pseudonymous"], Literal(True)) in g
+    # A pseudonymous person is still a person — E21, so P14 reaches an E39
+    # (KG-12); the pseudonym flag says the label is not a name.
+    assert (agent, RDF.type, CRM["E21_Person"]) in g
+    assert (agent, PROV["wasDerivedFrom"], rx.dataset_uri()) in g
+    assert (agent, SHB["pseudonymous"], Literal(True)) in g
     assert (agent, RDFS.label, Literal("editor-9f2a1c")) in g
 
 

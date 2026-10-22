@@ -18,7 +18,7 @@ Two things follow, and this file is both.
 **The count was not true.** `FusionResult.arbitrated` was documented as the
 slots the LLM decided and set to the number of slots that *disagreed*. When the
 call failed, every slot fell to the deterministic vote and the field still
-reported the full count — and `rdf_export` publishes it as `sdhss:arbitrated`,
+reported the full count — and `rdf_export` publishes it as `shb:arbitrated`,
 so a knowledge graph asserted a model had arbitrated readings it never saw.
 
 **The decision needs more than 13 pages.** #416 says widening that sample is

@@ -16,10 +16,13 @@ OntoMe ist die Pflegeumgebung von SDHSS (Semantic Data for Humanities and Social
 der Erweiterung, die CIDOC um das ergänzt, was ein Personenregister braucht: Ehe,
 Verwandtschaft als Beziehung, Mitgliedschaft mit Zeit, soziale Rolle mit Zeit. Der Grund,
 das als **Prüfung** und nicht als Konvention zu führen: der Korpusexporter (`rdf_export.py`)
-verwendet 40 Begriffe unter `https://sdhss.org/ontology/` — eine URI, die OntoMe mit
-«OntoME URI not found» beantwortet. Die echten Namensräume sind
+verwendete bis KG-12 (#659) 40 Begriffe unter `https://sdhss.org/ontology/` — eine URI, die
+OntoMe mit «OntoME URI not found» beantwortet. Die echten Namensräume sind
 `https://sdhss.org/ontology/core/` (`sdh:`), `…/social-life-core/` (`sdh-slc:`),
-`…/crm-supplement/` (`crm-sup:`). Das wird in KG-12 umgezogen; hier kommt es nicht vor.
+`…/crm-supplement/` (`crm-sup:`). Seit KG-12 stehen die Begriffe des Korpusgraphen unter
+`https://tei.dh.unibe.ch/ontology/` (`shb:`) im Register (`source="ours"`), die Auswahl der
+nächsten Lesung ist eine E13, ORG ein E74 mit `sdh:P99` — und `corpus_build` schreibt keinen
+Graphen, der die Prüfung nicht besteht. Hier, im Bestandsgraphen, kommt `shb:` nicht vor.
 
 Die Profile und ihr Grund stehen in `ontome.PROFILES`. Die API ist undokumentiert; die
 Endpunkte stammen aus dem Geovistory-Quellcode und sind im Modul festgehalten.

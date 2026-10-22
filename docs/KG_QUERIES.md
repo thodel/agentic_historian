@@ -47,9 +47,9 @@ Drei Dinge, die der Bestandsgraph anders trägt, und wie die Fragen sie lesen:
 
 | Was | Korpus-Graph | Bestandsgraph | in der Frage |
 |---|---|---|---|
-| Jahrhundert | `sdhss:century 15` (aus der Datierung gerechnet) | `P82a_begin_of_the_begin` der **E65 Creation** (P4 verlangt eine zeitliche Entität, das Dokument ist keine) | `FLOOR((YEAR(?begin) − 1) / 100) + 1 = ?century` — dieselbe Arithmetik wie `century_of` |
-| Quelle einer Zeile | — | `prov:wasDerivedFrom` auf jedem Knoten (KG-6); beim MLS das Lexikon des Artikels, «Musiklexikon der Schweiz — Becker 1874» (KG-13) | `?source` = Label des Datensatzes, Pflichtspalte der drei neuen Fragen |
-| Lokale Id | Literal am E42 | E42 mit `P2_has_type` → E55 «kf»/«ssrq» | `COALESCE(Label, Term)` in `authority-coverage` |
+| Jahrhundert | `shb:century 15` (aus der Datierung gerechnet) | `P82a_begin_of_the_begin` der **E65 Creation** (P4 verlangt eine zeitliche Entität, das Dokument ist keine) | `FLOOR((YEAR(?begin) − 1) / 100) + 1 = ?century` — dieselbe Arithmetik wie `century_of` |
+| Quelle einer Zeile | `prov:wasDerivedFrom` auf den Kernknoten → `ah:dataset/corpus`, der data/outputs-Lauf (seit KG-12) | `prov:wasDerivedFrom` auf jedem Knoten (KG-6); beim MLS das Lexikon des Artikels, «Musiklexikon der Schweiz — Becker 1874» (KG-13) | `?source` = Label des Datensatzes, Pflichtspalte der drei neuen Fragen |
+| Lokale Id | E42 mit `P2_has_type` → E55 «hub»/«archival_id» (seit KG-12; vorher ein Literal) | E42 mit `P2_has_type` → E55 «kf»/«ssrq» | `COALESCE(Label, Term)` in `authority-coverage` |
 
 Die drei Bestand-Fragen stehen in `queries.BESTAND_ONLY`: über den Korpus-Graphen
 allein liefern sie keine Zeile, und das ist die wahre Antwort — ein Test hält es
@@ -121,13 +121,13 @@ keinen von beiden. Beide stehen in Agent Bs Beschreibung, und beide sind
 ### Datierung und Jahrhundert sind zwei Prädikate
 
 ```turtle
-ah:document/x sdhss:dating          "um 1450"@de ;
-              sdhss:datingUncertain true ;
-              sdhss:century         15 ;
-              sdhss:centuryUncertain true .
+ah:document/x shb:dating          "um 1450"@de ;
+              shb:datingUncertain true ;
+              shb:century         15 ;
+              shb:centuryUncertain true .
 ```
 
-`sdhss:dating` ist, was die Quelle (oder Agent B) sagt; `sdhss:century` ist
+`shb:dating` ist, was die Quelle (oder Agent B) sagt; `shb:century` ist
 eine Zahl, die dieser Code daraus abgeleitet hat. Sie zusammenzulegen würde
 verbergen, dass der Filter, den eine Historikerin benutzt, unsere Arithmetik
 ist und nicht die Aussage des Dokuments.
@@ -152,11 +152,11 @@ das Ergebnis einer Historikerin setzen. Der einzige sichere Fehlschlag ist
 ### Der Care-Flag ist dreiwertig (seit #631)
 
 ```turtle
-ah:document/a sdhss:careClassified true  ; sdhss:careRelated true ;
-              sdhss:careType "Almosen"@de .   # geprüft, care-relevant
-ah:document/b sdhss:careClassified true  ; sdhss:careRelated false .
+ah:document/a shb:careClassified true  ; shb:careRelated true ;
+              shb:careType "Almosen"@de .   # geprüft, care-relevant
+ah:document/b shb:careClassified true  ; shb:careRelated false .
                                               # geprüft, nicht care-relevant
-ah:document/c sdhss:careClassified false .    # nie geprüft
+ah:document/c shb:careClassified false .    # nie geprüft
 ```
 
 `careClassified` wird ausdrücklich emittiert und nicht aus einem fehlenden

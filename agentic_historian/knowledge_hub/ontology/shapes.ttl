@@ -1,4 +1,4 @@
-# shapes.ttl — Formen für den Bestandsgraphen (KG-6, #650).
+# shapes.ttl — Formen für Bestands- und Korpusgraph (KG-6, #650; Korpus seit KG-12, #659).
 #
 # Was eine Ontologie nicht sagt, sagt eine Form: wie viele, in welcher Gestalt,
 # aus welchem Namensraum. Geprüft mit pyshacl aus validate.py. Jede Form nennt
@@ -60,7 +60,7 @@ shb:IdentifierShape a sh:NodeShape ;
 
 shb:TypedShape a sh:NodeShape ;
     sh:targetSubjectsOf crm:P2_has_type ;
-    rdfs:comment "P2 has type hat den Range E55 Type. Der Korpusexporter schrieb Literale (KG-12)." ;
+    rdfs:comment "P2 has type hat den Range E55 Type. Der Korpusexporter schrieb bis KG-12 Literale." ;
     sh:property [ sh:path crm:P2_has_type ; sh:nodeKind sh:IRI ; sh:class crm:E55_Type ;
                   sh:message "P2_has_type verlangt eine E55-Ressource" ] .
 
