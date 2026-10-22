@@ -95,7 +95,7 @@ def main(argv=None) -> int:
     if args.cmd == "request":
         print(json.dumps(request_body(args), indent=1, ensure_ascii=False))
         return 0
-    from agent_a.training_client import Stage, TrainingClient
+    from agent_a.training_client import Stage, TrainingClient, TrainingJobNotFound
     with TrainingClient() as tc:
         def newest(model_id):
             jobs = [j for j in tc.list_jobs(limit=50) if j.model_id == model_id]
@@ -146,8 +146,12 @@ def main(argv=None) -> int:
             if not job_id:
                 print(f"no job for {args.model_id}")
                 return 1
-            print(tc.get_log(job_id, stage=Stage(args.stage) if args.stage else None,
-                             lines=args.lines))
+            try:
+                print(tc.get_log(job_id, stage=Stage(args.stage) if args.stage else None,
+                                 lines=args.lines))
+            except TrainingJobNotFound:
+                # A stage that wrote nothing (register, often) is a 404 too.
+                print(f"no {args.stage or 'train'} log for {job_id}")
     return 0
 
 
