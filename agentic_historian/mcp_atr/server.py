@@ -672,6 +672,32 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def score_report(name: str, offset: int = 0, limit: int = 50,
+                     located_only: bool = False) -> dict:
+        """A scoring report as data: the comparison table and every page.
+
+        ``name`` is what `score_ground_truth` returned as ``report_name``
+        (``score-gt-<stamp>``; the ``.md``/``.json`` path it printed is
+        accepted too). The reply holds ``by_reading`` (the one table that is
+        quality), the status mix, the files that could not be scored,
+        ``not_located`` — the pages that are in no row, by file name — and
+        per page: document and page id, status, the located key, and each
+        reading's CER with its runner-up and whether the match is confident.
+
+        Paged like `read_pages`; ``remaining`` and ``next_offset`` say what
+        was left out. ``located_only`` drops the pages whose identity is
+        unsettled, which is the view to take when reading CERs.
+
+        Reports written before #689 have no data beside them; the error says
+        so, and a new `score_ground_truth` writes one.
+        """
+        try:
+            return jobs.score_report(name, offset=offset, limit=limit,
+                                     located_only=located_only)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def export_hf(runs: list[str], gt_dir: str | None = None,
                   dry_run: bool = True) -> dict:
         """Assemble the located ground-truth pages into a `pagexml-hf` export
