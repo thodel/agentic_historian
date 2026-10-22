@@ -550,6 +550,93 @@ def test_the_skipped_folder_is_recorded_not_swallowed(monkeypatch):
     assert state.files == 3
 
 
+class _Gone:
+    """A share where one folder, listed by its parent, answers 404 itself.
+
+    Measured 2026-10-22 on `St. Gallen Kantonsbibliothek/lassberg-letter-1648`:
+    500, then 404. webdav4 reports the second as its own `ResourceNotFound`,
+    which `status_of` recognises by name — so the fake raises an exception of
+    that name, not a NextcloudError, because the whole point is what happens to
+    an exception the walker did not make itself.
+    """
+
+    def __init__(self, tree, gone, before=()):
+        self.tree, self.gone = tree, gone
+        self.before = list(before)              # statuses to answer first
+        self.calls: dict[str, int] = {}
+
+    def ls(self, rdir, detail=True):
+        self.calls[rdir] = self.calls.get(rdir, 0) + 1
+        if rdir == self.gone:
+            if self.before:
+                raise _HttpError(self.before.pop(0))
+            raise _resource_not_found(rdir)
+        return list(self.tree.get(rdir, []))
+
+
+class _HttpError(Exception):
+    def __init__(self, status):
+        super().__init__(f"received {status}")
+        self.status_code = status
+
+
+def _resource_not_found(rdir):
+    cls = type("ResourceNotFound", (Exception,), {})
+    return cls(f"The resource {rdir} could not be found in the server")
+
+
+def test_a_folder_that_answers_404_is_skipped_not_fatal(monkeypatch):
+    """The 2026-10-22 incident in one assertion: 520 folders and twelve minutes
+    were thrown away because the 521st, listed by its parent, answered 404."""
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 3)
+    monkeypatch.setattr(nextcloud.time, "sleep", lambda _s: None)
+    client = _Gone(TREE, "d/b")
+    state = nextcloud.WalkState()
+    paths = [p for p, _ in nextcloud._walk(client, "d", True, state)]
+    assert paths == ["d/a/1.jpg", "d/a/2.jpg", "d/c/1.jpg"]
+    assert state.unreadable == ["d/b"] and not state.complete
+    assert client.calls["d/b"] == 1, "a 404 is not retried: the folder is not there"
+
+
+def test_a_500_before_the_404_is_retried_then_the_404_decides(monkeypatch):
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 3)
+    slept: list[float] = []
+    monkeypatch.setattr(nextcloud.time, "sleep", slept.append)
+    client = _Gone(TREE, "d/b", before=[500])
+    with pytest.raises(nextcloud.NextcloudError) as err:
+        nextcloud._ls(client, "d/b")
+    assert "404" in str(err.value) and "d/b" in str(err.value)
+    assert client.calls["d/b"] == 2 and slept == [1.0]
+
+
+def test_a_500_that_keeps_coming_is_the_servers_moment_and_is_retried(monkeypatch):
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 2)
+    monkeypatch.setattr(nextcloud.time, "sleep", lambda _s: None)
+    client = _Gone(TREE, "d/b", before=[500, 502, 503])
+    with pytest.raises(nextcloud.NextcloudError) as err:
+        nextcloud._ls(client, "d/b")
+    assert "after 2 attempts" in str(err.value)
+    assert client.calls["d/b"] == 2
+
+
+def test_an_exception_without_a_status_still_propagates(monkeypatch):
+    """A bug in the client is not a folder problem, and must not be filed as one."""
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 1)
+
+    class _Broken:
+        def ls(self, rdir, detail=True):
+            raise KeyError("href")
+
+    with pytest.raises(KeyError):
+        nextcloud._ls(_Broken(), "d")
+
+
+def test_a_root_that_answers_404_is_still_fatal(monkeypatch):
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 1)
+    with pytest.raises(nextcloud.NextcloudError):
+        list(nextcloud._walk(_Gone(TREE, "d"), "d", True))
+
+
 def test_a_walk_that_read_everything_is_complete():
     state = nextcloud.WalkState()
     list(nextcloud._walk(_Tree(TREE), "d", True, state))

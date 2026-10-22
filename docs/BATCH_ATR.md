@@ -1464,8 +1464,36 @@ schon zusammenpassen:
    `missing_out`, weil der Share seit dem 4. Oktober 35 der 276 GT-Seiten nicht
    mehr hält und ein anderswo gezogener Split Seiten nennen kann, die hier
    fehlen. Der Trockenlauf traf auf eine abgelaufene Listing-Cache (48 h) und
-   begann die volle Begehung des Shares — rund 20 Minuten für ~1000 Ordner,
-   die danach für Rauchtest und Lauf warm ist.
+   begann die volle Begehung des Shares — und starb nach zwölf Minuten und 520
+   Ordnern am 521.: `St. Gallen Kantonsbibliothek/lassberg-letter-1648`
+   antwortete 500, dann 404. **Das war ein Defekt im Walker, kein Pech.** Ein
+   Ordner, der nach dem Listen seines Elternordners selbst 404 antwortet, kam
+   als webdav4-`ResourceNotFound` an — weder einer der Fehler, die `_ls`
+   wiederholt, noch der `NextcloudError`, den `_walk` als „unlesbar, übersprungen,
+   nicht gecacht" behandelt. Seit diesem Tag wird ein 404 unterhalb der Wurzel
+   sofort (ohne Wiederholung: der Ordner ist nicht da) zu diesem Fehler und
+   damit zu einem übersprungenen Ordner; ein 500/502/503 wird wie ein Timeout
+   wiederholt; eine Ausnahme ohne Status bleibt ein Fehler im Client und
+   propagiert. Die Wurzel bleibt fatal.
+
+   **Der Weg um die Begehung herum** ist das Kaltarchiv des Seiten-Caches
+   (`ATR_PAGE_CACHE_ARCHIVE`): der Share-Cache legt Seiten als
+   `<Bestand>/<Ordner>/<Seite>.jpg` ab, ohne Präfix, also ergibt ein
+   Verzeichnis-Lauf darüber **dieselben Schlüssel**, und der 300er-Lauf hat 125
+   seiner Seiten genau aus diesen Arbeitskopien gelesen. Eine `.jpg`-Quelle wird
+   beim Cachen byte-kopiert, nie neu kodiert (`CONVERTIBLE_SUFFIXES` kennt kein
+   JPEG) — gleiche Pixel. Nur `_roots()` der MCP kennt das Archiv nicht, darum
+   per CLI im Produktions-Checkout:
+
+   ```bash
+   cd /home/dh/agentic_historian
+   .venv/bin/python3 -m agentic_historian atr-batch \
+     --source /mnt/wbkolleg_dh_1/tei/archive/agentic_historian-page_cache \
+     --models gemini-3.8-flash --run gemini-eval-random \
+     --keys-from agentic_historian/data/gt/eval-random.txt \
+     --missing-out agentic_historian/data/gt/eval-random-missing.txt \
+     --via external --prompt lassberg_atr_strict2.md --reasoning low --dry-run
+   ```
 
 4. Die Tabelle, die Qualität ist: beide Leser gegen dieselbe Referenz.
 
