@@ -40,6 +40,11 @@ Drei Dinge, die man daraus wissen muss:
 
 ## Woher die Konfiguration kommt
 
+Aus einer Session beantwortet das seit #690 `server_status()`: die Dateien in
+Lesereihenfolge und ob jede existiert, `AH_ENV_FILE`, die Datenwurzeln, der
+Checkout mit Branch und Commit. Keine Werte von Schlüsseln, nur `set`/`unset`.
+
+
 `AH_ENV_FILE` ist **nicht** gesetzt, also liest `config.py` der Reihe nach:
 
 | Datei | Keys | was daraus kommt |

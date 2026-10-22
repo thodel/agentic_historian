@@ -1600,6 +1600,15 @@ echte Seite dieses Korpus.
 
 ## Welcher Code hat geantwortet?
 
+**Seit #690 aus der Session:** `server_status()` — der Checkout, auf dem jeder
+Job läuft (Branch, Commit, weitere Arbeitsbäume, uncommittete Dateien, Abstand
+zum Upstream), `loaded` gegen `checkout` mit `stale`, die Env-Datei-Kette, die
+Datenwurzeln mit dem Inhalt von `GT_ROOT` (die Namen, die `keys_from`,
+`letters_from`, `exclude_from` und `gt_dir` nehmen) und die fünfzig neuesten
+Läufe mit Seiten je Modell. Nur lesend, keine Geheimnisse (Schlüssel als
+`set`/`unset`). Umschalten bleibt eine Handlung auf der Maschine.
+
+
 Nicht jede Änderung braucht denselben Deployment-Schritt, und der Unterschied
 hat am 11. Oktober dreimal zugeschlagen:
 

@@ -327,6 +327,38 @@ def build_server(provider=None, auth_settings=None):
         return gateway_report()
 
     @server.tool()
+    def server_status(counts: bool = False) -> dict:
+        """Which code answers, which data roots apply, and what lies under
+        them. Read-only, synchronous, no secrets (keys and tokens are
+        ``set``/``unset``, never values).
+
+        ``code``: the checkout every job runs on — its branch, commit, other
+        worktrees, uncommitted files, distance to upstream — and `loaded`
+        against `checkout` with ``stale``, which says the server process is
+        behind the checkout and needs a restart. On 2026-10-22 the checkout
+        stood on a feature branch another workstream had switched to, every
+        job ran that branch, and finding out took five terminal commands.
+
+        ``env``: the dotenv files in reading order and whether each exists,
+        `AH_ENV_FILE` (which replaces the whole chain), the external reader's
+        URL. ``roots``: `VLM_TEST_ROOT`, `GT_ROOT` with its entries — the
+        names `keys_from`, `letters_from`, `exclude_from` and `gt_dir` take,
+        with line or file counts — the page cache and its cold tier, the
+        mount, the staging dir, the research project root. ``runs``: the
+        fifty newest runs with pages per model.
+
+        ``counts`` walks the page cache and the cold tier for page counts
+        (seconds over CIFS, within a budget); off by default.
+
+        Sees, never switches: changing the checkout is a deployment act on
+        the machine, not a tool call.
+        """
+        try:
+            return jobs.server_status(counts=counts)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def share_list(folder: Optional[str] = None) -> dict:
         """What is in the Nextcloud share, with sizes. Downloads nothing.
 

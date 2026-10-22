@@ -450,6 +450,175 @@ def import_ground_truth(manifest: str, name: str, dry_run: bool = False) -> dict
                      f"keys_out='{dest_dir.name}.txt')")}
 
 
+# ── what is true on this host (#690) ─────────────────────────────────────────
+
+def _checkout_dir() -> Path:
+    """The checkout every job runs on: the parent of the package, which is
+    `start_and_peek`'s cwd. A function so a test can point it elsewhere."""
+    return Path(config.BASE_DIR).parent
+
+
+def _git(root: Path, *args: str) -> Optional[str]:
+    """One git query's stdout, or None when git has no answer. Never raises."""
+    try:
+        out = subprocess.run(["git", "-C", str(root), *args],
+                             capture_output=True, text=True, timeout=5)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return out.stdout.strip() if out.returncode == 0 else None
+
+
+def _git_state(checkout: Path) -> dict:
+    """Branch, commit, worktrees, uncommitted changes, distance to upstream.
+
+    The five commands of the 2026-10-22 diagnosis, read-only. The production
+    checkout stood on `ruemlang-test` — another workstream had switched it —
+    and every MCP job ran that branch, because jobs are subprocesses on the
+    checkout. `batch_report` already carried `code.loaded/checkout/stale`;
+    which *branch*, and whether a worktree held `main`, it could not say.
+    """
+    branch = _git(checkout, "rev-parse", "--abbrev-ref", "HEAD")
+    head = _git(checkout, "rev-parse", "--short=12", "HEAD")
+    porcelain = _git(checkout, "status", "--porcelain")
+    worktrees = []
+    listing = _git(checkout, "worktree", "list", "--porcelain")
+    if listing:
+        current: dict = {}
+        for line in listing.splitlines() + [""]:
+            if not line:
+                if current:
+                    worktrees.append(current)
+                current = {}
+            elif line.startswith("worktree "):
+                current["path"] = line[len("worktree "):]
+            elif line.startswith("branch "):
+                current["branch"] = line[len("branch "):].replace("refs/heads/", "")
+            elif line == "detached":
+                current["branch"] = None
+    upstream = None
+    counts = _git(checkout, "rev-list", "--left-right", "--count", "HEAD...@{upstream}")
+    if counts and "\t" in counts:
+        ahead, behind = counts.split("\t", 1)
+        upstream = {"ahead": int(ahead), "behind": int(behind)}
+    return {"checkout": str(checkout), "branch": branch, "head": head,
+            "dirty_files": (len(porcelain.splitlines())
+                            if porcelain is not None else None),
+            "worktrees": worktrees, "upstream": upstream}
+
+
+def _count_pages(root: Path, budget_s: float = 20.0) -> dict:
+    """How many page images lie under ``root``, within a time budget.
+
+    The cold tier is 6783 files over CIFS and the walk is seconds, not
+    minutes — but a budget is what keeps a status call from becoming the
+    thing it reports on. ``complete: false`` says the count stopped early.
+    """
+    from atr_batch import IMAGE_EXTS
+
+    n, complete = 0, True
+    deadline = time.monotonic() + budget_s
+    for _dirpath, _dirnames, filenames in os.walk(root):
+        n += sum(1 for f in filenames if Path(f).suffix.lower() in IMAGE_EXTS)
+        if time.monotonic() > deadline:
+            complete = False
+            break
+    return {"pages": n, "complete": complete}
+
+
+def _root_entry(path, *, count: bool) -> dict:
+    """One data root: where it is, whether it is there, how much it holds."""
+    if not path:
+        return {"path": None, "configured": False}
+    p = Path(path)
+    out: dict = {"path": str(p), "configured": True, "exists": p.is_dir()}
+    if count and p.is_dir():
+        out.update(_count_pages(p))
+    return out
+
+
+def _gt_root_entries(root: Path, cap: int = 100) -> list[dict]:
+    """What is under GT_ROOT — the names `keys_from`, `letters_from`,
+    `exclude_from` and `gt_dir` take, with how much each holds."""
+    if not root.is_dir():
+        return []
+    entries = []
+    for p in sorted(root.iterdir(), key=lambda p: p.name):
+        if p.name.startswith("."):
+            continue
+        if p.is_dir():
+            entries.append({"name": p.name, "type": "dir",
+                            "files": sum(1 for _ in p.glob("*.xml"))})
+        else:
+            try:
+                lines = [ln for ln in p.read_text(encoding="utf-8").splitlines()
+                         if ln.split("#", 1)[0].strip()]
+                entries.append({"name": p.name, "type": "file", "lines": len(lines)})
+            except (OSError, UnicodeDecodeError):
+                entries.append({"name": p.name, "type": "file", "lines": None})
+    return entries[:cap]
+
+
+def _runs(root: Path, cap: int = 50) -> list[dict]:
+    """The runs under VLM_TEST_ROOT, newest first, with pages per model."""
+    if not root.is_dir():
+        return []
+    dirs = [p for p in root.iterdir() if p.is_dir() and not p.name.startswith(".")]
+    dirs.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+    out = []
+    for d in dirs[:cap]:
+        models = {m.name: sum(1 for _ in m.glob("*.txt"))
+                  for m in sorted(d.iterdir()) if m.is_dir()}
+        out.append({"name": d.name, "models": models})
+    return out
+
+
+def server_status(counts: bool = False) -> dict:
+    """Which code answers, which data roots apply, what lies under them (#690).
+
+    Read-only and synchronous. Replaces the five terminal commands of the
+    2026-10-22 diagnosis (`git status/log/reflog`, a config printout, `ls
+    $GT_ROOT`) and gathers what `batch_report` already told under ``code``
+    into the place where one would look for it.
+
+    **No secrets.** Keys and tokens are reported as ``set``/``unset``, never
+    by value, and no path outside the configured roots is listed.
+
+    ``counts`` walks the page cache and its cold tier for page counts (seconds
+    over CIFS, within a budget); off by default because a status call that
+    takes as long as the thing it describes is the wrong kind of status.
+    """
+    import provenance
+
+    checkout = _checkout_dir()
+    roots = {
+        "vlm_test_root": {"path": str(config.VLM_TEST_ROOT),
+                          "exists": Path(config.VLM_TEST_ROOT).is_dir()},
+        "gt_root": {"path": str(config.GT_ROOT),
+                    "exists": Path(config.GT_ROOT).is_dir(),
+                    "entries": _gt_root_entries(Path(config.GT_ROOT))},
+        "page_cache": {**_root_entry(config.page_cache_dir(), count=counts),
+                       "configured": bool(config.ATR_PAGE_CACHE)},
+        "page_cache_archive": _root_entry(config.ATR_PAGE_CACHE_ARCHIVE, count=counts),
+        "mount": _root_entry(config.ATR_MOUNT_DIR, count=False),
+        "staging": _root_entry(config.NEXTCLOUD_STAGING_DIR, count=False),
+        "research_dir": _root_entry(config.ATR_RESEARCH_DIR, count=False),
+    }
+    env = {
+        "ah_env_file": os.environ.get("AH_ENV_FILE", "").strip() or None,
+        "files": [{"path": str(p), "exists": Path(p).is_file()}
+                  for p in config.ENV_FILES],
+        "gemini_base_url": config.GEMINI_BASE_URL,
+        "gemini_api_key": "set" if config.GEMINI_API_KEY else "unset",
+        "hf_token": "set" if config.HF_TOKEN else "unset",
+        "gateway": config.ATR_GATEWAY_URL,
+    }
+    return {"ok": True,
+            "code": {**provenance.code_state(), **_git_state(checkout)},
+            "env": env, "roots": roots,
+            "runs": _runs(Path(config.VLM_TEST_ROOT)),
+            "counted": counts}
+
+
 def resolve_keys_file(name: str) -> Path:
     """A page-key list by **name**, under the ground-truth root.
 
