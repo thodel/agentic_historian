@@ -59,3 +59,22 @@ $PY agentic_historian/ruemlang/train_kraken.py status <JOB_ID>
   `ADJ_ARGS="--no-llm"`: dann ist er in Stunden statt in einem Tag fertig.
 - **Druckanker** für Hertwig: `docs/ruemlang/print_anchors_a_v_1443.json` aus
   reformation, automatisch gewählt über die Dokument-ID.
+
+## Stand 22.10.: kraken-bern-hertwig-v1
+
+Training: 114 Epochen (early stop, `--epochs` setzt unter `quit: early` nur die
+Länge des Cosine-Plans, also lief die Lernrate ab Epoche 60 wieder hoch),
+Test-CER des Trainers **0.271** auf seiner Validierung, Promotion-Gate bestanden.
+
+`eval` auf 8, 17, 26, 39, 48, 55, Seiten-CER:
+
+| | A qwen3vl-line | B trocr | C qwen3.5-page | D kraken-v1 | fused (gpt-oss) |
+|---|---|---|---|---|---|
+| Mittel | 0.446 | 0.424 | 1.521 (S. 48: 7.1, Schleife) | **0.374** | 0.467 |
+
+Der Schiedsrichter macht es schlechter als D allein. Die Seiten-CER vergleicht
+aber die ganze Seite in der Zeilenfolge jeder Seite; eine abweichende Folge
+kostet wie ein Lesefehler. Darum misst `eval` jetzt zusätzlich die
+**Zeilen-CER** (`linecer.py`: jede erkannte Zeile gegen die GT-Zeile, auf der
+sie liegt) und die regelbasierte Fusion ohne Schiedsrichter mit A, B oder D als
+`primary` (`--variants`, kostet nichts).

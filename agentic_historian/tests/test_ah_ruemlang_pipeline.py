@@ -476,3 +476,27 @@ def test_train_request_is_a_finetune_the_trainer_accepts():
     assert body["params"]["resize"] == "union" and body["params"]["schedule"] == "cosine"
     # ~2000 lines * 0.9 / 16 * 60 epochs is far above the trainer's fine-tune floor of 500 steps
     assert 2000 * 0.9 / body["params"]["batch_size"] * body["params"]["epochs"] > 500
+
+
+# ── line-matched CER ─────────────────────────────────────────────────────────
+
+def test_linecer_ignores_order():
+    from ruemlang import linecer
+    gt = [([0, 0, 100, 20], "erste zeile"), ([0, 30, 100, 50], "zweite zeile")]
+    hyp = [([0, 31, 100, 51], "zweite zeile"), ([0, 1, 100, 21], "erste zeile")]
+    assert linecer.matched_cer(gt, hyp)["cer"] == 0.0
+
+
+def test_linecer_joins_split_lines_and_counts_misses_and_extras():
+    from ruemlang import linecer
+    gt = [([0, 0, 200, 20], "ab cd"), ([0, 30, 200, 50], "ef")]
+    hyp = [([110, 0, 200, 20], "cd"), ([0, 0, 100, 20], "ab"), ([0, 100, 200, 120], "xyz")]
+    m = linecer.matched_cer(gt, hyp)
+    # line 1 joined left to right is exact; line 2 missed (2); "xyz" inserted (3)
+    assert (m["errors"], m["gt_chars"], m["missed_lines"], m["unmatched_chars"]) == (5, 7, 1, 3)
+
+
+def test_linecer_needs_half_a_line_of_overlap():
+    from ruemlang import linecer
+    assert linecer.assign([[0, 0, 100, 20]], [[0, 15, 100, 35]]) == [None]
+    assert linecer.assign([[0, 0, 100, 20]], [[0, 8, 100, 28]]) == [0]

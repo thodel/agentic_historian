@@ -47,7 +47,7 @@ from loguru import logger                     # noqa: E402
 
 import config                                 # noqa: E402
 import transkribus as tk                      # noqa: E402
-from ruemlang import adjudicate, pagexml, textalign      # noqa: E402
+from ruemlang import adjudicate, linecer, pagexml, textalign      # noqa: E402
 from ruemlang import transkribus_pages as tp             # noqa: E402
 
 #: StAB A V 1446, the protocol in Eberhard von Rümlang's hand, as thodel/reformation
@@ -302,6 +302,32 @@ def _geometry_source(d: Path, args) -> tuple[Optional[str], Optional[dict]]:
     return None, None
 
 
+def _page_cases(d: Path, p, args, ref, anchors, primary: Optional[str] = None):
+    """One page's cases from the readings on disk: ``(cases, meta, primary)``,
+    or None when no line reader produced lines. Case ``i`` is line ``i`` of
+    the geometry source (``meta["geometry_from"]``)."""
+    geom_label, geom = _geometry_source(d, args)
+    if geom is None:
+        return None
+    a = _load(d / f"rec_{args.line_model}.json") or {}
+    b = _load(d / f"rec_{args.trocr_model}.json") or {}
+    c = _load(d / f"rec_{args.page_model}.json") or {}
+    x = (_load(d / f"rec_{args.extra_model}.json") or {}) if args.extra_model else {}
+    n = len(geom["lines"])
+    a_lines = [(ln.get("text") or "") for ln in (a.get("lines") or [])] or \
+        ([(ln.get("text") or "") for ln in geom["lines"]] if geom_label == "A" else [""] * n)
+    b_lines = [(ln.get("text") or "") for ln in (b.get("lines") or [])]
+    d_lines = [(ln.get("text") or "") for ln in (x.get("lines") or [])] if args.extra_model else None
+    cases, meta = adjudicate.build_cases(a_lines, b_lines, c.get("text") or "", ref,
+                                         page_hint=anchors.get(p.page_nr),
+                                         extra_texts=d_lines)
+    meta["geometry_from"] = geom_label
+    meta["models_present"] = [lbl for lbl, r in (("A", a), ("B", b), ("C", c), ("D", x)) if r]
+    want = primary or args.primary
+    primary = want if want in meta["models_present"] else ("A" if any(a_lines) else "B")
+    return cases, meta, primary
+
+
 def cmd_adjudicate(args) -> int:
     root = out_root(args)
     collection, pages = _planned(root, args)
@@ -315,26 +341,11 @@ def cmd_adjudicate(args) -> int:
         if out.exists() and not args.force:
             done += 1
             continue
-        geom_label, geom = _geometry_source(d, args)
-        if geom is None:
+        built = _page_cases(d, p, args, ref, anchors)
+        if built is None:
             logger.warning(f"[ruemlang] {p.key}: no line-level result from any line reader, skipped")
             continue
-        a = _load(d / f"rec_{args.line_model}.json") or {}
-        b = _load(d / f"rec_{args.trocr_model}.json") or {}
-        c = _load(d / f"rec_{args.page_model}.json") or {}
-        x = (_load(d / f"rec_{args.extra_model}.json") or {}) if args.extra_model else {}
-        n = len(geom["lines"])
-        a_lines = [(ln.get("text") or "") for ln in (a.get("lines") or [])] or \
-            ([(ln.get("text") or "") for ln in geom["lines"]] if geom_label == "A" else [""] * n)
-        b_lines = [(ln.get("text") or "") for ln in (b.get("lines") or [])]
-        d_lines = [(ln.get("text") or "") for ln in (x.get("lines") or [])] if args.extra_model else None
-        cases, meta = adjudicate.build_cases(a_lines, b_lines, c.get("text") or "", ref,
-                                             page_hint=anchors.get(p.page_nr),
-                                             extra_texts=d_lines)
-        meta["geometry_from"] = geom_label
-        meta["models_present"] = [lbl for lbl, r in (("A", a), ("B", b), ("C", c), ("D", x)) if r]
-        primary = args.primary if args.primary in meta["models_present"] else (
-            "A" if any(a_lines) else "B")
+        cases, meta, primary = built
         decisions = adjudicate.decide_page(cases, llm, primary=primary, batch=args.batch)
         summary = {}
         for dec in decisions:
@@ -450,6 +461,19 @@ def cmd_upload(args) -> int:
 
 # ── eval ─────────────────────────────────────────────────────────────────────
 
+def _boxed(rec: dict, texts: list[str]) -> list[tuple]:
+    """``(bbox in original pixels, text)`` per line of a recognition result."""
+    scale = float(rec.get("scale_to_original") or 1.0)
+    out = []
+    for ln, t in zip(rec.get("lines") or [], texts):
+        b = ln.get("bbox")
+        if not (isinstance(b, list) and len(b) == 4) and ln.get("baseline"):
+            xs = [x for x, _ in ln["baseline"]]; ys = [y for _, y in ln["baseline"]]
+            b = [min(xs), min(ys) - 40, max(xs), max(ys) + 10]
+        out.append(([v * scale for v in b] if b else None, t))
+    return out
+
+
 def _cer(ref: str, hyp: str) -> Optional[float]:
     from rapidfuzz.distance import Levenshtein
     ref = re.sub(r"\s+", " ", ref).strip()
@@ -511,9 +535,10 @@ def cmd_eval(args) -> int:
     sub.out = str(root); sub.pages = None; sub.limit = None
     cmd_recognize(sub)
     cmd_adjudicate(sub)
+    ref = _reference(args)
+    anchors = _anchors(args)
 
     rows = []
-    totals: dict[str, list[float]] = {}
     for p in gt_pages:
         d = page_dir(root, p)
         gt = d / "gt.xml"
@@ -532,22 +557,54 @@ def cmd_eval(args) -> int:
         }
         row = {"page": p.page_nr, "gt_chars": len(gt_text)}
         for k, h in hyps.items():
-            c = _cer(gt_text, h)
-            row[k] = c
-            if c is not None and h:
-                totals.setdefault(k, []).append(c)
+            # A reader that returned nothing for the page is a failure, not a CER of 1.
+            row[k] = _cer(gt_text, h) if h else None
+        # Order-free: each recognized line scored against the GT line it lies on.
+        gt_lines = [(l["bbox"], l["text"]) for l in pagexml.parse_lines(gt.read_text(encoding="utf-8"))]
+        geom_label, geom = _geometry_source(d, args)
+        boxes = {"A": args.line_model, "B": args.trocr_model, "D": args.extra_model}
+        for k, model in boxes.items():
+            rec = _load(d / f"rec_{model}.json") if model else None
+            if rec and rec.get("lines"):
+                m = linecer.matched_cer(gt_lines, _boxed(rec, [ln.get("text") or "" for ln in rec["lines"]]))
+                row[f"{k}~"] = m and m["cer"]
+        variants = {"fused": [x["text"] for x in sorted(adj["decisions"], key=lambda x: int(x["index"]))]}
+        if args.variants:
+            built = None
+            for v in args.variants.split(","):
+                built = _page_cases(d, p, args, ref, anchors, primary=v)
+                if built is None:
+                    break
+                cases, _meta, prim = built
+                if prim != v:
+                    continue
+                variants[f"det-{v}"] = [dec.text for dec in adjudicate.decide_page(cases, None, primary=v)]
+                row[f"det-{v}"] = _cer(gt_text, "\n".join(variants[f"det-{v}"]))
+        if geom:
+            for name, texts in variants.items():
+                m = linecer.matched_cer(gt_lines, _boxed(geom, texts))
+                row[f"{name}~"] = m and m["cer"]
         row["summary"] = adj.get("summary")
         rows.append(row)
     _save(root / "eval.json", rows)
-    cols = [k for k in ("A", "B", "C", "D", "fused") if any(k in r for r in rows)]
-    print(f"\n{'page':>5} {'gt':>5} " + " ".join(f"{k:>6}" for k in cols) + "  decisions")
-    for r in rows:
-        f = lambda v: "   —  " if v is None else f"{v:6.3f}"
-        print(f"{r['page']:>5} {r['gt_chars']:>5} " + " ".join(f(r.get(k)) for k in cols)
-              + f"  {r['summary']}")
-    print("mean " + " ".join(f"{k}={sum(v)/len(v):.3f}" for k, v in totals.items() if v))
-    print(f"table: {root / 'eval.json'} — CER = Levenshtein / len(GT) on whitespace-collapsed page text; "
-          "lower is better; the line order is the segmenter's on both sides")
+    base = ["A", "B", "C", "D", "fused"] + [f"det-{v}" for v in (args.variants or "").split(",") if v]
+    f = lambda v: "     —" if v is None else f"{v:6.3f}"
+    for title, cols, note in (
+            ("page CER (whole page, each side in its own line order)",
+             [k for k in base if any(k in r for r in rows)], f"  decisions"),
+            ("line CER (each line against the GT line it lies on; order does not count)",
+             [k + "~" for k in base if any(k + "~" in r for r in rows)], "")):
+        if not cols:
+            continue
+        w = max(6, *(len(k) for k in cols))
+        print(f"\n{title}\n{'page':>5} {'gt':>5} " + " ".join(f"{k:>{w}}" for k in cols) + note)
+        for r in rows:
+            print(f"{r['page']:>5} {r['gt_chars']:>5} " + " ".join(f"{f(r.get(k)):>{w}}" for k in cols)
+                  + (f"  {r['summary']}" if note else ""))
+        means = {k: [r[k] for r in rows if r.get(k) is not None] for k in cols}
+        print(f"{'mean':>11} " + " ".join(f"{f(sum(v)/len(v) if v else None):>{w}}" for v in means.values()))
+    print(f"\ntable: {root / 'eval.json'} — CER = Levenshtein / len(GT), whitespace collapsed; lower is "
+          "better. fused = the run's adjudication; det-X = rules only, X where they do not decide")
     return 0
 
 
@@ -640,6 +697,9 @@ def build_parser() -> argparse.ArgumentParser:
                                     "a human has transcribed; uploads nothing", parents=[shared])
     _plan_args(p); p.add_argument("--timeout", type=float, default=600.0)
     p.add_argument("--give-up", type=int, default=3)
+    p.add_argument("--variants", default="A,B,D",
+                   help="also score rules-only fusion with each of these as primary (no arbiter, "
+                        "costs nothing); empty for none")
     _adj_args(p); p.set_defaults(func=cmd_eval)
 
     p = sub.add_parser("run", help="all steps in order; --dry-run plans, reads, adjudicates "
