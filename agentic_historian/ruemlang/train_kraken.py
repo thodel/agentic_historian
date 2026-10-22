@@ -124,8 +124,12 @@ def main(argv=None) -> int:
                 print(f"error: {job.error}")
             for stage, state in (job.stages or {}).items():
                 print(f"  {stage}: {state}")
-            if job.progress:
-                print("progress: " + ", ".join(f"{k}={v}" for k, v in job.progress.items()))
+            # Only the numbers that say how far it is; the full record is in the log.
+            shown = ("epoch", "epochs", "val_accuracy", "train_lines", "steps_per_epoch",
+                     "total_steps", "energy_wh")
+            prog = {k: job.progress[k] for k in shown if job.progress.get(k) is not None}
+            if prog:
+                print("progress: " + ", ".join(f"{k}={v}" for k, v in prog.items()))
             if job.log_tail:
                 print("--- log tail ---")
                 print(job.log_tail[-2500:])
