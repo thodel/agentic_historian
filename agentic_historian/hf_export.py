@@ -75,10 +75,12 @@ to average.
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import shutil
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional, Sequence
 
@@ -978,6 +980,50 @@ DEFAULT_REPO_ID = "dh-unibe/image-text_lassberg-correspondence_xix"
 #: a column beside the image, which is what the trainer's `hf_source.py` reads.
 UPLOAD_MODE = "raw_xml"
 
+#: What a written tree carries to say what it is. A tree is a directory of images
+#: and XML, and two things about it cannot be read off the files: which
+#: `pagexml-hf` mode it was assembled for, and whether its text was corrected by a
+#: human. :mod:`run_export` writes trees for ``--mode text`` whose documents are
+#: synthesised around uncorrected machine readings; uploaded in this module's mode
+#: they would land in an ``xml_content`` column beside fourteen datasets of real
+#: Transkribus output and look like more of the same. The mode is a property of
+#: the data, so it travels with the data rather than being retyped on a command
+#: line months later.
+MANIFEST = "export.json"
+
+
+def write_manifest(out_dir: Path, *, mode: str, kind: str, **extra) -> Path:
+    """Write the tree's manifest. Called by every ``build``, never by a caller."""
+    path = Path(out_dir) / MANIFEST
+    path.write_text(json.dumps({"mode": mode, "kind": kind,
+                                "written_at": datetime.now(timezone.utc)
+                                .isoformat(timespec="seconds"), **extra},
+                               ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8")
+    return path
+
+
+def read_manifest(tree: Path) -> dict:
+    """A tree's manifest, or ``{}``. A tree written before manifests existed, or
+    by hand, has none — which is not an error and must not read as one."""
+    path = Path(tree).expanduser() / MANIFEST
+    try:
+        found = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return found if isinstance(found, dict) else {}
+
+
+def tree_mode(tree: Path, default: str = UPLOAD_MODE) -> str:
+    """The `pagexml-hf` mode this tree was assembled for.
+
+    The manifest when there is one, this module's mode when there is not: every
+    tree written before 2026-10-22 is ground truth in ``raw_xml``, so the default
+    keeps those uploads identical.
+    """
+    said = str(read_manifest(tree).get("mode") or "").strip()
+    return said or default
+
 #: A hub repository id: owner, slash, name. Checked here because `pagexml-hf`
 #: would otherwise create `thodel/--private` or fail three minutes into an upload.
 _REPO_ID_RE = re.compile(r"^[A-Za-z0-9][\w.-]*/[A-Za-z0-9][\w.-]*$")
@@ -995,6 +1041,12 @@ class UploadPlan:
     tool: Optional[str]
     token: bool
     problems: list
+    #: The `pagexml-hf` mode, from the tree's own manifest. Not a caller's
+    #: choice: see :data:`MANIFEST`.
+    mode: str = UPLOAD_MODE
+    #: What kind of text is in the tree — "ground-truth" or "run". Printed, and
+    #: the one line of the plan that says whether a human has read this.
+    kind: str = ""
 
     @property
     def ok(self) -> bool:
@@ -1005,19 +1057,25 @@ class UploadPlan:
                 "private": self.private, "pages": self.pages,
                 "projects": dict(self.projects), "tool": self.tool,
                 "token": self.token, "problems": list(self.problems),
-                "ok": self.ok}
+                "mode": self.mode, "kind": self.kind, "ok": self.ok}
 
 
 def upload_argv(tree: Path, repo_id: str, *, private: bool = True,
-                mode: str = UPLOAD_MODE) -> list[str]:
+                mode: Optional[str] = None) -> list[str]:
     """The `pagexml-hf` command line for one upload.
 
     `--private` by default and the flag is passed explicitly rather than relied
     on: a default that lives in somebody else's tool is a default that can change
     between versions, and the difference between the two states here is whether a
     collection of unpublished archival images is on the open web.
+
+    ``mode`` defaults to **the tree's own**, not to this module's: a tree of
+    machine readings assembled for ``--mode text`` is uploadable by the same
+    command and the same MCP tool, which take no mode, because the answer is in
+    the directory they are pointed at.
     """
-    argv = ["pagexml-hf", str(tree), "--repo-id", repo_id, "--mode", mode]
+    argv = ["pagexml-hf", str(tree), "--repo-id", repo_id,
+            "--mode", mode or tree_mode(tree)]
     if private:
         argv.append("--private")
     return argv
@@ -1069,9 +1127,11 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
     if not token:
         problems.append("no Hugging Face token — set HF_TOKEN in the environment "
                         "the upload runs in")
+    manifest = read_manifest(tree)
     return UploadPlan(tree=tree, repo_id=repo_id, private=private, pages=pages,
                       projects=projects, tool=tool, token=token,
-                      problems=problems)
+                      problems=problems, mode=tree_mode(tree),
+                      kind=str(manifest.get("kind") or ""))
 
 
 def format_upload(plan: UploadPlan) -> str:
@@ -1081,6 +1141,12 @@ def format_upload(plan: UploadPlan) -> str:
              "projects  : " + (", ".join(f"{k} {v}" for k, v in
                                           sorted(plan.projects.items())) or "—"),
              f"repo      : {plan.repo_id}",
+             f"mode      : {plan.mode}"
+             + (f"   (from {MANIFEST})" if plan.kind else
+                f"   (no {MANIFEST} in the tree — the default)"),
+             f"text      : " + {"run": "MACHINE READING, uncorrected",
+                                "ground-truth": "hand-corrected"}
+             .get(plan.kind, "unstated"),
              f"visibility: {'private' if plan.private else '** PUBLIC **'}",
              f"pagexml-hf: {plan.tool or 'not found'}",
              f"token     : {'present' if plan.token else 'missing'}"]
@@ -1113,7 +1179,12 @@ def build(p: Plan, out_dir: Path) -> dict:
         else:
             shutil.copy2(e.xml_source, dest_xml)
         written += 1
+    write_manifest(out_dir, mode=UPLOAD_MODE, kind="ground-truth",
+                   pages=written, rescaled=rescaled, projects=p.by_project,
+                   left_out=len(p.rejected),
+                   note="hand-corrected Transkribus PAGE XML")
     logger.info(f"[hf] wrote {written} page(s) to {out_dir}"
                 + (f", {rescaled} with rescaled coordinates" if rescaled else ""))
     return {"out_dir": str(out_dir), "pages": written, "rescaled": rescaled,
-            "projects": p.by_project, "left_out": len(p.rejected)}
+            "projects": p.by_project, "left_out": len(p.rejected),
+            "mode": UPLOAD_MODE}

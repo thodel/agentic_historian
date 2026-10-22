@@ -1021,6 +1021,55 @@ is there to tell you what your instrument is actually responding to — and when
 it disagrees with the thing you are measuring, believe the control first,
 because it is the half of the experiment whose answer you already know.
 
+## 29. Somebody else's contract is in their code, and mine was in a constant
+
+The Gemini readings had to become a dataset, and the project refuses to write a
+second converter — so the question was whether `pagexml-hf`, a **PAGE XML**
+converter, can be fed text that has no geometry at all. I could have guessed from
+its documentation (it says nothing about this) or from its mode names. Instead I
+read the twelve lines that matter:
+
+```python
+def _get_text_equiv(self, element):
+    unicode_el = element.find("pc:TextEquiv/pc:Unicode", self.namespace)
+    if unicode_el is not None and unicode_el.text:
+        return unicode_el.text.strip()
+    lines = element.findall("pc:TextLine", self.namespace)
+    if not lines:
+        return ""
+```
+
+A region's text is its **own** `TextEquiv`, and its lines are only the fallback.
+That single `if` is the whole design of the export: one region, a page rectangle,
+no lines at all. Reading it took two minutes and decided a module.
+
+Then I wrote in the docstring that `--mode line` "yields nothing" from such a
+tree — which was me reasoning about code I had just read instead of running it.
+It does not yield nothing: it **dies**, `ZeroDivisionError`, computing statistics
+over zero lines. I only know that because the round-trip through the real
+converter was cheap enough to run (`pip install` the clone into a scratch venv,
+three modes, four minutes), and the docstring now says what the run said. The
+measurement also handed me `--mode region`, which I had not thought to ask about
+and which works, producing one row per page whose polygon is the page.
+
+**The second half, and it is the sharper one.** The upload runs through an MCP
+tool that takes `tree`, `repo_id`, `dry_run` — and the mode was
+`UPLOAD_MODE = "raw_xml"`, a module constant. So the tree I was about to build
+*could not be uploaded correctly by the tool I had*, and the failure would not
+have been an error: the synthesised documents would have landed in an
+`xml_content` column beside fourteen datasets of real Transkribus output and
+looked like more of the same. The fix was not a new parameter on four call sites.
+It was to put the mode in the tree — `export.json` beside the pages, read by the
+upload — because the mode is a property of the data and not of whoever types the
+command. A tree without a manifest reads as `raw_xml`, so every older upload is
+unchanged, and the upload plan now prints one line that no caller can forget:
+`text      : MACHINE READING, uncorrected`.
+
+**The generalisation:** when a value has to be right for data that will outlive
+the session, store it *with* the data. A constant in my module and a parameter on
+somebody's tool are both things a future caller has to remember; a manifest in
+the directory is a thing they cannot miss.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.

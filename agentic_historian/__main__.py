@@ -685,6 +685,84 @@ def export_hf(args: argparse.Namespace) -> int:
     return 0
 
 
+def export_run_hf(args: argparse.Namespace) -> int:
+    """Assemble a run's machine readings into a `pagexml-hf` export tree.
+
+    The sibling of `export-hf`, for the other kind of text this project holds:
+    not a hand-corrected transcription but what a recogniser said about a page
+    nobody has transcribed. One PAGE document is synthesised per page — the text
+    in a single region covering the page, no line geometry, because a chat
+    completion has none — and the tree is written for `--mode text`, which it
+    records in its own manifest so the upload cannot be given the wrong mode.
+    """
+    import hf_export as hf
+    import run_export as rx
+
+    run_dir = resolve_run_dir(args.run_dir)
+    try:
+        pages = rx.read_run(run_dir, args.model)
+    except (NotADirectoryError, FileNotFoundError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+    if not pages:
+        print(f"Error: {run_dir} holds no readings", file=sys.stderr)
+        return 1
+
+    source = (Path(args.source).expanduser() if args.source
+              else rx.default_source())
+    if not source.is_dir():
+        print(f"Error: --source is not a directory: {source}", file=sys.stderr)
+        return 2
+    archive = (Path(args.archive).expanduser() if args.archive
+               else rx.default_archive())
+    if archive and not Path(archive).is_dir():
+        print(f"warning: cold tier {archive} is not a directory — only the pages "
+              f"still in the cache will be found", file=sys.stderr)
+        archive = None
+    index = hf.page_index(source, archive=archive)
+    if not index:
+        print(f"Error: no page images under {source}"
+              + (f" or {archive}" if archive else "")
+              + ". The page cache evicts to a cold tier after two days (#487); "
+                "pass --archive, or set ATR_PAGE_CACHE_ARCHIVE.", file=sys.stderr)
+        return 1
+
+    skip = [] if args.skip_verdicts.strip() == "" else [
+        v.strip() for v in args.skip_verdicts.split(",") if v.strip()]
+    plan = rx.plan(pages, index, skip_verdicts=skip,
+                   skip_truncated=not args.keep_truncated, run=run_dir.name)
+    print(rx.format_plan(plan))
+    if args.rejected_out:
+        Path(args.rejected_out).expanduser().write_text(
+            rx.rejected_table(plan), encoding="utf-8")
+        print(f"\nrefused pages: {args.rejected_out}")
+
+    if not plan.entries:
+        print("\nError: nothing to export", file=sys.stderr)
+        return 1
+    if args.dry_run:
+        print("\n(dry run — nothing written)")
+        return 0
+    if not args.out:
+        print("Error: --out is required unless --dry-run", file=sys.stderr)
+        return 2
+    out_dir = Path(args.out).expanduser()
+    if out_dir.exists() and any(out_dir.iterdir()):
+        print(f"Error: {out_dir} is not empty — a half-written export mixed with "
+              f"an older one would upload both", file=sys.stderr)
+        return 2
+    written = rx.build(plan, out_dir)
+    print(f"\nexport: {written['out_dir']}  ({written['pages']} page(s), "
+          f"mode {written['mode']})")
+    print("\nUpload with pagexml-hf (it owns the parquet layout; see "
+          "github.com/The-Flow-Project/pagexml-hf):\n"
+          f"  pagexml-hf {out_dir} \\\n"
+          f"    --repo-id {args.repo_id} --private --mode {written['mode']}\n"
+          "or `upload-hf --tree`, which reads the mode out of the tree itself.")
+    print("\nThis dataset is uncorrected machine output. Say so in its card.")
+    return 0
+
+
 def letter_register(args: argparse.Namespace) -> int:
     """What the edition's correspondence register covers, and whose letters.
 
@@ -748,6 +826,20 @@ def hf_default_repo() -> str:
     return hf.DEFAULT_REPO_ID
 
 
+def run_repo_id() -> str:
+    """The machine-reading dataset's id, for the parser's help text."""
+    import run_export as rx
+
+    return rx.DEFAULT_REPO_ID
+
+
+def run_skip_verdicts() -> tuple:
+    """Which verdicts a run export refuses by default, for the help text."""
+    import run_export as rx
+
+    return rx.SKIP_VERDICTS
+
+
 def upload_hf(args: argparse.Namespace) -> int:
     """Hand an export tree to `pagexml-hf`, which uploads it to the hub.
 
@@ -763,7 +855,8 @@ def upload_hf(args: argparse.Namespace) -> int:
     plan = hf.inspect_upload(args.tree, args.repo_id or hf.DEFAULT_REPO_ID,
                              private=not args.public)
     print(hf.format_upload(plan))
-    argv = hf.upload_argv(plan.tree, plan.repo_id, private=plan.private)
+    argv = hf.upload_argv(plan.tree, plan.repo_id, private=plan.private,
+                          mode=plan.mode)
     print(f"\ncommand   : {' '.join(argv)}")
     if not plan.ok:
         print("\nError: not uploading — fix the problems above", file=sys.stderr)
@@ -1400,6 +1493,45 @@ def build_parser() -> argparse.ArgumentParser:
                            "the wrong strip of every page and nothing downstream "
                            "would say so")
     p_hf.set_defaults(func=export_hf)
+
+    p_rhf = sub.add_parser(
+        "export-run-hf",
+        help="Assemble a run's machine readings into a pagexml-hf export tree "
+             "(image + page text, no line geometry)")
+    p_rhf.add_argument("--run-dir", required=True,
+                       help="The run directory, or a run name under "
+                            "VLM_TEST_ROOT, whose readings are exported")
+    p_rhf.add_argument("--model", default=None,
+                       help="Only this model's directory. Default: every model "
+                            "in the run, one project each")
+    p_rhf.add_argument("--source",
+                       help="Corpus directory the images come from. Default: the "
+                            "cache the runner itself would use. Do not pass "
+                            "\"$ATR_PAGE_CACHE\": a shell variable that is set "
+                            "but not exported names a directory Python cannot "
+                            "see in its environment")
+    p_rhf.add_argument("--archive",
+                       help="The page cache's cold tier (default: "
+                            "ATR_PAGE_CACHE_ARCHIVE). The cache evicts after two "
+                            "days, so for anything but a run read today this is "
+                            "where most pages are")
+    p_rhf.add_argument("--out", help="Where to write the export tree")
+    p_rhf.add_argument("--skip-verdicts", default=",".join(run_skip_verdicts()),
+                       help="page_quality verdicts to refuse, comma-separated. "
+                            "The default refuses the three that are defects of "
+                            "the reading rather than readings; pass '' to keep "
+                            "them")
+    p_rhf.add_argument("--keep-truncated", action="store_true",
+                       help="Export readings cut off at the model's output "
+                            "ceiling. Off by default: a truncated page is a "
+                            "success that stops mid-sentence")
+    p_rhf.add_argument("--rejected-out",
+                       help="Write one row per page left out, with its reason")
+    p_rhf.add_argument("--repo-id", default=run_repo_id(),
+                       help="Dataset repo for the printed pagexml-hf command")
+    p_rhf.add_argument("--dry-run", action="store_true",
+                       help="Print the plan, write nothing")
+    p_rhf.set_defaults(func=export_run_hf)
 
     p_up = sub.add_parser(
         "upload-hf",
