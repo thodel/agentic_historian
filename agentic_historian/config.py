@@ -742,6 +742,13 @@ ATR_RESEARCH_DIR = (
     Path(_get("ATR_RESEARCH_DIR", ""))
     if _get("ATR_RESEARCH_DIR", "") else None)
 
+#: Where, under ``ATR_RESEARCH_DIR``, a run's readings are exported as text for
+#: the HTR training project (#688): ``export_run_share`` writes
+#: ``<ATR_RESEARCH_DIR>/<this>/<run>/``. Relative to the project root on
+#: purpose — the same containment as the import, and a second absolute path
+#: would be a second thing to keep in step with the first.
+ATR_RESEARCH_EXPORT_SUBDIR = _get("ATR_RESEARCH_EXPORT_SUBDIR", "HTR/VLMs").strip("/")
+
 #: Where the share is mounted read-only. A batch may read pages from here as
 #: well as from the mirror: it *is* the corpus now, and the MCP path's
 #: containment check has to know that or every run over the mount is refused.

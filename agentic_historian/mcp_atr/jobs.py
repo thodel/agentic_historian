@@ -619,6 +619,247 @@ def server_status(counts: bool = False) -> dict:
             "counted": counts}
 
 
+def _copy_if_changed(src: Path, dest: Path, *, dry_run: bool) -> bool:
+    """Copy ``src`` to ``dest`` unless a copy of the same size is there.
+    True when a copy was (or, dry, would be) made. Through a temp file."""
+    try:
+        if dest.exists() and dest.stat().st_size == src.stat().st_size:
+            return False
+    except OSError:
+        pass
+    if dry_run:
+        return True
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_name(dest.name + ".part")
+    tmp.write_bytes(src.read_bytes())
+    os.replace(tmp, dest)
+    return True
+
+
+def _write_if_changed(text: str, dest: Path, *, dry_run: bool) -> bool:
+    data = text.encode("utf-8")
+    try:
+        if dest.exists() and dest.read_bytes() == data:
+            return False
+    except OSError:
+        pass
+    if dry_run:
+        return True
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_name(dest.name + ".part")
+    tmp.write_bytes(data)
+    os.replace(tmp, dest)
+    return True
+
+
+def _score_report_files(name: Optional[str]) -> list[Path]:
+    """The Markdown and, where it exists, the JSON of a scoring report, by name."""
+    if not name:
+        return []
+    stem = name.strip()
+    for suffix in (".json", ".md"):
+        if stem.endswith(suffix):
+            stem = stem[:-len(suffix)]
+    stem = validate_run(stem)
+    md = Path(config.VLM_TEST_ROOT) / f"{stem}.md"
+    if not md.is_file():
+        raise JobError(f"no scoring report {stem!r} under VLM_TEST_ROOT")
+    files = [md]
+    if md.with_suffix(".json").is_file():
+        files.append(md.with_suffix(".json"))
+    return files
+
+
+def _share_readme(run: str, pages, *, score_json: Optional[Path],
+                  keys_name: Optional[str]) -> str:
+    """The README an export carries, written from what the records say.
+
+    Model, run, prompt digest and settings, pages per verdict, the empty pages
+    by name, the date range — none of it typed by hand, all of it from the
+    JSON beside each reading. The one sentence that is not data is the one
+    the dataset card also carries: nobody has read this text.
+    """
+    models = sorted({p.model for p in pages})
+    settings = sorted({str(p.meta.get("settings") or "") for p in pages} - {""})
+    digests = sorted({s.split("+", 1)[0].replace("prompt-", "")
+                      for s in settings if s.startswith("prompt-")})
+    dates = sorted({str(p.meta.get("recognised_at") or "")[:10] for p in pages} - {""})
+    verdicts: dict[str, int] = {}
+    for p in pages:
+        v = p.verdict or "unknown"
+        verdicts[v] = verdicts.get(v, 0) + 1
+    empty = sorted(p.key for p in pages if p.verdict == "empty")
+    truncated = sorted(p.key for p in pages if p.truncated)
+    lines = [f"# {run} — Maschinenlesungen, nicht Ground Truth", ""]
+    lines.append(f"Lauf `{run}` des agentic_historian-Stacks, "
+                 + (f"gelesen {dates[0]}" if len(dates) == 1 else
+                    f"gelesen {dates[0]} bis {dates[-1]}" if dates else "Datum unbekannt")
+                 + f", {len(pages)} Seite(n), Modell(e): "
+                 + ", ".join(f"`{m}`" for m in models) + ".")
+    lines.append("")
+    if settings:
+        lines.append("Einstellungen (Prompt-Prüfsumme, Thinking, Deckel), wie jedes "
+                     "Protokoll sie trägt: " + ", ".join(f"`{s}`" for s in settings) + ".")
+        if digests:
+            lines.append("Der Prompt ist eine versionierte Datei unter "
+                         "`agentic_historian/prompts/`; die Prüfsumme "
+                         + ", ".join(f"`{d}`" for d in digests)
+                         + " identifiziert seinen Wortlaut.")
+        lines.append("")
+    lines.append("Seitentext ohne Zeilengeometrie — eine Chat-Completion hat keine "
+                 "Polygone.")
+    lines.append("")
+    lines.append("## Urteile")
+    lines.append("")
+    for v, n in sorted(verdicts.items(), key=lambda kv: (-kv[1], kv[0])):
+        lines.append(f"- `{v}`: {n}")
+    if empty:
+        lines.append("")
+        lines.append("Leere Dateien heissen: das Modell hat für diese Seite nichts "
+                     "zurückgegeben — eine Aussage über den Leser, nicht über das Blatt:")
+        lines.extend(f"- `{k}`" for k in empty)
+    if truncated:
+        lines.append("")
+        lines.append("Am Ausgabe-Deckel abgeschnitten (endet mitten im Satz):")
+        lines.extend(f"- `{k}`" for k in truncated)
+    lines.append("")
+    lines.append("## Dateien")
+    lines.append("")
+    lines.append("- `<Modell>/txt/<Schlüssel>.txt` — eine Lesung pro Seite. Der "
+                 "Schlüssel ist der Pfad im Digitalisate-Share, `/` → `__`, ohne "
+                 "Endung.")
+    lines.append("- `<Modell>/records/<Schlüssel>.json` — das Protokoll je Seite: "
+                 "Modell, Lauf, Zeitstempel, Prompt-Prüfsumme, Einstellungen, "
+                 "sha256 des gelesenen Bildes, Urteil.")
+    if keys_name:
+        lines.append(f"- `keys.txt` — die Schlüsselliste `{keys_name}`, mit der der "
+                     "Lauf gestartet wurde.")
+    lines.append("- `report.md` — der Laufbericht (Zeiten, Urteile).")
+    if score_json is not None:
+        try:
+            data = json.loads(score_json.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            data = {}
+        rows = data.get("by_reading") or []
+        lines.append("- `score-gt.md` / `score-gt.json` — Bewertung gegen "
+                     "handkorrigierte Seiten; die Seitenabschnitte nennen pro "
+                     "GT-Datei den zugeordneten Schlüssel.")
+        if rows:
+            lines.append("")
+            lines.append("## Gegen die Referenz")
+            lines.append("")
+            lines.append("| Leser | Seiten | Median-CER | p90 | beste | schlechteste |")
+            lines.append("|---|---:|---:|---:|---:|---:|")
+            for r in rows:
+                lines.append(f"| `{r.get('reading')}` | {r.get('pages')} | "
+                             f"{float(r.get('median', 0)):.1%} | "
+                             f"{float(r.get('p90', 0)):.1%} | "
+                             f"{float(r.get('best', 0)):.1%} | "
+                             f"{float(r.get('worst', 0)):.1%} |")
+            lines.append("")
+            lines.append("CER mit der Normalisierung des Projekts: Gross-/Kleinschreibung, "
+                         "Leerraum und Interpunktion ignoriert. Nur Seiten, deren "
+                         "Identität feststeht, zählen.")
+    else:
+        lines.append("- `score-gt.md` — nicht beigelegt: für diesen Lauf wurde keine "
+                     "Bewertung mitgegeben.")
+    lines.append("")
+    lines.append("**Niemand hat diesen Text gelesen.** Für Training ungeeignet, "
+                 "und am wenigsten für die Modellfamilie, die ihn erzeugt hat; als "
+                 "Lesung brauchbar, mit dem gemessenen oder ungemessenen Fehler.")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def export_run_share(run: str, model: Optional[str] = None,
+                     dest: Optional[str] = None,
+                     score_report: Optional[str] = None,
+                     keys: Optional[str] = None,
+                     dry_run: bool = False) -> dict:
+    """A run's readings as text on the research share, with what explains
+    them (#688).
+
+    The third exit of a run beside the hub (`upload_hf`) and the outputs repo
+    (`publish-batch`), and the only one that reaches the HTR training project.
+    On 2026-10-22 it was five `cp` lines and a README typed by hand; the
+    README had to say what the records already knew.
+
+    - ``dest``: a name under ``<ATR_RESEARCH_DIR>/<ATR_RESEARCH_EXPORT_SUBDIR>``
+      (default ``HTR/VLMs``), default the run's name. Validated like a run
+      name; the containment is `research_path`'s.
+    - writes ``<model>/txt/<key>.txt`` and ``<model>/records/<key>.json`` per
+      page (the JSON is the record, the text is taken from it), ``report.md``
+      where the run has one, ``keys.txt`` from a key list named under
+      ``GT_ROOT``, ``score-gt.md``/``.json`` from a scoring report named under
+      ``VLM_TEST_ROOT``, and a **generated** ``README.md``.
+    - resumable: a file already there at the same size is skipped; nothing is
+      ever deleted. ``dry_run`` counts and names the destination.
+
+    Synchronous: an evaluation run is tens of pages and the share writes at
+    410 MB/s; the 35-page export is a second. A corpus run of thousands of
+    pages is a different kind of export (#480) and is refused at 2000 pages.
+    """
+    import run_export as rx
+
+    run_dir = _run_dir(run)
+    if model is not None:
+        model = validate_models([model])[0]
+        _model_dir(run_dir.name, model)
+    pages = rx.read_run(run_dir, model)
+    if not pages:
+        raise JobError(f"run {run_dir.name!r} holds no readings")
+    if len(pages) > 2000:
+        raise JobError(
+            f"{len(pages)} readings — a corpus run is published through the "
+            f"dataset or the outputs repository (#480), not copied page by page "
+            f"onto the research share")
+    keys_file = resolve_keys_file(keys) if keys else None
+    report_files = _score_report_files(score_report)
+    score_json = next((f for f in report_files if f.suffix == ".json"), None)
+
+    sub = config.ATR_RESEARCH_EXPORT_SUBDIR
+    target_name = validate_run(dest or run_dir.name)
+    dest_dir = research_path(f"{sub}/{target_name}")
+
+    copied = present = 0
+    per_model: dict[str, int] = {}
+    for p in sorted(pages, key=lambda p: (p.model, p.key)):
+        per_model[p.model] = per_model.get(p.model, 0) + 1
+        txt = dest_dir / p.model / "txt" / f"{p.key}.txt"
+        rec = dest_dir / p.model / "records" / f"{p.key}.json"
+        if _write_if_changed(p.text, txt, dry_run=dry_run):
+            copied += 1
+        else:
+            present += 1
+        src_json = run_dir / p.model / f"{p.key}.json"
+        if src_json.is_file() and _copy_if_changed(src_json, rec, dry_run=dry_run):
+            copied += 1
+        elif src_json.is_file():
+            present += 1
+
+    extras: list[str] = []
+    report_md = run_dir / "report.md"
+    if report_md.is_file():
+        _copy_if_changed(report_md, dest_dir / "report.md", dry_run=dry_run)
+        extras.append("report.md")
+    if keys_file is not None:
+        _copy_if_changed(keys_file, dest_dir / "keys.txt", dry_run=dry_run)
+        extras.append("keys.txt")
+    for f in report_files:
+        _copy_if_changed(f, dest_dir / f"score-gt{f.suffix}", dry_run=dry_run)
+        extras.append(f"score-gt{f.suffix}")
+    readme = _share_readme(run_dir.name, pages, score_json=score_json,
+                           keys_name=keys_file.name if keys_file else None)
+    _write_if_changed(readme, dest_dir / "README.md", dry_run=dry_run)
+    extras.append("README.md")
+
+    return {"ok": True, "dry_run": dry_run, "run": run_dir.name,
+            "dest": str(dest_dir), "name": target_name,
+            "pages": len(pages), "per_model": per_model,
+            "files_copied": copied, "files_present": present,
+            "extras": extras, "readme": readme if dry_run else None}
+
+
 def resolve_keys_file(name: str) -> Path:
     """A page-key list by **name**, under the ground-truth root.
 
