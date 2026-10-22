@@ -514,15 +514,38 @@ def _ls(client, rdir: str) -> list[dict]:
             return list(client.ls(rdir, detail=True))
         except (httpx.TimeoutException, httpx.TransportError, ParseError) as exc:
             last = exc
-            logger.warning(
-                f"[Nextcloud] listing '{rdir or '/'}' failed "
-                f"(attempt {attempt}/{attempts}): {type(exc).__name__}: {exc}"
-            )
-            if attempt < attempts:
-                # Backed off, because an immediate retry asks the same overloaded
-                # server the same question. Three retries inside one second are
-                # one retry with extra logging.
-                time.sleep(min(2.0 ** (attempt - 1), 8.0))
+        except Exception as exc:  # noqa: BLE001 — sorted by the status behind it
+            # A folder the parent listed a moment ago and that now answers 404
+            # is gone or broken on the server, and asking again will not bring
+            # it back. Measured 2026-10-22: `St. Gallen Kantonsbibliothek/
+            # lassberg-letter-1648` answered 500, then 404, and because
+            # webdav4's ResourceNotFound was neither retried nor turned into a
+            # NextcloudError, `_walk` had nothing to catch — twelve minutes and
+            # 520 folders of a walk ended on the 521st, and the dry run with it.
+            # The walk's own rule (skip the folder, record it, never cache the
+            # result) only applies to a NextcloudError, so that is what a 404
+            # becomes here, at once: a retry would ask three times for a folder
+            # that is not there.
+            status = _status_of(exc)
+            if status is None:
+                raise
+            if status == 404:
+                raise NextcloudError(
+                    f"cannot list '{rdir or '/'}': the server answers 404 for a "
+                    f"folder it listed a moment ago ({type(exc).__name__}: {exc})"
+                ) from exc
+            # Any other status — a 500, a 502 from the proxy, a 503 — is the
+            # server's moment, not the folder's, and is retried like a timeout.
+            last = exc
+        logger.warning(
+            f"[Nextcloud] listing '{rdir or '/'}' failed "
+            f"(attempt {attempt}/{attempts}): {type(last).__name__}: {last}"
+        )
+        if attempt < attempts:
+            # Backed off, because an immediate retry asks the same overloaded
+            # server the same question. Three retries inside one second are
+            # one retry with extra logging.
+            time.sleep(min(2.0 ** (attempt - 1), 8.0))
     raise NextcloudError(
         f"cannot list '{rdir or '/'}' after {attempts} attempts: "
         f"{type(last).__name__}: {last}. Raise NEXTCLOUD_TIMEOUT if the share is "
