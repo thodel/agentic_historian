@@ -913,3 +913,199 @@ Und was die Karte ausdrücklich sagt, weil es sonst niemand weiss: **die Bilder
 sind Digitalisate der besitzenden Häuser.** MIT gilt für die Konversion und die
 Struktur, nicht für die Scans; der Datensatz ist privat, und das ist die
 Bedingung, unter der er überhaupt entstehen durfte.
+
+---
+
+# Der zweite Datensatz: die Maschinenlesungen, seitenweise
+
+Alles oben betrifft **handkorrigierte** Seiten: Bild plus das PAGE XML einer
+Transkription, die ein Mensch durchgesehen hat, mit Zeilenpolygonen. Der Korpus
+hält aber noch eine zweite Art Text, und sie ist die grössere: 300 Seiten, die
+nie transkribiert wurden, gelesen im Oktober 2026 von einem kommerziellen Modell
+hinter einer API. `export-run-hf` macht daraus einen eigenen Datensatz, und jede
+Entscheidung darin dreht sich um **einen** Unterschied: hier hat niemand
+nachgesehen.
+
+## Warum ein eigener Datensatz und keine weiteren Zeilen im ersten
+
+Weil die Spalte, die den Unterschied trägt, sonst erfunden werden müsste.
+`pagexml-hf` schreibt vier Spalten (`image`, `text`/`xml_content`, `filename`,
+`project_name`) und keine davon sagt „geprüft" oder „nicht geprüft". Ein
+Datensatz, der beides mischt, hätte diese Information nur im Dateinamen — und
+dieses Projekt hat genau diesen Fehler schon einmal von außen gesehen: zwei
+Dokumente der geernteten Transkribus-Sammlung tragen **unkorrigierte
+PyLaia-Ausgabe unter Status `FINAL`**, und nur weil jemand die Zeilenlängen
+nachgezählt hat, ist es aufgefallen. Zwei Repositories sind zwei Namen, zwei
+Karten und zwei Berechtigungen; eine gemischte Spalte ist eine Fussnote.
+
+Der Name trägt es mit: `image-text_lassberg-correspondence_xix_uncorrected-atr`.
+„machine-read" war der erste Vorschlag und ist verworfen — es ist einen
+Buchstaben von „machine-readable" entfernt, also von der genau falschen Aussage.
+
+## Kein Konverter, auch hier nicht — aber ein synthetisches PAGE-Dokument
+
+Eine Chat-Completion hat keine Polygone. Das Modell bekommt ein Bild und gibt
+Text zurück; es gibt keine Geometrie zu exportieren und kein PAGE-Dokument zu
+kopieren. Der naheliegende Griff wäre ein kleiner eigener Konverter — Bild, Text,
+zwei Spalten, fertig — und das ist genau der Griff, den dieses Repository
+verweigert, aus dem Grund, den dieses Dokument oben nennt: `hf_source.py` im
+Trainer trägt schon eine Aliasliste, weil es einmal passiert ist.
+
+Also bekommen die Lesungen die Form, die der vorhandene Konverter als *Eingabe*
+nimmt. Die Frage ist nur, was in das Dokument hinein muss, und die Antwort stand
+im Quellcode des Konverters, nicht in seiner Dokumentation:
+
+```python
+# pagexml_hf/parser.py
+def _get_text_equiv(self, element):
+    unicode_el = element.find("pc:TextEquiv/pc:Unicode", self.namespace)
+    if unicode_el is not None and unicode_el.text:
+        return unicode_el.text.strip()          # ← die Region selbst
+    lines = element.findall("pc:TextLine", self.namespace)
+    if not lines:
+        return ""                                # ← und sonst ihre Zeilen
+```
+
+Der Text einer Region ist ihr **eigenes** `TextEquiv`, und ihre Zeilen sind nur
+der Rückfall. Eine `TextRegion` mit dem Seitentext, einem `Coords`-Rechteck um
+die ganze Seite und **ohne eine einzige `TextLine`** ist damit eine vollständige
+Eingabe für `--mode text`.
+
+## Die fehlenden Zeilen sind die Entscheidung, nicht die Sparmaßnahme
+
+Zeilenkästen liessen sich erfinden: die Seite in so viele waagrechte Streifen
+teilen, wie das Modell Zeilen zurückgegeben hat. Jeder einzelne wäre eine
+Vermutung, hinter der keine Messung steht — und, schlimmer, sie wäre von der
+echten Sache **nicht zu unterscheiden**: `--mode line` würde 31 plausible
+Streifen schneiden, jedem eine plausible Textzeile zuordnen und einem Trainer
+einen Datensatz übergeben, dessen Ziele alle um einen unbekannten Betrag
+verschoben sind. Das ist dasselbe Versagen, das der Geometrie-Check oben
+verhindert, nur selbst gebaut.
+
+Was das Fehlen tatsächlich tut, gemessen am 22. Oktober 2026 gegen
+`pagexml-hf 0.9.6+fork.1` und nicht erschlossen:
+
+| Modus | Ergebnis auf diesem Baum |
+|---|---|
+| `text` | der Seitentext, Zeichen für Zeichen wie das Modell ihn schrieb |
+| `region` | eine Zeile pro Seite, `region_coords` = das Seitenrechteck. Wahr, wenn auch nutzlos |
+| `line` | **Abbruch** mit `ZeroDivisionError` in der Statistik über null Zeilen |
+
+Ein Absturz ist eine gröbere Antwort als „nichts", und sie ist die richtige: die
+Frage, die ein zeilenweiser Export stellt, lässt sich aus diesen Daten
+überhaupt nicht beantworten.
+
+## Der Modus steht im Baum, nicht auf der Kommandozeile
+
+`upload_hf` über MCP nimmt `tree`, `repo_id`, `dry_run` — **keinen Modus**, und
+`UPLOAD_MODE = "raw_xml"` ist eine Modulkonstante. Ein Baum mit Maschinenlesungen,
+in diesem Modus hochgeladen, hätte die synthetischen Dokumente in eine Spalte
+`xml_content` gelegt, neben vierzehn Datensätze echter Transkribus-Ausgabe, und
+dort hätte er ausgesehen wie mehr davon.
+
+Darum schreibt jeder `build` jetzt eine `export.json` neben die Seiten, und
+`upload-hf` liest den Modus daraus:
+
+```json
+{"mode": "text", "kind": "run", "written_at": "...", "run": "gemini-300-final",
+ "models": ["gemini-3.8-flash"], "pages": 281,
+ "note": "machine readings, uncorrected; no line geometry"}
+```
+
+Der Modus ist eine Eigenschaft der Daten, also reist er mit den Daten statt
+Monate später auf einer Kommandozeile wiederholt zu werden. Ein Baum ohne
+Manifest — jeder, der vor dem 22. Oktober 2026 geschrieben wurde — liest als
+`raw_xml`, womit die alten Uploads unverändert bleiben. Und der Upload-Plan sagt
+jetzt in einer eigenen Zeile, was für ein Text im Baum liegt:
+
+```
+mode      : text   (from export.json)
+text      : MACHINE READING, uncorrected
+```
+
+## Was standardmäßig nicht mitkommt
+
+Vier Ablehnungen, jede gezählt und mit Schlüssel in der TSV von
+`--rejected-out`:
+
+- **`empty`** — das Modell hat nichts zurückgegeben. Eine leere Antwort ist
+  *keine* Transkription einer leeren Seite: die Gateway-Gegenprobe vom
+  19. Oktober fand unter 19 „leeren" Seiten eine **beschriebene** mit 24
+  lesbaren Zeilen (`blb lassberg__K 2911,93__page_0001`).
+- **`repetitive`** — die Wiederholungsschleife, also der Defekt des Modells als
+  Text gerendert.
+- **`deliberation`** — das Modell ringt mit sich selbst in dem Feld, in dem die
+  Transkription stehen soll.
+- **`truncated`** — am Ausgabedeckel abgeschnitten. Eigene Kategorie und kein
+  Urteil, weil so eine Seite als gewöhnlicher Erfolg zurückkommt (eine 200, ein
+  Text, Urteil `ok`) und mitten im Satz aufhört.
+
+Jedes davon als Trainingsziel lehrt den Defekt. `short` ist **nicht** dabei: das
+ist eine Aussage über die Länge, und eine halb beschriebene Seite ist zu Recht
+kurz. `--skip-verdicts ''` behält alles, für jemanden, der genau diese Seiten
+untersucht.
+
+## `project_name` ist das Modell, nicht die Hand
+
+Im ersten Datensatz ist `project_name` die schreibende Hand, erschlossen aus der
+Datumszeile und entlang des Briefes vererbt. Hier wäre das eine Erschließung auf
+einer Erschließung: die Datumszeile müsste aus einer **ungeprüften**
+Transkription gelesen und dann über einen Brief verteilt werden. Also steht dort
+das Modell, und das Archiv samt Brief-Id steckt weiter in `filename`, das der
+Seitenschlüssel ist.
+
+Jedes Dokument sagt zusätzlich im eigenen ersten Kommentar, was es gelesen hat —
+derselbe Griff wie die Umrechnungsnotiz oben, aus demselben Grund: ein Baum ist
+Bilder und XML, und eine Notiz *daneben* erreicht niemand.
+
+```xml
+<!-- agentic_historian: MACHINE READING, NOT GROUND TRUTH.
+     No line geometry: a chat completion returns text, so this document has
+     one region covering the page and no TextLine elements. The text is as
+     the model returned it, unverified and uncorrected by any human.
+
+     model     gemini-3.8-flash (engine gateway)
+     run       gemini-300-final
+     read      2026-10-12T09:14:33+00:00, gateway 1.4.2
+     settings  prompt-9f2c1a+think-low|max8192
+     quality   ok, 1843 chars, 31 lines
+     image     Basel__....jpg, sha256 ab12cd34ef56 of the original -->
+```
+
+`--` wird dabei zu `- -` gefaltet: XML-Kommentare dürfen es nicht enthalten, und
+ein Modellname oder ein Prompt-Digest ist jemand anderes Zeichenkette. Ein
+Dokument, das nicht parst, nimmt seine Seite aus dem Datensatz.
+
+## Der Lauf
+
+```bash
+cd /home/dh/agentic_historian && git pull
+# 1. der Plan: was mitkommt, was abgelehnt wird, und warum
+.venv/bin/python3 -m agentic_historian export-run-hf \
+    --run-dir gemini-300-final \
+    --rejected-out /tmp/run-hf-refused.tsv --dry-run
+
+# 2. den Baum schreiben (kopiert ein Bild pro Seite)
+.venv/bin/python3 -m agentic_historian export-run-hf \
+    --run-dir gemini-300-final \
+    --rejected-out /tmp/run-hf-refused.tsv \
+    --out agentic_historian/data/vlm_test/gemini-300-pagewise
+
+# 3. hochladen — privat, Modus aus dem Baum
+.venv/bin/python3 -m agentic_historian upload-hf \
+    --tree agentic_historian/data/vlm_test/gemini-300-pagewise \
+    --repo-id dh-unibe/image-text_lassberg-correspondence_xix_uncorrected-atr \
+    --dry-run
+```
+
+Über MCP ist Schritt 3 `upload_hf(tree="gemini-300-pagewise", repo_id=…)` — der
+Baum wird als **Name** unter `VLM_TEST_ROOT` erwartet, nicht als Pfad, und der
+Modus kommt aus dem Manifest. Schritt 1 und 2 haben kein MCP-Werkzeug; sie laufen
+auf tei von Hand, wie `export-hf` es anfangs auch tat.
+
+Die Bilder liegen zu diesem Zeitpunkt zum größten Teil **nicht mehr im
+Page-Cache**: der Lauf ist älter als zwei Tage, und ein Tagesjob verschiebt
+alles Ältere unter Erhalt der Pfade auf den Research-Share (#487). `--source`
+und `--archive` haben darum beide Vorgaben, und die Seiten, die in keiner der
+beiden Schichten liegen, erscheinen als `no-image` in der TSV statt als
+stillschweigend fehlende Zeilen.
