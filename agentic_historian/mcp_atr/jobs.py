@@ -559,6 +559,117 @@ def export_hf_job(runs: Sequence[str], gt_dir: Optional[str] = None,
             **start_and_peek("export-hf", argv)}
 
 
+#: The verdicts a run export may be told to refuse. ``ok`` is not among them:
+#: refusing the pages that passed every check leaves nothing to export, and a
+#: caller who wants that has asked for something else.
+RUN_EXPORT_REFUSABLE = ("empty", "short", "repetitive", "deliberation")
+
+
+def export_run_hf_argv(run_dir: Path, *, model: Optional[str] = None,
+                       out: Optional[Path] = None,
+                       skip_verdicts: Optional[Sequence[str]] = None,
+                       keep_truncated: bool = False,
+                       rejected_out: Optional[Path] = None,
+                       dry_run: bool = True) -> list[str]:
+    """The exact argv for one ``export-run-hf`` run.
+
+    The documented CLI, for the reason `batch_argv` gives. ``--source``,
+    ``--archive`` and ``--repo-id`` are left off deliberately: the first two
+    default to the configuration (the 2026-10-22 export had to pass them only
+    because it ran from a worktree whose data roots were code-relative), and the
+    repository is the upload's decision — `upload_hf` names it, this does not.
+
+    ``skip_verdicts=[]`` is not the same as ``None``: an empty list is sent as
+    ``--skip-verdicts ""``, which the CLI reads as *refuse nothing*; ``None``
+    sends no flag and leaves the CLI's default (`run_export.SKIP_VERDICTS`).
+    """
+    argv = [_python(), "-m", "agentic_historian", "export-run-hf",
+            "--run-dir", str(run_dir)]
+    if model:
+        argv += ["--model", model]
+    if out is not None:
+        argv += ["--out", str(out)]
+    if skip_verdicts is not None:
+        argv += ["--skip-verdicts", ",".join(skip_verdicts)]
+    if keep_truncated:
+        argv.append("--keep-truncated")
+    if rejected_out is not None:
+        argv += ["--rejected-out", str(rejected_out)]
+    if dry_run:
+        argv.append("--dry-run")
+    return argv
+
+
+def export_run_hf_job(run: str, model: Optional[str] = None,
+                      out: Optional[str] = None,
+                      skip_verdicts: Optional[Sequence[str]] = None,
+                      keep_truncated: bool = False,
+                      dry_run: bool = True) -> dict:
+    """Plan — or write — the page-wise export tree of a run, as a job (#685).
+
+    The sibling of `export_hf_job` for the other text this project holds: not a
+    hand-corrected page but what a recogniser said about one. Same job shape,
+    same two things missing from the surface (no source or archive path from the
+    caller, no repository), and the same default: ``dry_run`` is **true**,
+    because writing the tree copies an image per page.
+
+    ``run`` and ``out`` are **names** under ``VLM_TEST_ROOT`` — the tree is what
+    `upload_hf` takes as ``tree``, so the two ends of that handover live under
+    one root. ``out`` defaults to ``<run>-pagewise``. A tree that already holds
+    files is refused *here*, before a job starts: the CLI refuses it too, but a
+    job that fails on its first line is a worse answer than no job.
+
+    ``skip_verdicts`` names the `page_quality` verdicts to refuse, out of
+    ``empty``, ``short``, ``repetitive`` and ``deliberation``; the default is the
+    exporter's own (`run_export.SKIP_VERDICTS`: everything but ``short``).
+    ``ok`` cannot be refused. ``keep_truncated`` admits pages cut off at the
+    model's output ceiling, which the exporter refuses by default — a page that
+    stops mid-sentence is not a reading of the page.
+
+    The refusals are always written as a TSV under ``VLM_TEST_ROOT`` (key,
+    category, reason) and named in the result. It is a table, not a key list:
+    the key list for reading those pages again already exists, as
+    `batch_report(keys_out=...)`, which flags exactly the pages this export
+    refuses.
+    """
+    run_dir = _run_dir(run)
+    if model is not None:
+        model = validate_models([model])[0]
+        _model_dir(run_dir.name, model)
+    skip: Optional[list[str]] = None
+    if skip_verdicts is not None:
+        skip = [v.strip() for v in skip_verdicts if v and v.strip()]
+        unknown = sorted(v for v in skip if v not in RUN_EXPORT_REFUSABLE)
+        if unknown:
+            raise JobError(
+                f"unknown verdict(s) to refuse: {', '.join(unknown)} — one of "
+                f"{', '.join(RUN_EXPORT_REFUSABLE)}; `ok` cannot be refused")
+    out_dir: Optional[Path] = None
+    tree: Optional[str] = None
+    if out is not None:
+        tree = validate_run(out)
+    if not dry_run:
+        tree = tree or f"{run_dir.name}-pagewise"
+        out_dir = Path(config.VLM_TEST_ROOT) / tree
+        if out_dir.exists() and any(out_dir.iterdir()):
+            raise JobError(
+                f"export tree {tree!r} already holds files — a half-written "
+                f"export mixed with an older one would upload both; name another "
+                f"`out`")
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+    # Always, dry run included, and under VLM_TEST_ROOT rather than /tmp (#535):
+    # the plan prints a summary, and the list is what the summary is a claim about.
+    rejected = Path(config.VLM_TEST_ROOT) / f"run-rejected-{stamp}.tsv"
+    argv = export_run_hf_argv(run_dir, model=model, out=out_dir,
+                              skip_verdicts=skip, keep_truncated=keep_truncated,
+                              rejected_out=rejected, dry_run=dry_run)
+    return {"ok": True, "run": run_dir.name, "model": model,
+            "tree": tree if out_dir else None,
+            "out_dir": str(out_dir) if out_dir else None,
+            "rejected": str(rejected), "mode": "text",
+            **start_and_peek("export-run-hf", argv, run=run_dir.name)}
+
+
 def upload_hf_argv(tree: Path, *, repo_id: Optional[str] = None,
                    dry_run: bool = True) -> list[str]:
     """The exact argv for one ``upload-hf`` run. Never ``--public``.

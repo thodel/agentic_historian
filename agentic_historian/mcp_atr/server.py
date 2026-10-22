@@ -656,6 +656,50 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def export_run_hf(run: str, model: str | None = None, out: str | None = None,
+                      skip_verdicts: list[str] | None = None,
+                      keep_truncated: bool = False,
+                      dry_run: bool = True) -> dict:
+        """Assemble a run's machine readings into a page-wise `pagexml-hf`
+        export tree: one image plus one synthesised PAGE document per page, the
+        text in a single region covering the page and **no line geometry** —
+        a chat completion has none, and inventing strips would be
+        indistinguishable from measured ones. The tree records `mode: text` in
+        its own manifest, so `upload_hf` cannot be given the wrong mode.
+
+        The sibling of `export_hf`, which exports hand-corrected pages. This
+        exports what a recogniser said about pages nobody has transcribed, and
+        the dataset it feeds has to say so in its card.
+
+        ``run`` is a run name under VLM_TEST_ROOT (as `batch_report` takes it);
+        ``model`` narrows a run that holds several readers. ``out`` is the name
+        of the tree to write, under the same root, default ``<run>-pagewise``
+        — that name is what `upload_hf` takes as ``tree``. A tree that already
+        holds files is refused.
+
+        ``dry_run`` defaults to **true**: it prints the plan — pages per
+        project, refusals by category, where the images came from (cache, cold
+        tier) — and writes nothing. Pass false to write the tree, which copies
+        an image per page.
+
+        Refused by default: pages whose reading came back ``empty``,
+        ``repetitive`` (a loop) or ``deliberation`` (the model arguing with
+        itself in the transcription field), and pages cut off at the output
+        ceiling. ``skip_verdicts`` changes the first set (``short`` can be
+        added, ``ok`` never), ``keep_truncated`` the second. Every refusal is
+        written to the TSV the result names.
+
+        Source and cold tier come from the configuration, never from here; the
+        repository is `upload_hf`'s to name.
+        """
+        try:
+            return jobs.export_run_hf_job(
+                run, model=model, out=out, skip_verdicts=skip_verdicts,
+                keep_truncated=keep_truncated, dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def upload_hf(tree: str, repo_id: str | None = None,
                   dry_run: bool = True) -> dict:
         """Upload an export tree to the Hugging Face hub with `pagexml-hf`.
