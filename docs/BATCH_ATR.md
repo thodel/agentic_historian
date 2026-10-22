@@ -1558,6 +1558,20 @@ schon zusammenpassen:
    ordentlich, verloren wird auf den schweren Händen, wo Qwen bis 37 % geht
    und Gemini bei 17 % bleibt.
 
+5. Die Lesungen zum Trainingsprojekt, auf den Forschungsspeicher
+   (`HTR/VLMs/<Lauf>`): am 22. Oktober fünf `cp`-Zeilen und ein
+   handgeschriebener README, seit #688 ein Aufruf, dessen README aus den
+   Protokollen kommt —
+
+   ```
+   export_run_share("gemini-eval-random", keys="eval-random.txt",
+                    score_report="score-gt-20261022T164235", dry_run=True)
+   ```
+
+   `txt/` und `records/` je Modell, `report.md`, `keys.txt`, `score-gt.md`
+   (und `.json`, wo es eines gibt), `README.md` mit Modell, Prompt-Prüfsumme,
+   Urteilen, Leerseiten namentlich, CER-Tabelle. Resumierbar, löscht nie.
+
 **Was der Lauf nicht misst:** Gemini liest ohne Zeilengeometrie, Qwen über die
 Segmentierung des Gateways; beide landen als Seitentext in derselben
 CER-Rechnung, aber ein Fehler des Segmentierers zählt beim einen und kann beim

@@ -730,6 +730,38 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def export_run_share(run: str, model: str | None = None,
+                         dest: str | None = None,
+                         score_report: str | None = None,
+                         keys: str | None = None,
+                         dry_run: bool = False) -> dict:
+        """A run's readings as text on the research share, for the HTR
+        training project: ``<model>/txt/<key>.txt`` and
+        ``<model>/records/<key>.json`` per page, the run's ``report.md``, the
+        key list the run was started from (``keys``, a name under the
+        ground-truth root), a scoring report (``score_report``, the name
+        `score_ground_truth` returned) as ``score-gt.md``/``.json``, and a
+        README written from the records — model, prompt digest and settings,
+        pages per verdict, the empty pages by name, the CER table if a report
+        is given, and the sentence that nobody has read this text.
+
+        ``dest`` is a name under ``<ATR_RESEARCH_DIR>/HTR/VLMs``
+        (`ATR_RESEARCH_EXPORT_SUBDIR`), default the run's name. Resumable;
+        nothing is deleted. ``dry_run`` counts, names the destination and
+        returns the README it would write.
+
+        The third exit of a run beside `upload_hf` and `publish-batch`, and
+        the only one that reaches the trainer. Refused above 2000 pages: a
+        corpus run is a dataset, not a folder of files.
+        """
+        try:
+            return jobs.export_run_share(run, model=model, dest=dest,
+                                         score_report=score_report, keys=keys,
+                                         dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def export_hf(runs: list[str], gt_dir: str | None = None,
                   dry_run: bool = True) -> dict:
         """Assemble the located ground-truth pages into a `pagexml-hf` export
