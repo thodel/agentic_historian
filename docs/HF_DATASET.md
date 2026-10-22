@@ -1098,10 +1098,33 @@ cd /home/dh/agentic_historian && git pull
     --dry-run
 ```
 
-Über MCP ist Schritt 3 `upload_hf(tree="gemini-300-pagewise", repo_id=…)` — der
-Baum wird als **Name** unter `VLM_TEST_ROOT` erwartet, nicht als Pfad, und der
-Modus kommt aus dem Manifest. Schritt 1 und 2 haben kein MCP-Werkzeug; sie laufen
-auf tei von Hand, wie `export-hf` es anfangs auch tat.
+### Aus einer Session
+
+Seit #685 sind alle drei Schritte Werkzeuge, und der Baum wandert als **Name**
+unter `VLM_TEST_ROOT` von einem zum nächsten — nie als Pfad:
+
+```
+export_run_hf(run="gemini-300-final")                      # 1. der Plan, schreibt nichts
+export_run_hf(run="gemini-300-final", dry_run=False)       # 2. Baum gemini-300-final-pagewise
+upload_hf(tree="gemini-300-final-pagewise", repo_id=…)     # 3. privat, Modus aus dem Manifest
+```
+
+`out` benennt den Baum anders (Vorgabe `<run>-pagewise`); ein Baum, der schon
+Dateien hält, wird abgelehnt, bevor ein Job startet. `model` grenzt einen Lauf
+mit mehreren Lesern ein. `skip_verdicts` wählt, welche Urteile abgelehnt werden
+(`empty`, `short`, `repetitive`, `deliberation` — `ok` nie; Vorgabe alles
+ausser `short`), `keep_truncated` lässt abgeschnittene Seiten zu. Die
+Ablehnungen landen immer als TSV unter `VLM_TEST_ROOT`, der Pfad steht im
+Ergebnis. Was das Werkzeug **nicht** nimmt: `--source`, `--archive` (beide aus
+der Konfiguration — dass sie am 22. Oktober an der CLI nötig waren, lag am
+Arbeitsbaum mit code-relativen Datenwurzeln, nicht am Export) und `--repo-id`
+(das entscheidet der Upload).
+
+Die Vorbedingung von #682 gilt weiter: das Werkzeug läuft als Unterprozess auf
+dem **Produktions-Checkout**, und der muss `export-run-hf` kennen — am 22.
+Oktober stand er auf einem Feature-Branch ohne den Befehl, und ein Job wäre mit
+„invalid choice" gestorben (`batch_report` zeigt unter `code`, welcher Stand
+antwortet).
 
 Die Bilder liegen zu diesem Zeitpunkt zum größten Teil **nicht mehr im
 Page-Cache**: der Lauf ist älter als zwei Tage, und ein Tagesjob verschiebt
