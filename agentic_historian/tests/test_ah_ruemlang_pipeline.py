@@ -500,3 +500,14 @@ def test_linecer_needs_half_a_line_of_overlap():
     from ruemlang import linecer
     assert linecer.assign([[0, 0, 100, 20]], [[0, 15, 100, 35]]) == [None]
     assert linecer.assign([[0, 0, 100, 20]], [[0, 8, 100, 28]]) == [0]
+
+
+def test_lines_of_another_segmentation_are_paired_by_position():
+    import ruemlang.pipeline as pl
+    geom = {"lines": [{"bbox": [0, 0, 200, 20]}, {"bbox": [0, 30, 200, 50]}, {"bbox": [0, 60, 200, 80]}]}
+    # two pieces of line 1 (right one first), nothing on line 2, line 3 whole
+    rec = {"lines": [{"text": "zwei", "bbox": [110, 1, 200, 21]}, {"text": "eins", "bbox": [0, 0, 100, 20]},
+                     {"text": "drei", "bbox": [0, 61, 200, 81]}]}
+    assert pl._paired_by_position(geom, rec) == ["eins zwei", "", "drei"]
+    unboxed = {"lines": [{"text": t, "bbox": None} for t in "ab"]}
+    assert pl._paired_by_position(geom, unboxed) == ["a", "b"]

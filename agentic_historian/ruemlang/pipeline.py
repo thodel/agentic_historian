@@ -302,6 +302,35 @@ def _geometry_source(d: Path, args) -> tuple[Optional[str], Optional[dict]]:
     return None, None
 
 
+def _paired_by_position(geom: dict, rec: dict) -> list[str]:
+    """``rec``'s line texts, one per geometry line, paired by where they lie.
+
+    Each of ``rec``'s lines goes to the geometry line it overlaps, pieces on
+    one line joined left to right — also when the counts agree, since an
+    equal count is no proof of the same cut. Only without boxes on either
+    side are the texts taken as they are (build_cases aligns them by text). Pairing by text did this before and failed
+    exactly where it mattered: on Hertwig (22.10.) the kraken reader cut the
+    pages differently, at 40 % CER no two readings looked alike enough, and
+    whole lines landed on their neighbours' boxes (rules-only fusion with D:
+    1.13 line CER on page 8, D alone 0.35).
+    """
+    lines = rec.get("lines") or []
+    texts = [(ln.get("text") or "") for ln in lines]
+    g = geom.get("lines") or []
+    if not lines or rec is geom:
+        return texts
+    gb = [b for b, _ in _boxed(geom, [""] * len(g))]
+    hb = [b for b, _ in _boxed(rec, texts)]
+    if not all(gb) or not all(hb):
+        return texts
+    owner = linecer.assign(gb, hb)
+    pieces: dict[int, list] = {}
+    for i, (b, t) in zip(owner, zip(hb, texts)):
+        if i is not None and t.strip():
+            pieces.setdefault(i, []).append((b[0], t.strip()))
+    return [" ".join(t for _, t in sorted(pieces.get(i, []))) for i in range(len(g))]
+
+
 def _page_cases(d: Path, p, args, ref, anchors, primary: Optional[str] = None):
     """One page's cases from the readings on disk: ``(cases, meta, primary)``,
     or None when no line reader produced lines. Case ``i`` is line ``i`` of
@@ -316,8 +345,8 @@ def _page_cases(d: Path, p, args, ref, anchors, primary: Optional[str] = None):
     n = len(geom["lines"])
     a_lines = [(ln.get("text") or "") for ln in (a.get("lines") or [])] or \
         ([(ln.get("text") or "") for ln in geom["lines"]] if geom_label == "A" else [""] * n)
-    b_lines = [(ln.get("text") or "") for ln in (b.get("lines") or [])]
-    d_lines = [(ln.get("text") or "") for ln in (x.get("lines") or [])] if args.extra_model else None
+    b_lines = _paired_by_position(geom, b)
+    d_lines = _paired_by_position(geom, x) if args.extra_model else None
     cases, meta = adjudicate.build_cases(a_lines, b_lines, c.get("text") or "", ref,
                                          page_hint=anchors.get(p.page_nr),
                                          extra_texts=d_lines)
@@ -568,6 +597,11 @@ def cmd_eval(args) -> int:
             if rec and rec.get("lines"):
                 m = linecer.matched_cer(gt_lines, _boxed(rec, [ln.get("text") or "" for ln in rec["lines"]]))
                 row[f"{k}~"] = m and m["cer"]
+                if m:
+                    row[f"{k}~seg"] = {"gt_lines": sum(1 for _, t in gt_lines if t.strip()),
+                                       "missed_lines": m["missed_lines"],
+                                       "unmatched_chars": m["unmatched_chars"],
+                                       "lines": len(rec["lines"])}
         variants = {"fused": [x["text"] for x in sorted(adj["decisions"], key=lambda x: int(x["index"]))]}
         if args.variants:
             built = None
@@ -603,6 +637,14 @@ def cmd_eval(args) -> int:
                   + (f"  {r['summary']}" if note else ""))
         means = {k: [r[k] for r in rows if r.get(k) is not None] for k in cols}
         print(f"{'mean':>11} " + " ".join(f"{f(sum(v)/len(v) if v else None):>{w}}" for v in means.values()))
+    seg = {k: [r[f"{k}~seg"] for r in rows if r.get(f"{k}~seg")] for k in ("A", "B", "D")}
+    if any(seg.values()):
+        print("\nsegmentation (sums over the pages): lines read / GT lines / GT lines nothing landed on / "
+              "chars on no GT line")
+        for k, v in seg.items():
+            if v:
+                t = lambda f: sum(x[f] for x in v)
+                print(f"  {k}: {t('lines')} / {t('gt_lines')} / {t('missed_lines')} / {t('unmatched_chars')}")
     print(f"\ntable: {root / 'eval.json'} — CER = Levenshtein / len(GT), whitespace collapsed; lower is "
           "better. fused = the run's adjudication; det-X = rules only, X where they do not decide")
     return 0
