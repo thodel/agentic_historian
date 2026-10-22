@@ -1160,8 +1160,76 @@ def score_job(runs: Sequence[str], gt_dir: Optional[str] = None,
                       writer_agreement=writer_agreement)
     return {"ok": True, "runs": names, "ground_truth_dir": str(folder),
             "report": str(out),
+            # The per-page table as data, for `score_report` (#689).
+            "report_json": str(out.with_suffix(".json")),
+            "report_name": out.stem,
             "keys_file": str(keys_file) if keys_file else None,
             **start_and_peek("score-gt", argv)}
+
+
+def resolve_score_report(name: str) -> Path:
+    """The JSON of a scoring report, by **name** under ``VLM_TEST_ROOT``.
+
+    The name is what `score_job` returns as ``report_name`` — the stem,
+    ``score-gt-<stamp>``; a trailing ``.md`` or ``.json`` is tolerated because
+    that is how the path appears in a job's reply. Validated like a run name,
+    so the join cannot leave the root.
+    """
+    stem = (name or "").strip()
+    for suffix in (".json", ".md"):
+        if stem.endswith(suffix):
+            stem = stem[:-len(suffix)]
+    stem = validate_run(stem)
+    path = Path(config.VLM_TEST_ROOT) / f"{stem}.json"
+    if path.is_file():
+        return path
+    if path.with_suffix(".md").is_file():
+        raise JobError(
+            f"report {stem!r} has no JSON beside it — it was written before the "
+            f"report became data (#689); run `score_ground_truth` again and the "
+            f"new report will have one")
+    raise JobError(f"no scoring report {stem!r} under VLM_TEST_ROOT — "
+                   f"`score_ground_truth` names one as `report_name`")
+
+
+def score_report(name: str, offset: int = 0, limit: int = 50,
+                 located_only: bool = False) -> dict:
+    """A scoring report's table and pages, as data, paged (#689).
+
+    Everything the Markdown report holds and a session could not read: the
+    comparison table (``by_reading``), the status mix, the files that could
+    not be scored, and per page the located key, the status, and each
+    reading's CER with its runner-up and whether the match is confident.
+    ``not_located`` names the pages that are in no row of the table — on
+    2026-10-22 three of 38, and *which three* was the question.
+
+    Paged like `read_pages`, and the reply says what it left out
+    (``remaining``, ``next_offset``). ``located_only`` drops the pages whose
+    identity is unsettled, which is the view to take when reading CERs: an
+    unlocated page's CER is its distance to whichever corpus page happened to
+    be least unlike it, not a reading error.
+    """
+    path = resolve_score_report(name)
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise JobError(f"cannot read {path.name}: {exc}") from exc
+    pages = list(data.get("pages") or [])
+    not_located = [p.get("file") for p in pages if not p.get("located_key")]
+    if located_only:
+        pages = [p for p in pages if p.get("located_key")]
+    offset = max(0, int(offset))
+    limit = max(1, int(limit))
+    window = pages[offset:offset + limit]
+    head = {k: v for k, v in data.items() if k != "pages"}
+    return {"ok": True, "report": str(path), "name": path.stem, **head,
+            "not_located": not_located,
+            "pages_total": len(pages), "offset": offset,
+            "returned": len(window),
+            "remaining": max(0, len(pages) - offset - len(window)),
+            "next_offset": (offset + len(window)
+                            if offset + len(window) < len(pages) else None),
+            "pages": window}
 
 
 def _score_run_names(runs: Sequence[str]) -> list[str]:
@@ -1231,45 +1299,23 @@ def score_ground_truth(runs: Sequence[str], gt_dir: Optional[str] = None,
             + "\n".join(keys) + "\n", encoding="utf-8")
         keys_file = {"name": dest.name, "path": str(dest), "pages": len(keys)}
 
+    from gt_score import report_data
+
     return {
         "runs": names,
         "ground_truth_dir": str(folder),
-        "pages_scored": len(scored),
         "keys_file": keys_file,
-        "pages_unusable": [{"file": u.source.name, "reason": u.reason}
-                           for u in unusable],
-        "status_mix": _status_mix(scored),
-        "pages": [{
-            "file": s.gt.source.name,
-            "doc_id": s.gt.doc_id,
-            "page_id": s.gt.page_id,
-            "status": s.gt.status,
-            "lines": s.gt.lines,
-            "chars": len(s.gt.text),
-            "agreed_key": s.agreed_key,
-            # Agreement is not identification: one reading agrees with itself.
-            # This is the key that is safe to hand to `atr-batch --keys-from`.
-            "located_key": s.located,
-            "readings": [{"reading": m.reading, "cer": round(m.cer, 4),
-                          "key": m.key, "runner_up_cer": round(m.runner_up_cer, 4),
-                          "confident": m.confident} for m in s.matches],
-        } for s in scored],
+        # The same data the CLI writes beside its report (#689): one shape,
+        # whether the scoring ran here or as a job.
+        **report_data(scored, unusable),
         "report_md": report[:40000],
     }
 
 
 def _status_mix(scored: Sequence) -> dict:
-    """How many pages per Transkribus status.
-
-    Worth answering because DONE, FINAL and GT are not obviously equally reliable:
-    if the CER splits along that line, the status is describing the correction and
-    not the model.
-    """
-    out: dict[str, int] = {}
-    for item in scored:
-        key = item.gt.status or "unknown"
-        out[key] = out.get(key, 0) + 1
-    return out
+    """Kept for callers; the definition moved to `gt_score.status_mix` (#689)."""
+    from gt_score import status_mix
+    return status_mix(scored)
 
 
 def merge_runs(runs: Sequence[str], run: str,

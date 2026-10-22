@@ -17,6 +17,7 @@ All agent logs go to stdout (loguru default).
 """
 
 import argparse
+import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -541,8 +542,19 @@ def score_gt(args: argparse.Namespace) -> int:
         out = Path(args.out).expanduser()
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(report, encoding="utf-8")
+        # And the same report as data, beside it (#689): the Markdown is for a
+        # person, and from a session the per-page sections were unreadable.
+        from gt_score import report_data
+        data = {"runs": [str(d) for d in run_dirs],
+                "ground_truth": gt_paths,
+                "written_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                **report_data(scored, unusable)}
+        out_json = out.with_suffix(".json")
+        out_json.write_text(json.dumps(data, ensure_ascii=False, indent=1),
+                            encoding="utf-8")
         print(format_summary(scored, unusable))
         print(f"\nreport: {out}  ({len(report.splitlines())} lines)")
+        print(f"report json: {out_json}  ({len(data['pages'])} page(s))")
         # Last, because a job hands a caller the *tail* of a log and this is the
         # answer the run was started for.
         if writers:

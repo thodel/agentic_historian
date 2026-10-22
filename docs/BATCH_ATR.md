@@ -1538,6 +1538,12 @@ schon zusammenpassen:
    | `gemini-eval-random/gemini-3.8-flash` | 34 | **4,8 %** | 12,8 % | 0,7 % | 17,1 % |
    | `atr_corpus_qwen35_line/qwen3.5-4b-german-xix-v2` | 34 | 14,5 % | 31,7 % | 6,6 % | 37,4 % |
 
+   Welche drei Seiten in keiner Zeile stehen, und der CER je Seite: seit #689
+   liest `score_report("score-gt-20261022T164235")` den Bericht als Daten —
+   `by_reading`, `not_located`, und pro Seite Schlüssel, Status, CER je Leser
+   mit Runner-up; `located_only=True` für die Sicht, in der CERs etwas
+   bedeuten. Berichte von vor #689 haben kein JSON neben sich.
+
    34 statt 35, weil die Lokalisierung jetzt die **Einigkeit beider** Lesungen
    verlangt und die eine Seite, die Gemini leer zurückgab, sich über ihren
    (fehlenden) Inhalt nicht platzieren lässt. Dieselbe Regel, die das
