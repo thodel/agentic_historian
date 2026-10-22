@@ -1392,6 +1392,97 @@ eines Lesers eine Währung und zwischen zwei Lesern keine.
   Blatt leer ist. Was fehlt, ist der Hinweis, welche der 19 beschrieben ist —
   und das ist ein Nachtrag an der Edition, keine Änderung am Baum.
 
+## Der Eval-Split der HTR-Ground-Truth, mit Gemini gelesen — und zum ersten Mal ein CER
+
+22. Oktober 2026. Das HTR-Trainingsprojekt hält auf dem Forschungsspeicher eine
+zufällige Aufteilung seiner Transkribus-Ground-Truth in `train`/`dev`/`eval`
+(`Projekt_Lassberg/HTR/data/ground_truth/manifests/`, auf tei unter
+`/mnt/wbkolleg_dh_1/…`). `eval_manifest_random.txt` nennt **39 PAGE-XML-Dateien
+aus 12 Dokumenten**, als Pfade `…/documents/done_<Titel>_<docId>/<Seite>.xml`
+(acht Seiten `lassberg-letter-1781`, acht `lassberg-letter-0077`, sieben
+`lassberg-letter-1209`, dazu drei BLB-Konvolute `K 2911,…` und sechs Briefe mit
+ein bis zwei Seiten). Die Frage: wie liest `gemini-3.8-flash` genau diese
+Seiten, mit genau den Einstellungen des 300er-Laufs — und weil es GT-Seiten
+sind, erstmals **mit Referenz**.
+
+**Es brauchte keinen neuen Code**, nur die Reihenfolge, in der die Werkzeuge
+schon zusammenpassen:
+
+1. Die 39 Dateien in einen Ordner unter `GT_ROOT` kopieren. Der Server nimmt
+   Namen, keine Pfade (#509), und `001.xml` kommt in mehreren Dokumenten vor,
+   also trägt jede Kopie ihren Dokumentordner im Namen:
+
+   ```bash
+   GT=/home/dh/agentic_historian/agentic_historian/data/gt
+   M=/mnt/wbkolleg_dh_1/Projekt_Lassberg/HTR/data/ground_truth/manifests/eval_manifest_random.txt
+   mkdir -p "$GT/eval-random"
+   while IFS= read -r f; do
+     src="${f/#\/storage\/research\//\/mnt\/}"
+     cp "$src" "$GT/eval-random/$(basename "$(dirname "$src")")__$(basename "$src")"
+   done < "$M"
+   ```
+
+   Die Manifest-Pfade beginnen mit `/storage/research/wbkolleg_dh_1/` — der
+   Mountpunkt der Maschine, die das Manifest geschrieben hat; auf tei heisst
+   derselbe Share `/mnt/wbkolleg_dh_1/`.
+
+2. Die Seiten **über ihren Inhalt** im Korpuslauf finden und die Schlüssel
+   schreiben — `score_ground_truth` gegen `atr_corpus_qwen35_line`, den Lauf, der
+   im September das ganze Share gelesen hat (6719 Seiten, also auch die seit dem
+   4. Oktober verschwundenen):
+
+   ```
+   score_ground_truth(runs=["atr_corpus_qwen35_line"], gt_dir="eval-random",
+                      keys_out="eval-random.txt")
+   ```
+
+   | | |
+   |---|---:|
+   | Dateien im Manifest | 39 |
+   | ohne transkribierten Text (übersprungen, benannt) | 1 — `lassberg-letter-1209 …/007.xml` |
+   | Status | 34× `FINAL`, 4× `Done` |
+   | eindeutig lokalisiert → `eval-random.txt` | **35** |
+   | nicht sicher lokalisiert (im Bericht, nicht in der Liste) | 3 |
+
+   Und als Nebenbefund die Zahl, die vorher niemand hatte — das Qwen-Zeilenmodell
+   auf dem Eval-Split: **Median-CER 14,6 %, p90 31,6 %, beste Seite 6,6 %,
+   schlechteste 37,4 %** (35 Seiten). Das ist die Vergleichsgrösse für Gemini,
+   gemessen an derselben Referenz.
+
+3. Der Gemini-Lauf, Einstellungen des 300er-Laufs (`gemini-300-final`:
+   `lassberg_atr_strict2.md @9e0503e8`, `reasoning low`, Deckel 8192 → Settings
+   `prompt-9e0503e8+think-low|max8192`), erst trocken, dann drei Seiten, dann
+   alle:
+
+   ```
+   start_batch(models=["gemini-3.8-flash"], run="gemini-eval-random",
+               source="dav:digitalisate", keys_from="eval-random.txt",
+               via="external", prompt="lassberg_atr_strict2.md", reasoning="low",
+               missing_out="eval-random-missing.txt", dry_run=True)
+   ```
+
+   `missing_out`, weil der Share seit dem 4. Oktober 35 der 276 GT-Seiten nicht
+   mehr hält und ein anderswo gezogener Split Seiten nennen kann, die hier
+   fehlen. Der Trockenlauf traf auf eine abgelaufene Listing-Cache (48 h) und
+   begann die volle Begehung des Shares — rund 20 Minuten für ~1000 Ordner,
+   die danach für Rauchtest und Lauf warm ist.
+
+4. Die Tabelle, die Qualität ist: beide Leser gegen dieselbe Referenz.
+
+   ```
+   score_ground_truth(runs=["gemini-eval-random", "atr_corpus_qwen35_line"],
+                      gt_dir="eval-random")
+   ```
+
+**Was der Lauf nicht misst:** Gemini liest ohne Zeilengeometrie, Qwen über die
+Segmentierung des Gateways; beide landen als Seitentext in derselben
+CER-Rechnung, aber ein Fehler des Segmentierers zählt beim einen und kann beim
+anderen nicht vorkommen. Und 35 Seiten aus 12 Dokumenten sind 12 Hände, nicht 35
+— eine Seite mehr von Laßberg selbst verschiebt den Median spürbar. Der
+Eval-Split ist die Referenz des *Trainingsprojekts*, zufällig über Dokumente
+gezogen; dass er für einen Vergleich zweier Leser fair ist, folgt daraus nicht,
+aber er ist derselbe Massstab für beide.
+
 ## Ein Lauf aus 80 Unterstrichen ist eine Linie
 
 Die dritte Seite dieses Korpus, die für ihr eigenes Layout als Füllmaterial
