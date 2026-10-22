@@ -628,6 +628,50 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def research_list(folder: str | None = None, limit: int = 500) -> dict:
+        """What is under a folder of the research project on the research
+        share (`ATR_RESEARCH_DIR`, on tei `Projekt_Lassberg`), with sizes.
+        Synchronous, one directory deep; ``folder`` is relative to the
+        project root and cannot leave it. The HTR training project keeps its
+        ground truth and its train/dev/eval manifests here
+        (`HTR/data/ground_truth/manifests`), which is what this is for.
+        """
+        try:
+            return jobs.research_list(folder, limit=limit)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def import_ground_truth(manifest: str, name: str,
+                            dry_run: bool = False) -> dict:
+        """Stage the PAGE XML files a manifest names as a ground-truth set
+        under the ground-truth root, by name — the ``gt_dir`` that
+        `score_ground_truth` takes, which then writes the key list
+        `start_batch` reads. The step before that handover.
+
+        ``manifest`` is a path relative to the research project root, e.g.
+        ``HTR/data/ground_truth/manifests/eval_manifest_random.txt``. Its
+        lines name files by the mount point of the machine that wrote them;
+        they are mapped onto the project root here and read from nowhere
+        else. Each copy is named ``<document folder>__<file>``, because
+        ``001.xml`` occurs in every document.
+
+        The reply is the finding the shell used to produce by hand: files,
+        documents with page counts, the Transkribus status mix (DONE and
+        FINAL count as corrected), files without transcribed text, and —
+        named, never dropped — the lines that map onto nothing and the files
+        the share does not have. Resumable: a copy already present at the
+        same size is skipped. ``dry_run`` reports and copies nothing.
+
+        Synchronous: an evaluation set is tens of files. A training split of
+        thousands belongs with the trainer, not here.
+        """
+        try:
+            return jobs.import_ground_truth(manifest, name, dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def export_hf(runs: list[str], gt_dir: str | None = None,
                   dry_run: bool = True) -> dict:
         """Assemble the located ground-truth pages into a `pagexml-hf` export
