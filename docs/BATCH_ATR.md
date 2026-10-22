@@ -1529,12 +1529,12 @@ schon zusammenpassen:
    anderer Nenner, nicht ein anderes Modell.
 
    **Gemini liest den Eval-Split dreimal so genau wie das feinjustierte
-   Zeilenmodell**, über den ganzen Bereich: die schlechteste Gemini-Seite
-   (17,1 %) liegt unter dem Qwen-Median, der Gemini-p90 (12,8 %) unter der
-   besten Qwen-Seite (6,6 %)? — nein: über ihr, und das ist die Stelle, an der
-   die Spanne zählt. Die beste Qwen-Seite ist besser als Geminis p90; die
-   leichten Seiten liest das Zeilenmodell ordentlich, verloren wird auf den
-   schweren Händen, wo Qwen bis 37 % geht und Gemini bei 17 % bleibt.
+   Zeilenmodell.** Die schlechteste Gemini-Seite (17,1 %) liegt über dem
+   Qwen-Median (14,5 %), aber weit unter dessen p90 (31,7 %); die beste
+   Qwen-Seite (6,6 %) ist besser als Geminis p90 (12,8 %). Die Spannen sagen
+   also, wo der Unterschied sitzt: die leichten Seiten liest das Zeilenmodell
+   ordentlich, verloren wird auf den schweren Händen, wo Qwen bis 37 % geht
+   und Gemini bei 17 % bleibt.
 
 **Was der Lauf nicht misst:** Gemini liest ohne Zeilengeometrie, Qwen über die
 Segmentierung des Gateways; beide landen als Seitentext in derselben
