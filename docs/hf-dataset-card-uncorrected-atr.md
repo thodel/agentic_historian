@@ -1,8 +1,36 @@
-<!-- FRONTMATTER: `pagexml-hf` schreibt beim Upload selbst ein README mit
-     `dataset_info`/`configs`. Dieser Block wird nach dem Upload wörtlich von
-     dort übernommen und ersetzt diesen Kommentar — wie bei der Karte des
-     handkorrigierten Datensatzes. Nicht von Hand erfinden: die Zeilenzahl und
-     die Bytes stehen dort gemessen. -->
+---
+dataset_info:
+  config_name: default
+  features:
+  - name: image
+    dtype:
+      image:
+        decode: false
+  - name: text
+    dtype: string
+  - name: filename
+    dtype: string
+  - name: project_name
+    dtype: string
+  splits:
+  - name: train
+    num_examples: 281
+    num_bytes: 2198208407
+  download_size: 2198208407
+  dataset_size: 2198208407
+configs:
+- config_name: default
+  data_files:
+  - split: train
+    path: data/train/**/*.parquet
+tags:
+  - image-to-text
+  - htr
+  - trocr
+  - transcription
+  - pagexml
+license: mit
+---
 
 # Laßberg correspondence, 19th century — uncorrected machine readings
 
@@ -119,7 +147,7 @@ letter = lambda r: (re.search(r"lassberg-letter-\d+", r["filename"]) or [None])[
 full = ds.filter(lambda r: len(r["text"]) >= 100)
 ```
 
-Reading the text without downloading 1.5 GB of pixels:
+Reading the text without downloading 2.1 GB of pixels:
 
 ```python
 from huggingface_hub import HfFileSystem
