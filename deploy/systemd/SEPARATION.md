@@ -31,15 +31,35 @@ das Skript bricht deshalb vor dem Neustart ab, statt zu warnen.
 ```
 # 0. als dh, im Checkout: auf den Stand von main bringen. Der Bot zieht nicht
 #    mehr selbst (/update berichtet nur noch), der Deploy läuft von aussen.
-cd /home/dh/agentic_historian && git pull --ff-only
+#    Erst nachsehen, auf welchem Branch das Checkout steht: am 22.10.2026 war
+#    es `ruemlang-test` (13 Commits vor, 15 hinter main, von einer anderen
+#    Session, die daraus gerade einen Upload fuhr). Dort ist `git pull
+#    --ff-only` kein Fast-Forward, und ein `git checkout main` zöge dem
+#    laufenden Job den Code weg — also entweder dort `git merge origin/main`
+#    (fasst sich am 22.10. konfliktfrei) oder warten, bis der Branch zurück ist.
+cd /home/dh/agentic_historian && git branch --show-current && git pull --ff-only
+
+# 0b. Einmalig: das Paket `acl`. Ohne `setfacl` bleibt das Skript in Schritt 2
+#     stehen (exit 5), weil /home/dh 0750 ist. tei hatte es am 22.10.2026 nicht.
+sudo apt install acl
 
 # 1. Die Secrets-Datei des Bots — einmalig, von Hand, nie per Skript.
-#    Nur die Keys aus agentic_historian.env.example; die Werte aus .env.gpustack.
+#    Nur die Keys aus agentic_historian.env.example — aber aus DREI Quellen,
+#    nicht aus einer: .env.gpustack (Secrets, URLs, Schalter), .env im Checkout-
+#    Root (HF_TOKEN, DISCORD_GUILD_ID, REQUIRED_*_ROLE_ID) und
+#    agentic_historian/.env (ATR_MOUNT_DIR). Mit AH_ENV_FILE liest der Bot nur
+#    noch die neue Datei; was nicht drinsteht, fällt still auf den Default.
 sudo install -m 600 -o root -g root deploy/systemd/agentic_historian.env.example /etc/agentic_historian.env
 sudoedit /etc/agentic_historian.env
 #    Drei Keys stehen in .env.gpustack mehrfach (LASSBERG_REGISTER, NEXTCLOUD_REMOTE_DIR,
 #    NEXTCLOUD_SHARE_URL). python-dotenv nimmt die LETZTE Zuweisung — die gilt heute,
 #    und nur die gehört in die neue Datei.
+
+# 1b. Die Kopie messen statt ihr glauben: welche Settings ändern sich, wenn der
+#     Bot nur diese Datei liest? Druckt Namen, nie Werte. Leere Liste = weiter.
+#     (Am 22.10. wären es mit den Keys des damaligen Beispiels vier gewesen:
+#     ATR_MOUNT_DIR, ATR_PAGE_CACHE_ARCHIVE, LASSBERG_REGISTER, NEXTCLOUD_REMOTE_DIR.)
+sudo agentic_historian/.venv/bin/python deploy/systemd/env_diff.py /etc/agentic_historian.env
 
 # 2. Trockenlauf: misst, ändert nichts. Endet mit "would run: systemctl restart", exit 0.
 sudo deploy/systemd/switch_to_own_user.sh --dry-run
@@ -48,7 +68,9 @@ sudo deploy/systemd/switch_to_own_user.sh --dry-run
 sudo deploy/systemd/switch_to_own_user.sh
 
 # 4. Die Definition of Done messen: den Pfad der OpenClaw-Credentials nennen.
-sudo deploy/systemd/check_separation.py --openclaw-secrets <pfad>
+#    Auf tei: /home/dh/.openclaw/openclaw.json (0600 dh) hält die Konfiguration
+#    samt Tokens, /home/dh/.openclaw/credentials/ (0700 dh) die Pairing-Dateien.
+sudo deploy/systemd/check_separation.py --openclaw-secrets /home/dh/.openclaw/openclaw.json
 ```
 
 Was das Skript tut, in dieser Reihenfolge, und wo es stehen bleibt:
@@ -57,7 +79,7 @@ Was das Skript tut, in dieser Reihenfolge, und wo es stehen bleibt:
 |---|---|---|
 | 0 | liest die Datenverzeichnisse aus der laufenden Konfiguration (`writable_paths.py --data-only`) und prüft, dass `hardening.conf` jedes davon freigibt | keine Pfade lesbar (3); eines fehlt in `hardening.conf` (6) — unter `ProtectSystem=strict` wäre das ein Schreibfehler beim ersten Job (#643) |
 | 1 | `useradd --system` `agentic_historian`, ohne Login, ohne Home | — |
-| 2 | prüft, ob der neue Benutzer durch jedes Verzeichnis über Checkout und venv **hindurchkommt**. Ein Stock-`/home/dh` ist `0750`: er käme nicht, und der Dienst stürbe beim ersten Import mit *permission denied* auf einem Pfad, der sichtbar existiert. Abhilfe: `setfacl -m u:agentic_historian:--x` auf genau diese Verzeichnisse — Durchgang für einen Benutzer, nicht `o+rx` für alle | `setfacl` fehlt (5); danach, als `agentic_historian` gemessen, venv-Python oder `bot.py` trotzdem unlesbar (5) |
+| 2 | prüft, ob der neue Benutzer durch jedes Verzeichnis über Checkout und venv **hindurchkommt**. Ein Stock-`/home/dh` ist `0750`: er käme nicht, und der Dienst stürbe beim ersten Import mit *permission denied* auf einem Pfad, der sichtbar existiert. Abhilfe: `setfacl -m u:agentic_historian:--x` auf genau diese Verzeichnisse — Durchgang für einen Benutzer, nicht `o+rx` für alle | `setfacl` fehlt (5) — auch im Trockenlauf, seit 22.10.2026; danach, als `agentic_historian` gemessen, venv-Python oder `bot.py` trotzdem unlesbar (5) |
 | 3 | `/etc/agentic_historian.env` → `root:agentic_historian 0640` | die Datei fehlt (4) |
 | 4 | `chown -R agentic_historian` auf die Datenverzeichnisse | — |
 | 5 | installiert `secrets.conf`, `hardening.conf`, `user.conf`, `daemon-reload`, `restart` | — |
@@ -142,6 +164,52 @@ Checkout und das venv, mithin die Erlaubnis, den Code dieses Prozesses zu
 `hardening.conf` hat die zweite Variante aktiv, weil das dem heutigen Verhalten
 entspricht; die erste ist einen Kommentar entfernt. Die Entscheidung gehört zu
 `/update`, nicht zu dieser Datei.
+
+## Nachgemessen auf tei, 2026-10-22
+
+Vor der Durchführung, als `dh`, mit `check_separation.py` von `origin/main`
+(das Checkout selbst stand auf `ruemlang-test`, ohne #673):
+
+```
+  [FEHLT] User= (dh)
+  [FEHLT] ProtectSystem=no         erwartet strict
+  [FEHLT] NoNewPrivileges=no       erwartet yes
+  [FEHLT] PrivateTmp=no            erwartet yes
+  [FEHLT] ReadWritePaths: leer
+  [?    ] ProtectHome=no           nicht anwendbar (Checkout unter /home)
+  [FEHLT] OpenClaw-Credentials (0o600, dh): der Bot läuft als 'dh' … er kann sie lesen
+0 erfüllt, 6 nicht erfüllt, 1 nicht gemessen.
+```
+
+Unverändert gegenüber dem 13.10. Dazu vier Befunde, die das Runbook oben
+geändert haben, jeder eine Messung, keiner eine Vermutung:
+
+1. **Der Checker nannte das «Nichts konnte geprüft werden» (exit 2).** Sechs
+   Zeilen waren gemessen und alle sechs gefallen; die Meldung hing an
+   `held == 0` statt an «nichts gemessen». Korrigiert: exit 1, und der Satz
+   fällt nur, wenn weder erfüllt noch nicht erfüllt gezählt wurde.
+2. **`ATR_PAGE_CACHE_ARCHIVE` stand in den Datenverzeichnissen** — gesetzt auf
+   `/mnt/wbkolleg_dh_1/tei/archive/agentic_historian-page_cache`, ein
+   CIFS-Mount mit `forceuid uid=1000`. Das Skript wäre in Schritt 0 mit exit 6
+   stehen geblieben (nicht in `hardening.conf`), und hätte man es eingetragen,
+   in Schritt 4 am `chown -R` gestorben — nach dem `useradd`, vor den Drop-ins.
+   Der Bot *liest* das Archiv nur (`utils/images.py`, HF-Export); geschrieben
+   wird es nachts von tei-vm-sanity als `dh`. Aus `writable_paths.py` entfernt.
+3. **Das Beispiel kannte drei der vier Quellen nicht.** `env_diff.py` hat auf
+   tei gemessen, was sich ändert, wenn der Bot nur die Keys des Beispiels
+   liest: `ATR_MOUNT_DIR` (lag in `agentic_historian/.env`),
+   `ATR_PAGE_CACHE_ARCHIVE`, `LASSBERG_REGISTER`, `NEXTCLOUD_REMOTE_DIR`. Die
+   `GPUSTACK_MODEL_*`- und `GEMINI_*`-Zeilen in `.env.gpustack` entsprechen
+   den Defaults; `GEMINI_MODEL`, `GEMINI_THINKING`, `GEMINI_CONCURRENCY` liest
+   niemand. Beispiel ergänzt, Schritt 1b eingefügt.
+4. **`acl` fehlt auf tei**, und der Trockenlauf verschwieg es (die Prüfung war
+   mit `DRY = 0` verriegelt). Jetzt bleibt auch der Trockenlauf mit exit 5 stehen.
+
+Weiter offen und nur von Hand: `sudo apt install acl`, die Secrets-Datei, der
+Lauf selbst, die Rotation (Punkt 4 der Definition of Done). 632 Dateien unter
+`/home/dh` sind weltlesbar (Tiefe 2, fast alle Provider-Code unter
+`dodis_mcp/`, `eos_mcp/`); nach dem Durchgangsrecht kann der Bot sie öffnen,
+wenn er ihre Namen kennt — Code, keine Secrets, aber gemessen, nicht angenommen.
 
 ## Items and status
 

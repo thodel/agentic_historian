@@ -113,6 +113,24 @@ def test_no_systemd_is_one_unmeasured_row_and_no_verdict():
     assert check.verdict(rows) == (0, 0, 1)
 
 
+def test_a_host_that_fails_every_row_was_measured_and_says_so(monkeypatch, capsys):
+    """Six measured failures are not "nothing could be checked".
+
+    The first version keyed the "nothing measured" message on `held == 0`,
+    so the host as it stood on 22.10.2026 — six rows measured, all six FEHLT —
+    printed "Nichts konnte geprüft werden" and exited 2, telling the reader that
+    nobody had looked, when everybody had and the answer was no.
+    """
+    monkeypatch.setattr(check, "unit_properties", lambda *a, **kw: AS_MEASURED_ON_TEI)
+
+    code = check.main(["--unit", "agentic-historian", "--secrets", "/nonexistent/x.env"])
+    captured = capsys.readouterr()
+
+    assert code == 1, "measured and failed is exit 1, not the 'nothing measured' 2"
+    assert "kein Bestehen" not in captured.err
+    assert "nicht erfüllt" in captured.out
+
+
 def test_nothing_measured_exits_non_zero(monkeypatch, capsys):
     """An empty check that passes is how #567 was closed the first time."""
     monkeypatch.setattr(check, "unit_properties", lambda *a, **kw: None)

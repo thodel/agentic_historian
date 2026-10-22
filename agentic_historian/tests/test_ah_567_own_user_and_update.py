@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import os
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -370,11 +371,30 @@ def _switch_copy(tmp_path: Path, *, hardening: str | None = None) -> Path:
     return root
 
 
-def _dry_run(root: Path, env_file: Path) -> subprocess.CompletedProcess:
+def _dry_run(root: Path, env_file: Path, **env: str) -> subprocess.CompletedProcess:
+    """Run the dry run. Unless a test brings its own PATH, it gets one with a
+    `setfacl` on it (see `_with_a_setfacl`): pytest's tmp_path is 0700, so
+    every one of these runs reaches the traverse step."""
+    env.setdefault("PATH", _with_a_setfacl(root.parent))
     return subprocess.run(
         ["bash", str(root / "deploy" / "systemd" / "switch_to_own_user.sh"), "--dry-run"],
-        capture_output=True, text=True, timeout=120,
-        env={**os.environ, "AH_ENV_FILE": str(env_file)})
+        capture_output=True, text=True, timeout=120, check=False,
+        env={**os.environ, "AH_ENV_FILE": str(env_file), **env})
+
+
+def _with_a_setfacl(tmp_path: Path) -> str:
+    """A PATH on which `setfacl` exists, whatever the host has.
+
+    The dry run now stops where the real run would (exit 5) when the tool is
+    missing — tei had no `acl` package on 22.10.2026 — so a test about the
+    traverse logic must not depend on the host's packages.
+    """
+    bin_dir = tmp_path / "with-setfacl"
+    bin_dir.mkdir(exist_ok=True)
+    stub = bin_dir / "setfacl"
+    stub.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    stub.chmod(0o755)
+    return f"{bin_dir}{os.pathsep}{os.environ.get('PATH', '')}"
 
 
 def test_without_the_secrets_file_the_script_stops_before_the_restart(tmp_path):
@@ -427,3 +447,35 @@ def test_a_data_directory_missing_from_hardening_conf_stops_everything(tmp_path)
     assert done.returncode == 6, done.stderr
     assert "NOT in hardening.conf" in done.stdout
     assert "useradd" not in done.stdout and "systemctl" not in done.stdout
+
+
+def test_a_missing_setfacl_stops_the_dry_run_too(tmp_path):
+    """The dry run has to be honest about a tool the real run will stop on.
+
+    The first version guarded the `setfacl` check with `[ "$DRY" = 0 ]`, so a
+    dry run on a host without the `acl` package printed "would run: setfacl …"
+    and exit 0, and the real run stopped with exit 5 two steps later. tei had
+    no `acl` on 22.10.2026, and its dry run said nothing.
+    """
+    env_file = tmp_path / "present.env"
+    env_file.write_text("", encoding="utf-8")
+    os.chmod(tmp_path, 0o700)  # so the traverse step has something to grant
+    # A PATH with everything the dry run executes and no setfacl.
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    for tool in ("bash", "stat", "dirname", "grep", "id", "cat", "sh"):
+        real = shutil.which(tool)
+        assert real, f"precondition: {tool} on PATH"
+        os.symlink(real, bin_dir / tool)
+    os.symlink(sys.executable, bin_dir / "python3")
+    root = _switch_copy(tmp_path)
+
+    done = subprocess.run(
+        ["bash", str(root / "deploy" / "systemd" / "switch_to_own_user.sh"), "--dry-run"],
+        capture_output=True, text=True, timeout=120, check=False,
+        env={**os.environ, "AH_ENV_FILE": str(env_file), "PATH": str(bin_dir)})
+
+    assert done.returncode == 5, (done.stdout, done.stderr)
+    assert "would stop here (exit 5)" in done.stderr
+    assert "setfacl is not installed" in done.stderr
+    assert "systemctl restart" not in done.stdout

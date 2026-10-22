@@ -235,7 +235,11 @@ def main(argv: list[str] | None = None) -> int:
             print("Nicht gemessen heisst nicht erfüllt — es heisst, dass niemand "
                   "nachgesehen hat.")
 
-    if held == 0:
+    if held == 0 and failed == 0:
+        # Nothing *measured* — not "nothing held". The first version said this
+        # on a host where six rows had been measured and all six failed
+        # (tei, 22.10.2026), which told the reader that nobody had looked
+        # when in fact everybody had, and the answer was no.
         print("\nNichts konnte geprüft werden. Das ist kein Bestehen: genau so "
               "wurde dieses Issue das erste Mal geschlossen.", file=sys.stderr)
         return 2
