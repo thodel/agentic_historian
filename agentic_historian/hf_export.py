@@ -1060,6 +1060,179 @@ class UploadPlan:
                 "mode": self.mode, "kind": self.kind, "ok": self.ok}
 
 
+# ── the dataset card (#691) ──────────────────────────────────────────────────
+#
+# `pagexml-hf` writes a README on upload whose YAML front matter carries the
+# measured `dataset_info` — rows, bytes, features. The card in `docs/` is the
+# text a person wrote; its front matter must be the hub's, verbatim, or the
+# sizes are typed by hand and wrong from the first re-upload. Twice this was a
+# terminal command and a splice done by eye.
+
+CARD_PREFIX = "hf-dataset-card"
+_FRONTMATTER_RE = re.compile(r"\A---\r?\n(.*?)\r?\n---\r?\n", re.S)
+_PLACEHOLDER_RE = re.compile(r"\A\s*<!--\s*FRONTMATTER.*?-->\s*", re.S)
+
+
+def card_dir() -> Path:
+    """Where the cards live: ``docs/`` beside the package."""
+    return Path(config.REPO_ROOT) / "docs"
+
+
+def resolve_card(name: str) -> Path:
+    """A card by **name** under ``docs/``: ``hf-dataset-card*.md``, no path.
+
+    Named rather than pathed for the reason every other handover here is: a
+    tool that uploads a named card cannot be told to upload a file.
+    """
+    name = (name or "").strip()
+    if ("/" in name or "\\" in name or not name.startswith(CARD_PREFIX)
+            or not name.endswith(".md") or ".." in name):
+        raise ValueError(
+            f"a card is named, not pathed: {name!r} — one of the "
+            f"{CARD_PREFIX}*.md files under docs/")
+    path = card_dir() / name
+    if not path.is_file():
+        have = ", ".join(sorted(p.name for p in card_dir().glob(f"{CARD_PREFIX}*.md"))) or "none"
+        raise FileNotFoundError(f"no card {name} under {card_dir()} (have: {have})")
+    return path
+
+
+def split_frontmatter(text: str) -> tuple[Optional[str], str]:
+    """``(front matter without its fences, body)``.
+
+    A card may start with the YAML block, with the placeholder comment a card
+    carries before its first upload (``<!-- FRONTMATTER … -->``), or with
+    neither. The body is what follows, with no leading blank lines.
+    """
+    m = _FRONTMATTER_RE.match(text)
+    if m:
+        return m.group(1), text[m.end():].lstrip("\r\n")
+    p = _PLACEHOLDER_RE.match(text)
+    if p:
+        return None, text[p.end():]
+    return None, text
+
+
+def splice_frontmatter(card: str, hub_readme: str) -> str:
+    """The card with the hub README's front matter in place of its own.
+
+    The hub's block is the measured one; the card's text is the written one.
+    A hub README without front matter is a dataset nobody has uploaded yet,
+    and a card spliced from it would carry no sizes — refused.
+    """
+    fm, _ = split_frontmatter(hub_readme)
+    if fm is None:
+        raise ValueError("the hub README has no YAML front matter — upload the "
+                         "dataset first; its sizes are measured there")
+    _, body = split_frontmatter(card)
+    return f"---\n{fm}\n---\n\n{body}"
+
+
+def hub_token() -> str:
+    return config.HF_TOKEN or os.environ.get("HUGGINGFACE_HUB_TOKEN", "")
+
+
+def hub_readme(repo_id: str, token: Optional[str] = None) -> Optional[str]:
+    """The README on the hub, or None when the repository has none (or is
+    not reachable with this token). Never prints the token."""
+    import requests
+
+    url = f"https://huggingface.co/datasets/{repo_id}/resolve/main/README.md"
+    headers = {"Authorization": f"Bearer {token or hub_token()}"} if (token or hub_token()) else {}
+    try:
+        r = requests.get(url, headers=headers, timeout=30)
+    except requests.RequestException:
+        return None
+    return r.text if r.status_code == 200 else None
+
+
+def hub_state(repo_id: str, token: Optional[str] = None) -> dict:
+    """What the hub holds for a dataset: rows, bytes, columns, private.
+
+    Read from the API's ``cardData.dataset_info`` — the block `pagexml-hf`
+    wrote — so the numbers are the hub's own. ``{}`` with an ``error`` when the
+    hub does not answer; never an exception, because this is the sentence
+    printed *after* an upload succeeded.
+    """
+    import requests
+
+    url = f"https://huggingface.co/api/datasets/{repo_id}"
+    tok = token or hub_token()
+    headers = {"Authorization": f"Bearer {tok}"} if tok else {}
+    try:
+        r = requests.get(url, headers=headers, timeout=30)
+        if r.status_code != 200:
+            return {"error": f"hub answered {r.status_code}"}
+        data = r.json()
+    except (requests.RequestException, ValueError) as exc:
+        return {"error": f"{type(exc).__name__}: {exc}"}
+    info = (data.get("cardData") or {}).get("dataset_info") or {}
+    if isinstance(info, list):
+        info = info[0] if info else {}
+    splits = info.get("splits") or []
+    return {
+        "repo_id": repo_id,
+        "private": bool(data.get("private")),
+        "rows": sum(int(s.get("num_examples") or 0) for s in splits) or None,
+        "bytes": int(info.get("dataset_size") or 0) or None,
+        "columns": [f.get("name") for f in (info.get("features") or [])] or None,
+        "last_modified": data.get("lastModified"),
+    }
+
+
+def format_hub_state(state: dict) -> str:
+    if not state or state.get("error"):
+        return f"hub       : not confirmed ({(state or {}).get('error', 'no answer')})"
+    size = state.get("bytes")
+    gb = f"{size / 1e9:.2f} GB" if size else "size unknown"
+    return (f"hub       : {state['repo_id']} — {state.get('rows') or '?'} row(s), "
+            f"{gb}, columns {', '.join(state.get('columns') or ['?'])}, "
+            f"{'private' if state.get('private') else 'PUBLIC'}")
+
+
+def upload_card_argv(repo_id: str, card: Path, hf_cli: Optional[str] = None) -> list[str]:
+    """The `hf` command line that uploads a card as the dataset's README.
+    No token in it: `hf` reads HF_TOKEN from the environment."""
+    return [hf_cli or config.HF_CLI, "upload", repo_id, str(card), "README.md",
+            "--repo-type", "dataset"]
+
+
+def upload_card(repo_id: str, card: Path, token: Optional[str] = None) -> str:
+    """Put ``card`` on the hub as README.md. Returns how it was done.
+
+    `huggingface_hub` when it is importable from this venv, the `hf` command
+    line otherwise (`HF_CLI`, on tei the pagexml-hf venv's). Either way the
+    token travels in the environment or an API call, never in argv.
+    """
+    import shutil
+    import subprocess
+
+    tok = token or hub_token()
+    try:
+        from huggingface_hub import HfApi
+    except ImportError:
+        HfApi = None  # noqa: N806
+    if HfApi is not None:
+        HfApi(token=tok or None).upload_file(
+            path_or_fileobj=str(card), path_in_repo="README.md",
+            repo_id=repo_id, repo_type="dataset",
+            commit_message=f"dataset card from {card.name}")
+        return "huggingface_hub"
+    cli = shutil.which(config.HF_CLI) or (config.HF_CLI if Path(config.HF_CLI).is_file() else None)
+    if not cli:
+        raise RuntimeError(
+            f"neither `huggingface_hub` is importable nor `{config.HF_CLI}` is "
+            f"found — set HF_CLI to the hf command (on tei "
+            f"/opt/pagexml-hf/bin/hf)")
+    env = dict(os.environ)
+    if tok:
+        env["HF_TOKEN"] = tok
+    result = subprocess.run(upload_card_argv(repo_id, card, cli), env=env)
+    if result.returncode != 0:
+        raise RuntimeError(f"{cli} exited {result.returncode}")
+    return cli
+
+
 def upload_argv(tree: Path, repo_id: str, *, private: bool = True,
                 mode: Optional[str] = None) -> list[str]:
     """The `pagexml-hf` command line for one upload.

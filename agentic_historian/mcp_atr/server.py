@@ -869,6 +869,29 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def upload_hf_card(card: str, repo_id: str | None = None,
+                       dry_run: bool = True) -> dict:
+        """Put a dataset card from `docs/` on the hub as README.md.
+
+        ``card`` is a card's **name** under `docs/` (``hf-dataset-card*.md``),
+        never a path. Before the upload the card's front matter is replaced
+        by the block the hub README carries — the one `pagexml-hf` wrote on
+        upload, with the measured rows, bytes and features — and the spliced
+        card is written back to `docs/`, so the card in the repository is the
+        card on the hub. A dataset without a README yet is refused: its sizes
+        are measured by the upload, not typed.
+
+        ``dry_run`` (the default) fetches the hub README, shows the splice,
+        writes and uploads nothing. The token comes from the configuration
+        and never appears in the command; `upload_hf` now also ends by saying
+        what the hub holds (rows, bytes, columns, private).
+        """
+        try:
+            return jobs.upload_card_job(card, repo_id=repo_id, dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def compare_readings(runs: list[str], min_chars: int | None = None,
                          worst: int = 10) -> dict:
         """Pairwise disagreement between two or more runs' readings of the same

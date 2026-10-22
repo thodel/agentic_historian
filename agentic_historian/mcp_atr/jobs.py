@@ -1348,6 +1348,37 @@ def upload_hf_job(tree: str, repo_id: Optional[str] = None,
             **start_and_peek("upload-hf", argv)}
 
 
+def upload_card_argv(card: str, *, repo_id: Optional[str] = None,
+                     dry_run: bool = True) -> list[str]:
+    """The exact argv for one ``upload-hf-card`` run. No token in it."""
+    argv = [_python(), "-m", "agentic_historian", "upload-hf-card", "--card", card]
+    if repo_id:
+        argv += ["--repo-id", repo_id]
+    if dry_run:
+        argv.append("--dry-run")
+    return argv
+
+
+def upload_card_job(card: str, repo_id: Optional[str] = None,
+                    dry_run: bool = True) -> dict:
+    """Upload a dataset card as a job (#691). The card is a **name** under
+    ``docs/`` (``hf-dataset-card*.md``), never a path; the repository id is
+    validated here before a job starts. Two network calls and an upload of a
+    few kilobytes — a job all the same, so the reply is a handle and the log,
+    and the token stays in the process environment."""
+    import hf_export as hf
+
+    try:
+        path = hf.resolve_card(card)
+    except (ValueError, FileNotFoundError) as exc:
+        raise JobError(str(exc)) from exc
+    if repo_id is not None and not hf._REPO_ID_RE.match(repo_id):
+        raise JobError(f"repo id {repo_id!r} is not owner/name")
+    argv = upload_card_argv(path.name, repo_id=repo_id, dry_run=dry_run)
+    return {"ok": True, "card": str(path), "repo_id": repo_id or hf.DEFAULT_REPO_ID,
+            **start_and_peek("upload-hf-card", argv)}
+
+
 def pull_argv(folder: Optional[str] = None, *, limit: Optional[int] = None,
               list_only: bool = False) -> list[str]:
     argv = [_python(), "-m", "agentic_historian", "pull-share"]
