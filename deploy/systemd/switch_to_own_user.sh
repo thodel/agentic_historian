@@ -131,7 +131,10 @@ else
   for d in "${NEEDS_TRAVERSE[@]}"; do
     say "  $(stat -c '%A %U' "$d") $d — $BOT_USER cannot pass through"
   done
-  if [ "$DRY" = 0 ] && ! command -v setfacl >/dev/null 2>&1; then
+  # Measured in both modes: a dry run that stays quiet about a missing tool and
+  # a real run that stops on it are two different scripts (tei had no `acl`
+  # package on 22.10.2026, and the dry run said nothing).
+  if ! command -v setfacl >/dev/null 2>&1; then
     stop 5 "setfacl is not installed (package acl); without it the only alternative is chmod o+x on those directories, which opens them to every user — your call, not this script's"
   fi
   for d in "${NEEDS_TRAVERSE[@]}"; do

@@ -57,6 +57,17 @@ def data_paths(cfg) -> list[Path]:
     ``KH_DIR`` is the one that surprises: ``hub.json`` lives under
     ``knowledge_hub/data``, **not** under ``DATA_DIR``, so a unit that lists only
     the latter leaves every knowledge-hub write failing.
+
+    ``ATR_PAGE_CACHE_ARCHIVE`` is deliberately **not** here. It is the cold tier
+    of the page cache, and the bot only *reads* it (``utils.images`` brings a
+    working copy back, the HF export indexes it); what writes it is
+    tei-vm-sanity's nightly ``archive.sh``, as ``dh``, from cron. Listing it
+    looked harmless and was not: on tei it is a CIFS mount with ``forceuid``,
+    so every file there belongs to ``dh`` whoever created it, ``chown -R`` to
+    the bot user fails, and ``switch_to_own_user.sh`` dies in step 4 under
+    ``set -e`` — after the user exists and before the drop-ins are installed.
+    ``ProtectSystem=strict`` leaves reading alone, so a read-only tier needs no
+    entry at all (measured 22.10.2026).
     """
     candidates = [
         getattr(cfg, "DATA_DIR", None),
@@ -68,9 +79,6 @@ def data_paths(cfg) -> list[Path]:
         getattr(cfg, "VLM_TEST_ROOT", None),
         getattr(cfg, "ATR_PAGE_CACHE", None),
     ]
-    archive = getattr(cfg, "ATR_PAGE_CACHE_ARCHIVE", None)
-    if archive:
-        candidates.append(Path(archive))
     return _dedupe([Path(p) for p in candidates if p])
 
 
