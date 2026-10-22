@@ -31,7 +31,17 @@ from ruemlang import textalign
 
 LLMFn = Callable[[str, str], str]      # (system, prompt) -> answer text
 
-LABELS = ("A", "B", "C")
+LABELS = ("A", "B", "C", "D")
+
+#: What each label is, for the arbiter. D is optional: a model trained on the
+#: very hand of the volume (``--extra-model``), absent in runs without one.
+DESCRIPTIONS = {
+    "A": "A = Zeilenmodell (sieht den Zeilenausschnitt)",
+    "B": "B = TrOCR (derselbe Ausschnitt)",
+    "C": "C = Seitenmodell (liest die ganze Seite, Zeile per Alignment zugeordnet)",
+    "D": ("D = Kraken-Modell, auf Seiten genau dieses Bandes und dieser Hand nachtrainiert "
+          "(kennt die Buchstabenformen und Kürzungen des Schreibers)"),
+}
 
 
 @dataclass
@@ -94,28 +104,42 @@ SYSTEM = (
     "Bern 1528). Du entscheidest zwischen automatischen Lesungen einer Handschriftenzeile. "
     "Du antwortest ausschließlich mit JSON.")
 
-PROMPT = """Für jede nummerierte Zeile liegen bis zu drei automatische Lesungen derselben Handschriftenzeile vor:
-A = Zeilenmodell (sieht den Zeilenausschnitt), B = TrOCR (derselbe Ausschnitt), C = Seitenmodell (liest die ganze Seite, Zeile per Alignment zugeordnet).
+PROMPT = """Für jede nummerierte Zeile liegen bis zu {n} automatische Lesungen derselben Handschriftenzeile vor:
+{described}.
 P = die entsprechende Stelle im Druck von 1528 (Froschauer, "Handlung oder Acta gehaltner Disputation zuo Bernn"). P ist ein anderer Textzeuge: eine redigierte Druckfassung, nicht diese Handschrift. P kann in Wortlaut, Orthographie und Umfang abweichen oder (score niedrig) falsch zugeordnet sein.
 
 Regeln:
-1. Wähle pro Zeile die Lesung, die die Handschrift am wahrscheinlichsten wiedergibt. Bevorzuge A und B bei Buchstabenformen (u/v, i/j/y, Kürzungen, Groß-/Kleinschreibung), weil sie die Zeile gesehen haben; C hilft bei Wortgrenzen und Wortwahl.
+1. Wähle pro Zeile die Lesung, die die Handschrift am wahrscheinlichsten wiedergibt. Bevorzuge die Zeilenleser ({line_readers}) bei Buchstabenformen (u/v, i/j/y, Kürzungen, Groß-/Kleinschreibung), weil sie die Zeile gesehen haben; C hilft bei Wortgrenzen und Wortwahl.
 2. P nur zum Entscheiden zwischen vorhandenen Varianten und zum Reparieren offensichtlich verstümmelter Wörter heranziehen. Niemals den Druckwortlaut übernehmen, wo alle Lesungen übereinstimmend etwas anderes bieten. Nicht normalisieren, nicht modernisieren, keine Interpunktion ergänzen.
 3. Eine Mischlesung (Wörter aus verschiedenen Kandidaten) ist erlaubt, wenn sie zeichenweise aus den Kandidaten stammt.
 4. Erfinde nichts. Fehlt für eine Zeile jede brauchbare Lesung, gib die vollständigste Kandidatenlesung zurück und confidence <= 0.3.
 
-Antworte als JSON-Array, ein Objekt pro Zeile, Felder: "i" (Zeilennummer), "text" (gewählte Lesung), "basis" ("A","B","C","mixed" oder "print"), "confidence" (0.0-1.0), "note" (kurz, deutsch, optional).
+Antworte als JSON-Array, ein Objekt pro Zeile, Felder: "i" (Zeilennummer), "text" (gewählte Lesung), "basis" ({bases}, "mixed" oder "print"), "confidence" (0.0-1.0), "note" (kurz, deutsch, optional).
 
 Zeilen:
 {lines}
 """
 
 
+def _labels(cases: list[LineCase]) -> list[str]:
+    """The labels that occur in these cases, in LABELS order."""
+    return [lb for lb in LABELS if any(lb in c.candidates for c in cases)]
+
+
+def render_prompt(cases: list[LineCase]) -> str:
+    labels = _labels(cases)
+    return PROMPT.format(
+        n=len(labels), described=", ".join(DESCRIPTIONS[lb] for lb in labels),
+        line_readers=", ".join(lb for lb in labels if lb != "C"),
+        bases=",".join(f'"{lb}"' for lb in labels), lines=_format_cases(cases))
+
+
 def _format_cases(cases: list[LineCase]) -> str:
     chunks = []
+    labels = _labels(cases)
     for c in cases:
         rows = [f"[{c.index}]"]
-        for label in LABELS:
+        for label in labels:
             t = c.candidates.get(label)
             rows.append(f"  {label}: {_collapse(t) if t else '—'}")
         if c.print_snippet:
@@ -174,7 +198,7 @@ def arbitrate(cases: list[LineCase], llm: LLMFn, *, primary: str = "A",
     out: dict[int, Decision] = {}
     for k in range(0, len(cases), batch):
         chunk = cases[k:k + batch]
-        prompt = PROMPT.format(lines=_format_cases(chunk))
+        prompt = render_prompt(chunk)
         try:
             answer = llm(SYSTEM, prompt)
         except Exception as exc:                       # noqa: BLE001 — degrade, do not abort the page
@@ -234,7 +258,8 @@ def decide_page(cases: list[LineCase], llm: Optional[LLMFn], *,
 
 def build_cases(line_texts: list[str], trocr_texts: list[Optional[str]],
                 page_text: str, reference: Optional[textalign.Reference],
-                page_hint: Optional[tuple[int, int]] = None) -> tuple[list[LineCase], dict]:
+                page_hint: Optional[tuple[int, int]] = None,
+                extra_texts: Optional[list[Optional[str]]] = None) -> tuple[list[LineCase], dict]:
     """Cases for one page from the three readings and the print.
 
     ``line_texts`` are A in geometry order; ``trocr_texts`` B, already paired to
@@ -251,6 +276,15 @@ def build_cases(line_texts: list[str], trocr_texts: list[Optional[str]],
     # Aligning C against empty strings pairs nothing (the first run on tei,
     # 15.10. 14:28: 117 lines, every one of them "single").
     known = [(line_texts[i] or trocr_texts[i] or "") for i in range(n)]
+    page_d: Optional[list[Optional[str]]] = None
+    if extra_texts is not None:
+        if len(extra_texts) == n:
+            page_d = list(extra_texts)
+        else:
+            pd = textalign.align_line_lists(known, [t or "" for t in extra_texts]) if any(known) \
+                else list(range(min(n, len(extra_texts)))) + [None] * max(0, n - len(extra_texts))
+            page_d = [extra_texts[j] if j is not None else None for j in pd]
+        known = [known[i] or (page_d[i] or "") for i in range(n)]
     c_lines = textalign.split_page_text(page_text)
     pairing = textalign.align_line_lists(known, c_lines) if c_lines and any(known) else [None] * n
     page_c = [c_lines[j] if j is not None else None for j in pairing]
@@ -262,6 +296,8 @@ def build_cases(line_texts: list[str], trocr_texts: list[Optional[str]],
     cases: list[LineCase] = []
     for i in range(n):
         cands = {"A": line_texts[i] or "", "B": trocr_texts[i] or "", "C": page_c[i] or ""}
+        if page_d is not None:
+            cands["D"] = page_d[i] or ""
         snippet, score = (None, 0.0)
         if passage is not None:
             probe_line = known[i] or page_c[i] or ""

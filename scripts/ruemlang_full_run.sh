@@ -9,6 +9,9 @@
 # Knobs (environment): PAGES="61-63,100-120" limits the run; NO_UPLOAD=1 stops
 # before Transkribus; ADJ_ARGS="--no-llm" is passed to adjudicate; GIVE_UP=5
 # is how many consecutive gateway failures retire a model for this run.
+# Another volume: DOC=13922499 (A V 1443, Hertwig) with RUN=hertwig keeps its
+# files apart; EXTRA_MODEL=kraken-bern-hertwig-v1 adds a fourth reader (D) and
+# PRIMARY=D makes it the one that wins where nothing else decides.
 #
 # Every step skips what is already on disk, so stop/start at any point loses
 # at most the page in flight. Expect ~95 s per page for recognition (three
@@ -19,13 +22,21 @@ set -euo pipefail
 REPO="${AH_REPO:-/home/dh/agentic_historian}"
 PY="$REPO/.venv/bin/python3"
 PIPE="$REPO/agentic_historian/ruemlang/pipeline.py"
-ROOT="${RUEMLANG_ROOT:-$REPO/agentic_historian/data/vlm_test/ruemlang}"
+RUN="${RUN:-ruemlang}"
+ROOT="${RUEMLANG_ROOT:-$REPO/agentic_historian/data/vlm_test/$RUN}"
 LOGDIR="$ROOT/logs"
 PIDFILE="$LOGDIR/run.pid"
 mkdir -p "$LOGDIR"
 
 ts() { date '+%Y-%m-%d %H:%M:%S'; }
-pipe() { "$PY" "$PIPE" "$@"; }
+common() {
+  printf -- '--out %s' "$ROOT"
+  [ -n "${EXTRA_MODEL:-}" ] && printf -- ' --extra-model %s' "$EXTRA_MODEL"
+  [ -n "${PRIMARY:-}" ] && printf -- ' --primary %s' "$PRIMARY"
+  true
+}
+# shellcheck disable=SC2046
+pipe() { local step="$1"; shift; "$PY" "$PIPE" "$step" $(common) "$@"; }
 page_args() { [ -n "${PAGES:-}" ] && printf -- '--pages %s' "$PAGES" || true; }
 
 running() { [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; }
@@ -33,8 +44,9 @@ running() { [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; }
 count() { find "$ROOT/pages" -maxdepth 2 -name "$1" 2>/dev/null | wc -l; }
 
 cmd_run() {
-  echo "$(ts) start: PAGES=${PAGES:-all} NO_UPLOAD=${NO_UPLOAD:-0} ADJ_ARGS=${ADJ_ARGS:-}"
-  echo "$(ts) step plan";       pipe plan
+  echo "$(ts) start: RUN=$RUN DOC=${DOC:-default} PAGES=${PAGES:-all} EXTRA_MODEL=${EXTRA_MODEL:-} PRIMARY=${PRIMARY:-A} NO_UPLOAD=${NO_UPLOAD:-0} ADJ_ARGS=${ADJ_ARGS:-}"
+  # shellcheck disable=SC2046
+  echo "$(ts) step plan";       pipe plan $( [ -n "${DOC:-}" ] && printf -- '--doc %s' "$DOC" )
   # shellcheck disable=SC2046
   echo "$(ts) step recognize";  pipe recognize $(page_args) --give-up "${GIVE_UP:-5}"
   # shellcheck disable=SC2046,SC2086
@@ -55,6 +67,7 @@ case "${1:-}" in
     if running; then echo "already running, pid $(cat "$PIDFILE") — see: $0 status"; exit 1; fi
     LOG="$LOGDIR/run-$(date +%Y%m%dT%H%M%S).log"
     ln -sfn "$LOG" "$LOGDIR/current.log"
+    RUN="$RUN" DOC="${DOC:-}" EXTRA_MODEL="${EXTRA_MODEL:-}" PRIMARY="${PRIMARY:-}" \
     PAGES="${PAGES:-}" NO_UPLOAD="${NO_UPLOAD:-0}" ADJ_ARGS="${ADJ_ARGS:-}" GIVE_UP="${GIVE_UP:-5}" \
       nohup bash "$0" run > "$LOG" 2>&1 &
     echo $! > "$PIDFILE"
@@ -64,7 +77,7 @@ case "${1:-}" in
   status)
     if running; then echo "running, pid $(cat "$PIDFILE")"; else echo "not running"; fi
     [ -L "$LOGDIR/current.log" ] && { echo "last step: $(grep -E 'step|done|skipped' "$LOGDIR/current.log" | tail -1)"; }
-    echo "on disk: $(count 'rec_qwen3vl*.json') A, $(count 'rec_trocr*.json') B, $(count 'rec_qwen3.5*.json') C, $(count adjudicated.json) adjudicated, $(count page.xml) xml, $(count uploaded.json) uploaded, $(count 'rec_*.error.json') errors"
+    echo "on disk ($ROOT): $(count 'rec_qwen3vl*[0-9].json') A, $(count 'rec_trocr*[0-9i].json') B, $(count 'rec_qwen3.5*[0-9].json') C, $(count 'rec_kraken*[0-9].json') D, $(count adjudicated.json) adjudicated, $(count page.xml) xml, $(count uploaded.json) uploaded, $(count 'rec_*.error.json') errors"
     ;;
   log)   tail -n 30 -f "$LOGDIR/current.log" ;;
   stop)
@@ -73,5 +86,5 @@ case "${1:-}" in
       echo "stopped pid $pid; finished pages are kept, \`$0 start\` resumes"
     else echo "not running"; fi
     ;;
-  *) sed -n '2,16p' "$0"; exit 2 ;;
+  *) sed -n '2,19p' "$0"; exit 2 ;;
 esac

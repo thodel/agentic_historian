@@ -413,3 +413,66 @@ def test_cer_and_eval_guard(tmp_path):
         pipeline.cmd_upload(args)
     args = pipeline.build_parser().parse_args(["eval", "--pages", "12-14", "--limit", "2"])
     assert args.command == "eval" and args.limit == 2
+
+
+# ── fourth reader, ground-truth export ───────────────────────────────────────
+
+def test_build_cases_with_a_fourth_reader_and_prompt_naming_it():
+    a = ["die kilch christi machet nit gsatz", "vnd bott on gottes wort"]
+    b = ["die kilch christi machet nit gsatz", "vnd bott on gotes wort"]
+    d = ["die kilch christi machet nit gsatz", "vnd bott on gottes wort"]
+    cases, _ = adjudicate.build_cases(a, b, "", None, extra_texts=d)
+    assert [sorted(c.available()) for c in cases] == [["A", "B", "D"], ["A", "B", "D"]]
+    assert adjudicate.deterministic(cases[0]).basis == "consensus"
+    prompt = adjudicate.render_prompt(cases)
+    assert "D = Kraken-Modell" in prompt and '"D"' in prompt and "bis zu 4" in prompt
+    # without D the prompt does not mention it
+    cases3, _ = adjudicate.build_cases(a, b, "", None)
+    assert "D" not in cases3[0].candidates
+    p3 = adjudicate.render_prompt(cases3)
+    assert "Kraken" not in p3 and "bis zu 3" in p3
+    # a D with a different line count is aligned by content
+    cases_m, _ = adjudicate.build_cases(a, b, "", None, extra_texts=[d[1]])
+    assert cases_m[1].candidates["D"] == d[1] and cases_m[0].candidates["D"] == ""
+    out = adjudicate.decide_page(cases, None, primary="D")
+    assert out[1].basis == "no_llm:D" and out[1].text == d[1]
+
+
+def test_cli_extra_model_primary_and_anchor_files_exist():
+    from ruemlang import pipeline
+    a = pipeline.build_parser().parse_args(["adjudicate", "--extra-model", "kraken-x", "--primary", "D"])
+    assert a.extra_model == "kraken-x" and a.primary == "D"
+    b = pipeline.build_parser().parse_args(["adjudicate"])
+    assert b.extra_model is None and b.primary == "A"
+    for path in pipeline.ANCHORS_BY_DOC.values():
+        assert path.exists(), path
+
+
+def test_gt_export_drops_empty_lines_and_repoints_the_image():
+    from ruemlang import gt_export
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+<PcGts xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"><Page imageFilename="x.jpg" imageWidth="100" imageHeight="200">
+<TextRegion id="r"><Coords points="0,0 1,1"/>
+<TextLine id="a"><Coords points="0,0 1,1"/><TextEquiv><Unicode>vnd bott</Unicode></TextEquiv></TextLine>
+<TextLine id="b"><Coords points="0,0 1,1"/><TextEquiv><Unicode></Unicode></TextEquiv></TextLine>
+<TextLine id="c"><Coords points="0,0 1,1"/></TextLine>
+</TextRegion></Page></PcGts>"""
+    out, stats = gt_export.clean_pagexml(xml, "p0003.jpg")
+    assert stats == {"lines": 3, "kept": 1, "chars": 8, "width": 100, "height": 200}
+    assert 'imageFilename="p0003.jpg"' in out and 'id="b"' not in out and 'id="c"' not in out
+    assert 'xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"' in out
+    assert gt_export._pages("3-5,8") == {3, 4, 5, 8}
+
+
+def test_train_request_is_a_finetune_the_trainer_accepts():
+    from ruemlang import train_kraken
+    import argparse
+    args = argparse.Namespace(model_id="kraken-bern-hertwig-v1", hf_repo="dh-unibe/x",
+                              train_project="P_train", base_model="kraken-cursive_inzigkofen",
+                              batch_size=16, epochs=60, lrate=1e-4)
+    body = train_kraken.request_body(args)
+    assert body["engine"] == "kraken" and body["base_model"] == "kraken-cursive_inzigkofen"
+    assert body["datasets"][0]["train_projects"] == ["P_train"] and "eval_projects" not in body["datasets"][0]
+    assert body["params"]["resize"] == "union" and body["params"]["schedule"] == "cosine"
+    # ~2000 lines * 0.9 / 16 * 60 epochs is far above the trainer's fine-tune floor of 500 steps
+    assert 2000 * 0.9 / body["params"]["batch_size"] * body["params"]["epochs"] > 500

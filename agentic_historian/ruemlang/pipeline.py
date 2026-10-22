@@ -57,6 +57,12 @@ DEFAULT_DOC = 13922129
 DOCS_DIR = PKG.parent / "docs" / "ruemlang"
 DEFAULT_REFERENCE = DOCS_DIR / "druck1528_transkription.txt"
 DEFAULT_ANCHORS = DOCS_DIR / "print_anchors.json"
+#: Print anchors per Transkribus document, from thodel/reformation
+#: (data/disputation/<witness>/print_anchors.json).
+ANCHORS_BY_DOC = {
+    13922129: DOCS_DIR / "print_anchors.json",            # A V 1446, Rümlang
+    13922499: DOCS_DIR / "print_anchors_a_v_1443.json",   # A V 1443, Hertwig
+}
 DEFAULT_LINE_MODEL = "qwen3vl-medieval-german-v3"
 DEFAULT_TROCR_MODEL = "trocr-kurrent-xvi-xvii"
 DEFAULT_PAGE_MODEL = "qwen3.5-4b-german-kurrent-xvi-xix-page-v1"
@@ -181,7 +187,7 @@ def cmd_recognize(args) -> int:
     collection, pages = _planned(root, args)
     ts = _login()
     from agent_a.kraken_client import KrakenHTTPClient
-    models = [args.line_model, args.trocr_model, args.page_model]
+    models = [args.line_model, args.trocr_model, args.page_model, args.extra_model]
     models = [m for m in models if m]
     # Images first, all of them, so a gateway hiccup does not interleave with Transkribus.
     for p in pages:
@@ -254,11 +260,20 @@ def _reference(args) -> Optional[textalign.Reference]:
     return textalign.Reference(text)
 
 
+def _planned_docs(args) -> list[int]:
+    plan = _load(out_root(args) / "plan.json") or {}
+    return sorted({int(p["docid"]) for p in plan.get("pages", []) if p.get("docid")})
+
+
 def _anchors(args) -> dict[int, tuple[int, int]]:
     """Manuscript page -> (first, last) print page, from the reformation
     project's ``print_anchors.json`` (alignment where it had one, interpolation
     between; both are only a prior here)."""
-    path = Path(args.anchors) if getattr(args, "anchors", None) else DEFAULT_ANCHORS
+    path = Path(args.anchors) if getattr(args, "anchors", None) else None
+    if path is None:
+        docs = [int(x) for x in (getattr(args, "doc", None) or [])] or _planned_docs(args)
+        path = next((ANCHORS_BY_DOC[d] for d in docs if d in ANCHORS_BY_DOC), DEFAULT_ANCHORS)
+    logger.info(f"[ruemlang] print anchors: {path.name}")
     if not path.exists():
         return {}
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -278,7 +293,9 @@ def _geometry_source(d: Path, args) -> tuple[Optional[str], Optional[dict]]:
     have bboxes and baselines too. Without the line model the page is still
     placeable — with fewer candidates, which the decisions then say.
     """
-    for label, model in (("A", args.line_model), ("B", args.trocr_model)):
+    for label, model in (("A", args.line_model), ("B", args.trocr_model), ("D", args.extra_model)):
+        if not model:
+            continue
         rec = _load(d / f"rec_{model}.json")
         if rec and rec.get("lines"):
             return label, rec
@@ -300,27 +317,33 @@ def cmd_adjudicate(args) -> int:
             continue
         geom_label, geom = _geometry_source(d, args)
         if geom is None:
-            logger.warning(f"[ruemlang] {p.key}: no line-level result (neither {args.line_model} "
-                           f"nor {args.trocr_model}), skipped")
+            logger.warning(f"[ruemlang] {p.key}: no line-level result from any line reader, skipped")
             continue
         a = _load(d / f"rec_{args.line_model}.json") or {}
         b = _load(d / f"rec_{args.trocr_model}.json") or {}
         c = _load(d / f"rec_{args.page_model}.json") or {}
+        x = (_load(d / f"rec_{args.extra_model}.json") or {}) if args.extra_model else {}
         n = len(geom["lines"])
-        a_lines = [(ln.get("text") or "") for ln in (a.get("lines") or [])] or [""] * n
+        a_lines = [(ln.get("text") or "") for ln in (a.get("lines") or [])] or \
+            ([(ln.get("text") or "") for ln in geom["lines"]] if geom_label == "A" else [""] * n)
         b_lines = [(ln.get("text") or "") for ln in (b.get("lines") or [])]
+        d_lines = [(ln.get("text") or "") for ln in (x.get("lines") or [])] if args.extra_model else None
         cases, meta = adjudicate.build_cases(a_lines, b_lines, c.get("text") or "", ref,
-                                             page_hint=anchors.get(p.page_nr))
+                                             page_hint=anchors.get(p.page_nr),
+                                             extra_texts=d_lines)
         meta["geometry_from"] = geom_label
-        meta["models_present"] = [lbl for lbl, r in (("A", a), ("B", b), ("C", c)) if r]
-        primary = "A" if any(a_lines) else "B"
+        meta["models_present"] = [lbl for lbl, r in (("A", a), ("B", b), ("C", c), ("D", x)) if r]
+        primary = args.primary if args.primary in meta["models_present"] else (
+            "A" if any(a_lines) else "B")
         decisions = adjudicate.decide_page(cases, llm, primary=primary, batch=args.batch)
         summary = {}
         for dec in decisions:
             k = dec.basis.split(":")[0]
             summary[k] = summary.get(k, 0) + 1
-        _save(out, {"page": p.key, "models": {"A": args.line_model, "B": args.trocr_model,
-                                              "C": args.page_model},
+        models = {"A": args.line_model, "B": args.trocr_model, "C": args.page_model}
+        if args.extra_model:
+            models["D"] = args.extra_model
+        _save(out, {"page": p.key, "models": models, "primary": primary,
                     "arbiter": None if llm is None else getattr(config, "GPUSTACK_MODEL_TEXT", "?"),
                     "meta": meta, "decisions": [dec.to_dict() for dec in decisions],
                     "summary": summary})
@@ -407,8 +430,9 @@ def cmd_upload(args) -> int:
     for p in todo:
         d = page_dir(root, p)
         xml = (d / "page.xml").read_text(encoding="utf-8")
-        note = (f"agentic_historian ruemlang: {args.line_model} + {args.trocr_model} + "
-                f"{args.page_model}, collated with the 1528 print, arbitrated by "
+        readers = " + ".join(m for m in (args.line_model, args.trocr_model, args.page_model,
+                                          args.extra_model) if m)
+        note = (f"agentic_historian ruemlang: {readers}, collated with the 1528 print, arbitrated by "
                 f"{getattr(config, 'GPUSTACK_MODEL_TEXT', '?')}")
         try:
             answer = tp.post_pagexml(ts, p.colid, p.docid, p.page_nr, xml, status=args.status,
@@ -501,6 +525,9 @@ def cmd_eval(args) -> int:
             "A": "\n".join((ln.get("text") or "") for ln in (_load(d / f"rec_{args.line_model}.json") or {}).get("lines", [])),
             "B": "\n".join((ln.get("text") or "") for ln in (_load(d / f"rec_{args.trocr_model}.json") or {}).get("lines", [])),
             "C": (_load(d / f"rec_{args.page_model}.json") or {}).get("text", ""),
+            **({"D": "\n".join((ln.get("text") or "") for ln in
+                               (_load(d / f"rec_{args.extra_model}.json") or {}).get("lines", []))}
+               if args.extra_model else {}),
             "fused": "\n".join(x["text"] for x in adj["decisions"]),
         }
         row = {"page": p.page_nr, "gt_chars": len(gt_text)}
@@ -512,10 +539,12 @@ def cmd_eval(args) -> int:
         row["summary"] = adj.get("summary")
         rows.append(row)
     _save(root / "eval.json", rows)
-    print(f"\n{'page':>5} {'gt':>5} {'A':>6} {'B':>6} {'C':>6} {'fused':>6}  decisions")
+    cols = [k for k in ("A", "B", "C", "D", "fused") if any(k in r for r in rows)]
+    print(f"\n{'page':>5} {'gt':>5} " + " ".join(f"{k:>6}" for k in cols) + "  decisions")
     for r in rows:
         f = lambda v: "   —  " if v is None else f"{v:6.3f}"
-        print(f"{r['page']:>5} {r['gt_chars']:>5} {f(r['A'])} {f(r['B'])} {f(r['C'])} {f(r['fused'])}  {r['summary']}")
+        print(f"{r['page']:>5} {r['gt_chars']:>5} " + " ".join(f(r.get(k)) for k in cols)
+              + f"  {r['summary']}")
     print("mean " + " ".join(f"{k}={sum(v)/len(v):.3f}" for k, v in totals.items() if v))
     print(f"table: {root / 'eval.json'} — CER = Levenshtein / len(GT) on whitespace-collapsed page text; "
           "lower is better; the line order is the segmenter's on both sides")
@@ -554,6 +583,10 @@ def build_parser() -> argparse.ArgumentParser:
         sp.add_argument("--line-model", **(d or {"default": DEFAULT_LINE_MODEL}))
         sp.add_argument("--trocr-model", **(d or {"default": DEFAULT_TROCR_MODEL}))
         sp.add_argument("--page-model", **(d or {"default": DEFAULT_PAGE_MODEL}))
+        sp.add_argument("--extra-model", help="a fourth, line-level reader (label D), e.g. a kraken "
+                        "model trained on this volume", **(d or {"default": None}))
+        sp.add_argument("--primary", help="which reader wins where there is no arbiter or its answer "
+                        "is refused: A, B or D (default A, else B)", **(d or {"default": "A"}))
         return sp
 
     shared = _shared(for_sub=True)
