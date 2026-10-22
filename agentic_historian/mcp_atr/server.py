@@ -367,11 +367,18 @@ def build_server(provider=None, auth_settings=None):
         """Read every page under ``source`` with every model. Returns a job id.
 
         ``source`` is either a directory — inside the mirror, the comparison
-        root or the read-only share mount — or ``dav:<folder>``, which reads that
-        folder of the Nextcloud share directly, with no mirror and no mount.
-        Either way a source that is not already on local disk is read through a
-        working-copy cache, so each page crosses the network once rather than
-        once per model. ``run``
+        root, the read-only share mount, the page cache or its cold tier on the
+        research share — or ``dav:<folder>``, which reads that folder of the
+        Nextcloud share directly, with no mirror and no mount. Either way a
+        source that is not already on local disk is read through a working-copy
+        cache, so each page crosses the network once rather than once per
+        model. The cold tier (`ATR_PAGE_CACHE_ARCHIVE`) is the source that
+        needs **no walk of the share**: it holds a working copy of every page
+        some run has read, under the share's own relative path and so under the
+        same key, and `keys_from` over it resolves in seconds where the share
+        walk takes twenty minutes — and on 2026-10-22 died at a folder that
+        answered 404. It holds only what was read once; `missing_out` says what
+        it lacks. ``run``
         names the output directory under VLM_TEST_ROOT and is the handle for
         resuming. Re-running the same run skips pages already on disk, so an
         interrupted run is resumed by starting it again — there is no separate

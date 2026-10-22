@@ -1482,8 +1482,9 @@ schon zusammenpassen:
    Verzeichnis-Lauf darüber **dieselben Schlüssel**, und der 300er-Lauf hat 125
    seiner Seiten genau aus diesen Arbeitskopien gelesen. Eine `.jpg`-Quelle wird
    beim Cachen byte-kopiert, nie neu kodiert (`CONVERTIBLE_SUFFIXES` kennt kein
-   JPEG) — gleiche Pixel. Nur `_roots()` der MCP kennt das Archiv nicht, darum
-   per CLI im Produktions-Checkout:
+   JPEG) — gleiche Pixel. Am 22. Oktober kannte `_roots()` der MCP das Archiv
+   noch nicht (seit #686 tut es das: `start_batch(source=<Archivpfad>, …)`),
+   darum damals per CLI im Produktions-Checkout:
 
    ```bash
    cd /home/dh/agentic_historian

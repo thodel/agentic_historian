@@ -175,6 +175,19 @@ def _roots() -> list[Path]:
     one way and partly another. It is also, like ``VLM_TEST_ROOT``, a directory
     this stack wrote itself, so admitting it widens nothing: a caller could
     already read every page of it through the runs it produced.
+
+    **And the cache's cold tier** (#686), for every one of those reasons and one
+    more. A daily job moves working copies older than two days from the cache
+    to the research share, paths preserved (#487), so on any given day the
+    cache holds the last two days and the cold tier holds the corpus — on
+    2026-10-22, 0 pages against 6783. That day a dry run over ``dav:`` began
+    the full walk of the share (listing cache expired) and died twelve minutes
+    in on a folder that answered 404, while every page it was going to read sat
+    in the cold tier under the same relative path, hence the same key. The run
+    went ahead from the CLI, which has no containment check; from a session it
+    was refused by this function. A directory this stack wrote, keyed like the
+    share, readable through the runs already: the same case as the cache,
+    which is why it is the same list.
     """
     roots = [Path(config.NEXTCLOUD_STAGING_DIR).resolve(),
              Path(config.VLM_TEST_ROOT).resolve()]
@@ -182,6 +195,8 @@ def _roots() -> list[Path]:
         roots.append(Path(config.ATR_MOUNT_DIR).resolve())
     if config.ATR_PAGE_CACHE:
         roots.append(Path(config.ATR_PAGE_CACHE).resolve())
+    if config.ATR_PAGE_CACHE_ARCHIVE:
+        roots.append(Path(config.ATR_PAGE_CACHE_ARCHIVE).resolve())
     return roots
 
 
@@ -202,6 +217,16 @@ def cache_dir_for(source) -> Optional[Path]:
     copies *into* — each pass re-encoding a JPEG onto the file it just read, one
     generation of quality per model. A page that is already a local working copy
     needs no working copy.
+
+    **The cold tier does get one** (#686), and it is not the re-encoding case:
+    its pages are JPEG working copies, and a JPEG source is byte-copied into the
+    cache, never converted (`CONVERTIBLE_SUFFIXES` has no JPEG). What the copy
+    buys is the same thing it buys for the mount — the cold tier is on the
+    research share, 1.5 MB a page over CIFS, and a batch opens every page once
+    per model. The copies land under the cache's root tag for the archive
+    (#663), a day or two later the eviction job carries them back to the share
+    under that tag, and that duplication — a few MB per page read this way —
+    is the known cost.
     """
     cache = Path(config.ATR_PAGE_CACHE).resolve() if config.ATR_PAGE_CACHE else None
     if cache is not None and not isinstance(source, str):
@@ -214,6 +239,10 @@ def cache_dir_for(source) -> Optional[Path]:
     if config.ATR_MOUNT_DIR:
         mount = Path(config.ATR_MOUNT_DIR).resolve()
         if source == mount or source.is_relative_to(mount):
+            return Path(config.page_cache_dir())
+    if config.ATR_PAGE_CACHE_ARCHIVE:
+        archive = Path(config.ATR_PAGE_CACHE_ARCHIVE).resolve()
+        if source == archive or source.is_relative_to(archive):
             return Path(config.page_cache_dir())
     return None
 
