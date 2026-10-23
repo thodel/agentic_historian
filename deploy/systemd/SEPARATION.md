@@ -70,8 +70,17 @@ sudo deploy/systemd/switch_to_own_user.sh
 # 4. Die Definition of Done messen: den Pfad der OpenClaw-Credentials nennen.
 #    Auf tei: /home/dh/.openclaw/openclaw.json (0600 dh) hält die Konfiguration
 #    samt Tokens, /home/dh/.openclaw/credentials/ (0700 dh) die Pairing-Dateien.
-sudo deploy/systemd/check_separation.py --openclaw-secrets /home/dh/.openclaw/openclaw.json
+#    Durch das venv-Python, und mit --secrets: ohne den Schalter misst der Checker
+#    die dotenv-Dateien des Checkouts (config.ENV_SOURCE), nicht die Datei, die
+#    der Bot jetzt liest.
+sudo agentic_historian/.venv/bin/python deploy/systemd/check_separation.py \
+  --secrets /etc/agentic_historian.env --openclaw-secrets /home/dh/.openclaw/openclaw.json
 ```
+
+**Durchgeführt am 23.10.2026** (Schritte 0–7 von Tobias, 17:46 CEST Neustart):
+9 erfüllt, 0 nicht erfüllt, 1 nicht gemessen (ProtectHome). `User=agentic_historian`,
+`ProtectSystem=strict`, die zwei Datenpfade, alle drei dotenv-Dateien 0600 dh, die
+OpenClaw-Credentials für den Bot-Benutzer unerreichbar. Offen: die Rotation.
 
 Was das Skript tut, in dieser Reihenfolge, und wo es stehen bleibt:
 

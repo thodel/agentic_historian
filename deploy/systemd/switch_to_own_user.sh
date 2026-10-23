@@ -191,7 +191,11 @@ else
   say "  $UNIT is NOT active — 'journalctl -u $UNIT -n 50' says why; a 'permission denied'" >&2
   say "  names a path the new user cannot read or write." >&2
 fi
-"$REPO/deploy/systemd/check_separation.py" --secrets "$ENV_FILE" || true
+# Through the interpreter, not the file mode: the checker shipped 0644 and this
+# line failed with "permission denied" into `|| true`, so the run of 23.10.2026
+# ended without its measurement. The `|| true` stays — a failing row is exit 1
+# and is the report, not a reason to abort.
+"$VENV_PY" "$REPO/deploy/systemd/check_separation.py" --secrets "$ENV_FILE" || true
 say ""
 say "Name the OpenClaw credentials to answer the Definition of Done:"
 say "  deploy/systemd/check_separation.py --openclaw-secrets <path>"
