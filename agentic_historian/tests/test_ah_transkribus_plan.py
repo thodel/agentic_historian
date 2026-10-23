@@ -199,13 +199,21 @@ def test_a_failed_login_reports_the_status_not_a_traceback(monkeypatch):
 
 # ── the seam ─────────────────────────────────────────────────────────────────
 
-def test_uploading_refuses_rather_than_guessing_the_endpoint():
-    """The API reference covers every part of Transkribus except putting an image
-    into it. A remembered endpoint shape would be found out 1700 documents into
-    somebody else's collection."""
-    with pytest.raises(NotImplementedError) as err:
-        tk.create_upload("2536466", tk.Letter(title="t", folder=Path(".")), "SID")
-    assert "not confirmed" in str(err.value)
+def test_an_upload_the_server_refuses_stops_with_its_words_not_a_guess():
+    """Until 2026-10-23 this refused to upload at all, because the endpoint was
+    remembered rather than read. It is code now, confirmed one letter at a time
+    (`test_ah_transkribus_letters.py`), and a server that says no — here a
+    Tomcat 401 — is reported in its own words, never retried into somebody
+    else's collection."""
+    class _No:
+        def post(self, url, params=None, json=None, headers=None, timeout=None):
+            class R:
+                status_code, text = 401, "<html>HTTP Status 401 – Unauthorized</html>"
+            return R()
+
+    with pytest.raises(tk.TranskribusError) as err:
+        tk.create_upload("2536466", tk.Letter(title="t", folder=Path(".")), "SID", session=_No())
+    assert "401" in str(err.value) and "cannot begin upload" in str(err.value)
 
 
 # ── the first dry run inventoried the checkout ───────────────────────────────

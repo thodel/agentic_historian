@@ -986,19 +986,64 @@ def upload_transkribus(args: argparse.Namespace) -> int:
             print("  → the collection lives on the newer platform; the upload "
                   "needs its API, not this one.")
             return 1
-        plan = tk.plan_upload(cache, colid, sid, session=session, limit=args.limit)
+        unassigned = None
+        if args.by_letter:
+            import register as reg
+
+            folder = args.register or config.LASSBERG_REGISTER
+            if not folder:
+                print("Error: --by-letter needs the edition's register — pass "
+                      "--register or set LASSBERG_REGISTER", file=sys.stderr)
+                return 2
+            registry = reg.read_register(Path(folder))
+            source = Path(args.source).expanduser() if args.source else cache
+            plan, unassigned = tk.plan_letters(source, colid, registry, sid,
+                                               session=session, limit=args.limit,
+                                               only=args.letter)
+            print(f"register: {len(registry.letters)} letter(s) with a sender, "
+                  f"{registry.source}@{registry.revision[:12] or '?'}")
+        else:
+            plan = tk.plan_upload(cache, colid, sid, session=session, limit=args.limit)
         print()
         print(tk.format_plan(plan))
-    except tk.TranskribusError as exc:
+        if unassigned is not None:
+            print(tk.format_unassigned(unassigned))
+    except (tk.TranskribusError, NotADirectoryError, ValueError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
 
     if args.dry_run:
         print("\n(dry run — nothing uploaded)")
         return 0
-    print("Error: uploading is not wired yet — the endpoint is unconfirmed. "
-          "Re-run with --dry-run.", file=sys.stderr)
-    return 2
+    if not args.by_letter:
+        print("Error: uploading folder-wise is not offered — the edition's unit is "
+              "the letter; use --by-letter", file=sys.stderr)
+        return 2
+    if not args.letter and not args.all:
+        print("Error: the first real upload is ONE letter, checked in the interface "
+              "before the rest: pass --letter lassberg-letter-NNNN, then --all",
+              file=sys.stderr)
+        return 2
+    if not plan.letters:
+        print("nothing to upload — every planned letter is already in the collection")
+        return 0
+    done = 0
+    for letter in plan.letters:
+        try:
+            result = tk.upload_letter(colid, letter, sid, session=session,
+                                      progress=lambda l, i, n: print(f"  {l.title}: page {i}/{n}", end="\r"))
+        except tk.TranskribusError as exc:
+            print(f"\nError: {exc}", file=sys.stderr)
+            print(f"stopped after {done} letter(s); the collection may hold a partial "
+                  f"upload of {letter.title!r} — check it there before re-running",
+                  file=sys.stderr)
+            return 1
+        done += 1
+        print(f"  {letter.title}: {result['pages']} page(s) sent, upload {result['upload_id']}"
+              + (f", job {result['job_id']}" if result.get("job_id") else "") + "        ")
+    print(f"\nuploaded {done} letter(s) into collection {colid}. The server ingests "
+          f"them as jobs; look at the collection in the interface before the next batch.")
+    return 0
 
 
 def compare_runs_cmd(args: argparse.Namespace) -> int:
@@ -1647,6 +1692,20 @@ def build_parser() -> argparse.ArgumentParser:
                       help="Page cache to read (default: ATR_PAGE_CACHE)")
     p_tk.add_argument("--limit", type=int, default=None,
                       help="Plan only the first N letters")
+    p_tk.add_argument("--by-letter", action="store_true",
+                      help="One document per lassberg-letter-NNNN, named by the "
+                           "edition's register; pages whose path names no letter "
+                           "or a letter the register lacks are left out")
+    p_tk.add_argument("--register", default=None,
+                      help="The edition's data/letters (default LASSBERG_REGISTER)")
+    p_tk.add_argument("--source", default=None,
+                      help="Where the page images are (default --cache-dir); the "
+                           "cold tier of the page cache holds the whole corpus")
+    p_tk.add_argument("--letter", default=None,
+                      help="Only this letter id — the first real upload is one "
+                           "letter, checked in the interface")
+    p_tk.add_argument("--all", action="store_true",
+                      help="Upload every planned letter (after --letter proved the path)")
     p_tk.add_argument("--dry-run", action="store_true",
                       help="Log in, report whether the collection is visible, "
                            "print the plan, upload nothing")
