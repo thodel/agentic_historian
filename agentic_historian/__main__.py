@@ -17,6 +17,7 @@ All agent logs go to stdout (loguru default).
 """
 
 import argparse
+import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -541,8 +542,19 @@ def score_gt(args: argparse.Namespace) -> int:
         out = Path(args.out).expanduser()
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(report, encoding="utf-8")
+        # And the same report as data, beside it (#689): the Markdown is for a
+        # person, and from a session the per-page sections were unreadable.
+        from gt_score import report_data
+        data = {"runs": [str(d) for d in run_dirs],
+                "ground_truth": gt_paths,
+                "written_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                **report_data(scored, unusable)}
+        out_json = out.with_suffix(".json")
+        out_json.write_text(json.dumps(data, ensure_ascii=False, indent=1),
+                            encoding="utf-8")
         print(format_summary(scored, unusable))
         print(f"\nreport: {out}  ({len(report.splitlines())} lines)")
+        print(f"report json: {out_json}  ({len(data['pages'])} page(s))")
         # Last, because a job hands a caller the *tail* of a log and this is the
         # answer the run was started for.
         if writers:
@@ -685,6 +697,84 @@ def export_hf(args: argparse.Namespace) -> int:
     return 0
 
 
+def export_run_hf(args: argparse.Namespace) -> int:
+    """Assemble a run's machine readings into a `pagexml-hf` export tree.
+
+    The sibling of `export-hf`, for the other kind of text this project holds:
+    not a hand-corrected transcription but what a recogniser said about a page
+    nobody has transcribed. One PAGE document is synthesised per page — the text
+    in a single region covering the page, no line geometry, because a chat
+    completion has none — and the tree is written for `--mode text`, which it
+    records in its own manifest so the upload cannot be given the wrong mode.
+    """
+    import hf_export as hf
+    import run_export as rx
+
+    run_dir = resolve_run_dir(args.run_dir)
+    try:
+        pages = rx.read_run(run_dir, args.model)
+    except (NotADirectoryError, FileNotFoundError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+    if not pages:
+        print(f"Error: {run_dir} holds no readings", file=sys.stderr)
+        return 1
+
+    source = (Path(args.source).expanduser() if args.source
+              else rx.default_source())
+    if not source.is_dir():
+        print(f"Error: --source is not a directory: {source}", file=sys.stderr)
+        return 2
+    archive = (Path(args.archive).expanduser() if args.archive
+               else rx.default_archive())
+    if archive and not Path(archive).is_dir():
+        print(f"warning: cold tier {archive} is not a directory — only the pages "
+              f"still in the cache will be found", file=sys.stderr)
+        archive = None
+    index = hf.page_index(source, archive=archive)
+    if not index:
+        print(f"Error: no page images under {source}"
+              + (f" or {archive}" if archive else "")
+              + ". The page cache evicts to a cold tier after two days (#487); "
+                "pass --archive, or set ATR_PAGE_CACHE_ARCHIVE.", file=sys.stderr)
+        return 1
+
+    skip = [] if args.skip_verdicts.strip() == "" else [
+        v.strip() for v in args.skip_verdicts.split(",") if v.strip()]
+    plan = rx.plan(pages, index, skip_verdicts=skip,
+                   skip_truncated=not args.keep_truncated, run=run_dir.name)
+    print(rx.format_plan(plan))
+    if args.rejected_out:
+        Path(args.rejected_out).expanduser().write_text(
+            rx.rejected_table(plan), encoding="utf-8")
+        print(f"\nrefused pages: {args.rejected_out}")
+
+    if not plan.entries:
+        print("\nError: nothing to export", file=sys.stderr)
+        return 1
+    if args.dry_run:
+        print("\n(dry run — nothing written)")
+        return 0
+    if not args.out:
+        print("Error: --out is required unless --dry-run", file=sys.stderr)
+        return 2
+    out_dir = Path(args.out).expanduser()
+    if out_dir.exists() and any(out_dir.iterdir()):
+        print(f"Error: {out_dir} is not empty — a half-written export mixed with "
+              f"an older one would upload both", file=sys.stderr)
+        return 2
+    written = rx.build(plan, out_dir)
+    print(f"\nexport: {written['out_dir']}  ({written['pages']} page(s), "
+          f"mode {written['mode']})")
+    print("\nUpload with pagexml-hf (it owns the parquet layout; see "
+          "github.com/The-Flow-Project/pagexml-hf):\n"
+          f"  pagexml-hf {out_dir} \\\n"
+          f"    --repo-id {args.repo_id} --private --mode {written['mode']}\n"
+          "or `upload-hf --tree`, which reads the mode out of the tree itself.")
+    print("\nThis dataset is uncorrected machine output. Say so in its card.")
+    return 0
+
+
 def letter_register(args: argparse.Namespace) -> int:
     """What the edition's correspondence register covers, and whose letters.
 
@@ -748,6 +838,20 @@ def hf_default_repo() -> str:
     return hf.DEFAULT_REPO_ID
 
 
+def run_repo_id() -> str:
+    """The machine-reading dataset's id, for the parser's help text."""
+    import run_export as rx
+
+    return rx.DEFAULT_REPO_ID
+
+
+def run_skip_verdicts() -> tuple:
+    """Which verdicts a run export refuses by default, for the help text."""
+    import run_export as rx
+
+    return rx.SKIP_VERDICTS
+
+
 def upload_hf(args: argparse.Namespace) -> int:
     """Hand an export tree to `pagexml-hf`, which uploads it to the hub.
 
@@ -763,7 +867,8 @@ def upload_hf(args: argparse.Namespace) -> int:
     plan = hf.inspect_upload(args.tree, args.repo_id or hf.DEFAULT_REPO_ID,
                              private=not args.public)
     print(hf.format_upload(plan))
-    argv = hf.upload_argv(plan.tree, plan.repo_id, private=plan.private)
+    argv = hf.upload_argv(plan.tree, plan.repo_id, private=plan.private,
+                          mode=plan.mode)
     print(f"\ncommand   : {' '.join(argv)}")
     if not plan.ok:
         print("\nError: not uploading — fix the problems above", file=sys.stderr)
@@ -783,6 +888,65 @@ def upload_hf(args: argparse.Namespace) -> int:
         return 1
     where = "private" if plan.private else "PUBLIC"
     print(f"\nuploaded {plan.pages} page(s) to {plan.repo_id} ({where})")
+    # And what the hub holds now, from the hub (#691): the check that ran over
+    # a second channel on 2026-10-22 — 281 rows? four columns? private?
+    print(hf.format_hub_state(hf.hub_state(plan.repo_id)))
+    return 0
+
+
+def upload_hf_card(args: argparse.Namespace) -> int:
+    """Put a dataset card from `docs/` on the hub as README.md (#691).
+
+    Before the upload the card's front matter is replaced by the one the hub
+    README carries — the block `pagexml-hf` wrote with the measured sizes — and
+    the spliced card is written back to `docs/`, so the card in the repository
+    is the card on the hub. A dry run prints the splice and writes nothing.
+    """
+    import hf_export as hf
+
+    try:
+        card = hf.resolve_card(args.card)
+    except (ValueError, FileNotFoundError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+    repo_id = args.repo_id or hf.DEFAULT_REPO_ID
+    if not hf._REPO_ID_RE.match(repo_id):
+        print(f"Error: repo id {repo_id!r} is not owner/name", file=sys.stderr)
+        return 2
+    if not hf.hub_token():
+        print("Error: no Hugging Face token — set HF_TOKEN in the environment "
+              "the upload runs in", file=sys.stderr)
+        return 2
+    readme = hf.hub_readme(repo_id)
+    if readme is None:
+        print(f"Error: {repo_id} has no README on the hub (or is not reachable "
+              f"with this token) — upload the dataset first; its sizes are "
+              f"measured there", file=sys.stderr)
+        return 1
+    try:
+        spliced = hf.splice_frontmatter(card.read_text(encoding="utf-8"), readme)
+    except ValueError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    fm, _ = hf.split_frontmatter(spliced)
+    print(f"card      : {card}")
+    print(f"repo      : {repo_id}")
+    print("frontmatter (from the hub, verbatim):")
+    print("\n".join("  " + ln for ln in (fm or "").splitlines()))
+    changed = spliced != card.read_text(encoding="utf-8")
+    print(f"card text : {'updated with the hub front matter' if changed else 'already carries it'}")
+    if args.dry_run:
+        print("\n(dry run — nothing written, nothing uploaded)")
+        return 0
+    if changed:
+        card.write_text(spliced, encoding="utf-8")
+    try:
+        how = hf.upload_card(repo_id, card)
+    except RuntimeError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    print(f"\nuploaded {card.name} as README.md to {repo_id} (via {how})")
+    print(hf.format_hub_state(hf.hub_state(repo_id)))
     return 0
 
 
@@ -1401,6 +1565,45 @@ def build_parser() -> argparse.ArgumentParser:
                            "would say so")
     p_hf.set_defaults(func=export_hf)
 
+    p_rhf = sub.add_parser(
+        "export-run-hf",
+        help="Assemble a run's machine readings into a pagexml-hf export tree "
+             "(image + page text, no line geometry)")
+    p_rhf.add_argument("--run-dir", required=True,
+                       help="The run directory, or a run name under "
+                            "VLM_TEST_ROOT, whose readings are exported")
+    p_rhf.add_argument("--model", default=None,
+                       help="Only this model's directory. Default: every model "
+                            "in the run, one project each")
+    p_rhf.add_argument("--source",
+                       help="Corpus directory the images come from. Default: the "
+                            "cache the runner itself would use. Do not pass "
+                            "\"$ATR_PAGE_CACHE\": a shell variable that is set "
+                            "but not exported names a directory Python cannot "
+                            "see in its environment")
+    p_rhf.add_argument("--archive",
+                       help="The page cache's cold tier (default: "
+                            "ATR_PAGE_CACHE_ARCHIVE). The cache evicts after two "
+                            "days, so for anything but a run read today this is "
+                            "where most pages are")
+    p_rhf.add_argument("--out", help="Where to write the export tree")
+    p_rhf.add_argument("--skip-verdicts", default=",".join(run_skip_verdicts()),
+                       help="page_quality verdicts to refuse, comma-separated. "
+                            "The default refuses the three that are defects of "
+                            "the reading rather than readings; pass '' to keep "
+                            "them")
+    p_rhf.add_argument("--keep-truncated", action="store_true",
+                       help="Export readings cut off at the model's output "
+                            "ceiling. Off by default: a truncated page is a "
+                            "success that stops mid-sentence")
+    p_rhf.add_argument("--rejected-out",
+                       help="Write one row per page left out, with its reason")
+    p_rhf.add_argument("--repo-id", default=run_repo_id(),
+                       help="Dataset repo for the printed pagexml-hf command")
+    p_rhf.add_argument("--dry-run", action="store_true",
+                       help="Print the plan, write nothing")
+    p_rhf.set_defaults(func=export_run_hf)
+
     p_up = sub.add_parser(
         "upload-hf",
         help="Upload an export tree to the hub with pagexml-hf (private)")
@@ -1420,6 +1623,20 @@ def build_parser() -> argparse.ArgumentParser:
                       help="Check the tree, the tool, the token and the repo id, "
                            "print the command, upload nothing")
     p_up.set_defaults(func=upload_hf)
+
+    p_card = sub.add_parser(
+        "upload-hf-card",
+        help="Put a dataset card from docs/ on the hub as README.md, with the "
+             "hub's own front matter spliced in first")
+    p_card.add_argument("--card", required=True,
+                        help="A card's name under docs/ (hf-dataset-card*.md), "
+                             "not a path")
+    p_card.add_argument("--repo-id", default=None,
+                        help=f"Dataset repository (default: {hf_default_repo()})")
+    p_card.add_argument("--dry-run", action="store_true",
+                        help="Fetch the hub README, show the splice, write and "
+                             "upload nothing")
+    p_card.set_defaults(func=upload_hf_card)
 
     p_tk = sub.add_parser(
         "upload-transkribus",

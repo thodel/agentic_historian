@@ -30,6 +30,11 @@ would reach a machine with two A40s, so the blast radius of the token is exactly
 the set of tools below — which is why the set is short and why none of them takes
 free text that becomes a command.
 
+**One hop further: UBELIX** (#674). The ``ubelix_*`` tools ssh from tei to the
+Slurm cluster, read-only, with a key that UBELIX itself binds to one script
+(``deploy/ubelix-ro/atr-mcp-ro``). A stolen token reaches the queue and the
+trainer's records there, and nothing that submits, cancels or writes.
+
 **Auth.** OAuth, because the claude.ai web connector cannot send anything else:
 its dialog takes a URL and, under Advanced settings, an OAuth client id and
 secret. Given a 401 it discovers the protected-resource metadata, discovers the
@@ -68,6 +73,7 @@ if str(_PKG) not in sys.path:               # same flat-import arrangement as __
 
 import config                                # noqa: E402
 from mcp_atr import jobs                     # noqa: E402
+from mcp_atr import ubelix                   # noqa: E402
 from utils import atr_gpu                   # noqa: E402
 
 #: Per-request budget for the gateway probes in :func:`gateway_models`. Three run
@@ -220,7 +226,9 @@ def build_server(provider=None, auth_settings=None):
             "compare_readings puts two runs of the same pages side by side; its "
             "numbers are disagreement, never quality — there is no ground truth "
             "here, and a model that hallucinates fluently disagrees exactly as "
-            "much as one that reads badly."
+            "much as one that reads badly. "
+            "ubelix_queue, ubelix_job and ubelix_record read UBELIX's Slurm "
+            "queue and the trainer's records there; they cannot submit or cancel."
         ),
         auth_server_provider=provider,
         auth=auth_settings,
@@ -319,6 +327,38 @@ def build_server(provider=None, auth_settings=None):
         return gateway_report()
 
     @server.tool()
+    def server_status(counts: bool = False) -> dict:
+        """Which code answers, which data roots apply, and what lies under
+        them. Read-only, synchronous, no secrets (keys and tokens are
+        ``set``/``unset``, never values).
+
+        ``code``: the checkout every job runs on — its branch, commit, other
+        worktrees, uncommitted files, distance to upstream — and `loaded`
+        against `checkout` with ``stale``, which says the server process is
+        behind the checkout and needs a restart. On 2026-10-22 the checkout
+        stood on a feature branch another workstream had switched to, every
+        job ran that branch, and finding out took five terminal commands.
+
+        ``env``: the dotenv files in reading order and whether each exists,
+        `AH_ENV_FILE` (which replaces the whole chain), the external reader's
+        URL. ``roots``: `VLM_TEST_ROOT`, `GT_ROOT` with its entries — the
+        names `keys_from`, `letters_from`, `exclude_from` and `gt_dir` take,
+        with line or file counts — the page cache and its cold tier, the
+        mount, the staging dir, the research project root. ``runs``: the
+        fifty newest runs with pages per model.
+
+        ``counts`` walks the page cache and the cold tier for page counts
+        (seconds over CIFS, within a budget); off by default.
+
+        Sees, never switches: changing the checkout is a deployment act on
+        the machine, not a tool call.
+        """
+        try:
+            return jobs.server_status(counts=counts)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def share_list(folder: Optional[str] = None) -> dict:
         """What is in the Nextcloud share, with sizes. Downloads nothing.
 
@@ -359,11 +399,18 @@ def build_server(provider=None, auth_settings=None):
         """Read every page under ``source`` with every model. Returns a job id.
 
         ``source`` is either a directory — inside the mirror, the comparison
-        root or the read-only share mount — or ``dav:<folder>``, which reads that
-        folder of the Nextcloud share directly, with no mirror and no mount.
-        Either way a source that is not already on local disk is read through a
-        working-copy cache, so each page crosses the network once rather than
-        once per model. ``run``
+        root, the read-only share mount, the page cache or its cold tier on the
+        research share — or ``dav:<folder>``, which reads that folder of the
+        Nextcloud share directly, with no mirror and no mount. Either way a
+        source that is not already on local disk is read through a working-copy
+        cache, so each page crosses the network once rather than once per
+        model. The cold tier (`ATR_PAGE_CACHE_ARCHIVE`) is the source that
+        needs **no walk of the share**: it holds a working copy of every page
+        some run has read, under the share's own relative path and so under the
+        same key, and `keys_from` over it resolves in seconds where the share
+        walk takes twenty minutes — and on 2026-10-22 died at a folder that
+        answered 404. It holds only what was read once; `missing_out` says what
+        it lacks. ``run``
         names the output directory under VLM_TEST_ROOT and is the handle for
         resuming. Re-running the same run skips pages already on disk, so an
         interrupted run is resumed by starting it again — there is no separate
@@ -613,6 +660,108 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def research_list(folder: str | None = None, limit: int = 500) -> dict:
+        """What is under a folder of the research project on the research
+        share (`ATR_RESEARCH_DIR`, on tei `Projekt_Lassberg`), with sizes.
+        Synchronous, one directory deep; ``folder`` is relative to the
+        project root and cannot leave it. The HTR training project keeps its
+        ground truth and its train/dev/eval manifests here
+        (`HTR/data/ground_truth/manifests`), which is what this is for.
+        """
+        try:
+            return jobs.research_list(folder, limit=limit)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def import_ground_truth(manifest: str, name: str,
+                            dry_run: bool = False) -> dict:
+        """Stage the PAGE XML files a manifest names as a ground-truth set
+        under the ground-truth root, by name — the ``gt_dir`` that
+        `score_ground_truth` takes, which then writes the key list
+        `start_batch` reads. The step before that handover.
+
+        ``manifest`` is a path relative to the research project root, e.g.
+        ``HTR/data/ground_truth/manifests/eval_manifest_random.txt``. Its
+        lines name files by the mount point of the machine that wrote them;
+        they are mapped onto the project root here and read from nowhere
+        else. Each copy is named ``<document folder>__<file>``, because
+        ``001.xml`` occurs in every document.
+
+        The reply is the finding the shell used to produce by hand: files,
+        documents with page counts, the Transkribus status mix (DONE and
+        FINAL count as corrected), files without transcribed text, and —
+        named, never dropped — the lines that map onto nothing and the files
+        the share does not have. Resumable: a copy already present at the
+        same size is skipped. ``dry_run`` reports and copies nothing.
+
+        Synchronous: an evaluation set is tens of files. A training split of
+        thousands belongs with the trainer, not here.
+        """
+        try:
+            return jobs.import_ground_truth(manifest, name, dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def score_report(name: str, offset: int = 0, limit: int = 50,
+                     located_only: bool = False) -> dict:
+        """A scoring report as data: the comparison table and every page.
+
+        ``name`` is what `score_ground_truth` returned as ``report_name``
+        (``score-gt-<stamp>``; the ``.md``/``.json`` path it printed is
+        accepted too). The reply holds ``by_reading`` (the one table that is
+        quality), the status mix, the files that could not be scored,
+        ``not_located`` — the pages that are in no row, by file name — and
+        per page: document and page id, status, the located key, and each
+        reading's CER with its runner-up and whether the match is confident.
+
+        Paged like `read_pages`; ``remaining`` and ``next_offset`` say what
+        was left out. ``located_only`` drops the pages whose identity is
+        unsettled, which is the view to take when reading CERs.
+
+        Reports written before #689 have no data beside them; the error says
+        so, and a new `score_ground_truth` writes one.
+        """
+        try:
+            return jobs.score_report(name, offset=offset, limit=limit,
+                                     located_only=located_only)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def export_run_share(run: str, model: str | None = None,
+                         dest: str | None = None,
+                         score_report: str | None = None,
+                         keys: str | None = None,
+                         dry_run: bool = False) -> dict:
+        """A run's readings as text on the research share, for the HTR
+        training project: ``<model>/txt/<key>.txt`` and
+        ``<model>/records/<key>.json`` per page, the run's ``report.md``, the
+        key list the run was started from (``keys``, a name under the
+        ground-truth root), a scoring report (``score_report``, the name
+        `score_ground_truth` returned) as ``score-gt.md``/``.json``, and a
+        README written from the records — model, prompt digest and settings,
+        pages per verdict, the empty pages by name, the CER table if a report
+        is given, and the sentence that nobody has read this text.
+
+        ``dest`` is a name under ``<ATR_RESEARCH_DIR>/HTR/VLMs``
+        (`ATR_RESEARCH_EXPORT_SUBDIR`), default the run's name. Resumable;
+        nothing is deleted. ``dry_run`` counts, names the destination and
+        returns the README it would write.
+
+        The third exit of a run beside `upload_hf` and `publish-batch`, and
+        the only one that reaches the trainer. Refused above 2000 pages: a
+        corpus run is a dataset, not a folder of files.
+        """
+        try:
+            return jobs.export_run_share(run, model=model, dest=dest,
+                                         score_report=score_report, keys=keys,
+                                         dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def export_hf(runs: list[str], gt_dir: str | None = None,
                   dry_run: bool = True) -> dict:
         """Assemble the located ground-truth pages into a `pagexml-hf` export
@@ -648,6 +797,50 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def export_run_hf(run: str, model: str | None = None, out: str | None = None,
+                      skip_verdicts: list[str] | None = None,
+                      keep_truncated: bool = False,
+                      dry_run: bool = True) -> dict:
+        """Assemble a run's machine readings into a page-wise `pagexml-hf`
+        export tree: one image plus one synthesised PAGE document per page, the
+        text in a single region covering the page and **no line geometry** —
+        a chat completion has none, and inventing strips would be
+        indistinguishable from measured ones. The tree records `mode: text` in
+        its own manifest, so `upload_hf` cannot be given the wrong mode.
+
+        The sibling of `export_hf`, which exports hand-corrected pages. This
+        exports what a recogniser said about pages nobody has transcribed, and
+        the dataset it feeds has to say so in its card.
+
+        ``run`` is a run name under VLM_TEST_ROOT (as `batch_report` takes it);
+        ``model`` narrows a run that holds several readers. ``out`` is the name
+        of the tree to write, under the same root, default ``<run>-pagewise``
+        — that name is what `upload_hf` takes as ``tree``. A tree that already
+        holds files is refused.
+
+        ``dry_run`` defaults to **true**: it prints the plan — pages per
+        project, refusals by category, where the images came from (cache, cold
+        tier) — and writes nothing. Pass false to write the tree, which copies
+        an image per page.
+
+        Refused by default: pages whose reading came back ``empty``,
+        ``repetitive`` (a loop) or ``deliberation`` (the model arguing with
+        itself in the transcription field), and pages cut off at the output
+        ceiling. ``skip_verdicts`` changes the first set (``short`` can be
+        added, ``ok`` never), ``keep_truncated`` the second. Every refusal is
+        written to the TSV the result names.
+
+        Source and cold tier come from the configuration, never from here; the
+        repository is `upload_hf`'s to name.
+        """
+        try:
+            return jobs.export_run_hf_job(
+                run, model=model, out=out, skip_verdicts=skip_verdicts,
+                keep_truncated=keep_truncated, dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def upload_hf(tree: str, repo_id: str | None = None,
                   dry_run: bool = True) -> dict:
         """Upload an export tree to the Hugging Face hub with `pagexml-hf`.
@@ -672,6 +865,29 @@ def build_server(provider=None, auth_settings=None):
         """
         try:
             return jobs.upload_hf_job(tree, repo_id=repo_id, dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def upload_hf_card(card: str, repo_id: str | None = None,
+                       dry_run: bool = True) -> dict:
+        """Put a dataset card from `docs/` on the hub as README.md.
+
+        ``card`` is a card's **name** under `docs/` (``hf-dataset-card*.md``),
+        never a path. Before the upload the card's front matter is replaced
+        by the block the hub README carries — the one `pagexml-hf` wrote on
+        upload, with the measured rows, bytes and features — and the spliced
+        card is written back to `docs/`, so the card in the repository is the
+        card on the hub. A dataset without a README yet is refused: its sizes
+        are measured by the upload, not typed.
+
+        ``dry_run`` (the default) fetches the hub README, shows the splice,
+        writes and uploads nothing. The token comes from the configuration
+        and never appears in the command; `upload_hf` now also ends by saying
+        what the hub holds (rows, bytes, columns, private).
+        """
+        try:
+            return jobs.upload_card_job(card, repo_id=repo_id, dry_run=dry_run)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 
@@ -757,6 +973,35 @@ def build_server(provider=None, auth_settings=None):
             # be the wrong trade.
             progress["flagged"] = {"ok": False, "error": str(exc)}
         return progress
+
+    @server.tool()
+    def ubelix_queue() -> dict:
+        """This account's Slurm jobs on UBELIX, with Slurm's start estimates.
+
+        Read-only, over ssh from tei with a key that UBELIX binds to one script
+        (#674). On ``gpu-invest`` a job can be preempted and requeued several
+        times; ``ubelix_job`` shows that history, this only the current state.
+        """
+        return ubelix.queue()
+
+    @server.tool()
+    def ubelix_job(slurm_id: str) -> dict:
+        """``sacct -D`` for one UBELIX job: every start, preemption and requeue,
+        with node, elapsed time and exit code. Digits only."""
+        return ubelix.job(slurm_id)
+
+    @server.tool()
+    def ubelix_record(record_id: str, lines: Optional[int] = None) -> dict:
+        """The trainer's record for a UBELIX job (status, stage, timestamps) and
+        the last lines of its current stage's log, at most 200.
+
+        ``record_id`` is the trainer's job id, e.g.
+        ``20261019T180118Z-olmocr2-7b-medieval-page-px4m-native-r16`` — not the
+        Slurm id. Slurm only knows the job as ``vlm-train``; which record a Slurm
+        id belongs to shows in the timestamps: the record's ``updated_at`` falls
+        on the Slurm start.
+        """
+        return ubelix.record(record_id, lines)
 
     return server
 

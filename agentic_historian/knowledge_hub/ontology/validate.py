@@ -6,7 +6,9 @@ Vier Prüfungen, in dieser Reihenfolge, jede mit einem benannten Befund:
 
 1. ``unknown-class`` / ``unknown-property`` — ein Begriff, der weder im Register
    steht noch (bei ``ontome``-Begriffen) im Schnappschuss oder CRM-RDFS. Das ist
-   der Befund «erfunden»: 40 Mal im bisherigen Korpusexporter (KG-12).
+   der Befund «erfunden»: 40 Mal im Korpusexporter, bis KG-12 (#659) sie in
+   unseren Namensraum ``shb:`` umzog — seither steht diese Prüfung als Tor vor
+   ``corpus_build``.
 2. ``domain`` / ``range`` — Subjekt bzw. Objekt eines Tripels ist nicht vom
    Typ, den die Property verlangt, auch nicht über Unterklassen. Range
    ``rdfs:Literal`` verlangt ein Literal, alles andere eine Ressource mit
@@ -171,7 +173,7 @@ def _expected(prop: str, voc: ontome.Vocabulary, crm: crm_mod.Crm,
               term: registry.Term, h: "Hierarchy") -> list[tuple[Optional[str], Optional[str]]]:
     """Die zulässigen (Domain, Range)-Paare einer Property — mehrere, wenn
     OntoMe sie je Domain getrennt führt (P8 für E67 und für E69)."""
-    if term.source == "ours" or term.source == "w3c":
+    if term.source != "ontome":          # ours, w3c, foreign: das Register sagt es
         return [(term.domain, term.range)]
     pairs = []
     if prop in crm.properties:
@@ -216,12 +218,16 @@ def validate(g: Graph, *, voc: Optional[ontome.Vocabulary] = None,
             rep.findings.append(Finding("unknown-property", "*", prop,
                                         "im Register als OntoMe-Begriff, aber in keinem Schnappschuss"))
 
-    # 2. Domain / Range
+    # 2. Domain / Range — die zulässigen Paare einmal je Property, nicht je
+    # Tripel: auf dem Dodis-Graphen (~3 Mio. Tripel) wäre das sonst eine
+    # halbe Milliarde Durchläufe über die Property-Liste.
     for prop in used_props:
         term = registry.term(prop)
         if prop == RDF_TYPE or term is None:
             continue
         pairs = _expected(prop, voc, crm, term, h)
+        literal_ok = any(_is_literal_range(r, h) for _, r in pairs)
+        only_literal = literal_ok and all(_is_literal_range(r, h) for _, r in pairs if r)
         for s, o in g.subject_objects(URIRef(prop)):
             rep.checked_properties += 1
             s_types = types.get(str(s), set())
@@ -237,14 +243,13 @@ def validate(g: Graph, *, voc: Optional[ontome.Vocabulary] = None,
             # CRM-Primitivwert (E59 und seine Abkömmlinge: E60 Number, E61 Time
             # Primitive, E62 String, E94/E95). OntoMe schreibt für P82a «E61»,
             # das RDFS «rdfs:Literal»; beides heisst: ein Wert, kein Knoten.
-            literal_ok = any(_is_literal_range(r, h) for r in ranges)
             if isinstance(o, Literal):
                 if literal_ok or any(r is None for r in ranges):
                     continue
                 rep.findings.append(Finding("range", str(s), prop,
                     f"Ressource vom Typ {' | '.join(registry.curie(r) for r in ranges if r)} verlangt, Literal gegeben"))
                 continue
-            if literal_ok and all(_is_literal_range(r, h) for r in ranges if r):
+            if only_literal:
                 rep.findings.append(Finding("range", str(s), prop,
                                             f"Literal verlangt, {registry.curie(str(o))} gegeben"))
                 continue

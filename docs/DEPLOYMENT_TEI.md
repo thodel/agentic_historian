@@ -40,6 +40,11 @@ Drei Dinge, die man daraus wissen muss:
 
 ## Woher die Konfiguration kommt
 
+Aus einer Session beantwortet das seit #690 `server_status()`: die Dateien in
+Lesereihenfolge und ob jede existiert, `AH_ENV_FILE`, die Datenwurzeln, der
+Checkout mit Branch und Commit. Keine Werte von Schlüsseln, nur `set`/`unset`.
+
+
 `AH_ENV_FILE` ist **nicht** gesetzt, also liest `config.py` der Reihe nach:
 
 | Datei | Keys | was daraus kommt |
@@ -215,12 +220,20 @@ ist.
 
 ## Offene Entscheidungen, die kein Commit treffen kann
 
-1. **`/update` behalten oder Deploy von aussen.** Davon hängt ab, ob Punkt 2
-   von #567 echte Härtung wird: `/update` braucht Schreibrecht auf Checkout und
-   venv, also die Erlaubnis, den Code dieses Prozesses zu überschreiben.
-   `ProtectSystem=strict` plus diese Pfade schützt alles ausser dem Wichtigsten.
-2. **Eigener Benutzer `dh-bot`** (Punkt 3) — die einzige Massnahme gegen die
-   gemessene Richtung des Problems.
+1. ~~**`/update` behalten oder Deploy von aussen.**~~ Entschieden am 17.10.2026:
+   `/update` behält den Vergleich und verliert den Pull — es berichtet beide
+   Commits und zieht nicht. Der Deploy läuft von aussen, als `dh`, mit `git
+   pull`. Damit ist `hardening.conf` eine Stufe: nur die Datenverzeichnisse.
+2. ~~**Eigener Benutzer `dh-bot`** (Punkt 3)~~ Entschieden am 17.10.2026: der
+   Benutzer heisst **`agentic_historian`** — `dh-bot` ist die Discord-Identität
+   des OpenClaw-Agenten, und so hiesse das, wovon getrennt wird. Vorbereitet
+   als `deploy/systemd/switch_to_own_user.sh` (alle drei Punkte in einem Lauf,
+   Trockenlauf zuerst), Ablauf in [SEPARATION.md](../deploy/systemd/SEPARATION.md),
+   **auf tei noch nicht ausgeführt** (Stand 21.10.2026).
 3. **Befehlsberechtigungen in Discord**, am Desktop.
 4. `CREDENTIAL_WATCH_CHANNEL_ID`, falls der Credential-Watcher laufen soll.
-5. Die doppelten Keys in `.env.gpustack` auflösen.
+5. Die doppelten Keys in `.env.gpustack` auflösen — spätestens beim Befüllen
+   von `/etc/agentic_historian.env`, wo nur die jeweils letzte Zuweisung
+   hingehört.
+6. **Wo die OpenClaw-Credentials liegen.** Ohne den Pfad bleibt die Definition
+   of Done von #567 ungemessen: `check_separation.py --openclaw-secrets <pfad>`.

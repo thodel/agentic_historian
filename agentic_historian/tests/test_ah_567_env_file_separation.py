@@ -3,7 +3,7 @@
 The bot and the OpenClaw agent `dh-bot` share `.env.gpustack`, which also holds
 OpenClaw's mail / calendar / SSH credentials. With `AH_ENV_FILE` set, config.py
 reads ONLY that file for its file-sourced secrets and never falls back to
-`.env.gpustack`, so a dedicated `/etc/dh-bot.env` can carry just the bot's keys.
+`.env.gpustack`, so a dedicated `/etc/agentic_historian.env` can carry just the bot's keys.
 
 Offline: `_select_env_files` reads os.environ at call time, so the behaviour is
 checked without re-importing config.
@@ -19,7 +19,7 @@ if str(PKG) not in sys.path:
 
 import config  # noqa: E402
 
-EXAMPLE = REPO_ROOT / "deploy/systemd/dh-bot.env.example"
+EXAMPLE = REPO_ROOT / "deploy/systemd/agentic_historian.env.example"
 DROPIN = REPO_ROOT / "deploy/systemd/agentic-historian.service.d/secrets.conf"
 
 BOT_SECRETS = [
@@ -35,9 +35,9 @@ def test_default_reads_the_shared_gpustack_file(monkeypatch):
 
 
 def test_a_dedicated_env_file_excludes_the_shared_one(monkeypatch):
-    monkeypatch.setenv("AH_ENV_FILE", "/etc/dh-bot.env")
+    monkeypatch.setenv("AH_ENV_FILE", "/etc/agentic_historian.env")
     files = config._select_env_files()
-    assert files == (Path("/etc/dh-bot.env"),)
+    assert files == (Path("/etc/agentic_historian.env"),)
     assert not any(p.name == ".env.gpustack" for p in files), \
         "with AH_ENV_FILE the bot must not fall back to the shared .env.gpustack"
 
@@ -57,7 +57,7 @@ def test_the_example_lists_the_bot_secrets_and_warns_off_openclaw():
 
 def test_the_dropin_isolates_the_env(monkeypatch):
     text = DROPIN.read_text(encoding="utf-8")
-    assert "Environment=AH_ENV_FILE=/etc/dh-bot.env" in text
-    assert "EnvironmentFile=/etc/dh-bot.env" in text
+    assert "Environment=AH_ENV_FILE=/etc/agentic_historian.env" in text
+    assert "EnvironmentFile=/etc/agentic_historian.env" in text
     # the empty reset that drops any inherited (shared) EnvironmentFile
     assert "\nEnvironmentFile=\n" in text

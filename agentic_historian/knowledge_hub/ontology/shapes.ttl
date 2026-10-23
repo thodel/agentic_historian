@@ -1,4 +1,4 @@
-# shapes.ttl — Formen für den Bestandsgraphen (KG-6, #650).
+# shapes.ttl — Formen für Bestands- und Korpusgraph (KG-6, #650; Korpus seit KG-12, #659).
 #
 # Was eine Ontologie nicht sagt, sagt eine Form: wie viele, in welcher Gestalt,
 # aus welchem Namensraum. Geprüft mit pyshacl aus validate.py. Jede Form nennt
@@ -60,7 +60,7 @@ shb:IdentifierShape a sh:NodeShape ;
 
 shb:TypedShape a sh:NodeShape ;
     sh:targetSubjectsOf crm:P2_has_type ;
-    rdfs:comment "P2 has type hat den Range E55 Type. Der Korpusexporter schrieb Literale (KG-12)." ;
+    rdfs:comment "P2 has type hat den Range E55 Type. Der Korpusexporter schrieb bis KG-12 Literale." ;
     sh:property [ sh:path crm:P2_has_type ; sh:nodeKind sh:IRI ; sh:class crm:E55_Type ;
                   sh:message "P2_has_type verlangt eine E55-Ressource" ] .
 
@@ -68,7 +68,7 @@ shb:SameAsShape a sh:NodeShape ;
     sh:targetSubjectsOf owl:sameAs ;
     rdfs:comment "owl:sameAs nur in Namensräume, die wir kennen — eine erfundene Autoritäts-URI wäre die Lüge, die der Graph nicht erzählen darf." ;
     sh:property [ sh:path owl:sameAs ; sh:nodeKind sh:IRI ;
-                  sh:pattern "^(https?://(www\\.)?(dodis\\.ch|ssrq-sds-fds\\.ch|www\\.wikidata\\.org|d-nb\\.info|hls-dhs-dss\\.ch|permalink\\.snl\\.ch|doi\\.org|www\\.e-periodica\\.ch|opendata\\.dodis\\.ch|github\\.com)/)" ;
+                  sh:pattern "^(https?://(www\\.)?(dodis\\.ch|ssrq-sds-fds\\.ch|www\\.wikidata\\.org|d-nb\\.info|hls-dhs-dss\\.ch|permalink\\.snl\\.ch|doi\\.org|www\\.e-periodica\\.ch|opendata\\.dodis\\.ch|github\\.com|viaf\\.org|ark\\.dasch\\.swiss)/)" ;
                   sh:message "owl:sameAs in unbekannten Namensraum" ] .
 
 shb:TimeSpanShape a sh:NodeShape ;

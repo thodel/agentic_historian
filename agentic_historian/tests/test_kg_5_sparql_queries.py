@@ -106,6 +106,17 @@ def _rows(graph, name, **params):
     return q.run(name, graph, **params).rows
 
 
+# ── 0. the fixture corpus passes the vocabulary gate (KG-12) ───────────────
+
+def test_the_fixture_corpus_passes_the_vocabulary_gate(graph):
+    """Four documents with datings, care flags, a verbatim and a combined
+    selection, a CARE_ACTOR with an HLS id — the richest corpus graph the
+    tests build, and every term in it is in the register."""
+    from knowledge_hub.ontology import validate as v
+    rep = v.validate(graph)
+    assert rep.ok, rep.render()
+
+
 # ── 1. every query runs and returns what it should ─────────────────────────
 
 def test_every_canned_query_parses_and_runs(graph):
@@ -122,7 +133,7 @@ def test_every_canned_query_parses_and_runs(graph):
 
 
 def test_four_questions_are_offered():
-    """The acceptance: at least four substantive questions."""
+    """The acceptance: at least four substantive questions (seven since KG-11)."""
     assert len(q.names()) >= 4
     for query in q.QUERIES.values():
         assert query.question.strip()
@@ -160,6 +171,12 @@ def test_every_row_of_every_query_carries_a_document_uri(graph):
         if "document" in q.get(name).required:
             params["document"] = "care-15-a"
         answer = q.run(name, graph, **params)
+        if name in q.BESTAND_ONLY:
+            # Asks for what only the Bestandsgraph carries (a dataset per
+            # document, E13 roles, C5 memberships); on the corpus fixture the
+            # honest answer is no rows. test_kg_11 covers them on their graph.
+            assert answer.rows == [], name
+            continue
         assert answer.rows, f"{name} returned nothing on the fixture"
         for row in answer.rows:
             assert row["document"], f"{name}: a row without a document"
@@ -300,8 +317,8 @@ def test_the_engine_and_the_model_id_come_from_the_same_model(graph):
     g.add((reading, rx.PROV["wasAttributedTo"], editor))
     second = rx.model_uri("ghost", "ghost-v9")
     g.add((reading, rx.PROV["wasAttributedTo"], second))
-    g.add((second, rx.RDF.type, rx.SDHSS["RecognitionModel"]))
-    g.add((second, rx.SDHSS["engine"], Literal("ghost")))
+    g.add((second, rx.RDF.type, rx.SHB["RecognitionModel"]))
+    g.add((second, rx.SHB["engine"], Literal("ghost")))
 
     rows = [r for r in _rows(g, "readings-of-page", document="crossed")
             if r["reading"] == str(reading)]
@@ -525,7 +542,7 @@ def test_every_prefix_a_query_uses_is_one_the_exporter_writes():
     """A query cannot use a prefix the graph was not written with."""
     import re
 
-    known = set(rx.PREFIXES)
+    known = set(q.PREFIXES)      # both exporters' tables, merged (KG-11)
     for query in q.QUERIES.values():
         used = set(re.findall(r"\b([a-z][a-z0-9-]*):[A-Za-z_]", query.body))
         # String literals in a BIND carry http(s): — not a prefix.
@@ -625,8 +642,8 @@ def test_a_document_whose_dating_cannot_be_read_has_no_century_triple():
     g = Graph()
     rx.document_to_rdf(g, _doc("vague", dating="14./15. Jahrhundert"))
     d = rx.document_uri("vague")
-    assert (d, rx.SDHSS["dating"], Literal("14./15. Jahrhundert", lang="de")) in g
-    assert not list(g.objects(d, rx.SDHSS["century"]))
+    assert (d, rx.SHB["dating"], Literal("14./15. Jahrhundert", lang="de")) in g
+    assert not list(g.objects(d, rx.SHB["century"]))
     # And it is therefore not in a century answer at all — absent, not guessed.
     assert _rows(g, "persons-in-care-documents", century="15") == []
     assert _rows(g, "persons-in-care-documents", century="14") == []
@@ -637,9 +654,9 @@ def test_the_dating_and_the_century_are_separate_predicates():
     g = Graph()
     rx.document_to_rdf(g, _doc("dated", dating="um 1450"))
     d = rx.document_uri("dated")
-    assert (d, rx.SDHSS["dating"], Literal("um 1450", lang="de")) in g
-    assert (d, rx.SDHSS["century"], Literal(15)) in g
-    assert (d, rx.SDHSS["centuryUncertain"], Literal(True)) in g
+    assert (d, rx.SHB["dating"], Literal("um 1450", lang="de")) in g
+    assert (d, rx.SHB["century"], Literal(15)) in g
+    assert (d, rx.SHB["centuryUncertain"], Literal(True)) in g
 
 
 @pytest.mark.parametrize("element,expected", [
@@ -661,8 +678,8 @@ def test_a_care_flagged_document_carries_the_flag_and_its_types():
     g = Graph()
     rx.document_to_rdf(g, _doc("flagged", care_types=("Almosen", "Spital")))
     d = rx.document_uri("flagged")
-    assert (d, rx.SDHSS["careRelated"], Literal(True)) in g
-    assert {str(o) for o in g.objects(d, rx.SDHSS["careType"])} == \
+    assert (d, rx.SHB["careRelated"], Literal(True)) in g
+    assert {str(o) for o in g.objects(d, rx.SHB["careType"])} == \
         {"Almosen", "Spital"}
 
 
@@ -673,7 +690,7 @@ def test_a_negative_care_flag_asserts_nothing():
     g = Graph()
     rx.document_to_rdf(g, _doc("not-flagged", care=False))
     d = rx.document_uri("not-flagged")
-    assert not list(g.objects(d, rx.SDHSS["careRelated"]))
+    assert not list(g.objects(d, rx.SHB["careRelated"]))
 
 
 def test_a_document_never_classified_carries_no_care_triple():
@@ -682,7 +699,7 @@ def test_a_document_never_classified_carries_no_care_triple():
     record["description"].pop("care_flag")
     rx.document_to_rdf(g, record)
     assert not list(g.objects(rx.document_uri("unclassified"),
-                              rx.SDHSS["careRelated"]))
+                              rx.SHB["careRelated"]))
 
 
 def test_the_care_context_prose_is_not_published():

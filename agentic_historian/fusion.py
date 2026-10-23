@@ -52,7 +52,7 @@ class FusionResult:
     #: number of disagreements, which is a different quantity: when the call
     #: failed or was switched off, every slot fell to the deterministic vote and
     #: the field still reported the full count. `rdf_export` publishes it
-    #: (`sdhss:arbitrated`), so a knowledge graph asserted that a model had
+    #: (`shb:arbitrated`), so a knowledge graph asserted that a model had
     #: arbitrated N readings it had never seen (#406).
     arbitrated: int = 0
     #: Of those it decided, how many it decided **against** the most-backed

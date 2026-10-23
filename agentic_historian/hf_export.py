@@ -75,10 +75,12 @@ to average.
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import shutil
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional, Sequence
 
@@ -978,6 +980,50 @@ DEFAULT_REPO_ID = "dh-unibe/image-text_lassberg-correspondence_xix"
 #: a column beside the image, which is what the trainer's `hf_source.py` reads.
 UPLOAD_MODE = "raw_xml"
 
+#: What a written tree carries to say what it is. A tree is a directory of images
+#: and XML, and two things about it cannot be read off the files: which
+#: `pagexml-hf` mode it was assembled for, and whether its text was corrected by a
+#: human. :mod:`run_export` writes trees for ``--mode text`` whose documents are
+#: synthesised around uncorrected machine readings; uploaded in this module's mode
+#: they would land in an ``xml_content`` column beside fourteen datasets of real
+#: Transkribus output and look like more of the same. The mode is a property of
+#: the data, so it travels with the data rather than being retyped on a command
+#: line months later.
+MANIFEST = "export.json"
+
+
+def write_manifest(out_dir: Path, *, mode: str, kind: str, **extra) -> Path:
+    """Write the tree's manifest. Called by every ``build``, never by a caller."""
+    path = Path(out_dir) / MANIFEST
+    path.write_text(json.dumps({"mode": mode, "kind": kind,
+                                "written_at": datetime.now(timezone.utc)
+                                .isoformat(timespec="seconds"), **extra},
+                               ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8")
+    return path
+
+
+def read_manifest(tree: Path) -> dict:
+    """A tree's manifest, or ``{}``. A tree written before manifests existed, or
+    by hand, has none — which is not an error and must not read as one."""
+    path = Path(tree).expanduser() / MANIFEST
+    try:
+        found = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return found if isinstance(found, dict) else {}
+
+
+def tree_mode(tree: Path, default: str = UPLOAD_MODE) -> str:
+    """The `pagexml-hf` mode this tree was assembled for.
+
+    The manifest when there is one, this module's mode when there is not: every
+    tree written before 2026-10-22 is ground truth in ``raw_xml``, so the default
+    keeps those uploads identical.
+    """
+    said = str(read_manifest(tree).get("mode") or "").strip()
+    return said or default
+
 #: A hub repository id: owner, slash, name. Checked here because `pagexml-hf`
 #: would otherwise create `thodel/--private` or fail three minutes into an upload.
 _REPO_ID_RE = re.compile(r"^[A-Za-z0-9][\w.-]*/[A-Za-z0-9][\w.-]*$")
@@ -995,6 +1041,12 @@ class UploadPlan:
     tool: Optional[str]
     token: bool
     problems: list
+    #: The `pagexml-hf` mode, from the tree's own manifest. Not a caller's
+    #: choice: see :data:`MANIFEST`.
+    mode: str = UPLOAD_MODE
+    #: What kind of text is in the tree — "ground-truth" or "run". Printed, and
+    #: the one line of the plan that says whether a human has read this.
+    kind: str = ""
 
     @property
     def ok(self) -> bool:
@@ -1005,19 +1057,198 @@ class UploadPlan:
                 "private": self.private, "pages": self.pages,
                 "projects": dict(self.projects), "tool": self.tool,
                 "token": self.token, "problems": list(self.problems),
-                "ok": self.ok}
+                "mode": self.mode, "kind": self.kind, "ok": self.ok}
+
+
+# ── the dataset card (#691) ──────────────────────────────────────────────────
+#
+# `pagexml-hf` writes a README on upload whose YAML front matter carries the
+# measured `dataset_info` — rows, bytes, features. The card in `docs/` is the
+# text a person wrote; its front matter must be the hub's, verbatim, or the
+# sizes are typed by hand and wrong from the first re-upload. Twice this was a
+# terminal command and a splice done by eye.
+
+CARD_PREFIX = "hf-dataset-card"
+_FRONTMATTER_RE = re.compile(r"\A---\r?\n(.*?)\r?\n---\r?\n", re.S)
+_PLACEHOLDER_RE = re.compile(r"\A\s*<!--\s*FRONTMATTER.*?-->\s*", re.S)
+
+
+def card_dir() -> Path:
+    """Where the cards live: ``docs/`` beside the package."""
+    return Path(config.REPO_ROOT) / "docs"
+
+
+def resolve_card(name: str) -> Path:
+    """A card by **name** under ``docs/``: ``hf-dataset-card*.md``, no path.
+
+    Named rather than pathed for the reason every other handover here is: a
+    tool that uploads a named card cannot be told to upload a file.
+    """
+    name = (name or "").strip()
+    if ("/" in name or "\\" in name or not name.startswith(CARD_PREFIX)
+            or not name.endswith(".md") or ".." in name):
+        raise ValueError(
+            f"a card is named, not pathed: {name!r} — one of the "
+            f"{CARD_PREFIX}*.md files under docs/")
+    path = card_dir() / name
+    if not path.is_file():
+        have = ", ".join(sorted(p.name for p in card_dir().glob(f"{CARD_PREFIX}*.md"))) or "none"
+        raise FileNotFoundError(f"no card {name} under {card_dir()} (have: {have})")
+    return path
+
+
+def split_frontmatter(text: str) -> tuple[Optional[str], str]:
+    """``(front matter without its fences, body)``.
+
+    A card may start with the YAML block, with the placeholder comment a card
+    carries before its first upload (``<!-- FRONTMATTER … -->``), or with
+    neither. The body is what follows, with no leading blank lines.
+    """
+    m = _FRONTMATTER_RE.match(text)
+    if m:
+        return m.group(1), text[m.end():].lstrip("\r\n")
+    p = _PLACEHOLDER_RE.match(text)
+    if p:
+        return None, text[p.end():]
+    return None, text
+
+
+def splice_frontmatter(card: str, hub_readme: str) -> str:
+    """The card with the hub README's front matter in place of its own.
+
+    The hub's block is the measured one; the card's text is the written one.
+    A hub README without front matter is a dataset nobody has uploaded yet,
+    and a card spliced from it would carry no sizes — refused.
+    """
+    fm, _ = split_frontmatter(hub_readme)
+    if fm is None:
+        raise ValueError("the hub README has no YAML front matter — upload the "
+                         "dataset first; its sizes are measured there")
+    _, body = split_frontmatter(card)
+    return f"---\n{fm}\n---\n\n{body}"
+
+
+def hub_token() -> str:
+    return config.HF_TOKEN or os.environ.get("HUGGINGFACE_HUB_TOKEN", "")
+
+
+def hub_readme(repo_id: str, token: Optional[str] = None) -> Optional[str]:
+    """The README on the hub, or None when the repository has none (or is
+    not reachable with this token). Never prints the token."""
+    import requests
+
+    url = f"https://huggingface.co/datasets/{repo_id}/resolve/main/README.md"
+    headers = {"Authorization": f"Bearer {token or hub_token()}"} if (token or hub_token()) else {}
+    try:
+        r = requests.get(url, headers=headers, timeout=30)
+    except requests.RequestException:
+        return None
+    return r.text if r.status_code == 200 else None
+
+
+def hub_state(repo_id: str, token: Optional[str] = None) -> dict:
+    """What the hub holds for a dataset: rows, bytes, columns, private.
+
+    Read from the API's ``cardData.dataset_info`` — the block `pagexml-hf`
+    wrote — so the numbers are the hub's own. ``{}`` with an ``error`` when the
+    hub does not answer; never an exception, because this is the sentence
+    printed *after* an upload succeeded.
+    """
+    import requests
+
+    url = f"https://huggingface.co/api/datasets/{repo_id}"
+    tok = token or hub_token()
+    headers = {"Authorization": f"Bearer {tok}"} if tok else {}
+    try:
+        r = requests.get(url, headers=headers, timeout=30)
+        if r.status_code != 200:
+            return {"error": f"hub answered {r.status_code}"}
+        data = r.json()
+    except (requests.RequestException, ValueError) as exc:
+        return {"error": f"{type(exc).__name__}: {exc}"}
+    info = (data.get("cardData") or {}).get("dataset_info") or {}
+    if isinstance(info, list):
+        info = info[0] if info else {}
+    splits = info.get("splits") or []
+    return {
+        "repo_id": repo_id,
+        "private": bool(data.get("private")),
+        "rows": sum(int(s.get("num_examples") or 0) for s in splits) or None,
+        "bytes": int(info.get("dataset_size") or 0) or None,
+        "columns": [f.get("name") for f in (info.get("features") or [])] or None,
+        "last_modified": data.get("lastModified"),
+    }
+
+
+def format_hub_state(state: dict) -> str:
+    if not state or state.get("error"):
+        return f"hub       : not confirmed ({(state or {}).get('error', 'no answer')})"
+    size = state.get("bytes")
+    gb = f"{size / 1e9:.2f} GB" if size else "size unknown"
+    return (f"hub       : {state['repo_id']} — {state.get('rows') or '?'} row(s), "
+            f"{gb}, columns {', '.join(state.get('columns') or ['?'])}, "
+            f"{'private' if state.get('private') else 'PUBLIC'}")
+
+
+def upload_card_argv(repo_id: str, card: Path, hf_cli: Optional[str] = None) -> list[str]:
+    """The `hf` command line that uploads a card as the dataset's README.
+    No token in it: `hf` reads HF_TOKEN from the environment."""
+    return [hf_cli or config.HF_CLI, "upload", repo_id, str(card), "README.md",
+            "--repo-type", "dataset"]
+
+
+def upload_card(repo_id: str, card: Path, token: Optional[str] = None) -> str:
+    """Put ``card`` on the hub as README.md. Returns how it was done.
+
+    `huggingface_hub` when it is importable from this venv, the `hf` command
+    line otherwise (`HF_CLI`, on tei the pagexml-hf venv's). Either way the
+    token travels in the environment or an API call, never in argv.
+    """
+    import shutil
+    import subprocess
+
+    tok = token or hub_token()
+    try:
+        from huggingface_hub import HfApi
+    except ImportError:
+        HfApi = None  # noqa: N806
+    if HfApi is not None:
+        HfApi(token=tok or None).upload_file(
+            path_or_fileobj=str(card), path_in_repo="README.md",
+            repo_id=repo_id, repo_type="dataset",
+            commit_message=f"dataset card from {card.name}")
+        return "huggingface_hub"
+    cli = shutil.which(config.HF_CLI) or (config.HF_CLI if Path(config.HF_CLI).is_file() else None)
+    if not cli:
+        raise RuntimeError(
+            f"neither `huggingface_hub` is importable nor `{config.HF_CLI}` is "
+            f"found — set HF_CLI to the hf command (on tei "
+            f"/opt/pagexml-hf/bin/hf)")
+    env = dict(os.environ)
+    if tok:
+        env["HF_TOKEN"] = tok
+    result = subprocess.run(upload_card_argv(repo_id, card, cli), env=env)
+    if result.returncode != 0:
+        raise RuntimeError(f"{cli} exited {result.returncode}")
+    return cli
 
 
 def upload_argv(tree: Path, repo_id: str, *, private: bool = True,
-                mode: str = UPLOAD_MODE) -> list[str]:
+                mode: Optional[str] = None) -> list[str]:
     """The `pagexml-hf` command line for one upload.
 
     `--private` by default and the flag is passed explicitly rather than relied
     on: a default that lives in somebody else's tool is a default that can change
     between versions, and the difference between the two states here is whether a
     collection of unpublished archival images is on the open web.
+
+    ``mode`` defaults to **the tree's own**, not to this module's: a tree of
+    machine readings assembled for ``--mode text`` is uploadable by the same
+    command and the same MCP tool, which take no mode, because the answer is in
+    the directory they are pointed at.
     """
-    argv = ["pagexml-hf", str(tree), "--repo-id", repo_id, "--mode", mode]
+    argv = ["pagexml-hf", str(tree), "--repo-id", repo_id,
+            "--mode", mode or tree_mode(tree)]
     if private:
         argv.append("--private")
     return argv
@@ -1069,9 +1300,11 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
     if not token:
         problems.append("no Hugging Face token — set HF_TOKEN in the environment "
                         "the upload runs in")
+    manifest = read_manifest(tree)
     return UploadPlan(tree=tree, repo_id=repo_id, private=private, pages=pages,
                       projects=projects, tool=tool, token=token,
-                      problems=problems)
+                      problems=problems, mode=tree_mode(tree),
+                      kind=str(manifest.get("kind") or ""))
 
 
 def format_upload(plan: UploadPlan) -> str:
@@ -1081,6 +1314,12 @@ def format_upload(plan: UploadPlan) -> str:
              "projects  : " + (", ".join(f"{k} {v}" for k, v in
                                           sorted(plan.projects.items())) or "—"),
              f"repo      : {plan.repo_id}",
+             f"mode      : {plan.mode}"
+             + (f"   (from {MANIFEST})" if plan.kind else
+                f"   (no {MANIFEST} in the tree — the default)"),
+             f"text      : " + {"run": "MACHINE READING, uncorrected",
+                                "ground-truth": "hand-corrected"}
+             .get(plan.kind, "unstated"),
              f"visibility: {'private' if plan.private else '** PUBLIC **'}",
              f"pagexml-hf: {plan.tool or 'not found'}",
              f"token     : {'present' if plan.token else 'missing'}"]
@@ -1113,7 +1352,12 @@ def build(p: Plan, out_dir: Path) -> dict:
         else:
             shutil.copy2(e.xml_source, dest_xml)
         written += 1
+    write_manifest(out_dir, mode=UPLOAD_MODE, kind="ground-truth",
+                   pages=written, rescaled=rescaled, projects=p.by_project,
+                   left_out=len(p.rejected),
+                   note="hand-corrected Transkribus PAGE XML")
     logger.info(f"[hf] wrote {written} page(s) to {out_dir}"
                 + (f", {rescaled} with rescaled coordinates" if rescaled else ""))
     return {"out_dir": str(out_dir), "pages": written, "rescaled": rescaled,
-            "projects": p.by_project, "left_out": len(p.rejected)}
+            "projects": p.by_project, "left_out": len(p.rejected),
+            "mode": UPLOAD_MODE}

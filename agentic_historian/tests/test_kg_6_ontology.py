@@ -225,33 +225,81 @@ def test_same_as_in_unbekannten_namensraum_scheitert_an_der_form():
     assert any(f.kind == "shacl" and "sameAs" in f.detail for f in rep.findings)
 
 
-# ── Der Befund am Korpusgraphen (KG-12) ──────────────────────────────────────
+# ── Der Korpusgraph (KG-12, #659) ────────────────────────────────────────────
 
-def test_der_korpusgraph_verwendet_erfundene_begriffe():
-    """Gemessen, nicht behauptet: der Exporter aus KG-2/3 prägt Begriffe unter
-    https://sdhss.org/ontology/, die OntoMe nicht kennt, schreibt Literale an
-    P2 und bildet ORG auf E40 ab. Dieser Satz hält die Zahl fest, damit KG-12
-    sie senken kann — und ist der Grund, warum die Prüfung hier **nicht** als
-    Tor vor dem Korpusgraphen steht."""
-    import json
+def _korpus_doc():
     import care_flag
+    return {"doc_id": "doc-1", "transcription": "t",
+            "description": {"source_description": "d", "care_flag": care_flag.classified(True)},
+            "entities": {"entities": [
+                {"text": "Heinrich", "type": "PERSON", "normalised": "Heinrich", "gnd": "12175376X"},
+                {"text": "Kloster", "type": "ORG", "normalised": "Kloster", "hub_id": "hub_p_1"}]},
+            "recognitions": [{"engine": "trocr", "model_id": "m1", "text": "r", "confidence": 0.7, "error": None}],
+            "a_meta": {"fusion_strategy": "vote", "fusion_agreement_cer": 0.05},
+            "closest_reading": {"chosen": ["trocr"], "combined": False,
+                                "editor_pseudonym": "editor-1", "confirmed_at": "2026-10-01T10:00:00Z"}}
+
+
+def test_der_korpusgraph_ist_valide(tmp_path):
+    """Gemessen, nicht behauptet — und umgedreht gegenüber KG-6: bis KG-12
+    prägte der Exporter aus KG-2/3 Begriffe unter https://sdhss.org/ontology/
+    (14 Properties, 4 Klassen am Fixture-Dokument), schrieb Literale an P2
+    und bildete ORG auf E40 ab. Jetzt stehen seine Begriffe unter shb: im
+    Register, ORG ist E74 mit sdh:P99, die Id-Quelle ein E55, jeder Knoten
+    trägt seine Herkunft — und die Prüfung läuft als Tor in corpus_build."""
+    import json
     from knowledge_hub import corpus_build as cb
 
-    doc = {"doc_id": "doc-1", "transcription": "t",
-           "description": {"source_description": "d", "care_flag": care_flag.classified(True)},
-           "entities": {"entities": [
-               {"text": "Heinrich", "type": "PERSON", "normalised": "Heinrich", "gnd": "12175376X"},
-               {"text": "Kloster", "type": "ORG", "normalised": "Kloster", "hub_id": "hub_p_1"}]},
-           "recognitions": [{"engine": "trocr", "model_id": "m1", "text": "r", "confidence": 0.7, "error": None}],
-           "a_meta": {"fusion_strategy": "vote", "fusion_agreement_cer": 0.05}}
-    import tempfile
-    d = Path(tempfile.mkdtemp())
-    (d / "doc-1_pipeline.json").write_text(json.dumps(doc), encoding="utf-8")
-    out = d / "corpus.ttl"
-    cb.build(d, out)
-    rep = v.validate(Graph().parse(str(out), format="turtle"))
-    unknown_props = {f.predicate for f in rep.findings if f.kind == "unknown-property"
-                     and f.predicate.startswith("https://sdhss.org/ontology/")}
-    assert len(unknown_props) >= 10, sorted(unknown_props)
-    assert any(f.kind == "unknown-class" and f.subject.endswith("E40_Legal_Body") for f in rep.findings)
-    assert any(f.kind == "range" and f.predicate.endswith("P2_has_type") for f in rep.findings)
+    (tmp_path / "doc-1_pipeline.json").write_text(json.dumps(_korpus_doc()), encoding="utf-8")
+    out = tmp_path / "corpus.ttl"
+    report = cb.build(tmp_path, out)
+    assert report.validation["ok"] is True
+
+    g = Graph().parse(str(out), format="turtle")
+    rep = v.validate(g)
+    assert rep.ok, rep.render()
+    assert not [f for f in rep.findings if f.kind != "range-untyped"]
+    # Kein Begriff mehr unter der SDHSS-Wurzel ohne Unter-Namensraum.
+    bad = [t for t in {*g.predicates(), *g.objects(None, RDF.type)}
+           if str(t).startswith("https://sdhss.org/ontology/")
+           and not str(t).startswith(("https://sdhss.org/ontology/core/",
+                                      "https://sdhss.org/ontology/crm-supplement/"))]
+    assert bad == [], bad
+    # E74 statt E40, E55 an P2, Herkunft an Dokument, Person und Gruppe.
+    org = URIRef("https://tei.dh.unibe.ch/id/org/kloster")
+    assert (org, RDF.type, registry.CRM["E74_Group"]) in g
+    assert (org, registry.SDH["P99"], None) in g
+    assert all(not isinstance(o, Literal) for o in g.objects(None, registry.CRM["P2_has_type"]))
+    for n in (org, URIRef("https://tei.dh.unibe.ch/id/person/gnd-12175376x"),
+              URIRef("https://tei.dh.unibe.ch/id/document/doc-1")):
+        assert (n, registry.PROV["wasDerivedFrom"], None) in g, n
+    # Die Auswahl ist eine E13, nicht eine erfundene Klasse.
+    assert list(g.subjects(RDF.type, registry.CRM["E13_Attribute_Assignment"]))
+
+
+def test_das_tor_weist_einen_erfundenen_begriff_im_korpusgraphen_ab(tmp_path, monkeypatch):
+    """Gegenprobe: ein alter sdhss:-Begriff im Graphen, und der Bau schreibt
+    keine Datei. Das ist das Tor, das KG-6 bewusst nicht gesetzt hat."""
+    import json
+
+    from knowledge_hub import corpus_build as cb
+    from knowledge_hub import rdf_export as rx
+
+    real = rx.document_to_rdf
+
+    def tainted(g, doc, ns=rx.AH):
+        d = real(g, doc, ns)
+        g.add((d, URIRef("https://sdhss.org/ontology/readingRole"), Literal("working")))
+        return d
+
+    monkeypatch.setattr(rx, "document_to_rdf", tainted)
+    (tmp_path / "doc-1_pipeline.json").write_text(json.dumps(_korpus_doc()), encoding="utf-8")
+    out = tmp_path / "corpus.ttl"
+    with pytest.raises(cb.ValidationError) as info:
+        cb.build(tmp_path, out)
+    assert any(f.kind == "unknown-property" and f.predicate.endswith("readingRole")
+               for f in info.value.report.findings)
+    assert not out.exists()
+    assert not cb.manifest_path(out).exists()
+    assert cb.main(["--outputs", str(tmp_path), "--out", str(out)]) == 2
+    assert not out.exists()

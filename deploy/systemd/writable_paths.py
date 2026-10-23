@@ -57,6 +57,17 @@ def data_paths(cfg) -> list[Path]:
     ``KH_DIR`` is the one that surprises: ``hub.json`` lives under
     ``knowledge_hub/data``, **not** under ``DATA_DIR``, so a unit that lists only
     the latter leaves every knowledge-hub write failing.
+
+    ``ATR_PAGE_CACHE_ARCHIVE`` is deliberately **not** here. It is the cold tier
+    of the page cache, and the bot only *reads* it (``utils.images`` brings a
+    working copy back, the HF export indexes it); what writes it is
+    tei-vm-sanity's nightly ``archive.sh``, as ``dh``, from cron. Listing it
+    looked harmless and was not: on tei it is a CIFS mount with ``forceuid``,
+    so every file there belongs to ``dh`` whoever created it, ``chown -R`` to
+    the bot user fails, and ``switch_to_own_user.sh`` dies in step 4 under
+    ``set -e`` — after the user exists and before the drop-ins are installed.
+    ``ProtectSystem=strict`` leaves reading alone, so a read-only tier needs no
+    entry at all (measured 22.10.2026).
     """
     candidates = [
         getattr(cfg, "DATA_DIR", None),
@@ -68,9 +79,6 @@ def data_paths(cfg) -> list[Path]:
         getattr(cfg, "VLM_TEST_ROOT", None),
         getattr(cfg, "ATR_PAGE_CACHE", None),
     ]
-    archive = getattr(cfg, "ATR_PAGE_CACHE_ARCHIVE", None)
-    if archive:
-        candidates.append(Path(archive))
     return _dedupe([Path(p) for p in candidates if p])
 
 
@@ -103,21 +111,35 @@ def render(paths: list[Path]) -> str:
     return "\n".join(f"ReadWritePaths={p}" for p in paths)
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
+    """Print the writable paths, or just the data directories with ``--data-only``.
+
+    ``--data-only`` prints one bare path per line and nothing else, because
+    ``switch_to_own_user.sh`` reads it: a script that has to grep a commented
+    report for paths would break on the next comment, and typing the list into
+    the script instead is the drift that put a non-existent ``/srv`` path into
+    the unit in the first place (#567).
+    """
+    argv = sys.argv[1:] if argv is None else argv
     sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "agentic_historian"))
     import config
 
     data = data_paths(config)
     update = update_paths(config)
 
+    if "--data-only" in argv:
+        for path in data:
+            print(path)
+        return
+
     print("# ── Tier 1: normal operation ─────────────────────────────────────")
     print(render(data))
     print()
-    print("# ── Tier 2: additionally required for /update ───────────────────")
-    print("# These let the process rewrite its own code and dependencies.")
-    print("# Leave them out and /update fails; put them in and the sandbox no")
-    print("# longer protects the thing most worth protecting. That is a")
-    print("# decision about /update, not about this file (#567).")
+    print("# ── Additionally required to deploy INTO this checkout ──────────")
+    print("# These let a process rewrite the code and the dependencies it runs.")
+    print("# They are NOT in the bot's unit any more: `/update` reports and no")
+    print("# longer pulls (#567, decided 17.10.2026), so the deploy runs from")
+    print("# outside as whoever owns the checkout. Printed for that person.")
     print(render(update))
     if not in_virtualenv():
         print("# WARNUNG: mit dem System-Python gelaufen, nicht im venv des Bots.")

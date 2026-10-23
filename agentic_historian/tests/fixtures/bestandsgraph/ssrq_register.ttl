@@ -102,6 +102,230 @@
     pers:spouseOf [ pers:id <http://ssrq-sds-fds.ch/Register/#per012902> ;
             pers:occurence "gortega" ] .
 
+<http://ssrq-sds-fds.ch/Register/#per026538> a pers:person ;
+    rdfs:label "Hans Ludwig Thumbé"@deu ;
+    pers:deaths [ pers:death "02.02.1695" ;
+            pers:occurence "rita" ] ;
+    pers:fatherOf [ pers:id <http://ssrq-sds-fds.ch/Register/#per027709> ;
+            pers:occurence "rita" ],
+        [ pers:id <http://ssrq-sds-fds.ch/Register/#per027629> ;
+            pers:occurence "rita" ] ;
+    pers:first_mentions [ pers:first_mention "1654" ;
+            pers:occurence "rita" ] ;
+    pers:hist [ pers:date "2020-11-25 09:48:07.667867" ;
+            pers:username "rita" ] ;
+    pers:name [ pers:forename "NN" ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_var_id <http://ssrq-sds-fds.ch/Register/#org003348.01> ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#per026538a.01> ],
+        [ pers:forename "Hans Ludwig" ;
+            pers:id <http://ssrq-sds-fds.ch/Register/#per026538a> ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org003348> ;
+            pers:type "std" ] ;
+    pers:occupation [ pers:date "1654-1695" ;
+            pers:description "key000181" ;
+            pers:occurence "rita" ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org002637> ] ;
+    pers:org_id <http://ssrq-sds-fds.ch/Register/#org003348> ;
+    pers:project "SSRQ" ;
+    pers:refs [ pers:page "VI, p. 560" ;
+            pers:title "DHBS" ;
+            pers:type "biblio" ;
+            pers:url "http://permalink.snl.ch/bib/chbsg000144836" ] ;
+    pers:residence [ pers:location <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+            pers:occurence "rita" ] ;
+    pers:sex "1" .
+
+<http://ssrq-sds-fds.ch/Register/#per000002> a pers:person ;
+    rdfs:label "Elsi von Wangs"@deu ;
+    pers:first_mentions [ pers:first_mention "1342" ;
+            pers:format_dates [ pers:format_date [ pers:when "1342" ] ] ;
+            pers:occurence "SG III/2" ] ;
+    pers:name [ pers:forename "Elsi" ;
+            pers:id <http://ssrq-sds-fds.ch/Register/#per000002a> ;
+            pers:lang "deu" ;
+            pers:marital_statuses [ pers:marital_status "s" ;
+                    pers:occurence "SG III/2" ] ;
+            pers:occurence [ pers:articles [ pers:article "10b" ;
+                            pers:line "6" ;
+                            pers:page "15" ] ;
+                    pers:vol "SG III/2" ] ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org000039> ;
+            pers:type "std" ],
+        [ pers:forename "Elsi" ;
+            pers:id <http://ssrq-sds-fds.ch/Register/#per000002b> ;
+            pers:lang "deu" ;
+            pers:marital_statuses [ pers:marital_status "m" ;
+                    pers:occurence "SG III/2" ] ;
+            pers:occurence [ pers:articles [ pers:article "10b" ;
+                            pers:line "6" ;
+                            pers:page "15" ] ;
+                    pers:vol "SG III/2" ] ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org000040> ;
+            pers:type "std" ] ;
+    pers:org_id <http://ssrq-sds-fds.ch/Register/#org000039>,
+        <http://ssrq-sds-fds.ch/Register/#org000040> ;
+    pers:project "SSRQ" ;
+    pers:sex "2" ;
+    pers:spouseOf [ pers:id <http://ssrq-sds-fds.ch/Register/#per000005> ;
+            pers:occurence "SG III/2" ] .
+
+<http://ssrq-sds-fds.ch/Register/#per000005> a pers:person ;
+    rdfs:label "Heinrich von Vinial"@deu ;
+    pers:first_mentions [ pers:first_mention "1342" ;
+            pers:format_dates [ pers:format_date [ pers:when "1342" ] ] ;
+            pers:occurence "SG III/2" ] ;
+    pers:name [ pers:forename "Hainrich" ;
+            pers:lang "deu" ;
+            pers:occurence "SG III/2" ;
+            pers:org_var_id <http://ssrq-sds-fds.ch/Register/#org000040.02> ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#per000005a.01> ],
+        [ pers:forename "Heinrich" ;
+            pers:id <http://ssrq-sds-fds.ch/Register/#per000005a> ;
+            pers:lang "deu" ;
+            pers:marital_statuses [ pers:marital_status "m" ;
+                    pers:occurence "SG III/2" ] ;
+            pers:occurence [ pers:articles [ pers:article "10b" ;
+                            pers:line "7" ;
+                            pers:page "15" ] ;
+                    pers:vol "SG III/2" ] ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org000040> ;
+            pers:type "std" ] ;
+    pers:org_id <http://ssrq-sds-fds.ch/Register/#org000040> ;
+    pers:project "SSRQ" ;
+    pers:residence [ pers:location <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+            pers:occurence "SG III/2" ] ;
+    pers:sex "1" ;
+    pers:spouseOf [ pers:id <http://ssrq-sds-fds.ch/Register/#per000002> ;
+            pers:occurence "SG III/2" ] .
+
+<http://ssrq-sds-fds.ch/Register/#per013668> a pers:person ;
+    rdfs:label "Franz Heinrich Reyff"@deu ;
+    pers:births [ pers:birth "1617" ;
+            pers:occurence "rita" ] ;
+    pers:deaths [ pers:death "1668" ;
+            pers:occurence "rita" ] ;
+    pers:hist [ pers:date "2020-05-25 10:01:42.510353" ;
+            pers:username "rita" ] ;
+    pers:name [ pers:forename "Heinrich" ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_var_id <http://ssrq-sds-fds.ch/Register/#org003353.01> ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#per013668a.01> ],
+        [ pers:forename "NN" ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_var_id <http://ssrq-sds-fds.ch/Register/#org003353.03> ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#per013668a.03> ],
+        [ pers:forename "Frantz Heinrich" ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_var_id <http://ssrq-sds-fds.ch/Register/#org003353.03> ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#per013668a.05> ],
+        [ pers:forename "Frantz Heinrich" ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_var_id <http://ssrq-sds-fds.ch/Register/#org003353.04> ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#per013668a.04> ],
+        [ pers:forename "NN" ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_var_id <http://ssrq-sds-fds.ch/Register/#org003353.04> ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#per013668a.02> ],
+        [ pers:forename "Franz Heinrich" ;
+            pers:id <http://ssrq-sds-fds.ch/Register/#per013668a> ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org003353> ;
+            pers:rolenames [ pers:occurence "rita" ;
+                    pers:rolename "Junker/donzel" ] ;
+            pers:type "std" ] ;
+    pers:occupation [ pers:date "1641-1668" ;
+            pers:description "key000181" ;
+            pers:occurence "rita" ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org002637> ] ;
+    pers:org_id <http://ssrq-sds-fds.ch/Register/#org003353> ;
+    pers:project "SSRQ" ;
+    pers:refs [ pers:page "V, p. 458" ;
+            pers:title "DHBS" ;
+            pers:type "biblio" ;
+            pers:url "http://permalink.snl.ch/bib/chbsg000144836" ] ;
+    pers:residence [ pers:location <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+            pers:occurence "rita" ] ;
+    pers:sex "1" .
+
+<http://ssrq-sds-fds.ch/Register/#per014042> a pers:person ;
+    rdfs:label "Hans Nikolaus Wild"@deu ;
+    pers:deaths [ pers:death "06.01.1663" ;
+            pers:occurence "rita" ] ;
+    pers:first_mentions [ pers:first_mention "1621" ;
+            pers:occurence "rita" ] ;
+    pers:hist [ pers:date "2020-05-26 13:19:36.852474" ;
+            pers:username "rita" ] ;
+    pers:name [ pers:forename "Hanß Niclauß" ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_var_id <http://ssrq-sds-fds.ch/Register/#org003431.02> ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#per014042a.02> ],
+        [ pers:forename "Hannß Niclaus" ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_var_id <http://ssrq-sds-fds.ch/Register/#org003431.02> ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#per014042a.01> ],
+        [ pers:forename "Hans Nikolaus" ;
+            pers:id <http://ssrq-sds-fds.ch/Register/#per014042a> ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org003431> ;
+            pers:type "std" ] ;
+    pers:occupation [ pers:date "1621-1663" ;
+            pers:description "key000181" ;
+            pers:occurence "rita" ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org002637> ],
+        [ pers:date "1649-1663" ;
+            pers:description "key003647" ;
+            pers:occurence "rita" ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org002637> ] ;
+    pers:org_id <http://ssrq-sds-fds.ch/Register/#org003431> ;
+    pers:project "SSRQ" ;
+    pers:refs [ pers:page "VII, p. 322" ;
+            pers:title "DHBS" ;
+            pers:type "biblio" ;
+            pers:url "http://permalink.snl.ch/bib/chbsg000144836" ] ;
+    pers:residence [ pers:location <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+            pers:occurence "rita" ] ;
+    pers:sex "1" .
+
+<http://ssrq-sds-fds.ch/Register/#per019651> a pers:person ;
+    rdfs:label "Klaus Schorsch"@deu ;
+    pers:first_mentions [ pers:first_mention "1496" ;
+            pers:occurence "GR B III/2" ] ;
+    pers:hist [ pers:date "2020-08-12 10:58:48.831807" ;
+            pers:username "GR B III/2" ] ;
+    pers:name [ pers:forename "Klaus" ;
+            pers:id <http://ssrq-sds-fds.ch/Register/#per019651a> ;
+            pers:lang "deu" ;
+            pers:occurence "GR B III/2" ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org002920> ;
+            pers:type "std" ] ;
+    pers:org_id <http://ssrq-sds-fds.ch/Register/#org002920> ;
+    pers:project "SSRQ" ;
+    pers:sex "1" ;
+    pers:siblingOf [ pers:id <http://ssrq-sds-fds.ch/Register/#per022054> ;
+            pers:occurence "GR B III/2" ] .
+
 <http://ssrq-sds-fds.ch/Register/#per022054> a pers:person ;
     rdfs:label "Peter Schorsch"@deu ;
     pers:first_mentions [ pers:first_mention "1503" ;
@@ -141,31 +365,53 @@
     pers:siblingOf [ pers:id <http://ssrq-sds-fds.ch/Register/#per019651> ;
             pers:occurence "pascale" ] .
 
-<http://ssrq-sds-fds.ch/Register/#per026538> a pers:person ;
-    rdfs:label "Hans Ludwig Thumbé"@deu ;
-    pers:deaths [ pers:death "02.02.1695" ;
+<http://ssrq-sds-fds.ch/Register/#org000039> a pers:family ;
+    pers:name [ pers:lang "deu" ;
+            pers:namelink "von" ;
+            pers:occurence "SG III/2" ;
+            pers:surname "Wanges" ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#org000039.03> ],
+        [ pers:lang "deu" ;
+            pers:namelink "von" ;
+            pers:occurence "SG III/2" ;
+            pers:surname "Wangs" ;
+            pers:type "std" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#org000039.01> ],
+        [ pers:lang "deu" ;
+            pers:namelink "von" ;
+            pers:occurence "SG III/2" ;
+            pers:surname "Wangs" ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#org000039.02> ] ;
+    pers:org_type "Familie/famille" ;
+    pers:project "SSRQ" .
+
+<http://ssrq-sds-fds.ch/Register/#per027629> a pers:person ;
+    rdfs:label "Franz Peter Josef Thumbé"@deu ;
+    pers:births [ pers:birth "04.01.1666" ;
             pers:occurence "rita" ] ;
-    pers:fatherOf [ pers:id <http://ssrq-sds-fds.ch/Register/#per027709> ;
-            pers:occurence "rita" ],
-        [ pers:id <http://ssrq-sds-fds.ch/Register/#per027629> ;
+    pers:deaths [ pers:death "25.06.1728" ;
             pers:occurence "rita" ] ;
-    pers:first_mentions [ pers:first_mention "1654" ;
-            pers:occurence "rita" ] ;
-    pers:hist [ pers:date "2020-11-25 09:48:07.667867" ;
+    pers:hist [ pers:date "2020-11-25 09:49:26.485005" ;
             pers:username "rita" ] ;
     pers:name [ pers:forename "NN" ;
             pers:lang "deu" ;
             pers:occurence "rita" ;
             pers:org_var_id <http://ssrq-sds-fds.ch/Register/#org003348.01> ;
             pers:type "orig" ;
-            pers:var_id <http://ssrq-sds-fds.ch/Register/#per026538a.01> ],
-        [ pers:forename "Hans Ludwig" ;
-            pers:id <http://ssrq-sds-fds.ch/Register/#per026538a> ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#per027629a.01> ],
+        [ pers:forename "Franz Peter Josef" ;
+            pers:id <http://ssrq-sds-fds.ch/Register/#per027629a> ;
             pers:lang "deu" ;
             pers:occurence "rita" ;
             pers:org_id <http://ssrq-sds-fds.ch/Register/#org003348> ;
             pers:type "std" ] ;
-    pers:occupation [ pers:date "1654-1695" ;
+    pers:occupation [ pers:date "1708-1728" ;
+            pers:description "key003647" ;
+            pers:occurence "rita" ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org002637> ],
+        [ pers:date "1691-1728" ;
             pers:description "key000181" ;
             pers:occurence "rita" ;
             pers:org_id <http://ssrq-sds-fds.ch/Register/#org002637> ] ;
@@ -177,7 +423,89 @@
             pers:url "http://permalink.snl.ch/bib/chbsg000144836" ] ;
     pers:residence [ pers:location <http://ssrq-sds-fds.ch/Register/#loc001060> ;
             pers:occurence "rita" ] ;
-    pers:sex "1" .
+    pers:sex "1" ;
+    pers:siblingOf [ pers:id <http://ssrq-sds-fds.ch/Register/#per027709> ;
+            pers:occurence "rita" ] .
+
+<http://ssrq-sds-fds.ch/Register/#per027709> a pers:person ;
+    rdfs:label "Hans Jakob Thumbé"@deu ;
+    pers:births [ pers:birth "22.01.1667" ;
+            pers:occurence "rita" ] ;
+    pers:deaths [ pers:death "29.12.1736" ;
+            pers:occurence "rita" ] ;
+    pers:hist [ pers:date "2020-11-25 10:22:19.086912" ;
+            pers:username "rita" ] ;
+    pers:name [ pers:forename "Hans Jakob" ;
+            pers:id <http://ssrq-sds-fds.ch/Register/#per027709a> ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org003348> ;
+            pers:type "std" ],
+        [ pers:forename "NN" ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_var_id <http://ssrq-sds-fds.ch/Register/#org003348.04> ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#per027709a.02> ],
+        [ pers:forename "NN" ;
+            pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:org_var_id <http://ssrq-sds-fds.ch/Register/#org003348.01> ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#per027709a.01> ] ;
+    pers:occupation [ pers:date "1721-1724" ;
+            pers:description "key003719" ;
+            pers:occurence "rita" ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org002637> ],
+        [ pers:date "1691-1736" ;
+            pers:description "key000181" ;
+            pers:occurence "rita" ;
+            pers:org_id <http://ssrq-sds-fds.ch/Register/#org002637> ] ;
+    pers:org_id <http://ssrq-sds-fds.ch/Register/#org003348> ;
+    pers:project "SSRQ" ;
+    pers:refs [ pers:page "VI, p. 560" ;
+            pers:title "DHBS" ;
+            pers:type "biblio" ;
+            pers:url "http://permalink.snl.ch/bib/chbsg000144836" ] ;
+    pers:residence [ pers:location <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+            pers:occurence "rita" ] ;
+    pers:sex "1" ;
+    pers:siblingOf [ pers:id <http://ssrq-sds-fds.ch/Register/#per027629> ;
+            pers:occurence "rita" ] .
+
+<http://ssrq-sds-fds.ch/Register/#org005270> a pers:family ;
+    pers:hist [ pers:date "2020-01-07 08:42:31.439254" ;
+            pers:username "gortega" ] ;
+    pers:name [ pers:lang "lat" ;
+            pers:occurence "gortega" ;
+            pers:surname "Baon" ;
+            pers:type "std" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#org005270.02> ],
+        [ pers:lang "fra" ;
+            pers:occurence "gortega" ;
+            pers:surname "Baon" ;
+            pers:type "std" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#org005270.01> ] ;
+    pers:org_type "Familie/famille" ;
+    pers:project "SSRQ" .
+
+<http://ssrq-sds-fds.ch/Register/#org000040> a pers:family ;
+    pers:name [ pers:lang "deu" ;
+            pers:namelink "von" ;
+            pers:occurence "SG III/2" ;
+            pers:surname "Vinial" ;
+            pers:type "std" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#org000040.01> ],
+        [ pers:lang "deu" ;
+            pers:namelink "von" ;
+            pers:occurence "SG III/2" ;
+            pers:surname "Vinial" ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#org000040.02> ] ;
+    pers:org_type "Familie/famille" ;
+    pers:project "SSRQ" ;
+    pers:residence [ pers:location <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+            pers:occurence "SG III/2" ] .
 
 <http://ssrq-sds-fds.ch/Register/#org002920> a pers:family ;
     pers:hist [ pers:date "2021-01-06 10:37:16.662471" ;
@@ -345,36 +673,6 @@
     pers:refs [ pers:id "21939" ;
             pers:type "HLS" ] .
 
-<http://ssrq-sds-fds.ch/Register/#org003348> a pers:family ;
-    pers:hist [ pers:date "2020-11-25 10:22:03.776840" ;
-            pers:username "rita" ] ;
-    pers:name [ pers:lang "fra" ;
-            pers:occurence "FR I/2/8" ;
-            pers:surname "Thumbé" ;
-            pers:type "std" ;
-            pers:var_id <http://ssrq-sds-fds.ch/Register/#org003348.01> ],
-        [ pers:lang "deu" ;
-            pers:occurence "pascale" ;
-            pers:surname "Thumbé" ;
-            pers:type "std" ;
-            pers:var_id <http://ssrq-sds-fds.ch/Register/#org003348.03> ],
-        [ pers:lang "deu" ;
-            pers:occurence "rita" ;
-            pers:surname "Thumbe" ;
-            pers:type "orig" ;
-            pers:var_id <http://ssrq-sds-fds.ch/Register/#org003348.04> ],
-        [ pers:lang "deu" ;
-            pers:occurence "FR I/2/8" ;
-            pers:surname "Tumbe" ;
-            pers:type "orig" ;
-            pers:var_id <http://ssrq-sds-fds.ch/Register/#org003348.02> ] ;
-    pers:org_type "Familie/famille" ;
-    pers:project "SSRQ" ;
-    pers:refs [ pers:page "VI, p. 560" ;
-            pers:title "DHBS" ;
-            pers:type "biblio" ;
-            pers:url "http://permalink.snl.ch/bib/chbsg000144836" ] .
-
 <http://ssrq-sds-fds.ch/Register/#org003353> a pers:family ;
     pers:hist [ pers:date "2021-01-19 11:33:18.987247" ;
             pers:username "rita" ] ;
@@ -442,19 +740,33 @@
     pers:residence [ pers:location <http://ssrq-sds-fds.ch/Register/#loc001060> ;
             pers:occurence "FR I/2/8" ] .
 
-<http://ssrq-sds-fds.ch/Register/#org005270> a pers:family ;
-    pers:hist [ pers:date "2020-01-07 08:42:31.439254" ;
-            pers:username "gortega" ] ;
-    pers:name [ pers:lang "lat" ;
-            pers:occurence "gortega" ;
-            pers:surname "Baon" ;
+<http://ssrq-sds-fds.ch/Register/#org003348> a pers:family ;
+    pers:hist [ pers:date "2020-11-25 10:22:03.776840" ;
+            pers:username "rita" ] ;
+    pers:name [ pers:lang "fra" ;
+            pers:occurence "FR I/2/8" ;
+            pers:surname "Thumbé" ;
             pers:type "std" ;
-            pers:var_id <http://ssrq-sds-fds.ch/Register/#org005270.02> ],
-        [ pers:lang "fra" ;
-            pers:occurence "gortega" ;
-            pers:surname "Baon" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#org003348.01> ],
+        [ pers:lang "deu" ;
+            pers:occurence "pascale" ;
+            pers:surname "Thumbé" ;
             pers:type "std" ;
-            pers:var_id <http://ssrq-sds-fds.ch/Register/#org005270.01> ] ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#org003348.03> ],
+        [ pers:lang "deu" ;
+            pers:occurence "rita" ;
+            pers:surname "Thumbe" ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#org003348.04> ],
+        [ pers:lang "deu" ;
+            pers:occurence "FR I/2/8" ;
+            pers:surname "Tumbe" ;
+            pers:type "orig" ;
+            pers:var_id <http://ssrq-sds-fds.ch/Register/#org003348.02> ] ;
     pers:org_type "Familie/famille" ;
-    pers:project "SSRQ" .
+    pers:project "SSRQ" ;
+    pers:refs [ pers:page "VI, p. 560" ;
+            pers:title "DHBS" ;
+            pers:type "biblio" ;
+            pers:url "http://permalink.snl.ch/bib/chbsg000144836" ] .
 

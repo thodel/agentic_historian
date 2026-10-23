@@ -718,14 +718,425 @@ die man glauben oder nicht glauben kann, und widersprechen kann man ihr nur, ind
 man die Seiten liest, bei denen sie falsch war. Über MCP nennt das Ergebnis die
 Datei im Feld `writers`; sie liegt unter `VLM_TEST_ROOT`, nicht in `/tmp`.
 
-## What the dataset card should say
+## Hochgeladen, 21. Oktober 2026
 
-Three things that are true of this data and not obvious from it:
+```
+upload_hf(tree="hf-export-20261015T043850", dry_run=false)
+→ pagexml-hf … --repo-id dh-unibe/image-text_lassberg-correspondence_xix \
+               --mode raw_xml --private
+```
 
-1. The split is inferred from datelines and will be wrong on some pages.
-2. Status DONE counts as ground truth here. This collection used the GT tag on 19
-   of 552 pages, so requiring it would have discarded 96 % of the available truth.
-3. Two harvested documents (`doc1350777`, `doc1350778`) are pages of a *printed
-   edition* of the correspondence rather than letter scans. They never reach the
-   export, because they locate nothing — but anyone comparing counts against the
-   Transkribus collection will find them missing and should know why.
+Exit 0, **11,5 min** (10 min Konversion bei ~2 s/Seite, dann der Transfer).
+`pagexml-hf 0.9.6+fork.1`, Python 3.12.3, installiert unter `/opt/pagexml-hf`
+mit einem Symlink in `/usr/local/bin` — **nicht** in die Venv des Dienstes, deren
+Pins `atr-mcp` bedient, und nicht nach `~/.local/bin`, das im PATH des Dienstes
+fehlt (§ *Welcher Code hat geantwortet?* in `BATCH_ATR.md` gilt auch für
+Werkzeuge, nicht nur für Code).
+
+Geprüft am Hub, nicht im Log — dieselbe Abfrage, die vorher „not found" ergab:
+
+| | |
+|---|---|
+| Status | 254 Beispiele, ein Split, 1,46 GB, **privat**, MIT |
+| Schema | `image` (decode: false), `xml_content`, `filename`, **`project_name`** |
+| `data/train/korrespondenten/…parquet` | 780,0 MB |
+| `data/train/lassberg/…parquet` | 521,8 MB |
+| `data/train/unbestimmt/…parquet` | 230,9 MB |
+
+**Die Projektaufteilung ist doppelt angekommen**, als Spalte und als Ablage —
+die Arbeit an der Hand steht damit im Datensatz und nicht nur im Plan. Fast
+falsch gelesen: die Datensatzkarte schneidet ihre Feature-Liste nach
+`xml_content…` ab, was aussieht, als fehle `project_name`. Erst die `README.md`
+selbst zeigt alle vier Spalten. Eine abgeschnittene Darstellung ist keine
+Aussage über den Inhalt (§ *17* in `LESSONS_2026-10.md`, dritter Fall).
+
+**Was der Upload nicht beantwortet.** Der Dataset Viewer verweigert private
+Datensätze außerhalb von PRO/Enterprise (`501 Not Implemented`) — keine
+Zeilenvorschau, kein Parquet-Export, kein Schema-Browsing auf dem Hub;
+`load_dataset` geht, Hineinsehen heisst Herunterladen.
+
+### Im Parquet nachgesehen: 13 von 13
+
+Die vierte Stelle, an der dieselben dreizehn Seiten auftauchen — nach Plan,
+Schreiben und geschriebener Datei:
+
+```bash
+cd /home/dh/agentic_historian
+set -a; . ./.env; set +a          # Token in die Umgebung, nicht in die History
+/opt/pagexml-hf/bin/python3 - <<'PY'
+from huggingface_hub import HfFileSystem
+import pyarrow.parquet as pq
+
+fs = HfFileSystem()
+base = "datasets/dh-unibe/image-text_lassberg-correspondence_xix/data/train"
+NOTE = "agentic_historian: line coordinates divided"
+for shard in sorted(fs.glob(base + "/*/*.parquet")):
+    t = pq.read_table(shard, columns=["filename", "xml_content"], filesystem=fs)
+    hits = [f for f, x in zip(t["filename"].to_pylist(), t["xml_content"].to_pylist())
+            if NOTE in x]
+    print(f"{len(hits):3} von {t.num_rows:3}   {shard.split('/')[-2]}")
+PY
+```
+
+**Der Interpreter ist `/opt/pagexml-hf/bin/python3` und nicht der des Projekts**
+— `datasets`/`pyarrow` liegen absichtlich nicht in der Venv des Dienstes (§ oben),
+und eine erste Fassung dieser Prüfung scheiterte an genau dem `import`. Dazu
+zweierlei, was sie billig macht: die **Spaltenprojektion über Range-Requests**
+holt zwei Textspalten statt 1,46 GB Bilder, und `set -a; . ./.env` bringt den
+Token in die Umgebung, ohne ihn in die History zu schreiben.
+
+| Shard | Zeilen | davon mit Vermerk |
+|---|---:|---:|
+| `korrespondenten` | **131** | 3 |
+| `lassberg` | **89** | 3 |
+| `unbestimmt` | **34** | **7** |
+| | 254 | **13** |
+
+Die Zeilenzahlen sind die des Plans, die dreizehn Dateinamen dieselben. Und zwei
+Befunde, die erst diese Verteilung zeigt:
+
+**Sieben der dreizehn liegen in `unbestimmt`** — 21 % jenes Shards gegen 2,3 %
+und 3,4 % der beiden anderen. Dass eine gerettete Seite meist eine Folgeseite
+ohne Datumszeile ist, war bisher eine Erklärung; jetzt ist es eine Verteilung,
+mit einer Überrepräsentation um den Faktor sieben bis neun.
+
+**Brief 2921 liegt in zwei verschiedenen Projekten**: `…-002` unter
+`korrespondenten`, `…-001` unter `lassberg`. Das ist der Hand-Konflikt, den der
+Plan als Warnzeile meldete („korrespondenten 1, lassberg 1") — zwei datierte
+Seiten, die sich widersprechen, also vererbt der Brief nichts und jede Seite
+behält ihre eigene Lesung. Im Datensatz sind daraus zwei Shards geworden, die
+zwei Seiten *eines* Briefes halten.
+
+Das hat eine Folge über Kosmetik hinaus: **wer nach `project_name` in Train und
+Test teilt, legt diesen Brief über die Grenze** — eine Seite links, eine rechts,
+derselbe Schreiber, dasselbe Papier, dieselbe Tinte. Ein Brief von 96, also
+klein, aber nicht null, und es ist die Form eines Lecks in einer
+Held-out-Messung. Hier ist nicht die Hand falsch, sondern eine Grenze
+durchlässig, und das ist ein anderer Fehler als der, vor dem die Karte warnt.
+
+### Sitzen die geteilten Polygone auf der Tinte? Ja — und der Weg dahin war der Lehrreiche
+
+Die Frage stand an drei Stellen als offen, und ein Blick auf einen Zeilenschnitt
+hätte sie mit „sieht richtig aus" beantwortet. Gemessen ist sie besser
+beantwortet: **jede Abweichung vom angewandten Faktor fängt weniger Tinte.**
+
+Das Mass ist der Anteil der Tintenpixel einer Seite, der **innerhalb** der
+Zeilenpolygone liegt (Otsu-Binarisierung, Polygonmaske). Ist der Faktor richtig,
+muss er ein **Optimum** sein: grössere, kleinere oder verschobene Kästen müssen
+schlechter abschneiden. Ein dunkler Scanrand verschiebt alle Varianten gleich
+und fällt damit aus dem Vergleich heraus — anders als beim Absolutwert.
+
+**12 der 13 Seiten: `s* = 1.00`, `dx* = dy* = 0`, exakt.** Kein Wert im Raster
+(0,90–1,10 Skalierung, ±4 % Verschiebung in beiden Achsen) bringt ein einziges
+Tintenpixel mehr.
+
+Die dreizehnte, `Basel__…Seite_164`, zeigte `s* = 1.10` mit `+4 % / −4 %`
+Verschiebung und einem Gewinn von 0,246 → 0,264. **Alle drei Parameter lagen am
+Rand des Rasters**, und das ist die Signatur eines Gradienten nach aussen, nicht
+eines Optimums: ein echtes Maximum liegt innen und bringt viel. Nachgemessen mit
+randfester Tintendefinition (innere 90 % der Seite, Pixel unter 20 als Rand
+verworfen):
+
+| Skalierung | 0,80 | 0,90 | **1,00** | 1,10 | 1,20 | 1,30 |
+|---|---:|---:|---:|---:|---:|---:|
+| Tinte im Kasten | 0,362 | 0,496 | **0,856** | 0,723 | 0,750 | 0,675 |
+
+| Verschiebung (Höhe) | −10 % | −5 % | **0** | +5 % | +10 % |
+|---|---:|---:|---:|---:|---:|
+| Tinte im Kasten | 0,678 | 0,454 | **0,856** | 0,452 | 0,719 |
+
+Inneres Maximum mit Abfall nach beiden Seiten, auf beiden Parametern. Der
+Tinteanteil der Seite fiel dabei von 0,195 auf **0,056** — fast drei Viertel der
+vorher gezählten „Tinte" war Rand, und 0,856 liegt mitten im Bereich der zehn
+Freiburger Seiten (0,747–0,912). Diese Seite war nie ein Ausreisser der Daten,
+sondern einer der Messung.
+
+Ein Nebenbefund, der die Sache dichter macht als geplant: die Täler bei ±5 % und
+die teilweise Erholung bei ±10 % sind der **Fingerabdruck der Zeilenperiodik** —
+um anderthalb Zeilenhöhen verschoben landen die Kästen zwischen den Zeilen
+(0,45), um dreieinhalb wieder näher an Zeilen (0,68–0,72). Diese Form hat nur
+eine korrekte Ausrichtung auf einem periodischen Raster.
+
+**Was dabei schiefging, ist die eigentliche Lehre.** Als Kontrolle liefen 25
+unberührte Seiten mit, deren Polygone *konstruktiv* richtig sind — sie sind im
+Baum, weil XML- und Bildgrösse ohne jede Änderung übereinstimmten. Ihr Median
+lag bei **0,166** mit Lift **0,54**, also deutlich *unter* den umgerechneten
+0,830. Das kann nicht an der Platzierung liegen; es liegt daran, dass Otsu auf
+Archivscans mit dunklem Rand den Rand als Tinte zählt. Die Kontrolle hat damit
+**das Instrument gemessen und nicht den Gegenstand** — und genau dadurch
+verhindert, dass ich 0,830 für einen Beweis nehme (§ *28* in
+`LESSONS_2026-10.md`).
+
+## Die Datensatzkarte
+
+Sie steht als [`hf-dataset-card.md`](hf-dataset-card.md) im Repository, mit der
+YAML-Kopfzeile von `pagexml-hf` **wörtlich** erhalten — `dataset_info` und
+`configs` liest der Hub, und sie neu zu tippen hiesse, die Grössen von Hand zu
+pflegen.
+
+**Seit #691 aus der Session:** `upload_hf_card(card="hf-dataset-card.md",
+repo_id=…)` — holt das README vom Hub, setzt dessen Frontmatter wörtlich in die
+Karte, schreibt die Karte nach `docs/` zurück und lädt sie als README hoch;
+`dry_run=True` (Vorgabe) zeigt nur den Spleiss. Und `upload_hf` endet jetzt mit
+dem, was der Hub hält (Zeilen, Bytes, Spalten, privat). Der Token kommt aus der
+Konfiguration, nie in die Kommandozeile; `hf` wird über `HF_CLI` gefunden (auf
+tei `/opt/pagexml-hf/bin/hf`), wenn `huggingface_hub` im venv fehlt.
+
+Von Hand, wie bisher — am einfachsten im Web-Editor der Datensatzseite (*Edit README*):
+einmalige Textänderung, kein Token, keine CLI. Von tei aus geht es auch, braucht
+dann aber zwei Umstände, die je eine eigene Falle sind — `hf` liegt nur in der
+Venv unter `/opt` und nicht auf dem PATH, und der Token steht in `.env`, das eine
+interaktive Bash nie liest:
+
+```bash
+cd /home/dh/agentic_historian && git pull
+set -a; . ./.env; set +a          # Token in die Umgebung, nicht in die History
+/opt/pagexml-hf/bin/hf upload dh-unibe/image-text_lassberg-correspondence_xix \
+  docs/hf-dataset-card.md README.md --repo-type dataset
+```
+
+`--token` wäre der dritte Weg und der schlechteste: ein Geheimnis in argv steht
+in `ps` und in `.bash_history`.
+
+Vier Dinge, die von diesen Daten gelten und ihnen nicht anzusehen sind — die
+ersten drei standen hier schon, bevor es den Datensatz gab, der vierte kam mit
+den umgerechneten Seiten dazu:
+
+1. Die Aufteilung ist aus Datumszeilen erschlossen und wird auf manchen Seiten
+   falsch sein. `unbestimmt` ist **keine dritte Hand**, sondern „nichts hat
+   etwas gesagt".
+2. Status DONE gilt hier als Ground Truth. Diese Sammlung hat das GT-Tag auf 19
+   von 552 Seiten benutzt; es zu verlangen hätte 96 % der verfügbaren Wahrheit
+   verworfen.
+3. Zwei geerntete Dokumente (`doc1350777`, `doc1350778`) sind Seiten einer
+   *gedruckten Edition* und keine Briefscans. Sie erreichen den Export nie, weil
+   sie nichts lokalisieren — aber wer Zahlen gegen die Transkribus-Sammlung
+   vergleicht, findet 85 Seiten fehlen und soll wissen, warum.
+4. Dreizehn Seiten tragen umgerechnete Koordinaten und weisen es im eigenen XML
+   aus; 27 weitere sind zwei verschiedene Aufnahmen eines Blattes und fehlen
+   deshalb. Wer die 13 sucht oder ausschliessen will, filtert auf
+   `agentic_historian: line coordinates divided`.
+
+Und was die Karte ausdrücklich sagt, weil es sonst niemand weiss: **die Bilder
+sind Digitalisate der besitzenden Häuser.** MIT gilt für die Konversion und die
+Struktur, nicht für die Scans; der Datensatz ist privat, und das ist die
+Bedingung, unter der er überhaupt entstehen durfte.
+
+---
+
+# Der zweite Datensatz: die Maschinenlesungen, seitenweise
+
+Alles oben betrifft **handkorrigierte** Seiten: Bild plus das PAGE XML einer
+Transkription, die ein Mensch durchgesehen hat, mit Zeilenpolygonen. Der Korpus
+hält aber noch eine zweite Art Text, und sie ist die grössere: 300 Seiten, die
+nie transkribiert wurden, gelesen im Oktober 2026 von einem kommerziellen Modell
+hinter einer API. `export-run-hf` macht daraus einen eigenen Datensatz, und jede
+Entscheidung darin dreht sich um **einen** Unterschied: hier hat niemand
+nachgesehen.
+
+## Warum ein eigener Datensatz und keine weiteren Zeilen im ersten
+
+Weil die Spalte, die den Unterschied trägt, sonst erfunden werden müsste.
+`pagexml-hf` schreibt vier Spalten (`image`, `text`/`xml_content`, `filename`,
+`project_name`) und keine davon sagt „geprüft" oder „nicht geprüft". Ein
+Datensatz, der beides mischt, hätte diese Information nur im Dateinamen — und
+dieses Projekt hat genau diesen Fehler schon einmal von außen gesehen: zwei
+Dokumente der geernteten Transkribus-Sammlung tragen **unkorrigierte
+PyLaia-Ausgabe unter Status `FINAL`**, und nur weil jemand die Zeilenlängen
+nachgezählt hat, ist es aufgefallen. Zwei Repositories sind zwei Namen, zwei
+Karten und zwei Berechtigungen; eine gemischte Spalte ist eine Fussnote.
+
+Der Name trägt es mit: `image-text_lassberg-correspondence_xix_uncorrected-atr`.
+„machine-read" war der erste Vorschlag und ist verworfen — es ist einen
+Buchstaben von „machine-readable" entfernt, also von der genau falschen Aussage.
+
+## Kein Konverter, auch hier nicht — aber ein synthetisches PAGE-Dokument
+
+Eine Chat-Completion hat keine Polygone. Das Modell bekommt ein Bild und gibt
+Text zurück; es gibt keine Geometrie zu exportieren und kein PAGE-Dokument zu
+kopieren. Der naheliegende Griff wäre ein kleiner eigener Konverter — Bild, Text,
+zwei Spalten, fertig — und das ist genau der Griff, den dieses Repository
+verweigert, aus dem Grund, den dieses Dokument oben nennt: `hf_source.py` im
+Trainer trägt schon eine Aliasliste, weil es einmal passiert ist.
+
+Also bekommen die Lesungen die Form, die der vorhandene Konverter als *Eingabe*
+nimmt. Die Frage ist nur, was in das Dokument hinein muss, und die Antwort stand
+im Quellcode des Konverters, nicht in seiner Dokumentation:
+
+```python
+# pagexml_hf/parser.py
+def _get_text_equiv(self, element):
+    unicode_el = element.find("pc:TextEquiv/pc:Unicode", self.namespace)
+    if unicode_el is not None and unicode_el.text:
+        return unicode_el.text.strip()          # ← die Region selbst
+    lines = element.findall("pc:TextLine", self.namespace)
+    if not lines:
+        return ""                                # ← und sonst ihre Zeilen
+```
+
+Der Text einer Region ist ihr **eigenes** `TextEquiv`, und ihre Zeilen sind nur
+der Rückfall. Eine `TextRegion` mit dem Seitentext, einem `Coords`-Rechteck um
+die ganze Seite und **ohne eine einzige `TextLine`** ist damit eine vollständige
+Eingabe für `--mode text`.
+
+## Die fehlenden Zeilen sind die Entscheidung, nicht die Sparmaßnahme
+
+Zeilenkästen liessen sich erfinden: die Seite in so viele waagrechte Streifen
+teilen, wie das Modell Zeilen zurückgegeben hat. Jeder einzelne wäre eine
+Vermutung, hinter der keine Messung steht — und, schlimmer, sie wäre von der
+echten Sache **nicht zu unterscheiden**: `--mode line` würde 31 plausible
+Streifen schneiden, jedem eine plausible Textzeile zuordnen und einem Trainer
+einen Datensatz übergeben, dessen Ziele alle um einen unbekannten Betrag
+verschoben sind. Das ist dasselbe Versagen, das der Geometrie-Check oben
+verhindert, nur selbst gebaut.
+
+Was das Fehlen tatsächlich tut, gemessen am 22. Oktober 2026 gegen
+`pagexml-hf 0.9.6+fork.1` und nicht erschlossen:
+
+| Modus | Ergebnis auf diesem Baum |
+|---|---|
+| `text` | der Seitentext, Zeichen für Zeichen wie das Modell ihn schrieb |
+| `region` | eine Zeile pro Seite, `region_coords` = das Seitenrechteck. Wahr, wenn auch nutzlos |
+| `line` | **Abbruch** mit `ZeroDivisionError` in der Statistik über null Zeilen |
+
+Ein Absturz ist eine gröbere Antwort als „nichts", und sie ist die richtige: die
+Frage, die ein zeilenweiser Export stellt, lässt sich aus diesen Daten
+überhaupt nicht beantworten.
+
+## Der Modus steht im Baum, nicht auf der Kommandozeile
+
+`upload_hf` über MCP nimmt `tree`, `repo_id`, `dry_run` — **keinen Modus**, und
+`UPLOAD_MODE = "raw_xml"` ist eine Modulkonstante. Ein Baum mit Maschinenlesungen,
+in diesem Modus hochgeladen, hätte die synthetischen Dokumente in eine Spalte
+`xml_content` gelegt, neben vierzehn Datensätze echter Transkribus-Ausgabe, und
+dort hätte er ausgesehen wie mehr davon.
+
+Darum schreibt jeder `build` jetzt eine `export.json` neben die Seiten, und
+`upload-hf` liest den Modus daraus:
+
+```json
+{"mode": "text", "kind": "run", "written_at": "...", "run": "gemini-300-final",
+ "models": ["gemini-3.8-flash"], "pages": 281,
+ "note": "machine readings, uncorrected; no line geometry"}
+```
+
+Der Modus ist eine Eigenschaft der Daten, also reist er mit den Daten statt
+Monate später auf einer Kommandozeile wiederholt zu werden. Ein Baum ohne
+Manifest — jeder, der vor dem 22. Oktober 2026 geschrieben wurde — liest als
+`raw_xml`, womit die alten Uploads unverändert bleiben. Und der Upload-Plan sagt
+jetzt in einer eigenen Zeile, was für ein Text im Baum liegt:
+
+```
+mode      : text   (from export.json)
+text      : MACHINE READING, uncorrected
+```
+
+## Was standardmäßig nicht mitkommt
+
+Vier Ablehnungen, jede gezählt und mit Schlüssel in der TSV von
+`--rejected-out`:
+
+- **`empty`** — das Modell hat nichts zurückgegeben. Eine leere Antwort ist
+  *keine* Transkription einer leeren Seite: die Gateway-Gegenprobe vom
+  19. Oktober fand unter 19 „leeren" Seiten eine **beschriebene** mit 24
+  lesbaren Zeilen (`blb lassberg__K 2911,93__page_0001`).
+- **`repetitive`** — die Wiederholungsschleife, also der Defekt des Modells als
+  Text gerendert.
+- **`deliberation`** — das Modell ringt mit sich selbst in dem Feld, in dem die
+  Transkription stehen soll.
+- **`truncated`** — am Ausgabedeckel abgeschnitten. Eigene Kategorie und kein
+  Urteil, weil so eine Seite als gewöhnlicher Erfolg zurückkommt (eine 200, ein
+  Text, Urteil `ok`) und mitten im Satz aufhört.
+
+Jedes davon als Trainingsziel lehrt den Defekt. `short` ist **nicht** dabei: das
+ist eine Aussage über die Länge, und eine halb beschriebene Seite ist zu Recht
+kurz. `--skip-verdicts ''` behält alles, für jemanden, der genau diese Seiten
+untersucht.
+
+## `project_name` ist das Modell, nicht die Hand
+
+Im ersten Datensatz ist `project_name` die schreibende Hand, erschlossen aus der
+Datumszeile und entlang des Briefes vererbt. Hier wäre das eine Erschließung auf
+einer Erschließung: die Datumszeile müsste aus einer **ungeprüften**
+Transkription gelesen und dann über einen Brief verteilt werden. Also steht dort
+das Modell, und das Archiv samt Brief-Id steckt weiter in `filename`, das der
+Seitenschlüssel ist.
+
+Jedes Dokument sagt zusätzlich im eigenen ersten Kommentar, was es gelesen hat —
+derselbe Griff wie die Umrechnungsnotiz oben, aus demselben Grund: ein Baum ist
+Bilder und XML, und eine Notiz *daneben* erreicht niemand.
+
+```xml
+<!-- agentic_historian: MACHINE READING, NOT GROUND TRUTH.
+     No line geometry: a chat completion returns text, so this document has
+     one region covering the page and no TextLine elements. The text is as
+     the model returned it, unverified and uncorrected by any human.
+
+     model     gemini-3.8-flash (engine gateway)
+     run       gemini-300-final
+     read      2026-10-12T09:14:33+00:00, gateway 1.4.2
+     settings  prompt-9f2c1a+think-low|max8192
+     quality   ok, 1843 chars, 31 lines
+     image     Basel__....jpg, sha256 ab12cd34ef56 of the original -->
+```
+
+`--` wird dabei zu `- -` gefaltet: XML-Kommentare dürfen es nicht enthalten, und
+ein Modellname oder ein Prompt-Digest ist jemand anderes Zeichenkette. Ein
+Dokument, das nicht parst, nimmt seine Seite aus dem Datensatz.
+
+## Der Lauf
+
+```bash
+cd /home/dh/agentic_historian && git pull
+# 1. der Plan: was mitkommt, was abgelehnt wird, und warum
+.venv/bin/python3 -m agentic_historian export-run-hf \
+    --run-dir gemini-300-final \
+    --rejected-out /tmp/run-hf-refused.tsv --dry-run
+
+# 2. den Baum schreiben (kopiert ein Bild pro Seite)
+.venv/bin/python3 -m agentic_historian export-run-hf \
+    --run-dir gemini-300-final \
+    --rejected-out /tmp/run-hf-refused.tsv \
+    --out agentic_historian/data/vlm_test/gemini-300-pagewise
+
+# 3. hochladen — privat, Modus aus dem Baum
+.venv/bin/python3 -m agentic_historian upload-hf \
+    --tree agentic_historian/data/vlm_test/gemini-300-pagewise \
+    --repo-id dh-unibe/image-text_lassberg-correspondence_xix_uncorrected-atr \
+    --dry-run
+```
+
+### Aus einer Session
+
+Seit #685 sind alle drei Schritte Werkzeuge, und der Baum wandert als **Name**
+unter `VLM_TEST_ROOT` von einem zum nächsten — nie als Pfad:
+
+```
+export_run_hf(run="gemini-300-final")                      # 1. der Plan, schreibt nichts
+export_run_hf(run="gemini-300-final", dry_run=False)       # 2. Baum gemini-300-final-pagewise
+upload_hf(tree="gemini-300-final-pagewise", repo_id=…)     # 3. privat, Modus aus dem Manifest
+```
+
+`out` benennt den Baum anders (Vorgabe `<run>-pagewise`); ein Baum, der schon
+Dateien hält, wird abgelehnt, bevor ein Job startet. `model` grenzt einen Lauf
+mit mehreren Lesern ein. `skip_verdicts` wählt, welche Urteile abgelehnt werden
+(`empty`, `short`, `repetitive`, `deliberation` — `ok` nie; Vorgabe alles
+ausser `short`), `keep_truncated` lässt abgeschnittene Seiten zu. Die
+Ablehnungen landen immer als TSV unter `VLM_TEST_ROOT`, der Pfad steht im
+Ergebnis. Was das Werkzeug **nicht** nimmt: `--source`, `--archive` (beide aus
+der Konfiguration — dass sie am 22. Oktober an der CLI nötig waren, lag am
+Arbeitsbaum mit code-relativen Datenwurzeln, nicht am Export) und `--repo-id`
+(das entscheidet der Upload).
+
+Die Vorbedingung von #682 gilt weiter: das Werkzeug läuft als Unterprozess auf
+dem **Produktions-Checkout**, und der muss `export-run-hf` kennen — am 22.
+Oktober stand er auf einem Feature-Branch ohne den Befehl, und ein Job wäre mit
+„invalid choice" gestorben (`batch_report` zeigt unter `code`, welcher Stand
+antwortet).
+
+Die Bilder liegen zu diesem Zeitpunkt zum größten Teil **nicht mehr im
+Page-Cache**: der Lauf ist älter als zwei Tage, und ein Tagesjob verschiebt
+alles Ältere unter Erhalt der Pfade auf den Research-Share (#487). `--source`
+und `--archive` haben darum beide Vorgaben, und die Seiten, die in keiner der
+beiden Schichten liegen, erscheinen als `no-image` in der TSV statt als
+stillschweigend fehlende Zeilen.

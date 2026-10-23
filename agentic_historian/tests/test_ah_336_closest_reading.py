@@ -6,14 +6,14 @@ import sys
 from pathlib import Path
 
 import pytest
-from rdflib import Graph, URIRef
+from rdflib import Graph, Literal, URIRef
 
 PKG = Path(__file__).resolve().parents[1]
 if str(PKG) not in sys.path:
     sys.path.insert(0, str(PKG))
 
 from eval.harness import cer_table
-from knowledge_hub.rdf_export import SDHSS, closest_reading_to_rdf
+from knowledge_hub.rdf_export import CRM, SHB, closest_reading_to_rdf
 from path_compare import apply_combined_choice
 from runstate import RunState
 from utils.publish_github import _index_md
@@ -80,8 +80,13 @@ def test_kg_labels_editorial_text_as_closest_reading():
         {"text": "Alpha beta", "chosen": ["vlm"],
          "candidates_offered": {"vlm": "Alpha beta"}},
     )
-    assert (URIRef("https://example.test/doc/336"),
-            SDHSS["hasClosestReading"], None) in graph
+    # The document carries the reading like any other (P128); the reading,
+    # not the document, is marked as the closest one (KG-2 rule, KG-12 terms).
+    doc = URIRef("https://example.test/doc/336")
+    readings = list(graph.objects(doc, CRM["P128_carries"]))
+    assert len(readings) == 1
+    assert (readings[0], SHB["closestReading"], Literal(True)) in graph
+    assert (readings[0], SHB["readingRole"], Literal("closest")) in graph
 
 
 def test_eval_rejects_closest_reading_as_reference():

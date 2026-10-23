@@ -1392,6 +1392,201 @@ eines Lesers eine Währung und zwischen zwei Lesern keine.
   Blatt leer ist. Was fehlt, ist der Hinweis, welche der 19 beschrieben ist —
   und das ist ein Nachtrag an der Edition, keine Änderung am Baum.
 
+## Der Eval-Split der HTR-Ground-Truth, mit Gemini gelesen — und zum ersten Mal ein CER
+
+22. Oktober 2026. Das HTR-Trainingsprojekt hält auf dem Forschungsspeicher eine
+zufällige Aufteilung seiner Transkribus-Ground-Truth in `train`/`dev`/`eval`
+(`Projekt_Lassberg/HTR/data/ground_truth/manifests/`, auf tei unter
+`/mnt/wbkolleg_dh_1/…`). `eval_manifest_random.txt` nennt **39 PAGE-XML-Dateien
+aus 12 Dokumenten**, als Pfade `…/documents/done_<Titel>_<docId>/<Seite>.xml`
+(acht Seiten `lassberg-letter-1781`, acht `lassberg-letter-0077`, sieben
+`lassberg-letter-1209`, dazu drei BLB-Konvolute `K 2911,…` und sechs Briefe mit
+ein bis zwei Seiten). Die Frage: wie liest `gemini-3.8-flash` genau diese
+Seiten, mit genau den Einstellungen des 300er-Laufs — und weil es GT-Seiten
+sind, erstmals **mit Referenz**.
+
+**Es brauchte keinen neuen Code**, nur die Reihenfolge, in der die Werkzeuge
+schon zusammenpassen:
+
+1. Die 39 Dateien in einen Ordner unter `GT_ROOT` kopieren. Der Server nimmt
+   Namen, keine Pfade (#509), und `001.xml` kommt in mehreren Dokumenten vor,
+   also trägt jede Kopie ihren Dokumentordner im Namen:
+
+   ```bash
+   GT=/home/dh/agentic_historian/agentic_historian/data/gt
+   M=/mnt/wbkolleg_dh_1/Projekt_Lassberg/HTR/data/ground_truth/manifests/eval_manifest_random.txt
+   mkdir -p "$GT/eval-random"
+   while IFS= read -r f; do
+     src="${f/#\/storage\/research\//\/mnt\/}"
+     cp "$src" "$GT/eval-random/$(basename "$(dirname "$src")")__$(basename "$src")"
+   done < "$M"
+   ```
+
+   Die Manifest-Pfade beginnen mit `/storage/research/wbkolleg_dh_1/` — der
+   Mountpunkt der Maschine, die das Manifest geschrieben hat; auf tei heisst
+   derselbe Share `/mnt/wbkolleg_dh_1/`.
+
+   **Aus einer Session, seit #687:** dieselbe Schleife mit ihrem Befund als
+   Werkzeug, Pfade relativ zu `ATR_RESEARCH_DIR` (`Projekt_Lassberg`):
+
+   ```
+   research_list("HTR/data/ground_truth/manifests")
+   import_ground_truth("HTR/data/ground_truth/manifests/eval_manifest_random.txt",
+                       name="eval-random", dry_run=True)   # dann ohne dry_run
+   ```
+
+   Die Antwort nennt Dateien, Dokumente mit Seitenzahl, die Statusverteilung,
+   Dateien ohne Text, und — benannt, nie verschluckt — Zeilen, die auf nichts
+   abbilden, und Dateien, die der Share nicht hat. Der Schlüssel
+   `ATR_RESEARCH_DIR` gehört in `agentic_historian/.env` neben `ATR_MOUNT_DIR`;
+   der Serverprozess liest ihn beim Start.
+
+2. Die Seiten **über ihren Inhalt** im Korpuslauf finden und die Schlüssel
+   schreiben — `score_ground_truth` gegen `atr_corpus_qwen35_line`, den Lauf, der
+   im September das ganze Share gelesen hat (6719 Seiten, also auch die seit dem
+   4. Oktober verschwundenen):
+
+   ```
+   score_ground_truth(runs=["atr_corpus_qwen35_line"], gt_dir="eval-random",
+                      keys_out="eval-random.txt")
+   ```
+
+   | | |
+   |---|---:|
+   | Dateien im Manifest | 39 |
+   | ohne transkribierten Text (übersprungen, benannt) | 1 — `lassberg-letter-1209 …/007.xml` |
+   | Status | 34× `FINAL`, 4× `Done` |
+   | eindeutig lokalisiert → `eval-random.txt` | **35** |
+   | nicht sicher lokalisiert (im Bericht, nicht in der Liste) | 3 |
+
+   Und als Nebenbefund die Zahl, die vorher niemand hatte — das Qwen-Zeilenmodell
+   auf dem Eval-Split: **Median-CER 14,6 %, p90 31,6 %, beste Seite 6,6 %,
+   schlechteste 37,4 %** (35 Seiten). Das ist die Vergleichsgrösse für Gemini,
+   gemessen an derselben Referenz.
+
+3. Der Gemini-Lauf, Einstellungen des 300er-Laufs (`gemini-300-final`:
+   `lassberg_atr_strict2.md @9e0503e8`, `reasoning low`, Deckel 8192 → Settings
+   `prompt-9e0503e8+think-low|max8192`), erst trocken, dann drei Seiten, dann
+   alle:
+
+   ```
+   start_batch(models=["gemini-3.8-flash"], run="gemini-eval-random",
+               source="dav:digitalisate", keys_from="eval-random.txt",
+               via="external", prompt="lassberg_atr_strict2.md", reasoning="low",
+               missing_out="eval-random-missing.txt", dry_run=True)
+   ```
+
+   `missing_out`, weil der Share seit dem 4. Oktober 35 der 276 GT-Seiten nicht
+   mehr hält und ein anderswo gezogener Split Seiten nennen kann, die hier
+   fehlen. Der Trockenlauf traf auf eine abgelaufene Listing-Cache (48 h) und
+   begann die volle Begehung des Shares — und starb nach zwölf Minuten und 520
+   Ordnern am 521.: `St. Gallen Kantonsbibliothek/lassberg-letter-1648`
+   antwortete 500, dann 404. **Das war ein Defekt im Walker, kein Pech.** Ein
+   Ordner, der nach dem Listen seines Elternordners selbst 404 antwortet, kam
+   als webdav4-`ResourceNotFound` an — weder einer der Fehler, die `_ls`
+   wiederholt, noch der `NextcloudError`, den `_walk` als „unlesbar, übersprungen,
+   nicht gecacht" behandelt. Seit diesem Tag wird ein 404 unterhalb der Wurzel
+   sofort (ohne Wiederholung: der Ordner ist nicht da) zu diesem Fehler und
+   damit zu einem übersprungenen Ordner; ein 500/502/503 wird wie ein Timeout
+   wiederholt; eine Ausnahme ohne Status bleibt ein Fehler im Client und
+   propagiert. Die Wurzel bleibt fatal.
+
+   **Der Weg um die Begehung herum** ist das Kaltarchiv des Seiten-Caches
+   (`ATR_PAGE_CACHE_ARCHIVE`): der Share-Cache legt Seiten als
+   `<Bestand>/<Ordner>/<Seite>.jpg` ab, ohne Präfix, also ergibt ein
+   Verzeichnis-Lauf darüber **dieselben Schlüssel**, und der 300er-Lauf hat 125
+   seiner Seiten genau aus diesen Arbeitskopien gelesen. Eine `.jpg`-Quelle wird
+   beim Cachen byte-kopiert, nie neu kodiert (`CONVERTIBLE_SUFFIXES` kennt kein
+   JPEG) — gleiche Pixel. Am 22. Oktober kannte `_roots()` der MCP das Archiv
+   noch nicht (seit #686 tut es das: `start_batch(source=<Archivpfad>, …)`),
+   darum damals per CLI im Produktions-Checkout:
+
+   ```bash
+   cd /home/dh/agentic_historian
+   .venv/bin/python3 -m agentic_historian atr-batch \
+     --source /mnt/wbkolleg_dh_1/tei/archive/agentic_historian-page_cache \
+     --models gemini-3.8-flash --run gemini-eval-random \
+     --keys-from agentic_historian/data/gt/eval-random.txt \
+     --missing-out agentic_historian/data/gt/eval-random-missing.txt \
+     --via external --prompt lassberg_atr_strict2.md --reasoning low --dry-run
+   ```
+
+   Dann, per CLI gegen das Archiv: Rauchtest `--limit 3`, Kontrolle des
+   Textendes einer Seite (eine Seite am Deckel bricht mitten im Satz ab und
+   sieht sonst wie ein Erfolg aus — sie endete in „Es ist mein sehnlicher",
+   ein Satzanfang, aber `cut off: 0` und `truncated: false` sagen, dass das
+   Modell selbst aufgehört hat), dann der Rest. Lauf `gemini-eval-random`:
+
+   | | |
+   |---|---:|
+   | gelesen | **35 von 35**, 0 Fehler, 0 übersprungen |
+   | Wanduhr | 2,9 min · 5,3 s/Seite · 32 Seiten aus dem Archiv geholt |
+   | `cut off` / `looped` / `arguing` | 0 / 0 / 0 |
+   | `empty` | 1 — `blb lassberg__K 2911,110__page_0002` |
+   | Urteile | 34× `ok`, 1× `empty`, 0× `short` |
+   | Zeichen/Seite | 1076 |
+
+4. Die Tabelle, die Qualität ist: beide Leser gegen dieselbe Referenz.
+
+   ```
+   score_ground_truth(runs=["gemini-eval-random", "atr_corpus_qwen35_line"],
+                      gt_dir="eval-random")
+   ```
+
+   | Leser | Seiten | Median-CER | p90 | beste | schlechteste |
+   |---|---:|---:|---:|---:|---:|
+   | `gemini-eval-random/gemini-3.8-flash` | 34 | **4,8 %** | 12,8 % | 0,7 % | 17,1 % |
+   | `atr_corpus_qwen35_line/qwen3.5-4b-german-xix-v2` | 34 | 14,5 % | 31,7 % | 6,6 % | 37,4 % |
+
+   Welche drei Seiten in keiner Zeile stehen, und der CER je Seite: seit #689
+   liest `score_report("score-gt-20261022T164235")` den Bericht als Daten —
+   `by_reading`, `not_located`, und pro Seite Schlüssel, Status, CER je Leser
+   mit Runner-up; `located_only=True` für die Sicht, in der CERs etwas
+   bedeuten. Berichte von vor #689 haben kein JSON neben sich.
+
+   34 statt 35, weil die Lokalisierung jetzt die **Einigkeit beider** Lesungen
+   verlangt und die eine Seite, die Gemini leer zurückgab, sich über ihren
+   (fehlenden) Inhalt nicht platzieren lässt. Dieselbe Regel, die das
+   Qwen-Ergebnis von 14,6 % (allein) auf 14,5 % (zu zweit) verschiebt: ein
+   anderer Nenner, nicht ein anderes Modell.
+
+   **Gemini liest den Eval-Split dreimal so genau wie das feinjustierte
+   Zeilenmodell.** Die schlechteste Gemini-Seite (17,1 %) liegt über dem
+   Qwen-Median (14,5 %), aber weit unter dessen p90 (31,7 %); die beste
+   Qwen-Seite (6,6 %) ist besser als Geminis p90 (12,8 %). Die Spannen sagen
+   also, wo der Unterschied sitzt: die leichten Seiten liest das Zeilenmodell
+   ordentlich, verloren wird auf den schweren Händen, wo Qwen bis 37 % geht
+   und Gemini bei 17 % bleibt.
+
+5. Die Lesungen zum Trainingsprojekt, auf den Forschungsspeicher
+   (`HTR/VLMs/<Lauf>`): am 22. Oktober fünf `cp`-Zeilen und ein
+   handgeschriebener README, seit #688 ein Aufruf, dessen README aus den
+   Protokollen kommt —
+
+   ```
+   export_run_share("gemini-eval-random", keys="eval-random.txt",
+                    score_report="score-gt-20261022T164235", dry_run=True)
+   ```
+
+   `txt/` und `records/` je Modell, `report.md`, `keys.txt`, `score-gt.md`
+   (und `.json`, wo es eines gibt), `README.md` mit Modell, Prompt-Prüfsumme,
+   Urteilen, Leerseiten namentlich, CER-Tabelle. Resumierbar, löscht nie.
+
+**Was der Lauf nicht misst:** Gemini liest ohne Zeilengeometrie, Qwen über die
+Segmentierung des Gateways; beide landen als Seitentext in derselben
+CER-Rechnung, aber ein Fehler des Segmentierers zählt beim einen und kann beim
+anderen nicht vorkommen. Und 35 Seiten aus 12 Dokumenten sind 12 Hände, nicht 35
+— eine Seite mehr von Laßberg selbst verschiebt den Median spürbar. Der
+Eval-Split ist die Referenz des *Trainingsprojekts*, zufällig über Dokumente
+gezogen; dass er für einen Vergleich zweier Leser fair ist, folgt daraus nicht,
+aber er ist derselbe Massstab für beide. **Und zwar zugunsten von Qwen, nicht
+gegen es:** `qwen3.5-4b-german-xix-v2` ist im September auf der
+Ground Truth dieses Projekts feinjustiert worden, die Aufteilung in
+`train`/`dev`/`eval` stammt vom 8. Oktober — ob die 35 Eval-Seiten in Qwens
+Trainingsmenge lagen, sagt kein Protokoll hier, aber ausschliessen lässt es
+sich nicht. Gemini hat sie sicher nie gesehen. Ein Vorsprung des Zeilenmodells
+wäre damit zu erklären gewesen; der Rückstand nicht.
+
 ## Ein Lauf aus 80 Unterstrichen ist eine Linie
 
 Die dritte Seite dieses Korpus, die für ihr eigenes Layout als Füllmaterial
@@ -1418,6 +1613,15 @@ Arithmetik. Je ein gemessener Fall pro Ecke — dünn, aber jede Ecke ist eine
 echte Seite dieses Korpus.
 
 ## Welcher Code hat geantwortet?
+
+**Seit #690 aus der Session:** `server_status()` — der Checkout, auf dem jeder
+Job läuft (Branch, Commit, weitere Arbeitsbäume, uncommittete Dateien, Abstand
+zum Upstream), `loaded` gegen `checkout` mit `stale`, die Env-Datei-Kette, die
+Datenwurzeln mit dem Inhalt von `GT_ROOT` (die Namen, die `keys_from`,
+`letters_from`, `exclude_from` und `gt_dir` nehmen) und die fünfzig neuesten
+Läufe mit Seiten je Modell. Nur lesend, keine Geheimnisse (Schlüssel als
+`set`/`unset`). Umschalten bleibt eine Handlung auf der Maschine.
+
 
 Nicht jede Änderung braucht denselben Deployment-Schritt, und der Unterschied
 hat am 11. Oktober dreimal zugeschlagen:

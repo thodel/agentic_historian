@@ -32,7 +32,7 @@ from __future__ import annotations
 import xml.etree.ElementTree as et
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable, Optional
+from typing import Iterable, Optional, Sequence
 
 from loguru import logger
 
@@ -348,6 +348,61 @@ def duplicate_pages(scored: list[Scored]) -> dict[str, list[Scored]]:
         if item.located:
             by_key.setdefault(item.located, []).append(item)
     return {key: items for key, items in by_key.items() if len(items) > 1}
+
+
+def status_mix(scored: Sequence[Scored]) -> dict:
+    """How many pages per Transkribus status.
+
+    Worth answering because DONE, FINAL and GT are not obviously equally
+    reliable: if the CER splits along that line, the status is describing the
+    correction and not the model.
+    """
+    out: dict[str, int] = {}
+    for item in scored:
+        key = item.gt.status or "unknown"
+        out[key] = out.get(key, 0) + 1
+    return out
+
+
+def report_data(scored: list[Scored], unusable: Optional[list] = None) -> dict:
+    """The whole report as data: the comparison table, and every page (#689).
+
+    The Markdown report is for a person; this is for the next call. It used to
+    exist only inside the MCP server's synchronous path, so a scoring that ran
+    as a job — every scoring of more than a few pages — left behind a 484-line
+    file nobody could open from a session: which three of 38 pages were not
+    located, and why; the CER per page, without which "the line model loses on
+    the hard hands" is a guess; whether the error splits along DONE/FINAL. The
+    CLI writes this beside ``--out`` as JSON, and `score_report` pages through
+    it.
+
+    ``located_key`` is the one that is safe to hand to ``--keys-from``:
+    agreement is not identification, one reading agrees with itself.
+    """
+    return {
+        "pages_scored": len(scored),
+        "pages_unusable": [{"file": u.source.name, "reason": u.reason}
+                           for u in (unusable or [])],
+        "status_mix": status_mix(scored),
+        "by_reading": [{"reading": r.reading, "pages": r.pages,
+                        "median": round(r.median, 4), "p90": round(r.p90, 4),
+                        "best": round(r.best, 4), "worst": round(r.worst, 4)}
+                       for r in score_by_reading(scored)],
+        "pages": [{
+            "file": s.gt.source.name,
+            "doc_id": s.gt.doc_id,
+            "page_id": s.gt.page_id,
+            "status": s.gt.status,
+            "lines": s.gt.lines,
+            "chars": len(s.gt.text),
+            "agreed_key": s.agreed_key,
+            "located_key": s.located,
+            "readings": [{"reading": m.reading, "cer": round(m.cer, 4),
+                          "key": m.key, "runner_up_key": m.runner_up_key,
+                          "runner_up_cer": round(m.runner_up_cer, 4),
+                          "confident": m.confident} for m in s.matches],
+        } for s in scored],
+    }
 
 
 def format_summary(scored: list[Scored], unusable: Optional[list] = None) -> str:

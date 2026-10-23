@@ -213,14 +213,18 @@ port and no firewall exception on this path.
   survived. The knowledge hub was worse, caching the file at construction and
   rewriting it from that snapshot, so two processes raced for as long as their
   objects lived (#393).
-- **Four questions, not an endpoint.** The corpus graph is reachable as named
-  queries — persons in care-related documents of a century, every reading of a
-  page with its model and the historian's choice, which authority source links
-  the most and which documents stay unlinked, and who is named alongside whom.
-  `/sparql` runs them; `knowledge_hub/queries.py` holds them. Every row carries
-  the document it came from, enforced in the constructor rather than by review,
-  and no caller's text ever becomes query syntax
-  ([`docs/KG_QUERIES.md`](docs/KG_QUERIES.md), #331).
+- **Seven questions, not an endpoint.** The corpus graph and the Bestandsgraph
+  (Dodis, Königsfelden, SSRQ, Musiklexikon der Schweiz) are reachable as named queries — persons in
+  care-related documents of a century, every reading of a page with its model
+  and the historian's choice, which authority source links the most and which
+  documents stay unlinked, who is named alongside whom; and, over the
+  Bestandsgraph, who is named in which century across the four holdings with
+  role and authority id, who signs with whom (Dodis), and which families have
+  which members and places (KF, SSRQ). One mention path, `(P128/P67)|P67`,
+  serves both graphs. `/sparql` runs them; `knowledge_hub/queries.py` holds
+  them. Every row carries the document it came from, enforced in the
+  constructor rather than by review, and no caller's text ever becomes query
+  syntax ([`docs/KG_QUERIES.md`](docs/KG_QUERIES.md), #331, #654).
 - **The loop closes through the registry, not through this repo.** A finished run
   registers on the shared research share; the serving gateway picks the
   registration up and advertises the model at `/models`; the next
@@ -293,8 +297,8 @@ is a single `.env.gpustack` at the repository root (gitignored; template in
 In production the bot runs on tei under `agentic-historian.service`.
 
 As a **standalone** process (separation epic #565) it is decoupled from the OpenClaw
-agent: its own Discord token, its own secrets file (`deploy/systemd/dh-bot.env.example`
-→ `/etc/dh-bot.env`, read via `AH_ENV_FILE`) separate from the shared `.env.gpustack`,
+agent: its own Discord token, its own secrets file (`deploy/systemd/agentic_historian.env.example`
+→ `/etc/agentic_historian.env`, read via `AH_ENV_FILE`) separate from the shared `.env.gpustack`,
 a hardened systemd unit, the LLM-orchestration overlay off by default, and the
 OpenClaw home (`workspace/`) no longer in this repository (S3, #568) — see
 [`deploy/systemd/SEPARATION.md`](deploy/systemd/SEPARATION.md), which also says what

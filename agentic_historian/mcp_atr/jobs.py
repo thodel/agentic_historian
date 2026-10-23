@@ -175,6 +175,19 @@ def _roots() -> list[Path]:
     one way and partly another. It is also, like ``VLM_TEST_ROOT``, a directory
     this stack wrote itself, so admitting it widens nothing: a caller could
     already read every page of it through the runs it produced.
+
+    **And the cache's cold tier** (#686), for every one of those reasons and one
+    more. A daily job moves working copies older than two days from the cache
+    to the research share, paths preserved (#487), so on any given day the
+    cache holds the last two days and the cold tier holds the corpus — on
+    2026-10-22, 0 pages against 6783. That day a dry run over ``dav:`` began
+    the full walk of the share (listing cache expired) and died twelve minutes
+    in on a folder that answered 404, while every page it was going to read sat
+    in the cold tier under the same relative path, hence the same key. The run
+    went ahead from the CLI, which has no containment check; from a session it
+    was refused by this function. A directory this stack wrote, keyed like the
+    share, readable through the runs already: the same case as the cache,
+    which is why it is the same list.
     """
     roots = [Path(config.NEXTCLOUD_STAGING_DIR).resolve(),
              Path(config.VLM_TEST_ROOT).resolve()]
@@ -182,6 +195,8 @@ def _roots() -> list[Path]:
         roots.append(Path(config.ATR_MOUNT_DIR).resolve())
     if config.ATR_PAGE_CACHE:
         roots.append(Path(config.ATR_PAGE_CACHE).resolve())
+    if config.ATR_PAGE_CACHE_ARCHIVE:
+        roots.append(Path(config.ATR_PAGE_CACHE_ARCHIVE).resolve())
     return roots
 
 
@@ -202,6 +217,16 @@ def cache_dir_for(source) -> Optional[Path]:
     copies *into* — each pass re-encoding a JPEG onto the file it just read, one
     generation of quality per model. A page that is already a local working copy
     needs no working copy.
+
+    **The cold tier does get one** (#686), and it is not the re-encoding case:
+    its pages are JPEG working copies, and a JPEG source is byte-copied into the
+    cache, never converted (`CONVERTIBLE_SUFFIXES` has no JPEG). What the copy
+    buys is the same thing it buys for the mount — the cold tier is on the
+    research share, 1.5 MB a page over CIFS, and a batch opens every page once
+    per model. The copies land under the cache's root tag for the archive
+    (#663), a day or two later the eviction job carries them back to the share
+    under that tag, and that duplication — a few MB per page read this way —
+    is the known cost.
     """
     cache = Path(config.ATR_PAGE_CACHE).resolve() if config.ATR_PAGE_CACHE else None
     if cache is not None and not isinstance(source, str):
@@ -215,7 +240,624 @@ def cache_dir_for(source) -> Optional[Path]:
         mount = Path(config.ATR_MOUNT_DIR).resolve()
         if source == mount or source.is_relative_to(mount):
             return Path(config.page_cache_dir())
+    if config.ATR_PAGE_CACHE_ARCHIVE:
+        archive = Path(config.ATR_PAGE_CACHE_ARCHIVE).resolve()
+        if source == archive or source.is_relative_to(archive):
+            return Path(config.page_cache_dir())
     return None
+
+
+#: A path inside the research project's root. Relative, never climbing out,
+#: and the character set the HTR project's folder names actually use:
+#: ``done_K 2911,17_9985431`` has a space and a comma, the holdings have
+#: parentheses ("Donaueschingen (via UB Freiburg)").
+RESEARCH_PATH_RE = re.compile(r"^(?!.*\.\.)(?!/)[\w .,()\-/]{1,400}$")
+
+
+def research_root() -> Path:
+    """The research project's root, or a `JobError` saying how to set it."""
+    if not config.ATR_RESEARCH_DIR:
+        raise JobError(
+            "ATR_RESEARCH_DIR is not set — it is the project's root on the "
+            "research share (on tei /mnt/wbkolleg_dh_1/Projekt_Lassberg), and "
+            "without it there is nothing to list or import")
+    root = Path(config.ATR_RESEARCH_DIR)
+    if not root.is_dir():
+        raise JobError(f"ATR_RESEARCH_DIR {root} is not a directory — is the "
+                       f"research share mounted?")
+    return root
+
+
+def research_path(rel: str) -> Path:
+    """A file or folder under the research root, by relative path.
+
+    Validated by pattern and then by containment on the **resolved** path, so a
+    symlink inside the project that points beside it is refused by the same
+    check that refuses ``..`` — the rule `resolve_source` states, applied to a
+    second root.
+    """
+    rel = (rel or "").strip().strip("/")
+    if rel and not RESEARCH_PATH_RE.match(rel):
+        raise JobError(
+            f"invalid research path {rel!r} — letters, digits, spaces, dots, "
+            "commas, parentheses, dashes, underscores and '/' only, relative to "
+            "the project root, no '..'")
+    root = research_root().resolve()
+    path = (root / rel).resolve() if rel else root
+    if path != root and not path.is_relative_to(root):
+        raise JobError(f"{rel!r} resolves outside the research root")
+    return path
+
+
+def research_list(folder: Optional[str] = None, limit: int = 500) -> dict:
+    """What is under a folder of the research project, with sizes (#687).
+
+    Synchronous: one ``listdir`` over CIFS, not a walk. ``limit`` caps the
+    entries and the reply says when it did, because a folder of 6000 scans is
+    a listing nobody asked to read in full.
+    """
+    path = research_path(folder or "")
+    if not path.is_dir():
+        raise JobError(f"no folder {folder!r} under the research root")
+    entries = []
+    for p in sorted(path.iterdir(), key=lambda p: p.name):
+        try:
+            st = p.stat()
+        except OSError:
+            continue
+        entries.append({"name": p.name,
+                        "type": "dir" if p.is_dir() else "file",
+                        "bytes": None if p.is_dir() else st.st_size})
+    truncated = len(entries) > limit
+    return {"ok": True, "root": str(research_root()), "folder": folder or "",
+            "entries": entries[:limit], "count": len(entries),
+            "truncated": truncated}
+
+
+def _manifest_relative(line: str, root: Path) -> Optional[str]:
+    """The path a manifest line names, relative to the research root.
+
+    The manifests are written on another machine, where the same share is
+    mounted elsewhere (``/storage/research/wbkolleg_dh_1/Projekt_Lassberg/…``
+    against ``/mnt/wbkolleg_dh_1/Projekt_Lassberg`` here). What both spellings
+    share is the project folder's name, so the path is cut after its last
+    occurrence of ``/<root.name>/``. A relative line is taken as it is. A line
+    that names neither is returned as None, and the caller reports it — a
+    manifest that quietly loses lines would be a split that quietly shrank.
+    """
+    raw = line.strip()
+    if not raw.startswith("/"):
+        return raw
+    marker = f"/{root.name}/"
+    idx = raw.rfind(marker)
+    if idx < 0:
+        return None
+    return raw[idx + len(marker):]
+
+
+def import_ground_truth(manifest: str, name: str, dry_run: bool = False) -> dict:
+    """Stage the PAGE XML files a manifest names as a ground-truth set under
+    ``GT_ROOT``, by name, with the findings the shell used to produce (#687).
+
+    On 2026-10-22 the HTR project's ``eval_manifest_random.txt`` (39 files, 12
+    documents) reached ``GT_ROOT/eval-random`` through a `while read … cp`
+    loop, a path remap, and two one-liners counting documents and statuses —
+    and only then could `score_ground_truth(gt_dir=…, keys_out=…)` and
+    `start_batch(keys_from=…)` take over. This is that loop, with its report.
+
+    - ``manifest``: a path relative to ``ATR_RESEARCH_DIR``; the files it names
+      are mapped onto the same root (see `_manifest_relative`) and read from
+      nowhere else.
+    - ``name``: the set's directory under ``GT_ROOT``, validated like a run
+      name — it is the ``gt_dir`` `score_ground_truth` takes.
+    - Each copy is named ``<document folder>__<file>``: ``001.xml`` occurs in
+      every document, and the collision was real.
+    - Resumable: a copy already present at the same size is skipped. A file the
+      share does not have, and a line that maps onto nothing, are **named**,
+      never dropped — ``missing`` and ``unmappable`` in the reply.
+    - The findings: documents with page counts, the Transkribus status mix,
+      and the files without transcribed text (the same test `score_ground_truth`
+      applies later, run now so the number is known before a run is started).
+
+    Synchronous: the files are small and the share reads at 410 MB/s; the
+    39-file import took under a second. A manifest of thousands of lines is a
+    training split, not an evaluation set, and belongs with the trainer.
+    """
+    from gt_score import GroundTruthError, read_pagexml
+
+    root = research_root().resolve()
+    source = research_path(manifest)
+    if not source.is_file():
+        raise JobError(f"no manifest at {manifest!r} under the research root")
+    dest_dir = Path(config.GT_ROOT) / validate_run(name)
+
+    lines = [ln.split("#", 1)[0].strip()
+             for ln in source.read_text(encoding="utf-8").splitlines()]
+    lines = [ln for ln in lines if ln]
+    if not lines:
+        raise JobError(f"manifest {manifest!r} names no files")
+
+    planned: dict[str, Path] = {}          # dest name -> source path
+    unmappable: list[str] = []
+    missing: list[str] = []
+    collisions: list[str] = []
+    for line in lines:
+        rel = _manifest_relative(line, root)
+        if rel is None or not RESEARCH_PATH_RE.match(rel):
+            unmappable.append(line)
+            continue
+        src = (root / rel).resolve()
+        if not src.is_relative_to(root):
+            unmappable.append(line)
+            continue
+        if not src.is_file():
+            missing.append(rel)
+            continue
+        dest_name = f"{src.parent.name}__{src.name}"
+        if dest_name in planned and planned[dest_name] != src:
+            collisions.append(dest_name)
+            continue
+        planned[dest_name] = src
+    if collisions:
+        raise JobError(
+            f"{len(collisions)} manifest line(s) would land on the same copy "
+            f"name: {', '.join(sorted(collisions)[:5])} — the document folder "
+            f"and file name do not identify them; nothing was written")
+    if not planned:
+        raise JobError(
+            f"none of the {len(lines)} manifest line(s) names a file under the "
+            f"research root ({len(unmappable)} unmappable, {len(missing)} "
+            f"missing)")
+
+    copied, present = 0, 0
+    if not dry_run:
+        dest_dir.mkdir(parents=True, exist_ok=True)
+    for dest_name, src in sorted(planned.items()):
+        dest = dest_dir / dest_name
+        if dest.exists() and dest.stat().st_size == src.stat().st_size:
+            present += 1
+            continue
+        if dry_run:
+            copied += 1
+            continue
+        data = src.read_bytes()
+        tmp = dest.with_name(dest.name + ".part")
+        tmp.write_bytes(data)
+        os.replace(tmp, dest)
+        copied += 1
+
+    documents: dict[str, int] = {}
+    statuses: dict[str, int] = {}
+    unusable: list[dict] = []
+    for dest_name, src in sorted(planned.items()):
+        documents[src.parent.name] = documents.get(src.parent.name, 0) + 1
+        try:
+            gt = read_pagexml(src)
+            statuses[gt.status or "none"] = statuses.get(gt.status or "none", 0) + 1
+        except GroundTruthError as exc:
+            unusable.append({"file": dest_name, "reason": str(exc)})
+            statuses["unreadable"] = statuses.get("unreadable", 0) + 1
+
+    return {"ok": True, "dry_run": dry_run, "manifest": str(source),
+            "name": dest_dir.name, "ground_truth_dir": str(dest_dir),
+            "lines": len(lines), "files": len(planned),
+            "copied": copied, "already_present": present,
+            "missing": missing, "unmappable": unmappable,
+            "documents": dict(sorted(documents.items(),
+                                     key=lambda kv: (-kv[1], kv[0]))),
+            "statuses": statuses, "unusable": unusable,
+            "next": (f"score_ground_truth(runs=[…], gt_dir={dest_dir.name!r}, "
+                     f"keys_out='{dest_dir.name}.txt')")}
+
+
+# ── what is true on this host (#690) ─────────────────────────────────────────
+
+def _checkout_dir() -> Path:
+    """The checkout every job runs on: the parent of the package, which is
+    `start_and_peek`'s cwd. A function so a test can point it elsewhere."""
+    return Path(config.BASE_DIR).parent
+
+
+def _git(root: Path, *args: str) -> Optional[str]:
+    """One git query's stdout, or None when git has no answer. Never raises."""
+    try:
+        out = subprocess.run(["git", "-C", str(root), *args],
+                             capture_output=True, text=True, timeout=5)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return out.stdout.strip() if out.returncode == 0 else None
+
+
+def _git_state(checkout: Path) -> dict:
+    """Branch, commit, worktrees, uncommitted changes, distance to upstream.
+
+    The five commands of the 2026-10-22 diagnosis, read-only. The production
+    checkout stood on `ruemlang-test` — another workstream had switched it —
+    and every MCP job ran that branch, because jobs are subprocesses on the
+    checkout. `batch_report` already carried `code.loaded/checkout/stale`;
+    which *branch*, and whether a worktree held `main`, it could not say.
+    """
+    branch = _git(checkout, "rev-parse", "--abbrev-ref", "HEAD")
+    head = _git(checkout, "rev-parse", "--short=12", "HEAD")
+    porcelain = _git(checkout, "status", "--porcelain")
+    worktrees = []
+    listing = _git(checkout, "worktree", "list", "--porcelain")
+    if listing:
+        current: dict = {}
+        for line in listing.splitlines() + [""]:
+            if not line:
+                if current:
+                    worktrees.append(current)
+                current = {}
+            elif line.startswith("worktree "):
+                current["path"] = line[len("worktree "):]
+            elif line.startswith("branch "):
+                current["branch"] = line[len("branch "):].replace("refs/heads/", "")
+            elif line == "detached":
+                current["branch"] = None
+    upstream = None
+    counts = _git(checkout, "rev-list", "--left-right", "--count", "HEAD...@{upstream}")
+    if counts and "\t" in counts:
+        ahead, behind = counts.split("\t", 1)
+        upstream = {"ahead": int(ahead), "behind": int(behind)}
+    return {"checkout": str(checkout), "branch": branch, "head": head,
+            "dirty_files": (len(porcelain.splitlines())
+                            if porcelain is not None else None),
+            "worktrees": worktrees, "upstream": upstream}
+
+
+def _count_pages(root: Path, budget_s: float = 20.0) -> dict:
+    """How many page images lie under ``root``, within a time budget.
+
+    The cold tier is 6783 files over CIFS and the walk is seconds, not
+    minutes — but a budget is what keeps a status call from becoming the
+    thing it reports on. ``complete: false`` says the count stopped early.
+    """
+    from atr_batch import IMAGE_EXTS
+
+    n, complete = 0, True
+    deadline = time.monotonic() + budget_s
+    for _dirpath, _dirnames, filenames in os.walk(root):
+        n += sum(1 for f in filenames if Path(f).suffix.lower() in IMAGE_EXTS)
+        if time.monotonic() > deadline:
+            complete = False
+            break
+    return {"pages": n, "complete": complete}
+
+
+def _root_entry(path, *, count: bool) -> dict:
+    """One data root: where it is, whether it is there, how much it holds."""
+    if not path:
+        return {"path": None, "configured": False}
+    p = Path(path)
+    out: dict = {"path": str(p), "configured": True, "exists": p.is_dir()}
+    if count and p.is_dir():
+        out.update(_count_pages(p))
+    return out
+
+
+def _gt_root_entries(root: Path, cap: int = 100) -> list[dict]:
+    """What is under GT_ROOT — the names `keys_from`, `letters_from`,
+    `exclude_from` and `gt_dir` take, with how much each holds."""
+    if not root.is_dir():
+        return []
+    entries = []
+    for p in sorted(root.iterdir(), key=lambda p: p.name):
+        if p.name.startswith("."):
+            continue
+        if p.is_dir():
+            entries.append({"name": p.name, "type": "dir",
+                            "files": sum(1 for _ in p.glob("*.xml"))})
+        else:
+            try:
+                lines = [ln for ln in p.read_text(encoding="utf-8").splitlines()
+                         if ln.split("#", 1)[0].strip()]
+                entries.append({"name": p.name, "type": "file", "lines": len(lines)})
+            except (OSError, UnicodeDecodeError):
+                entries.append({"name": p.name, "type": "file", "lines": None})
+    return entries[:cap]
+
+
+def _runs(root: Path, cap: int = 50) -> list[dict]:
+    """The runs under VLM_TEST_ROOT, newest first, with pages per model."""
+    if not root.is_dir():
+        return []
+    dirs = [p for p in root.iterdir() if p.is_dir() and not p.name.startswith(".")]
+    dirs.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+    out = []
+    for d in dirs[:cap]:
+        models = {m.name: sum(1 for _ in m.glob("*.txt"))
+                  for m in sorted(d.iterdir()) if m.is_dir()}
+        out.append({"name": d.name, "models": models})
+    return out
+
+
+def server_status(counts: bool = False) -> dict:
+    """Which code answers, which data roots apply, what lies under them (#690).
+
+    Read-only and synchronous. Replaces the five terminal commands of the
+    2026-10-22 diagnosis (`git status/log/reflog`, a config printout, `ls
+    $GT_ROOT`) and gathers what `batch_report` already told under ``code``
+    into the place where one would look for it.
+
+    **No secrets.** Keys and tokens are reported as ``set``/``unset``, never
+    by value, and no path outside the configured roots is listed.
+
+    ``counts`` walks the page cache and its cold tier for page counts (seconds
+    over CIFS, within a budget); off by default because a status call that
+    takes as long as the thing it describes is the wrong kind of status.
+    """
+    import provenance
+
+    checkout = _checkout_dir()
+    roots = {
+        "vlm_test_root": {"path": str(config.VLM_TEST_ROOT),
+                          "exists": Path(config.VLM_TEST_ROOT).is_dir()},
+        "gt_root": {"path": str(config.GT_ROOT),
+                    "exists": Path(config.GT_ROOT).is_dir(),
+                    "entries": _gt_root_entries(Path(config.GT_ROOT))},
+        "page_cache": {**_root_entry(config.page_cache_dir(), count=counts),
+                       "configured": bool(config.ATR_PAGE_CACHE)},
+        "page_cache_archive": _root_entry(config.ATR_PAGE_CACHE_ARCHIVE, count=counts),
+        "mount": _root_entry(config.ATR_MOUNT_DIR, count=False),
+        "staging": _root_entry(config.NEXTCLOUD_STAGING_DIR, count=False),
+        "research_dir": _root_entry(config.ATR_RESEARCH_DIR, count=False),
+    }
+    env = {
+        "ah_env_file": os.environ.get("AH_ENV_FILE", "").strip() or None,
+        "files": [{"path": str(p), "exists": Path(p).is_file()}
+                  for p in config.ENV_FILES],
+        "gemini_base_url": config.GEMINI_BASE_URL,
+        "gemini_api_key": "set" if config.GEMINI_API_KEY else "unset",
+        "hf_token": "set" if config.HF_TOKEN else "unset",
+        "gateway": config.ATR_GATEWAY_URL,
+    }
+    return {"ok": True,
+            "code": {**provenance.code_state(), **_git_state(checkout)},
+            "env": env, "roots": roots,
+            "runs": _runs(Path(config.VLM_TEST_ROOT)),
+            "counted": counts}
+
+
+def _copy_if_changed(src: Path, dest: Path, *, dry_run: bool) -> bool:
+    """Copy ``src`` to ``dest`` unless a copy of the same size is there.
+    True when a copy was (or, dry, would be) made. Through a temp file."""
+    try:
+        if dest.exists() and dest.stat().st_size == src.stat().st_size:
+            return False
+    except OSError:
+        pass
+    if dry_run:
+        return True
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_name(dest.name + ".part")
+    tmp.write_bytes(src.read_bytes())
+    os.replace(tmp, dest)
+    return True
+
+
+def _write_if_changed(text: str, dest: Path, *, dry_run: bool) -> bool:
+    data = text.encode("utf-8")
+    try:
+        if dest.exists() and dest.read_bytes() == data:
+            return False
+    except OSError:
+        pass
+    if dry_run:
+        return True
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_name(dest.name + ".part")
+    tmp.write_bytes(data)
+    os.replace(tmp, dest)
+    return True
+
+
+def _score_report_files(name: Optional[str]) -> list[Path]:
+    """The Markdown and, where it exists, the JSON of a scoring report, by name."""
+    if not name:
+        return []
+    stem = name.strip()
+    for suffix in (".json", ".md"):
+        if stem.endswith(suffix):
+            stem = stem[:-len(suffix)]
+    stem = validate_run(stem)
+    md = Path(config.VLM_TEST_ROOT) / f"{stem}.md"
+    if not md.is_file():
+        raise JobError(f"no scoring report {stem!r} under VLM_TEST_ROOT")
+    files = [md]
+    if md.with_suffix(".json").is_file():
+        files.append(md.with_suffix(".json"))
+    return files
+
+
+def _share_readme(run: str, pages, *, score_json: Optional[Path],
+                  keys_name: Optional[str]) -> str:
+    """The README an export carries, written from what the records say.
+
+    Model, run, prompt digest and settings, pages per verdict, the empty pages
+    by name, the date range — none of it typed by hand, all of it from the
+    JSON beside each reading. The one sentence that is not data is the one
+    the dataset card also carries: nobody has read this text.
+    """
+    models = sorted({p.model for p in pages})
+    settings = sorted({str(p.meta.get("settings") or "") for p in pages} - {""})
+    digests = sorted({s.split("+", 1)[0].replace("prompt-", "")
+                      for s in settings if s.startswith("prompt-")})
+    dates = sorted({str(p.meta.get("recognised_at") or "")[:10] for p in pages} - {""})
+    verdicts: dict[str, int] = {}
+    for p in pages:
+        v = p.verdict or "unknown"
+        verdicts[v] = verdicts.get(v, 0) + 1
+    empty = sorted(p.key for p in pages if p.verdict == "empty")
+    truncated = sorted(p.key for p in pages if p.truncated)
+    lines = [f"# {run} — Maschinenlesungen, nicht Ground Truth", ""]
+    lines.append(f"Lauf `{run}` des agentic_historian-Stacks, "
+                 + (f"gelesen {dates[0]}" if len(dates) == 1 else
+                    f"gelesen {dates[0]} bis {dates[-1]}" if dates else "Datum unbekannt")
+                 + f", {len(pages)} Seite(n), Modell(e): "
+                 + ", ".join(f"`{m}`" for m in models) + ".")
+    lines.append("")
+    if settings:
+        lines.append("Einstellungen (Prompt-Prüfsumme, Thinking, Deckel), wie jedes "
+                     "Protokoll sie trägt: " + ", ".join(f"`{s}`" for s in settings) + ".")
+        if digests:
+            lines.append("Der Prompt ist eine versionierte Datei unter "
+                         "`agentic_historian/prompts/`; die Prüfsumme "
+                         + ", ".join(f"`{d}`" for d in digests)
+                         + " identifiziert seinen Wortlaut.")
+        lines.append("")
+    lines.append("Seitentext ohne Zeilengeometrie — eine Chat-Completion hat keine "
+                 "Polygone.")
+    lines.append("")
+    lines.append("## Urteile")
+    lines.append("")
+    for v, n in sorted(verdicts.items(), key=lambda kv: (-kv[1], kv[0])):
+        lines.append(f"- `{v}`: {n}")
+    if empty:
+        lines.append("")
+        lines.append("Leere Dateien heissen: das Modell hat für diese Seite nichts "
+                     "zurückgegeben — eine Aussage über den Leser, nicht über das Blatt:")
+        lines.extend(f"- `{k}`" for k in empty)
+    if truncated:
+        lines.append("")
+        lines.append("Am Ausgabe-Deckel abgeschnitten (endet mitten im Satz):")
+        lines.extend(f"- `{k}`" for k in truncated)
+    lines.append("")
+    lines.append("## Dateien")
+    lines.append("")
+    lines.append("- `<Modell>/txt/<Schlüssel>.txt` — eine Lesung pro Seite. Der "
+                 "Schlüssel ist der Pfad im Digitalisate-Share, `/` → `__`, ohne "
+                 "Endung.")
+    lines.append("- `<Modell>/records/<Schlüssel>.json` — das Protokoll je Seite: "
+                 "Modell, Lauf, Zeitstempel, Prompt-Prüfsumme, Einstellungen, "
+                 "sha256 des gelesenen Bildes, Urteil.")
+    if keys_name:
+        lines.append(f"- `keys.txt` — die Schlüsselliste `{keys_name}`, mit der der "
+                     "Lauf gestartet wurde.")
+    lines.append("- `report.md` — der Laufbericht (Zeiten, Urteile).")
+    if score_json is not None:
+        try:
+            data = json.loads(score_json.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            data = {}
+        rows = data.get("by_reading") or []
+        lines.append("- `score-gt.md` / `score-gt.json` — Bewertung gegen "
+                     "handkorrigierte Seiten; die Seitenabschnitte nennen pro "
+                     "GT-Datei den zugeordneten Schlüssel.")
+        if rows:
+            lines.append("")
+            lines.append("## Gegen die Referenz")
+            lines.append("")
+            lines.append("| Leser | Seiten | Median-CER | p90 | beste | schlechteste |")
+            lines.append("|---|---:|---:|---:|---:|---:|")
+            for r in rows:
+                lines.append(f"| `{r.get('reading')}` | {r.get('pages')} | "
+                             f"{float(r.get('median', 0)):.1%} | "
+                             f"{float(r.get('p90', 0)):.1%} | "
+                             f"{float(r.get('best', 0)):.1%} | "
+                             f"{float(r.get('worst', 0)):.1%} |")
+            lines.append("")
+            lines.append("CER mit der Normalisierung des Projekts: Gross-/Kleinschreibung, "
+                         "Leerraum und Interpunktion ignoriert. Nur Seiten, deren "
+                         "Identität feststeht, zählen.")
+    else:
+        lines.append("- `score-gt.md` — nicht beigelegt: für diesen Lauf wurde keine "
+                     "Bewertung mitgegeben.")
+    lines.append("")
+    lines.append("**Niemand hat diesen Text gelesen.** Für Training ungeeignet, "
+                 "und am wenigsten für die Modellfamilie, die ihn erzeugt hat; als "
+                 "Lesung brauchbar, mit dem gemessenen oder ungemessenen Fehler.")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def export_run_share(run: str, model: Optional[str] = None,
+                     dest: Optional[str] = None,
+                     score_report: Optional[str] = None,
+                     keys: Optional[str] = None,
+                     dry_run: bool = False) -> dict:
+    """A run's readings as text on the research share, with what explains
+    them (#688).
+
+    The third exit of a run beside the hub (`upload_hf`) and the outputs repo
+    (`publish-batch`), and the only one that reaches the HTR training project.
+    On 2026-10-22 it was five `cp` lines and a README typed by hand; the
+    README had to say what the records already knew.
+
+    - ``dest``: a name under ``<ATR_RESEARCH_DIR>/<ATR_RESEARCH_EXPORT_SUBDIR>``
+      (default ``HTR/VLMs``), default the run's name. Validated like a run
+      name; the containment is `research_path`'s.
+    - writes ``<model>/txt/<key>.txt`` and ``<model>/records/<key>.json`` per
+      page (the JSON is the record, the text is taken from it), ``report.md``
+      where the run has one, ``keys.txt`` from a key list named under
+      ``GT_ROOT``, ``score-gt.md``/``.json`` from a scoring report named under
+      ``VLM_TEST_ROOT``, and a **generated** ``README.md``.
+    - resumable: a file already there at the same size is skipped; nothing is
+      ever deleted. ``dry_run`` counts and names the destination.
+
+    Synchronous: an evaluation run is tens of pages and the share writes at
+    410 MB/s; the 35-page export is a second. A corpus run of thousands of
+    pages is a different kind of export (#480) and is refused at 2000 pages.
+    """
+    import run_export as rx
+
+    run_dir = _run_dir(run)
+    if model is not None:
+        model = validate_models([model])[0]
+        _model_dir(run_dir.name, model)
+    pages = rx.read_run(run_dir, model)
+    if not pages:
+        raise JobError(f"run {run_dir.name!r} holds no readings")
+    if len(pages) > 2000:
+        raise JobError(
+            f"{len(pages)} readings — a corpus run is published through the "
+            f"dataset or the outputs repository (#480), not copied page by page "
+            f"onto the research share")
+    keys_file = resolve_keys_file(keys) if keys else None
+    report_files = _score_report_files(score_report)
+    score_json = next((f for f in report_files if f.suffix == ".json"), None)
+
+    sub = config.ATR_RESEARCH_EXPORT_SUBDIR
+    target_name = validate_run(dest or run_dir.name)
+    dest_dir = research_path(f"{sub}/{target_name}")
+
+    copied = present = 0
+    per_model: dict[str, int] = {}
+    for p in sorted(pages, key=lambda p: (p.model, p.key)):
+        per_model[p.model] = per_model.get(p.model, 0) + 1
+        txt = dest_dir / p.model / "txt" / f"{p.key}.txt"
+        rec = dest_dir / p.model / "records" / f"{p.key}.json"
+        if _write_if_changed(p.text, txt, dry_run=dry_run):
+            copied += 1
+        else:
+            present += 1
+        src_json = run_dir / p.model / f"{p.key}.json"
+        if src_json.is_file() and _copy_if_changed(src_json, rec, dry_run=dry_run):
+            copied += 1
+        elif src_json.is_file():
+            present += 1
+
+    extras: list[str] = []
+    report_md = run_dir / "report.md"
+    if report_md.is_file():
+        _copy_if_changed(report_md, dest_dir / "report.md", dry_run=dry_run)
+        extras.append("report.md")
+    if keys_file is not None:
+        _copy_if_changed(keys_file, dest_dir / "keys.txt", dry_run=dry_run)
+        extras.append("keys.txt")
+    for f in report_files:
+        _copy_if_changed(f, dest_dir / f"score-gt{f.suffix}", dry_run=dry_run)
+        extras.append(f"score-gt{f.suffix}")
+    readme = _share_readme(run_dir.name, pages, score_json=score_json,
+                           keys_name=keys_file.name if keys_file else None)
+    _write_if_changed(readme, dest_dir / "README.md", dry_run=dry_run)
+    extras.append("README.md")
+
+    return {"ok": True, "dry_run": dry_run, "run": run_dir.name,
+            "dest": str(dest_dir), "name": target_name,
+            "pages": len(pages), "per_model": per_model,
+            "files_copied": copied, "files_present": present,
+            "extras": extras, "readme": readme if dry_run else None}
 
 
 def resolve_keys_file(name: str) -> Path:
@@ -559,6 +1201,117 @@ def export_hf_job(runs: Sequence[str], gt_dir: Optional[str] = None,
             **start_and_peek("export-hf", argv)}
 
 
+#: The verdicts a run export may be told to refuse. ``ok`` is not among them:
+#: refusing the pages that passed every check leaves nothing to export, and a
+#: caller who wants that has asked for something else.
+RUN_EXPORT_REFUSABLE = ("empty", "short", "repetitive", "deliberation")
+
+
+def export_run_hf_argv(run_dir: Path, *, model: Optional[str] = None,
+                       out: Optional[Path] = None,
+                       skip_verdicts: Optional[Sequence[str]] = None,
+                       keep_truncated: bool = False,
+                       rejected_out: Optional[Path] = None,
+                       dry_run: bool = True) -> list[str]:
+    """The exact argv for one ``export-run-hf`` run.
+
+    The documented CLI, for the reason `batch_argv` gives. ``--source``,
+    ``--archive`` and ``--repo-id`` are left off deliberately: the first two
+    default to the configuration (the 2026-10-22 export had to pass them only
+    because it ran from a worktree whose data roots were code-relative), and the
+    repository is the upload's decision — `upload_hf` names it, this does not.
+
+    ``skip_verdicts=[]`` is not the same as ``None``: an empty list is sent as
+    ``--skip-verdicts ""``, which the CLI reads as *refuse nothing*; ``None``
+    sends no flag and leaves the CLI's default (`run_export.SKIP_VERDICTS`).
+    """
+    argv = [_python(), "-m", "agentic_historian", "export-run-hf",
+            "--run-dir", str(run_dir)]
+    if model:
+        argv += ["--model", model]
+    if out is not None:
+        argv += ["--out", str(out)]
+    if skip_verdicts is not None:
+        argv += ["--skip-verdicts", ",".join(skip_verdicts)]
+    if keep_truncated:
+        argv.append("--keep-truncated")
+    if rejected_out is not None:
+        argv += ["--rejected-out", str(rejected_out)]
+    if dry_run:
+        argv.append("--dry-run")
+    return argv
+
+
+def export_run_hf_job(run: str, model: Optional[str] = None,
+                      out: Optional[str] = None,
+                      skip_verdicts: Optional[Sequence[str]] = None,
+                      keep_truncated: bool = False,
+                      dry_run: bool = True) -> dict:
+    """Plan — or write — the page-wise export tree of a run, as a job (#685).
+
+    The sibling of `export_hf_job` for the other text this project holds: not a
+    hand-corrected page but what a recogniser said about one. Same job shape,
+    same two things missing from the surface (no source or archive path from the
+    caller, no repository), and the same default: ``dry_run`` is **true**,
+    because writing the tree copies an image per page.
+
+    ``run`` and ``out`` are **names** under ``VLM_TEST_ROOT`` — the tree is what
+    `upload_hf` takes as ``tree``, so the two ends of that handover live under
+    one root. ``out`` defaults to ``<run>-pagewise``. A tree that already holds
+    files is refused *here*, before a job starts: the CLI refuses it too, but a
+    job that fails on its first line is a worse answer than no job.
+
+    ``skip_verdicts`` names the `page_quality` verdicts to refuse, out of
+    ``empty``, ``short``, ``repetitive`` and ``deliberation``; the default is the
+    exporter's own (`run_export.SKIP_VERDICTS`: everything but ``short``).
+    ``ok`` cannot be refused. ``keep_truncated`` admits pages cut off at the
+    model's output ceiling, which the exporter refuses by default — a page that
+    stops mid-sentence is not a reading of the page.
+
+    The refusals are always written as a TSV under ``VLM_TEST_ROOT`` (key,
+    category, reason) and named in the result. It is a table, not a key list:
+    the key list for reading those pages again already exists, as
+    `batch_report(keys_out=...)`, which flags exactly the pages this export
+    refuses.
+    """
+    run_dir = _run_dir(run)
+    if model is not None:
+        model = validate_models([model])[0]
+        _model_dir(run_dir.name, model)
+    skip: Optional[list[str]] = None
+    if skip_verdicts is not None:
+        skip = [v.strip() for v in skip_verdicts if v and v.strip()]
+        unknown = sorted(v for v in skip if v not in RUN_EXPORT_REFUSABLE)
+        if unknown:
+            raise JobError(
+                f"unknown verdict(s) to refuse: {', '.join(unknown)} — one of "
+                f"{', '.join(RUN_EXPORT_REFUSABLE)}; `ok` cannot be refused")
+    out_dir: Optional[Path] = None
+    tree: Optional[str] = None
+    if out is not None:
+        tree = validate_run(out)
+    if not dry_run:
+        tree = tree or f"{run_dir.name}-pagewise"
+        out_dir = Path(config.VLM_TEST_ROOT) / tree
+        if out_dir.exists() and any(out_dir.iterdir()):
+            raise JobError(
+                f"export tree {tree!r} already holds files — a half-written "
+                f"export mixed with an older one would upload both; name another "
+                f"`out`")
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+    # Always, dry run included, and under VLM_TEST_ROOT rather than /tmp (#535):
+    # the plan prints a summary, and the list is what the summary is a claim about.
+    rejected = Path(config.VLM_TEST_ROOT) / f"run-rejected-{stamp}.tsv"
+    argv = export_run_hf_argv(run_dir, model=model, out=out_dir,
+                              skip_verdicts=skip, keep_truncated=keep_truncated,
+                              rejected_out=rejected, dry_run=dry_run)
+    return {"ok": True, "run": run_dir.name, "model": model,
+            "tree": tree if out_dir else None,
+            "out_dir": str(out_dir) if out_dir else None,
+            "rejected": str(rejected), "mode": "text",
+            **start_and_peek("export-run-hf", argv, run=run_dir.name)}
+
+
 def upload_hf_argv(tree: Path, *, repo_id: Optional[str] = None,
                    dry_run: bool = True) -> list[str]:
     """The exact argv for one ``upload-hf`` run. Never ``--public``.
@@ -593,6 +1346,37 @@ def upload_hf_job(tree: str, repo_id: Optional[str] = None,
     argv = upload_hf_argv(path, repo_id=repo_id, dry_run=dry_run)
     return {"ok": True, "tree": str(path), "private": True,
             **start_and_peek("upload-hf", argv)}
+
+
+def upload_card_argv(card: str, *, repo_id: Optional[str] = None,
+                     dry_run: bool = True) -> list[str]:
+    """The exact argv for one ``upload-hf-card`` run. No token in it."""
+    argv = [_python(), "-m", "agentic_historian", "upload-hf-card", "--card", card]
+    if repo_id:
+        argv += ["--repo-id", repo_id]
+    if dry_run:
+        argv.append("--dry-run")
+    return argv
+
+
+def upload_card_job(card: str, repo_id: Optional[str] = None,
+                    dry_run: bool = True) -> dict:
+    """Upload a dataset card as a job (#691). The card is a **name** under
+    ``docs/`` (``hf-dataset-card*.md``), never a path; the repository id is
+    validated here before a job starts. Two network calls and an upload of a
+    few kilobytes — a job all the same, so the reply is a handle and the log,
+    and the token stays in the process environment."""
+    import hf_export as hf
+
+    try:
+        path = hf.resolve_card(card)
+    except (ValueError, FileNotFoundError) as exc:
+        raise JobError(str(exc)) from exc
+    if repo_id is not None and not hf._REPO_ID_RE.match(repo_id):
+        raise JobError(f"repo id {repo_id!r} is not owner/name")
+    argv = upload_card_argv(path.name, repo_id=repo_id, dry_run=dry_run)
+    return {"ok": True, "card": str(path), "repo_id": repo_id or hf.DEFAULT_REPO_ID,
+            **start_and_peek("upload-hf-card", argv)}
 
 
 def pull_argv(folder: Optional[str] = None, *, limit: Optional[int] = None,
@@ -817,8 +1601,76 @@ def score_job(runs: Sequence[str], gt_dir: Optional[str] = None,
                       writer_agreement=writer_agreement)
     return {"ok": True, "runs": names, "ground_truth_dir": str(folder),
             "report": str(out),
+            # The per-page table as data, for `score_report` (#689).
+            "report_json": str(out.with_suffix(".json")),
+            "report_name": out.stem,
             "keys_file": str(keys_file) if keys_file else None,
             **start_and_peek("score-gt", argv)}
+
+
+def resolve_score_report(name: str) -> Path:
+    """The JSON of a scoring report, by **name** under ``VLM_TEST_ROOT``.
+
+    The name is what `score_job` returns as ``report_name`` — the stem,
+    ``score-gt-<stamp>``; a trailing ``.md`` or ``.json`` is tolerated because
+    that is how the path appears in a job's reply. Validated like a run name,
+    so the join cannot leave the root.
+    """
+    stem = (name or "").strip()
+    for suffix in (".json", ".md"):
+        if stem.endswith(suffix):
+            stem = stem[:-len(suffix)]
+    stem = validate_run(stem)
+    path = Path(config.VLM_TEST_ROOT) / f"{stem}.json"
+    if path.is_file():
+        return path
+    if path.with_suffix(".md").is_file():
+        raise JobError(
+            f"report {stem!r} has no JSON beside it — it was written before the "
+            f"report became data (#689); run `score_ground_truth` again and the "
+            f"new report will have one")
+    raise JobError(f"no scoring report {stem!r} under VLM_TEST_ROOT — "
+                   f"`score_ground_truth` names one as `report_name`")
+
+
+def score_report(name: str, offset: int = 0, limit: int = 50,
+                 located_only: bool = False) -> dict:
+    """A scoring report's table and pages, as data, paged (#689).
+
+    Everything the Markdown report holds and a session could not read: the
+    comparison table (``by_reading``), the status mix, the files that could
+    not be scored, and per page the located key, the status, and each
+    reading's CER with its runner-up and whether the match is confident.
+    ``not_located`` names the pages that are in no row of the table — on
+    2026-10-22 three of 38, and *which three* was the question.
+
+    Paged like `read_pages`, and the reply says what it left out
+    (``remaining``, ``next_offset``). ``located_only`` drops the pages whose
+    identity is unsettled, which is the view to take when reading CERs: an
+    unlocated page's CER is its distance to whichever corpus page happened to
+    be least unlike it, not a reading error.
+    """
+    path = resolve_score_report(name)
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise JobError(f"cannot read {path.name}: {exc}") from exc
+    pages = list(data.get("pages") or [])
+    not_located = [p.get("file") for p in pages if not p.get("located_key")]
+    if located_only:
+        pages = [p for p in pages if p.get("located_key")]
+    offset = max(0, int(offset))
+    limit = max(1, int(limit))
+    window = pages[offset:offset + limit]
+    head = {k: v for k, v in data.items() if k != "pages"}
+    return {"ok": True, "report": str(path), "name": path.stem, **head,
+            "not_located": not_located,
+            "pages_total": len(pages), "offset": offset,
+            "returned": len(window),
+            "remaining": max(0, len(pages) - offset - len(window)),
+            "next_offset": (offset + len(window)
+                            if offset + len(window) < len(pages) else None),
+            "pages": window}
 
 
 def _score_run_names(runs: Sequence[str]) -> list[str]:
@@ -888,45 +1740,23 @@ def score_ground_truth(runs: Sequence[str], gt_dir: Optional[str] = None,
             + "\n".join(keys) + "\n", encoding="utf-8")
         keys_file = {"name": dest.name, "path": str(dest), "pages": len(keys)}
 
+    from gt_score import report_data
+
     return {
         "runs": names,
         "ground_truth_dir": str(folder),
-        "pages_scored": len(scored),
         "keys_file": keys_file,
-        "pages_unusable": [{"file": u.source.name, "reason": u.reason}
-                           for u in unusable],
-        "status_mix": _status_mix(scored),
-        "pages": [{
-            "file": s.gt.source.name,
-            "doc_id": s.gt.doc_id,
-            "page_id": s.gt.page_id,
-            "status": s.gt.status,
-            "lines": s.gt.lines,
-            "chars": len(s.gt.text),
-            "agreed_key": s.agreed_key,
-            # Agreement is not identification: one reading agrees with itself.
-            # This is the key that is safe to hand to `atr-batch --keys-from`.
-            "located_key": s.located,
-            "readings": [{"reading": m.reading, "cer": round(m.cer, 4),
-                          "key": m.key, "runner_up_cer": round(m.runner_up_cer, 4),
-                          "confident": m.confident} for m in s.matches],
-        } for s in scored],
+        # The same data the CLI writes beside its report (#689): one shape,
+        # whether the scoring ran here or as a job.
+        **report_data(scored, unusable),
         "report_md": report[:40000],
     }
 
 
 def _status_mix(scored: Sequence) -> dict:
-    """How many pages per Transkribus status.
-
-    Worth answering because DONE, FINAL and GT are not obviously equally reliable:
-    if the CER splits along that line, the status is describing the correction and
-    not the model.
-    """
-    out: dict[str, int] = {}
-    for item in scored:
-        key = item.gt.status or "unknown"
-        out[key] = out.get(key, 0) + 1
-    return out
+    """Kept for callers; the definition moved to `gt_score.status_mix` (#689)."""
+    from gt_score import status_mix
+    return status_mix(scored)
 
 
 def merge_runs(runs: Sequence[str], run: str,

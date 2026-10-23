@@ -14,6 +14,20 @@ Alongside the Turtle it writes ``<out>.manifest.json`` — triple count, build
 time and per-class counts — so staleness of the served endpoint is *visible*
 rather than inferred.
 
+The vocabulary check is a gate (KG-12, #659)
+---------------------------------------------
+Before anything is written, the graph goes through
+``knowledge_hub.ontology.validate``: every class and property must be in the
+register (CIDOC/SDHSS as OntoMe and the CRM RDFS know them, W3C, or ours under
+``shb:``), domain and range must fit, every core node must carry its
+provenance, and the SHACL shapes must hold. A graph that fails is **not
+written** and the command exits 2 — a published endpoint must not carry a term
+that nobody defined, which is what the exporter did for 40 terms until KG-12.
+KG-6 deliberately did not put this gate here because the exporter would have
+failed it; now it does not, and the gate keeps it that way. ``--no-shacl``
+skips only the SHACL part (the shapes are slow on a large graph); the register
+check always runs.
+
 Publication scope
 -----------------
 The corpus concerns Fürsorge / care history, so what may be published is an
@@ -60,6 +74,7 @@ from rdflib import Graph, RDF
 
 import care_flag
 from knowledge_hub import rdf_export as rx
+from knowledge_hub.ontology import validate as ontology_validate
 
 # Entity types treated as identifying a natural person.
 _PERSON_TYPES = {"PERSON", "CARE_ACTOR"}
@@ -105,6 +120,15 @@ class PublicationScope:
                 and not self.require_authority_id)
 
 
+class ValidationError(RuntimeError):
+    """The corpus graph uses a term the register does not know, or breaks a
+    domain, range, provenance or shape rule — the gate refused the build."""
+
+    def __init__(self, report: ontology_validate.Report):
+        self.report = report
+        super().__init__("corpus graph is not valid:\n" + report.render())
+
+
 @dataclass
 class BuildReport:
     """What the build produced — the answer to "is the endpoint current?"."""
@@ -124,6 +148,11 @@ class BuildReport:
     #: withheld: "3 of 20 are care-related" and "3 of 20, with 6 classifications
     #: that failed" are different statements about the same corpus.
     care: dict = field(default_factory=dict)
+    #: The gate's numbers (KG-12): ``ok``, the property uses it checked, whether
+    #: SHACL ran, and a count per finding kind. A build that reached the
+    #: manifest passed, so ``ok`` is always true here — the point of recording
+    #: it is that a reader of the manifest can see the check ran, and with what.
+    validation: dict = field(default_factory=dict)
 
     def as_dict(self) -> dict:
         return asdict(self)
@@ -144,6 +173,9 @@ class BuildReport:
         if self.care:
             lines.append("  care        " + ", ".join(
                 f"{k}={v}" for k, v in sorted(self.care.items())))
+        if self.validation:
+            lines.append("  validation  " + ", ".join(
+                f"{k}={v}" for k, v in sorted(self.validation.items())))
         withheld = {k: v for k, v in self.withheld.items() if v}
         if withheld:
             lines.append("  withheld    " +
@@ -232,11 +264,11 @@ def _count(g: Graph) -> dict:
     # which is the right denominator for a report about the published graph —
     # what a narrower scope withheld is on `BuildReport.withheld`.
     care = {
-        "yes": sum(1 for o in g.objects(None, rx.SDHSS["careRelated"])
+        "yes": sum(1 for o in g.objects(None, rx.SHB["careRelated"])
                    if bool(o.toPython())),
-        "no": sum(1 for o in g.objects(None, rx.SDHSS["careRelated"])
+        "no": sum(1 for o in g.objects(None, rx.SHB["careRelated"])
                   if not bool(o.toPython())),
-        "unknown": sum(1 for o in g.objects(None, rx.SDHSS["careClassified"])
+        "unknown": sum(1 for o in g.objects(None, rx.SHB["careClassified"])
                        if not bool(o.toPython())),
     }
 
@@ -245,7 +277,10 @@ def _count(g: Graph) -> dict:
         "documents": len(set(g.subjects(RDF.type, rx.CRM["E31_Document"]))),
         "readings": len(set(g.subjects(RDF.type, rx.CRM["E33_Linguistic_Object"]))),
         "mentions": len(list(g.triples((None, rx.CRM["P67_refers_to"], None)))),
-        "entities": len(set(g.subjects(rx.SDHSS["entityType"], None))),
+        # An entity is what a reading refers to; the exporter mints an entity
+        # node only as the target of a P67 (there is no `entityType` literal
+        # to count any more — the type is an E55 on P2, KG-12).
+        "entities": len(set(g.objects(None, rx.CRM["P67_refers_to"]))),
         "authority_links": authority,
         "care": care,
     }
@@ -272,14 +307,29 @@ def build_graph(outputs_dir: str | Path,
     return g, withheld
 
 
+def validate_graph(g: Graph, *, shacl: bool = True) -> ontology_validate.Report:
+    """The KG-6 check over the corpus graph. Raises :class:`ValidationError`
+    when it does not pass — nothing downstream may run on an invalid graph."""
+    rep = ontology_validate.validate(g, shacl=shacl)
+    if not rep.ok:
+        raise ValidationError(rep)
+    return rep
+
+
 def build(outputs_dir: str | Path,
           destination: str | Path = "build/corpus.ttl",
           scope: Optional[PublicationScope] = None,
           *,
-          write_manifest: bool = True) -> BuildReport:
-    """Build the corpus Turtle plus its manifest. Idempotent."""
+          write_manifest: bool = True,
+          shacl: bool = True) -> BuildReport:
+    """Build the corpus Turtle plus its manifest. Idempotent.
+
+    The vocabulary gate runs between building the graph and writing it: a
+    graph that fails raises :class:`ValidationError` and leaves no file behind.
+    """
     scope = scope or PublicationScope.from_config()
     g, withheld = build_graph(outputs_dir, scope)
+    checked = validate_graph(g, shacl=shacl)
 
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -292,6 +342,8 @@ def build(outputs_dir: str | Path,
         destination=str(destination),
         withheld=withheld,
         scope=asdict(scope),
+        validation={"ok": checked.ok, "checked": checked.checked_properties,
+                    "shacl": shacl, **checked.counts()},
         **counts,
     )
     if write_manifest:
@@ -326,6 +378,9 @@ def main(argv: Optional[list[str]] = None) -> int:
                         help="destination .ttl (default: build/corpus.ttl)")
     parser.add_argument("--status", action="store_true",
                         help="print the last build's manifest and exit")
+    parser.add_argument("--no-shacl", action="store_true",
+                        help="skip the SHACL shapes in the vocabulary gate "
+                             "(the register, domain/range and provenance checks still run)")
     args = parser.parse_args(argv)
 
     if args.status:
@@ -342,7 +397,13 @@ def main(argv: Optional[list[str]] = None) -> int:
         outputs = config.OUTPUTS_DIR
 
     scope = PublicationScope.from_config()
-    report = build(outputs, args.out, scope)
+    try:
+        report = build(outputs, args.out, scope, shacl=not args.no_shacl)
+    except ValidationError as exc:
+        print(f"corpus graph NOT written to {args.out} — the vocabulary gate refused it:",
+              file=sys.stderr)
+        print(exc.report.render(), file=sys.stderr)
+        return 2
     print(report.render())
     if not scope.is_unrestricted:
         print("  note        a narrower publication scope is in effect")

@@ -18,9 +18,15 @@ sudo systemctl daemon-reload && sudo systemctl restart agentic-historian
   after a crash and after `/update` exits the process to redeploy.
 - **`hardening.conf`** (SEC-9, #580) — sandboxes the process the way the MCP
   server unit already is: `ProtectSystem=strict`, `NoNewPrivileges`, a narrow
-  `ReadWritePaths`, and the kernel/cgroup/SUID restrictions. **Edit the writable
-  paths and the `ProtectHome` note for the real checkout before installing**, then
-  check with `systemd-analyze security agentic-historian`.
+  `ReadWritePaths` (the two data directories, as `writable_paths.py` derives them
+  from the running configuration), and the kernel/cgroup/SUID restrictions.
+- **`secrets.conf`** (S2, #567) — the unit reads `/etc/agentic_historian.env` and
+  nothing else (`AH_ENV_FILE`).
+- **`user.conf`** (S2, #567) — `User=agentic_historian`. Not installed by hand:
+  **`switch_to_own_user.sh`** creates the user, checks it can reach the code,
+  fixes ownership, installs all three drop-ins in the one order that works and
+  measures the result with **`check_separation.py`**. The walkthrough for tei is
+  in [SEPARATION.md](SEPARATION.md).
 
 ## Secrets held by the bot (SEC-9, #580)
 

@@ -37,6 +37,7 @@ the list is short and why `mcp_atr/jobs.py` has more tests than code.
 | `batch_report` | the run's `report.md` and per-model page counts |
 | `run_files` | which pages a run has read, per model; no text |
 | `read_pages` | the transcriptions themselves, paged and capped |
+| `ubelix_queue` · `ubelix_job` · `ubelix_record` | UBELIX's Slurm queue, one job's `sacct -D` history, a trainer record and its log tail — read-only, over ssh with a key UBELIX binds to one script ([`deploy/ubelix-ro/`](../ubelix-ro/README.md)) |
 
 ## Authentication: OAuth, because the connector speaks nothing else
 

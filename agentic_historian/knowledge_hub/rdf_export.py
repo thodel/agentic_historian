@@ -1,19 +1,26 @@
 """
 knowledge_hub/rdf_export.py
 
-Exports the knowledge hub to RDF/Turtle using CIDOC-CRM (v7.1) ontology.
+Exports the knowledge hub to RDF/Turtle using CIDOC-CRM (v7.1.3) ontology.
 This is the first step toward the QLEVER triple-store target (WP4).
 
 CIDOC-CRM classes used:
   - E21 Person
   - E53 Place
-  - E40 Legal Body (for organisations)
-  - E74 Group (for social groups)
+  - E74 Group (organisations AND social groups — E40 Legal Body is not in
+    CRM 7.1.3; the kind of group is sdh:P99 → crm-sup:C9 Group Type)
   - E7 Activity (for care actions)
   - E82 Actor Appellation (names)
   - E48 Place Name
   - P1 is identified by (E1 Entity → E41 Appellation)
   - P74 has current or former residence (E53 Place)
+
+Vocabulary (KG-12, #659): every term is either CIDOC/SDHSS (in OntoMe or the
+CRM RDFS), W3C (prov, owl, rdfs), schema:image, or OURS under
+``https://tei.dh.unibe.ch/ontology/`` (``shb:``) — registered with label,
+domain and range in ``knowledge_hub.ontology.registry``. Nothing is coined
+under ``https://sdhss.org/ontology/`` any more: that URI belongs to SDHSS, and
+``knowledge_hub.ontology.validate`` gates the corpus build on exactly this.
 
 Linked data:
   - Wikidata via wdt: predicates (Wikidata entity URIs)
@@ -33,9 +40,14 @@ from typing import Optional
 import rdflib
 from rdflib import Namespace, URIRef, Literal, Graph, RDF, RDFS
 
+from knowledge_hub.ontology.registry import SHB, SDH, CRM_SUP
+
 # ── Namespaces ────────────────────────────────────────────────────────────────
 CRM = Namespace("http://www.cidoc-crm.org/cidoc-crm/")
-SDHSS = Namespace("https://sdhss.org/ontology/")
+# SHB (imported above) is OUR vocabulary: https://tei.dh.unibe.ch/ontology/.
+# Until KG-12 the terms below were minted under https://sdhss.org/ontology/ —
+# a URI that belongs to SDHSS and that OntoMe answers with «URI not found».
+# SDH / CRM_SUP are the real SDHSS namespaces, used for sdh:P99 → crm-sup:C9.
 WD = Namespace("https://www.wikidata.org/entity/")        # entity (resolve)
 WDT = Namespace("https://www.wikidata.org/prop/direct/")  # direct claim
 GND = Namespace("https://d-nb.info/gnd/")
@@ -60,7 +72,9 @@ AH = Namespace(CORPUS_BASE)
 # ── Prefixes for Turtle output ────────────────────────────────────────────────
 PREFIXES = {
     "cidoc-crm": str(CRM),
-    "sdhss": str(SDHSS),
+    "shb": str(SHB),
+    "sdh": str(SDH),
+    "crm-sup": str(CRM_SUP),
     "wd": str(WD),
     "wdt": str(WDT),
     "gnd": str(GND),
@@ -194,10 +208,29 @@ def place_to_rdf(g: Graph, place) -> Graph:
     return g
 
 
+def group_type_uri(label: str, ns: Namespace = None) -> URIRef:
+    """The crm-sup:C9 Group Type node for a kind of group («organisation»,
+    «social group»). E40 Legal Body is not in CRM 7.1.3, so an organisation
+    is an E74 Group whose kind hangs on sdh:P99 — the Bestandsgraph's model."""
+    return (ns or AH)[f"group-type/{_slug(label)}"]
+
+
+def _add_group_type(g: Graph, group: URIRef, label: str, ns: Namespace = None,
+                    dataset: Optional[URIRef] = None) -> URIRef:
+    t = group_type_uri(label, ns)
+    g.add((group, SDH["P99"], t))
+    g.add((t, RDF.type, CRM_SUP["C9"]))
+    g.add((t, RDFS.label, Literal(label)))
+    if dataset is not None:
+        g.add((t, PROV["wasDerivedFrom"], dataset))
+    return t
+
+
 def organisation_to_rdf(g: Graph, name: str, wikidata_id: Optional[str] = None,
                          gnd_id: Optional[str] = None, notes: str = "") -> Graph:
     """
-    Add an Organisation as CRM E40 Legal Body.
+    Add an Organisation as CRM E74 Group with group type «organisation».
+    (E40 Legal Body does not exist in CRM 7.1.3 — KG-12.)
     Pass an org dict from the vocabulary list.
     """
     if not name:
@@ -209,7 +242,8 @@ def organisation_to_rdf(g: Graph, name: str, wikidata_id: Optional[str] = None,
         import uuid
         uri = rdflib.BNode(f"org_{uuid.uuid4().hex[:8]}")
 
-    g.add((uri, RDF.type, CRM["E40_Legal_Body"]))
+    g.add((uri, RDF.type, CRM["E74_Group"]))
+    _add_group_type(g, uri, "organisation")
     g.add((uri, RDFS.label, _safe_literal(name)))
 
     if wikidata_id:
@@ -240,6 +274,7 @@ def social_group_to_rdf(g: Graph, name: str, wikidata_id: Optional[str] = None,
         uri = rdflib.BNode(f"group_{uuid.uuid4().hex[:8]}")
 
     g.add((uri, RDF.type, CRM["E74_Group"]))
+    _add_group_type(g, uri, "social group")
     g.add((uri, RDFS.label, _safe_literal(name)))
 
     if wikidata_id:
@@ -268,14 +303,15 @@ def care_action_to_rdf(g: Graph, action_name: str, notes: str = "") -> Graph:
 
 def vocabulary_term_to_rdf(g: Graph, vocab) -> Graph:
     """
-    Add a Vocabulary entry as SDHSS concept.
+    Add a Vocabulary entry as CRM E55 Type — a term of a controlled vocabulary
+    is what E55 is for (it was an invented ``sdhss:Concept`` until KG-12).
     """
     import uuid
     uri = rdflib.BNode(f"vocab_{uuid.uuid4().hex[:8]}")
-    g.add((uri, RDF.type, SDHSS["Concept"]))
+    g.add((uri, RDF.type, CRM["E55_Type"]))
     g.add((uri, RDFS.label, _safe_literal(vocab.term)))
-    g.add((uri, SDHSS["canonicalForm"], _safe_literal(vocab.canonical_form)))
-    g.add((uri, SDHSS["category"], _safe_literal(vocab.category)))
+    g.add((uri, SHB["canonicalForm"], _safe_literal(vocab.canonical_form)))
+    g.add((uri, SHB["category"], _safe_literal(vocab.category)))
     if vocab.notes:
         g.add((uri, RDFS.comment, _safe_literal(vocab.notes)))
     return g
@@ -284,28 +320,35 @@ def vocabulary_term_to_rdf(g: Graph, vocab) -> Graph:
 def closest_reading_to_rdf(g: Graph, document_uri, closest_reading: dict) -> Graph:
     """Attach a revisable editorial reading and its provenance to a document.
 
-    The local terms deliberately say ``closestReading`` rather than implying a
-    scholarly reference text or independently verified transcription.
+    Hub-level form of :func:`add_closest_reading`. The reading is an E33 the
+    document ``P128_carries`` — like every other reading, and marked
+    ``shb:closestReading true`` rather than hung off the document by a
+    «hasClosestReading» link, which would make it the document's text (the
+    rule KG-2 states). The local terms deliberately say ``closestReading``
+    rather than implying a scholarly reference text or independently verified
+    transcription.
     """
     reading = rdflib.BNode()
-    g.add((reading, RDF.type, SDHSS["ClosestReading"]))
+    g.add((reading, RDF.type, CRM["E33_Linguistic_Object"]))
     g.add((reading, RDFS.label, Literal("Closest available reading")))
     g.add((reading, RDF.value, _safe_literal(closest_reading.get("text", ""))))
-    g.add((reading, SDHSS["editorialStatus"],
+    g.add((reading, SHB["readingRole"], Literal("closest")))
+    g.add((reading, SHB["closestReading"], Literal(True)))
+    g.add((reading, SHB["editorialStatus"],
            Literal("revisable editorial choice; not a reference text")))
     for candidate in closest_reading.get("candidates_offered", {}):
-        g.add((reading, SDHSS["candidateOffered"], _safe_literal(candidate)))
+        g.add((reading, SHB["candidateOffered"], _safe_literal(candidate)))
     for chosen in closest_reading.get("chosen", []):
-        g.add((reading, SDHSS["candidateChosen"], _safe_literal(chosen)))
-    g.add((reading, SDHSS["combined"],
+        g.add((reading, SHB["candidateChosen"], _safe_literal(chosen)))
+    g.add((reading, SHB["combined"],
            Literal(bool(closest_reading.get("combined")))))
     if closest_reading.get("editor_pseudonym"):
-        g.add((reading, SDHSS["editorPseudonym"],
+        g.add((reading, SHB["editorPseudonym"],
                _safe_literal(closest_reading["editor_pseudonym"])))
     if closest_reading.get("confirmed_at"):
-        g.add((reading, SDHSS["confirmedAt"],
+        g.add((reading, SHB["confirmedAt"],
                _safe_literal(closest_reading["confirmed_at"])))
-    g.add((URIRef(document_uri), SDHSS["hasClosestReading"], reading))
+    g.add((URIRef(document_uri), CRM["P128_carries"], reading))
     return g
 
 
@@ -377,7 +420,7 @@ def entity_to_rdf(hub_instance, entity_dict: dict) -> Graph:
     elif entity_type == "ROLE":
         import uuid
         uri = rdflib.BNode(f"role_{uuid.uuid4().hex[:8]}")
-        g.add((uri, RDF.type, SDHSS["Role"]))
+        g.add((uri, RDF.type, CRM["E55_Type"]))
         g.add((uri, RDFS.label, _safe_literal(name)))
         return g
 
@@ -413,17 +456,28 @@ def entity_to_rdf(hub_instance, entity_dict: dict) -> Graph:
 # All nodes are minted as URIRefs from stable keys (never uuid4 BNodes), so the
 # serialisation is byte-identical across runs and the graph stays diffable.
 
-# CRM class per Agent C entity type.
+# CRM class per Agent C entity type. Agent C's own type travels as well, as an
+# E55 on P2_has_type (``ah:entity-type/<type>``): CARE_ACTOR and PERSON are
+# both E21, and the difference is a classification our pipeline made.
 _ENTITY_CLASS = {
     "PERSON":       "E21_Person",
     "PLACE":        "E53_Place",
-    "ORG":          "E40_Legal_Body",
-    "ORGANISATION": "E40_Legal_Body",
+    "ORG":          "E74_Group",
+    "ORGANISATION": "E74_Group",
     "SOCIAL_GROUP": "E74_Group",
     "CARE_ACTOR":   "E21_Person",
     "CARE_ACTION":  "E7_Activity",
     "ROLE":         "E55_Type",
     "DATE":         "E52_Time-Span",
+}
+
+# E40 Legal Body is not in CRM 7.1.3 (KG-6 measured it on the RDFS: 0 hits), so
+# an organisation is an E74 Group like a social group — and the kind of group
+# is a crm-sup:C9 Group Type on sdh:P99, as the Bestandsgraph does it.
+_GROUP_TYPE = {
+    "ORG":          "organisation",
+    "ORGANISATION": "organisation",
+    "SOCIAL_GROUP": "social group",
 }
 
 # Authority id fields carrying a PUBLIC URI. The URI itself comes from
@@ -482,27 +536,77 @@ def _identifier_node(source: str, value: str, ns: Namespace = AH) -> URIRef:
     return ns[f"identifier/{_slug(source)}/{_slug(str(value))}"]
 
 
+# ── provenance: the dataset every corpus node derives from (KG-12) ───────────
+#
+# The Bestandsgraph hangs ``prov:wasDerivedFrom`` on every node, pointing at the
+# dataset it came from (KG-6). The corpus graph's dataset is the pipeline run
+# under ``data/outputs``: that is where a document, its readings and the
+# entities Agent C extracted come from, and a node without that link cannot
+# say where it came from. One node per graph, minted only when a document is
+# exported — an empty outputs dir still yields an empty graph.
+
+def dataset_uri(ns: Namespace = AH) -> URIRef:
+    return ns["dataset/corpus"]
+
+
+def _dataset(g: Graph, ns: Namespace = AH) -> URIRef:
+    """The corpus dataset node; added once, idempotently."""
+    ds = dataset_uri(ns)
+    if (ds, RDF.type, PROV["Entity"]) not in g:
+        g.add((ds, RDF.type, PROV["Entity"]))
+        g.add((ds, RDFS.label, Literal("Agentic Historian — Korpusgraph (data/outputs)")))
+        g.add((ds, RDFS.comment, Literal(
+            "Die Pipeline-Läufe unter data/outputs: je Seite die Lesungen aller "
+            "Engines, ihre Herkunft, die Fusionsentscheidung, die Auswahl eines "
+            "Historikers und die Erwähnungen, die Agent C aus der Arbeitsfassung "
+            "gezogen hat (KG-2, KG-3, KG-5).")))
+    return ds
+
+
+def type_uri(scheme: str, label: str, ns: Namespace = AH) -> URIRef:
+    """URI of an E55 Type in one of our small vocabularies: ``identifier-source``
+    (hub, archival_id), ``entity-type`` (Agent C's types), ``reading-role``."""
+    return ns[f"{_slug(scheme)}/{_slug(label)}"]
+
+
+def _type_node(g: Graph, scheme: str, label: str, ns: Namespace = AH,
+               dataset: Optional[URIRef] = None) -> URIRef:
+    """An E55 Type keyed on scheme + label, once per graph (the Bestandsgraph's
+    ``Build.type_``). P2_has_type wants an E55 resource — a literal there was
+    the second finding of KG-6 against this exporter."""
+    t = type_uri(scheme, label, ns)
+    if (t, RDF.type, CRM["E55_Type"]) not in g:
+        g.add((t, RDF.type, CRM["E55_Type"]))
+        g.add((t, RDFS.label, Literal(label)))
+        g.add((t, PROV["wasDerivedFrom"], dataset or _dataset(g, ns)))
+    return t
+
+
 def _add_identifier(g: Graph, subject: URIRef, source: str, value: str,
-                    ns: Namespace = AH) -> None:
+                    ns: Namespace = AH, dataset: Optional[URIRef] = None) -> None:
     """Attach a source-local id as an E42 Identifier carrying a literal.
 
     Used for sources WITHOUT a public URI (hbls / kf / eos / hub). The id is
-    preserved verbatim as a literal so it stays resolvable by a human or a
-    later MCP call — but no external URI is invented for it.
+    preserved verbatim as a literal (P190, and rdfs:label for readers) so it
+    stays resolvable by a human or a later MCP call — but no external URI is
+    invented for it. Its source is an E55 on P2, not a literal (KG-12).
     """
     node = _identifier_node(source, value, ns)
     g.add((subject, CRM["P1_is_identified_by"], node))
     g.add((node, RDF.type, CRM["E42_Identifier"]))
     g.add((node, RDFS.label, Literal(str(value))))
-    g.add((node, CRM["P2_has_type"], Literal(source)))
+    g.add((node, CRM["P190_has_symbolic_content"], Literal(str(value))))
+    g.add((node, CRM["P2_has_type"], _type_node(g, "identifier-source", source, ns, dataset)))
 
 
-def entity_node_to_rdf(g: Graph, entity: dict, ns: Namespace = AH) -> Optional[URIRef]:
+def entity_node_to_rdf(g: Graph, entity: dict, ns: Namespace = AH,
+                       dataset: Optional[URIRef] = None) -> Optional[URIRef]:
     """Add one extracted entity as a typed CRM node and return its URI.
 
     Authority ids become ``owl:sameAs`` links to public URIs; ids from sources
     without a public URI (hbls / kf / eos / the local hub) become E42
-    Identifiers carrying the literal id. No source payload is copied.
+    Identifiers carrying the literal id. No source payload is copied. The node
+    derives from the corpus dataset, and Agent C's type is an E55 on P2.
     """
     name = (entity.get("normalised") or entity.get("text") or "").strip()
     etype = (entity.get("type") or "").strip().upper()
@@ -513,10 +617,14 @@ def entity_node_to_rdf(g: Graph, entity: dict, ns: Namespace = AH) -> Optional[U
               else entity.get(k)
            for k in ("gnd", "wikidata", "hls", "hub_id")}
     uri = entity_uri(etype, name, ids, ns)
+    dataset = dataset or _dataset(g, ns)
 
     g.add((uri, RDF.type, CRM[_ENTITY_CLASS.get(etype, "E1_CRM_Entity")]))
     g.add((uri, RDFS.label, _safe_literal(name)))
-    g.add((uri, SDHSS["entityType"], Literal(etype)))
+    g.add((uri, PROV["wasDerivedFrom"], dataset))
+    g.add((uri, CRM["P2_has_type"], _type_node(g, "entity-type", etype, ns, dataset)))
+    if etype in _GROUP_TYPE:
+        _add_group_type(g, uri, _GROUP_TYPE[etype], ns, dataset)
 
     # Public authority URIs → owl:sameAs (link, don't copy). A field with no
     # public URI pattern falls through to a local identifier below rather than
@@ -529,11 +637,11 @@ def entity_node_to_rdf(g: Graph, entity: dict, ns: Namespace = AH) -> Optional[U
         if public:
             g.add((uri, OWL["sameAs"], URIRef(public)))
         else:
-            _add_identifier(g, uri, field, value, ns)
+            _add_identifier(g, uri, field, value, ns, dataset)
 
     # Sources without a public URI keep a local identifier only.
     if ids.get("hub_id"):
-        _add_identifier(g, uri, "hub", ids["hub_id"], ns)
+        _add_identifier(g, uri, "hub", ids["hub_id"], ns, dataset)
 
     return uri
 
@@ -586,10 +694,12 @@ def document_to_rdf(g: Graph, doc: dict, ns: Namespace = AH) -> Optional[URIRef]
         return None
 
     d_uri = document_uri(doc_id, ns)
+    dataset = _dataset(g, ns)
     g.add((d_uri, RDF.type, CRM["E22_Human-Made_Object"]))
     g.add((d_uri, RDF.type, CRM["E31_Document"]))
     g.add((d_uri, RDFS.label, Literal(doc_id)))
-    _add_identifier(g, d_uri, "archival_id", doc_id, ns)
+    g.add((d_uri, PROV["wasDerivedFrom"], dataset))
+    _add_identifier(g, d_uri, "archival_id", doc_id, ns, dataset)
 
     # #208 — the source image, when the deployment knows where it lives.
     if doc.get("source_url"):
@@ -617,15 +727,15 @@ def document_to_rdf(g: Graph, doc: dict, ns: Namespace = AH) -> Optional[URIRef]
         g.add((r_uri, RDFS.label, Literal(f"Reading ({meta.get('engine') or key})")))
         g.add((r_uri, CRM["P190_has_symbolic_content"], _safe_literal(text)))
         if meta.get("engine"):
-            g.add((r_uri, SDHSS["engine"], Literal(meta["engine"])))
+            g.add((r_uri, SHB["engine"], Literal(meta["engine"])))
         if meta.get("model_id"):
-            g.add((r_uri, SDHSS["modelId"], Literal(meta["model_id"])))
+            g.add((r_uri, SHB["modelId"], Literal(meta["model_id"])))
         if meta.get("confidence") is not None:
-            g.add((r_uri, SDHSS["confidence"], Literal(meta["confidence"])))
+            g.add((r_uri, SHB["confidence"], Literal(meta["confidence"])))
         if meta.get("working"):
             # The reading Agent C read. A working choice among candidates, not
             # an established text.
-            g.add((r_uri, SDHSS["readingRole"], Literal("working")))
+            g.add((r_uri, SHB["readingRole"], Literal("working")))
             working_uri = r_uri
 
         # KG-3: where this reading came from.
@@ -639,14 +749,14 @@ def document_to_rdf(g: Graph, doc: dict, ns: Namespace = AH) -> Optional[URIRef]
                 else doc.get("entities")) or []
     if working_uri is not None:
         for ent in entities:
-            e_uri = entity_node_to_rdf(g, ent, ns)
+            e_uri = entity_node_to_rdf(g, ent, ns, dataset)
             if e_uri is not None:
                 g.add((working_uri, CRM["P67_refers_to"], e_uri))
 
     # KG-3: why the readings were (not) fused, and which one a historian chose.
     add_fusion_decision(g, doc_id, d_uri, doc.get("a_meta") or {}, ns)
     add_closest_reading(g, doc_id, doc.get("closest_reading") or {},
-                        readings_by_key, ns)
+                        readings_by_key, ns, dataset)
 
     return d_uri
 
@@ -777,8 +887,8 @@ def add_dating(g: Graph, d_uri: URIRef, doc: dict) -> Optional[int]:
 
     The verbatim text is always emitted when there is one; the century only
     when :func:`century_of` could read it. The two are separate predicates on
-    purpose: ``sdhss:dating`` is what the source (or Agent B) says, and
-    ``sdhss:century`` is a number this code derived from it — conflating them
+    purpose: ``shb:dating`` is what the source (or Agent B) says, and
+    ``shb:century`` is a number this code derived from it — conflating them
     would hide that the filter a historian uses is our arithmetic, not the
     document's statement.
     """
@@ -786,21 +896,21 @@ def add_dating(g: Graph, d_uri: URIRef, doc: dict) -> Optional[int]:
     text = str(element.get("wert") or "").strip()
     if not text:
         return None
-    g.add((d_uri, SDHSS["dating"], _safe_literal(text)))
+    g.add((d_uri, SHB["dating"], _safe_literal(text)))
     uncertain = dating_is_uncertain(element)
     if uncertain:
-        g.add((d_uri, SDHSS["datingUncertain"], Literal(True)))
+        g.add((d_uri, SHB["datingUncertain"], Literal(True)))
     if element.get("notiz"):
-        g.add((d_uri, SDHSS["datingNote"], _safe_literal(str(element["notiz"]))))
+        g.add((d_uri, SHB["datingNote"], _safe_literal(str(element["notiz"]))))
     century = century_of(text)
     if century is None:
         return None
-    g.add((d_uri, SDHSS["century"], Literal(century, datatype=XSD["integer"])))
+    g.add((d_uri, SHB["century"], Literal(century, datatype=XSD["integer"])))
     # The century of an uncertain dating is as uncertain as the dating. Carried
     # on the derived value too, so a query that selects on ?century can exclude
     # the guesses without joining back to the prose.
     if uncertain:
-        g.add((d_uri, SDHSS["centuryUncertain"], Literal(True)))
+        g.add((d_uri, SHB["centuryUncertain"], Literal(True)))
     return century
 
 
@@ -834,15 +944,15 @@ def add_care_flag(g: Graph, d_uri: URIRef, doc: dict) -> Optional[bool]:
     import care_flag as cf
 
     flag = cf.read(doc)
-    g.add((d_uri, SDHSS["careClassified"], Literal(flag.measured)))
+    g.add((d_uri, SHB["careClassified"], Literal(flag.measured)))
     if not flag.measured:
         return None
-    g.add((d_uri, SDHSS["careRelated"], Literal(flag.state == cf.YES)))
+    g.add((d_uri, SHB["careRelated"], Literal(flag.state == cf.YES)))
     if flag.state == cf.YES:
         for care_type in flag.types:
             value = str(care_type).strip()
             if value:
-                g.add((d_uri, SDHSS["careType"], _safe_literal(value)))
+                g.add((d_uri, SHB["careType"], _safe_literal(value)))
     return flag.state == cf.YES
 
 
@@ -940,7 +1050,7 @@ def add_reading_provenance(g: Graph, doc_id: str, r_uri: URIRef, key: str,
 
     g.add((r_uri, PROV["wasGeneratedBy"], run))
     g.add((run, RDF.type, PROV["Activity"]))
-    g.add((run, RDF.type, SDHSS["RecognitionRun"]))
+    g.add((run, RDF.type, SHB["RecognitionRun"]))
     g.add((run, RDFS.label, Literal(f"Recognition run ({engine or key})")))
 
     if engine:
@@ -949,16 +1059,16 @@ def add_reading_provenance(g: Graph, doc_id: str, r_uri: URIRef, key: str,
         g.add((run, PROV["wasAssociatedWith"], m_uri))
         g.add((r_uri, PROV["wasAttributedTo"], m_uri))
         g.add((m_uri, RDF.type, PROV["SoftwareAgent"]))
-        g.add((m_uri, RDF.type, SDHSS["RecognitionModel"]))
+        g.add((m_uri, RDF.type, SHB["RecognitionModel"]))
         g.add((m_uri, RDFS.label, Literal(model_id or engine)))
-        g.add((m_uri, SDHSS["engine"], Literal(engine)))
+        g.add((m_uri, SHB["engine"], Literal(engine)))
         if model_id:
-            g.add((m_uri, SDHSS["modelId"], Literal(model_id)))
+            g.add((m_uri, SHB["modelId"], Literal(model_id)))
 
     if meta.get("confidence") is not None:
-        g.add((run, SDHSS["confidence"], Literal(meta["confidence"])))
+        g.add((run, SHB["confidence"], Literal(meta["confidence"])))
     if meta.get("timing_ms") is not None:
-        g.add((run, SDHSS["timingMs"], Literal(meta["timing_ms"])))
+        g.add((run, SHB["timingMs"], Literal(meta["timing_ms"])))
     ended = _dt_literal(meta.get("ended_at") or meta.get("timestamp"))
     if ended is not None:
         g.add((run, PROV["endedAtTime"], ended))
@@ -980,37 +1090,47 @@ def add_fusion_decision(g: Graph, doc_id: str, d_uri: URIRef, a_meta: dict,
         return None
 
     dec = fusion_decision_uri(doc_id, ns)
-    g.add((d_uri, SDHSS["hasFusionDecision"], dec))
+    g.add((d_uri, SHB["hasFusionDecision"], dec))
     g.add((dec, RDF.type, PROV["Activity"]))
-    g.add((dec, RDF.type, SDHSS["FusionDecision"]))
+    g.add((dec, RDF.type, SHB["FusionDecision"]))
 
     merged = True
     if strategy:
-        g.add((dec, SDHSS["fusionStrategy"], Literal(strategy)))
+        g.add((dec, SHB["fusionStrategy"], Literal(strategy)))
         merged = "no-merge" not in str(strategy)
-    g.add((dec, SDHSS["merged"], Literal(merged)))
+    g.add((dec, SHB["merged"], Literal(merged)))
     g.add((dec, RDFS.label,
            Literal("No-merge decision" if not merged else "Fusion decision")))
     if cer is not None:
-        g.add((dec, SDHSS["agreementCer"], Literal(cer)))
+        g.add((dec, SHB["agreementCer"], Literal(cer)))
     if not merged:
-        g.add((dec, SDHSS["decisionReason"], Literal(
+        g.add((dec, SHB["decisionReason"], Literal(
             "measured pairwise CER above the no-merge band; readings kept "
             "separate rather than blended")))
     if (a_meta or {}).get("fusion_arbitrated") is not None:
-        g.add((dec, SDHSS["arbitrated"], Literal(a_meta["fusion_arbitrated"])))
+        g.add((dec, SHB["arbitrated"], Literal(a_meta["fusion_arbitrated"])))
     if (a_meta or {}).get("fusion_llm_skipped") is not None:
-        g.add((dec, SDHSS["llmSkipped"], Literal(a_meta["fusion_llm_skipped"])))
+        g.add((dec, SHB["llmSkipped"], Literal(a_meta["fusion_llm_skipped"])))
     return dec
 
 
 def add_closest_reading(g: Graph, doc_id: str, closest: dict,
-                        readings_by_key: dict, ns: Namespace = AH) -> Optional[URIRef]:
+                        readings_by_key: dict, ns: Namespace = AH,
+                        dataset: Optional[URIRef] = None) -> Optional[URIRef]:
     """Mark the historian's selection as the *closest* reading.
 
     This is an editorial act, explicitly revisable and explicitly NOT a claim
     that the text is correct (#326). It is attached to a reading, never to the
     document, so no triple ever says "the document's text is X".
+
+    The act is an **E13 Attribute Assignment** (KG-12): «the historian assigned
+    the reading R the type ‹closest›» — ``P140`` the reading, ``P141`` the E55
+    ``closest``, ``P14`` the historian. That is CIDOC's own term for an
+    assignment somebody made and somebody else may revise, and it replaces the
+    invented ``sdhss:EditorialSelection`` / ``sdhss:selectedIn``. ``sdh-info:C4
+    Asserted Actor's Role`` was considered and rejected: it is a role an
+    *expression asserts about an actor* (the author as the text names him), and
+    the historian's role is asserted by our record, not by the text.
 
     One reading chosen verbatim → the marker goes on that reading. Several
     combined (#313) → a derived reading node carrying ``prov:wasDerivedFrom``
@@ -1022,14 +1142,17 @@ def add_closest_reading(g: Graph, doc_id: str, closest: dict,
     chosen = [c for c in (closest.get("chosen") or []) if c]
     combined = bool(closest.get("combined"))
     pseudonym = closest.get("editor_pseudonym") or ""
+    dataset = dataset or _dataset(g, ns)
 
     sources = [readings_by_key[_slug(c)] for c in chosen
                if _slug(c) in readings_by_key]
 
     sel = selection_uri(doc_id, ns)
     g.add((sel, RDF.type, PROV["Activity"]))
-    g.add((sel, RDF.type, SDHSS["EditorialSelection"]))
+    g.add((sel, RDF.type, CRM["E13_Attribute_Assignment"]))
     g.add((sel, RDFS.label, Literal("Editorial selection of the closest reading")))
+    g.add((sel, PROV["wasDerivedFrom"], dataset))
+    g.add((sel, CRM["P141_assigned"], _type_node(g, "reading-role", "closest", ns, dataset)))
     for src in sources:
         g.add((sel, PROV["used"], src))
     confirmed = _dt_literal(closest.get("confirmed_at"))
@@ -1039,10 +1162,14 @@ def add_closest_reading(g: Graph, doc_id: str, closest: dict,
     a_uri = agent_uri(pseudonym, ns) if pseudonym else None
     if a_uri is not None:
         g.add((sel, PROV["wasAssociatedWith"], a_uri))
+        g.add((sel, CRM["P14_carried_out_by"], a_uri))
         g.add((a_uri, RDF.type, PROV["Agent"]))
         g.add((a_uri, RDF.type, PROV["Person"]))
+        # A pseudonymous person is still a person: E21, so P14 has its E39.
+        g.add((a_uri, RDF.type, CRM["E21_Person"]))
         g.add((a_uri, RDFS.label, Literal(pseudonym)))
-        g.add((a_uri, SDHSS["pseudonymous"], Literal(True)))
+        g.add((a_uri, PROV["wasDerivedFrom"], dataset))
+        g.add((a_uri, SHB["pseudonymous"], Literal(True)))
 
     if combined or not sources:
         # A combination is a NEW text: the editorial act genuinely generated it,
@@ -1063,18 +1190,21 @@ def add_closest_reading(g: Graph, doc_id: str, closest: dict,
         # A verbatim choice ENDORSES an existing reading; it does not produce it.
         # Asserting prov:wasGeneratedBy here would both credit the historian with
         # the engine's text and make the chain circular (the selection already
-        # prov:used this reading), so the endorsement gets its own predicate and
-        # the reading keeps the recognition run as its sole generator.
+        # prov:used this reading), so the reading keeps the recognition run as
+        # its sole generator — the endorsement is the E13's P140 below.
         target = sources[0]
-        g.add((target, SDHSS["selectedIn"], sel))
+
+    # The assignment names its target in both cases: a verbatim pick and a
+    # combination are both «this reading is the closest».
+    g.add((sel, CRM["P140_assigned_attribute_to"], target))
 
     # The marker. `closestReading true` is the queryable handle; the status
     # literal keeps the epistemic caveat travelling with the data.
-    g.add((target, SDHSS["readingRole"], Literal("closest")))
-    g.add((target, SDHSS["closestReading"], Literal(True)))
-    g.add((target, SDHSS["editorialStatus"], Literal(
+    g.add((target, SHB["readingRole"], Literal("closest")))
+    g.add((target, SHB["closestReading"], Literal(True)))
+    g.add((target, SHB["editorialStatus"], Literal(
         closest.get("status") or "revisable_editorial_choice")))
-    g.add((target, SDHSS["editorialCaveat"], Literal(
+    g.add((target, SHB["editorialCaveat"], Literal(
         "closest available reading, selected by a historian; not an assertion "
         "of correctness and not an independent reference text")))
     return target

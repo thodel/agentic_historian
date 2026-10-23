@@ -240,3 +240,16 @@ runs the MCP discovery flow and, against a server without OAuth, stops at dynami
 client registration — which is what it reported on 2026-09-15. So the server is
 now its own authorization server, with a password form in front of `/authorize`:
 without a login, an authorization server hands tokens to whoever asks.
+
+**One hop further, to UBELIX (#674).** The Slurm cluster is out of reach for the
+same reasons and one more: it sits inside the university network. tei is inside
+it, so `ubelix_queue`, `ubelix_job` and `ubelix_record` ssh from tei to submit02
+with a key that UBELIX's `authorized_keys` binds to one read-only script
+([`deploy/ubelix-ro/`](../deploy/ubelix-ro/README.md)). They answer "queued,
+running, preempted, what does the log say" and nothing that submits or cancels.
+Before them, the two olmOCR arms of training-atr-models#180 took three pasted
+round trips on 20./21.10.2026 to tell which Slurm id was which arm.
+In operation since 21.10.2026 (service user `dh`, key accepted without a
+second factor; [`deploy/ubelix-ro/README.md`](../deploy/ubelix-ro/README.md#as-installed-21102026)).
+The richer `atr-results` MCP of training-atr-models reads the same queue but
+sits behind `auth_basic`, which the claude.ai connector cannot send.

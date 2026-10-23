@@ -77,11 +77,21 @@ def test_the_knowledge_hub_dir_is_listed_even_though_it_is_not_under_data(tmp_pa
         "KH_DIR must be listed in its own right, not assumed to be under DATA_DIR")
 
 
-def test_an_archive_outside_the_checkout_is_listed(tmp_path):
-    """ATR_PAGE_CACHE_ARCHIVE is settable to anywhere — and it is set on tei."""
+def test_the_page_cache_archive_is_not_listed_because_the_bot_only_reads_it(tmp_path):
+    """The reverse of what this test used to assert, and the measurement is why.
+
+    ATR_PAGE_CACHE_ARCHIVE is the cold tier: `utils.images` brings a working
+    copy back from it and the HF export indexes it — reads, both. The writer is
+    tei-vm-sanity's nightly `archive.sh`, as `dh`, from cron. On tei the archive
+    is a CIFS mount with `forceuid`, so `chown -R` to the bot user fails and the
+    switch script died in step 4 — after creating the user, before installing
+    the drop-ins (22.10.2026). `ProtectSystem=strict` does not stop reads, so a
+    read-only tier has no business in `ReadWritePaths` at all.
+    """
     archive = tmp_path / "elsewhere" / "page-archive"
     cfg = _cfg(tmp_path, ATR_PAGE_CACHE_ARCHIVE=str(archive))
-    assert archive in wp.data_paths(cfg)
+    assert archive not in wp.data_paths(cfg)
+    assert str(archive) not in wp.render(wp.data_paths(cfg))
 
 
 def test_a_relocated_gt_root_is_listed(tmp_path):
