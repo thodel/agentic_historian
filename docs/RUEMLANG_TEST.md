@@ -100,8 +100,9 @@ XML, postet aber nichts; `run --limit 3` postet.
 Trennstriche am Zeilenende zusammengezogen, Marker `[Druck 1528 S. n]`.
 `docs/ruemlang/print_anchors.json` (ebenfalls aus reformation) gibt je
 Handschriftseite das vermutete Druckseitenfenster (23 Seiten per Alignment, der
-Rest interpoliert). `druck1528_zwingli_werke_113.txt` (Z VI/1, nur Zwinglis
-Voten) liegt daneben, wird aber nicht mehr standardmäßig geladen.
+Rest interpoliert). Die Voten Zwinglis aus der modernen Ausgabe (Z VI/1, Nr. 113,
+IRG Zürich) dienten anfangs als Referenz; sie liegen nicht im Repo (Rechte der
+Edition ungeklärt) und lassen sich bei Bedarf über `--reference` dazuladen.
 
 **Gemessen** an den 59 schon transkribierten Rümlang-Seiten (die Transkription als
 Stellvertreter für A): wo die Seite im Druck gefunden wird, stimmt die Druckseite
