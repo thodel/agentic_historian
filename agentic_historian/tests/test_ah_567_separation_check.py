@@ -68,11 +68,14 @@ def _rows(properties, **kw):
     return {label: (ok, why) for label, ok, why in check.posture(properties, **kw)}
 
 
-def _stat_for(modes: dict[str, tuple[int, int]]):
-    """A stat that answers for the named paths and raises for everything else."""
+def _stat_for(modes: dict[str, tuple]):
+    """A stat that answers for the named paths and raises for everything else.
+
+    ``(mode, uid)`` or ``(mode, uid, gid)``; without a gid the group is the
+    owner's, as on a file the owner created."""
     class Info:
-        def __init__(self, mode, uid):
-            self.st_mode, self.st_uid, self.st_gid = mode, uid, uid
+        def __init__(self, mode, uid, gid=None):
+            self.st_mode, self.st_uid, self.st_gid = mode, uid, uid if gid is None else gid
 
     def stat(path):
         key = str(path)
@@ -210,11 +213,58 @@ def test_world_readable_credentials_are_reachable_whoever_owns_them():
     assert "0o644" in label
 
 
-def test_a_group_readable_bot_secret_is_a_finding():
+def test_a_world_readable_bot_secret_is_a_finding():
     rows = _rows(HARDENED, secret_files=[Path("/etc/dh-bot.env")],
                  stat=_stat_for({"/etc/dh-bot.env": (0o644, 0)}))
 
     label, (ok, why) = next((name, v) for name, v in rows.items() if "dh-bot.env" in name)
+    assert ok is False
+    assert "jeder Prozess" in why
+
+
+#: The unit as switch_to_own_user.sh leaves it, and the env file as it installs it.
+SWITCHED = {**HARDENED, "User": "agentic_historian", "Group": "agentic_historian",
+            "EnvironmentFiles": "/etc/agentic_historian.env (ignore_errors=no)"}
+
+
+def _names(monkeypatch):
+    monkeypatch.setattr(check, "_user_name", lambda uid: {0: "root", 1000: "dh", 999: "agentic_historian"}.get(uid, str(uid)))
+    monkeypatch.setattr(check, "_group_name", lambda gid: {0: "root", 1000: "dh", 999: "agentic_historian"}.get(gid, str(gid)))
+
+
+def test_the_bots_file_readable_by_its_own_group_is_the_design_not_a_finding(monkeypatch):
+    """root:agentic_historian 0640 is what the switch script installs: root
+    owns the secrets, and the bot — which reads the file itself through
+    AH_ENV_FILE — gets to read it through its group. The first version called
+    that "jeder Prozess dieses Hosts" (tei, 23.10.2026): a check that fails on
+    its own recommended state teaches the reader to ignore it."""
+    _names(monkeypatch)
+    rows = _rows(SWITCHED, secret_files=[Path("/etc/agentic_historian.env")],
+                 stat=_stat_for({"/etc/agentic_historian.env": (0o640, 0, 999)}))
+
+    label, (ok, why) = next((name, v) for name, v in rows.items() if "agentic_historian.env" in name)
+    assert ok is True, why
+    assert "root:agentic_historian" in label
+    assert "Gruppe des Dienstes" in why
+
+
+def test_the_bots_file_readable_by_another_group_is_a_finding(monkeypatch):
+    """Same mode, wrong group: every member of `dh` would read the bot's secrets."""
+    _names(monkeypatch)
+    rows = _rows(SWITCHED, secret_files=[Path("/etc/agentic_historian.env")],
+                 stat=_stat_for({"/etc/agentic_historian.env": (0o640, 0, 1000)}))
+
+    label, (ok, why) = next((name, v) for name, v in rows.items() if "agentic_historian.env" in name)
+    assert ok is False
+    assert "'dh'" in why and "'agentic_historian'" in why
+
+
+def test_world_read_is_a_finding_whatever_the_group(monkeypatch):
+    _names(monkeypatch)
+    rows = _rows(SWITCHED, secret_files=[Path("/etc/agentic_historian.env")],
+                 stat=_stat_for({"/etc/agentic_historian.env": (0o644, 0, 999)}))
+
+    _label, (ok, why) = next((name, v) for name, v in rows.items() if "agentic_historian.env" in name)
     assert ok is False
     assert "jeder Prozess" in why
 
