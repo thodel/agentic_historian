@@ -36,6 +36,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import grp
 import pwd
 import shutil
 import subprocess
@@ -111,6 +112,13 @@ def _user_name(uid: int) -> str:
         return str(uid)
 
 
+def _group_name(gid: int) -> str:
+    try:
+        return grp.getgrgid(gid).gr_name
+    except KeyError:
+        return str(gid)
+
+
 def posture(properties: dict[str, str] | None, *, secret_files=(),
             openclaw_secrets: Path | None = None, stat=os.stat) -> list[Row]:
     """The rows #567's three items come down to, measured where possible."""
@@ -122,6 +130,7 @@ def posture(properties: dict[str, str] | None, *, secret_files=(),
                  "von hier aus ist über den laufenden Dienst nichts zu sagen")]
 
     service_user = properties.get("User") or "root"
+    service_group = properties.get("Group") or service_user
 
     # ── item 3: a user of its own ───────────────────────────────────────────
     rows.append((
@@ -165,11 +174,29 @@ def posture(properties: dict[str, str] | None, *, secret_files=(),
             rows.append((f"{path}", None, "nicht lesbar von hier — als root "
                                           "ausführen, um die Rechte zu sehen"))
             continue
-        mode, uid, _gid = measured
-        rows.append((f"{path} ({oct(mode)}, {_user_name(uid)})", not mode & 0o077,
-                     "nur der Eigentümer liest sie" if not mode & 0o077 else
-                     f"Gruppe/Welt dürfen lesen ({oct(mode)}) — jeder Prozess "
-                     f"dieses Hosts kommt an die Bot-Secrets"))
+        mode, uid, gid = measured
+        owner, group = _user_name(uid), _group_name(gid)
+        # The bot's own file is root:<bot group> 0640 by design: root owns it,
+        # and the bot reads it itself (AH_ENV_FILE → dotenv), so its group must.
+        # Group-read is a finding only for a group that is not the service's;
+        # world-read always is. The first version said "jeder Prozess dieses
+        # Hosts" about exactly the mode the switch script installs (23.10.2026).
+        world = bool(mode & 0o007)
+        group_read = bool(mode & 0o070)
+        wrong_group = group_read and group != service_group
+        ok = not world and not wrong_group
+        if world:
+            why = (f"Welt darf lesen ({oct(mode)}) — jeder Prozess dieses Hosts "
+                   f"kommt an die Bot-Secrets")
+        elif wrong_group:
+            why = (f"Gruppe {group!r} darf lesen, aber der Dienst läuft als Gruppe "
+                   f"{service_group!r}: jedes Mitglied von {group!r} kommt an die Bot-Secrets")
+        elif group_read:
+            why = (f"Eigentümer und Gruppe {group!r} lesen sie — die Gruppe des "
+                   f"Dienstes, so liest der Bot die Datei, die root ihm hinterlegt hat")
+        else:
+            why = "nur der Eigentümer liest sie"
+        rows.append((f"{path} ({oct(mode)}, {owner}:{group})", ok, why))
 
     # ── the Definition of Done itself ───────────────────────────────────────
     if openclaw_secrets is None:
