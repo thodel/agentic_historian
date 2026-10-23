@@ -73,6 +73,7 @@ if str(_PKG) not in sys.path:               # same flat-import arrangement as __
 
 import config                                # noqa: E402
 from mcp_atr import jobs                     # noqa: E402
+from mcp_atr import transkribus              # noqa: E402
 from mcp_atr import ubelix                   # noqa: E402
 from utils import atr_gpu                   # noqa: E402
 
@@ -228,7 +229,12 @@ def build_server(provider=None, auth_settings=None):
             "here, and a model that hallucinates fluently disagrees exactly as "
             "much as one that reads badly. "
             "ubelix_queue, ubelix_job and ubelix_record read UBELIX's Slurm "
-            "queue and the trainer's records there; they cannot submit or cancel."
+            "queue and the trainer's records there; they cannot submit or cancel. "
+            "A Transkribus volume (export ground truth, fine-tune kraken, evaluate, "
+            "read the rest, post it back) runs through transkribus_gt_export, "
+            "upload_hf, kraken_train, transkribus_pipeline and transkribus_status, "
+            "in that order — docs/TRANSKRIBUS_PIPELINE_MCP.md. Measure with step "
+            "'eval' before a full run, and run once without upload."
         ),
         auth_server_provider=provider,
         auth=auth_settings,
@@ -1002,6 +1008,124 @@ def build_server(provider=None, auth_settings=None):
         on the Slurm start.
         """
         return ubelix.record(record_id, lines)
+
+    # ── a Transkribus volume: ground truth → kraken fine-tune → full read ───
+
+    @server.tool()
+    def transkribus_gt_export(doc: str, pages: str, tree: str,
+                              test_pages: Optional[str] = None,
+                              prefix: str = "A_V_1443_Hertwig",
+                              collection: str = transkribus.DEFAULT_COLLECTION,
+                              dry_run: bool = True) -> dict:
+        """Export a Transkribus document's transcribed pages as a training tree
+        (``VLM_TEST_ROOT/<tree>/<prefix>_train`` and ``_test``, image + PAGE XML
+        per page) — the input of `upload_hf`, whose private dataset is what
+        `kraken_train` trains on.
+
+        ``pages`` are the transcribed pages (``3-60``); ``test_pages`` are held
+        out of training entirely, so `transkribus_pipeline` step ``eval`` can
+        measure the model on pages it never saw. Empty lines are dropped, pages
+        with fewer than three lines of text are refused and listed. Dry run by
+        default: it reads and reports, writes nothing.
+        """
+        try:
+            return transkribus.gt_export_job(doc, pages, tree, test_pages=test_pages,
+                                             prefix=prefix, collection=collection,
+                                             dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def kraken_train(action: str = "request", model_id: Optional[str] = None,
+                     hf_repo: Optional[str] = None, train_project: Optional[str] = None,
+                     base_model: Optional[str] = None, lrate: Optional[float] = None,
+                     epochs: Optional[int] = None, batch_size: Optional[int] = None,
+                     job_id: Optional[str] = None, stage: Optional[str] = None,
+                     lines: Optional[int] = None) -> dict:
+        """Fine-tune a kraken model on a volume's ground truth through the
+        gateway's trainer (``/train/jobs``, asteraix), and follow it.
+
+        ``action``: ``request`` prints the body and sends nothing (default);
+        ``submit`` sends it — GPU time, so look at ``request`` first, and never
+        submit twice for one ``model_id``; ``list`` shows recent jobs;
+        ``status`` (by ``job_id`` or the newest of ``model_id``) gives status,
+        stage, epoch, validation accuracy, CER and the promotion verdict;
+        ``log`` a stage's log (``stage``: prepare|compile|train|test|register).
+
+        Defaults are the Hertwig run (model ``kraken-bern-hertwig-v1`` from
+        ``kraken-cursive_inzigkofen``, lrate 1e-4, 60 epochs). That lrate
+        under-trained: v2 at ``lrate=5e-4, epochs=150`` reached 0.233 against
+        0.271. Under early stopping ``epochs`` sizes the cosine schedule rather
+        than capping the run — set it above the epochs you expect.
+
+        A model whose ``promoted`` stays False is registered but not served.
+        If the reason is "no held-out page" (a rerun on the same data reuses
+        the compiled corpus), the gate has to be run on the trainer by hand —
+        docs/TRANSKRIBUS_PIPELINE_MCP.md says how; this tool cannot.
+        """
+        try:
+            return transkribus.kraken_train_job(
+                action, model_id=model_id, hf_repo=hf_repo, train_project=train_project,
+                base_model=base_model, lrate=lrate, epochs=epochs, batch_size=batch_size,
+                job_id=job_id, stage=stage, lines=lines)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def transkribus_pipeline(step: str, run: str, doc: Optional[str] = None,
+                             pages: Optional[str] = None,
+                             collection: str = transkribus.DEFAULT_COLLECTION,
+                             extra_model: Optional[str] = None,
+                             primary: Optional[str] = None, only_extra: bool = False,
+                             line_model: Optional[str] = None,
+                             trocr_model: Optional[str] = None,
+                             page_model: Optional[str] = None, no_llm: bool = False,
+                             upload: bool = False, limit: Optional[int] = None,
+                             variants: Optional[str] = None) -> dict:
+        """Read a Transkribus document's untranscribed pages and post the result
+        back, or measure the readers on its transcribed ones. Files under
+        ``VLM_TEST_ROOT/<run>``; every step resumes where it stopped.
+
+        ``step``:
+        * ``plan`` — which pages of ``doc`` have no lines, or lines without text.
+        * ``eval`` — CER of every reader and of the fusion on transcribed
+          ``pages`` (the held-out test pages): page CER and line CER (by
+          position), plus rules-only fusion per ``variants`` (default A,B,D).
+          Posts nothing, ever.
+        * ``run`` — plan, recognize, adjudicate, PAGE XML; posted to
+          Transkribus as a new IN_PROGRESS version only with ``upload=true``.
+          Do it once without, on ``pages`` or ``limit=3``, and look.
+        * ``upload`` — post what ``run`` built (dry run unless ``upload=true``).
+
+        Readers: A line VLM, B TrOCR, C page VLM (defaults: the Rümlang set),
+        D ``extra_model`` (a kraken model trained on the volume).
+        ``only_extra=true`` reads with D alone — no vLLM, party may stay up;
+        ``primary`` (A|B|D) wins where the rules do not decide; ``no_llm``
+        leaves out the gpt-oss arbiter. On Hertwig D alone beat every fusion
+        (line CER 0.371 against 0.383 rules-only and 0.505 with the arbiter),
+        so ``only_extra=true, primary=D, no_llm=true`` was the full run.
+
+        With A, B or C in the run the vLLM models need the card: stop party on
+        idhefix first (`gateway_models` → headroom).
+        """
+        try:
+            return transkribus.pipeline_job(
+                step, run, doc=doc, pages=pages, collection=collection,
+                extra_model=extra_model, primary=primary, only_extra=only_extra,
+                line_model=line_model, trocr_model=trocr_model, page_model=page_model,
+                no_llm=no_llm, upload=upload, limit=limit, variants=variants)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def transkribus_status(run: str) -> dict:
+        """A pipeline run's state from its files: planned pages, readings per
+        model, adjudicated, PAGE XML, uploaded, errors (first 20), the mean CER
+        of its last ``eval``, and its latest job. Synchronous."""
+        try:
+            return transkribus.pipeline_status(run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
 
     return server
 

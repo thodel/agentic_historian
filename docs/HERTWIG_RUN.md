@@ -78,3 +78,16 @@ kostet wie ein Lesefehler. Darum misst `eval` jetzt zusätzlich die
 **Zeilen-CER** (`linecer.py`: jede erkannte Zeile gegen die GT-Zeile, auf der
 sie liegt) und die regelbasierte Fusion ohne Schiedsrichter mit A, B oder D als
 `primary` (`--variants`, kostet nichts).
+
+## Stand 23.10.: v2, Gesamtlauf
+
+- `kraken-bern-hertwig-v2` (lrate 5e-4, 150 Epochen Plan, Stopp bei 91): Test-CER
+  des Trainers **0.233**. Das Gate lief nicht (Cache-Treffer, keine Testseite)
+  und wurde auf asteraix von Hand nachgeholt.
+- `eval`, Zeilen-CER: D v2 **0.371**, v1 0.382, B 0.442, A 0.460, Fusion mit
+  gpt-oss 0.505, nur Regeln mit D 0.383. 41 der 287 GT-Zeilen bekommen keinen
+  Text (Segmentierung). Daher gilt der Abstand zu 0.233.
+- Gesamtlauf seit 23.10. 19:37 auf tei: D allein, ohne Schiedsrichter, Upload
+  als IN_PROGRESS. Plan 642 Seiten.
+- Alle Schritte lassen sich über die ATR-MCP starten:
+  [`TRANSKRIBUS_PIPELINE_MCP.md`](TRANSKRIBUS_PIPELINE_MCP.md).
