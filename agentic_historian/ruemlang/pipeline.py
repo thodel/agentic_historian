@@ -472,8 +472,9 @@ def cmd_upload(args) -> int:
         xml = (d / "page.xml").read_text(encoding="utf-8")
         readers = " + ".join(m for m in (args.line_model, args.trocr_model, args.page_model,
                                           args.extra_model) if m)
-        note = (f"agentic_historian ruemlang: {readers}, collated with the 1528 print, arbitrated by "
-                f"{getattr(config, 'GPUSTACK_MODEL_TEXT', '?')}")
+        arbiter = (_load(d / "adjudicated.json") or {}).get("arbiter")
+        note = (f"agentic_historian ruemlang: {readers}, collated with the 1528 print, "
+                + (f"arbitrated by {arbiter}" if arbiter else "rules only, no arbiter"))
         try:
             answer = tp.post_pagexml(ts, p.colid, p.docid, p.page_nr, xml, status=args.status,
                                      note=note, parent_ts=p.ts_id)
@@ -754,6 +755,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: Optional[list[str]] = None) -> int:
     args = build_parser().parse_args(argv)
+    # `--line-model none` leaves a reader out (Hertwig: D alone beat every fusion).
+    for k in ("line_model", "trocr_model", "page_model", "extra_model"):
+        if str(getattr(args, k, None) or "").lower() in ("", "none", "-"):
+            setattr(args, k, None)
     if hasattr(args, "doc"):
         if args.doc is None:
             args.doc = [str(DEFAULT_DOC)]

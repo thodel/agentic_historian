@@ -12,6 +12,7 @@
 # Another volume: DOC=13922499 (A V 1443, Hertwig) with RUN=hertwig keeps its
 # files apart; EXTRA_MODEL=kraken-bern-hertwig-v1 adds a fourth reader (D) and
 # PRIMARY=D makes it the one that wins where nothing else decides.
+# ONLY_EXTRA=1 reads with D alone (A, B, C left out; no vLLM, party may run).
 #
 # Every step skips what is already on disk, so stop/start at any point loses
 # at most the page in flight. Expect ~95 s per page for recognition (three
@@ -33,6 +34,7 @@ common() {
   printf -- '--out %s' "$ROOT"
   [ -n "${EXTRA_MODEL:-}" ] && printf -- ' --extra-model %s' "$EXTRA_MODEL"
   [ -n "${PRIMARY:-}" ] && printf -- ' --primary %s' "$PRIMARY"
+  [ "${ONLY_EXTRA:-0}" = "1" ] && printf -- ' --line-model none --trocr-model none --page-model none'
   true
 }
 # shellcheck disable=SC2046
@@ -44,7 +46,7 @@ running() { [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; }
 count() { find "$ROOT/pages" -maxdepth 2 -name "$1" 2>/dev/null | wc -l; }
 
 cmd_run() {
-  echo "$(ts) start: RUN=$RUN DOC=${DOC:-default} PAGES=${PAGES:-all} EXTRA_MODEL=${EXTRA_MODEL:-} PRIMARY=${PRIMARY:-A} NO_UPLOAD=${NO_UPLOAD:-0} ADJ_ARGS=${ADJ_ARGS:-}"
+  echo "$(ts) start: RUN=$RUN DOC=${DOC:-default} PAGES=${PAGES:-all} EXTRA_MODEL=${EXTRA_MODEL:-} PRIMARY=${PRIMARY:-A} ONLY_EXTRA=${ONLY_EXTRA:-0} NO_UPLOAD=${NO_UPLOAD:-0} ADJ_ARGS=${ADJ_ARGS:-}"
   # shellcheck disable=SC2046
   echo "$(ts) step plan";       pipe plan $( [ -n "${DOC:-}" ] && printf -- '--doc %s' "$DOC" )
   # shellcheck disable=SC2046
@@ -67,7 +69,7 @@ case "${1:-}" in
     if running; then echo "already running, pid $(cat "$PIDFILE") — see: $0 status"; exit 1; fi
     LOG="$LOGDIR/run-$(date +%Y%m%dT%H%M%S).log"
     ln -sfn "$LOG" "$LOGDIR/current.log"
-    RUN="$RUN" DOC="${DOC:-}" EXTRA_MODEL="${EXTRA_MODEL:-}" PRIMARY="${PRIMARY:-}" \
+    RUN="$RUN" DOC="${DOC:-}" EXTRA_MODEL="${EXTRA_MODEL:-}" PRIMARY="${PRIMARY:-}" ONLY_EXTRA="${ONLY_EXTRA:-0}" \
     PAGES="${PAGES:-}" NO_UPLOAD="${NO_UPLOAD:-0}" ADJ_ARGS="${ADJ_ARGS:-}" GIVE_UP="${GIVE_UP:-5}" \
       nohup bash "$0" run > "$LOG" 2>&1 &
     echo $! > "$PIDFILE"
