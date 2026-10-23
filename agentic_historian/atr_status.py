@@ -178,6 +178,21 @@ async def log(job_id: str, lines: int = 30, stage: str = "train") -> dict:
 
 # ── formatting ───────────────────────────────────────────────────────────────
 
+def _mib(proc_or_card: dict, key: str = "used_mib") -> int:
+    """The MiB figure for sorting and summing: 0 for a row without one.
+
+    Only for ordering and sums. The display goes through :func:`_mib_text`,
+    because a row nvidia-smi could not measure prints ``?``, not ``0``: the
+    trainer answers ``null`` there since training-atr-models#24, and a null
+    summed as 0 is the silent zero that issue is about.
+    """
+    return int(proc_or_card.get(key) or 0)
+
+
+def _mib_text(value) -> str:
+    return "?" if value is None else str(value)
+
+
 def _hours(seconds) -> str:
     if not seconds:
         return "?"
@@ -246,6 +261,9 @@ def _classify(proc: dict) -> str:
         return "ours"          # our engine, or a process a job accounts for
     if proc.get("orphaned"):
         return "orphaned"      # no owner resolvable — the sixteen-hour case
+    # ``orphaned: null`` (training-atr-models#24: nvidia-smi could not even name
+    # the pid) falls through: nothing is known about it, so it is unexplained,
+    # which is the bucket that gets a person's eyes, not the one that cries wolf.
     if not proc.get("service"):
         return "unmanaged"     # someone's shell, e.g. sweep_seed43.sh: real
                                # work, invisible to the API, and 15.6 GB a
@@ -285,16 +303,16 @@ def format_gpu(payload: dict, limit: int = LIMIT) -> str:
             f"{card.get('utilisation_pct',0)}% util")
 
         if not unexplained and not foreign:
-            out.append(f"    alles zugeordnet ({card.get('service_mib', 0)} MiB "
+            out.append(f"    alles zugeordnet ({_mib_text(card.get('service_mib'))} MiB "
                        "eigene Dienste)")
             continue
 
         # Never collapsed: each one is its own incident, and the command line is
         # what turned "what is pid 2771780?" into an answer.
-        for proc in sorted(unexplained, key=lambda p: -p.get("used_mib", 0)):
+        for proc in sorted(unexplained, key=lambda p: -_mib(p)):
             label = "VERWAIST" if proc.get("orphaned") else "OHNE DIENST"
             out.append("    {:>7} MiB  pid {:<9} {:<8} {:>7}  {}".format(
-                proc.get("used_mib", 0), proc.get("pid"),
+                _mib_text(proc.get("used_mib")), _mib_text(proc.get("pid")),
                 proc.get("user") or "?", _hours(proc.get("age_s")), label))
             if proc.get("command"):
                 out.append(f"        {proc['command'][:88]}")
@@ -302,17 +320,19 @@ def format_gpu(payload: dict, limit: int = LIMIT) -> str:
         # Collapsed: four workers of one unit are one fact, not four. Printing
         # them separately is how the row that matters gets read past.
         if foreign:
-            total = sum(p.get("used_mib", 0) for p in foreign)
-            out.append(f"    {total} MiB fremd, für uns nicht verfügbar")
+            total = sum(_mib(p) for p in foreign)
+            unmeasured = sum(1 for p in foreign if p.get("used_mib") is None)
+            out.append(f"    {total} MiB fremd, für uns nicht verfügbar"
+                       + (f" ({unmeasured} Prozess(e) ohne Messwert)" if unmeasured else ""))
             groups: dict[tuple, list[dict]] = {}
             for proc in foreign:
                 groups.setdefault((proc.get("service"), proc.get("user")), []).append(proc)
             for (service, user), group in sorted(
-                    groups.items(), key=lambda kv: -sum(p.get("used_mib", 0) for p in kv[1])):
+                    groups.items(), key=lambda kv: -sum(_mib(p) for p in kv[1])):
                 count = f"{len(group)}× " if len(group) > 1 else ""
                 oldest = max((p.get("age_s") or 0) for p in group)
                 out.append("    {:>7} MiB  {}{} ({}) {:>9}".format(
-                    sum(p.get("used_mib", 0) for p in group),
+                    sum(_mib(p) for p in group),
                     count, service, user or "?", _hours(oldest)))
 
     if not payload.get("job_attribution_available", True):

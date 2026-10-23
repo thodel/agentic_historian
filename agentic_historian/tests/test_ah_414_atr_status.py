@@ -187,3 +187,39 @@ def test_a_card_with_only_our_own_engines_stays_one_line():
     out = atr_status.format_gpu(CLEAN)
     assert "fremd" not in out
     assert "alles zugeordnet" in out
+
+
+def test_a_row_without_a_memory_figure_prints_a_question_mark_not_a_zero():
+    """Since training-atr-models#24 the trainer answers ``null`` where nvidia-smi
+    wrote ``[N/A]`` — in the row and in every total that would count it. The
+    formatter used to sort and sum those as numbers (a TypeError) or, with a
+    0, print a full card as holding nothing."""
+    payload = {"cards": [_card(0, memory_used_mib=38000, unaccounted_mib=None,
+                               orphaned_mib=None, processes=[
+        {"pid": None, "used_mib": 27530, "registered": False, "own_service": False,
+         "orphaned": None, "service": None, "user": None, "age_s": None, "command": None},
+        {"pid": 2771780, "used_mib": None, "registered": False, "own_service": False,
+         "orphaned": False, "service": None, "user": "tobias", "age_s": 7200.0,
+         "command": "sweep_seed43.sh"},
+        {"pid": 2351630, "used_mib": None, "registered": False, "own_service": False,
+         "orphaned": False, "service": "gunicorn.service", "user": "change",
+         "age_s": 100.0, "command": "gunicorn"},
+        {"pid": 2351631, "used_mib": 2610, "registered": False, "own_service": False,
+         "orphaned": False, "service": "gunicorn.service", "user": "change",
+         "age_s": 100.0, "command": "gunicorn"}])],
+        "job_attribution_available": True}
+    out = atr_status.format_gpu(payload)
+    assert out.startswith("**") and "⚠" in out
+    lines = out.splitlines()
+    unnamed = next(line for line in lines if "27530" in line)
+    assert "pid ?" in unnamed and "OHNE DIENST" in unnamed, unnamed
+    unmeasured = next(line for line in lines if "2771780" in line)
+    assert unmeasured.strip().startswith("? MiB"), unmeasured
+    assert "0 MiB  pid 2771780" not in out, "an unmeasured row is not a row of zero"
+    assert "2610 MiB fremd" in out and "1 Prozess(e) ohne Messwert" in out
+
+
+def test_a_clean_card_whose_service_total_is_unmeasured_says_so():
+    card = _card(1, service_mib=None, processes=[dict(CLEAN["cards"][0]["processes"][0], used_mib=None)])
+    out = atr_status.format_gpu({"cards": [card], "job_attribution_available": True})
+    assert "alles zugeordnet (? MiB eigene Dienste)" in out
