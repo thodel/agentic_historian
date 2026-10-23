@@ -148,19 +148,34 @@ def alto_pages_by_shelfmark(oai_cache: Path) -> dict[str, list[str]]:
                         href = loc.get(f"{{{NS['xlink']}}}href") if loc is not None else None
                         if fl.get("ID") and href:
                             ft_files[fl.get("ID")] = href
-            pages = mets.findall(".//mets:structMap[@TYPE='PHYSICAL']//mets:div[@TYPE='page']", NS)
-            ordered = sorted(pages, key=lambda d: int(d.get("ORDER") or 0))
+            # Every division under the physical structMap that points at files
+            # is a page, whatever its TYPE says — the BLB's METS does not call
+            # them "page", which is what made the first version of this find
+            # nothing. Sorted by ORDER, then document order.
+            divs = [d for d in mets.findall(".//mets:structMap[@TYPE='PHYSICAL']//mets:div", NS)
+                    if d.find("mets:fptr", NS) is not None]
+            ordered = sorted(enumerate(divs), key=lambda t: (int(t[1].get("ORDER") or 0), t[0]))
             hrefs = []
-            for d in ordered:
+            for _, d in ordered:
                 href = ""
                 for fp in d.findall("mets:fptr", NS):
                     if fp.get("FILEID") in ft_files:
                         href = ft_files[fp.get("FILEID")]
                         break
                 hrefs.append(href)
+            if not any(hrefs):
+                # No structMap link to the full text: fall back to the group's
+                # own order, which in a Visual Library METS is page order.
+                hrefs = list(ft_files.values())
+            types = sorted({d.get("TYPE") or "?" for d in divs})
             for s in shelf:
                 out.setdefault(s, hrefs)
+                DIAG.setdefault(s, f"{len(divs)} physical div(s) of type {types or ['none']}, "
+                                   f"{len(ft_files)} full-text file(s), {sum(1 for h in hrefs if h)} mapped")
     return out
+
+
+DIAG: dict[str, str] = {}
 
 
 # ── main ─────────────────────────────────────────────────────────────────────
@@ -193,15 +208,20 @@ def main() -> int:
     if not targets:
         print(f"Error: no done_K NNNN,NN_… files under {args.gt_dir}", file=sys.stderr)
         return 2
-    print(f"{len(targets)} ground-truth page(s) with a BLB shelfmark under {args.gt_dir}\n")
+    print(f"{len(targets)} ground-truth page(s) with a BLB shelfmark under {args.gt_dir}")
+    for s in sorted({t[0] for t in targets}):
+        print(f"  {s}: {DIAG.get(s, 'not in the BLB set')}")
+    print()
 
     rows = []
     for shelf, page, gt_path in targets:
         gt = page_text(gt_path)
         hrefs = by_shelf.get(shelf)
         row = {"shelf": shelf, "page": page, "gt_chars": len(gt), "blb": None, "readings": {}}
-        if not hrefs:
+        if hrefs is None:
             row["note"] = "shelfmark not in the BLB set"
+        elif not hrefs:
+            row["note"] = f"no page map: {DIAG.get(shelf, '?')}"
         elif page > len(hrefs):
             row["note"] = f"BLB object has {len(hrefs)} page(s), no page {page}"
         elif not hrefs[page - 1]:
