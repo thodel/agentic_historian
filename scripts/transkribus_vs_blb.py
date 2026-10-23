@@ -24,7 +24,11 @@ import re
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "agentic_historian"))
+# The package directory: the working directory when it holds config.py (the
+# documented way to run this), else the repository layout beside this file.
+_cwd = Path.cwd()
+sys.path.insert(0, str(_cwd if (_cwd / "config.py").is_file()
+                       else Path(__file__).resolve().parents[1] / "agentic_historian"))
 
 import config                     # noqa: E402
 import transkribus as tk          # noqa: E402
@@ -44,17 +48,40 @@ def main() -> int:
     ap.add_argument("--out", default="/tmp/blb/transkribus_vs_blb.tsv")
     args = ap.parse_args()
 
-    colid = args.collection or config._get("TRANSKRIBUS_COLLECTION", "")
-    if not colid:
-        print("Error: no collection — pass --collection or set TRANSKRIBUS_COLLECTION", file=sys.stderr)
-        return 2
     try:
         sid = tk.login()
-        docs = tk.collection_documents(colid, sid)
+        cols = tk.list_collections(sid)
     except tk.TranskribusError as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
-    print(f"collection {colid}: {len(docs)} document(s)")
+    # Which collections to read: the one named, else every collection whose
+    # name says Laßberg. TRANSKRIBUS_COLLECTION names the *upload* target, and
+    # on 2026-10-23 that one (Lassberg_All) held 0 documents while the 552
+    # corrected pages lived elsewhere — the name in the config is not the
+    # collection the ground truth is in.
+    if args.collection:
+        chosen = [c for c in cols if str(c.get("colId")) == str(args.collection)]
+    else:
+        chosen = [c for c in cols if re.search(r"la(ss|ß)berg", str(c.get("colName", "")), re.I)]
+    print(f"collections visible: {len(cols)}; Laßberg collections: {len(chosen)}")
+    for c in chosen:
+        print(f"  {c.get('colId')}  {c.get('colName')!r}  documents: {c.get('nrOfDocuments', '?')}")
+    if not chosen:
+        print("Error: no collection chosen — pass --collection", file=sys.stderr)
+        return 2
+    docs: list[dict] = []
+    for c in chosen:
+        try:
+            these = tk.collection_documents(str(c.get("colId")), sid)
+        except tk.TranskribusError as exc:
+            print(f"  {c.get('colId')}: {exc}")
+            continue
+        for d in these:
+            d["_colId"] = c.get("colId")
+        docs += these
+        print(f"  {c.get('colId')}: {len(these)} document(s) listed")
+    colid = ",".join(str(c.get("colId")) for c in chosen)
+    print(f"documents in total: {len(docs)}")
     if docs:
         print("fields of a document record:", sorted(docs[0].keys())[:30])
 
@@ -110,7 +137,7 @@ def main() -> int:
             r = blb.get(s, {})
             tds = tk_by_shelf.get(s, [])
             fh.write("\t".join([s, where, r.get("pages", ""), r.get("fulltext", ""), r.get("vl_id", ""),
-                                ",".join(str(d.get("docId")) for d in tds),
+                                ",".join(f"{d.get('_colId')}/{d.get('docId')}" for d in tds),
                                 str(sum(int(d.get("nrOfPages") or 0) for d in tds)),
                                 (r.get("title") or (tds[0].get("title") if tds else "")).replace("\t", " ")]) + "\n")
     json.dump({"both": both, "only_blb": only_blb, "only_transkribus": only_tk},
