@@ -52,9 +52,30 @@ NS = {
 PAGE_NS = "http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"
 UA = "agentic_historian/blb-gt-dataset (research; tei.dh.unibe.ch)"
 IMAGE_GROUPS = ("MAX", "DEFAULT")      # first that exists wins; --image-group overrides
-LASSBERG = re.compile(r"^Brief(?:gedicht)? von Joseph von La(?:ß|ss)berg\b", re.I)
+#: The hand, read off the BLB's own title. Five projects, because the set is not
+#: only letters: 1550 of its 4305 pages are the printed Fürstenbergischer
+#: Landkalender (K 2914), and 1300 more are copies, notes and excerpts (K 2912,
+#: K 2913, K 2915) — handwriting, very probably Laßberg's own, but the title
+#: does not say so, and a label that is not in the record is a guess.
+LETTER = re.compile(r"^(?:Brief(?:gedicht)?|Bearbeitung|Korrespondenz)\b", re.I)
+LASSBERG = re.compile(r"^(?:Brief(?:gedicht)?|Bearbeitung) von Joseph von La(?:ß|ss)berg\b", re.I)
 TO_LASSBERG = re.compile(r"\ban Joseph von La(?:ß|ss)berg\b", re.I)
-BY_OTHER = re.compile(r"^Brief von (?!Joseph von La(?:ß|ss)berg)", re.I)
+BY_OTHER = re.compile(r"^(?:Brief|Bearbeitung) von (?!Joseph von La(?:ß|ss)berg)", re.I)
+PRINT_SERIES = ("K 2914",)
+
+
+def hand_of(title: str, shelfmark: str) -> str:
+    """``lassberg`` / ``korrespondenten`` / ``unbestimmt`` for letters, by title;
+    ``drucke`` for the printed series; ``manuskripte`` for the rest."""
+    if LASSBERG.search(title):
+        return "lassberg"
+    if TO_LASSBERG.search(title) and BY_OTHER.search(title):
+        return "korrespondenten"
+    if LETTER.search(title):
+        return "unbestimmt"
+    if any(shelfmark.startswith(s + ",") or shelfmark == s for s in PRINT_SERIES):
+        return "drucke"
+    return "manuskripte"
 
 
 # ── fetching ─────────────────────────────────────────────────────────────────
@@ -136,12 +157,12 @@ def objects(oai_cache: Path, image_group: str | None) -> list[dict]:
                 pages.append({"n": n, "order": d.get("ORDER") or str(n), "image": img, "alto": alto})
             if not pages or not any(p["image"] for p in pages):
                 continue
-            hand = ("lassberg" if LASSBERG.search(title) else
-                    "korrespondenten" if TO_LASSBERG.search(title) and BY_OTHER.search(title) else
-                    "unbestimmt")
-            entry = {"vl_id": vl_id, "shelfmark": shelf[0] if shelf else f"vl{vl_id}",
-                     "title": title, "date": date, "hand": hand, "image_group": img_group,
-                     "pages": pages}
+            shelfmark = shelf[0] if shelf else f"vl{vl_id}"
+            genre = "; ".join(e.text.strip() for e in mods.findall("mods:genre", NS) if e.text)
+            hand = hand_of(title, shelfmark)
+            entry = {"vl_id": vl_id, "shelfmark": shelfmark,
+                     "title": title, "date": date, "genre": genre, "hand": hand,
+                     "image_group": img_group, "pages": pages}
             key = entry["shelfmark"]
             if key not in best or len(pages) > len(best[key]["pages"]):
                 best[key] = entry
@@ -290,7 +311,8 @@ def build_page(obj: dict, pg: dict, out: Path, *, dry_run: bool) -> dict:
     except Exception as exc:  # noqa: BLE001 — a bad image is one page's failure
         return {"stem": stem, "status": "failed", "error": f"image unreadable: {exc}"}
     prov = {"shelfmark": obj["shelfmark"], "title": obj["title"], "date": obj["date"],
-            "hand": obj["hand"], "vl_id": obj["vl_id"], "page": pg["order"],
+            "genre": obj.get("genre", ""), "hand": obj["hand"], "vl_id": obj["vl_id"],
+            "page": pg["order"],
             "image": pg["image"], "alto": pg["alto"], "image_group": obj["image_group"]}
     xml, n_lines, n_chars = alto_to_page(alto, image_name=img_path.name, image_size=size, provenance=prov)
     if n_lines == 0:
@@ -328,7 +350,9 @@ def main() -> int:
     print(f"objects with pages: {len(objs)}; with full text: {len(with_text)}"
           + (f" (limited to {args.limit})" if args.limit else ""))
     print(f"pages to build: {len(pages)}  (pages without full text left out: {skipped_no_alto})")
-    print("by hand (project): " + ", ".join(f"{k} {v}" for k, v in sorted(hands.items())))
+    print("by project: " + ", ".join(f"{k} {v}" for k, v in sorted(hands.items())))
+    print("  lassberg / korrespondenten / unbestimmt = letters by title; drucke = K 2914 "
+          "(printed); manuskripte = copies, notes, documents — handwriting, hand not stated")
     print(f"image group: {with_text[0]['image_group'] if with_text else '-'}   out: {args.out}")
 
     if args.dry_run:
