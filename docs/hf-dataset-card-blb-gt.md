@@ -29,6 +29,13 @@ in `raw_xml` mode from a tree assembled by
 | `manuskripte` | copies, excerpts, notes, documents — handwriting, hand not stated | everything that is not a letter and not printed |
 | `drucke` | the printed *Fürstenbergischer Landkalender* (K 2914) | the series |
 
+Each of the five has a sibling **`<project>_eval`** holding a seeded tenth of
+its *objects* (shelfmarks), moved there before the upload by
+`scripts/blb_gt_split.py` so that no page of an evaluation object has a
+sibling page in training; `K 2911,17`, `K 2911,107` and `K 2911,110` — the
+objects of the project's own evaluation manifest the BLB holds — are always on
+the evaluation side. Train on `<project>`, measure on `<project>_eval`.
+
 Columns: `image`, `xml_content`, `filename`, `project_name`.
 
 ## What is true of this data and not obvious from it
@@ -85,7 +92,9 @@ out — which a handwriting model should do.
 from datasets import load_dataset
 
 ds = load_dataset("dh-unibe/image-text_lassberg-blb-gt", split="train")
-hands = ds.filter(lambda r: r["project_name"] in ("lassberg", "korrespondenten", "unbestimmt", "manuskripte"))
+HANDS = ("lassberg", "korrespondenten", "unbestimmt", "manuskripte")
+train = ds.filter(lambda r: r["project_name"] in HANDS)
+evalu = ds.filter(lambda r: r["project_name"] in {h + "_eval" for h in HANDS})
 shelf = lambda r: r["filename"].rsplit("_", 1)[0]          # K2911-47_0001 -> K2911-47
 ```
 

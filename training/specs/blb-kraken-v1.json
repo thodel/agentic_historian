@@ -1,0 +1,42 @@
+{
+ "engine": "kraken",
+ "model_id": "kraken-german-xix-blb-v1",
+ "base_model": "kraken-german-xix-v1",
+ "datasets": [
+  {
+   "hf_repo": "dh-unibe/image-text_lassberg-blb-gt",
+   "granularity": "page",
+   "train_projects": [
+    "lassberg",
+    "korrespondenten",
+    "unbestimmt",
+    "manuskripte"
+   ],
+   "eval_projects": [
+    "lassberg_eval",
+    "korrespondenten_eval",
+    "unbestimmt_eval",
+    "manuskripte_eval"
+   ],
+   "revision": null,
+   "_note": "revision: pin to HfApi().dataset_info(repo).sha after the upload; drucke/drucke_eval left out on purpose (printed almanac); chunk_size: materialise 400 pages at a time (~1.5 GB of images) — a single dataset with explicit eval_projects is the one case the kraken backend chunks",
+   "chunk_size": 400
+  }
+ ],
+ "params": {
+  "resize": "union",
+  "batch_size": 32,
+  "epochs": 40,
+  "quit": "early",
+  "lag": 10,
+  "min_epochs": 10,
+  "lrate": 0.0001,
+  "schedule": "cosine",
+  "augment": true,
+  "normalization": "NFD",
+  "normalize_whitespace": true,
+  "workers": 8,
+  "seed": 42
+ },
+ "notes": "Fine-tune of kraken-german-xix-v1 (the 19th-century kraken model) on the BLB Laßberg set only — four handwriting projects, object-level _eval projects held out, drucke left out. Lines are cut from PAGE geometry converted from ALTO boxes (baseline = lower edge): adequate for crops, not a segmentation target. resize union for characters the base lacks; early stop on validation, floor 10 epochs; ~4000 pages x ~20 lines ≈ 70k lines → ~2000 steps/epoch at batch 32."
+}
