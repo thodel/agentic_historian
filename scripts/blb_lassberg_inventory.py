@@ -198,7 +198,11 @@ def main() -> int:
         blb = {}
         for r in live:
             for s in r["shelfmarks"]:
-                blb.setdefault(norm_shelf(s), r)
+                # Anchor records without files carry the same shelfmark as the
+                # object with the pages; keep the one with pages.
+                k = norm_shelf(s)
+                if k not in blb or r["pages"] > blb[k]["pages"]:
+                    blb[k] = r
         # a share folder "K 2911,47" matches a BLB shelfmark "K 2911,47" or a sub-item "K 2911,47,1"
         def in_blb(folder: str) -> bool:
             return folder in blb or any(k.startswith(folder + ",") for k in blb)

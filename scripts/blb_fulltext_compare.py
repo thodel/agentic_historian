@@ -168,11 +168,22 @@ def alto_pages_by_shelfmark(oai_cache: Path) -> dict[str, list[str]]:
                 # own order, which in a Visual Library METS is page order.
                 hrefs = list(ft_files.values())
             types = sorted({d.get("TYPE") or "?" for d in divs})
+            score = (sum(1 for h in hrefs if h), len(divs))
             for s in shelf:
-                out.setdefault(s, hrefs)
-                DIAG.setdefault(s, f"{len(divs)} physical div(s) of type {types or ['none']}, "
-                                   f"{len(ft_files)} full-text file(s), {sum(1 for h in hrefs if h)} mapped")
+                # One shelfmark, several records: the set carries anchor records
+                # without any files beside the object that holds the pages, and
+                # both name the shelfmark. Keep the record with the most pages
+                # mapped — the first version kept the first, which for
+                # K 2911,17 was the empty anchor (measured 2026-10-23).
+                if s not in out or score > BEST.get(s, (-1, -1)):
+                    out[s] = hrefs
+                    BEST[s] = score
+                    DIAG[s] = (f"{len(divs)} physical div(s) of type {types or ['none']}, "
+                               f"{len(ft_files)} full-text file(s), {score[0]} mapped")
     return out
+
+
+BEST: dict[str, tuple[int, int]] = {}
 
 
 DIAG: dict[str, str] = {}
