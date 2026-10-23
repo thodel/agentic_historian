@@ -59,8 +59,20 @@ c "Installing pinned dependencies"
 "$PY" -m pip install -q -r "$REPO/requirements-dev.txt"
 
 c "Import smoke test"
-( cd "$PKG" && "$PY" -c "import bot, config, orchestrator, ingest, agent_tools, nl_orchestrator, semantic; from utils import publish_github, mcp_probe; from knowledge_hub import store; from eval import harness; print('imports OK')" ) \
-    || die "import smoke test failed — NOT restarting. Fix the error above, then re-run."
+SMOKE=("$PY" -c "import bot, config, orchestrator, ingest, agent_tools, nl_orchestrator, semantic; from utils import publish_github, mcp_probe; from knowledge_hub import store; from eval import harness; print('imports OK')")
+# Import as the service does. Since #567 the bot runs as its own user, owns its
+# data directories and reads its secrets from AH_ENV_FILE; run as dh, importing
+# knowledge_hub cannot create its lock file there, and on 23.10.2026 that left
+# the bot stopped after a deploy whose code was fine.
+RUN_AS="$(systemctl show -p User --value "$SERVICE" 2>/dev/null || true)"
+if [ -n "$RUN_AS" ] && [ "$RUN_AS" != "$(id -un)" ]; then
+    ENV_FILE="$(systemctl show -p Environment --value "$SERVICE" 2>/dev/null \
+        | tr ' ' '\n' | sed -n 's/^AH_ENV_FILE=//p')"
+    printf '  as %s%s\n' "$RUN_AS" "${ENV_FILE:+, AH_ENV_FILE=$ENV_FILE}"
+    ( cd "$PKG" && sudo -u "$RUN_AS" env ${ENV_FILE:+AH_ENV_FILE="$ENV_FILE"} "${SMOKE[@]}" )
+else
+    ( cd "$PKG" && "${SMOKE[@]}" )
+fi || die "import smoke test failed — NOT restarting. Fix the error above, then re-run."
 
 c "Starting $SERVICE"
 sudo systemctl start "$SERVICE"
