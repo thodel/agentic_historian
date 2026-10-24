@@ -64,7 +64,8 @@ TRAIN_JOB_RE = re.compile(r"^[0-9]{8}T[0-9]{6}Z-[A-Za-z0-9_.:-]{1,80}$")
 
 TRAIN_ACTIONS = ("request", "submit", "status", "list", "log")
 TRAIN_STAGES = ("prepare", "compile", "train", "test", "register")
-PIPELINE_STEPS = ("plan", "eval", "run", "upload")
+PIPELINE_STEPS = ("survey", "plan", "eval", "run", "upload")
+STATUS_RE = re.compile(r"^[A-Z_]{2,16}(,[A-Z_]{2,16}){0,4}$")
 READERS = ("A", "B", "D")
 
 
@@ -112,14 +113,29 @@ def _py() -> str:
 
 # ── ground truth → dataset ───────────────────────────────────────────────────
 
-def gt_export_argv(doc: str, pages: str, tree: str, *, test_pages: Optional[str] = None,
+def _status(value: Optional[str]) -> Optional[str]:
+    if value is None or not str(value).strip():
+        return None
+    value = re.sub(r"\s+", "", str(value)).upper()
+    if not STATUS_RE.match(value):
+        raise JobError(f"status must be Transkribus statuses like DONE or DONE,FINAL — got {value!r}")
+    return value
+
+
+def gt_export_argv(doc: str, pages: Optional[str], tree: str, *, test_pages: Optional[str] = None,
                    prefix: str = "A_V_1443_Hertwig", collection: str = DEFAULT_COLLECTION,
-                   dry_run: bool = True, segmentation: bool = False) -> list[str]:
+                   dry_run: bool = True, segmentation: bool = False,
+                   status: Optional[str] = None) -> list[str]:
     argv = [_py(), str(GT_EXPORT), "--collection", _id(collection, "collection"),
-            "--doc", _id(doc, "doc"), "--pages", _pages(pages) or "",
+            "--doc", _id(doc, "doc"),
             "--tree", jobs.validate_run(tree), "--prefix", jobs.validate_run(prefix)]
-    if not argv[argv.index("--pages") + 1]:
-        raise JobError("pages is required: the transcribed pages to export, e.g. 3-60")
+    pg, st = _pages(pages), _status(status)
+    if not pg and not st:
+        raise JobError("name the pages: pages (e.g. 3-60), status (e.g. DONE), or both")
+    if pg:
+        argv += ["--pages", pg]
+    if st:
+        argv += ["--status", st]
     tp = _pages(test_pages, "test_pages")
     if tp:
         argv += ["--test-pages", tp]
@@ -130,11 +146,13 @@ def gt_export_argv(doc: str, pages: str, tree: str, *, test_pages: Optional[str]
     return argv
 
 
-def gt_export_job(doc: str, pages: str, tree: str, test_pages: Optional[str] = None,
+def gt_export_job(doc: str, pages: Optional[str], tree: str, test_pages: Optional[str] = None,
                   prefix: str = "A_V_1443_Hertwig", collection: str = DEFAULT_COLLECTION,
-                  dry_run: bool = True, segmentation: bool = False) -> dict:
+                  dry_run: bool = True, segmentation: bool = False,
+                  status: Optional[str] = None) -> dict:
     argv = gt_export_argv(doc, pages, tree, test_pages=test_pages, prefix=prefix,
-                          collection=collection, dry_run=dry_run, segmentation=segmentation)
+                          collection=collection, dry_run=dry_run, segmentation=segmentation,
+                          status=status)
     return {"ok": True, "tree": str(Path(config.VLM_TEST_ROOT) / tree), "dry_run": dry_run,
             "next": ("copy the tree to the training share; scripts/segtrain_kraken.sh trains "
                      "on it (docs/HERTWIG_SEGMENTATION.md)") if segmentation and not dry_run else
@@ -206,12 +224,13 @@ def pipeline_argv(step: str, run: str, *, doc: Optional[str] = None,
                   only_extra: bool = False, line_model: Optional[str] = None,
                   trocr_model: Optional[str] = None, page_model: Optional[str] = None,
                   no_llm: bool = False, upload: bool = False, limit: Optional[int] = None,
-                  variants: Optional[str] = None) -> list[str]:
+                  variants: Optional[str] = None, prior: bool = False,
+                  status: Optional[str] = None) -> list[str]:
     if step not in PIPELINE_STEPS:
         raise JobError(f"step must be one of {', '.join(PIPELINE_STEPS)}, got {step!r}")
     out = Path(config.VLM_TEST_ROOT) / jobs.validate_run(run)
     argv = [_py(), str(PIPELINE), step, "--out", str(out)]
-    if step in ("plan", "eval", "run"):
+    if step in ("survey", "plan", "eval", "run"):
         # Required: the CLI's own default is Rümlang, which over MCP would be a
         # silent choice nobody made.
         argv += ["--collection", _id(collection, "collection"), "--doc", _id(doc, "doc")]
@@ -224,7 +243,7 @@ def pipeline_argv(step: str, run: str, *, doc: Optional[str] = None,
         if not upload:
             argv.append("--dry-run")
         return argv
-    if step == "plan":
+    if step in ("plan", "survey"):
         return argv            # writes plan.json under the run; reads Transkribus only
     # eval and run read and decide
     em = _model(extra_model, "extra_model")
@@ -252,6 +271,12 @@ def pipeline_argv(step: str, run: str, *, doc: Optional[str] = None,
         if variants and not re.match(r"^[ABD](,[ABD]){0,2}$", variants):
             raise JobError("variants is a comma list of A, B, D (or empty)")
         argv += ["--variants", variants]
+    if step == "eval":
+        st = _status(status)
+        if st:
+            argv += ["--status", st]
+        if prior:
+            argv.append("--prior")
     if step == "run" and not upload:
         argv.append("--dry-run")      # everything up to the PAGE XML, nothing posted
     return argv

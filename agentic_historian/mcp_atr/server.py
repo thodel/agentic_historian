@@ -1012,17 +1012,19 @@ def build_server(provider=None, auth_settings=None):
     # ── a Transkribus volume: ground truth → kraken fine-tune → full read ───
 
     @server.tool()
-    def transkribus_gt_export(doc: str, pages: str, tree: str,
+    def transkribus_gt_export(doc: str, tree: str, pages: Optional[str] = None,
                               test_pages: Optional[str] = None,
                               prefix: str = "A_V_1443_Hertwig",
                               collection: str = transkribus.DEFAULT_COLLECTION,
-                              dry_run: bool = True, segmentation: bool = False) -> dict:
+                              dry_run: bool = True, segmentation: bool = False,
+                              status: Optional[str] = None) -> dict:
         """Export a Transkribus document's transcribed pages as a training tree
         (``VLM_TEST_ROOT/<tree>/<prefix>_train`` and ``_test``, image + PAGE XML
         per page) — the input of `upload_hf`, whose private dataset is what
         `kraken_train` trains on.
 
-        ``pages`` are the transcribed pages (``3-60``); ``test_pages`` are held
+        ``pages`` are the transcribed pages (``3-60``), or ``status`` selects
+        them (``DONE``: every corrected page), or both; ``test_pages`` are held
         out of training entirely, so `transkribus_pipeline` step ``eval`` can
         measure the model on pages it never saw. Empty lines are dropped, pages
         with fewer than three lines of text are refused and listed. Dry run by
@@ -1036,7 +1038,8 @@ def build_server(provider=None, auth_settings=None):
         try:
             return transkribus.gt_export_job(doc, pages, tree, test_pages=test_pages,
                                              prefix=prefix, collection=collection,
-                                             dry_run=dry_run, segmentation=segmentation)
+                                             dry_run=dry_run, segmentation=segmentation,
+                                             status=status)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 
@@ -1086,17 +1089,23 @@ def build_server(provider=None, auth_settings=None):
                              trocr_model: Optional[str] = None,
                              page_model: Optional[str] = None, no_llm: bool = False,
                              upload: bool = False, limit: Optional[int] = None,
-                             variants: Optional[str] = None) -> dict:
+                             variants: Optional[str] = None, prior: bool = False,
+                             status: Optional[str] = None) -> dict:
         """Read a Transkribus document's untranscribed pages and post the result
         back, or measure the readers on its transcribed ones. Files under
         ``VLM_TEST_ROOT/<run>``; every step resumes where it stopped.
 
         ``step``:
+        * ``survey`` — what ``doc`` holds: statuses, the corrected (DONE) pages,
+          which of them still have the recognition a human started from, which
+          other pages carry uncorrected machine text, and suggested test pages.
         * ``plan`` — which pages of ``doc`` have no lines, or lines without text.
         * ``eval`` — CER of every reader and of the fusion on transcribed
           ``pages`` (the held-out test pages): page CER and line CER (by
           position), plus rules-only fusion per ``variants`` (default A,B,D).
-          Posts nothing, ever.
+          ``status="DONE"`` keeps only corrected pages; ``prior=true`` adds
+          reader T: the version with text a human started from (Transkribus'
+          own HTR, as a rule), scored like the others. Posts nothing, ever.
         * ``run`` — plan, recognize, adjudicate, PAGE XML; posted to
           Transkribus as a new IN_PROGRESS version only with ``upload=true``.
           Do it once without, on ``pages`` or ``limit=3``, and look.
@@ -1118,7 +1127,8 @@ def build_server(provider=None, auth_settings=None):
                 step, run, doc=doc, pages=pages, collection=collection,
                 extra_model=extra_model, primary=primary, only_extra=only_extra,
                 line_model=line_model, trocr_model=trocr_model, page_model=page_model,
-                no_llm=no_llm, upload=upload, limit=limit, variants=variants)
+                no_llm=no_llm, upload=upload, limit=limit, variants=variants,
+                prior=prior, status=status)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 

@@ -107,13 +107,21 @@ def clean_pagexml(xml: str, image_name: str, keep_empty: bool = False) -> tuple[
 
 def export(args) -> int:
     root = Path(config.VLM_TEST_ROOT) / args.tree
-    wanted = _pages(args.pages)
+    if not args.pages and not args.status:
+        raise SystemExit("name the pages: --pages 3-60, --status DONE, or both")
+    wanted = _pages(args.pages) if args.pages else None
     test = _pages(args.test_pages)
-    if test - wanted:
+    if wanted is not None and test - wanted:
         raise SystemExit(f"--test-pages outside --pages: {sorted(test - wanted)}")
+    statuses = {x.strip().upper() for x in (args.status or "").split(",") if x.strip()}
     ts = tp.TkSession().authenticate()
     pages = [p for p in tp.pages_of_document(ts, int(args.collection), int(args.doc))
-             if p.page_nr in wanted]
+             if (wanted is None or p.page_nr in wanted)
+             and (not statuses or str(p.status or "").upper() in statuses)]
+    if statuses and test - {p.page_nr for p in pages}:
+        raise SystemExit(f"--test-pages not {'/'.join(sorted(statuses))}: "
+                         f"{sorted(test - {p.page_nr for p in pages})}")
+    wanted = wanted if wanted is not None else {p.page_nr for p in pages}
     missing = wanted - {p.page_nr for p in pages}
     if missing:
         logger.warning(f"pages not in the document: {sorted(missing)}")
@@ -188,7 +196,9 @@ def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--collection", default="2313234")
     ap.add_argument("--doc", required=True)
-    ap.add_argument("--pages", required=True, help="pages with ground truth, e.g. 3-60")
+    ap.add_argument("--pages", default=None, help="pages with ground truth, e.g. 3-60")
+    ap.add_argument("--status", default=None,
+                    help="only pages whose current status is one of these, e.g. DONE or DONE,FINAL")
     ap.add_argument("--test-pages", default="", help="held out of training entirely")
     ap.add_argument("--tree", required=True, help="directory name under VLM_TEST_ROOT")
     ap.add_argument("--prefix", default="A_V_1443_Hertwig", help="project name prefix")
