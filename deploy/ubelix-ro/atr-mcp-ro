@@ -10,8 +10,8 @@ in ``SSH_ORIGINAL_COMMAND``. Three requests are understood, all read-only:
 
 * ``queue`` — this user's jobs in ``squeue``, with Slurm's start estimate.
 * ``job <slurm id>`` — ``sacct -D`` for one job, preemptions and requeues included.
-* ``record <job id> [lines]`` — the trainer's record (``job.json``) and the tail
-  of the log of its current stage.
+* ``record <job id> [lines]`` — the trainer's record (``job.json``: status,
+  timestamps, error, metrics) and the tail of the log of its current stage.
 
 Everything else exits 2 without running anything. There is no shell on this path:
 the request is split on whitespace, every word is matched against a pattern, and
@@ -40,9 +40,12 @@ DEFAULT_LINES = 40
 #: be gigabytes; its tail is all anybody asks for.
 TAIL_BYTES = 256 * 1024
 #: The record fields worth handing out. job.json carries the full request too,
-#: and nobody polling a queue needs that.
+#: and nobody polling a queue needs that. ``metrics`` is the evaluation result
+#: (``cer``, ``wer``, ``samples``, …; a flat dict of numbers): the job store
+#: refuses ``completed`` without a ``cer``, so a finished record without it here
+#: was a record read through a filter, not one without a number (24.10.2026).
 RECORD_FIELDS = ("id", "status", "stage", "host", "created_at", "updated_at",
-                 "finished_at", "error")
+                 "finished_at", "error", "metrics")
 
 REFUSED = 2
 

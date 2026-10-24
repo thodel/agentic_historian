@@ -22,7 +22,7 @@ tei sends. The script understands three requests:
 |---|---|
 | `queue` | `squeue -u $USER`, then `squeue --start` |
 | `job <digits>` | `sacct -j <id> -u $USER -D -X` (preemptions and requeues) |
-| `record <id> [lines]` | reads `job.json` and the tail of `logs/<stage>.log` (or `runner.log`) under `/scratch/network/users/$USER/runs/jobs/<id>/`, at most 200 lines |
+| `record <id> [lines]` | reads `job.json` (status, timestamps, `error`, `metrics` with the CER; not the request) and the tail of `logs/<stage>.log` (or `runner.log`) under `/scratch/network/users/$USER/runs/jobs/<id>/`, at most 200 lines |
 
 Anything else exits 2 having run nothing. A stolen MCP token therefore costs
 reading the queue and the trainer's records, never submitting, cancelling or
@@ -119,7 +119,7 @@ Without both variables the tools answer "not configured" and do nothing.
 | MCP service user on tei | `dh` (`systemctl show -p User --value atr-mcp`) |
 | key | `/home/dh/.ssh/ubelix_mcp`, ed25519, `SHA256:dZmPE9GQi5YcHVs4wfozFpGE4Vwb+LeNgxhPF2b+TLo atr-mcp@tei` |
 | destination | `th19c587@submit02.unibe.ch` (130.92.20.12, also `submit02.hpc.unibe.ch`); direct from tei, no jump host, no `~/.ssh/config` entry |
-| script on UBELIX | `/storage/homefs/th19c587/bin/atr-mcp-ro`; the version with #678 has sha256 `a592320d06d1…` (`sha256sum ~/bin/atr-mcp-ro`) |
+| script on UBELIX | `/storage/homefs/th19c587/bin/atr-mcp-ro`; current version (with `metrics`) has sha256 `ea80973a046d…`, the one before it (#678, without `metrics`) `a592320d06d1…` (`sha256sum ~/bin/atr-mcp-ro`) |
 | `/etc/atr-mcp.env` | `ATR_UBELIX_SSH_HOST=th19c587@submit02.unibe.ch`, `ATR_UBELIX_SSH_KEY=/home/dh/.ssh/ubelix_mcp` |
 
 The check from tei, as `dh`, with that key only:
@@ -156,6 +156,12 @@ UBELIX's `authorized_keys`.
   script: compare the sha256 above.
 - **`| head` in a self-test** ends the script with `BrokenPipeError` and exit 120.
   The MCP side reads the whole answer, so this happens only by hand.
+- **`record` without `metrics` read as "no CER".** Until the script handed out
+  `metrics`, a completed record showed status and timestamps only, and on
+  24.10.2026 that was reported as "the record carries no CER". The job store
+  refuses `completed` without one; a missing field in this output is the filter
+  first. Fixed by adding `metrics` to the handed-out fields; UBELIX needs the
+  new script (sha256 above).
 - **A Claude session sees tools as of its start.** After `systemctl restart
   atr-mcp` the `ubelix_*` tools appear in sessions opened afterwards, not in the
   one that asked for them.
