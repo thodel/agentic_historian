@@ -64,8 +64,8 @@ def request_body(args) -> dict:
             "augment": True,
             "normalization": "NFD",
         },
-        "notes": ("Bern Disputation 1528, A V 1443 (Hertwig), pages 3-60 minus the held-out "
-                  "test pages; fine-tune for the ruemlang pipeline as a fourth reader."),
+        "notes": getattr(args, "notes", None) or (f"{args.train_project} from {args.hf_repo}, fine-tuned from "
+                                f"{args.base_model} for the ruemlang pipeline (reader D)."),
     }
 
 
@@ -81,6 +81,7 @@ def main(argv=None) -> int:
         p.add_argument("--batch-size", type=int, default=16)
         p.add_argument("--epochs", type=int, default=60)
         p.add_argument("--lrate", type=float, default=1e-4)
+        p.add_argument("--notes", default=None, help="free text on the job record")
     p = sub.add_parser("list", help="recent jobs, newest first, with their ids")
     p.add_argument("--model-id", default=DEFAULTS["model_id"])
     p = sub.add_parser("status"); p.add_argument("job_id", nargs="?", default=None,

@@ -477,6 +477,7 @@ def test_train_request_is_a_finetune_the_trainer_accepts():
                               batch_size=16, epochs=60, lrate=1e-4)
     body = train_kraken.request_body(args)
     assert body["engine"] == "kraken" and body["base_model"] == "kraken-cursive_inzigkofen"
+    assert "P_train" in body["notes"] and "Hertwig" not in body["notes"]
     assert body["datasets"][0]["train_projects"] == ["P_train"] and "eval_projects" not in body["datasets"][0]
     assert body["params"]["resize"] == "union" and body["params"]["schedule"] == "cosine"
     # ~2000 lines * 0.9 / 16 * 60 epochs is far above the trainer's fine-tune floor of 500 steps

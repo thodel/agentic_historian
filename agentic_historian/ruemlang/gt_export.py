@@ -115,14 +115,16 @@ def export(args) -> int:
         raise SystemExit(f"--test-pages outside --pages: {sorted(test - wanted)}")
     statuses = {x.strip().upper() for x in (args.status or "").split(",") if x.strip()}
     ts = tp.TkSession().authenticate()
-    pages = [p for p in tp.pages_of_document(ts, int(args.collection), int(args.doc))
-             if (wanted is None or p.page_nr in wanted)
-             and (not statuses or str(p.status or "").upper() in statuses)]
+    in_doc = [p for p in tp.pages_of_document(ts, int(args.collection), int(args.doc))
+              if wanted is None or p.page_nr in wanted]
+    pages = [p for p in in_doc if not statuses or str(p.status or "").upper() in statuses]
+    if statuses:
+        print(f"--status {','.join(sorted(statuses))}: {len(pages)} of {len(in_doc)} page(s)")
     if statuses and test - {p.page_nr for p in pages}:
         raise SystemExit(f"--test-pages not {'/'.join(sorted(statuses))}: "
                          f"{sorted(test - {p.page_nr for p in pages})}")
-    wanted = wanted if wanted is not None else {p.page_nr for p in pages}
-    missing = wanted - {p.page_nr for p in pages}
+    # Pages the status filter left out are not missing; pages the document lacks are.
+    missing = (wanted - {p.page_nr for p in in_doc}) if wanted is not None else set()
     if missing:
         logger.warning(f"pages not in the document: {sorted(missing)}")
     prefix = args.prefix
