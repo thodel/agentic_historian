@@ -558,6 +558,44 @@ def put_page(upload_id: str, page: Path, sid: str,
     return data if isinstance(data, dict) else {"raw": str(data)[:300]}
 
 
+#: Every letter that went up, one JSON line each: collection, letter, upload
+#: and job id, pages, when (#713). Not state — the collection is the state, and
+#: a letter whose title is there is skipped — but the record a partial upload
+#: is traced back with.
+UPLOAD_LOG = config.DATA_DIR / "transkribus_uploads.jsonl"
+
+
+def log_upload(colid: str, letter: Letter, result: dict, *, mode: str,
+               path: Optional[Path] = None) -> None:
+    import json
+    from datetime import datetime, timezone
+
+    path = Path(path or UPLOAD_LOG)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps({
+            "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "collection": str(colid), "letter": letter.title, "mode": mode,
+            "pages": result.get("pages"), "upload_id": result.get("upload_id"),
+            "job_id": result.get("job_id")}, ensure_ascii=False) + "\n")
+
+
+def upload_collections() -> list[str]:
+    """Collections a letter-wise upload may write to (#713):
+    ``TRANSKRIBUS_UPLOAD_COLLECTIONS`` (comma list), else
+    ``TRANSKRIBUS_COLLECTION``. The ground-truth collection is never among them
+    by default — a document in the wrong collection is visible to everybody
+    working there at once."""
+    raw = config._get("TRANSKRIBUS_UPLOAD_COLLECTIONS", "") or config._get("TRANSKRIBUS_COLLECTION", "")
+    return [c.strip() for c in str(raw).split(",") if c.strip()]
+
+
+def first_letter_confirmed(plan: "Plan") -> bool:
+    """True when the collection already holds a letter of this plan — the one
+    the protocol uploads first and a person looks at before the rest."""
+    return bool(plan.skipped)
+
+
 def upload_letter(colid: str, letter: Letter, sid: str,
                   session: Optional[requests.Session] = None,
                   progress=None) -> dict:

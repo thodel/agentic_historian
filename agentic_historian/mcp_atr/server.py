@@ -938,6 +938,34 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def transkribus_upload_letters(collection: str, letter: Optional[str] = None,
+                                   all_letters: bool = False, dry_run: bool = True,
+                                   source: str = "archive") -> dict:
+        """Put digitisations into a Transkribus collection, **one document per
+        letter** of the edition (``lassberg-letter-NNNN`` with a file under the
+        register's ``data/letters``), named by the letter id, with sender,
+        register title and repository/signature in the metadata. Images only,
+        no text. Pages without a settled letter are counted by reason, never
+        uploaded.
+
+        ``collection`` must be one the server allows uploads into
+        (``TRANSKRIBUS_UPLOAD_COLLECTIONS``; the ground-truth collection is not
+        one). ``source``: ``archive`` (the page cache's cold tier, default) or
+        ``cache``. ``dry_run`` (default) logs in and prints the plan. A real
+        upload is ``letter=…`` first — look at it in the interface — then
+        ``all_letters=true``, which is refused until a letter of the plan is
+        in the collection. Letters already there are skipped, so a stopped run
+        resumes; every upload is logged with its upload and job id. The
+        documents are visible to everyone in the collection at once.
+        """
+        try:
+            return jobs.transkribus_letters_job(collection, letter=letter,
+                                                all_letters=all_letters, dry_run=dry_run,
+                                                source=source)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def upload_hf_card(card: str, repo_id: str | None = None,
                        dry_run: bool = True) -> dict:
         """Put a dataset card from `docs/` on the hub as README.md.

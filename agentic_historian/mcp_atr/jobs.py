@@ -613,6 +613,8 @@ def server_status(counts: bool = False) -> dict:
         "gemini_base_url": config.GEMINI_BASE_URL,
         "gemini_api_key": "set" if config.GEMINI_API_KEY else "unset",
         "hf_token": "set" if config.HF_TOKEN else "unset",
+        "transkribus_user": "set" if config._get("TRANSKRIBUS_USER", "") else "unset",
+        "transkribus_pass": "set" if config._get("TRANSKRIBUS_PASS", "") else "unset",
         "gateway": config.ATR_GATEWAY_URL,
     }
     return {"ok": True,
@@ -1454,6 +1456,68 @@ def oai_gt_import_job(source: str, step: str, *, dry_run: bool = True,
                      "build again without dry_run" if dry_run else
                      f"split_tree(tree='datasets:{tree}'), then upload_hf(tree='datasets:{tree}')"),
             **start_and_peek("oai-gt-import", argv)}
+
+
+LETTER_ID_RE = re.compile(r"^lassberg-letter-[0-9]{4}$")
+
+
+def _upload_sources() -> dict[str, Optional[Path]]:
+    """The roots a letter-wise upload may read digitisations from, by name."""
+    return {"archive": config.ATR_PAGE_CACHE_ARCHIVE or None,
+            "cache": config.page_cache_dir()}
+
+
+def transkribus_letters_argv(collection: str, *, letter: Optional[str] = None,
+                             all_letters: bool = False, dry_run: bool = True,
+                             source: str = "archive") -> list[str]:
+    """The argv for one ``upload-transkribus --by-letter`` run (#713).
+
+    The collection must be one the configuration allows uploads into; the
+    source is a root by name; a real upload is one letter or, once a first
+    letter is in the collection (the CLI checks), all of them.
+    """
+    import transkribus as tk
+
+    collection = str(collection or "").strip()
+    allowed = tk.upload_collections()
+    if collection not in allowed:
+        raise JobError(
+            f"collection {collection!r} is not one uploads may go to — allowed: "
+            f"{', '.join(allowed) or 'none (set TRANSKRIBUS_UPLOAD_COLLECTIONS)'}")
+    roots = _upload_sources()
+    if source not in roots:
+        raise JobError(f"source is one of {', '.join(roots)}, got {source!r}")
+    if not roots[source]:
+        raise JobError(f"source {source!r} is not configured on this server")
+    if letter and all_letters:
+        raise JobError("letter or all_letters, not both")
+    argv = [_python(), "-m", "agentic_historian", "upload-transkribus", "--by-letter",
+            "--collection", collection, "--cache-dir", str(config.page_cache_dir()),
+            "--source", str(roots[source])]
+    if letter:
+        if not LETTER_ID_RE.match(letter):
+            raise JobError(f"letter is an edition id like lassberg-letter-0952, got {letter!r}")
+        argv += ["--letter", letter]
+    if all_letters:
+        argv.append("--all")
+    if dry_run:
+        argv.append("--dry-run")
+    elif not (letter or all_letters):
+        raise JobError("a real upload is one letter (letter=…) first, then all_letters=true")
+    return argv
+
+
+def transkribus_letters_job(collection: str, *, letter: Optional[str] = None,
+                            all_letters: bool = False, dry_run: bool = True,
+                            source: str = "archive") -> dict:
+    argv = transkribus_letters_argv(collection, letter=letter, all_letters=all_letters,
+                                    dry_run=dry_run, source=source)
+    return {"ok": True, "collection": collection, "dry_run": dry_run,
+            "letter": letter, "all_letters": all_letters,
+            "next": ("look at the plan; then one letter with dry_run=false" if dry_run else
+                     "look at the letter in the Transkribus interface, then all_letters=true"
+                     if letter else "the server ingests the uploads as jobs; check the collection"),
+            **start_and_peek("transkribus-letters", argv)}
 
 
 def upload_hf_job(tree: str, repo_id: Optional[str] = None,

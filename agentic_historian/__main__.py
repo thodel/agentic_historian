@@ -1072,6 +1072,10 @@ def upload_transkribus(args: argparse.Namespace) -> int:
               "before the rest: pass --letter lassberg-letter-NNNN, then --all",
               file=sys.stderr)
         return 2
+    if args.all and not args.letter and not tk.first_letter_confirmed(plan):
+        print("Error: --all before a first letter is in the collection — upload one "
+              "with --letter, look at it in the interface, then --all", file=sys.stderr)
+        return 2
     if not plan.letters:
         print("nothing to upload — every planned letter is already in the collection")
         return 0
@@ -1087,6 +1091,7 @@ def upload_transkribus(args: argparse.Namespace) -> int:
                   file=sys.stderr)
             return 1
         done += 1
+        tk.log_upload(colid, letter, result, mode="letter" if args.letter else "all")
         print(f"  {letter.title}: {result['pages']} page(s) sent, upload {result['upload_id']}"
               + (f", job {result['job_id']}" if result.get("job_id") else "") + "        ")
     print(f"\nuploaded {done} letter(s) into collection {colid}. The server ingests "

@@ -1624,6 +1624,24 @@ beides nicht). Die Ernte vom 23.10. liegt in `/tmp/blb/oai_mets_*.xml`, im
 selben Format; nach `ATR_DATASETS_DIR/_oai/blb-lassberg/` kopiert, erntet der
 erste `inventory` nichts neu.
 
+### Briefweise nach Transkribus (#713)
+
+Am 24.10. ging `lassberg-letter-0952` als erstes Dokument nach 2536466
+(`Lassberg_All`), wurde im Interface angesehen, dann folgte der Rest. Das
+Werkzeug erzwingt diese Reihenfolge:
+
+```
+transkribus_upload_letters(collection="2536466")                                  # Plan
+transkribus_upload_letters(collection="2536466", letter="lassberg-letter-0952", dry_run=False)
+transkribus_upload_letters(collection="2536466", all_letters=True, dry_run=False)  # erst, wenn ein Brief dort liegt
+```
+
+Nur Sammlungen aus `TRANSKRIBUS_UPLOAD_COLLECTIONS` (sonst
+`TRANSKRIBUS_COLLECTION`); die GT-Sammlung 36479 gehört nicht dazu. Die Quelle
+ist `archive` (Kalt-Tier) oder `cache`. Jeder Brief wird mit Upload- und Job-Id
+in `data/transkribus_uploads.jsonl` festgehalten. `server_status` meldet die
+Zugangsdaten als `set`/`unset`.
+
 ### Vor dem Upload: Hold-out nach Objekt (#711)
 
 Ohne `eval_projects` teilt der Trainer nach Seiten, und zwei Seiten eines Briefs
@@ -1833,6 +1851,7 @@ Two cautions if you go there with these models:
 | `GITHUB_TEXT_PATH` | `data/textrecognition` | path prefix inside that repo |
 | `VLM_TEST_ROOT` | `data/vlm_test` | root for comparison runs |
 | `ATR_DATASETS_DIR` | — | trees too large for the checkout; `upload_hf(tree="datasets:<name>")` (#710) |
+| `TRANSKRIBUS_UPLOAD_COLLECTIONS` | `TRANSKRIBUS_COLLECTION` | collections `transkribus_upload_letters` may create documents in (#713) |
 | `ATR_BATCH_PAGE_CONCURRENCY` | `1` | pages in flight per model |
 | `ATR_BATCH_RETRIES` | `2` | retries per page for timeouts and 5xx |
 | `ATR_GATEWAY_URL`, `ATR_API_KEY` | — | the gateway (existing) |
