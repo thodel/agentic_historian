@@ -966,6 +966,26 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def transkribus_collections(name: Optional[str] = None,
+                                collection: Optional[str] = None,
+                                limit: int = 200, offset: int = 0) -> dict:
+        """What the Transkribus account sees. Read-only, synchronous.
+
+        Without ``collection``: the collections whose name contains ``name``
+        (``lassberg``), with id and document count — the account sees ~566,
+        so filter. With ``collection``: its documents with ``docId``, title,
+        pages, status, upload time and the shelfmark read from the title,
+        normalised (``done_BLB_K 3123 8 4`` → ``K3123-8-4``), paged by
+        ``limit``/``offset``. Answers "what is where, and is it there already"
+        before `transkribus_gt_export` or `transkribus_upload_letters`.
+        """
+        try:
+            return jobs.transkribus_collections_job(name=name, collection=collection,
+                                                    limit=limit, offset=offset)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def upload_hf_card(card: str, repo_id: str | None = None,
                        dry_run: bool = True) -> dict:
         """Put a dataset card from `docs/` on the hub as README.md.

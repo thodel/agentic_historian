@@ -1520,6 +1520,26 @@ def transkribus_letters_job(collection: str, *, letter: Optional[str] = None,
             **start_and_peek("transkribus-letters", argv)}
 
 
+def transkribus_collections_job(*, name: Optional[str] = None,
+                                collection: Optional[str] = None,
+                                limit: int = 200, offset: int = 0) -> dict:
+    """Collections and documents the Transkribus account sees (#714). Read-only,
+    synchronous: two API calls, no page content."""
+    import transkribus as tk
+
+    if name is not None and (len(name) > 64 or not name.strip()):
+        raise JobError("name is a part of a collection name, 1–64 characters")
+    if collection is not None and not re.fullmatch(r"[0-9]{1,10}", str(collection)):
+        raise JobError(f"collection is a Transkribus id (digits), got {collection!r}")
+    if not (isinstance(limit, int) and 1 <= limit <= 1000 and isinstance(offset, int) and offset >= 0):
+        raise JobError("limit is 1–1000, offset ≥ 0")
+    try:
+        return tk.collections_overview(name=name, collection=collection,
+                                       limit=limit, offset=offset)
+    except tk.TranskribusError as exc:
+        raise JobError(str(exc)) from None
+
+
 def upload_hf_job(tree: str, repo_id: Optional[str] = None,
                   dry_run: bool = True) -> dict:
     """Upload an export tree to the hub, as a job. Private, always.

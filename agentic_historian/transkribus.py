@@ -310,6 +310,54 @@ def list_collections(sid: str, session: Optional[requests.Session] = None) -> li
     return r.json()
 
 
+#: A K-shelfmark in a document title: the series, then numbers separated by
+#: comma, dash, space or underscore. 36479 titles BLB objects
+#: ``done_BLB_K 3123 8 4``; the BLB writes ``K 3123,8,4`` (#714).
+SHELF_RE = re.compile(r"K[\s_]?(\d{4})(?:[,\s]\s*|_)(\d+(?:\s*[-,\s]\s*\d+)*)")
+
+
+def shelf_key(shelf: str) -> str:
+    """One key for every spelling: ``K 3123,8,4``, ``K 3123 8 4`` → ``K3123-8-4``."""
+    return "K" + "-".join(re.findall(r"\d+", shelf or ""))
+
+
+def shelfmark_of(title: str) -> Optional[str]:
+    """The normalised shelfmark a document title carries, or None."""
+    m = SHELF_RE.search(title or "")
+    return shelf_key(m.group(0)) if m else None
+
+
+def collections_overview(*, name: Optional[str] = None, collection: Optional[str] = None,
+                         limit: int = 200, offset: int = 0,
+                         session: Optional[requests.Session] = None) -> dict:
+    """What the account sees, read-only (#714): collections filtered by
+    ``name``, or one ``collection``'s documents with the shelfmark read from
+    each title. Never page content."""
+    sid = login(session=session)
+    cols = list_collections(sid, session=session)
+    if collection is None:
+        pat = re.compile(re.escape(name), re.I) if name else None
+        chosen = [c for c in cols if not pat or pat.search(str(c.get("colName", "")))]
+        rows = [{"colId": c.get("colId"), "colName": c.get("colName"),
+                 "documents": c.get("nrOfDocuments")} for c in chosen]
+        return {"ok": True, "visible": len(cols), "matching": len(rows),
+                "offset": offset, "collections": rows[offset:offset + limit]}
+    known = {str(c.get("colId")): c for c in cols}
+    if str(collection) not in known:
+        raise TranskribusError(f"collection {collection} is not visible to this account "
+                               f"({len(cols)} are)")
+    docs = collection_documents(str(collection), sid, session=session)
+    rows = [{"docId": d.get("docId"), "title": d.get("title"), "pages": d.get("nrOfPages"),
+             "status": d.get("status"), "uploaded": d.get("uploadTimestamp"),
+             "shelfmark": shelfmark_of(str(d.get("title") or ""))} for d in docs]
+    with_shelf = sum(1 for r in rows if r["shelfmark"])
+    return {"ok": True, "collection": str(collection),
+            "colName": known[str(collection)].get("colName"),
+            "documents": len(rows), "with_shelfmark": with_shelf,
+            "pages": sum(int(r["pages"] or 0) for r in rows),
+            "offset": offset, "rows": rows[offset:offset + limit]}
+
+
 def collection_documents(colid: str, sid: str,
                          session: Optional[requests.Session] = None) -> list[dict]:
     """Every document in one collection.

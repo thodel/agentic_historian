@@ -33,20 +33,8 @@ sys.path.insert(0, str(_cwd if (_cwd / "config.py").is_file()
 import config                     # noqa: E402
 import transkribus as tk          # noqa: E402
 
-# The series, then one or more numbers separated by comma, dash or space.
-# Transkribus titles write the BLB's "K 3123,8,4" as "done_BLB_K 3123 8 4"
-# (24.10.: 675 of 731 titles in 36479 did not match the comma-only form).
-SHELF = re.compile(r"K[\s_]?(\d{4})(?:[,\s]\s*|_)(\d+(?:\s*[-,\s]\s*\d+)*)")
-
-
-def norm(shelf: str) -> str:
-    """One key for every spelling: ``K 3123,8,4``, ``K 3123 8 4`` → ``K3123-8-4``."""
-    return "K" + "-".join(re.findall(r"\d+", shelf or ""))
-
-
-def shelf_of(title: str) -> str | None:
-    m = SHELF.search(title or "")
-    return norm(m.group(0)) if m else None
+norm = tk.shelf_key          # one key for every spelling (#714)
+shelf_of = tk.shelfmark_of
 
 
 def main() -> int:

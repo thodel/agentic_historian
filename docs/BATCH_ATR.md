@@ -1624,6 +1624,18 @@ beides nicht). Die Ernte vom 23.10. liegt in `/tmp/blb/oai_mets_*.xml`, im
 selben Format; nach `ATR_DATASETS_DIR/_oai/blb-lassberg/` kopiert, erntet der
 erste `inventory` nichts neu.
 
+### Was liegt wo in Transkribus (#714)
+
+```
+transkribus_collections(name="lassberg")          # 36479 Lassberg (731), 2536466 Lassberg_All
+transkribus_collections(collection="36479", limit=50, offset=0)
+```
+
+Lesend, synchron, ohne Seiteninhalte. Die Signatur wird aus dem Titel gelesen
+und normalisiert (`done_BLB_K 3123 8 4` → `K3123-8-4`), dieselbe Regel wie in
+`scripts/transkribus_vs_blb.py`. Am 24.10.: 54 BLB-Objekte in 36479 und bei
+der BLB; `K 2911,114` und `K 3123,8,1–5` nur in Transkribus.
+
 ### Briefweise nach Transkribus (#713)
 
 Am 24.10. ging `lassberg-letter-0952` als erstes Dokument nach 2536466
