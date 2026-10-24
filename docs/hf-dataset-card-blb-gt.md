@@ -4,12 +4,12 @@
 
 # Laßberg papers at the Badische Landesbibliothek — hand-transcribed pages
 
-Some **4,100 pages** of the Laßberg holdings of the Badische Landesbibliothek
+Some **2,700 pages** of the Laßberg holdings of the Badische Landesbibliothek
 Karlsruhe (shelfmark series K 2911–K 2915, K 3123 and others), each a page
 image paired with the complete PAGE XML of a **human transcription**, converted
 from the library's ALTO full text. German Kurrent and Latin, c. 1800–1856:
 letters by and to **Joseph von Laßberg (1770–1855)**, his copies of medieval
-manuscripts, notes, documents — and 1,478 pages of a printed almanac, kept in
+manuscripts, notes, documents — and 896 pages of a printed almanac, kept in
 a project of their own.
 
 The images, the metadata and the full text are published by the BLB under
@@ -68,10 +68,14 @@ page. Every PAGE document says this in its first comment, with the shelfmark,
 title, date, MODS genre, the BLB's object id and the URLs of the image and the
 ALTO it was made from.
 
-**4. Pages without text are not here.** A verso the ALTO leaves empty — a blank
-leaf, an address panel — is left out rather than carried as an empty row; the
-BLB holds the image. Objects without full text (10 of 401 with pages) are
-left out entirely.
+**4. Pages without text are not here — and that is a third of them.** The BLB
+holds 4,123 page images in the objects with full text; 1,419 of them have an
+ALTO without a single line — blank versos, address panels, covers, and in the
+almanac whole runs of pages the library did not transcribe. They are left out
+rather than carried as empty rows; the BLB holds the images. Objects without
+any full text (10 of 401 with pages) are left out entirely. By project, pages
+with text: `lassberg` 305 (70 objects), `korrespondenten` 370 (81),
+`unbestimmt` 111 (36), `manuskripte` 1,022 (137), `drucke` 896 (66).
 
 **5. This overlaps with the project's other datasets.** 54 objects of the
 K 2911 series are also in the corpus the project reads, and some of their pages
@@ -81,7 +85,7 @@ and among the 276 pages the project scores engines against. A held-out
 evaluation on either of those must exclude the matching shelfmarks from any
 training on this one.
 
-**6. `drucke` is not handwriting.** 1,478 pages of a printed almanac with a
+**6. `drucke` is not handwriting.** 896 pages of a printed almanac with a
 transcription are OCR ground truth for Fraktur, not Kurrent. They are in the
 dataset because the BLB's set has them and the label makes them easy to leave
 out — which a handwriting model should do.

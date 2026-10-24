@@ -4,6 +4,10 @@ Three fine-tunes on `dh-unibe/image-text_lassberg-blb-gt`, one per engine the
 trainer has, measured on the **same held-out objects**. Written 2026-10-23,
 before the dataset was uploaded; the `revision` fields are `null` until it is.
 
+The build wrote 2,700 pages: 1,419 of the 4,123 images carry an empty ALTO and
+were left out (see the card, caveat 4). Handwriting: 1,808 pages in 324
+objects; `drucke` 896.
+
 ## The split comes first
 
 The trainer splits **pages** unless a dataset names `eval_projects`. Two pages
@@ -41,8 +45,9 @@ Why these and not others:
   edges of ALTO boxes, fine for crops, not for teaching layout). Both start
   from the measured Kurrent XVI–XIX page recipes — the Qwen one scored 27.04 %
   page CER — and add the BLB set as a 21st dataset with `train_projects` /
-  `eval_projects`. The 20 others keep their caps, so the BLB set's ~2,400
-  handwriting pages are the largest single source, which is the point.
+  `eval_projects`. The 20 others keep their caps, so the BLB set's ~1,600
+  handwriting training pages (1,808 minus the held-out tenth) are the largest
+  single source, which is the point.
 * **kraken is a fine-tune of the 19th-century model**, `kraken-german-xix-v1`
   (the "Kurrent XVI–XIX" of the request is a VLM recipe name; kraken's nearest
   base for 1800–1856 hands is the XIX model; `kraken-early_modern_german` is
@@ -51,8 +56,8 @@ Why these and not others:
   codec lacks, early stop on the validation set after a floor of 10 epochs,
   cosine schedule (the only one kraken 7.0.2 steps correctly), augmentation,
   NFD. BLB only: the base already carries the other corpora, and the question
-  is what Laßberg's hand adds. ~4,000 pages × ~20 lines ≈ 70k lines, batch 32
-  → ~2,000 steps an epoch. `chunk_size: 400` bounds disk on the node.
+  is what Laßberg's hand adds. ~1,650 training pages × ~20 lines ≈ 33k lines, batch 32
+  → ~1,000 steps an epoch. `chunk_size: 400` bounds disk on the node.
 
 ## Running them
 
