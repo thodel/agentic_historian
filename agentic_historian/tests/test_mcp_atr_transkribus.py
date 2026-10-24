@@ -45,16 +45,19 @@ def test_gt_export_is_a_dry_run_unless_asked(sandbox):
     assert _after(argv, "--pages") == "3-60" and _after(argv, "--test-pages") == "8,17,26"
     assert argv[-1] == "--dry-run"
     assert "--dry-run" not in tk.gt_export_argv("13922499", "3-60", "t", dry_run=False)
+    assert "--segmentation" in tk.gt_export_argv("13922499", "3-60", "t", segmentation=True)
+    assert "--segmentation" not in argv
 
 
 @pytest.mark.parametrize("kw", [
     {"doc": "13922499; rm -rf /"}, {"doc": "../1"}, {"pages": "3-60 --force"},
     {"pages": "a-b"}, {"tree": "../escape"}, {"tree": "-flag"}, {"pages": ""},
+    {"pages": None, "status": "DONE; rm"},
 ])
 def test_gt_export_refuses_what_is_not_a_value(sandbox, kw):
     args = {"doc": "13922499", "pages": "3-60", "tree": "t", **kw}
     with pytest.raises(jobs.JobError):
-        tk.gt_export_argv(args["doc"], args["pages"], args["tree"])
+        tk.gt_export_argv(args["doc"], args["pages"], args["tree"], status=args.get("status"))
 
 
 # ── kraken training ──────────────────────────────────────────────────────────
@@ -155,3 +158,13 @@ def test_status_reads_counts_errors_and_eval(sandbox):
 def test_argv_targets_exist():
     for script in (tk.PIPELINE, tk.GT_EXPORT, tk.TRAIN_KRAKEN):
         assert script.is_file(), script
+
+
+def test_survey_and_eval_with_prior_on_done_pages(sandbox):
+    sv = tk.pipeline_argv("survey", "doc-13922579", doc="13922579")
+    assert sv[2] == "survey" and _after(sv, "--doc") == "13922579" and "--dry-run" not in sv
+    ev = tk.pipeline_argv("eval", "doc-13922579", doc="13922579", pages="10,20", status="done",
+                          prior=True, extra_model="kraken-bern-hertwig-v2", trocr_model="none")
+    assert _after(ev, "--status") == "DONE" and "--prior" in ev
+    ex = tk.gt_export_argv("13922579", None, "t", status="DONE", test_pages="10,20")
+    assert _after(ex, "--status") == "DONE" and "--pages" not in ex

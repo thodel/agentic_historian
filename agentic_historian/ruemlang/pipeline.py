@@ -513,6 +513,87 @@ def _cer(ref: str, hyp: str) -> Optional[float]:
     return Levenshtein.distance(ref, hyp) / len(ref)
 
 
+def _fetch_prior(ts, colid: int, pages, root: Path) -> None:
+    """For each page, the version a human started from (``prior.xml``), if any."""
+    by_doc: dict[int, dict[int, list[dict]]] = {}
+    for p in pages:
+        d = page_dir(root, p)
+        if (d / "prior.xml").exists() or (d / "prior.none").exists():
+            continue
+        if p.docid not in by_doc:
+            by_doc[p.docid] = tp.transcript_history(ts, colid, p.docid)
+        v = tp.first_text_version(by_doc[p.docid].get(p.page_nr, []))
+        if not v or not v.get("url"):
+            (d / "prior.none").write_text("", encoding="utf-8")
+            continue
+        r = ts.get(v["url"])
+        if r.status_code != 200:
+            logger.warning(f"[ruemlang] {p.key}: prior version {v['tsId']}: HTTP {r.status_code}")
+            continue
+        (d / "prior.xml").write_text(r.text, encoding="utf-8")
+        _save(d / "prior.json", v)
+
+
+def _ranges(nums) -> str:
+    """[3, 4, 5, 8] → ``3-5,8``."""
+    nums = sorted(set(nums))
+    out, start = [], None
+    for i, n in enumerate(nums):
+        if start is None:
+            start = n
+        if i + 1 == len(nums) or nums[i + 1] != n + 1:
+            out.append(f"{start}" if start == n else f"{start}-{n}")
+            start = None
+    return ",".join(out)
+
+
+def cmd_survey(args) -> int:
+    """What a document holds: statuses, which pages are corrected (DONE), which
+    of those still have the recognition a human started from, and which other
+    pages carry machine text. Reads only; writes ``survey.json`` under the run.
+    """
+    root = out_root(args)
+    ts = _login()
+    col = tp.find_collection(ts, args.collection)
+    colid = int(col["colId"])
+    report = {"collection": colid, "docs": []}
+    for docid in [int(x) for x in (args.doc or [])]:
+        pages = tp.pages_of_document(ts, colid, docid)
+        hist = tp.transcript_history(ts, colid, docid)
+        by_status: dict[str, list[int]] = {}
+        for p in pages:
+            by_status.setdefault(str(p.status), []).append(p.page_nr)
+        done = [p for p in pages if str(p.status).upper() in ("DONE", "FINAL")]
+        with_prior, tools = [], {}
+        for p in done:
+            v = tp.first_text_version(hist.get(p.page_nr, []))
+            if v:
+                with_prior.append(p.page_nr)
+                key = f"{v.get('toolName') or '—'} ({v.get('status')})"
+                tools[key] = tools.get(key, 0) + 1
+        machine = [p.page_nr for p in pages if str(p.status).upper() not in ("DONE", "FINAL")
+                   and p.nr_transcribed_lines > 0]
+        lines_done = sum(p.nr_transcribed_lines for p in done)
+        step = max(1, len(done) // max(1, args.test_count))
+        test = [p.page_nr for p in done[step // 2::step]][:args.test_count]
+        doc = {"doc": docid, "title": pages[0].doc_title if pages else "", "pages": len(pages),
+               "by_status": {k: _ranges(v) for k, v in by_status.items()},
+               "count_by_status": {k: len(v) for k, v in by_status.items()},
+               "done": _ranges(p.page_nr for p in done), "done_lines": lines_done,
+               "done_with_prior": _ranges(with_prior), "prior_tools": tools,
+               "machine_text_not_done": _ranges(machine),
+               "suggested_test_pages": ",".join(map(str, test))}
+        report["docs"].append(doc)
+        print(f"doc {docid} {doc['title']!r}: {len(pages)} page(s); by status {doc['count_by_status']}")
+        print(f"  DONE/FINAL: {len(done)} page(s), {lines_done} transcribed line(s): {doc['done'] or '—'}")
+        print(f"  of those with an earlier version that had text (T): {len(with_prior)} — {tools or '—'}")
+        print(f"  machine text, not corrected: {len(machine)} page(s): {doc['machine_text_not_done'] or '—'}")
+        print(f"  suggested test pages (spread over the DONE pages): {doc['suggested_test_pages'] or '—'}")
+    _save(root / "survey.json", report)
+    print(f"survey: {root / 'survey.json'}")
+    return 0
+
+
 def cmd_eval(args) -> int:
     """Measure, on pages a human has transcribed, what each model and the
     arbitrated result get wrong: CER against the Transkribus text.
@@ -534,6 +615,9 @@ def cmd_eval(args) -> int:
     # pages 12-14, transcribed for months, matched neither nrOfTranscribedLines
     # nor nrOfWords. A page with lines is a candidate; its PAGE XML decides.
     candidates = [p for p in pages if p.nr_lines > 0 and (chosen is None or p.page_nr in chosen)]
+    if args.status_filter:
+        wanted_status = {x.strip().upper() for x in args.status_filter.split(",")}
+        candidates = [p for p in candidates if str(p.status or "").upper() in wanted_status]
     if args.limit:
         candidates = candidates[:max(args.limit * 2, args.limit)]
     gt_pages: list[tp.PageInfo] = []
@@ -567,6 +651,8 @@ def cmd_eval(args) -> int:
     cmd_adjudicate(sub)
     ref = _reference(args)
     anchors = _anchors(args)
+    if args.prior:
+        _fetch_prior(ts, int(col["colId"]), gt_pages, root)
 
     rows = []
     for p in gt_pages:
@@ -603,6 +689,20 @@ def cmd_eval(args) -> int:
                                        "missed_lines": m["missed_lines"],
                                        "unmatched_chars": m["unmatched_chars"],
                                        "lines": len(rec["lines"])}
+        prior = d / "prior.xml"
+        if prior.exists():
+            # T: what Transkribus held before a human corrected the page — its
+            # own lines, its own geometry, scored exactly like the readers.
+            t_lines = pagexml.parse_lines(prior.read_text(encoding="utf-8"))
+            row["T"] = _cer(gt_text, "\n".join(l["text"] for l in t_lines if l["text"]))
+            m = linecer.matched_cer(gt_lines, [(l["bbox"], l["text"]) for l in t_lines])
+            row["T~"] = m and m["cer"]
+            if m:
+                row["T~seg"] = {"gt_lines": sum(1 for _, t in gt_lines if t.strip()),
+                                "missed_lines": m["missed_lines"],
+                                "unmatched_chars": m["unmatched_chars"], "lines": len(t_lines)}
+            meta = _load(d / "prior.json") or {}
+            row["T_version"] = {k: meta.get(k) for k in ("toolName", "status", "userName", "timestamp")}
         variants = {"fused": [x["text"] for x in sorted(adj["decisions"], key=lambda x: int(x["index"]))]}
         if args.variants:
             built = None
@@ -622,7 +722,7 @@ def cmd_eval(args) -> int:
         row["summary"] = adj.get("summary")
         rows.append(row)
     _save(root / "eval.json", rows)
-    base = ["A", "B", "C", "D", "fused"] + [f"det-{v}" for v in (args.variants or "").split(",") if v]
+    base = ["A", "B", "C", "D", "T", "fused"] + [f"det-{v}" for v in (args.variants or "").split(",") if v]
     f = lambda v: "     —" if v is None else f"{v:6.3f}"
     for title, cols, note in (
             ("page CER (whole page, each side in its own line order)",
@@ -638,7 +738,7 @@ def cmd_eval(args) -> int:
                   + (f"  {r['summary']}" if note else ""))
         means = {k: [r[k] for r in rows if r.get(k) is not None] for k in cols}
         print(f"{'mean':>11} " + " ".join(f"{f(sum(v)/len(v) if v else None):>{w}}" for v in means.values()))
-    seg = {k: [r[f"{k}~seg"] for r in rows if r.get(f"{k}~seg")] for k in ("A", "B", "D")}
+    seg = {k: [r[f"{k}~seg"] for r in rows if r.get(f"{k}~seg")] for k in ("A", "B", "D", "T")}
     if any(seg.values()):
         print("\nsegmentation (sums over the pages): lines read / GT lines / GT lines nothing landed on / "
               "chars on no GT line")
@@ -646,6 +746,10 @@ def cmd_eval(args) -> int:
             if v:
                 t = lambda f: sum(x[f] for x in v)
                 print(f"  {k}: {t('lines')} / {t('gt_lines')} / {t('missed_lines')} / {t('unmatched_chars')}")
+    tools = sorted({(r["T_version"].get("toolName") or "?") for r in rows if r.get("T_version")})
+    if args.prior:
+        print(f"\nT = the first version with text before the current one, on "
+              f"{sum(1 for r in rows if 'T' in r)}/{len(rows)} page(s); toolName: {', '.join(tools) or '—'}")
     print(f"\ntable: {root / 'eval.json'} — CER = Levenshtein / len(GT), whitespace collapsed; lower is "
           "better. fused = the run's adjudication; det-X = rules only, X where they do not decide")
     return 0
@@ -736,10 +840,20 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("upload", help="post each PAGE XML to its Transkribus page", parents=[shared])
     _up_args(p); p.set_defaults(func=cmd_upload)
 
+    p = sub.add_parser("survey", help="statuses, corrected pages, earlier machine versions; "
+                                      "reads only", parents=[shared])
+    _plan_args(p)
+    p.add_argument("--test-count", type=int, default=8, help="how many test pages to suggest")
+    p.set_defaults(func=cmd_survey)
+
     p = sub.add_parser("eval", help="CER of A, B, C and the arbitrated text against pages "
                                     "a human has transcribed; uploads nothing", parents=[shared])
     _plan_args(p); p.add_argument("--timeout", type=float, default=600.0)
     p.add_argument("--give-up", type=int, default=3)
+    p.add_argument("--status", dest="status_filter", default=None,
+                   help="only pages whose current status is one of these, e.g. DONE")
+    p.add_argument("--prior", action="store_true",
+                   help="also score T: the version with text a human started from (Transkribus HTR)")
     p.add_argument("--variants", default="A,B,D",
                    help="also score rules-only fusion with each of these as primary (no arbiter, "
                         "costs nothing); empty for none")

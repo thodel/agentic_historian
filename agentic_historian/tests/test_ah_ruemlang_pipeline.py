@@ -462,6 +462,11 @@ def test_gt_export_drops_empty_lines_and_repoints_the_image():
     assert 'imageFilename="p0003.jpg"' in out and 'id="b"' not in out and 'id="c"' not in out
     assert 'xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"' in out
     assert gt_export._pages("3-5,8") == {3, 4, 5, 8}
+    seg, stats = gt_export.clean_pagexml(xml, "p0003.jpg", keep_empty=True)
+    # for a segmenter every line is ground truth, transcribed or not
+    assert stats["lines"] == 3 and all(f'id="{i}"' in seg for i in "abc")
+    assert gt_export.build_parser().parse_args(
+        ["--doc", "1", "--pages", "3-60", "--tree", "t", "--segmentation"]).segmentation
 
 
 def test_train_request_is_a_finetune_the_trainer_accepts():
@@ -511,3 +516,28 @@ def test_lines_of_another_segmentation_are_paired_by_position():
     assert pl._paired_by_position(geom, rec) == ["eins zwei", "", "drei"]
     unboxed = {"lines": [{"text": t, "bbox": None} for t in "ab"]}
     assert pl._paired_by_position(geom, unboxed) == ["a", "b"]
+
+
+# ── survey / prior version (T) ───────────────────────────────────────────────
+
+def test_first_text_version_is_what_a_human_started_from():
+    from ruemlang import transkribus_pages as tp
+    v = lambda ts, n, tool="": {"tsId": ts, "transcribed_lines": n, "toolName": tool, "status": "x"}
+    # newest first: corrected ← HTR ← layout only
+    hist = [v(3, 40), v(2, 38, "PyLaia"), v(1, 0)]
+    assert tp.first_text_version(hist)["tsId"] == 2
+    assert tp.first_text_version([v(2, 40), v(1, 0)]) is None      # typed from scratch
+    assert tp.first_text_version([v(1, 0)]) is None
+
+
+def test_ranges_compress_page_lists():
+    from ruemlang import pipeline
+    assert pipeline._ranges([8, 3, 4, 5, 10, 11]) == "3-5,8,10-11"
+    assert pipeline._ranges([]) == ""
+
+
+def test_gt_export_needs_pages_or_status():
+    from ruemlang import gt_export
+    args = gt_export.build_parser().parse_args(["--doc", "1", "--tree", "t"])
+    with pytest.raises(SystemExit):
+        gt_export.export(args)

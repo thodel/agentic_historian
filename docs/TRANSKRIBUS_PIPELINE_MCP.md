@@ -4,7 +4,7 @@ Stand 2026-10-23. Everything the Rümlang (A V 1446) and Hertwig (A V 1443) runs
 did by hand on tei can be started from a Claude session through the ATR MCP
 (`mcp_atr`, `https://tei.dh.unibe.ch/mcp/atr`). The tools run the scripts in
 `agentic_historian/ruemlang/` as jobs, with fixed argv and checked arguments
-(`mcp_atr/transkribus.py`). Three steps stay manual, each for a reason given
+(`mcp_atr/transkribus.py`). Four steps stay manual, each for a reason given
 below.
 
 **Prerequisite:** the code has to be on `main` and deployed on tei
@@ -16,6 +16,7 @@ apply.
 
 | # | Step | MCP | By hand (tei) |
 |---|---|---|---|
+| 0 | What a document holds: statuses, corrected (DONE) pages, the HTR a human started from, suggested test pages | `transkribus_pipeline(step="survey", run="doc-13922579", doc="13922579")` | `pipeline.py survey --doc …` |
 | 1 | Pages without text | `transkribus_pipeline(step="plan", run="hertwig-run", doc="13922499")` | `pipeline.py plan --doc …` |
 | 2 | Ground truth → training tree | `transkribus_gt_export(doc="13922499", pages="3-60", test_pages="8,17,26,39,48,55", tree="hertwig-gt")`, then the same with `dry_run=false` | `gt_export.py …` |
 | 3 | Tree → private HF dataset | `upload_hf(tree="hertwig-gt", repo_id="dh-unibe/image-text_bern-disputation-1528", dry_run=false)` | — |
@@ -31,6 +32,13 @@ Steps 4, 7 and 9 change something outside tei: GPU time on asteraix, and a new
 version on every page in Transkribus. That is why each of these tools defaults
 to not doing it (`request`, no `upload`). An upload adds an IN_PROGRESS version
 and never overwrites an earlier one.
+
+**A volume whose corrected pages are the ground truth** (e.g. 13922579):
+`transkribus_gt_export(status="DONE", test_pages=…)` exports every DONE page
+except the test pages, and `eval` with `status="DONE", prior=true` adds reader
+**T**. T is the version with text a human started from, as a rule Transkribus'
+own HTR. Its toolName is printed. That puts the readers next to what Transkribus
+gave the transcribers.
 
 ### Choosing the readers (step 7 decides)
 
@@ -83,6 +91,10 @@ day. If A, B or C stay in, party on idhefix must be stopped first; check with
    are unreachable (`health.engines[].reachable`). Then, on idhefix:
    `systemctl --user start atr-kraken atr-trocr atr-party`.
 
-3. **Deploying the code** (merge to `main`, `update.sh` on tei). That is the
+3. **Training a line segmenter.** The trainer has no `segtrain`, so it runs
+   by hand on asteraix ([`HERTWIG_SEGMENTATION.md`](HERTWIG_SEGMENTATION.md)).
+   The export for it goes over MCP: `transkribus_gt_export(segmentation=true)`.
+
+4. **Deploying the code** (merge to `main`, `update.sh` on tei). That is the
    step that decides what the tools run, and it goes through review, not
    through the tools.

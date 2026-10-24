@@ -204,6 +204,40 @@ def pages_of_document(ts: TkSession, colid: int, docid: int) -> list[PageInfo]:
     return out
 
 
+def transcript_history(ts: TkSession, colid: int, docid: int) -> dict[int, list[dict]]:
+    """Every transcript version of every page, newest first, as ``fulldoc``
+    lists them: ``tsId, status, toolName, userName, timestamp, lines,
+    transcribed_lines, url``. :func:`pages_of_document` reads only the newest;
+    this is for the question what was on a page *before* — the recognition a
+    human then corrected."""
+    content = ts.get_json(f"{API}/collections/{colid}/{docid}/fulldoc",
+                          f"cannot read document {docid} of collection {colid}")
+    out: dict[int, list[dict]] = {}
+    for page in (content.get("pageList") or {}).get("pages") or []:
+        out[int(page.get("pageNr") or 0)] = [{
+            "tsId": v.get("tsId"), "status": v.get("status"),
+            "toolName": v.get("toolName") or "", "userName": v.get("userName") or "",
+            "timestamp": v.get("timestamp"), "lines": int(v.get("nrOfLines") or 0),
+            "transcribed_lines": int(v.get("nrOfTranscribedLines") or 0),
+            "url": v.get("url"),
+        } for v in (page.get("tsList") or {}).get("transcripts") or []]
+    return out
+
+
+def first_text_version(versions: list[dict]) -> Optional[dict]:
+    """The oldest version that has text, unless that is the newest one.
+
+    On a page a human corrected, that is the recognition they started from —
+    an HTR run in Transkribus, as a rule; ``toolName`` says which. None when the
+    first text on the page is its current one (typed from scratch, or never
+    corrected), because then there is nothing earlier to compare.
+    """
+    with_text = [v for v in versions if v.get("transcribed_lines")]
+    if not with_text or with_text[-1] is versions[0]:
+        return None
+    return with_text[-1]
+
+
 def is_unsegmented(p: PageInfo) -> bool:
     """No text line in the latest transcript. A region without lines counts as
     unsegmented too: nothing a recogniser could read is drawn on the page."""
