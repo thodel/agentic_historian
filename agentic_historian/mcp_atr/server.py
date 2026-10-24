@@ -862,6 +862,11 @@ def build_server(provider=None, auth_settings=None):
         private dataset is the condition under which uploading from a session is
         an unremarkable act.
 
+        **It never removes what the hub holds.** `pagexml-hf` replaces the
+        dataset: projects on the hub that are not in the tree would go (the
+        Hertwig projects did, 2026-10-24). The upload is then refused and the
+        reply names them; export them into the same tree and upload that.
+
         ``dry_run`` defaults to true and checks what otherwise fails minutes into
         a transfer from inside somebody else's tool: whether the tree is there and
         pairs an image with every XML file, whether `pagexml-hf` is on PATH,

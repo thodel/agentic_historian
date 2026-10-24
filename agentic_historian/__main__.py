@@ -870,6 +870,24 @@ def upload_hf(args: argparse.Namespace) -> int:
     argv = hf.upload_argv(plan.tree, plan.repo_id, private=plan.private,
                           mode=plan.mode)
     print(f"\ncommand   : {' '.join(argv)}")
+    # `pagexml-hf` replaces the dataset; what is on the hub and not in the tree
+    # goes. Refused unless asked for, so a second volume cannot erase the first.
+    hub = hf.hub_projects(plan.repo_id) if plan.ok else {"projects": []}
+    lost = [] if hub.get("error") else hf.projects_lost(hub["projects"], plan.projects)
+    if hub.get("error"):
+        print(f"hub now   : not checked ({hub['error']})")
+    else:
+        print(f"hub now   : {', '.join(hub['projects']) or '— (new dataset)'}")
+    if lost:
+        print(f"would remove: {', '.join(lost)} — the upload replaces the dataset. "
+              "Export these into the same tree, or pass --replace.")
+    if hub.get("error") and not args.replace:
+        print("\nError: could not see what the hub holds; an upload replaces it. "
+              "Retry, or pass --replace.", file=sys.stderr)
+        return 1
+    if lost and not args.replace:
+        print("\nError: not uploading — it would remove the projects above", file=sys.stderr)
+        return 1
     if not plan.ok:
         print("\nError: not uploading — fix the problems above", file=sys.stderr)
         return 1
@@ -1619,6 +1637,9 @@ def build_parser() -> argparse.ArgumentParser:
                            "by deleting the dataset afterwards")
     p_up.add_argument("--yes", action="store_true",
                       help="Confirm a --public upload")
+    p_up.add_argument("--replace", action="store_true",
+                      help="upload even if hub projects missing from the tree would go "
+                           "(pagexml-hf replaces the dataset)")
     p_up.add_argument("--dry-run", action="store_true",
                       help="Check the tree, the tool, the token and the repo id, "
                            "print the command, upload nothing")

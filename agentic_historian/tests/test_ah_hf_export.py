@@ -1296,3 +1296,40 @@ def test_the_plan_counts_the_register_apart_from_the_dateline(tmp_path):
 
     assert "from the register" in text
     assert "a recorded sender, not an inference" in text
+
+
+
+# ── an upload replaces the dataset (2026-10-24) ──────────────────────────────
+
+def test_hub_projects_are_read_from_the_data_directories(monkeypatch):
+    import requests
+
+    class R:
+        status_code = 200
+        def json(self):
+            return [{"type": "directory", "path": "data/train"},
+                    {"type": "directory", "path": "data/train/A_V_1443_Hertwig_train"},
+                    {"type": "directory", "path": "data/train/A_V_1447_Schlussredaktion_test"},
+                    {"type": "file", "path": "data/train/A_V_1443_Hertwig_train/x.parquet"}]
+    monkeypatch.setattr(requests, "get", lambda *a, **k: R())
+    assert hf.hub_projects("dh-unibe/x", token="t") == {
+        "projects": ["A_V_1443_Hertwig_train", "A_V_1447_Schlussredaktion_test"]}
+
+
+def test_a_new_dataset_has_no_projects_and_a_dead_hub_is_an_error(monkeypatch):
+    import requests
+
+    class R:
+        def __init__(self, code): self.status_code = code
+        def json(self): return []
+    monkeypatch.setattr(requests, "get", lambda *a, **k: R(404))
+    assert hf.hub_projects("dh-unibe/new", token="t") == {"projects": []}
+    monkeypatch.setattr(requests, "get", lambda *a, **k: R(500))
+    assert "error" in hf.hub_projects("dh-unibe/x", token="t")
+
+
+def test_projects_missing_from_the_tree_are_named():
+    hub = ["A_V_1443_Hertwig_test", "A_V_1443_Hertwig_train", "A_V_1447_S_train"]
+    assert hf.projects_lost(hub, {"A_V_1447_S_train": 118}) == \
+        ["A_V_1443_Hertwig_test", "A_V_1443_Hertwig_train"]
+    assert hf.projects_lost(hub, {k: 1 for k in hub}) == []

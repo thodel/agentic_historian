@@ -1180,6 +1180,43 @@ def hub_state(repo_id: str, token: Optional[str] = None) -> dict:
     }
 
 
+def hub_projects(repo_id: str, token: Optional[str] = None) -> dict:
+    """The projects a dataset holds on the hub: ``{"projects": [...]}`` from the
+    ``data/<split>/<project>/`` directories, ``{"projects": []}`` for a dataset
+    that does not exist yet, ``{"error": …}`` when the hub does not answer.
+
+    Needed because `pagexml-hf` **replaces** a dataset rather than adding to it:
+    on 2026-10-24 uploading the Schlussredaktion tree to
+    ``image-text_bern-disputation-1528`` removed the Hertwig projects, and the
+    first sign was a training request refused with "project not found".
+    """
+    import requests
+
+    url = f"https://huggingface.co/api/datasets/{repo_id}/tree/main/data"
+    tok = token or hub_token()
+    headers = {"Authorization": f"Bearer {tok}"} if tok else {}
+    try:
+        r = requests.get(url, headers=headers, params={"recursive": "true"}, timeout=30)
+        if r.status_code == 404:
+            return {"projects": []}
+        if r.status_code != 200:
+            return {"error": f"hub answered {r.status_code}"}
+        entries = r.json()
+    except (requests.RequestException, ValueError) as exc:
+        return {"error": f"{type(exc).__name__}: {exc}"}
+    found = set()
+    for e in entries if isinstance(entries, list) else []:
+        parts = str(e.get("path", "")).split("/")
+        if e.get("type") == "directory" and len(parts) == 3 and parts[0] == "data":
+            found.add(parts[2])
+    return {"projects": sorted(found)}
+
+
+def projects_lost(hub: list, tree: dict) -> list:
+    """Projects on the hub that an upload of ``tree`` would remove."""
+    return sorted(set(hub) - set(tree))
+
+
 def format_hub_state(state: dict) -> str:
     if not state or state.get("error"):
         return f"hub       : not confirmed ({(state or {}).get('error', 'no answer')})"
