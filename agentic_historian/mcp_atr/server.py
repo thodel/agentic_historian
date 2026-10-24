@@ -1067,6 +1067,11 @@ def build_server(provider=None, auth_settings=None):
         0.271. Under early stopping ``epochs`` sizes the cosine schedule rather
         than capping the run — set it above the epochs you expect.
 
+        ``train_project`` may be several, ``a,b``: one model on both volumes.
+        ``base_model`` is a curated registry id, a Zenodo DOI, or
+        ``trained:<model id>`` for a model this trainer made (the trainer itself
+        accepts only the file, which ``trained:`` resolves to).
+
         A model whose ``promoted`` stays False is registered but not served.
         If the reason is "no held-out page" (a rerun on the same data reuses
         the compiled corpus), the gate has to be run on the trainer by hand —
