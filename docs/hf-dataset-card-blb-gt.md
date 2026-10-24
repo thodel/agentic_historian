@@ -19,7 +19,7 @@ material in the shape the project's trainers read, built with
 [`pagexml-hf`](https://github.com/The-Flow-Project/pagexml-hf) **0.9.6+fork.1**
 in `raw_xml` mode from a tree assembled by
 [`agentic_historian`](https://github.com/thodel/agentic_historian)
-(`scripts/blb_gt_dataset.py`).
+(`oai-gt-import --source blb-lassberg`).
 
 | `project_name` | what it is | how it was decided |
 |---|---|---:|

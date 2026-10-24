@@ -1284,7 +1284,7 @@ def count_objects(stems) -> Optional[int]:
     """How many objects the page stems of one project belong to, or None.
 
     The object is the stem before a ``_NNNN`` page suffix (3–5 digits, the
-    convention of `blb_gt_dataset` and `transkribus_gt_export`). One stem
+    convention of `oai_gt` and `transkribus_gt_export`). One stem
     without it and the answer is None, not a guess: a mixed project has no
     object count that means anything.
     """

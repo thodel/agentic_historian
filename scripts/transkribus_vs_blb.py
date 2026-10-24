@@ -51,7 +51,7 @@ def shelf_of(title: str) -> str | None:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    ap.add_argument("--inventory", required=True, help="inventory.tsv from blb_lassberg_inventory.py")
+    ap.add_argument("--inventory", required=True, help="inventory.tsv that oai-gt-import --step inventory wrote (ATR_DATASETS_DIR/_oai/blb-lassberg/)")
     ap.add_argument("--collection", default=None, help="Transkribus collection id (default TRANSKRIBUS_COLLECTION)")
     ap.add_argument("--out", default="/tmp/blb/transkribus_vs_blb.tsv")
     args = ap.parse_args()

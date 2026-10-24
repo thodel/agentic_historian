@@ -9,7 +9,7 @@ that counts: against the pages for which *we* hold hand-corrected text.
 
 For every ground-truth file ``done_K 2911,NN_<docId>__00M.xml`` under
 ``--gt-dir`` it fetches the BLB's ALTO for shelfmark ``K 2911,NN``, physical page
-``M`` (through the METS cached by ``blb_lassberg_inventory.py``), and scores:
+``M`` (through the METS cached by ``oai-gt-import --step inventory`` (#712)), and scores:
 
     BLB full text      against our ground truth
     our readings       against our ground truth   (the same pages, same scorer)
@@ -196,7 +196,7 @@ GT_NAME = re.compile(r"^done_(K \d+,\d+)_\d+__(\d+)\.xml$")
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    ap.add_argument("--oai-cache", default="/tmp/blb", help="directory blb_lassberg_inventory.py wrote")
+    ap.add_argument("--oai-cache", default="/tmp/blb", help="the harvest cache: ATR_DATASETS_DIR/_oai/blb-lassberg (oai-gt-import --step inventory)")
     ap.add_argument("--gt-dir", required=True, help="ground-truth set with done_K 2911,NN_<docId>__00M.xml files")
     ap.add_argument("--vlm-root", default="agentic_historian/data/vlm_test")
     ap.add_argument("--reading", action="append", default=[],
@@ -207,7 +207,7 @@ def main() -> int:
 
     by_shelf = alto_pages_by_shelfmark(Path(args.oai_cache))
     if not by_shelf:
-        print(f"Error: no cached METS under {args.oai_cache} — run blb_lassberg_inventory.py first",
+        print(f"Error: no cached METS under {args.oai_cache} — run oai-gt-import --source blb-lassberg --step inventory first",
               file=sys.stderr)
         return 2
     gt_files = sorted(Path(args.gt_dir).glob("*.xml"))

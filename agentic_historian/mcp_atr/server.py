@@ -909,6 +909,35 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def oai_gt_import(source: str, step: str, dry_run: bool = True,
+                      limit: Optional[int] = None, workers: int = 4) -> dict:
+        """Turn a library's OAI-PMH set of images + ALTO into a ground-truth tree.
+
+        ``source`` is a **name** the server knows (``blb-lassberg``: the
+        Badische Landesbibliothek's Laßberg set, Public Domain) — never a URL;
+        a new source is a reviewed change to `oai_gt.SOURCES`. Two steps, both
+        jobs (poll `job_status`, read `job_log`), both resumable:
+
+        * ``inventory`` — harvest the set's METS (cached under
+          ``ATR_DATASETS_DIR/_oai/<source>``), report objects, pages, full
+          text and projects, write ``inventory.tsv``.
+        * ``build`` — ALTO → PAGE 2013 beside each image, in the source's
+          projects (for the BLB the hand, from the catalogue title), under
+          ``ATR_DATASETS_DIR/<tree>``. ``dry_run`` (default) plans and
+          estimates the size. Pages without one ALTO line are left out. A
+          rebuild keeps the split and the upload record in ``export.json``,
+          and a new page of a held-out object goes to its ``_eval`` side.
+
+        Then `split_tree` and `upload_hf` with ``tree="datasets:<tree>"``.
+        Downloads are throttled and only from the source's own host.
+        """
+        try:
+            return jobs.oai_gt_import_job(source, step, dry_run=dry_run, limit=limit,
+                                          workers=workers)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def upload_hf_card(card: str, repo_id: str | None = None,
                        dry_run: bool = True) -> dict:
         """Put a dataset card from `docs/` on the hub as README.md.

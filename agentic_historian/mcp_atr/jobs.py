@@ -1414,6 +1414,48 @@ def split_tree_job(tree: str, *, fraction: float = 0.10, seed: int = 20261023,
         raise JobError(str(exc)) from None
 
 
+def oai_gt_import_argv(source: str, step: str, *, dry_run: bool = True,
+                       limit: Optional[int] = None, workers: int = 4) -> list[str]:
+    """The argv for one ``oai-gt-import`` run (#712). The source is a name the
+    module knows; the root is the server's ATR_DATASETS_DIR, never a caller's."""
+    import oai_gt
+
+    if source not in oai_gt.SOURCES:
+        raise JobError(f"unknown source {source!r} — known: {', '.join(sorted(oai_gt.SOURCES))}")
+    if step not in oai_gt.STEPS:
+        raise JobError(f"step must be one of {', '.join(oai_gt.STEPS)}, got {step!r}")
+    if not config.ATR_DATASETS_DIR:
+        raise JobError("ATR_DATASETS_DIR is not configured — the tree has nowhere to go")
+    argv = [_python(), "-m", "agentic_historian", "oai-gt-import",
+            "--source", source, "--step", step]
+    if step == "build":
+        if limit is not None:
+            if not isinstance(limit, int) or not 1 <= limit <= 10000:
+                raise JobError("limit is a number of objects, 1–10000")
+            argv += ["--limit", str(limit)]
+        if not isinstance(workers, int) or not 1 <= workers <= oai_gt.MAX_WORKERS:
+            raise JobError(f"workers is 1–{oai_gt.MAX_WORKERS}")
+        argv += ["--workers", str(workers)]
+        if dry_run:
+            argv.append("--dry-run")
+    return argv
+
+
+def oai_gt_import_job(source: str, step: str, *, dry_run: bool = True,
+                      limit: Optional[int] = None, workers: int = 4) -> dict:
+    import oai_gt
+
+    argv = oai_gt_import_argv(source, step, dry_run=dry_run, limit=limit, workers=workers)
+    tree = oai_gt.SOURCES[source].tree
+    return {"ok": True, "source": source, "step": step,
+            "dry_run": dry_run if step == "build" else None,
+            "tree": f"datasets:{tree}",
+            "next": ("step='build' (dry run first)" if step == "inventory" else
+                     "build again without dry_run" if dry_run else
+                     f"split_tree(tree='datasets:{tree}'), then upload_hf(tree='datasets:{tree}')"),
+            **start_and_peek("oai-gt-import", argv)}
+
+
 def upload_hf_job(tree: str, repo_id: Optional[str] = None,
                   dry_run: bool = True) -> dict:
     """Upload an export tree to the hub, as a job. Private, always.

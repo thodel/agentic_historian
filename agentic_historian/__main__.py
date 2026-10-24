@@ -917,6 +917,31 @@ def split_tree(args: argparse.Namespace) -> int:
     return 0
 
 
+def oai_gt_import(args: argparse.Namespace) -> int:
+    """A named OAI-PMH source's images + ALTO as a ground-truth tree (#712)."""
+    import oai_gt
+
+    root = Path(args.root) if args.root else config.ATR_DATASETS_DIR
+    if not root:
+        print("Error: no root — set ATR_DATASETS_DIR or pass --root", file=sys.stderr)
+        return 2
+    try:
+        src = oai_gt.source(args.source)
+        if args.step == "inventory":
+            result = oai_gt.inventory(src, Path(root))
+        else:
+            result = oai_gt.build(src, Path(root), dry_run=args.dry_run, limit=args.limit,
+                                  workers=args.workers, progress=lambda m: print(m, flush=True))
+    except oai_gt.OaiGtError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    print(oai_gt.format_result(result))
+    if args.step == "build" and not args.dry_run:
+        print(f"\nnext: split-tree --tree {result['tree']} (dry run), then upload-hf --tree "
+              f"{result['tree']} --dry-run")
+    return 1 if result.get("failures") else 0
+
+
 def upload_hf_card(args: argparse.Namespace) -> int:
     """Put a dataset card from `docs/` on the hub as README.md (#691).
 
@@ -1710,6 +1735,19 @@ def build_parser() -> argparse.ArgumentParser:
                          help="Split a tree export.json records as uploaded")
     p_split.add_argument("--json", action="store_true", help="Also print the result as JSON")
     p_split.set_defaults(func=split_tree)
+
+    p_oai = sub.add_parser(
+        "oai-gt-import",
+        help="Harvest a named OAI-PMH source and build its ground-truth tree (#712)")
+    p_oai.add_argument("--source", required=True, help="A name from oai_gt.SOURCES, e.g. blb-lassberg")
+    p_oai.add_argument("--step", required=True, choices=("inventory", "build"))
+    p_oai.add_argument("--root", default=None,
+                       help="Where _oai/<source>/ and the tree go (default ATR_DATASETS_DIR)")
+    p_oai.add_argument("--limit", type=int, default=None, help="Only the first N objects (smoke run)")
+    p_oai.add_argument("--workers", type=int, default=4, help="Download threads (at most 8)")
+    p_oai.add_argument("--dry-run", action="store_true",
+                       help="build: plan and estimate the size, write nothing")
+    p_oai.set_defaults(func=oai_gt_import)
 
     p_card = sub.add_parser(
         "upload-hf-card",

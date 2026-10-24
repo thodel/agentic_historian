@@ -9,7 +9,7 @@ so a dataset can be trained on ``<project>`` and measured on
 ``<project>_eval`` by every engine alike.
 
 The object is the file-name stem before the ``_NNNN`` page suffix
-(``K2911-47_0001`` → ``K2911-47``), the convention of ``blb_gt_dataset`` and
+(``K2911-47_0001`` → ``K2911-47``), the convention of ``oai_gt`` and
 ``transkribus_gt_export``. A project whose names carry no object is refused,
 not split by page under another name.
 

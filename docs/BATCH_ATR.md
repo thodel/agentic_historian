@@ -1605,6 +1605,25 @@ dieselbe Prüfung wie jeder Laufname. Der Trockenlauf zählt jetzt auch die
 **Objekte** je Projekt (der Dateiname vor `_NNNN`), worüber ein Hold-out gezogen
 wird — am 24.10. brauchte das eine eigene `ls | sed | sort -u`-Schleife.
 
+### Fremde Ground Truth aus einem OAI-Set (#712)
+
+Die BLB-Ernte und der Baumbau vom 23./24.10. sind jetzt ein Werkzeug, in zwei
+Jobs. Die Quelle ist ein **Name** aus `oai_gt.SOURCES` (heute `blb-lassberg`),
+nie eine URL; eine neue Quelle ist eine Codeänderung mit Review.
+
+```
+oai_gt_import(source="blb-lassberg", step="inventory")    # Ernte → ATR_DATASETS_DIR/_oai/blb-lassberg/inventory.tsv
+oai_gt_import(source="blb-lassberg", step="build")        # Trockenlauf: Seiten je Projekt, Grösse
+oai_gt_import(source="blb-lassberg", step="build", dry_run=False)
+```
+
+Höchstens acht Arbeiter und acht Anfragen pro Sekunde, nur vom Host der Quelle.
+Ein Build nach dem Split schreibt eine Seite eines Eval-Objekts auf die Eval-Seite
+und lässt Split und Upload-Eintrag in `export.json` stehen (die Skripte taten
+beides nicht). Die Ernte vom 23.10. liegt in `/tmp/blb/oai_mets_*.xml`, im
+selben Format; nach `ATR_DATASETS_DIR/_oai/blb-lassberg/` kopiert, erntet der
+erste `inventory` nichts neu.
+
 ### Vor dem Upload: Hold-out nach Objekt (#711)
 
 Ohne `eval_projects` teilt der Trainer nach Seiten, und zwei Seiten eines Briefs
