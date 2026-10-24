@@ -602,6 +602,9 @@ def server_status(counts: bool = False) -> dict:
         "mount": _root_entry(config.ATR_MOUNT_DIR, count=False),
         "staging": _root_entry(config.NEXTCLOUD_STAGING_DIR, count=False),
         "research_dir": _root_entry(config.ATR_RESEARCH_DIR, count=False),
+        "datasets_dir": {**_root_entry(config.ATR_DATASETS_DIR, count=False),
+                         "trees": (_tree_names(Path(config.ATR_DATASETS_DIR))
+                                   if config.ATR_DATASETS_DIR else [])},
     }
     env = {
         "ah_env_file": os.environ.get("AH_ENV_FILE", "").strip() or None,
@@ -610,6 +613,8 @@ def server_status(counts: bool = False) -> dict:
         "gemini_base_url": config.GEMINI_BASE_URL,
         "gemini_api_key": "set" if config.GEMINI_API_KEY else "unset",
         "hf_token": "set" if config.HF_TOKEN else "unset",
+        "transkribus_user": "set" if config._get("TRANSKRIBUS_USER", "") else "unset",
+        "transkribus_pass": "set" if config._get("TRANSKRIBUS_PASS", "") else "unset",
         "gateway": config.ATR_GATEWAY_URL,
     }
     return {"ok": True,
@@ -1329,6 +1334,241 @@ def upload_hf_argv(tree: Path, *, repo_id: Optional[str] = None,
     return argv
 
 
+DATASETS_PREFIX = "datasets:"
+
+
+def resolve_tree(tree: str) -> Path:
+    """An export tree's directory, from its **name** (#710).
+
+    ``<name>`` is a tree under VLM_TEST_ROOT, where `export_hf` writes;
+    ``datasets:<name>`` one under ``ATR_DATASETS_DIR``, where trees too large
+    for the checkout live (`lassberg-blb-gt`, 7.75 GB). Either way the part
+    after the prefix passes `validate_run` — no ``/``, no ``..`` — so the
+    prefix chooses a root and never widens one.
+    """
+    tree = (tree or "").strip()
+    if tree.startswith(DATASETS_PREFIX):
+        name = validate_run(tree[len(DATASETS_PREFIX):])
+        if not config.ATR_DATASETS_DIR:
+            raise JobError(
+                "ATR_DATASETS_DIR is not configured, so `datasets:` names nothing "
+                "— set it in agentic_historian/.env and restart the server")
+        path = Path(config.ATR_DATASETS_DIR) / name
+        if not path.is_dir():
+            raise JobError(
+                f"no tree {name!r} under ATR_DATASETS_DIR ({config.ATR_DATASETS_DIR}) "
+                f"— there are: {', '.join(_tree_names(Path(config.ATR_DATASETS_DIR))) or 'none'}")
+        return path
+    name = validate_run(tree)
+    path = Path(config.VLM_TEST_ROOT) / name
+    if not path.is_dir():
+        raise JobError(
+            f"no export tree at {path} — `export_hf` with dry_run=false writes "
+            f"one, and the name here is that directory's name, not a path "
+            f"(a tree under ATR_DATASETS_DIR is `datasets:<name>`)")
+    return path
+
+
+def _tree_names(root: Path, cap: int = 50) -> list[str]:
+    """Directories under a root that look like export trees: they hold an
+    ``export.json`` or a project with a ``page/`` folder."""
+    if not root.is_dir():
+        return []
+    names = []
+    for p in sorted(root.iterdir(), key=lambda p: p.name):
+        if not p.is_dir() or p.name.startswith((".", "_")):
+            continue
+        if (p / "export.json").is_file() or any(
+                (c / "page").is_dir() for c in p.iterdir() if c.is_dir()):
+            names.append(p.name)
+        if len(names) >= cap:
+            break
+    return names
+
+
+#: An object name as `tree_split` reads it from a file name (``K2911-17``).
+OBJECT_RE = re.compile(r"^[A-Za-z0-9][\w.-]{0,63}$")
+
+
+def split_tree_job(tree: str, *, fraction: float = 0.10, seed: int = 20261023,
+                   force_eval: Optional[Sequence[str]] = None, undo: bool = False,
+                   dry_run: bool = True, allow_after_upload: bool = False) -> dict:
+    """Hold out whole objects of a tree (#711). Synchronous: renames on one
+    filesystem, a few hundred of them, seconds even over CIFS."""
+    import tree_split as ts
+
+    path = resolve_tree(tree)
+    forced = [str(f).strip() for f in (force_eval or []) if str(f).strip()]
+    bad = [f for f in forced if not OBJECT_RE.match(f)]
+    if bad:
+        raise JobError(f"force_eval takes object names like K2911-17, got {bad[:3]}")
+    try:
+        fraction = float(fraction)
+        seed = int(seed)
+    except (TypeError, ValueError):
+        raise JobError("fraction is a number in (0, 0.5), seed an integer") from None
+    try:
+        if undo:
+            return ts.undo(path, dry_run=dry_run, allow_after_upload=allow_after_upload)
+        return ts.split(path, fraction=fraction, seed=seed, force_eval=forced,
+                        dry_run=dry_run, allow_after_upload=allow_after_upload)
+    except ts.SplitError as exc:
+        raise JobError(str(exc)) from None
+
+
+def oai_gt_import_argv(source: str, step: str, *, dry_run: bool = True,
+                       limit: Optional[int] = None, workers: int = 4) -> list[str]:
+    """The argv for one ``oai-gt-import`` run (#712). The source is a name the
+    module knows; the root is the server's ATR_DATASETS_DIR, never a caller's."""
+    import oai_gt
+
+    if source not in oai_gt.SOURCES:
+        raise JobError(f"unknown source {source!r} — known: {', '.join(sorted(oai_gt.SOURCES))}")
+    if step not in oai_gt.STEPS:
+        raise JobError(f"step must be one of {', '.join(oai_gt.STEPS)}, got {step!r}")
+    if not config.ATR_DATASETS_DIR:
+        raise JobError("ATR_DATASETS_DIR is not configured — the tree has nowhere to go")
+    argv = [_python(), "-m", "agentic_historian", "oai-gt-import",
+            "--source", source, "--step", step]
+    if step == "build":
+        if limit is not None:
+            if not isinstance(limit, int) or not 1 <= limit <= 10000:
+                raise JobError("limit is a number of objects, 1–10000")
+            argv += ["--limit", str(limit)]
+        if not isinstance(workers, int) or not 1 <= workers <= oai_gt.MAX_WORKERS:
+            raise JobError(f"workers is 1–{oai_gt.MAX_WORKERS}")
+        argv += ["--workers", str(workers)]
+        if dry_run:
+            argv.append("--dry-run")
+    return argv
+
+
+def oai_gt_import_job(source: str, step: str, *, dry_run: bool = True,
+                      limit: Optional[int] = None, workers: int = 4) -> dict:
+    import oai_gt
+
+    argv = oai_gt_import_argv(source, step, dry_run=dry_run, limit=limit, workers=workers)
+    tree = oai_gt.SOURCES[source].tree
+    return {"ok": True, "source": source, "step": step,
+            "dry_run": dry_run if step == "build" else None,
+            "tree": f"datasets:{tree}",
+            "next": ("step='build' (dry run first)" if step == "inventory" else
+                     "build again without dry_run" if dry_run else
+                     f"split_tree(tree='datasets:{tree}'), then upload_hf(tree='datasets:{tree}')"),
+            **start_and_peek("oai-gt-import", argv)}
+
+
+LETTER_ID_RE = re.compile(r"^lassberg-letter-[0-9]{4}$")
+
+
+def _upload_sources() -> dict[str, Optional[Path]]:
+    """The roots a letter-wise upload may read digitisations from, by name."""
+    return {"archive": config.ATR_PAGE_CACHE_ARCHIVE or None,
+            "cache": config.page_cache_dir()}
+
+
+def transkribus_letters_argv(collection: str, *, letter: Optional[str] = None,
+                             all_letters: bool = False, dry_run: bool = True,
+                             source: str = "archive") -> list[str]:
+    """The argv for one ``upload-transkribus --by-letter`` run (#713).
+
+    The collection must be one the configuration allows uploads into; the
+    source is a root by name; a real upload is one letter or, once a first
+    letter is in the collection (the CLI checks), all of them.
+    """
+    import transkribus as tk
+
+    collection = str(collection or "").strip()
+    allowed = tk.upload_collections()
+    if collection not in allowed:
+        raise JobError(
+            f"collection {collection!r} is not one uploads may go to — allowed: "
+            f"{', '.join(allowed) or 'none (set TRANSKRIBUS_UPLOAD_COLLECTIONS)'}")
+    roots = _upload_sources()
+    if source not in roots:
+        raise JobError(f"source is one of {', '.join(roots)}, got {source!r}")
+    if not roots[source]:
+        raise JobError(f"source {source!r} is not configured on this server")
+    if letter and all_letters:
+        raise JobError("letter or all_letters, not both")
+    argv = [_python(), "-m", "agentic_historian", "upload-transkribus", "--by-letter",
+            "--collection", collection, "--cache-dir", str(config.page_cache_dir()),
+            "--source", str(roots[source])]
+    if letter:
+        if not LETTER_ID_RE.match(letter):
+            raise JobError(f"letter is an edition id like lassberg-letter-0952, got {letter!r}")
+        argv += ["--letter", letter]
+    if all_letters:
+        argv.append("--all")
+    if dry_run:
+        argv.append("--dry-run")
+    elif not (letter or all_letters):
+        raise JobError("a real upload is one letter (letter=…) first, then all_letters=true")
+    return argv
+
+
+def transkribus_letters_job(collection: str, *, letter: Optional[str] = None,
+                            all_letters: bool = False, dry_run: bool = True,
+                            source: str = "archive") -> dict:
+    argv = transkribus_letters_argv(collection, letter=letter, all_letters=all_letters,
+                                    dry_run=dry_run, source=source)
+    return {"ok": True, "collection": collection, "dry_run": dry_run,
+            "letter": letter, "all_letters": all_letters,
+            "next": ("look at the plan; then one letter with dry_run=false" if dry_run else
+                     "look at the letter in the Transkribus interface, then all_letters=true"
+                     if letter else "the server ingests the uploads as jobs; check the collection"),
+            **start_and_peek("transkribus-letters", argv)}
+
+
+def transkribus_collections_job(*, name: Optional[str] = None,
+                                collection: Optional[str] = None,
+                                limit: int = 200, offset: int = 0) -> dict:
+    """Collections and documents the Transkribus account sees (#714). Read-only,
+    synchronous: two API calls, no page content."""
+    import transkribus as tk
+
+    if name is not None and (len(name) > 64 or not name.strip()):
+        raise JobError("name is a part of a collection name, 1–64 characters")
+    if collection is not None and not re.fullmatch(r"[0-9]{1,10}", str(collection)):
+        raise JobError(f"collection is a Transkribus id (digits), got {collection!r}")
+    if not (isinstance(limit, int) and 1 <= limit <= 1000 and isinstance(offset, int) and offset >= 0):
+        raise JobError("limit is 1–1000, offset ≥ 0")
+    try:
+        return tk.collections_overview(name=name, collection=collection,
+                                       limit=limit, offset=offset)
+    except tk.TranskribusError as exc:
+        raise JobError(str(exc)) from None
+
+
+TRAIN_JOB_ID_RE = re.compile(r"^[0-9]{8}T[0-9]{6}Z-[A-Za-z0-9_.:-]{1,80}$")
+
+
+def train_spec_argv(spec: str, action: str = "request", *,
+                    job_id: Optional[str] = None) -> list[str]:
+    """The argv for one ``train-spec`` run (#715): a spec by name, one action."""
+    import train_spec as tsp
+
+    if action not in tsp.ACTIONS:
+        raise JobError(f"action must be one of {', '.join(tsp.ACTIONS)}, got {action!r}")
+    name = (spec or "").removesuffix(".json")
+    if name not in tsp.spec_names():
+        raise JobError(f"no spec {name!r} under training/specs/ — there are: "
+                       f"{', '.join(tsp.spec_names()) or 'none'}")
+    argv = [_python(), "-m", "agentic_historian", "train-spec", "--spec", name,
+            "--action", action]
+    if job_id:
+        if action != "status" or not TRAIN_JOB_ID_RE.match(job_id):
+            raise JobError("job_id is a trainer job id (20261022T134133Z-<model>), for status")
+        argv += ["--job-id", job_id]
+    return argv
+
+
+def train_spec_job(spec: str, action: str = "request", *, job_id: Optional[str] = None) -> dict:
+    argv = train_spec_argv(spec, action, job_id=job_id)
+    return {"ok": True, "spec": spec, "action": action,
+            **start_and_peek(f"train-spec-{action}", argv)}
+
+
 def upload_hf_job(tree: str, repo_id: Optional[str] = None,
                   dry_run: bool = True) -> dict:
     """Upload an export tree to the hub, as a job. Private, always.
@@ -1337,12 +1577,7 @@ def upload_hf_job(tree: str, repo_id: Optional[str] = None,
     same rule `keys_from` follows, so a caller chooses which export to upload and
     never a path on the host.
     """
-    name = validate_run(tree)
-    path = Path(config.VLM_TEST_ROOT) / name
-    if not path.is_dir():
-        raise JobError(
-            f"no export tree at {path} — `export_hf` with dry_run=false writes "
-            f"one, and the name here is that directory's name, not a path")
+    path = resolve_tree(tree)
     argv = upload_hf_argv(path, repo_id=repo_id, dry_run=dry_run)
     return {"ok": True, "tree": str(path), "private": True,
             **start_and_peek("upload-hf", argv)}

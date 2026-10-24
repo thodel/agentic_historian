@@ -852,7 +852,11 @@ def build_server(provider=None, auth_settings=None):
         """Upload an export tree to the Hugging Face hub with `pagexml-hf`.
 
         ``tree`` is the **name** of a directory under VLM_TEST_ROOT — the one
-        `export_hf` wrote — not a path. `pagexml-hf` owns the parquet layout that
+        `export_hf` wrote — or ``datasets:<name>`` for one under
+        ``ATR_DATASETS_DIR``, where trees too large for the checkout live
+        (`server_status` lists them). Never a path. The dry run also counts
+        objects per project (the stem before ``_NNNN``), which is what a
+        held-out split is drawn over. `pagexml-hf` owns the parquet layout that
         all fourteen `dh-unibe/image-text_*` datasets share; this only hands it
         the tree.
 
@@ -876,6 +880,136 @@ def build_server(provider=None, auth_settings=None):
         """
         try:
             return jobs.upload_hf_job(tree, repo_id=repo_id, dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def split_tree(tree: str, fraction: float = 0.10, seed: int = 20261023,
+                   force_eval: Optional[list[str]] = None, undo: bool = False,
+                   dry_run: bool = True, allow_after_upload: bool = False) -> dict:
+        """Hold out whole **objects** of an export tree before it is uploaded.
+
+        Without ``eval_projects`` the trainer splits pages, and two pages of
+        one letter share hand, paper and ink — so a page split reports
+        recognition of hands the model trained on. This moves a seeded
+        ``fraction`` of each project's objects (the file-name stem before
+        ``_NNNN``: ``K2911-47_0001`` → ``K2911-47``) into ``<project>_eval``,
+        image and PAGE XML together; train on ``<project>``, measure on
+        ``<project>_eval``. ``force_eval`` objects always go to the eval side
+        (the ones an earlier measurement used). Idempotent; ``undo`` moves
+        everything back. ``tree`` is a name as in `upload_hf`
+        (``datasets:<name>`` for ATR_DATASETS_DIR).
+
+        Dry run by default: the result says per project how many objects and
+        pages would move. A tree whose ``export.json`` records an upload is
+        refused unless ``allow_after_upload`` — the split would change what a
+        published revision means. A project whose names carry no object is
+        refused rather than split by page.
+        """
+        try:
+            return jobs.split_tree_job(tree, fraction=fraction, seed=seed,
+                                       force_eval=force_eval, undo=undo, dry_run=dry_run,
+                                       allow_after_upload=allow_after_upload)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def oai_gt_import(source: str, step: str, dry_run: bool = True,
+                      limit: Optional[int] = None, workers: int = 4) -> dict:
+        """Turn a library's OAI-PMH set of images + ALTO into a ground-truth tree.
+
+        ``source`` is a **name** the server knows (``blb-lassberg``: the
+        Badische Landesbibliothek's Laßberg set, Public Domain) — never a URL;
+        a new source is a reviewed change to `oai_gt.SOURCES`. Two steps, both
+        jobs (poll `job_status`, read `job_log`), both resumable:
+
+        * ``inventory`` — harvest the set's METS (cached under
+          ``ATR_DATASETS_DIR/_oai/<source>``), report objects, pages, full
+          text and projects, write ``inventory.tsv``.
+        * ``build`` — ALTO → PAGE 2013 beside each image, in the source's
+          projects (for the BLB the hand, from the catalogue title), under
+          ``ATR_DATASETS_DIR/<tree>``. ``dry_run`` (default) plans and
+          estimates the size. Pages without one ALTO line are left out. A
+          rebuild keeps the split and the upload record in ``export.json``,
+          and a new page of a held-out object goes to its ``_eval`` side.
+
+        Then `split_tree` and `upload_hf` with ``tree="datasets:<tree>"``.
+        Downloads are throttled and only from the source's own host.
+        """
+        try:
+            return jobs.oai_gt_import_job(source, step, dry_run=dry_run, limit=limit,
+                                          workers=workers)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def transkribus_upload_letters(collection: str, letter: Optional[str] = None,
+                                   all_letters: bool = False, dry_run: bool = True,
+                                   source: str = "archive") -> dict:
+        """Put digitisations into a Transkribus collection, **one document per
+        letter** of the edition (``lassberg-letter-NNNN`` with a file under the
+        register's ``data/letters``), named by the letter id, with sender,
+        register title and repository/signature in the metadata. Images only,
+        no text. Pages without a settled letter are counted by reason, never
+        uploaded.
+
+        ``collection`` must be one the server allows uploads into
+        (``TRANSKRIBUS_UPLOAD_COLLECTIONS``; the ground-truth collection is not
+        one). ``source``: ``archive`` (the page cache's cold tier, default) or
+        ``cache``. ``dry_run`` (default) logs in and prints the plan. A real
+        upload is ``letter=…`` first — look at it in the interface — then
+        ``all_letters=true``, which is refused until a letter of the plan is
+        in the collection. Letters already there are skipped, so a stopped run
+        resumes; every upload is logged with its upload and job id. The
+        documents are visible to everyone in the collection at once.
+        """
+        try:
+            return jobs.transkribus_letters_job(collection, letter=letter,
+                                                all_letters=all_letters, dry_run=dry_run,
+                                                source=source)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def transkribus_collections(name: Optional[str] = None,
+                                collection: Optional[str] = None,
+                                limit: int = 200, offset: int = 0) -> dict:
+        """What the Transkribus account sees. Read-only, synchronous.
+
+        Without ``collection``: the collections whose name contains ``name``
+        (``lassberg``), with id and document count — the account sees ~566,
+        so filter. With ``collection``: its documents with ``docId``, title,
+        pages, status, upload time and the shelfmark read from the title,
+        normalised (``done_BLB_K 3123 8 4`` → ``K3123-8-4``), paged by
+        ``limit``/``offset``. Answers "what is where, and is it there already"
+        before `transkribus_gt_export` or `transkribus_upload_letters`.
+        """
+        try:
+            return jobs.transkribus_collections_job(name=name, collection=collection,
+                                                    limit=limit, offset=offset)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def train_spec(spec: str, action: str = "request", job_id: Optional[str] = None) -> dict:
+        """A training run from a spec file in ``training/specs/``, any engine.
+
+        ``spec`` is a file's **name** there (``blb-qwen35-page-v1``), never a
+        body: the request that runs is the one in the repository. Keys starting
+        with ``_`` are notes and are dropped; every dataset whose ``revision``
+        is null is pinned to the hub's current commit, and the result says
+        which — a null revision reads whatever ``main`` is when the trainer
+        fetches.
+
+        ``action``: ``request`` (default) prints the pinned body, sends
+        nothing; ``submit`` sends it to the gateway's trainer on asteraix — GPU
+        time, so look at ``request`` first — and is refused when the
+        ``model_id`` already has a job; ``status`` follows the newest job of
+        the model (or ``job_id``); ``ubelix`` prints the two Slurm stages for
+        UBELIX, which a person submits — `ubelix_*` stay read-only.
+        """
+        try:
+            return jobs.train_spec_job(spec, action, job_id=job_id)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 

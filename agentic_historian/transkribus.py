@@ -65,11 +65,16 @@ class TranskribusError(RuntimeError):
 
 @dataclass
 class Letter:
-    """One letter: a document to be, with its pages in reading order."""
+    """One letter: a document to be, with its pages in reading order.
+
+    ``md`` is what the document is created with — title, author, description —
+    and comes from the edition's register when the letter is grouped by it.
+    """
 
     title: str
     folder: Path
     pages: list[Path] = field(default_factory=list)
+    md: dict = field(default_factory=dict)
 
     @property
     def bytes(self) -> int:
@@ -154,6 +159,111 @@ def letters_from_cache(cache_dir: Path, *,
     return letters
 
 
+# ── one document per letter, and only where the letter is known ──────────────
+
+@dataclass
+class Unassigned:
+    """Pages that would not become a document, counted by why."""
+
+    no_letter_segment: int = 0      # no lassberg-letter-NNNN in the path
+    not_in_register: int = 0        # a letter id the edition has no file for
+    letters_not_in_register: set = field(default_factory=set)
+
+
+def letters_by_register(source_dir: Path, register, *,
+                        suffixes: Iterable[str] = IMAGE_SUFFIXES,
+                        ) -> tuple[list[Letter], Unassigned]:
+    """One letter per ``lassberg-letter-NNNN``, for the letters the register has.
+
+    The first plan made one document per *folder*, named after the folder —
+    ``agentic_historian-page_cache-27f2…__Aarau__upload__lassberg-letter-0892``
+    — which is the cache's structure, not the edition's. The edition's unit is
+    the letter, named by its id, and a page belongs to one when its path carries
+    the id (`hf_export.letter_of`, the same rule the dataset labels use) **and**
+    the edition has a file for it under ``data/letters``. Both conditions, so
+    that only digitisations with a settled letter assignment are uploaded
+    (asked for on 2026-10-23); everything else is counted, by reason, and
+    left where it is.
+
+    A page's key is its path relative to ``source_dir`` with separators folded
+    to ``__`` — the project's page key — so this works on the share mount, the
+    page cache and its cold tier alike.
+    """
+    from hf_export import letter_of
+
+    source_dir = Path(source_dir)
+    if str(source_dir) in {"", "."} or not source_dir.is_dir():
+        raise TranskribusError(f"no source directory at {source_dir!r}")
+    wanted = {s.lower() for s in suffixes}
+    by_letter: dict[str, list[Path]] = {}
+    un = Unassigned()
+    for path in source_dir.rglob("*"):
+        if not path.is_file() or path.suffix.lower() not in wanted or path.name.startswith("."):
+            continue
+        rel = path.relative_to(source_dir)
+        if SKIP_DIRS.intersection(rel.parts):
+            continue
+        key = "__".join(rel.with_suffix("").parts)
+        group = letter_of(key)
+        if group.basis != "letter":
+            un.no_letter_segment += 1
+            continue
+        if group.name not in register:
+            un.not_in_register += 1
+            un.letters_not_in_register.add(group.name)
+            continue
+        by_letter.setdefault(group.name, []).append(path)
+
+    letters: list[Letter] = []
+    for letter_id in sorted(by_letter):
+        rec = register.get(letter_id)
+        pages = sorted(by_letter[letter_id], key=_page_sort_key)
+        desc = "; ".join(x for x in (
+            rec.title, f"{rec.repository}, {rec.signature}".strip(", ") if (rec.repository or rec.signature) else "",
+            f"register {register.source.name}@{register.revision[:12]}" if register.revision else "",
+            f"{len(pages)} page(s) from {pages[0].parent.relative_to(source_dir)}") if x)
+        letters.append(Letter(
+            title=letter_id, folder=pages[0].parent, pages=pages,
+            md={"title": letter_id, "author": rec.sender or "",
+                "writer": rec.sender or "", "genre": "Brief",
+                "description": desc, "language": "German"}))
+    return letters, un
+
+
+def plan_letters(source_dir: Path, colid: str, register, sid: str,
+                 session: Optional[requests.Session] = None,
+                 limit: Optional[int] = None,
+                 only: Optional[str] = None) -> tuple[Plan, Unassigned]:
+    """The letter-wise plan: new letters, letters already there, and what was
+    left out and why. ``only`` restricts the plan to one letter id — the first
+    real upload is one document, checked in the interface before the rest."""
+    documents = collection_documents(colid, sid, session=session)
+    existing = {str(d.get("title") or "") for d in documents}
+    plan = Plan(collection=str(colid), existing=sorted(e for e in existing if e))
+    letters, un = letters_by_register(source_dir, register)
+    for letter in letters:
+        if only and letter.title != only:
+            continue
+        (plan.skipped if letter.title in existing else plan.letters).append(letter)
+    if only and not plan.letters and not plan.skipped:
+        raise TranskribusError(
+            f"{only!r} is not among the letters with a settled assignment under "
+            f"{source_dir}")
+    if limit is not None:
+        plan.letters = plan.letters[:max(0, limit)]
+    return plan, un
+
+
+def format_unassigned(un: Unassigned) -> str:
+    lines = [f"left out: {un.no_letter_segment} page(s) whose path names no letter, "
+             f"{un.not_in_register} page(s) of {len(un.letters_not_in_register)} letter(s) "
+             f"the register has no file for"]
+    if un.letters_not_in_register:
+        some = sorted(un.letters_not_in_register)[:8]
+        lines.append("  e.g. " + ", ".join(some) + (" …" if len(un.letters_not_in_register) > 8 else ""))
+    return "\n".join(lines)
+
+
 # ── the API, as far as it is documented ──────────────────────────────────────
 
 def login(user: Optional[str] = None, password: Optional[str] = None,
@@ -198,6 +308,54 @@ def list_collections(sid: str, session: Optional[requests.Session] = None) -> li
         raise TranskribusError(
             f"cannot list collections: {r.status_code} — {r.text[:200].strip()}")
     return r.json()
+
+
+#: A K-shelfmark in a document title: the series, then numbers separated by
+#: comma, dash, space or underscore. 36479 titles BLB objects
+#: ``done_BLB_K 3123 8 4``; the BLB writes ``K 3123,8,4`` (#714).
+SHELF_RE = re.compile(r"K[\s_]?(\d{4})(?:[,\s]\s*|_)(\d+(?:\s*[-,\s]\s*\d+)*)")
+
+
+def shelf_key(shelf: str) -> str:
+    """One key for every spelling: ``K 3123,8,4``, ``K 3123 8 4`` → ``K3123-8-4``."""
+    return "K" + "-".join(re.findall(r"\d+", shelf or ""))
+
+
+def shelfmark_of(title: str) -> Optional[str]:
+    """The normalised shelfmark a document title carries, or None."""
+    m = SHELF_RE.search(title or "")
+    return shelf_key(m.group(0)) if m else None
+
+
+def collections_overview(*, name: Optional[str] = None, collection: Optional[str] = None,
+                         limit: int = 200, offset: int = 0,
+                         session: Optional[requests.Session] = None) -> dict:
+    """What the account sees, read-only (#714): collections filtered by
+    ``name``, or one ``collection``'s documents with the shelfmark read from
+    each title. Never page content."""
+    sid = login(session=session)
+    cols = list_collections(sid, session=session)
+    if collection is None:
+        pat = re.compile(re.escape(name), re.I) if name else None
+        chosen = [c for c in cols if not pat or pat.search(str(c.get("colName", "")))]
+        rows = [{"colId": c.get("colId"), "colName": c.get("colName"),
+                 "documents": c.get("nrOfDocuments")} for c in chosen]
+        return {"ok": True, "visible": len(cols), "matching": len(rows),
+                "offset": offset, "collections": rows[offset:offset + limit]}
+    known = {str(c.get("colId")): c for c in cols}
+    if str(collection) not in known:
+        raise TranskribusError(f"collection {collection} is not visible to this account "
+                               f"({len(cols)} are)")
+    docs = collection_documents(str(collection), sid, session=session)
+    rows = [{"docId": d.get("docId"), "title": d.get("title"), "pages": d.get("nrOfPages"),
+             "status": d.get("status"), "uploaded": d.get("uploadTimestamp"),
+             "shelfmark": shelfmark_of(str(d.get("title") or ""))} for d in docs]
+    with_shelf = sum(1 for r in rows if r["shelfmark"])
+    return {"ok": True, "collection": str(collection),
+            "colName": known[str(collection)].get("colName"),
+            "documents": len(rows), "with_shelfmark": with_shelf,
+            "pages": sum(int(r["pages"] or 0) for r in rows),
+            "offset": offset, "rows": rows[offset:offset + limit]}
 
 
 def collection_documents(colid: str, sid: str,
@@ -368,31 +526,134 @@ def harvest_ground_truth(colid: str, sid: str, out_dir: Path, *,
 
 # ── the seam: the one call this module cannot yet make ───────────────────────
 
+def _upload_id(text: str) -> str:
+    """The upload id out of the server's answer, JSON or XML — the legacy
+    server answers in whichever the Accept header asked for, and an answer in
+    a third shape is reported verbatim rather than guessed at."""
+    import json as _json
+    import xml.etree.ElementTree as et
+
+    body = (text or "").strip()
+    try:
+        data = _json.loads(body)
+        for k in ("uploadId", "id"):
+            if isinstance(data, dict) and data.get(k) is not None:
+                return str(data[k])
+    except ValueError:
+        pass
+    try:
+        root = et.fromstring(body)
+        for tag in ("uploadId", "id"):
+            el = root.find(f".//{tag}")
+            if el is not None and (el.text or "").strip():
+                return el.text.strip()
+    except et.ParseError:
+        pass
+    raise TranskribusError(f"upload created, but the answer names no upload id: "
+                           f"{body[:300]!r}")
+
+
 def create_upload(colid: str, letter: Letter, sid: str,
                   session: Optional[requests.Session] = None) -> str:
     """Begin an upload for one letter and return its upload id.
 
-    **Not implemented, and deliberately not guessed.** The API reference this
-    module was built from covers login, collections, documents, PageXML, layout
-    analysis and recognition — every part of Transkribus except putting an image
-    into it. Writing this against a remembered endpoint shape would be writing
-    against a memory, and the first time anyone would find out is 1700 documents
-    into a collection somebody else has to clean up.
+    The legacy server's structured upload: ``POST /uploads?collId=`` with the
+    document's metadata and the list of page file names, in order; the server
+    answers with an upload id, and each page is then ``PUT`` against it
+    (:func:`put_page`). The document is created when the last page has arrived.
 
-    What has to be settled first: whether the legacy ``TrpServer`` API serves the
-    collection at all. It is alive — an unauthenticated request answers 401, not
-    404 — but the collection in question lives behind ``app.transkribus.org``,
-    which authenticates through ``account.readcoop.eu`` and may not be reachable
-    from this API at all. :func:`list_collections` answers that in one call.
+    Left unimplemented until 2026-10-23 because the endpoint was remembered,
+    not read; it is now exercised the only way that confirms it — one letter
+    into the empty collection the upload was asked for, checked in the
+    interface — which the CLI enforces by taking ``--letter`` before ``--all``.
+    An answer of an unexpected shape stops here with the body in the error.
     """
-    raise NotImplementedError(
-        "the Transkribus upload endpoint is not confirmed yet — run "
-        "`upload-transkribus --dry-run` first: it logs in and reports whether "
-        "this API can see the collection")
+    s = session or requests.Session()
+    body = {"md": {k: v for k, v in (letter.md or {"title": letter.title}).items() if v},
+            "pageList": {"pages": [{"fileName": p.name, "pageNr": i}
+                                   for i, p in enumerate(letter.pages, 1)]}}
+    r = s.post(f"{API}/uploads", params={"collId": str(colid), "JSESSIONID": sid},
+               json=body, headers={"Accept": "application/json"}, timeout=_TIMEOUT)
+    if r.status_code not in (200, 201):
+        raise TranskribusError(
+            f"cannot begin upload of {letter.title!r} into {colid}: {r.status_code} — "
+            f"{r.text[:300].strip()}")
+    return _upload_id(r.text)
 
 
 def put_page(upload_id: str, page: Path, sid: str,
-             session: Optional[requests.Session] = None) -> None:
-    """Send one page image into an upload begun by :func:`create_upload`."""
-    raise NotImplementedError(
-        "the Transkribus upload endpoint is not confirmed yet — see create_upload")
+             session: Optional[requests.Session] = None,
+             page_xml: Optional[Path] = None) -> dict:
+    """Send one page image (and optionally its PAGE XML) into an upload.
+
+    Multipart ``img`` and ``xml`` parts, the file names those the upload was
+    begun with. The answer is the upload's state; when the last page lands it
+    carries the ingest job's id, which is returned for the record."""
+    s = session or requests.Session()
+    files = {"img": (page.name, page.read_bytes(), "image/jpeg")}
+    if page_xml is not None:
+        files["xml"] = (page_xml.name, page_xml.read_bytes(), "application/xml")
+    r = s.put(f"{API}/uploads/{upload_id}", params={"JSESSIONID": sid},
+              files=files, headers={"Accept": "application/json"}, timeout=max(_TIMEOUT, 600))
+    if r.status_code not in (200, 201):
+        raise TranskribusError(
+            f"page {page.name} refused by upload {upload_id}: {r.status_code} — "
+            f"{r.text[:300].strip()}")
+    try:
+        data = r.json() if r.text.strip() else {}
+    except ValueError:
+        data = {"raw": r.text[:300]}
+    return data if isinstance(data, dict) else {"raw": str(data)[:300]}
+
+
+#: Every letter that went up, one JSON line each: collection, letter, upload
+#: and job id, pages, when (#713). Not state — the collection is the state, and
+#: a letter whose title is there is skipped — but the record a partial upload
+#: is traced back with.
+UPLOAD_LOG = config.DATA_DIR / "transkribus_uploads.jsonl"
+
+
+def log_upload(colid: str, letter: Letter, result: dict, *, mode: str,
+               path: Optional[Path] = None) -> None:
+    import json
+    from datetime import datetime, timezone
+
+    path = Path(path or UPLOAD_LOG)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps({
+            "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "collection": str(colid), "letter": letter.title, "mode": mode,
+            "pages": result.get("pages"), "upload_id": result.get("upload_id"),
+            "job_id": result.get("job_id")}, ensure_ascii=False) + "\n")
+
+
+def upload_collections() -> list[str]:
+    """Collections a letter-wise upload may write to (#713):
+    ``TRANSKRIBUS_UPLOAD_COLLECTIONS`` (comma list), else
+    ``TRANSKRIBUS_COLLECTION``. The ground-truth collection is never among them
+    by default — a document in the wrong collection is visible to everybody
+    working there at once."""
+    raw = config._get("TRANSKRIBUS_UPLOAD_COLLECTIONS", "") or config._get("TRANSKRIBUS_COLLECTION", "")
+    return [c.strip() for c in str(raw).split(",") if c.strip()]
+
+
+def first_letter_confirmed(plan: "Plan") -> bool:
+    """True when the collection already holds a letter of this plan — the one
+    the protocol uploads first and a person looks at before the rest."""
+    return bool(plan.skipped)
+
+
+def upload_letter(colid: str, letter: Letter, sid: str,
+                  session: Optional[requests.Session] = None,
+                  progress=None) -> dict:
+    """One letter, start to finish: begin, every page in order, the last answer."""
+    upload_id = create_upload(colid, letter, sid, session=session)
+    last: dict = {}
+    for i, page in enumerate(letter.pages, 1):
+        last = put_page(upload_id, page, sid, session=session)
+        if progress:
+            progress(letter, i, len(letter.pages))
+    return {"upload_id": upload_id, "pages": len(letter.pages),
+            "job_id": last.get("jobId") or last.get("jobID") or (last.get("upload") or {}).get("jobId"),
+            "answer": {k: v for k, v in last.items() if k in ("uploadId", "jobId", "finished", "pageList")} or last}

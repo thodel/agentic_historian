@@ -742,6 +742,15 @@ ATR_RESEARCH_DIR = (
     Path(_get("ATR_RESEARCH_DIR", ""))
     if _get("ATR_RESEARCH_DIR", "") else None)
 
+#: Where ground-truth trees too large for the code checkout live (#710): the
+#: BLB's 2,704 pages were 7.75 GB, and a tree that size belongs on the research
+#: mount, not under ``VLM_TEST_ROOT`` beside the code. `upload_hf` names a tree
+#: here as ``datasets:<name>`` — a name, like every other root, never a path.
+#: On tei ``/mnt/wbkolleg_dh_1/tei/datasets``. Unset: the prefix is refused.
+ATR_DATASETS_DIR = (
+    Path(_get("ATR_DATASETS_DIR", ""))
+    if _get("ATR_DATASETS_DIR", "") else None)
+
 #: Where, under ``ATR_RESEARCH_DIR``, a run's readings are exported as text for
 #: the HTR training project (#688): ``export_run_share`` writes
 #: ``<ATR_RESEARCH_DIR>/<this>/<run>/``. Relative to the project root on

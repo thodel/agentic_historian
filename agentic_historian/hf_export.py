@@ -1014,6 +1014,24 @@ def read_manifest(tree: Path) -> dict:
     return found if isinstance(found, dict) else {}
 
 
+def record_upload(tree: Path, repo_id: str, *, private: bool) -> None:
+    """Note in the tree's manifest that it went to the hub (#711).
+
+    A split, an undo or a rebuild after this point changes what a published
+    revision means; `tree_split` reads this record and refuses unless asked.
+    A tree without a manifest gets none — nothing was promised about it.
+    """
+    path = Path(tree) / MANIFEST
+    manifest = read_manifest(tree)
+    if not manifest:
+        return
+    manifest.setdefault("uploads", []).append({
+        "repo_id": repo_id, "private": private,
+        "at": datetime.now(timezone.utc).isoformat(timespec="seconds")})
+    path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8")
+
+
 def tree_mode(tree: Path, default: str = UPLOAD_MODE) -> str:
     """The `pagexml-hf` mode this tree was assembled for.
 
@@ -1047,6 +1065,11 @@ class UploadPlan:
     #: What kind of text is in the tree — "ground-truth" or "run". Printed, and
     #: the one line of the plan that says whether a human has read this.
     kind: str = ""
+    #: Distinct objects per project (#710): the file-name stem before its
+    #: ``_NNNN`` page suffix — ``K2911-47_0001`` → ``K2911-47``. A project whose
+    #: stems carry no such suffix is absent: there the object is not in the name,
+    #: and a count of stems would be a count of pages under another heading.
+    objects: dict = field(default_factory=dict)
 
     @property
     def ok(self) -> bool:
@@ -1177,6 +1200,9 @@ def hub_state(repo_id: str, token: Optional[str] = None) -> dict:
         "bytes": int(info.get("dataset_size") or 0) or None,
         "columns": [f.get("name") for f in (info.get("features") or [])] or None,
         "last_modified": data.get("lastModified"),
+        # The commit a training request pins (#715): `revision: null` reads
+        # whatever `main` is on the day the trainer fetches.
+        "sha": data.get("sha"),
     }
 
 
@@ -1224,7 +1250,8 @@ def format_hub_state(state: dict) -> str:
     gb = f"{size / 1e9:.2f} GB" if size else "size unknown"
     return (f"hub       : {state['repo_id']} — {state.get('rows') or '?'} row(s), "
             f"{gb}, columns {', '.join(state.get('columns') or ['?'])}, "
-            f"{'private' if state.get('private') else 'PUBLIC'}")
+            f"{'private' if state.get('private') else 'PUBLIC'}"
+            + (f"\nrevision  : {state['sha']}" if state.get("sha") else ""))
 
 
 def upload_card_argv(repo_id: str, card: Path, hf_cli: Optional[str] = None) -> list[str]:
@@ -1291,6 +1318,27 @@ def upload_argv(tree: Path, repo_id: str, *, private: bool = True,
     return argv
 
 
+_PAGE_SUFFIX = re.compile(r"^(?P<obj>.+)_\d{3,5}$")
+
+
+def count_objects(stems) -> Optional[int]:
+    """How many objects the page stems of one project belong to, or None.
+
+    The object is the stem before a ``_NNNN`` page suffix (3–5 digits, the
+    convention of `oai_gt` and `transkribus_gt_export`). One stem
+    without it and the answer is None, not a guess: a mixed project has no
+    object count that means anything.
+    """
+    seen, any_stem = set(), False
+    for stem in stems:
+        any_stem = True
+        m = _PAGE_SUFFIX.match(stem)
+        if not m:
+            return None
+        seen.add(m.group("obj"))
+    return len(seen) if any_stem else None
+
+
 def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
                    private: bool = True) -> UploadPlan:
     """Look at everything an upload needs, and report what is missing.
@@ -1305,7 +1353,7 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
     """
     tree = Path(tree).expanduser()
     problems: list[str] = []
-    pages, projects = 0, {}
+    pages, projects, objects = 0, {}, {}
     if not tree.is_dir():
         problems.append(f"no export tree at {tree} — run `export-hf --out` first")
     else:
@@ -1318,6 +1366,9 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
                       if f.is_file() and f.suffix.lower() in exts]
             projects[project.name] = len(xmls)
             pages += len(xmls)
+            n_objects = count_objects(x.stem for x in xmls)
+            if n_objects is not None:
+                objects[project.name] = n_objects
             if len(images) != len(xmls):
                 problems.append(
                     f"{project.name}: {len(images)} image(s) against {len(xmls)} "
@@ -1341,7 +1392,7 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
     return UploadPlan(tree=tree, repo_id=repo_id, private=private, pages=pages,
                       projects=projects, tool=tool, token=token,
                       problems=problems, mode=tree_mode(tree),
-                      kind=str(manifest.get("kind") or ""))
+                      kind=str(manifest.get("kind") or ""), objects=objects)
 
 
 def format_upload(plan: UploadPlan) -> str:
@@ -1350,6 +1401,9 @@ def format_upload(plan: UploadPlan) -> str:
              f"pages     : {plan.pages}",
              "projects  : " + (", ".join(f"{k} {v}" for k, v in
                                           sorted(plan.projects.items())) or "—"),
+             *(["objects   : " + ", ".join(f"{k} {v}" for k, v in
+                                           sorted(plan.objects.items()))]
+               if plan.objects else []),
              f"repo      : {plan.repo_id}",
              f"mode      : {plan.mode}"
              + (f"   (from {MANIFEST})" if plan.kind else

@@ -65,6 +65,11 @@ PrivateTmp=yes
 ProtectSystem=strict
 ProtectHome=read-only
 ReadWritePaths=/srv/agentic_historian/agentic_historian/data
+# ATR_DATASETS_DIR, when set (#710): split_tree moves files there and
+# oai_gt_import writes the harvest and the tree there. Under ProtectSystem=strict
+# a mount not listed here is read-only to the server, and both fail at their
+# first write. On tei: /mnt/wbkolleg_dh_1/tei/datasets
+#ReadWritePaths=/mnt/wbkolleg_dh_1/tei/datasets
 ProtectKernelTunables=yes
 ProtectControlGroups=yes
 RestrictSUIDSGID=yes

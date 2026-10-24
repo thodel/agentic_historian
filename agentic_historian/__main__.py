@@ -906,9 +906,114 @@ def upload_hf(args: argparse.Namespace) -> int:
         return 1
     where = "private" if plan.private else "PUBLIC"
     print(f"\nuploaded {plan.pages} page(s) to {plan.repo_id} ({where})")
+    hf.record_upload(plan.tree, plan.repo_id, private=plan.private)
     # And what the hub holds now, from the hub (#691): the check that ran over
     # a second channel on 2026-10-22 — 281 rows? four columns? private?
     print(hf.format_hub_state(hf.hub_state(plan.repo_id)))
+    return 0
+
+
+def split_tree(args: argparse.Namespace) -> int:
+    """Hold out whole objects of an export tree (#711). Dry run by default."""
+    import tree_split as ts
+
+    try:
+        if args.undo:
+            result = ts.undo(Path(args.tree), dry_run=not args.apply,
+                             allow_after_upload=args.allow_after_upload)
+        else:
+            result = ts.split(Path(args.tree), fraction=args.fraction, seed=args.seed,
+                              force_eval=[f for f in (args.force_eval or "").split(",") if f],
+                              dry_run=not args.apply,
+                              allow_after_upload=args.allow_after_upload)
+    except ts.SplitError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    print(ts.format_result(result))
+    if args.json:
+        print(json.dumps(result, ensure_ascii=False, indent=1))
+    return 0
+
+
+def oai_gt_import(args: argparse.Namespace) -> int:
+    """A named OAI-PMH source's images + ALTO as a ground-truth tree (#712)."""
+    import oai_gt
+
+    root = Path(args.root) if args.root else config.ATR_DATASETS_DIR
+    if not root:
+        print("Error: no root — set ATR_DATASETS_DIR or pass --root", file=sys.stderr)
+        return 2
+    try:
+        src = oai_gt.source(args.source)
+        if args.step == "inventory":
+            result = oai_gt.inventory(src, Path(root))
+        else:
+            result = oai_gt.build(src, Path(root), dry_run=args.dry_run, limit=args.limit,
+                                  workers=args.workers, progress=lambda m: print(m, flush=True))
+    except oai_gt.OaiGtError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    print(oai_gt.format_result(result))
+    if args.step == "build" and not args.dry_run:
+        print(f"\nnext: split-tree --tree {result['tree']} (dry run), then upload-hf --tree "
+              f"{result['tree']} --dry-run")
+    return 1 if result.get("failures") else 0
+
+
+def train_spec_cmd(args: argparse.Namespace) -> int:
+    """A spec from training/specs/, pinned, as a request or a job (#715)."""
+    import train_spec as tsp
+
+    try:
+        prepared = tsp.prepare(tsp.load(args.spec))
+    except tsp.SpecError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    body = prepared["body"]
+    if args.body_only:
+        if not prepared["ok"]:
+            print("Error: " + "; ".join(prepared["problems"]), file=sys.stderr)
+            return 1
+        print(json.dumps(body, ensure_ascii=False, indent=1))
+        return 0
+    print(tsp.format_prepared(args.spec, prepared))
+    if args.action == "request":
+        print("\n" + json.dumps(body, ensure_ascii=False, indent=1))
+        print("\n(request — nothing sent)")
+        return 0 if prepared["ok"] else 1
+    if args.action == "ubelix":
+        print("\n" + "\n".join(tsp.ubelix_commands(args.spec, body)))
+        return 0 if prepared["ok"] else 1
+    if not prepared["ok"]:
+        print("\nError: not sending — fix the problems above", file=sys.stderr)
+        return 1
+    from agent_a.training_client import TrainingClient
+
+    with TrainingClient() as tc:
+        mine = [j for j in tc.list_jobs(limit=50) if j.model_id == body["model_id"]]
+        if args.action == "submit":
+            if mine:
+                print(f"\nError: {body['model_id']} already has a job ({mine[0].id}, "
+                      f"{mine[0].status.value}) — a second one for the same model_id is "
+                      f"not sent; change model_id in the spec", file=sys.stderr)
+                return 2
+            job = tc.submit(body)
+            # The 202 answer does not always carry the id (15.10.); the list does.
+            job_id = job.id or next((j.id for j in tc.list_jobs(limit=20)
+                                     if j.model_id == body["model_id"]), "")
+            print(f"\nsubmitted: {job_id or '?'}  status={job.status.value}")
+            return 0
+        job = tc.get_job(args.job_id) if args.job_id else (mine[0] if mine else None)
+        if job is None:
+            print(f"\nno job for {body['model_id']}")
+            return 1
+        print(f"\n{job.id}  status={job.status.value}  stage={job.stage}  cer={job.cer}")
+        if job.error:
+            print(f"error: {job.error}")
+        prog = {k: job.progress.get(k) for k in ("epoch", "epochs", "val_accuracy")
+                if (job.progress or {}).get(k) is not None}
+        if prog:
+            print("progress: " + ", ".join(f"{k}={v}" for k, v in prog.items()))
     return 0
 
 
@@ -1004,19 +1109,69 @@ def upload_transkribus(args: argparse.Namespace) -> int:
             print("  → the collection lives on the newer platform; the upload "
                   "needs its API, not this one.")
             return 1
-        plan = tk.plan_upload(cache, colid, sid, session=session, limit=args.limit)
+        unassigned = None
+        if args.by_letter:
+            import register as reg
+
+            folder = args.register or config.LASSBERG_REGISTER
+            if not folder:
+                print("Error: --by-letter needs the edition's register — pass "
+                      "--register or set LASSBERG_REGISTER", file=sys.stderr)
+                return 2
+            registry = reg.read_register(Path(folder))
+            source = Path(args.source).expanduser() if args.source else cache
+            plan, unassigned = tk.plan_letters(source, colid, registry, sid,
+                                               session=session, limit=args.limit,
+                                               only=args.letter)
+            print(f"register: {len(registry.letters)} letter(s) with a sender, "
+                  f"{registry.source}@{registry.revision[:12] or '?'}")
+        else:
+            plan = tk.plan_upload(cache, colid, sid, session=session, limit=args.limit)
         print()
         print(tk.format_plan(plan))
-    except tk.TranskribusError as exc:
+        if unassigned is not None:
+            print(tk.format_unassigned(unassigned))
+    except (tk.TranskribusError, NotADirectoryError, ValueError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
 
     if args.dry_run:
         print("\n(dry run — nothing uploaded)")
         return 0
-    print("Error: uploading is not wired yet — the endpoint is unconfirmed. "
-          "Re-run with --dry-run.", file=sys.stderr)
-    return 2
+    if not args.by_letter:
+        print("Error: uploading folder-wise is not offered — the edition's unit is "
+              "the letter; use --by-letter", file=sys.stderr)
+        return 2
+    if not args.letter and not args.all:
+        print("Error: the first real upload is ONE letter, checked in the interface "
+              "before the rest: pass --letter lassberg-letter-NNNN, then --all",
+              file=sys.stderr)
+        return 2
+    if args.all and not args.letter and not tk.first_letter_confirmed(plan):
+        print("Error: --all before a first letter is in the collection — upload one "
+              "with --letter, look at it in the interface, then --all", file=sys.stderr)
+        return 2
+    if not plan.letters:
+        print("nothing to upload — every planned letter is already in the collection")
+        return 0
+    done = 0
+    for letter in plan.letters:
+        try:
+            result = tk.upload_letter(colid, letter, sid, session=session,
+                                      progress=lambda l, i, n: print(f"  {l.title}: page {i}/{n}", end="\r"))
+        except tk.TranskribusError as exc:
+            print(f"\nError: {exc}", file=sys.stderr)
+            print(f"stopped after {done} letter(s); the collection may hold a partial "
+                  f"upload of {letter.title!r} — check it there before re-running",
+                  file=sys.stderr)
+            return 1
+        done += 1
+        tk.log_upload(colid, letter, result, mode="letter" if args.letter else "all")
+        print(f"  {letter.title}: {result['pages']} page(s) sent, upload {result['upload_id']}"
+              + (f", job {result['job_id']}" if result.get("job_id") else "") + "        ")
+    print(f"\nuploaded {done} letter(s) into collection {colid}. The server ingests "
+          f"them as jobs; look at the collection in the interface before the next batch.")
+    return 0
 
 
 def compare_runs_cmd(args: argparse.Namespace) -> int:
@@ -1645,6 +1800,48 @@ def build_parser() -> argparse.ArgumentParser:
                            "print the command, upload nothing")
     p_up.set_defaults(func=upload_hf)
 
+    p_split = sub.add_parser(
+        "split-tree",
+        help="Hold out whole objects of an export tree as <project>_eval (#711)")
+    p_split.add_argument("--tree", required=True, help="The export tree")
+    p_split.add_argument("--fraction", type=float, default=0.10,
+                         help="Share of each project's objects held out (default 0.10)")
+    p_split.add_argument("--seed", type=int, default=20261023)
+    p_split.add_argument("--force-eval", default="",
+                         help="Comma-separated objects (file-name stems before _NNNN) "
+                              "always held out, e.g. K2911-17,K2911-107")
+    p_split.add_argument("--undo", action="store_true",
+                         help="Move every _eval page back and drop the record")
+    p_split.add_argument("--apply", action="store_true",
+                         help="Move the files. Without it: show what would move")
+    p_split.add_argument("--allow-after-upload", action="store_true",
+                         help="Split a tree export.json records as uploaded")
+    p_split.add_argument("--json", action="store_true", help="Also print the result as JSON")
+    p_split.set_defaults(func=split_tree)
+
+    p_oai = sub.add_parser(
+        "oai-gt-import",
+        help="Harvest a named OAI-PMH source and build its ground-truth tree (#712)")
+    p_oai.add_argument("--source", required=True, help="A name from oai_gt.SOURCES, e.g. blb-lassberg")
+    p_oai.add_argument("--step", required=True, choices=("inventory", "build"))
+    p_oai.add_argument("--root", default=None,
+                       help="Where _oai/<source>/ and the tree go (default ATR_DATASETS_DIR)")
+    p_oai.add_argument("--limit", type=int, default=None, help="Only the first N objects (smoke run)")
+    p_oai.add_argument("--workers", type=int, default=4, help="Download threads (at most 8)")
+    p_oai.add_argument("--dry-run", action="store_true",
+                       help="build: plan and estimate the size, write nothing")
+    p_oai.set_defaults(func=oai_gt_import)
+
+    p_ts = sub.add_parser(
+        "train-spec",
+        help="A training spec from training/specs/, pinned: request, submit, status, ubelix (#715)")
+    p_ts.add_argument("--spec", required=True, help="Name of a file under training/specs/ (no .json)")
+    p_ts.add_argument("--action", default="request", choices=("request", "submit", "status", "ubelix"))
+    p_ts.add_argument("--job-id", default=None, help="status: a trainer job id (default: the newest of the model)")
+    p_ts.add_argument("--body-only", action="store_true",
+                      help="Print only the pinned request body (for scp to UBELIX)")
+    p_ts.set_defaults(func=train_spec_cmd)
+
     p_card = sub.add_parser(
         "upload-hf-card",
         help="Put a dataset card from docs/ on the hub as README.md, with the "
@@ -1668,6 +1865,20 @@ def build_parser() -> argparse.ArgumentParser:
                       help="Page cache to read (default: ATR_PAGE_CACHE)")
     p_tk.add_argument("--limit", type=int, default=None,
                       help="Plan only the first N letters")
+    p_tk.add_argument("--by-letter", action="store_true",
+                      help="One document per lassberg-letter-NNNN, named by the "
+                           "edition's register; pages whose path names no letter "
+                           "or a letter the register lacks are left out")
+    p_tk.add_argument("--register", default=None,
+                      help="The edition's data/letters (default LASSBERG_REGISTER)")
+    p_tk.add_argument("--source", default=None,
+                      help="Where the page images are (default --cache-dir); the "
+                           "cold tier of the page cache holds the whole corpus")
+    p_tk.add_argument("--letter", default=None,
+                      help="Only this letter id — the first real upload is one "
+                           "letter, checked in the interface")
+    p_tk.add_argument("--all", action="store_true",
+                      help="Upload every planned letter (after --letter proved the path)")
     p_tk.add_argument("--dry-run", action="store_true",
                       help="Log in, report whether the collection is visible, "
                            "print the plan, upload nothing")

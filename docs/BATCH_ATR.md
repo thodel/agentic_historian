@@ -1587,6 +1587,91 @@ Trainingsmenge lagen, sagt kein Protokoll hier, aber ausschliessen lässt es
 sich nicht. Gemini hat sie sicher nie gesehen. Ein Vorsprung des Zeilenmodells
 wäre damit zu erklären gewesen; der Rückstand nicht.
 
+## Ein Datensatz, der nicht unter den Code gehört (#710)
+
+`dh-unibe/image-text_lassberg-blb-gt` — 2704 Seiten, 7,75 GB, gebaut auf dem
+Research-Mount — ging am 24.10. über das CLI hoch, weil `upload_hf` nur Namen
+unter `VLM_TEST_ROOT` kannte. Seit #710 nennt `datasets:<name>` einen Baum unter
+`ATR_DATASETS_DIR` (auf tei `/mnt/wbkolleg_dh_1/tei/datasets`, in
+`agentic_historian/.env`; der Server liest es beim Start):
+
+```
+server_status()                                    # roots.datasets_dir.trees
+upload_hf(tree="datasets:lassberg-blb-gt", repo_id="dh-unibe/image-text_lassberg-blb-gt")
+```
+
+Das Präfix wählt eine Wurzel und erweitert keine: der Name danach geht durch
+dieselbe Prüfung wie jeder Laufname. Der Trockenlauf zählt jetzt auch die
+**Objekte** je Projekt (der Dateiname vor `_NNNN`), worüber ein Hold-out gezogen
+wird — am 24.10. brauchte das eine eigene `ls | sed | sort -u`-Schleife.
+
+### Fremde Ground Truth aus einem OAI-Set (#712)
+
+Die BLB-Ernte und der Baumbau vom 23./24.10. sind jetzt ein Werkzeug, in zwei
+Jobs. Die Quelle ist ein **Name** aus `oai_gt.SOURCES` (heute `blb-lassberg`),
+nie eine URL; eine neue Quelle ist eine Codeänderung mit Review.
+
+```
+oai_gt_import(source="blb-lassberg", step="inventory")    # Ernte → ATR_DATASETS_DIR/_oai/blb-lassberg/inventory.tsv
+oai_gt_import(source="blb-lassberg", step="build")        # Trockenlauf: Seiten je Projekt, Grösse
+oai_gt_import(source="blb-lassberg", step="build", dry_run=False)
+```
+
+Höchstens acht Arbeiter und acht Anfragen pro Sekunde, nur vom Host der Quelle.
+Ein Build nach dem Split schreibt eine Seite eines Eval-Objekts auf die Eval-Seite
+und lässt Split und Upload-Eintrag in `export.json` stehen (die Skripte taten
+beides nicht). Die Ernte vom 23.10. liegt in `/tmp/blb/oai_mets_*.xml`, im
+selben Format; nach `ATR_DATASETS_DIR/_oai/blb-lassberg/` kopiert, erntet der
+erste `inventory` nichts neu.
+
+### Was liegt wo in Transkribus (#714)
+
+```
+transkribus_collections(name="lassberg")          # 36479 Lassberg (731), 2536466 Lassberg_All
+transkribus_collections(collection="36479", limit=50, offset=0)
+```
+
+Lesend, synchron, ohne Seiteninhalte. Die Signatur wird aus dem Titel gelesen
+und normalisiert (`done_BLB_K 3123 8 4` → `K3123-8-4`), dieselbe Regel wie in
+`scripts/transkribus_vs_blb.py`. Am 24.10.: 54 BLB-Objekte in 36479 und bei
+der BLB; `K 2911,114` und `K 3123,8,1–5` nur in Transkribus.
+
+### Briefweise nach Transkribus (#713)
+
+Am 24.10. ging `lassberg-letter-0952` als erstes Dokument nach 2536466
+(`Lassberg_All`), wurde im Interface angesehen, dann folgte der Rest. Das
+Werkzeug erzwingt diese Reihenfolge:
+
+```
+transkribus_upload_letters(collection="2536466")                                  # Plan
+transkribus_upload_letters(collection="2536466", letter="lassberg-letter-0952", dry_run=False)
+transkribus_upload_letters(collection="2536466", all_letters=True, dry_run=False)  # erst, wenn ein Brief dort liegt
+```
+
+Nur Sammlungen aus `TRANSKRIBUS_UPLOAD_COLLECTIONS` (sonst
+`TRANSKRIBUS_COLLECTION`); die GT-Sammlung 36479 gehört nicht dazu. Die Quelle
+ist `archive` (Kalt-Tier) oder `cache`. Jeder Brief wird mit Upload- und Job-Id
+in `data/transkribus_uploads.jsonl` festgehalten. `server_status` meldet die
+Zugangsdaten als `set`/`unset`.
+
+### Vor dem Upload: Hold-out nach Objekt (#711)
+
+Ohne `eval_projects` teilt der Trainer nach Seiten, und zwei Seiten eines Briefs
+teilen Hand, Papier und Tinte. `split_tree` verschiebt einen gesäten Anteil der
+**Objekte** jedes Projekts nach `<projekt>_eval`, Bild und PAGE XML zusammen,
+und hält den Split in `export.json` fest:
+
+```
+split_tree(tree="datasets:lassberg-blb-gt", force_eval=["K2911-17", "K2911-107", "K2911-110"])
+split_tree(..., dry_run=False)          # verschiebt; ein zweiter Lauf verschiebt nichts
+split_tree(..., undo=True, dry_run=False)
+```
+
+Ein Baum, dessen `export.json` einen Upload verzeichnet (`upload-hf` trägt ihn
+seit #711 ein), wird abgewiesen: ein Split danach ändert, was eine
+veröffentlichte Revision bedeutet. Ein Projekt, dessen Dateinamen kein Objekt
+tragen, wird abgewiesen statt nach Seiten geteilt.
+
 ## Ein Lauf aus 80 Unterstrichen ist eine Linie
 
 Die dritte Seite dieses Korpus, die für ihr eigenes Layout als Füllmaterial
@@ -1777,6 +1862,8 @@ Two cautions if you go there with these models:
 | `GITHUB_TEXT_FORK` | `thodel/lassberg` | where the commits land; set equal to the repo to branch inside it |
 | `GITHUB_TEXT_PATH` | `data/textrecognition` | path prefix inside that repo |
 | `VLM_TEST_ROOT` | `data/vlm_test` | root for comparison runs |
+| `ATR_DATASETS_DIR` | — | trees too large for the checkout; `upload_hf(tree="datasets:<name>")` (#710) |
+| `TRANSKRIBUS_UPLOAD_COLLECTIONS` | `TRANSKRIBUS_COLLECTION` | collections `transkribus_upload_letters` may create documents in (#713) |
 | `ATR_BATCH_PAGE_CONCURRENCY` | `1` | pages in flight per model |
 | `ATR_BATCH_RETRIES` | `2` | retries per page for timeouts and 5xx |
 | `ATR_GATEWAY_URL`, `ATR_API_KEY` | — | the gateway (existing) |
