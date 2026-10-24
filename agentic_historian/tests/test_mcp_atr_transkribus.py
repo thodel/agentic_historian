@@ -168,3 +168,17 @@ def test_survey_and_eval_with_prior_on_done_pages(sandbox):
     assert _after(ev, "--status") == "DONE" and "--prior" in ev
     ex = tk.gt_export_argv("13922579", None, "t", status="DONE", test_pages="10,20")
     assert _after(ex, "--status") == "DONE" and "--pages" not in ex
+
+
+def test_kraken_combined_projects_and_trained_base(sandbox):
+    argv = tk.kraken_train_argv("submit", model_id="kraken-bern-combined-v1",
+                                train_project="A_V_1443_Hertwig_train,A_V_1447_Schlussredaktion_train",
+                                base_model="trained:kraken-bern-hertwig-v2")
+    assert [argv[i + 1] for i, a in enumerate(argv) if a == "--train-project"] == \
+        ["A_V_1443_Hertwig_train", "A_V_1447_Schlussredaktion_train"]
+    assert _after(argv, "--base-model") == "trained:kraken-bern-hertwig-v2"
+    for bad in ("trained:../x", "/etc/passwd", "trained:"):
+        with pytest.raises(jobs.JobError):
+            tk.kraken_train_argv("submit", base_model=bad)
+    with pytest.raises(jobs.JobError):
+        tk.kraken_train_argv("submit", train_project="ok,../bad")

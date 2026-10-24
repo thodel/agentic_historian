@@ -542,3 +542,18 @@ def test_gt_export_needs_pages_or_status():
     args = gt_export.build_parser().parse_args(["--doc", "1", "--tree", "t"])
     with pytest.raises(SystemExit):
         gt_export.export(args)
+
+
+def test_train_request_takes_several_projects_and_a_trained_base():
+    from ruemlang import train_kraken
+    import argparse
+    args = argparse.Namespace(model_id="kraken-bern-combined-v1", hf_repo="dh-unibe/x",
+                              train_project=["A_train", "B_train,C_train"],
+                              base_model="trained:kraken-bern-hertwig-v2",
+                              batch_size=16, epochs=150, lrate=5e-4)
+    body = train_kraken.request_body(args)
+    assert body["datasets"][0]["train_projects"] == ["A_train", "B_train", "C_train"]
+    assert body["base_model"].endswith("/kraken-bern-hertwig-v2/kraken-bern-hertwig-v2.mlmodel")
+    assert body["base_model"].startswith(train_kraken.TRAINED_ROOT)
+    with pytest.raises(SystemExit):
+        train_kraken.resolve_base("trained:../../etc")

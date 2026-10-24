@@ -26,6 +26,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import re
 import sys
 from pathlib import Path
 
@@ -41,17 +43,44 @@ DEFAULTS = {
 }
 
 
+#: Where the trainer keeps the models it trained, as the registry's
+#: ``local_path`` names them. The trainer takes a base model as a registry id of
+#: the *curated* list, a Zenodo DOI, or a file — not the id of a model it trained
+#: itself (24.10.: "base_model 'kraken-bern-hertwig-v2' is not a file, a
+#: registry id, or a Zenodo reference"). ``trained:<id>`` names one of those by
+#: id and is turned into its file here, so a caller never handles a path.
+TRAINED_ROOT = os.environ.get(
+    "ATR_TRAINED_ROOT", "/mnt/wbkolleg_dh_1/Textrecognition_Training/training_folder/trained")
+
+
+def resolve_base(base: str) -> str:
+    """``trained:kraken-x`` → ``<TRAINED_ROOT>/kraken-x/kraken-x.mlmodel``; else as given."""
+    if base.startswith("trained:"):
+        mid = base.split(":", 1)[1]
+        if not re.match(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$", mid):
+            raise SystemExit(f"not a model id: {mid!r}")
+        return f"{TRAINED_ROOT}/{mid}/{mid}.mlmodel"
+    return base
+
+
+def projects(value) -> list[str]:
+    """``--train-project`` may be given more than once, or as ``a,b``."""
+    values = value if isinstance(value, list) else [value]
+    return [p.strip() for v in values for p in str(v).split(",") if p.strip()]
+
+
 def request_body(args) -> dict:
+    train = projects(args.train_project)
     return {
         "engine": "kraken",
         "model_id": args.model_id,
         "datasets": [{
             "hf_repo": args.hf_repo,
-            "train_projects": [args.train_project],
+            "train_projects": train,
             "partition": 0.9,
             "granularity": "page",
         }],
-        "base_model": args.base_model,
+        "base_model": resolve_base(args.base_model),
         "params": {
             "resize": "union",
             "batch_size": args.batch_size,
@@ -64,7 +93,7 @@ def request_body(args) -> dict:
             "augment": True,
             "normalization": "NFD",
         },
-        "notes": getattr(args, "notes", None) or (f"{args.train_project} from {args.hf_repo}, fine-tuned from "
+        "notes": getattr(args, "notes", None) or (f"{' + '.join(train)} from {args.hf_repo}, fine-tuned from "
                                 f"{args.base_model} for the ruemlang pipeline (reader D)."),
     }
 
@@ -76,7 +105,8 @@ def main(argv=None) -> int:
         p = sub.add_parser(name)
         p.add_argument("--model-id", default=DEFAULTS["model_id"])
         p.add_argument("--hf-repo", default=DEFAULTS["hf_repo"])
-        p.add_argument("--train-project", default=DEFAULTS["train_project"])
+        p.add_argument("--train-project", action="append", default=None,
+                       help="repeatable, or a,b: several projects train one model")
         p.add_argument("--base-model", default=DEFAULTS["base_model"])
         p.add_argument("--batch-size", type=int, default=16)
         p.add_argument("--epochs", type=int, default=60)
@@ -92,6 +122,8 @@ def main(argv=None) -> int:
     p.add_argument("--stage", default=None, help="prepare|compile|train|test|register")
     p.add_argument("--lines", type=int, default=None)
     args = ap.parse_args(argv)
+    if getattr(args, "train_project", "unset") is None:
+        args.train_project = [DEFAULTS["train_project"]]
 
     if args.cmd == "request":
         print(json.dumps(request_body(args), indent=1, ensure_ascii=False))

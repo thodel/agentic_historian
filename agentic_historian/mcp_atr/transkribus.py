@@ -181,10 +181,16 @@ def kraken_train_argv(action: str, *, model_id: Optional[str] = None,
                 raise JobError(f"hf_repo must be owner/name, got {hf_repo!r}")
             argv += ["--hf-repo", hf_repo]
         if train_project:
-            argv += ["--train-project", jobs.validate_run(train_project)]
+            for proj in [x.strip() for x in str(train_project).split(",") if x.strip()][:8]:
+                argv += ["--train-project", jobs.validate_run(proj)]
         if base_model:
-            if not (jobs.MODEL_RE.match(base_model) or DOI_RE.match(base_model)):
-                raise JobError(f"base_model must be a registry id or a Zenodo DOI, got {base_model!r}")
+            if base_model.startswith("trained:"):
+                ok = bool(jobs.RUN_RE.match(base_model[len("trained:"):]))
+            else:
+                ok = bool(jobs.MODEL_RE.match(base_model) or DOI_RE.match(base_model))
+            if not ok:
+                raise JobError(f"base_model must be a registry id, trained:<model id> or a "
+                               f"Zenodo DOI, got {base_model!r}")
             argv += ["--base-model", base_model]
         if lrate is not None:
             argv += ["--lrate", repr(_number(lrate, 1e-6, 1e-2, "lrate"))]
