@@ -1070,6 +1070,126 @@ the session, store it *with* the data. A constant in my module and a parameter o
 somebody's tool are both things a future caller has to remember; a manifest in
 the directory is a thing they cannot miss.
 
+## 30. Der Walker starb an einem Fehler, den er noch nie gesehen hatte — und der Umweg war der kürzere Weg
+
+22. Oktober. Der Trockenlauf über `dav:digitalisate` begann die volle Begehung
+des Shares, weil die Listing-Cache (48 h) abgelaufen war, und starb nach zwölf
+Minuten und 520 Ordnern am 521.: `St. Gallen Kantonsbibliothek/lassberg-letter-1648`
+antwortete 500, dann 404. Der Walker *hat* eine Regel für unlesbare Ordner —
+überspringen, aufzeichnen, die Liste nicht cachen; sie ist am 23. September
+gegen genau diesen Verlust gebaut worden. Sie griff nicht, weil sie nur die
+Fehler kannte, die der Code damals gesehen hatte: Timeout, Transportfehler,
+Nicht-XML. Ein 404 kam als webdav4s eigene `ResourceNotFound` an, fiel durch
+beide Netze und endete den Lauf wie vor der Regel.
+
+**Die Lehre ist nicht „fange auch 404".** Sie ist: eine Schutzregel, die auf
+einer Liste bekannter Fehler steht, ist gegen den nächsten unbekannten Fehler
+nichts wert. Der Fix sortiert nach dem, was ein Fehler *bedeutet* — hat er einen
+HTTP-Status? 404: der Ordner ist nicht da, sofort überspringen, nicht dreimal
+fragen. Ein anderer Status: der Moment des Servers, wiederholen wie ein Timeout.
+Kein Status: ein Fehler im Client, der propagieren muss. Die Wurzel bleibt
+fatal. Fünf Tests, einer pro Fall.
+
+**Und der zweite Teil:** ich wollte die Begehung einfach neu starten. Zwanzig
+Minuten, und bei einem dauerhaft kaputten Ordner wieder dasselbe Ende. Stattdessen
+lag jede Seite, die der Lauf lesen sollte, im Kalt-Tier des Seiten-Caches —
+`ATR_PAGE_CACHE_ARCHIVE`, 6783 Arbeitskopien unter dem Share-Pfad, also
+**derselbe Schlüssel**, und der 300er-Lauf hatte 125 seiner Seiten genau von
+dort gelesen. Der Trockenlauf gegen das Archiv: Sekunden, 35 von 35 aufgelöst,
+nichts fehlend. Ich musste es per CLI tun, weil `_roots()` der MCP das Archiv
+nicht kannte (#686, seit demselben Abend). Bevor man einen Lauf wiederholt, der
+zwanzig Minuten kostet, lohnt die Frage, ob die Daten nicht schon unter einem
+anderen Namen auf der Platte liegen.
+
+## 31. Jeder Job läuft auf dem Checkout, und der Checkout gehört nicht mir
+
+Dreimal an einem Tag dieselbe Überraschung in drei Formen.
+
+Erstens: `export-run-hf` war auf tei „invalid choice", obwohl #682 gemerged war.
+Meine Hypothese war der Self-Updater; `git reflog` sagte `checkout: moving from
+main to ruemlang-test` — ein anderer Strang hatte den Produktions-Checkout
+umgeschaltet, und **jeder MCP-Job ist ein Unterprozess auf diesem Checkout**,
+läuft also auf diesem Branch, bis jemand zurückschaltet. Der Diff zwischen den
+Branches für den Batch-Code war leer, darum lief der Gemini-Lauf trotzdem
+richtig; der Export existierte dort nicht.
+
+Zweitens: der Arbeitsbaum, den ich als Ausweg anlegte (`/home/dh/ah-main`),
+hielt `main` — und damit konnte der Produktions-Checkout nicht mehr auf `main`
+wechseln (`fatal: 'main' is already used by worktree`). Git lässt einen Branch
+nicht zweimal auschecken; das war vorhersehbar und mir entgangen. Dazu hatten
+die Datenwurzeln im Arbeitsbaum eine leere Welt, weil `VLM_TEST_ROOT` und
+`GT_ROOT` *code-relativ* vorbelegt sind, und `AH_ENV_FILE` ersetzt die ganze
+Kette statt sie zu ergänzen — zwei weitere Runden, bis Quelle und Kalt-Tier
+explizit übergeben waren.
+
+Drittens, und das war ich selbst: `git pull origin claude/…` im Arbeitsbaum zog
+den lokalen `main` auf meine Branch-Commits. Nach dem Squash-Merge war
+`main` damit um zwei Commits abgebogen, die inhaltlich längst drin waren, und
+`git pull --ff-only` auf tei verweigerte. Ein `reset --hard origin/main` nach
+leerem `git status` hat es gerichtet — aber ich hatte den Zustand hergestellt,
+den ich eine Stunde zuvor diagnostiziert hatte.
+
+**Was daraus wurde:** `server_status()` (#690) — Branch, Commit, Arbeitsbäume,
+uncommittete Dateien, `loaded` gegen `checkout`, die Env-Datei-Kette, die
+Datenwurzeln. Sehen, nicht schalten: das Umschalten des Checkouts, den jeder Job
+danach ausführt, bleibt eine Handlung auf der Maschine, und ein Werkzeug hinter
+einem Bearer-Token im offenen Netz darf es nicht. Und eine Regel für mich: in
+einen Arbeitsbaum wird mit `git fetch` plus `checkout <sha> -- datei` geholt,
+nie mit `pull` in einen Branch, der woanders Produktion ist.
+
+## 32. Alles, was durchs Terminal ging, war ein fehlendes Werkzeug — oder eine Entscheidung
+
+Am Abend die Frage: was von diesem Tag lief über Terminalbefehle, obwohl die
+Session ein MCP hat? Die Liste war länger als erwartet, und jeder Posten hatte
+dieselbe Form — ein Schritt, der *zwischen* zwei Werkzeugen lag, die schon
+existierten: `score_ground_truth` schreibt Schlüssel, `start_batch` liest sie,
+aber die GT-Dateien dorthin zu bringen war eine `while read … cp`-Schleife.
+`export_hf` und `upload_hf` gab es, der Lauf-Export dazwischen nicht. Die
+Bewertung lief als Job, ihr 484-zeiliger Bericht war aus der Session nicht
+lesbar. Sieben Issues (#685–#691), sieben PRs, am selben Abend gemerged.
+
+Zwei Dinge daran sind die Lektion. **Erstens die Ausschlüsse, mit Begründung:**
+nicht alles gehört ins MCP. `git checkout` auf der Produktion ist eine andere
+Zugriffsklasse als „Seiten wählen" und bleibt draussen; `nohup` war nur nötig,
+weil der Upload per CLI lief; `tail -c 300` einer Lesung war mein Umweg —
+`read_pages` konnte das seit je, ich hätte es benutzen sollen. Ein Inventar
+ohne die Spalte „warum nicht" wäre eine Liste von Wünschen.
+
+**Zweitens das Muster der Werkzeuge selbst:** jedes nimmt **Namen unter einer
+Wurzel**, nie Pfade — `run` unter `VLM_TEST_ROOT`, `name` unter `GT_ROOT`,
+`manifest` unter `ATR_RESEARCH_DIR`, `card` unter `docs/`. Die Containment-Regel
+von #509 hat sich siebenmal wiederholt, und einmal wurde sie zu einer zweiten
+Wurzel (der Forschungsspeicher), deren Manifestzeilen den Mountpunkt einer
+*anderen* Maschine nennen und über den Projektordnernamen abgebildet werden. Was
+nicht abbildet, wird genannt, nie verschluckt. Und jedes Werkzeug, das etwas
+schreibt, hat einen Trockenlauf als Vorgabe, weil ein Baum mit Dateien oder ein
+Upload nicht die Stelle ist, an der man das erste Mal hinsieht.
+
+Und eine Kleinigkeit, die eine Viertelstunde gekostet hat: GitHub schliesst
+Issues nur auf „Closes", nicht auf „Schliesst". Sieben Issues von Hand, mit
+Kommentar.
+
+## 33. Der Vergleich, der zugunsten des Verlierers verzerrt war
+
+Gemini auf dem Eval-Split der HTR-Ground-Truth: 4,8 % Median-CER gegen 14,5 %
+des feinjustierten Zeilenmodells, über dieselben 34 lokalisierten Seiten. Die
+Zahl ist sauber, und trotzdem war die erste Frage nicht „ist sie richtig",
+sondern „in welche Richtung kann sie verzerrt sein". Das Zeilenmodell ist im
+September auf der Projekt-GT trainiert worden; die Aufteilung in
+`train`/`dev`/`eval` stammt vom 8. Oktober. Ob die 35 Eval-Seiten in Qwens
+Trainingsmenge lagen, sagt kein Protokoll hier — ausschliessen lässt es sich
+nicht. Gemini hat sie sicher nie gesehen.
+
+Das heisst: **ein Vorsprung des Zeilenmodells wäre damit erklärbar gewesen, der
+Rückstand nicht.** Eine mögliche Verzerrung, die den Befund nur stärken kann,
+ist kein Grund, ihn zurückzuhalten — aber sie gehört in den Satz daneben, und
+sie gehört *vor* die Zahl, nicht als Fussnote dahinter. Was der Vergleich
+ausserdem nicht misst: Gemini liest ohne Geometrie, Qwen über die Segmentierung
+des Gateways, und ein Segmentierfehler zählt nur bei einem. Die Spannen sagen,
+wo der Unterschied sitzt — die beste Qwen-Seite (6,6 %) ist besser als Geminis
+p90, verloren wird auf den schweren Händen, wo Qwen bis 37 % geht und Gemini bei
+17 % bleibt.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.

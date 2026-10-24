@@ -68,6 +68,13 @@ class Letter:
     sender_gnd: str = ""
     place: str = ""
     date: str = ""
+    #: The edition's own title ("Brief von Ludwig Uhland an Joseph von Laßberg
+    #: (08.04.1820)."), the recipient, and where the manuscript is — read since
+    #: the Transkribus upload names its documents after the register (2026-10-23).
+    title: str = ""
+    recipient: str = ""
+    repository: str = ""
+    signature: str = ""
 
     @property
     def by_lassberg(self) -> bool:
@@ -137,9 +144,20 @@ def read_letter(path: Path) -> Optional[Letter]:
         logger.warning(f"[register] {path.name}: {exc}")
         return None
     letter_id = root.get(XML_ID) or path.stem
+    title = _text(root.find(".//t:fileDesc/t:titleStmt/t:title", TEI))
+    received = root.find(".//t:correspDesc/t:correspAction[@type='received']", TEI)
+    recipient = _text(received.find("t:persName", TEI)) if received is not None else ""
+    ms = root.find(".//t:sourceDesc/t:msDesc/t:msIdentifier", TEI)
+    repository = _text(ms.find("t:repository", TEI)) if ms is not None else ""
+    signature = _text(ms.find("t:idno[@type='signature']", TEI)) if ms is not None else ""
+    if repository.lower() == "nan":
+        repository = ""
+    if signature.lower() == "nan":
+        signature = ""
     sent = root.find(".//t:correspDesc/t:correspAction[@type='sent']", TEI)
     if sent is None:
-        return Letter(id=letter_id)
+        return Letter(id=letter_id, title=title, recipient=recipient,
+                      repository=repository, signature=signature)
     person = sent.find("t:persName", TEI)
     date = sent.find("t:date", TEI)
     gnd = ""
@@ -152,7 +170,8 @@ def read_letter(path: Path) -> Optional[Letter]:
         when = date.get("when") or _text(date)
     return Letter(id=letter_id, sender=_text(person), sender_key=key,
                   sender_gnd=gnd, place=_text(sent.find("t:placeName", TEI)),
-                  date=when)
+                  date=when, title=title, recipient=recipient,
+                  repository=repository, signature=signature)
 
 
 def _revision(folder: Path) -> str:
