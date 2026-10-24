@@ -24,6 +24,15 @@ and no transcription would teach the model to answer an empty string. The image
 is the one Transkribus serves, so the coordinates hold; its size is checked
 against ``imageWidth``/``imageHeight`` all the same, and a page that disagrees
 is refused rather than rescaled.
+
+**``--segmentation``** writes the same pages for training a *line segmenter*
+(``ketos segtrain``) instead. There the geometry is the ground truth and the text
+does not matter: a ``TextLine`` without transcription is still a line on the
+page, and removing it would teach the segmenter that it is not there. So every
+line is kept, a page needs three lines rather than three transcribed ones, and
+the XML lies beside its image (``<project>/p0003.xml``), which is where kraken's
+PAGE reader looks for ``imageFilename``. ``scripts/segtrain_kraken.sh`` trains on
+the result.
 """
 
 from __future__ import annotations
@@ -62,8 +71,9 @@ def _pages(spec: Optional[str]) -> set[int]:
     return out
 
 
-def clean_pagexml(xml: str, image_name: str) -> tuple[str, dict]:
-    """The PAGE XML without empty lines, pointing at ``image_name``.
+def clean_pagexml(xml: str, image_name: str, keep_empty: bool = False) -> tuple[str, dict]:
+    """The PAGE XML without empty lines (all lines with ``keep_empty``),
+    pointing at ``image_name``.
 
     Returns the XML and ``{lines, kept, chars, width, height}``. Namespace and
     everything else are kept as Transkribus wrote them.
@@ -83,7 +93,8 @@ def clean_pagexml(xml: str, image_name: str) -> tuple[str, dict]:
             uni = tl.find("p:TextEquiv/p:Unicode", ns)
             text = (uni.text or "").strip() if uni is not None else ""
             if not text:
-                region.remove(tl)
+                if not keep_empty:
+                    region.remove(tl)
                 continue
             kept += 1
             chars += len(text)
@@ -117,17 +128,19 @@ def export(args) -> int:
             report["refused"].append({"page": p.page_nr, "why": "no transcript"})
             continue
         try:
-            cleaned, stats = clean_pagexml(xml, f"{name}.jpg")
+            cleaned, stats = clean_pagexml(xml, f"{name}.jpg", keep_empty=args.segmentation)
         except (ET.ParseError, ValueError) as exc:
             report["refused"].append({"page": p.page_nr, "why": f"PAGE XML: {exc}"})
             continue
-        if stats["kept"] < MIN_TEXT_LINES:
-            report["refused"].append({"page": p.page_nr,
-                                      "why": f"{stats['kept']} transcribed line(s)"})
+        counted = stats["lines"] if args.segmentation else stats["kept"]
+        if counted < MIN_TEXT_LINES:
+            report["refused"].append({"page": p.page_nr, "why": f"{counted} "
+                                      + ("line(s)" if args.segmentation else "transcribed line(s)")})
             continue
         entry = {"page": p.page_nr, "status": p.status, **stats}
+        xml_dir = d if args.segmentation else d / "page"
         if not args.dry_run:
-            (d / "page").mkdir(parents=True, exist_ok=True)
+            xml_dir.mkdir(parents=True, exist_ok=True)
             img = d / f"{name}.jpg"
             if not img.exists():
                 tmp = d / f"{name}.download"
@@ -146,13 +159,14 @@ def export(args) -> int:
                     else:
                         im.convert("RGB").save(img, quality=95)
                         tmp.unlink()
-            (d / "page" / f"{name}.xml").write_text(cleaned, encoding="utf-8")
+            (xml_dir / f"{name}.xml").write_text(cleaned, encoding="utf-8")
         report["test" if p.page_nr in test else "train"].append(entry)
         logger.info(f"[gt] {name} -> {project}: {stats['kept']}/{stats['lines']} lines, "
                     f"{stats['chars']} chars, {p.status}")
     for k in ("train", "test"):
         rows = report[k]
-        print(f"{prefix}_{k}: {len(rows)} page(s), {sum(r['kept'] for r in rows)} line(s), "
+        lines = sum(r["lines"] for r in rows) if args.segmentation else sum(r["kept"] for r in rows)
+        print(f"{prefix}_{k}: {len(rows)} page(s), {lines} line(s), "
               f"{sum(r['chars'] for r in rows)} chars")
     for r in report["refused"]:
         print(f"  refused p{r['page']}: {r['why']}")
@@ -161,8 +175,12 @@ def export(args) -> int:
     else:
         root.mkdir(parents=True, exist_ok=True)
         (root / "export.json").write_text(json.dumps(report, indent=1), encoding="utf-8")
-        print(f"tree: {root}  — upload with pagexml-hf (private), e.g. through the "
-              f"ATR MCP's upload_hf(tree={args.tree!r}, repo_id=…)")
+        if args.segmentation:
+            print(f"tree: {root}  — copy it where the trainer can read it and run "
+                  "scripts/segtrain_kraken.sh there (docs/HERTWIG_SEGMENTATION.md)")
+        else:
+            print(f"tree: {root}  — upload with pagexml-hf (private), e.g. through the "
+                  f"ATR MCP's upload_hf(tree={args.tree!r}, repo_id=…)")
     return 0 if report["train"] else 1
 
 
@@ -174,6 +192,8 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--test-pages", default="", help="held out of training entirely")
     ap.add_argument("--tree", required=True, help="directory name under VLM_TEST_ROOT")
     ap.add_argument("--prefix", default="A_V_1443_Hertwig", help="project name prefix")
+    ap.add_argument("--segmentation", action="store_true",
+                    help="for ketos segtrain: keep lines without text, XML beside the image")
     ap.add_argument("--dry-run", action="store_true")
     return ap
 

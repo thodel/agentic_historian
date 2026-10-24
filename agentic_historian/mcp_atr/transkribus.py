@@ -114,7 +114,7 @@ def _py() -> str:
 
 def gt_export_argv(doc: str, pages: str, tree: str, *, test_pages: Optional[str] = None,
                    prefix: str = "A_V_1443_Hertwig", collection: str = DEFAULT_COLLECTION,
-                   dry_run: bool = True) -> list[str]:
+                   dry_run: bool = True, segmentation: bool = False) -> list[str]:
     argv = [_py(), str(GT_EXPORT), "--collection", _id(collection, "collection"),
             "--doc", _id(doc, "doc"), "--pages", _pages(pages) or "",
             "--tree", jobs.validate_run(tree), "--prefix", jobs.validate_run(prefix)]
@@ -123,6 +123,8 @@ def gt_export_argv(doc: str, pages: str, tree: str, *, test_pages: Optional[str]
     tp = _pages(test_pages, "test_pages")
     if tp:
         argv += ["--test-pages", tp]
+    if segmentation:
+        argv.append("--segmentation")
     if dry_run:
         argv.append("--dry-run")
     return argv
@@ -130,11 +132,13 @@ def gt_export_argv(doc: str, pages: str, tree: str, *, test_pages: Optional[str]
 
 def gt_export_job(doc: str, pages: str, tree: str, test_pages: Optional[str] = None,
                   prefix: str = "A_V_1443_Hertwig", collection: str = DEFAULT_COLLECTION,
-                  dry_run: bool = True) -> dict:
+                  dry_run: bool = True, segmentation: bool = False) -> dict:
     argv = gt_export_argv(doc, pages, tree, test_pages=test_pages, prefix=prefix,
-                          collection=collection, dry_run=dry_run)
+                          collection=collection, dry_run=dry_run, segmentation=segmentation)
     return {"ok": True, "tree": str(Path(config.VLM_TEST_ROOT) / tree), "dry_run": dry_run,
-            "next": "upload_hf(tree=…) publishes it as a private dataset" if not dry_run else
+            "next": ("copy the tree to the training share; scripts/segtrain_kraken.sh trains "
+                     "on it (docs/HERTWIG_SEGMENTATION.md)") if segmentation and not dry_run else
+                    "upload_hf(tree=…) publishes it as a private dataset" if not dry_run else
                     "repeat with dry_run=false to write the tree",
             **jobs.start_and_peek("transkribus-gt-export", argv)}
 

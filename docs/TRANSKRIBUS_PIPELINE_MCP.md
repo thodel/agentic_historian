@@ -4,7 +4,7 @@ Stand 2026-10-23. Everything the Rümlang (A V 1446) and Hertwig (A V 1443) runs
 did by hand on tei can be started from a Claude session through the ATR MCP
 (`mcp_atr`, `https://tei.dh.unibe.ch/mcp/atr`). The tools run the scripts in
 `agentic_historian/ruemlang/` as jobs, with fixed argv and checked arguments
-(`mcp_atr/transkribus.py`). Three steps stay manual, each for a reason given
+(`mcp_atr/transkribus.py`). Four steps stay manual, each for a reason given
 below.
 
 **Prerequisite:** the code has to be on `main` and deployed on tei
@@ -83,6 +83,10 @@ day. If A, B or C stay in, party on idhefix must be stopped first; check with
    are unreachable (`health.engines[].reachable`). Then, on idhefix:
    `systemctl --user start atr-kraken atr-trocr atr-party`.
 
-3. **Deploying the code** (merge to `main`, `update.sh` on tei). That is the
+3. **Training a line segmenter.** The trainer has no `segtrain`, so it runs
+   by hand on asteraix ([`HERTWIG_SEGMENTATION.md`](HERTWIG_SEGMENTATION.md)).
+   The export for it goes over MCP: `transkribus_gt_export(segmentation=true)`.
+
+4. **Deploying the code** (merge to `main`, `update.sh` on tei). That is the
    step that decides what the tools run, and it goes through review, not
    through the tools.

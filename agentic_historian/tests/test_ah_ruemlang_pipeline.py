@@ -462,6 +462,11 @@ def test_gt_export_drops_empty_lines_and_repoints_the_image():
     assert 'imageFilename="p0003.jpg"' in out and 'id="b"' not in out and 'id="c"' not in out
     assert 'xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"' in out
     assert gt_export._pages("3-5,8") == {3, 4, 5, 8}
+    seg, stats = gt_export.clean_pagexml(xml, "p0003.jpg", keep_empty=True)
+    # for a segmenter every line is ground truth, transcribed or not
+    assert stats["lines"] == 3 and all(f'id="{i}"' in seg for i in "abc")
+    assert gt_export.build_parser().parse_args(
+        ["--doc", "1", "--pages", "3-60", "--tree", "t", "--segmentation"]).segmentation
 
 
 def test_train_request_is_a_finetune_the_trainer_accepts():

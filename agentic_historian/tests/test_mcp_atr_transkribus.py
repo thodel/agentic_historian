@@ -45,6 +45,8 @@ def test_gt_export_is_a_dry_run_unless_asked(sandbox):
     assert _after(argv, "--pages") == "3-60" and _after(argv, "--test-pages") == "8,17,26"
     assert argv[-1] == "--dry-run"
     assert "--dry-run" not in tk.gt_export_argv("13922499", "3-60", "t", dry_run=False)
+    assert "--segmentation" in tk.gt_export_argv("13922499", "3-60", "t", segmentation=True)
+    assert "--segmentation" not in argv
 
 
 @pytest.mark.parametrize("kw", [

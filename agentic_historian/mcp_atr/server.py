@@ -1016,7 +1016,7 @@ def build_server(provider=None, auth_settings=None):
                               test_pages: Optional[str] = None,
                               prefix: str = "A_V_1443_Hertwig",
                               collection: str = transkribus.DEFAULT_COLLECTION,
-                              dry_run: bool = True) -> dict:
+                              dry_run: bool = True, segmentation: bool = False) -> dict:
         """Export a Transkribus document's transcribed pages as a training tree
         (``VLM_TEST_ROOT/<tree>/<prefix>_train`` and ``_test``, image + PAGE XML
         per page) — the input of `upload_hf`, whose private dataset is what
@@ -1027,11 +1027,16 @@ def build_server(provider=None, auth_settings=None):
         measure the model on pages it never saw. Empty lines are dropped, pages
         with fewer than three lines of text are refused and listed. Dry run by
         default: it reads and reports, writes nothing.
+
+        ``segmentation=true`` writes the pages for training a line segmenter
+        instead: every line kept, transcribed or not, and the XML beside its
+        image. Training that runs on asteraix by hand
+        (``scripts/segtrain_kraken.sh``) — the trainer has no segtrain.
         """
         try:
             return transkribus.gt_export_job(doc, pages, tree, test_pages=test_pages,
                                              prefix=prefix, collection=collection,
-                                             dry_run=dry_run)
+                                             dry_run=dry_run, segmentation=segmentation)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 
