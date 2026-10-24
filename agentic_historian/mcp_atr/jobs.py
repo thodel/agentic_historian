@@ -1384,6 +1384,36 @@ def _tree_names(root: Path, cap: int = 50) -> list[str]:
     return names
 
 
+#: An object name as `tree_split` reads it from a file name (``K2911-17``).
+OBJECT_RE = re.compile(r"^[A-Za-z0-9][\w.-]{0,63}$")
+
+
+def split_tree_job(tree: str, *, fraction: float = 0.10, seed: int = 20261023,
+                   force_eval: Optional[Sequence[str]] = None, undo: bool = False,
+                   dry_run: bool = True, allow_after_upload: bool = False) -> dict:
+    """Hold out whole objects of a tree (#711). Synchronous: renames on one
+    filesystem, a few hundred of them, seconds even over CIFS."""
+    import tree_split as ts
+
+    path = resolve_tree(tree)
+    forced = [str(f).strip() for f in (force_eval or []) if str(f).strip()]
+    bad = [f for f in forced if not OBJECT_RE.match(f)]
+    if bad:
+        raise JobError(f"force_eval takes object names like K2911-17, got {bad[:3]}")
+    try:
+        fraction = float(fraction)
+        seed = int(seed)
+    except (TypeError, ValueError):
+        raise JobError("fraction is a number in (0, 0.5), seed an integer") from None
+    try:
+        if undo:
+            return ts.undo(path, dry_run=dry_run, allow_after_upload=allow_after_upload)
+        return ts.split(path, fraction=fraction, seed=seed, force_eval=forced,
+                        dry_run=dry_run, allow_after_upload=allow_after_upload)
+    except ts.SplitError as exc:
+        raise JobError(str(exc)) from None
+
+
 def upload_hf_job(tree: str, repo_id: Optional[str] = None,
                   dry_run: bool = True) -> dict:
     """Upload an export tree to the hub, as a job. Private, always.

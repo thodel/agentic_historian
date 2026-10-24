@@ -1605,6 +1605,24 @@ dieselbe Prüfung wie jeder Laufname. Der Trockenlauf zählt jetzt auch die
 **Objekte** je Projekt (der Dateiname vor `_NNNN`), worüber ein Hold-out gezogen
 wird — am 24.10. brauchte das eine eigene `ls | sed | sort -u`-Schleife.
 
+### Vor dem Upload: Hold-out nach Objekt (#711)
+
+Ohne `eval_projects` teilt der Trainer nach Seiten, und zwei Seiten eines Briefs
+teilen Hand, Papier und Tinte. `split_tree` verschiebt einen gesäten Anteil der
+**Objekte** jedes Projekts nach `<projekt>_eval`, Bild und PAGE XML zusammen,
+und hält den Split in `export.json` fest:
+
+```
+split_tree(tree="datasets:lassberg-blb-gt", force_eval=["K2911-17", "K2911-107", "K2911-110"])
+split_tree(..., dry_run=False)          # verschiebt; ein zweiter Lauf verschiebt nichts
+split_tree(..., undo=True, dry_run=False)
+```
+
+Ein Baum, dessen `export.json` einen Upload verzeichnet (`upload-hf` trägt ihn
+seit #711 ein), wird abgewiesen: ein Split danach ändert, was eine
+veröffentlichte Revision bedeutet. Ein Projekt, dessen Dateinamen kein Objekt
+tragen, wird abgewiesen statt nach Seiten geteilt.
+
 ## Ein Lauf aus 80 Unterstrichen ist eine Linie
 
 Die dritte Seite dieses Korpus, die für ihr eigenes Layout als Füllmaterial

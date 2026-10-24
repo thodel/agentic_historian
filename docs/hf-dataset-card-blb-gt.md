@@ -31,7 +31,7 @@ in `raw_xml` mode from a tree assembled by
 
 Each of the five has a sibling **`<project>_eval`** holding a seeded tenth of
 its *objects* (shelfmarks), moved there before the upload by
-`scripts/blb_gt_split.py` so that no page of an evaluation object has a
+`split-tree` of `agentic_historian` so that no page of an evaluation object has a
 sibling page in training; `K 2911,17`, `K 2911,107` and `K 2911,110` — the
 objects of the project's own evaluation manifest the BLB holds — are always on
 the evaluation side. Train on `<project>`, measure on `<project>_eval`.

@@ -12,13 +12,15 @@ objects; `drucke` 896.
 
 The trainer splits **pages** unless a dataset names `eval_projects`. Two pages
 of one letter are the same hand, paper and ink, so a page split measures
-recognition of hands the model trained on. `scripts/blb_gt_split.py` therefore
+recognition of hands the model trained on. `split-tree` (`split_tree` over MCP, #711) therefore
 moves a seeded tenth of the **objects** (shelfmarks) of every project into a
 sibling project `<project>_eval` before the tree is uploaded:
 
 ```
-python3 scripts/blb_gt_split.py --tree /mnt/wbkolleg_dh_1/tei/datasets/lassberg-blb-gt --dry-run
-python3 scripts/blb_gt_split.py --tree /mnt/wbkolleg_dh_1/tei/datasets/lassberg-blb-gt
+python3 -m agentic_historian split-tree --tree /mnt/wbkolleg_dh_1/tei/datasets/lassberg-blb-gt \
+    --force-eval K2911-17,K2911-107,K2911-110             # shows what would move
+python3 -m agentic_historian split-tree --tree … --force-eval … --apply
+split_tree(tree="datasets:lassberg-blb-gt", force_eval=["K2911-17", "K2911-107", "K2911-110"])
 ```
 
 Forced into the evaluation side: `K 2911,17`, `K 2911,107`, `K 2911,110` — the

@@ -888,9 +888,32 @@ def upload_hf(args: argparse.Namespace) -> int:
         return 1
     where = "private" if plan.private else "PUBLIC"
     print(f"\nuploaded {plan.pages} page(s) to {plan.repo_id} ({where})")
+    hf.record_upload(plan.tree, plan.repo_id, private=plan.private)
     # And what the hub holds now, from the hub (#691): the check that ran over
     # a second channel on 2026-10-22 — 281 rows? four columns? private?
     print(hf.format_hub_state(hf.hub_state(plan.repo_id)))
+    return 0
+
+
+def split_tree(args: argparse.Namespace) -> int:
+    """Hold out whole objects of an export tree (#711). Dry run by default."""
+    import tree_split as ts
+
+    try:
+        if args.undo:
+            result = ts.undo(Path(args.tree), dry_run=not args.apply,
+                             allow_after_upload=args.allow_after_upload)
+        else:
+            result = ts.split(Path(args.tree), fraction=args.fraction, seed=args.seed,
+                              force_eval=[f for f in (args.force_eval or "").split(",") if f],
+                              dry_run=not args.apply,
+                              allow_after_upload=args.allow_after_upload)
+    except ts.SplitError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    print(ts.format_result(result))
+    if args.json:
+        print(json.dumps(result, ensure_ascii=False, indent=1))
     return 0
 
 
@@ -1668,6 +1691,25 @@ def build_parser() -> argparse.ArgumentParser:
                       help="Check the tree, the tool, the token and the repo id, "
                            "print the command, upload nothing")
     p_up.set_defaults(func=upload_hf)
+
+    p_split = sub.add_parser(
+        "split-tree",
+        help="Hold out whole objects of an export tree as <project>_eval (#711)")
+    p_split.add_argument("--tree", required=True, help="The export tree")
+    p_split.add_argument("--fraction", type=float, default=0.10,
+                         help="Share of each project's objects held out (default 0.10)")
+    p_split.add_argument("--seed", type=int, default=20261023)
+    p_split.add_argument("--force-eval", default="",
+                         help="Comma-separated objects (file-name stems before _NNNN) "
+                              "always held out, e.g. K2911-17,K2911-107")
+    p_split.add_argument("--undo", action="store_true",
+                         help="Move every _eval page back and drop the record")
+    p_split.add_argument("--apply", action="store_true",
+                         help="Move the files. Without it: show what would move")
+    p_split.add_argument("--allow-after-upload", action="store_true",
+                         help="Split a tree export.json records as uploaded")
+    p_split.add_argument("--json", action="store_true", help="Also print the result as JSON")
+    p_split.set_defaults(func=split_tree)
 
     p_card = sub.add_parser(
         "upload-hf-card",

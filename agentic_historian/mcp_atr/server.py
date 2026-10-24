@@ -879,6 +879,36 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def split_tree(tree: str, fraction: float = 0.10, seed: int = 20261023,
+                   force_eval: Optional[list[str]] = None, undo: bool = False,
+                   dry_run: bool = True, allow_after_upload: bool = False) -> dict:
+        """Hold out whole **objects** of an export tree before it is uploaded.
+
+        Without ``eval_projects`` the trainer splits pages, and two pages of
+        one letter share hand, paper and ink — so a page split reports
+        recognition of hands the model trained on. This moves a seeded
+        ``fraction`` of each project's objects (the file-name stem before
+        ``_NNNN``: ``K2911-47_0001`` → ``K2911-47``) into ``<project>_eval``,
+        image and PAGE XML together; train on ``<project>``, measure on
+        ``<project>_eval``. ``force_eval`` objects always go to the eval side
+        (the ones an earlier measurement used). Idempotent; ``undo`` moves
+        everything back. ``tree`` is a name as in `upload_hf`
+        (``datasets:<name>`` for ATR_DATASETS_DIR).
+
+        Dry run by default: the result says per project how many objects and
+        pages would move. A tree whose ``export.json`` records an upload is
+        refused unless ``allow_after_upload`` — the split would change what a
+        published revision means. A project whose names carry no object is
+        refused rather than split by page.
+        """
+        try:
+            return jobs.split_tree_job(tree, fraction=fraction, seed=seed,
+                                       force_eval=force_eval, undo=undo, dry_run=dry_run,
+                                       allow_after_upload=allow_after_upload)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def upload_hf_card(card: str, repo_id: str | None = None,
                        dry_run: bool = True) -> dict:
         """Put a dataset card from `docs/` on the hub as README.md.

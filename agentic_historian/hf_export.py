@@ -1014,6 +1014,24 @@ def read_manifest(tree: Path) -> dict:
     return found if isinstance(found, dict) else {}
 
 
+def record_upload(tree: Path, repo_id: str, *, private: bool) -> None:
+    """Note in the tree's manifest that it went to the hub (#711).
+
+    A split, an undo or a rebuild after this point changes what a published
+    revision means; `tree_split` reads this record and refuses unless asked.
+    A tree without a manifest gets none — nothing was promised about it.
+    """
+    path = Path(tree) / MANIFEST
+    manifest = read_manifest(tree)
+    if not manifest:
+        return
+    manifest.setdefault("uploads", []).append({
+        "repo_id": repo_id, "private": private,
+        "at": datetime.now(timezone.utc).isoformat(timespec="seconds")})
+    path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8")
+
+
 def tree_mode(tree: Path, default: str = UPLOAD_MODE) -> str:
     """The `pagexml-hf` mode this tree was assembled for.
 
