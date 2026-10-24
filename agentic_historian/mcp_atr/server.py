@@ -998,8 +998,9 @@ def build_server(provider=None, auth_settings=None):
 
     @server.tool()
     def ubelix_record(record_id: str, lines: Optional[int] = None) -> dict:
-        """The trainer's record for a UBELIX job (status, stage, timestamps) and
-        the last lines of its current stage's log, at most 200.
+        """The trainer's record for a UBELIX job (status, stage, timestamps,
+        ``error``, and ``metrics`` with ``cer``/``wer`` once evaluated) and the
+        last lines of its current stage's log, at most 200.
 
         ``record_id`` is the trainer's job id, e.g.
         ``20261019T180118Z-olmocr2-7b-medieval-page-px4m-native-r16`` — not the

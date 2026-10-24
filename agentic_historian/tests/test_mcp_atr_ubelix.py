@@ -190,6 +190,7 @@ def ubelix_host(tmp_path):
     (rec / "job.json").write_text(json.dumps({
         "id": RECORD, "status": "training", "stage": "train", "host": "ubelix",
         "updated_at": "2026-10-20T08:58:07Z", "request": {"secret": "not handed out"},
+        "metrics": {"cer": 0.2659, "wer": 0.61, "samples": 120},
     }))
     (rec / "logs" / "train.log").write_text("".join(f"step {i}\n" for i in range(500)))
 
@@ -243,6 +244,9 @@ def test_record_hands_out_the_status_fields_and_the_stage_log_tail(ubelix_host):
     out = json.loads(done.stdout)
     assert out["status"] == "training" and out["stage"] == "train"
     assert "request" not in out
+    # The CER is what a finished record is asked for; on 24.10.2026 it was
+    # filtered out and read as "no CER yet".
+    assert out["metrics"] == {"cer": 0.2659, "wer": 0.61, "samples": 120}
     assert out["log"]["path"].endswith("logs/train.log")
     assert out["log"]["tail"] == ["step 497", "step 498", "step 499"]
 
