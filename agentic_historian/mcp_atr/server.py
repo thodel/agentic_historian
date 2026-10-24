@@ -986,6 +986,29 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def train_spec(spec: str, action: str = "request", job_id: Optional[str] = None) -> dict:
+        """A training run from a spec file in ``training/specs/``, any engine.
+
+        ``spec`` is a file's **name** there (``blb-qwen35-page-v1``), never a
+        body: the request that runs is the one in the repository. Keys starting
+        with ``_`` are notes and are dropped; every dataset whose ``revision``
+        is null is pinned to the hub's current commit, and the result says
+        which — a null revision reads whatever ``main`` is when the trainer
+        fetches.
+
+        ``action``: ``request`` (default) prints the pinned body, sends
+        nothing; ``submit`` sends it to the gateway's trainer on asteraix — GPU
+        time, so look at ``request`` first — and is refused when the
+        ``model_id`` already has a job; ``status`` follows the newest job of
+        the model (or ``job_id``); ``ubelix`` prints the two Slurm stages for
+        UBELIX, which a person submits — `ubelix_*` stay read-only.
+        """
+        try:
+            return jobs.train_spec_job(spec, action, job_id=job_id)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def upload_hf_card(card: str, repo_id: str | None = None,
                        dry_run: bool = True) -> dict:
         """Put a dataset card from `docs/` on the hub as README.md.

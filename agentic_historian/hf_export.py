@@ -1200,6 +1200,9 @@ def hub_state(repo_id: str, token: Optional[str] = None) -> dict:
         "bytes": int(info.get("dataset_size") or 0) or None,
         "columns": [f.get("name") for f in (info.get("features") or [])] or None,
         "last_modified": data.get("lastModified"),
+        # The commit a training request pins (#715): `revision: null` reads
+        # whatever `main` is on the day the trainer fetches.
+        "sha": data.get("sha"),
     }
 
 
@@ -1210,7 +1213,8 @@ def format_hub_state(state: dict) -> str:
     gb = f"{size / 1e9:.2f} GB" if size else "size unknown"
     return (f"hub       : {state['repo_id']} — {state.get('rows') or '?'} row(s), "
             f"{gb}, columns {', '.join(state.get('columns') or ['?'])}, "
-            f"{'private' if state.get('private') else 'PUBLIC'}")
+            f"{'private' if state.get('private') else 'PUBLIC'}"
+            + (f"\nrevision  : {state['sha']}" if state.get("sha") else ""))
 
 
 def upload_card_argv(repo_id: str, card: Path, hf_cli: Optional[str] = None) -> list[str]:

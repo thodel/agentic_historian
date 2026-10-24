@@ -63,20 +63,33 @@ Why these and not others:
 
 ## Running them
 
-UBELIX is the default (`WHERE_A_RUN_RUNS` in the trainer), two stages:
+`train-spec` (`train_spec` over MCP, #715) reads a spec by name, drops the
+`_note` keys, pins every `revision: null` to the hub's current commit and
+says which. Checked on 24.10. against the trainer's `TrainRequest`
+(training-atr-models e25ba03): all three validate, and no two of their
+datasets share a project name.
 
 ```
-scp training/specs/blb-*.json ubelix:~/ubelix/specs/
+train_spec(spec="blb-kraken-v1")                       # the pinned body, nothing sent
+train_spec(spec="blb-kraken-v1", action="submit")      # asteraix, via the gateway
+train_spec(spec="blb-kraken-v1", action="status")
+train_spec(spec="blb-qwen35-page-v1", action="ubelix") # the Slurm commands, for a person
+```
+
+UBELIX is the default place for the two VLM runs (`WHERE_A_RUN_RUNS` in the
+trainer). Its submission stays a person's act — it runs on an account and its
+quota, and the `ubelix_*` tools are read-only on purpose:
+
+```
+cd /home/dh/agentic_historian && .venv/bin/python3 -m agentic_historian train-spec --spec blb-qwen35-page-v1 --body-only > /tmp/blb-qwen35-page-v1.json
+scp /tmp/blb-qwen35-page-v1.json ubelix:~/ubelix/specs/
 ubelix/submit.sh ubelix/prepare.sbatch ~/ubelix/specs/blb-qwen35-page-v1.json
 JOB_ID=<id> ubelix/submit.sh ubelix/train.sbatch -- --partition=gpu --qos=job_gratis --cpus-per-task=12 --time=15:00:00
 ```
 
-(the same for the other two). asteraix via the gateway is the fallback:
-`POST /train/jobs` with the spec as body (`agent_a/training_client.py`).
-
-Before submitting: pin `revision` in each spec to the uploaded dataset's commit
-(`HfApi().dataset_info("dh-unibe/image-text_lassberg-blb-gt").sha`), and check
-that `kraken-german-xix-v1` resolves in the registry the trainer reads.
+`submit` is refused when the `model_id` already has a job. Before the kraken
+run, check that `kraken-german-xix-v1` resolves in the registry the trainer
+reads.
 
 ## What to compare afterwards
 

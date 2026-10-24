@@ -1540,6 +1540,35 @@ def transkribus_collections_job(*, name: Optional[str] = None,
         raise JobError(str(exc)) from None
 
 
+TRAIN_JOB_ID_RE = re.compile(r"^[0-9]{8}T[0-9]{6}Z-[A-Za-z0-9_.:-]{1,80}$")
+
+
+def train_spec_argv(spec: str, action: str = "request", *,
+                    job_id: Optional[str] = None) -> list[str]:
+    """The argv for one ``train-spec`` run (#715): a spec by name, one action."""
+    import train_spec as tsp
+
+    if action not in tsp.ACTIONS:
+        raise JobError(f"action must be one of {', '.join(tsp.ACTIONS)}, got {action!r}")
+    name = (spec or "").removesuffix(".json")
+    if name not in tsp.spec_names():
+        raise JobError(f"no spec {name!r} under training/specs/ — there are: "
+                       f"{', '.join(tsp.spec_names()) or 'none'}")
+    argv = [_python(), "-m", "agentic_historian", "train-spec", "--spec", name,
+            "--action", action]
+    if job_id:
+        if action != "status" or not TRAIN_JOB_ID_RE.match(job_id):
+            raise JobError("job_id is a trainer job id (20261022T134133Z-<model>), for status")
+        argv += ["--job-id", job_id]
+    return argv
+
+
+def train_spec_job(spec: str, action: str = "request", *, job_id: Optional[str] = None) -> dict:
+    argv = train_spec_argv(spec, action, job_id=job_id)
+    return {"ok": True, "spec": spec, "action": action,
+            **start_and_peek(f"train-spec-{action}", argv)}
+
+
 def upload_hf_job(tree: str, repo_id: Optional[str] = None,
                   dry_run: bool = True) -> dict:
     """Upload an export tree to the hub, as a job. Private, always.

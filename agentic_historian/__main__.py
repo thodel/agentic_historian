@@ -942,6 +942,63 @@ def oai_gt_import(args: argparse.Namespace) -> int:
     return 1 if result.get("failures") else 0
 
 
+def train_spec_cmd(args: argparse.Namespace) -> int:
+    """A spec from training/specs/, pinned, as a request or a job (#715)."""
+    import train_spec as tsp
+
+    try:
+        prepared = tsp.prepare(tsp.load(args.spec))
+    except tsp.SpecError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    body = prepared["body"]
+    if args.body_only:
+        if not prepared["ok"]:
+            print("Error: " + "; ".join(prepared["problems"]), file=sys.stderr)
+            return 1
+        print(json.dumps(body, ensure_ascii=False, indent=1))
+        return 0
+    print(tsp.format_prepared(args.spec, prepared))
+    if args.action == "request":
+        print("\n" + json.dumps(body, ensure_ascii=False, indent=1))
+        print("\n(request — nothing sent)")
+        return 0 if prepared["ok"] else 1
+    if args.action == "ubelix":
+        print("\n" + "\n".join(tsp.ubelix_commands(args.spec, body)))
+        return 0 if prepared["ok"] else 1
+    if not prepared["ok"]:
+        print("\nError: not sending — fix the problems above", file=sys.stderr)
+        return 1
+    from agent_a.training_client import TrainingClient
+
+    with TrainingClient() as tc:
+        mine = [j for j in tc.list_jobs(limit=50) if j.model_id == body["model_id"]]
+        if args.action == "submit":
+            if mine:
+                print(f"\nError: {body['model_id']} already has a job ({mine[0].id}, "
+                      f"{mine[0].status.value}) — a second one for the same model_id is "
+                      f"not sent; change model_id in the spec", file=sys.stderr)
+                return 2
+            job = tc.submit(body)
+            # The 202 answer does not always carry the id (15.10.); the list does.
+            job_id = job.id or next((j.id for j in tc.list_jobs(limit=20)
+                                     if j.model_id == body["model_id"]), "")
+            print(f"\nsubmitted: {job_id or '?'}  status={job.status.value}")
+            return 0
+        job = tc.get_job(args.job_id) if args.job_id else (mine[0] if mine else None)
+        if job is None:
+            print(f"\nno job for {body['model_id']}")
+            return 1
+        print(f"\n{job.id}  status={job.status.value}  stage={job.stage}  cer={job.cer}")
+        if job.error:
+            print(f"error: {job.error}")
+        prog = {k: job.progress.get(k) for k in ("epoch", "epochs", "val_accuracy")
+                if (job.progress or {}).get(k) is not None}
+        if prog:
+            print("progress: " + ", ".join(f"{k}={v}" for k, v in prog.items()))
+    return 0
+
+
 def upload_hf_card(args: argparse.Namespace) -> int:
     """Put a dataset card from `docs/` on the hub as README.md (#691).
 
@@ -1753,6 +1810,16 @@ def build_parser() -> argparse.ArgumentParser:
     p_oai.add_argument("--dry-run", action="store_true",
                        help="build: plan and estimate the size, write nothing")
     p_oai.set_defaults(func=oai_gt_import)
+
+    p_ts = sub.add_parser(
+        "train-spec",
+        help="A training spec from training/specs/, pinned: request, submit, status, ubelix (#715)")
+    p_ts.add_argument("--spec", required=True, help="Name of a file under training/specs/ (no .json)")
+    p_ts.add_argument("--action", default="request", choices=("request", "submit", "status", "ubelix"))
+    p_ts.add_argument("--job-id", default=None, help="status: a trainer job id (default: the newest of the model)")
+    p_ts.add_argument("--body-only", action="store_true",
+                      help="Print only the pinned request body (for scp to UBELIX)")
+    p_ts.set_defaults(func=train_spec_cmd)
 
     p_card = sub.add_parser(
         "upload-hf-card",
