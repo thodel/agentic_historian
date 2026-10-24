@@ -70,8 +70,17 @@ sudo deploy/systemd/switch_to_own_user.sh
 # 4. Die Definition of Done messen: den Pfad der OpenClaw-Credentials nennen.
 #    Auf tei: /home/dh/.openclaw/openclaw.json (0600 dh) hält die Konfiguration
 #    samt Tokens, /home/dh/.openclaw/credentials/ (0700 dh) die Pairing-Dateien.
-sudo deploy/systemd/check_separation.py --openclaw-secrets /home/dh/.openclaw/openclaw.json
+#    Durch das venv-Python, und mit --secrets: ohne den Schalter misst der Checker
+#    die dotenv-Dateien des Checkouts (config.ENV_SOURCE), nicht die Datei, die
+#    der Bot jetzt liest.
+sudo agentic_historian/.venv/bin/python deploy/systemd/check_separation.py \
+  --secrets /etc/agentic_historian.env --openclaw-secrets /home/dh/.openclaw/openclaw.json
 ```
+
+**Durchgeführt am 23.10.2026** (Schritte 0–7 von Tobias, 17:46 CEST Neustart):
+9 erfüllt, 0 nicht erfüllt, 1 nicht gemessen (ProtectHome). `User=agentic_historian`,
+`ProtectSystem=strict`, die zwei Datenpfade, alle drei dotenv-Dateien 0600 dh, die
+OpenClaw-Credentials für den Bot-Benutzer unerreichbar. Offen: die Rotation.
 
 Was das Skript tut, in dieser Reihenfolge, und wo es stehen bleibt:
 
@@ -210,6 +219,85 @@ Lauf selbst, die Rotation (Punkt 4 der Definition of Done). 632 Dateien unter
 `/home/dh` sind weltlesbar (Tiefe 2, fast alle Provider-Code unter
 `dodis_mcp/`, `eos_mcp/`); nach dem Durchgangsrecht kann der Bot sie öffnen,
 wenn er ihre Namen kennt — Code, keine Secrets, aber gemessen, nicht angenommen.
+
+## Nach der Umstellung, 2026-10-23: zwei Prozesse, die als `dh` weiter schreiben
+
+Die Umstellung hat in Schritt 4 jedes Datenverzeichnis aus
+`writable_paths.py --data-only` an `agentic_historian` übergeben (`chown -R`).
+Zwei Prozesse schreiben dort weiter **als `dh`**. Keiner von beiden stand in
+diesem Runbook.
+
+1. **`update.sh`, Import-Smoketest.** Als `dh` kann `knowledge_hub` seine
+   Sperrdatei `knowledge_hub/data/.hub.json.lock` nicht anlegen
+   (`PermissionError`). Der Deploy von `431810c` brach deshalb nach dem
+   Stoppen ab, und der Bot blieb aus, obwohl der Code in Ordnung war.
+   **Behoben mit #704:** Der Test läuft jetzt als `User=` der Unit, mit deren
+   `AH_ENV_FILE`.
+2. **Der ATR-MCP-Server (`atr-mcp.service`, `User=dh`).** Er schreibt unter
+   `DATA_DIR`:
+   - jeden Job nach `data/mcp_jobs/<job id>/`,
+   - die Läufe nach `VLM_TEST_ROOT` (`start_batch`, `transkribus_*`,
+     `export_hf`),
+   - den Share-Spiegel nach `NEXTCLOUD_STAGING_DIR` (`pull_share`),
+   - Schlüssellisten nach `GT_ROOT` (`score_ground_truth`).
+
+   Seit der Umstellung gehörte das alles `agentic_historian 0755`. Jedes
+   Werkzeug, das einen Job startet, scheiterte damit schon beim Anlegen des
+   Job-Verzeichnisses. Die lesenden Werkzeuge (`gateway_models`, `ubelix_*`)
+   waren nicht betroffen.
+
+### Was gilt: beide Benutzer schreiben per ACL (gewählt am 23.10.2026)
+
+```
+D=/home/dh/agentic_historian/agentic_historian/data
+sudo setfacl -R -m u:dh:rwX "$D"                                    # was schon da ist
+sudo setfacl -R -d -m u:dh:rwX -m u:agentic_historian:rwX "$D"      # was neu entsteht
+getfacl -p "$D/mcp_jobs" | head -12
+sudo systemctl restart atr-mcp.service
+```
+
+So stand es auf tei nach dem Lauf:
+
+```
+# file: …/data/mcp_jobs
+# owner: agentic_historian
+user::rwx
+user:dh:rwx
+group::r-x
+mask::rwx
+other::r-x
+default:user::rwx
+default:user:agentic_historian:rwx
+default:user:dh:rwx
+```
+
+Die Default-ACL wirkt in beide Richtungen. Was der Bot neu anlegt, kann `dh`
+schreiben. Was der MCP-Server als `dh` anlegt (eine Datei mit `owner dh`),
+kann der Bot schreiben.
+
+- **Ein erneuter `switch_to_own_user.sh`** lässt das stehen: `chown -R`
+  ändert keine ACL-Einträge, und `chmod -R u+rwX` berührt die Maske nicht.
+- **Liegt ein Datenverzeichnis ausserhalb von `DATA_DIR`,** braucht es
+  dieselben zwei Zeilen. Welche das sind, sagt
+  `.venv/bin/python deploy/systemd/writable_paths.py --data-only`.
+  `knowledge_hub/data` gehört nicht dazu: Der MCP-Server schreibt dort nicht.
+
+**Was das für die Trennung heisst.** Die Secrets bleiben getrennt:
+`/etc/agentic_historian.env` ist `root:agentic_historian 0640`, und daran
+ändert die ACL nichts. Die *Daten* sind wieder gemeinsam. `dh`, als der auch
+der OpenClaw-Agent läuft, kann die Daten des Bots schreiben, wie vor der
+Umstellung. Die Definition of Done unten («writes only to its data
+directory») misst den Bot und bleibt erfüllbar. Ob der Agent dort schreiben
+darf, ist eine eigene Frage, und diese ACL beantwortet sie mit Ja.
+
+**Die Alternative, nicht jetzt.** Der MCP-Server liefe selbst als
+`agentic_historian`, mit `AH_ENV_FILE=/etc/agentic_historian.env`. Seine Jobs
+brauchen aber Keys, die nur in `.env.gpustack` stehen, etwa die
+Transkribus-Zugangsdaten der `transkribus_*`-Werkzeuge. Was in der neuen Datei
+fehlt, fällt still auf den Default zurück, wie in Schritt 1 oben. Vorher wäre
+also mit `env_diff.py` zu messen, welche Keys die Jobs lesen, und die neue
+Datei entsprechend zu ergänzen. Danach lassen sich die ACL-Einträge für `dh`
+wieder entfernen (`setfacl -R -x u:dh -x d:u:dh "$D"`).
 
 ## Items and status
 

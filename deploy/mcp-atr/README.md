@@ -38,6 +38,10 @@ the list is short and why `mcp_atr/jobs.py` has more tests than code.
 | `run_files` | which pages a run has read, per model; no text |
 | `read_pages` | the transcriptions themselves, paged and capped |
 | `ubelix_queue` · `ubelix_job` · `ubelix_record` | UBELIX's Slurm queue, one job's `sacct -D` history, a trainer record and its log tail — read-only, over ssh with a key UBELIX binds to one script ([`deploy/ubelix-ro/`](../ubelix-ro/README.md)) |
+| `transkribus_gt_export` | a Transkribus document's transcribed pages as a training tree under `VLM_TEST_ROOT` (dry run by default) — the input of `upload_hf` |
+| `kraken_train` | fine-tune kraken through the gateway's trainer: `request` (default, sends nothing) · `submit` · `list` · `status` · `log` |
+| `transkribus_pipeline` | `plan` · `eval` (CER per reader and fusion on transcribed pages) · `run` (read, decide, PAGE XML; posts only with `upload=true`) · `upload` (async → job id) |
+| `transkribus_status` | a pipeline run's files: planned, read, adjudicated, XML, uploaded, errors, last eval |
 
 ## Authentication: OAuth, because the connector speaks nothing else
 

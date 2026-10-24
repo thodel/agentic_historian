@@ -295,8 +295,13 @@ def _invokes(script: str, program: str) -> bool:
         stripped = line.strip()
         if not stripped or stripped.startswith("#"):
             continue
-        first = stripped.split()[0].strip('"\'')
-        if first.endswith(program):
+        tokens = [t.strip('"\'') for t in stripped.split()]
+        if tokens[0].endswith(program):
+            return True
+        # `"$VENV_PY" …/check_separation.py`: an interpreter in command position
+        # and the program as its first argument is still an invocation.
+        if len(tokens) > 1 and ("python" in tokens[0].lower() or tokens[0].endswith("_PY")) \
+                and tokens[1].endswith(program):
             return True
     return False
 
@@ -403,7 +408,10 @@ def test_without_the_secrets_file_the_script_stops_before_the_restart(tmp_path):
     assert done.returncode == 4, done.stderr
     assert "would stop here (exit 4)" in done.stderr
     assert "systemctl restart" not in done.stdout, "it restarted a bot with no secrets"
-    assert "useradd" in done.stdout, "the user is created first; the env file is item 3"
+    # On a host where the user already exists (tei since 23.10.2026) the script
+    # says so instead of running useradd; either way item 1 came before item 3.
+    assert "useradd" in done.stdout or "exists — left as it is" in done.stdout, (
+        "the user is created first; the env file is item 3")
 
 
 def test_with_the_secrets_file_it_installs_all_three_drop_ins_then_restarts(tmp_path):
@@ -479,3 +487,22 @@ def test_a_missing_setfacl_stops_the_dry_run_too(tmp_path):
     assert "would stop here (exit 5)" in done.stderr
     assert "setfacl is not installed" in done.stderr
     assert "systemctl restart" not in done.stdout
+
+
+@pytest.mark.parametrize("script", sorted(p for p in DEPLOY.iterdir()
+                                          if p.suffix in (".py", ".sh")))
+def test_every_deploy_script_with_a_shebang_is_executable(script):
+    """`sudo deploy/systemd/check_separation.py` answered "command not found"
+    on tei (23.10.2026): the file carried a shebang and mode 0644, and the
+    switch script's own call to it died silently into `|| true`."""
+    first = script.read_text(encoding="utf-8").splitlines()[0]
+    if not first.startswith("#!"):
+        pytest.skip("no shebang, not meant to be run directly")
+    assert os.access(script, os.X_OK), f"{script.name} has a shebang but is not executable"
+
+
+def test_the_switch_script_runs_the_checker_through_the_venv_python():
+    """So the measurement does not depend on a file mode git may not carry."""
+    line = next(l for l in SWITCH.splitlines()
+                if "check_separation.py" in l and "--secrets" in l and not l.strip().startswith(("#", "say")))
+    assert line.strip().startswith('"$VENV_PY"'), line
