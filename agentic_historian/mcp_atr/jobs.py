@@ -602,6 +602,9 @@ def server_status(counts: bool = False) -> dict:
         "mount": _root_entry(config.ATR_MOUNT_DIR, count=False),
         "staging": _root_entry(config.NEXTCLOUD_STAGING_DIR, count=False),
         "research_dir": _root_entry(config.ATR_RESEARCH_DIR, count=False),
+        "datasets_dir": {**_root_entry(config.ATR_DATASETS_DIR, count=False),
+                         "trees": (_tree_names(Path(config.ATR_DATASETS_DIR))
+                                   if config.ATR_DATASETS_DIR else [])},
     }
     env = {
         "ah_env_file": os.environ.get("AH_ENV_FILE", "").strip() or None,
@@ -1329,6 +1332,58 @@ def upload_hf_argv(tree: Path, *, repo_id: Optional[str] = None,
     return argv
 
 
+DATASETS_PREFIX = "datasets:"
+
+
+def resolve_tree(tree: str) -> Path:
+    """An export tree's directory, from its **name** (#710).
+
+    ``<name>`` is a tree under VLM_TEST_ROOT, where `export_hf` writes;
+    ``datasets:<name>`` one under ``ATR_DATASETS_DIR``, where trees too large
+    for the checkout live (`lassberg-blb-gt`, 7.75 GB). Either way the part
+    after the prefix passes `validate_run` — no ``/``, no ``..`` — so the
+    prefix chooses a root and never widens one.
+    """
+    tree = (tree or "").strip()
+    if tree.startswith(DATASETS_PREFIX):
+        name = validate_run(tree[len(DATASETS_PREFIX):])
+        if not config.ATR_DATASETS_DIR:
+            raise JobError(
+                "ATR_DATASETS_DIR is not configured, so `datasets:` names nothing "
+                "— set it in agentic_historian/.env and restart the server")
+        path = Path(config.ATR_DATASETS_DIR) / name
+        if not path.is_dir():
+            raise JobError(
+                f"no tree {name!r} under ATR_DATASETS_DIR ({config.ATR_DATASETS_DIR}) "
+                f"— there are: {', '.join(_tree_names(Path(config.ATR_DATASETS_DIR))) or 'none'}")
+        return path
+    name = validate_run(tree)
+    path = Path(config.VLM_TEST_ROOT) / name
+    if not path.is_dir():
+        raise JobError(
+            f"no export tree at {path} — `export_hf` with dry_run=false writes "
+            f"one, and the name here is that directory's name, not a path "
+            f"(a tree under ATR_DATASETS_DIR is `datasets:<name>`)")
+    return path
+
+
+def _tree_names(root: Path, cap: int = 50) -> list[str]:
+    """Directories under a root that look like export trees: they hold an
+    ``export.json`` or a project with a ``page/`` folder."""
+    if not root.is_dir():
+        return []
+    names = []
+    for p in sorted(root.iterdir(), key=lambda p: p.name):
+        if not p.is_dir() or p.name.startswith((".", "_")):
+            continue
+        if (p / "export.json").is_file() or any(
+                (c / "page").is_dir() for c in p.iterdir() if c.is_dir()):
+            names.append(p.name)
+        if len(names) >= cap:
+            break
+    return names
+
+
 def upload_hf_job(tree: str, repo_id: Optional[str] = None,
                   dry_run: bool = True) -> dict:
     """Upload an export tree to the hub, as a job. Private, always.
@@ -1337,12 +1392,7 @@ def upload_hf_job(tree: str, repo_id: Optional[str] = None,
     same rule `keys_from` follows, so a caller chooses which export to upload and
     never a path on the host.
     """
-    name = validate_run(tree)
-    path = Path(config.VLM_TEST_ROOT) / name
-    if not path.is_dir():
-        raise JobError(
-            f"no export tree at {path} — `export_hf` with dry_run=false writes "
-            f"one, and the name here is that directory's name, not a path")
+    path = resolve_tree(tree)
     argv = upload_hf_argv(path, repo_id=repo_id, dry_run=dry_run)
     return {"ok": True, "tree": str(path), "private": True,
             **start_and_peek("upload-hf", argv)}

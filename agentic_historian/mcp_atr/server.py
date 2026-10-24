@@ -852,7 +852,11 @@ def build_server(provider=None, auth_settings=None):
         """Upload an export tree to the Hugging Face hub with `pagexml-hf`.
 
         ``tree`` is the **name** of a directory under VLM_TEST_ROOT — the one
-        `export_hf` wrote — not a path. `pagexml-hf` owns the parquet layout that
+        `export_hf` wrote — or ``datasets:<name>`` for one under
+        ``ATR_DATASETS_DIR``, where trees too large for the checkout live
+        (`server_status` lists them). Never a path. The dry run also counts
+        objects per project (the stem before ``_NNNN``), which is what a
+        held-out split is drawn over. `pagexml-hf` owns the parquet layout that
         all fourteen `dh-unibe/image-text_*` datasets share; this only hands it
         the tree.
 

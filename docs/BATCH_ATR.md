@@ -1587,6 +1587,24 @@ Trainingsmenge lagen, sagt kein Protokoll hier, aber ausschliessen lässt es
 sich nicht. Gemini hat sie sicher nie gesehen. Ein Vorsprung des Zeilenmodells
 wäre damit zu erklären gewesen; der Rückstand nicht.
 
+## Ein Datensatz, der nicht unter den Code gehört (#710)
+
+`dh-unibe/image-text_lassberg-blb-gt` — 2704 Seiten, 7,75 GB, gebaut auf dem
+Research-Mount — ging am 24.10. über das CLI hoch, weil `upload_hf` nur Namen
+unter `VLM_TEST_ROOT` kannte. Seit #710 nennt `datasets:<name>` einen Baum unter
+`ATR_DATASETS_DIR` (auf tei `/mnt/wbkolleg_dh_1/tei/datasets`, in
+`agentic_historian/.env`; der Server liest es beim Start):
+
+```
+server_status()                                    # roots.datasets_dir.trees
+upload_hf(tree="datasets:lassberg-blb-gt", repo_id="dh-unibe/image-text_lassberg-blb-gt")
+```
+
+Das Präfix wählt eine Wurzel und erweitert keine: der Name danach geht durch
+dieselbe Prüfung wie jeder Laufname. Der Trockenlauf zählt jetzt auch die
+**Objekte** je Projekt (der Dateiname vor `_NNNN`), worüber ein Hold-out gezogen
+wird — am 24.10. brauchte das eine eigene `ls | sed | sort -u`-Schleife.
+
 ## Ein Lauf aus 80 Unterstrichen ist eine Linie
 
 Die dritte Seite dieses Korpus, die für ihr eigenes Layout als Füllmaterial
@@ -1777,6 +1795,7 @@ Two cautions if you go there with these models:
 | `GITHUB_TEXT_FORK` | `thodel/lassberg` | where the commits land; set equal to the repo to branch inside it |
 | `GITHUB_TEXT_PATH` | `data/textrecognition` | path prefix inside that repo |
 | `VLM_TEST_ROOT` | `data/vlm_test` | root for comparison runs |
+| `ATR_DATASETS_DIR` | — | trees too large for the checkout; `upload_hf(tree="datasets:<name>")` (#710) |
 | `ATR_BATCH_PAGE_CONCURRENCY` | `1` | pages in flight per model |
 | `ATR_BATCH_RETRIES` | `2` | retries per page for timeouts and 5xx |
 | `ATR_GATEWAY_URL`, `ATR_API_KEY` | — | the gateway (existing) |
