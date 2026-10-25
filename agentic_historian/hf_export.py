@@ -1076,6 +1076,8 @@ class UploadPlan:
     scratch: Optional[Path] = None
     tree_bytes: int = 0
     scratch_free: Optional[int] = None
+    arrow_cache: Optional[Path] = None
+    arrow_free: Optional[int] = None
 
     @property
     def ok(self) -> bool:
@@ -1303,9 +1305,12 @@ def upload_card(repo_id: str, card: Path, token: Optional[str] = None) -> str:
     return cli
 
 
-#: What `pagexml-hf` writes besides the upload, as a multiple of the tree:
-#: the Arrow dataset from the generator, the mapped copy, the parquet shards.
-SCRATCH_FACTOR = 3.2
+#: What `pagexml-hf` writes besides the upload, as multiples of the tree: the
+#: Arrow dataset from the generator and the mapped copy (on local disk,
+#: ``ATR_HF_ARROW_CACHE``), the parquet shards (``TMPDIR``, the mount).
+ARROW_FACTOR = 2.2
+SHARD_FACTOR = 1.1
+SCRATCH_FACTOR = ARROW_FACTOR + SHARD_FACTOR
 
 
 def scratch_for(tree: Path) -> Optional[Path]:
@@ -1340,22 +1345,25 @@ def free_bytes(path: Path) -> Optional[int]:
         return None
 
 
-def upload_env(scratch: Optional[Path], run_id: str) -> tuple[dict, Optional[Path]]:
-    """The environment `pagexml-hf` runs in, and the directory to remove after.
+def upload_env(scratch: Optional[Path], run_id: str,
+               arrow_cache: Optional[Path] = None) -> tuple[dict, list[Path]]:
+    """The environment `pagexml-hf` runs in, and the directories to remove after.
 
     The token stays where it is (the environment); only the two places the
-    library writes to are moved: ``HF_DATASETS_CACHE`` for the Arrow files and
-    ``TMPDIR`` for the parquet shards.
+    library writes to are moved: ``HF_DATASETS_CACHE`` for the Arrow files —
+    to ``arrow_cache`` (local disk) when given, else beside the shards — and
+    ``TMPDIR`` for the parquet shards, under ``scratch``.
     """
     env = dict(os.environ)
     if scratch is None:
-        return env, None
+        return env, []
     work = Path(scratch) / run_id
-    (work / "datasets").mkdir(parents=True, exist_ok=True)
     (work / "tmp").mkdir(parents=True, exist_ok=True)
-    env["HF_DATASETS_CACHE"] = str(work / "datasets")
+    arrow = (Path(arrow_cache) / run_id) if arrow_cache else (work / "datasets")
+    arrow.mkdir(parents=True, exist_ok=True)
+    env["HF_DATASETS_CACHE"] = str(arrow)
     env["TMPDIR"] = str(work / "tmp")
-    return env, work
+    return env, [work] + ([arrow] if arrow_cache else [])
 
 
 def upload_argv(tree: Path, repo_id: str, *, private: bool = True,
@@ -1451,21 +1459,34 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
                         "the upload runs in")
     manifest = read_manifest(tree)
     scratch, size, free = scratch_for(tree), 0, None
+    arrow = Path(config.ATR_HF_ARROW_CACHE) if scratch else None
+    arrow_free = None
     if tree.is_dir():
         size = tree_bytes(tree)
-        free = free_bytes(scratch) if scratch else free_bytes(Path(tempfile.gettempdir()))
-        need = int(size * SCRATCH_FACTOR)
-        if free is not None and free < need:
-            problems.append(
-                f"{free / 1e9:.1f} GB free at {scratch or tempfile.gettempdir()}, and "
-                f"`pagexml-hf` stages about {need / 1e9:.1f} GB for a {size / 1e9:.1f} GB "
-                f"tree — it would stop with 'No space left on device' partway "
-                f"(25.10., twice). Set ATR_HF_SCRATCH to a filesystem with room")
+        if scratch:
+            free = free_bytes(scratch)
+            arrow_free = free_bytes(arrow)
+            checks = [(arrow, arrow_free, ARROW_FACTOR, "the Arrow dataset and its mapped copy",
+                       "ATR_HF_ARROW_CACHE"),
+                      (scratch, free, SHARD_FACTOR, "the parquet shards", "ATR_HF_SCRATCH")]
+        else:
+            free = free_bytes(Path(tempfile.gettempdir()))
+            checks = [(Path(tempfile.gettempdir()), free, SCRATCH_FACTOR,
+                       "everything", "ATR_HF_SCRATCH")]
+        for where, room, factor, what, setting in checks:
+            need = int(size * factor)
+            if room is not None and room < need:
+                problems.append(
+                    f"{room / 1e9:.1f} GB free at {where}, and `pagexml-hf` needs about "
+                    f"{need / 1e9:.1f} GB there for {what} of a {size / 1e9:.1f} GB tree — "
+                    f"it would stop with 'No space left on device' partway (25.10., "
+                    f"twice). Set {setting} to a filesystem with room")
     return UploadPlan(tree=tree, repo_id=repo_id, private=private, pages=pages,
                       projects=projects, tool=tool, token=token,
                       problems=problems, mode=tree_mode(tree),
                       kind=str(manifest.get("kind") or ""), objects=objects,
-                      scratch=scratch, tree_bytes=size, scratch_free=free)
+                      scratch=scratch, tree_bytes=size, scratch_free=free,
+                      arrow_cache=arrow, arrow_free=arrow_free)
 
 
 def format_upload(plan: UploadPlan) -> str:
@@ -1488,6 +1509,9 @@ def format_upload(plan: UploadPlan) -> str:
              f"staging   : {plan.scratch or 'library defaults (local disk)'}"
              + (f"   ({plan.tree_bytes / 1e9:.2f} GB tree, "
                 f"{plan.scratch_free / 1e9:.1f} GB free)" if plan.scratch_free is not None else ""),
+             *([f"arrow     : {plan.arrow_cache}"
+                + (f"   ({plan.arrow_free / 1e9:.1f} GB free, local disk)"
+                   if plan.arrow_free is not None else "")] if plan.arrow_cache else []),
              f"pagexml-hf: {plan.tool or 'not found'}",
              f"token     : {'present' if plan.token else 'missing'}"]
     if plan.problems:

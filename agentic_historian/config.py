@@ -758,6 +758,15 @@ ATR_DATASETS_DIR = (
 #: under that root, the library defaults for anything else.
 ATR_HF_SCRATCH = Path(_get("ATR_HF_SCRATCH", "")) if _get("ATR_HF_SCRATCH", "") else None
 
+#: Where the Arrow files of such an upload go — the dataset `pagexml-hf` builds
+#: and the copy it maps — when the parquet shards are staged elsewhere. **Local
+#: disk**, not the mount: Arrow reads its files memory-mapped, and on the CIFS
+#: mount the map step was killed (SIGKILL) at its first batch on 25.10.,
+#: after the build had run through. Two copies of the tree must fit here; the
+#: shards, the third, go to ``ATR_HF_SCRATCH``. Under the data directory, the
+#: one local path the MCP server's unit may write.
+ATR_HF_ARROW_CACHE = Path(_get("ATR_HF_ARROW_CACHE", str(DATA_DIR / "hf_arrow_cache")))
+
 #: Where, under ``ATR_RESEARCH_DIR``, a run's readings are exported as text for
 #: the HTR training project (#688): ``export_run_share`` writes
 #: ``<ATR_RESEARCH_DIR>/<this>/<run>/``. Relative to the project root on
