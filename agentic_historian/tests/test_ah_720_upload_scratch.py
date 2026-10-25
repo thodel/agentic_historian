@@ -56,15 +56,39 @@ def test_the_setting_wins(roots, monkeypatch):
 def test_the_environment_moves_the_cache_and_tmp_and_keeps_the_rest(roots, monkeypatch):
     monkeypatch.setenv("HF_TOKEN", "t")
     env, work = hf.upload_env(roots / "s", "20261025T1")
-    assert work == roots / "s" / "20261025T1"
-    assert env["HF_DATASETS_CACHE"] == str(work / "datasets") and Path(env["HF_DATASETS_CACHE"]).is_dir()
-    assert env["TMPDIR"] == str(work / "tmp") and env["HF_TOKEN"] == "t"
+    assert work == [roots / "s" / "20261025T1"]
+    assert env["HF_DATASETS_CACHE"] == str(work[0] / "datasets") and Path(env["HF_DATASETS_CACHE"]).is_dir()
+    assert env["TMPDIR"] == str(work[0] / "tmp") and env["HF_TOKEN"] == "t"
     env2, none = hf.upload_env(None, "x")
-    assert none is None and env2.get("HF_DATASETS_CACHE") == os.environ.get("HF_DATASETS_CACHE")
+    assert none == [] and env2.get("HF_DATASETS_CACHE") == os.environ.get("HF_DATASETS_CACHE")
+
+
+def test_the_arrow_files_go_to_local_disk_and_the_shards_to_the_mount(roots):
+    """25.10.: with the Arrow cache on the CIFS mount the map step was killed
+    at its first batch; on local disk it had run to page 1280."""
+    env, work = hf.upload_env(roots / "mount", "R", arrow_cache=roots / "local")
+    assert env["HF_DATASETS_CACHE"] == str(roots / "local" / "R")
+    assert env["TMPDIR"] == str(roots / "mount" / "R" / "tmp")
+    assert set(work) == {roots / "mount" / "R", roots / "local" / "R"}, "both are removed after"
+
+
+def test_each_place_is_checked_for_its_own_share(roots, monkeypatch):
+    tree = _tree(roots / "datasets", size=1_000_000)          # ~2 MB tree
+    monkeypatch.setattr(config, "ATR_HF_ARROW_CACHE", roots / "local")
+    room = {"local": 3_000_000, "datasets": 10**12}           # local: < 2.2 x tree
+    monkeypatch.setattr(hf, "free_bytes", lambda p: next(v for k, v in room.items() if k in str(p)))
+    plan = hf.inspect_upload(tree, "dh-unibe/x")
+    assert any("Arrow dataset" in p and "ATR_HF_ARROW_CACHE" in p for p in plan.problems)
+    assert not any("parquet shards" in p for p in plan.problems)
+    room["local"] = 10**12
+    plan = hf.inspect_upload(tree, "dh-unibe/x")
+    assert not any("No space left" in p for p in plan.problems)
+    assert "arrow     : " in hf.format_upload(plan)
 
 
 def test_too_little_room_is_a_problem_before_the_upload(roots, monkeypatch):
     tree = _tree(roots / "datasets", size=1_000_000)
+    monkeypatch.setattr(config, "ATR_HF_ARROW_CACHE", roots / "local")
     monkeypatch.setattr(hf, "free_bytes", lambda p: 1_000_000)
     plan = hf.inspect_upload(tree, "dh-unibe/x")
     assert any("No space left on device" in p for p in plan.problems)
@@ -78,6 +102,6 @@ def test_too_little_room_is_a_problem_before_the_upload(roots, monkeypatch):
 def test_the_cli_runs_pagexml_hf_in_that_environment_and_removes_the_staging():
     src = (PKG / "__main__.py").read_text(encoding="utf-8")
     body = src[src.index("def upload_hf(args"):src.index("def split_tree(args")]
-    assert "hf.upload_env(plan.scratch" in body
+    assert "hf.upload_env(plan.scratch" in body and "arrow_cache=plan.arrow_cache" in body
     assert "subprocess.run(argv, env=env)" in body
-    assert "shutil.rmtree(work, ignore_errors=True)" in body and "finally:" in body
+    assert "shutil.rmtree(w, ignore_errors=True)" in body and "finally:" in body
