@@ -1,7 +1,7 @@
 {
  "engine": "kraken",
  "model_id": "kraken-german-xix-blb-v1",
- "base_model": "kraken-german-xix-v1",
+ "base_model": "trained:kraken-german-xix-v1",
  "datasets": [
   {
    "hf_repo": "dh-unibe/image-text_lassberg-blb-gt",
@@ -38,5 +38,6 @@
   "workers": 8,
   "seed": 42
  },
- "notes": "Fine-tune of kraken-german-xix-v1 (the 19th-century kraken model) on the BLB Laßberg set only — four handwriting projects, object-level _eval projects held out, drucke left out. Lines are cut from PAGE geometry converted from ALTO boxes (baseline = lower edge): adequate for crops, not a segmentation target. resize union for characters the base lacks; early stop on validation, floor 10 epochs; ~1650 training pages x ~20 lines ≈ 33k lines → ~1000 steps/epoch at batch 32."
+ "notes": "Fine-tune of kraken-german-xix-v1 (the 19th-century kraken model) on the BLB Laßberg set only — four handwriting projects, object-level _eval projects held out, drucke left out. Lines are cut from PAGE geometry converted from ALTO boxes (baseline = lower edge): adequate for crops, not a segmentation target. resize union for characters the base lacks; early stop on validation, floor 10 epochs; ~1650 training pages x ~20 lines ≈ 33k lines → ~1000 steps/epoch at batch 32.",
+ "_base_note": "trained: — the trainer takes a model it trained itself only as its file; train_spec resolves the id to <ATR_TRAINED_ROOT>/<id>/<id>.mlmodel and checks it exists"
 }

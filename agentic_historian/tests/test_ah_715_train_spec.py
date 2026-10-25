@@ -28,7 +28,8 @@ SHA = "0123456789abcdef0123456789abcdef01234567"
 # ── the specs in the repository ──────────────────────────────────────────────
 
 @pytest.mark.parametrize("name", ["blb-qwen35-page-v1", "blb-olmocr2-page-v1", "blb-kraken-v1"])
-def test_the_three_blb_specs_prepare_cleanly(name):
+def test_the_three_blb_specs_prepare_cleanly(name, monkeypatch):
+    monkeypatch.setattr(tsp, "resolve_base", lambda base: (base, None))
     prepared = tsp.prepare(tsp.load(name), resolve=lambda repo: SHA if repo == BLB else None)
     assert prepared["ok"], prepared["problems"]
     assert prepared["pinned"] == {BLB: SHA}
@@ -45,7 +46,25 @@ def test_vlm_specs_train_on_pages_and_kraken_from_the_xix_model():
     o = tsp.load("blb-olmocr2-page-v1")
     assert o["engine"] == "vllm" and o["params"]["granularity"] == "page"
     k = tsp.load("blb-kraken-v1")
-    assert k["engine"] == "kraken" and k["base_model"] == "kraken-german-xix-v1"
+    assert k["engine"] == "kraken" and k["base_model"] == "trained:kraken-german-xix-v1"
+
+
+def test_a_trained_base_becomes_its_file_and_a_missing_file_stops_the_request(tmp_path, monkeypatch):
+    from ruemlang import train_kraken
+    monkeypatch.setattr(train_kraken, "TRAINED_ROOT", str(tmp_path))
+    spec = {"engine": "kraken", "model_id": "m", "base_model": "trained:kraken-german-xix-v1",
+            "datasets": [{"hf_repo": BLB, "revision": "abc"}]}
+    missing = tsp.prepare(spec)
+    assert not missing["ok"] and "no file at" in missing["problems"][0]
+    f = tmp_path / "kraken-german-xix-v1" / "kraken-german-xix-v1.mlmodel"
+    f.parent.mkdir()
+    f.write_bytes(b"model")
+    ok = tsp.prepare(spec)
+    assert ok["ok"] and ok["body"]["base_model"] == str(f)
+    bad = tsp.prepare(dict(spec, base_model="trained:../../etc"))
+    assert not bad["ok"]
+    plain = tsp.prepare(dict(spec, base_model="kraken-cursive_inzigkofen"))
+    assert plain["body"]["base_model"] == "kraken-cursive_inzigkofen"
 
 
 # ── preparing ────────────────────────────────────────────────────────────────
