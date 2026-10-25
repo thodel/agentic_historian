@@ -34,6 +34,7 @@ import config
 #: both, because two copies that drift are how a refusal turns into a hole.
 SLURM_ID_RE = re.compile(r"^[0-9]{1,12}$")
 RECORD_RE = re.compile(r"^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9._-]{0,120}$")
+LABEL_RE = re.compile(r"^(_|[A-Za-z0-9][A-Za-z0-9._-]{0,120})$")
 #: An ssh destination: ``host``, ``user@host`` or an alias from ~/.ssh/config.
 #: Never anything ssh would read as an option.
 HOST_RE = re.compile(r"^(?!-)[A-Za-z0-9._-]{1,64}(@[A-Za-z0-9._-]{1,253})?$")
@@ -66,6 +67,14 @@ def validate_record(record_id: str) -> str:
             f"not a trainer record id: {record_id!r} "
             "(expected e.g. 20261019T180118Z-olmocr2-7b-medieval-page-px4m-native-r16)")
     return record_id
+
+
+def validate_label(label: str) -> str:
+    if not isinstance(label, str) or not LABEL_RE.match(label):
+        raise UbelixError(
+            f"not a report label: {label!r} (e.g. german-medieval-v1-test, a job id, "
+            "or _ for the run's own report)")
+    return label
 
 
 def _target() -> tuple[str, Path]:
@@ -154,5 +163,27 @@ def record(record_id: str, lines: Optional[int] = None) -> dict:
         result["record"] = json.loads(result["output"])
         del result["output"]
     except ValueError:
+        pass
+    return result
+
+
+def report(record_id: str, label: Optional[str] = None) -> dict:
+    """A job's evaluation reports: which there are, or one of them.
+
+    Parsed under ``reports`` (the list) or ``report`` and ``heldout`` (one), like
+    :func:`record`; as text only when the answer is not JSON.
+    """
+    try:
+        request = ["report", validate_record(record_id)]
+        if label is not None:
+            request.append(validate_label(label))
+        result = _call(*request)
+    except UbelixError as exc:
+        return {"ok": False, "error": str(exc)}
+    try:
+        parsed = json.loads(result["output"])
+        del result["output"]
+        result.update({k: v for k, v in parsed.items() if k != "id"})
+    except (ValueError, AttributeError):
         pass
     return result

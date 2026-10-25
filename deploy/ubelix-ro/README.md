@@ -1,8 +1,9 @@
 # UBELIX, read-only, from the ATR MCP server
 
-Three tools on the MCP server on tei, `ubelix_queue`, `ubelix_job` and
-`ubelix_record`, answer "is the training still queued, was it preempted, what
-does its log say" from a cloud session (#674). Until now each of those questions
+Four tools on the MCP server on tei, `ubelix_queue`, `ubelix_job`,
+`ubelix_record` and `ubelix_report`, answer "is the training still queued, was
+it preempted, what does its log say, what did the rescore measure" from a cloud
+session (#674, #301). Until now each of those questions
 cost a round trip through a person: copy a command, run it on submit02, paste
 the output back.
 
@@ -16,13 +17,14 @@ The missing hop is tei → UBELIX, and this directory is that hop.
 
 **The key can run one script and nothing else.** UBELIX's `authorized_keys`
 binds it to `atr-mcp-ro` as a forced command, so sshd runs that script whatever
-tei sends. The script understands three requests:
+tei sends. The script understands four requests:
 
 | request | runs |
 |---|---|
 | `queue` | `squeue -u $USER`, then `squeue --start` |
 | `job <digits>` | `sacct -j <id> -u $USER -D -X` (preemptions and requeues) |
 | `record <id> [lines]` | reads `job.json` (status, timestamps, `error`, `metrics` with the CER; not the request) and the tail of `logs/<stage>.log` (or `runner.log`) under `/scratch/network/users/$USER/runs/jobs/<id>/`, at most 200 lines |
+| `report <id> [label]` | without a label, the evaluation reports in that job's `data/` (`_` is the run's own `eval_report.json`); with one, `eval_report.<label>.json` without its `examples`, and the held-out check `eval_report.<label>.heldout.json` beside it if there is one. A label is a set name or a job id, no slash |
 
 Anything else exits 2 having run nothing. A stolen MCP token therefore costs
 reading the queue and the trainer's records, never submitting, cancelling or
@@ -119,7 +121,7 @@ Without both variables the tools answer "not configured" and do nothing.
 | MCP service user on tei | `dh` (`systemctl show -p User --value atr-mcp`) |
 | key | `/home/dh/.ssh/ubelix_mcp`, ed25519, `SHA256:dZmPE9GQi5YcHVs4wfozFpGE4Vwb+LeNgxhPF2b+TLo atr-mcp@tei` |
 | destination | `th19c587@submit02.unibe.ch` (130.92.20.12, also `submit02.hpc.unibe.ch`); direct from tei, no jump host, no `~/.ssh/config` entry |
-| script on UBELIX | `/storage/homefs/th19c587/bin/atr-mcp-ro`; current version (with `metrics`) has sha256 `ea80973a046d…`, the one before it (#678, without `metrics`) `a592320d06d1…` (`sha256sum ~/bin/atr-mcp-ro`) |
+| script on UBELIX | `/storage/homefs/th19c587/bin/atr-mcp-ro`; current version (with `report`) has sha256 `c54fcbc8022d…`; before it `ea80973a046d…` (#708, `metrics`, no `report`) and `a592320d06d1…` (#678) (`sha256sum ~/bin/atr-mcp-ro`) |
 | `/etc/atr-mcp.env` | `ATR_UBELIX_SSH_HOST=th19c587@submit02.unibe.ch`, `ATR_UBELIX_SSH_KEY=/home/dh/.ssh/ubelix_mcp` |
 
 The check from tei, as `dh`, with that key only:
