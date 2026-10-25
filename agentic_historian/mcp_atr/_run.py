@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import signal
 import subprocess
 import sys
@@ -44,6 +45,14 @@ def main(argv: list[str]) -> int:
         # an error printed at the end landed at the *top* of the log, above the
         # output it ended (25.10.: a Transkribus refusal read as a silent stop).
         env = {**os.environ, "PYTHONUNBUFFERED": "1"}
+        # Temporary files in the job's own directory, not /tmp. The server runs
+        # with PrivateTmp=yes, and a restart throws its /tmp away — under every
+        # job still running, which KillMode=process otherwise lets survive
+        # (25.10.: two dataset uploads died with "No such file or directory:
+        # '/tmp/hf_datasets-…'" while another session redeployed tei).
+        scratch = directory / "tmp"
+        scratch.mkdir(exist_ok=True)
+        env.update(TMPDIR=str(scratch), TEMP=str(scratch), TMP=str(scratch))
         proc = subprocess.Popen(  # noqa: S603 — argv validated by mcp_atr.jobs
             command, cwd=cwd, stdout=log, stderr=subprocess.STDOUT,
             stdin=subprocess.DEVNULL, env=env,
@@ -59,6 +68,10 @@ def main(argv: list[str]) -> int:
             signal.signal(sig, forward)
 
         code = proc.wait()
+
+    # Scratch is the job's, and can be gigabytes (a parquet conversion); the
+    # log and the exit code are what stays.
+    shutil.rmtree(scratch, ignore_errors=True)
 
     tmp = directory / "exit_code.part"
     tmp.write_text(f"{code}\n", encoding="utf-8")

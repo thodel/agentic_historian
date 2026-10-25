@@ -188,6 +188,20 @@ def test_a_failing_job_is_failed_not_done(sandbox):
     assert jobs.status(job.job_id).exit_code == 3
 
 
+def test_a_job_writes_its_temporary_files_in_its_own_directory(sandbox):
+    """PrivateTmp=yes: a server restart throws /tmp away under running jobs
+    (25.10.: two dataset uploads, '/tmp/hf_datasets-…' gone). The job's scratch
+    lives beside its log instead, and goes when the job ends."""
+    job = jobs.start("test", [sys.executable, "-c",
+                              "import tempfile, os; d = tempfile.mkdtemp(); "
+                              "open(os.path.join(d, 'x'), 'w').write('x'); print(d)"])
+    assert _wait_for(lambda: jobs.status(job.job_id).state == "done")
+    scratch = jobs.jobs_root() / job.job_id / "tmp"
+    printed = jobs.read_log(job.job_id).strip().splitlines()[-1]
+    assert Path(printed).parent == scratch
+    assert not scratch.exists(), "scratch is removed once the job has ended"
+
+
 def test_a_job_whose_process_vanished_is_not_reported_as_done(sandbox):
     """The case nobody designs for: a reboot, an OOM kill, a pulled plug. There
     is no exit code and no process. Calling that success would cost somebody a
