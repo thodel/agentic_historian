@@ -1190,6 +1190,141 @@ wo der Unterschied sitzt — die beste Qwen-Seite (6,6 %) ist besser als Geminis
 p90, verloren wird auf den schweren Händen, wo Qwen bis 37 % geht und Gemini bei
 17 % bleibt.
 
+## 34. Der Text lag öffentlich bereit, und erst eine Messung machte ihn zu Ground Truth
+
+Am 23. Oktober die Frage, ob die Badische Landesbibliothek neue Bilder zu
+Laßberg hat. Sie hatte mehr als das: ein OAI-Set (`blbknajvl`) mit 426
+digitalisierten Objekten und 4305 Seiten, 359 Objekte davon nicht im Share, und
+für 401 Objekte einen ALTO-Volltext. Ein Volltext in einer digitalen Sammlung
+ist zunächst nichts, und am wahrscheinlichsten ist er eine OCR, die niemand
+korrigiert hat. Hätte ich ihn als Ground Truth behandelt, weil er „Volltext"
+heisst, wäre jedes Training darauf ein Training auf Maschinenlesung gewesen.
+
+Gemessen gegen die eigenen handkorrigierten Transkribus-Seiten, auf den sechs
+Seiten, die beide Seiten haben: **auf fünf zeichengleich, auf der sechsten
+2,8 %** auseinander, und zwar dort, wo zwei Menschen verschiedene Konventionen
+haben, nicht wo eine Maschine sich verlesen hat. Gemini liegt auf denselben
+Seiten bei 7,5 %, Qwen bei 16,5 %. Erst diese Zahl macht aus dem Text Ground
+Truth. **Was ein Text ist, Transkription oder Lesung, ist eine Messung und kein
+Etikett**, und sechs Seiten reichen dafür, weil eine Maschine auf diesem Material
+nirgends in die Nähe von null kommt. Woher die BLB den Text hat, bleibt offen.
+Die Antwort ändert nicht, was der Text ist, aber vielleicht, wohin er darf. Bis
+dahin ist der Datensatz privat.
+
+Der Anfang kostete eine Runde. Die BLB sperrt Rechenzentrums-Adressen (403 von
+nginx), also lief alles auf tei, wo ich keine Shell habe. Die erste
+Signaturzuordnung fand nichts, weil Anker-Records ohne Dateien dieselbe
+Signatur tragen wie das Objekt mit den Seiten und der erste gelesene gewann.
+Jetzt gewinnt der Record mit Seiten, in beiden Skripten und im Modul danach.
+
+## 35. Der Hold-out nach Seiten misst Hände, die das Modell kennt
+
+Der Trainer teilt nach Seiten, wenn ein Datensatz keine `eval_projects` nennt.
+Zwei Seiten eines Briefs haben dieselbe Hand, dasselbe Papier, dieselbe Tinte.
+Eine Seitenteilung meldet also eine Fehlerrate auf Händen, die im Training
+waren, und diese Zahl sieht aus wie ein Hold-out und ist keiner. Deshalb geht
+vor dem Upload ein gesätes Zehntel der **Objekte** jedes Projekts nach
+`<projekt>_eval`: 40 Objekte, 288 Seiten. Drei Objekte werden erzwungen,
+`K 2911,17`, `,107` und `,110`. Es sind die BLB-Objekte im Eval-Split des
+HTR-Projekts, auf dem Gemini am 22.10. 4,8 % und Qwen 14,5 % gemessen haben. Ein
+Modell, das auf diesem Datensatz trainiert, bleibt damit an dieser Messung
+vergleichbar.
+
+Die Lektion steckt im zweiten Lauf. Das Split-Skript lief einmal und tat, was es
+sollte. Erst beim Umzug ins MCP (#711, #712) las ich es mit der Frage, was beim
+**nächsten** Lauf passiert, und fand zwei Fehler im Baumbau. Ein Rebuild nach
+dem Split hätte die Seiten eines Eval-Objekts im Trainingsprojekt vermisst und
+sie dort neu geschrieben. Dann wäre dasselbe Objekt auf beiden Seiten gewesen,
+ohne dass eine Zahl es zeigt. Und der Rebuild ersetzte `export.json` und löschte
+damit den Split-Eintrag. **Ein Skript, das einmal läuft, hat die Fehler, die
+erst der zweite Lauf zeigt**, und ein Werkzeug wird genau dafür gebaut, dass es
+ein zweites Mal läuft. Jetzt sucht der Build auch auf der Eval-Seite und
+schreibt neue Seiten eines gehaltenen Objekts dorthin. Das Manifest wird
+zusammengeführt, nicht ersetzt. Ein Split nach einem verzeichneten Upload wird
+abgewiesen.
+
+## 36. Ein Drittel der Seiten hatte keinen Text, und ich hatte sie mitgezählt
+
+Der Trockenlauf des Baumbaus sagte 4123 Seiten und rund 15,6 GB. Die Karte nannte
+„rund 4100 Seiten", der Trainingsplan rechnete mit 70 000 Zeilen. Gebaut wurden
+2700 Seiten: **1419 ALTO-Dateien enthielten keine einzige Zeile**. Das sind
+leere Versos, Adressseiten, Umschläge und im Almanach ganze Strecken, die die
+Bibliothek nicht transkribiert hat. Der Almanach schrumpfte von 1478 auf 896
+Seiten, der Trainingsplan auf die Hälfte.
+
+Gezählt hatte ich Seiten, die auf eine ALTO-Datei **verweisen**. Ein Verweis auf
+einen Volltext ist aber keine Zeile Text, und was der Trockenlauf nicht öffnet,
+kann er nicht zählen. Die Zahl im Trockenlauf ist eine Obergrenze und muss so
+heissen. Die Karte und der Plan stehen jetzt auf den gebauten Zahlen. Ein
+Upload-Trockenlauf zählt seither auch die **Objekte** pro Projekt (#710). Das
+ist die Grösse, über die ein Hold-out gezogen wird, und dafür war am 24.10. eine
+eigene `ls | sed | sort -u`-Schleife nötig.
+
+## 37. „Läuft" in einem Terminal ist nicht „angekommen"
+
+Der Upload von `lassberg-blb-gt` lief am Abend des 24.10. per CLI an, und der
+letzte Stand war „Map: 12 %". Am nächsten Nachmittag gab es auf dem Hub keinen
+Datensatz. Gefunden hat das kein Blick auf den Upload, sondern eine Prüfung, die
+für etwas anderes gebaut war. `train_spec` pinnt jede `revision: null` auf den
+Commit des Hubs. Für diesen Datensatz nannte der Hub keinen, und das Werkzeug
+hielt an, statt den Trainer `main` lesen zu lassen.
+
+Warum der Upload starb, sagt nichts mehr, weil sein Terminal nicht mehr da ist.
+Darum lief der zweite Anlauf als Job (`upload_hf(tree="datasets:…")`, #710): Ein
+Job überlebt ein geschlossenes Fenster, und sein Log bleibt lesbar. Seit #711
+trägt `upload-hf` einen erfolgreichen Upload in `export.json` ein, und
+`hub_state` nennt den Commit. Ein Upload ist erst angekommen, wenn die Hub-Seite
+ihn bestätigt.
+
+## 38. Zweimal grün gegen ein Schema, und der Trainer hätte trotzdem abgelehnt
+
+Die drei Trainings-Specs habe ich gegen das `TrainRequest`-Modell des Trainers
+validiert, sogar gegen dessen neuesten `main`. Alle drei waren gültig. Die
+kraken-Spec nannte als Basis `kraken-german-xix-v1`, ein Modell, das dieser
+Trainer selbst trainiert hat. Am 24.10. hatte er genau so eine Basis abgelehnt
+(„not a file, a registry id, or a Zenodo reference"), und `kraken_train` kennt
+dafür seither `trained:<id>`. Im Schema ist `base_model` ein String. Ein String
+besteht jede Validierung, und erst der Trainer entscheidet, ob er ihn kennt.
+**Ein Schema prüft die Form einer Anfrage, nicht ob sie angenommen wird.** Das
+ist §29 noch einmal, vom anderen Ende: Der Vertrag steht im Code des anderen,
+und diesmal stand er auch in meinem eigenen Code, ein Werkzeug weiter. Jetzt
+löst `train_spec` `trained:<id>` nach derselben Regel auf und prüft, ob die
+Datei auf dem Share liegt, bevor eine GPU gefragt wird (#718).
+
+Zwei Fakten zum Deployment hat an diesem Wochenende nur die Unit-Datei gekannt.
+`ProtectSystem=strict` macht für den MCP-Server alles schreibgeschützt, was
+nicht unter `ReadWritePaths` steht. Die neue Datensatz-Wurzel auf dem Mount
+hätte `split_tree` und `oai_gt_import` beim ersten Schreiben scheitern lassen.
+Ein Drop-in behebt das jetzt, und die Vorlage sagt es. Und die
+Transkribus-Zugangsdaten stehen in `.env.gpustack` der Produktion. Aus einem
+Arbeitsbaum heraus sucht `config.py` neben dem Arbeitsbaum, findet nichts und
+meldet „must be set". Im MCP-Server stellt sich das nicht, denn er läuft auf dem
+Produktions-Checkout. `server_status` meldet die Zugangsdaten jetzt als
+`set`/`unset`.
+
+## 39. Die Fehlermeldung stand über dem Text, den sie beendete
+
+Der briefweise Upload aller Briefe brach nach 23 Briefen ab, bei
+`lassberg-letter-1209`, Seite 1 von 12. Die letzten Zeilen des Job-Logs zeigten
+genau das und sonst nichts, also einen stillen Stopp. Die Meldung stand **ganz
+oben** im Log: „Submitted files already exist for this upload". stdout in eine
+Datei ist blockgepuffert, stderr nicht. Was am Ende auf stderr geschrieben
+wurde, erreichte die Datei vor allem, was stdout noch im Puffer hatte. Jeder Job
+läuft jetzt mit `PYTHONUNBUFFERED=1`, und der Läufer setzt das selbst.
+
+Der Fehler dahinter war einer der Gruppierung. Die Seiten eines Briefs werden
+über das ganze Kalt-Tier gesammelt, und 1209 liegt dort in zwei Ordnern. Jede
+Seite kam doppelt, und ein Transkribus-Upload nimmt einen Dateinamen nur einmal.
+Eine identische Kopie wird jetzt einmal hochgeladen und gezählt. Zwei
+*verschiedene* Bilder unter einem Namen sind zwei Kandidaten für eine Seite.
+Dann wird der Brief benannt und ausgelassen, denn eine Wahl wäre eine Raterei,
+und hochgeladen werden sollte nur, was eindeutig einem Brief gehört.
+
+Gehalten hat das Abbrechen beim ersten Fehler. Der Lauf hielt an, nannte den
+Brief und die Möglichkeit eines halben Uploads, und die 23 Briefe davor stehen
+mit Upload- und Job-Id im Log. Ein Lauf, der weitergemacht hätte, hätte 101
+weitere Briefe hinter einer Meldung hochgeladen, die niemand gesehen hätte.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
@@ -1203,6 +1338,17 @@ because the output *is* the state.
 **`--keys-out` writing to `GT_ROOT` rather than `/tmp`.** The key list survived
 tei's reboot, which the earlier `/tmp/gt-keys.txt` did not — that cost sixteen
 minutes of matching the first time.
+
+**One letter before all of them.** The letter-wise Transkribus upload went
+first with `lassberg-letter-0952` alone (upload 19763082, job 31683095), was
+looked at in the interface, and only then the other 124. That order is now
+enforced by the tool and the CLI alike, and the collection itself is the
+evidence: `--all` is accepted once a letter of the plan is in it.
+
+**A draw that reproduces.** The split moved into a module and ran again over
+the tree the script had split. It moved nothing, because seed, per-project
+stream and share were the same. An idempotent hold-out is the only kind that
+can be re-run after a rebuild without anyone checking which objects it chose.
 
 **Named skips.** Every unread file in this run is in the report with a reason,
 which is how the thirteen PDFs were noticed at all. A silent drop would have left

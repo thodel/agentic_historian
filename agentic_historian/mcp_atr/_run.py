@@ -40,9 +40,13 @@ def main(argv: list[str]) -> int:
     cwd = meta.get("cwd") or str(Path.cwd())
 
     with (directory / "log").open("ab", buffering=0) as log:
+        # Unbuffered: stdout into a file is block-buffered and stderr is not, so
+        # an error printed at the end landed at the *top* of the log, above the
+        # output it ended (25.10.: a Transkribus refusal read as a silent stop).
+        env = {**os.environ, "PYTHONUNBUFFERED": "1"}
         proc = subprocess.Popen(  # noqa: S603 — argv validated by mcp_atr.jobs
             command, cwd=cwd, stdout=log, stderr=subprocess.STDOUT,
-            stdin=subprocess.DEVNULL,
+            stdin=subprocess.DEVNULL, env=env,
         )
 
         def forward(signum, _frame):

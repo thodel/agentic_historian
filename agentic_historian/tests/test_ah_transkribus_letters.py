@@ -220,3 +220,32 @@ def test_the_cli_takes_one_letter_before_all():
     body = src[src.index("def upload_transkribus("):src.index("def compare_runs_cmd(")]
     assert "--letter lassberg-letter-NNNN, then --all" in body
     assert "uploading folder-wise is not offered" in body
+
+
+# ── one letter in two folders (25.10., lassberg-letter-1209) ─────────────────
+
+def test_an_identical_copy_in_a_second_folder_is_uploaded_once(world):
+    _, letters, src = world
+    for n in (5, 142, 6):
+        p = src / "Basel" / "upload" / "lassberg-letter-1209" / f"PA 82a B 9_Seite_{n:03d}.jpg"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_bytes(b"\xff\xd8")                      # the same bytes as the first copy
+    found, un = tk.letters_by_register(src, reg.read_register(letters))
+    b = next(l for l in found if l.title == "lassberg-letter-1209")
+    assert [p.name for p in b.pages] == ["PA 82a B 9_Seite_005.jpg", "PA 82a B 9_Seite_006.jpg",
+                                         "PA 82a B 9_Seite_142.jpg"]
+    assert un.duplicate_copies == 3
+    assert "uploaded once: 3 page(s)" in tk.format_unassigned(un)
+
+
+def test_two_different_images_under_one_name_leave_the_letter_out_named(world):
+    _, letters, src = world
+    p = src / "Basel" / "upload" / "lassberg-letter-1209" / "PA 82a B 9_Seite_005.jpg"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_bytes(b"\xff\xd8 a different scan")
+    found, un = tk.letters_by_register(src, reg.read_register(letters))
+    assert "lassberg-letter-1209" not in [l.title for l in found]
+    assert un.conflicting == {"lassberg-letter-1209": ["PA 82a B 9_Seite_005.jpg"]}
+    text = tk.format_unassigned(un)
+    assert "two different images under one name: 1 letter(s)" in text and "1209" in text
+    assert "lassberg-letter-0892" in [l.title for l in found], "the other letters are untouched"

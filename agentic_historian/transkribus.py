@@ -168,6 +168,42 @@ class Unassigned:
     no_letter_segment: int = 0      # no lassberg-letter-NNNN in the path
     not_in_register: int = 0        # a letter id the edition has no file for
     letters_not_in_register: set = field(default_factory=set)
+    #: The same file, byte for byte, under two folders of one letter: uploaded
+    #: once. 25.10.: lassberg-letter-1209 came in twice from the cold tier and
+    #: Transkribus refused the second copy ("Submitted files already exist").
+    duplicate_copies: int = 0
+    #: Letters with two *different* images under one file name: which one is
+    #: the page is not settled, so the letter is named and left out.
+    conflicting: dict = field(default_factory=dict)
+
+
+def _same_file(a: Path, b: Path) -> bool:
+    if a.stat().st_size != b.stat().st_size:
+        return False
+    import hashlib
+
+    return hashlib.sha1(a.read_bytes()).digest() == hashlib.sha1(b.read_bytes()).digest()
+
+
+def _one_copy_per_name(pages: list[Path]) -> tuple[list[Path], int, list[str]]:
+    """``(pages, copies dropped, names that clash)`` for one letter.
+
+    An upload names its pages by file name, and Transkribus refuses a name
+    twice. Two folders holding the same scan give the same name twice; that is
+    one page. Two folders holding *different* images under one name are two
+    candidates for one page, and choosing would be a guess.
+    """
+    kept: dict[str, Path] = {}
+    dropped, clashes = 0, []
+    for page in sorted(pages, key=lambda p: str(p)):
+        first = kept.get(page.name)
+        if first is None:
+            kept[page.name] = page
+        elif _same_file(first, page):
+            dropped += 1
+        elif page.name not in clashes:
+            clashes.append(page.name)
+    return list(kept.values()), dropped, clashes
 
 
 def letters_by_register(source_dir: Path, register, *,
@@ -217,7 +253,12 @@ def letters_by_register(source_dir: Path, register, *,
     letters: list[Letter] = []
     for letter_id in sorted(by_letter):
         rec = register.get(letter_id)
-        pages = sorted(by_letter[letter_id], key=_page_sort_key)
+        pages, dropped, clashes = _one_copy_per_name(by_letter[letter_id])
+        un.duplicate_copies += dropped
+        if clashes:
+            un.conflicting[letter_id] = clashes
+            continue
+        pages = sorted(pages, key=_page_sort_key)
         desc = "; ".join(x for x in (
             rec.title, f"{rec.repository}, {rec.signature}".strip(", ") if (rec.repository or rec.signature) else "",
             f"register {register.source.name}@{register.revision[:12]}" if register.revision else "",
@@ -261,6 +302,12 @@ def format_unassigned(un: Unassigned) -> str:
     if un.letters_not_in_register:
         some = sorted(un.letters_not_in_register)[:8]
         lines.append("  e.g. " + ", ".join(some) + (" …" if len(un.letters_not_in_register) > 8 else ""))
+    if un.duplicate_copies:
+        lines.append(f"identical copies under a second folder, uploaded once: {un.duplicate_copies} page(s)")
+    if un.conflicting:
+        lines.append(f"left out, two different images under one name: {len(un.conflicting)} letter(s)")
+        for lid, names in sorted(un.conflicting.items())[:8]:
+            lines.append(f"  {lid}: {', '.join(names[:3])}" + (" …" if len(names) > 3 else ""))
     return "\n".join(lines)
 
 
