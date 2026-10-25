@@ -78,6 +78,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import tempfile
 import shutil
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -1070,6 +1071,11 @@ class UploadPlan:
     #: stems carry no such suffix is absent: there the object is not in the name,
     #: and a count of stems would be a count of pages under another heading.
     objects: dict = field(default_factory=dict)
+    #: Where `pagexml-hf` stages the upload, and whether there is room (#720):
+    #: the tree's bytes, the free bytes there, None when not checked.
+    scratch: Optional[Path] = None
+    tree_bytes: int = 0
+    scratch_free: Optional[int] = None
 
     @property
     def ok(self) -> bool:
@@ -1297,6 +1303,61 @@ def upload_card(repo_id: str, card: Path, token: Optional[str] = None) -> str:
     return cli
 
 
+#: What `pagexml-hf` writes besides the upload, as a multiple of the tree:
+#: the Arrow dataset from the generator, the mapped copy, the parquet shards.
+SCRATCH_FACTOR = 3.2
+
+
+def scratch_for(tree: Path) -> Optional[Path]:
+    """Where an upload of ``tree`` stages its intermediate files, or None for
+    the library's defaults (small trees under the checkout)."""
+    if config.ATR_HF_SCRATCH:
+        return Path(config.ATR_HF_SCRATCH)
+    root = config.ATR_DATASETS_DIR
+    if root:
+        try:
+            Path(tree).resolve().relative_to(Path(root).resolve())
+            return Path(root) / "_hf_scratch"
+        except ValueError:
+            pass
+    return None
+
+
+def tree_bytes(tree: Path) -> int:
+    return sum(f.stat().st_size for f in Path(tree).rglob("*") if f.is_file())
+
+
+def free_bytes(path: Path) -> Optional[int]:
+    """Free bytes on the filesystem that holds ``path`` (or its nearest parent)."""
+    import shutil as _sh
+
+    p = Path(path)
+    while not p.exists() and p != p.parent:
+        p = p.parent
+    try:
+        return _sh.disk_usage(p).free
+    except OSError:
+        return None
+
+
+def upload_env(scratch: Optional[Path], run_id: str) -> tuple[dict, Optional[Path]]:
+    """The environment `pagexml-hf` runs in, and the directory to remove after.
+
+    The token stays where it is (the environment); only the two places the
+    library writes to are moved: ``HF_DATASETS_CACHE`` for the Arrow files and
+    ``TMPDIR`` for the parquet shards.
+    """
+    env = dict(os.environ)
+    if scratch is None:
+        return env, None
+    work = Path(scratch) / run_id
+    (work / "datasets").mkdir(parents=True, exist_ok=True)
+    (work / "tmp").mkdir(parents=True, exist_ok=True)
+    env["HF_DATASETS_CACHE"] = str(work / "datasets")
+    env["TMPDIR"] = str(work / "tmp")
+    return env, work
+
+
 def upload_argv(tree: Path, repo_id: str, *, private: bool = True,
                 mode: Optional[str] = None) -> list[str]:
     """The `pagexml-hf` command line for one upload.
@@ -1389,10 +1450,22 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
         problems.append("no Hugging Face token — set HF_TOKEN in the environment "
                         "the upload runs in")
     manifest = read_manifest(tree)
+    scratch, size, free = scratch_for(tree), 0, None
+    if tree.is_dir():
+        size = tree_bytes(tree)
+        free = free_bytes(scratch) if scratch else free_bytes(Path(tempfile.gettempdir()))
+        need = int(size * SCRATCH_FACTOR)
+        if free is not None and free < need:
+            problems.append(
+                f"{free / 1e9:.1f} GB free at {scratch or tempfile.gettempdir()}, and "
+                f"`pagexml-hf` stages about {need / 1e9:.1f} GB for a {size / 1e9:.1f} GB "
+                f"tree — it would stop with 'No space left on device' partway "
+                f"(25.10., twice). Set ATR_HF_SCRATCH to a filesystem with room")
     return UploadPlan(tree=tree, repo_id=repo_id, private=private, pages=pages,
                       projects=projects, tool=tool, token=token,
                       problems=problems, mode=tree_mode(tree),
-                      kind=str(manifest.get("kind") or ""), objects=objects)
+                      kind=str(manifest.get("kind") or ""), objects=objects,
+                      scratch=scratch, tree_bytes=size, scratch_free=free)
 
 
 def format_upload(plan: UploadPlan) -> str:
@@ -1412,6 +1485,9 @@ def format_upload(plan: UploadPlan) -> str:
                                 "ground-truth": "hand-corrected"}
              .get(plan.kind, "unstated"),
              f"visibility: {'private' if plan.private else '** PUBLIC **'}",
+             f"staging   : {plan.scratch or 'library defaults (local disk)'}"
+             + (f"   ({plan.tree_bytes / 1e9:.2f} GB tree, "
+                f"{plan.scratch_free / 1e9:.1f} GB free)" if plan.scratch_free is not None else ""),
              f"pagexml-hf: {plan.tool or 'not found'}",
              f"token     : {'present' if plan.token else 'missing'}"]
     if plan.problems:
