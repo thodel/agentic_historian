@@ -178,10 +178,13 @@ def build_pagexml(image_filename: str, width: int, height: int, lines: list[dict
 
 
 def parse_lines(xml_text: str) -> list[dict]:
-    """The lines of a PAGE XML back as ``{text, bbox, baseline}`` — for tests and
-    for reading what Transkribus already holds."""
+    """The lines of a PAGE XML back as ``{text, bbox, baseline, points, region}``
+    — for tests and for reading what Transkribus already holds. Document order,
+    which is the order :func:`replace_line_texts` writes back in."""
     root = ET.fromstring(xml_text)
     ns = {"p": root.tag[1:root.tag.index("}")]}
+    region_of = {id(tl): reg.get("id") for reg in root.iter(f"{{{ns['p']}}}TextRegion")
+                 for tl in reg.findall("p:TextLine", ns)}
     out = []
     for tl in root.iterfind(".//p:TextLine", ns):
         coords = tl.find("p:Coords", ns)
@@ -196,8 +199,52 @@ def parse_lines(xml_text: str) -> list[dict]:
             bbox = [min(x for x, _ in pts), min(y for _, y in pts),
                     max(x for x, _ in pts), max(y for _, y in pts)]
         out.append({"id": tl.get("id"), "text": (uni.text or "") if uni is not None else "",
-                    "bbox": bbox, "baseline": bpts or None, "custom": tl.get("custom")})
+                    "bbox": bbox, "baseline": bpts or None, "custom": tl.get("custom"),
+                    "points": pts or None, "region": region_of.get(id(tl))})
     return out
+
+
+def replace_line_texts(xml_text: str, texts: list[Optional[str]]) -> tuple[str, int]:
+    """The same PAGE XML with each ``TextLine``'s text replaced, in document order.
+
+    For a page read on its own lines (``segmented_by: given``): polygons,
+    baselines, regions, ids and reading order stay exactly as Transkribus drew
+    them, and only the words change. ``texts[i]`` is line ``i``; ``None`` leaves
+    that line as it was. ``Word`` children go — their text would contradict the
+    new line — and a region's own ``TextEquiv`` is rebuilt from its lines.
+    Returns the document and how many lines were rewritten.
+    """
+    root = ET.fromstring(xml_text)
+    uri = root.tag[1:root.tag.index("}")]
+    ET.register_namespace("", uri)
+    q = lambda tag: f"{{{uri}}}{tag}"                                    # noqa: E731
+    lines = list(root.iter(q("TextLine")))
+    if len(texts) != len(lines):
+        raise ValueError(f"{len(texts)} reading(s) for {len(lines)} line(s)")
+    changed = 0
+    for tl, text in zip(lines, texts):
+        if text is None:
+            continue
+        for word in tl.findall(q("Word")):
+            tl.remove(word)
+        te = tl.find(q("TextEquiv"))
+        if te is None:
+            te = ET.SubElement(tl, q("TextEquiv"))
+        for child in list(te):
+            te.remove(child)
+        ET.SubElement(te, q("Unicode")).text = text
+        changed += 1
+    for region in root.iter(q("TextRegion")):
+        te = region.find(q("TextEquiv"))
+        if te is None:
+            continue
+        joined = "\n".join((tl.findtext(f"{q('TextEquiv')}/{q('Unicode')}") or "")
+                            for tl in region.findall(q("TextLine")))
+        for child in list(te):
+            te.remove(child)
+        ET.SubElement(te, q("Unicode")).text = joined
+    body = ET.tostring(root, encoding="unicode")
+    return '<?xml version="1.0" encoding="UTF-8"?>\n' + body, changed
 
 
 def provenance_comment(info: dict) -> str:

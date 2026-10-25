@@ -231,7 +231,8 @@ def pipeline_argv(step: str, run: str, *, doc: Optional[str] = None,
                   trocr_model: Optional[str] = None, page_model: Optional[str] = None,
                   no_llm: bool = False, upload: bool = False, limit: Optional[int] = None,
                   variants: Optional[str] = None, prior: bool = False,
-                  status: Optional[str] = None) -> list[str]:
+                  status: Optional[str] = None, replace_machine_text: bool = False,
+                  on_page_lines: bool = False) -> list[str]:
     if step not in PIPELINE_STEPS:
         raise JobError(f"step must be one of {', '.join(PIPELINE_STEPS)}, got {step!r}")
     out = Path(config.VLM_TEST_ROOT) / jobs.validate_run(run)
@@ -240,6 +241,14 @@ def pipeline_argv(step: str, run: str, *, doc: Optional[str] = None,
         # Required: the CLI's own default is Rümlang, which over MCP would be a
         # silent choice nobody made.
         argv += ["--collection", _id(collection, "collection"), "--doc", _id(doc, "doc")]
+    if replace_machine_text:
+        if step not in ("plan", "run"):
+            raise JobError("replace_machine_text belongs to step plan or run")
+        argv.append("--replace-machine-text")
+    if on_page_lines:
+        if step not in ("eval", "run"):
+            raise JobError("on_page_lines belongs to step eval or run")
+        argv.append("--on-page-lines")
     p = _pages(pages)
     if p:
         argv += ["--pages", p]

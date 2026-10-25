@@ -557,3 +557,60 @@ def test_train_request_takes_several_projects_and_a_trained_base():
     assert body["base_model"].startswith(train_kraken.TRAINED_ROOT)
     with pytest.raises(SystemExit):
         train_kraken.resolve_base("trained:../../etc")
+
+
+# ── reading on the page's own lines (A V 1447, 25.10.) ───────────────────────
+
+_TK_PAGE = """<?xml version="1.0" encoding="UTF-8"?>
+<PcGts xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"><Page imageFilename="x.jpg" imageWidth="200" imageHeight="100">
+<TextRegion id="r1" custom="readingOrder {index:0;}"><Coords points="0,0 200,0 200,100 0,100"/>
+<TextLine id="l1" custom="readingOrder {index:0;}"><Coords points="10,10 190,12 190,30 10,28"/><Baseline points="10,26 190,28"/>
+<Word id="w1"><Coords points="10,10 50,10 50,30 10,30"/><TextEquiv><Unicode>alt</Unicode></TextEquiv></Word>
+<TextEquiv><Unicode>alt eins</Unicode></TextEquiv></TextLine>
+<TextLine id="l2"><Coords points="10,40 190,40 190,60 10,60"/><Baseline points="10,56 190,56"/><TextEquiv><Unicode>alt zwei</Unicode></TextEquiv></TextLine>
+<TextEquiv><Unicode>alt eins
+alt zwei</Unicode></TextEquiv></TextRegion></Page></PcGts>"""
+
+
+def test_parse_lines_carries_polygon_and_region():
+    lines = pagexml.parse_lines(_TK_PAGE)
+    assert lines[0]["points"] == [(10, 10), (190, 12), (190, 30), (10, 28)]
+    assert lines[0]["region"] == "r1" and lines[1]["baseline"] == [(10, 56), (190, 56)]
+
+
+def test_new_texts_go_into_transkribus_own_layout():
+    out, changed = pagexml.replace_line_texts(_TK_PAGE, ["neu eins", None])
+    assert changed == 1
+    lines = pagexml.parse_lines(out)
+    assert [l["text"] for l in lines] == ["neu eins", "alt zwei"]
+    assert lines[0]["points"] == [(10, 10), (190, 12), (190, 30), (10, 28)], "geometry untouched"
+    assert 'id="w1"' not in out, "word text would contradict the new line"
+    assert "readingOrder {index:0;}" in out and 'id="r1"' in out
+    assert "neu eins\nalt zwei" in out, "the region's own TextEquiv follows its lines"
+    with pytest.raises(ValueError):
+        pagexml.replace_line_texts(_TK_PAGE, ["only one"])
+
+
+def test_page_lines_are_scaled_to_the_image_sent(tmp_path):
+    from ruemlang import pipeline, transkribus_pages as tp
+    p = tp.PageInfo(1, 2, "t", 5, 1, "u", 200, 100, 9, "IN_PROGRESS", 1, 2, 4, "x", 2)
+    (tmp_path / "source.xml").write_text(_TK_PAGE, encoding="utf-8")
+    lines = pipeline._page_lines(None, p, tmp_path, scale=2.0)      # sent at half size
+    assert lines[0]["baseline"] == [[5.0, 13.0], [95.0, 14.0]]
+    assert lines[0]["boundary"][1] == [95.0, 6.0] and lines[0]["regions"] == ["r1"]
+    assert lines[1]["order"] == 1
+    empty = tp.PageInfo(1, 2, "t", 6, 1, "u", 200, 100, 9, "NEW", 0, 0, 0, None, 0)
+    assert pipeline._page_lines(None, empty, tmp_path, scale=1.0) is None
+
+
+def test_machine_pages_leave_out_corrected_and_hand_edited(monkeypatch, capsys):
+    from ruemlang import pipeline, transkribus_pages as tp
+    mk = lambda nr, status: tp.PageInfo(1, 2, "t", nr, nr, "u", 1, 1, nr, status, 1, 3, 9, "x", 3)
+    pages = [mk(1, "IN_PROGRESS"), mk(2, "IN_PROGRESS"), mk(3, "DONE"), mk(4, "NEW")]
+    hist = {1: [{"transcribed_lines": 30, "toolName": "TrHtr"}],                       # HTR only
+            2: [{"transcribed_lines": 31}, {"transcribed_lines": 30, "toolName": "TrHtr"}],  # edited
+            4: [{"transcribed_lines": 0}]}                                            # empty
+    monkeypatch.setattr(tp, "transcript_history", lambda ts, c, d: hist)
+    kept = pipeline._machine_pages(None, 1, pages)
+    assert [p.page_nr for p in kept] == [1, 4]
+    assert "1 corrected (DONE/FINAL) and 1 edited after their HTR: 2" in capsys.readouterr().out

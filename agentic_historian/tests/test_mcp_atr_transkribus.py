@@ -182,3 +182,17 @@ def test_kraken_combined_projects_and_trained_base(sandbox):
             tk.kraken_train_argv("submit", base_model=bad)
     with pytest.raises(jobs.JobError):
         tk.kraken_train_argv("submit", train_project="ok,../bad")
+
+
+def test_rereading_machine_text_on_the_pages_own_lines(sandbox):
+    argv = tk.pipeline_argv("run", "schlussredaktion-reread", doc="13922579",
+                            extra_model="kraken-bern-schlussredaktion-v1", primary="D",
+                            only_extra=True, no_llm=True, replace_machine_text=True,
+                            on_page_lines=True)
+    assert "--replace-machine-text" in argv and "--on-page-lines" in argv
+    assert argv[-1] == "--dry-run", "still nothing posted without upload"
+    assert "--on-page-lines" in tk.pipeline_argv("eval", "e", doc="1", on_page_lines=True)
+    with pytest.raises(jobs.JobError):
+        tk.pipeline_argv("eval", "e", doc="1", replace_machine_text=True)
+    with pytest.raises(jobs.JobError):
+        tk.pipeline_argv("plan", "e", doc="1", on_page_lines=True)
