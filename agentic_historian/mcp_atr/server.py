@@ -1251,7 +1251,9 @@ def build_server(provider=None, auth_settings=None):
                              page_model: Optional[str] = None, no_llm: bool = False,
                              upload: bool = False, limit: Optional[int] = None,
                              variants: Optional[str] = None, prior: bool = False,
-                             status: Optional[str] = None) -> dict:
+                             status: Optional[str] = None,
+                             replace_machine_text: bool = False,
+                             on_page_lines: bool = False) -> dict:
         """Read a Transkribus document's untranscribed pages and post the result
         back, or measure the readers on its transcribed ones. Files under
         ``VLM_TEST_ROOT/<run>``; every step resumes where it stopped.
@@ -1280,6 +1282,16 @@ def build_server(provider=None, auth_settings=None):
         (line CER 0.371 against 0.383 rules-only and 0.505 with the arbiter),
         so ``only_extra=true, primary=D, no_llm=true`` was the full run.
 
+        **Re-reading machine text** (A V 1447, 25.10.): ``replace_machine_text``
+        (plan, run) plans every page whose current text is HTR output nobody
+        edited, or none — DONE/FINAL and pages edited after their HTR are left
+        out and counted. ``on_page_lines`` (run, eval) reads on the lines the
+        page's current version draws instead of re-segmenting, and writes the
+        reading back into that PAGE XML, so Transkribus' polygons, regions and
+        reading order stay (kraken models; the gateway must run serving-atr-
+        inference with given-line support). In eval it measures the reading
+        alone, without the segmentation's losses.
+
         With A, B or C in the run the vLLM models need the card: stop party on
         idhefix first (`gateway_models` → headroom).
         """
@@ -1289,7 +1301,8 @@ def build_server(provider=None, auth_settings=None):
                 extra_model=extra_model, primary=primary, only_extra=only_extra,
                 line_model=line_model, trocr_model=trocr_model, page_model=page_model,
                 no_llm=no_llm, upload=upload, limit=limit, variants=variants,
-                prior=prior, status=status)
+                prior=prior, status=status, replace_machine_text=replace_machine_text,
+                on_page_lines=on_page_lines)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 

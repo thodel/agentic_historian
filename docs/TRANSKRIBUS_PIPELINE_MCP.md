@@ -40,6 +40,33 @@ except the test pages, and `eval` with `status="DONE", prior=true` adds reader
 own HTR. Its toolName is printed. That puts the readers next to what Transkribus
 gave the transcribers.
 
+### Re-reading machine text on the page's own lines (A V 1447)
+
+A volume whose uncorrected pages already carry an HTR reading (Schlussredaktion:
+549 pages of Text Titan) is re-read with the volume's own model on **the lines
+Transkribus drew**:
+
+```
+transkribus_pipeline(step="run", run="schlussredaktion-reread", doc="13922579",
+                     extra_model="kraken-bern-schlussredaktion-v1", primary="D",
+                     only_extra=true, no_llm=true,
+                     replace_machine_text=true, on_page_lines=true, limit=3)
+```
+
+- `replace_machine_text` plans every page whose current text is HTR output
+  nobody edited, plus pages without text. DONE/FINAL pages are left out, and so
+  are pages someone edited after the HTR. Both are counted.
+- `on_page_lines` sends the current version's lines (baseline, polygon,
+  region) to the gateway. The kraken engine reads on exactly those
+  (`segmented_by: given`), and the reading is written back into that PAGE XML:
+  polygons, regions and reading order stay Transkribus' own. Pages without
+  lines are segmented as before.
+- The upload adds an IN_PROGRESS version on top. The HTR version stays in the
+  history.
+
+Needs serving-atr-inference with given-line support on idhefix (kraken engine
+and gateway), and an `atr-client` that sends `lines`.
+
 ### Choosing the readers (step 7 decides)
 
 `eval` prints the page CER, the **line CER** (each recognized line against the

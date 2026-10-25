@@ -137,6 +137,36 @@ def _planned(root: Path, args) -> tuple[dict, list[tp.PageInfo]]:
 
 # ── plan ─────────────────────────────────────────────────────────────────────
 
+CORRECTED = ("DONE", "FINAL")
+
+
+def _machine_pages(ts, colid: int, pages) -> list:
+    """Pages whose current text no human has touched: empty, or the first
+    version with text is the current one (an HTR run nobody edited since).
+
+    A page someone corrected after the HTR — a later version with text, even
+    IN_PROGRESS — is left out: replacing it would throw their work behind a new
+    version. So are DONE and FINAL. Both are counted and printed, never silent.
+    """
+    hist: dict[int, dict[int, list[dict]]] = {}
+    keep, edited, corrected = [], [], []
+    for p in pages:
+        if str(p.status or "").upper() in CORRECTED:
+            corrected.append(p.page_nr)
+            continue
+        if p.docid not in hist:
+            hist[p.docid] = tp.transcript_history(ts, colid, p.docid)
+        versions = hist[p.docid].get(p.page_nr, [])
+        if tp.first_text_version(versions) is not None:
+            edited.append(p.page_nr)
+            continue
+        keep.append(p)
+    print(f"--replace-machine-text: {len(keep)} page(s) with machine text or none; left out "
+          f"{len(corrected)} corrected (DONE/FINAL) and {len(edited)} edited after their HTR"
+          + (f": {_ranges(edited)}" if edited else ""))
+    return keep
+
+
 def cmd_plan(args) -> int:
     root = out_root(args)
     ts = _login()
@@ -144,7 +174,10 @@ def cmd_plan(args) -> int:
     logger.info(f"[ruemlang] collection {col.get('colId')} {col.get('colName')!r}")
     docs = [int(d) for d in args.doc] if args.doc else None
     pages = tp.collection_pages(ts, int(col["colId"]), docs=docs)
-    unseg = [p for p in pages if tp.wanted(p, include_untranscribed=not args.only_unsegmented)]
+    if getattr(args, "replace_machine_text", False):
+        unseg = _machine_pages(ts, int(col["colId"]), pages)
+    else:
+        unseg = [p for p in pages if tp.wanted(p, include_untranscribed=not args.only_unsegmented)]
     by_status: dict[str, int] = {}
     for p in pages:
         by_status[str(p.status)] = by_status.get(str(p.status), 0) + 1
@@ -180,6 +213,38 @@ def _prepare_image(src: Path, dest_dir: Path) -> tuple[Path, float]:
         if not small.exists():
             im.convert("RGB").resize((round(w * f), round(h * f))).save(small, quality=92)
         return small, 1.0 / f
+
+
+def _page_lines(ts, p, d: Path, scale: float) -> Optional[list[dict]]:
+    """The lines the page's current Transkribus version draws, in the pixels of
+    the image actually sent (``scale`` is original/sent), for the gateway's
+    ``lines``. None when the page has none, so it is segmented as before.
+
+    The PAGE XML is kept as ``source.xml``: :func:`cmd_xml` writes the new
+    reading back into it, line for line, so the page keeps Transkribus'
+    polygons, regions and reading order.
+    """
+    if not p.nr_lines:
+        return None
+    src = d / "source.xml"
+    if not src.exists():
+        xml = tp.download_pagexml(ts, p)
+        if not xml:
+            return None
+        src.write_text(xml, encoding="utf-8")
+    parsed = pagexml.parse_lines(src.read_text(encoding="utf-8"))
+    if not parsed:
+        return None
+    k = 1.0 / (scale or 1.0)
+    pt = lambda xy: [round(xy[0] * k, 1), round(xy[1] * k, 1)]          # noqa: E731
+    out = []
+    for i, ln in enumerate(parsed):
+        out.append({"order": i,
+                    "baseline": [pt(v) for v in ln["baseline"]] if ln.get("baseline") else None,
+                    "boundary": [pt(v) for v in ln["points"]] if ln.get("points") else None,
+                    "bbox": [round(v * k, 1) for v in ln["bbox"]] if ln.get("bbox") else None,
+                    "regions": [ln["region"]] if ln.get("region") else []})
+    return out
 
 
 def cmd_recognize(args) -> int:
@@ -220,9 +285,11 @@ def cmd_recognize(args) -> int:
                     continue
                 img = next(i for i in d.glob("image.*") if not i.name.endswith(".part"))
                 send, scale = _prepare_image(img, d)
+                given = _page_lines(ts, p, d, scale) if getattr(args, "on_page_lines", False) else None
                 t0 = time.monotonic()
                 try:
-                    res = gw.recognize(send, model=model)
+                    res = (gw.recognize(send, model=model, lines=given) if given
+                           else gw.recognize(send, model=model))
                 except Exception as exc:                       # noqa: BLE001 — record, continue
                     failures += 1
                     streak += 1
@@ -237,6 +304,7 @@ def cmd_recognize(args) -> int:
                     "segmented_by": res.segmented_by, "timing_ms": res.timing_ms,
                     "truncated": bool(res.truncated), "gateway_version": res.service_version,
                     "image_sent": send.name, "scale_to_original": scale,
+                    "lines_given": len(given) if given else 0,
                     "wall_s": round(time.monotonic() - t0, 1),
                 }
                 _save(rec, payload)
@@ -415,6 +483,19 @@ def cmd_xml(args) -> int:
             logger.warning(f"[ruemlang] {p.key}: missing recognition or adjudication, skipped")
             continue
         decisions = {int(x["index"]): x for x in adj["decisions"]}
+        src = d / "source.xml"
+        if src.exists() and a.get("segmented_by") == "given":
+            texts = [decisions[i]["text"] if i in decisions else None
+                     for i in range(len(a["lines"]))]
+            try:
+                xml, changed = pagexml.replace_line_texts(src.read_text(encoding="utf-8"), texts)
+            except ValueError as exc:
+                logger.error(f"[ruemlang] {p.key}: {exc} — not written")
+                continue
+            out.write_text(xml, encoding="utf-8")
+            written += 1
+            logger.info(f"[ruemlang] {p.key}: {changed} line(s) rewritten in Transkribus' own layout")
+            continue
         lines = []
         for i, ln in enumerate(a["lines"]):
             dec = decisions.get(i)
@@ -807,6 +888,9 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("--only-unsegmented", action="store_true",
                        help="pages without lines only; default also takes pages whose lines have no text")
         p.add_argument("--show", type=int, default=15)
+        p.add_argument("--replace-machine-text", action="store_true",
+                       help="plan every page whose current text is machine output nobody edited, "
+                            "or none — not only pages without lines")
         p.add_argument("--dry-run", action="store_true")
 
     p = sub.add_parser("plan", help="which pages have no segmentation", parents=[shared])
@@ -816,6 +900,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--timeout", type=float, default=600.0)
     p.add_argument("--give-up", type=int, default=3,
                    help="consecutive failures after which a model is skipped for this run")
+    p.add_argument("--on-page-lines", action="store_true",
+                   help="read on the lines the page's current version draws (kraken models)")
     p.set_defaults(func=cmd_recognize)
 
     def _adj_args(p):
@@ -850,6 +936,9 @@ def build_parser() -> argparse.ArgumentParser:
                                     "a human has transcribed; uploads nothing", parents=[shared])
     _plan_args(p); p.add_argument("--timeout", type=float, default=600.0)
     p.add_argument("--give-up", type=int, default=3)
+    p.add_argument("--on-page-lines", action="store_true",
+                   help="read on the transcribed page's own lines: the reading alone, without "
+                        "the segmentation's losses")
     p.add_argument("--status", dest="status_filter", default=None,
                    help="only pages whose current status is one of these, e.g. DONE")
     p.add_argument("--prior", action="store_true",
@@ -863,6 +952,8 @@ def build_parser() -> argparse.ArgumentParser:
                                    "and builds XML, but posts nothing", parents=[shared])
     _plan_args(p); p.add_argument("--timeout", type=float, default=600.0)
     p.add_argument("--give-up", type=int, default=3)
+    p.add_argument("--on-page-lines", action="store_true",
+                   help="read on the lines the page's current version draws (kraken models)")
     _adj_args(p); _up_args(p, dry=False); p.set_defaults(func=cmd_run)
     return ap
 

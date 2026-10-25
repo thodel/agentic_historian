@@ -40,4 +40,4 @@ pypdfium2>=4.30.0
 
 # The ATR gateway client (outremer ADR 0002, #87): the gateway repo owns it,
 # agent_a/kraken_client.py is a shim over it. Pinned to a commit; bump in a PR.
-atr-client @ git+https://github.com/thodel/serving-atr-inference@ebb933506a7cf98f539819a8366be5e518097c5c#subdirectory=clients/python
+atr-client @ git+https://github.com/thodel/serving-atr-inference@38f83b06c5443b0c0c95ede40e89c11ea5a440a8#subdirectory=clients/python
