@@ -71,10 +71,38 @@ def _hub_sha(repo: str) -> Optional[str]:
     return hf.hub_state(repo).get("sha")
 
 
+def resolve_base(base: Optional[str]) -> tuple[Optional[str], Optional[str]]:
+    """``(what the trainer is sent, a problem or None)`` for a ``base_model``.
+
+    The trainer takes a curated registry id, a Zenodo DOI or a **file** — not
+    the id of a model it trained itself (24.10.: "base_model
+    'kraken-bern-hertwig-v2' is not a file, a registry id, or a Zenodo
+    reference"). ``trained:<id>`` names such a model and becomes its file,
+    by the rule `ruemlang/train_kraken.py` uses; the file is checked here,
+    on the share both machines read, before any GPU is asked for.
+    """
+    if not base or not str(base).startswith("trained:"):
+        return base, None
+    from ruemlang.train_kraken import resolve_base as _resolve
+
+    try:
+        path = _resolve(str(base))
+    except SystemExit as exc:
+        return base, str(exc)
+    if not Path(path).is_file():
+        return path, (f"base_model {base}: no file at {path} — is the model id right, "
+                      f"is the training share mounted?")
+    return path, None
+
+
 def prepare(spec: dict, *, resolve: Callable[[str], Optional[str]] = _hub_sha) -> dict:
     """The body to send, the revisions it pinned, and what is wrong with it."""
     body = _strip_notes(spec)
     problems = []
+    if body.get("base_model"):
+        body["base_model"], problem = resolve_base(body["base_model"])
+        if problem:
+            problems.append(problem)
     if body.get("engine") not in ENGINES:
         problems.append(f"engine must be one of {', '.join(ENGINES)}, got {body.get('engine')!r}")
     if not body.get("model_id"):

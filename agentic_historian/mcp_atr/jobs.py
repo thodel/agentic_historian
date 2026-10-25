@@ -1514,7 +1514,9 @@ def transkribus_letters_job(collection: str, *, letter: Optional[str] = None,
                                     dry_run=dry_run, source=source)
     return {"ok": True, "collection": collection, "dry_run": dry_run,
             "letter": letter, "all_letters": all_letters,
-            "next": ("look at the plan; then one letter with dry_run=false" if dry_run else
+            "next": (("look at the plan; then all_letters=true with dry_run=false"
+                      if all_letters else
+                      "look at the plan; then one letter with dry_run=false") if dry_run else
                      "look at the letter in the Transkribus interface, then all_letters=true"
                      if letter else "the server ingests the uploads as jobs; check the collection"),
             **start_and_peek("transkribus-letters", argv)}
