@@ -228,8 +228,9 @@ def build_server(provider=None, auth_settings=None):
             "numbers are disagreement, never quality — there is no ground truth "
             "here, and a model that hallucinates fluently disagrees exactly as "
             "much as one that reads badly. "
-            "ubelix_queue, ubelix_job and ubelix_record read UBELIX's Slurm "
-            "queue and the trainer's records there; they cannot submit or cancel. "
+            "ubelix_queue, ubelix_job, ubelix_record and ubelix_report read UBELIX's "
+            "Slurm queue, the trainer's records and their evaluation reports there; "
+            "they cannot submit or cancel. "
             "A Transkribus volume (export ground truth, fine-tune kraken, evaluate, "
             "read the rest, post it back) runs through transkribus_gt_export, "
             "upload_hf, kraken_train, transkribus_pipeline and transkribus_status, "
@@ -1148,6 +1149,21 @@ def build_server(provider=None, auth_settings=None):
         on the Slurm start.
         """
         return ubelix.record(record_id, lines)
+
+    @server.tool()
+    def ubelix_report(record_id: str, label: Optional[str] = None) -> dict:
+        """The evaluation reports a UBELIX job holds beside its record.
+
+        Without ``label``: which reports there are (``_`` is the run's own
+        ``eval_report.json``; others were written by
+        ``ubelix/rescore_on_shared_draw.py``, e.g. ``german-medieval-v1-test``).
+        With ``label``: that report — CER, WER, ``length_ratio``,
+        ``truncated_cer``, per source and kind, without its example pages — and,
+        for a held-out rescore, ``heldout``: which documents the draw and the
+        training side share. A score whose ``heldout.shared`` is not empty, or
+        whose ``heldout.checked`` is false, is not a held-out number.
+        """
+        return ubelix.report(record_id, label)
 
     # ── a Transkribus volume: ground truth → kraken fine-tune → full read ───
 

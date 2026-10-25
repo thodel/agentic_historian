@@ -900,7 +900,16 @@ def upload_hf(args: argparse.Namespace) -> int:
               file=sys.stderr)
         return 2
     print()
-    result = subprocess.run(argv)
+    import shutil
+
+    env, work = hf.upload_env(plan.scratch, datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ"))
+    if work:
+        print(f"staging in {work} (removed afterwards)")
+    try:
+        result = subprocess.run(argv, env=env)
+    finally:
+        if work:
+            shutil.rmtree(work, ignore_errors=True)
     if result.returncode != 0:
         print(f"\nError: pagexml-hf exited {result.returncode}", file=sys.stderr)
         return 1

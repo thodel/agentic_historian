@@ -1325,6 +1325,45 @@ Brief und die Möglichkeit eines halben Uploads, und die 23 Briefe davor stehen
 mit Upload- und Job-Id im Log. Ein Lauf, der weitergemacht hätte, hätte 101
 weitere Briefe hinter einer Meldung hochgeladen, die niemand gesehen hätte.
 
+## 40. Vor dem Lauf gemessen: vier Stopps, die das Runbook nicht kannte — und zwei danach
+
+S2 von #567 (eigener Benutzer, Sandbox, eigene Secrets-Datei) war seit dem 21.10.
+als Skript mit Trockenlauf vorbereitet, Runbook in SEPARATION.md, alles im Repo
+grün. Am 22.10. habe ich den Host angesehen, bevor Tobias den Lauf startete, mit
+den Skripten aus `origin/main` gegen die laufende Maschine. Vier Befunde, jeder
+hätte den Lauf gestoppt oder verfälscht, keiner war im Repo zu sehen:
+
+1. **`ATR_PAGE_CACHE_ARCHIVE` stand in den Schreibpfaden.** Auf tei ist das
+   ein CIFS-Mount mit `forceuid`: Schritt 0 wäre mit exit 6 stehen geblieben,
+   und hätte man den Pfad eingetragen, wäre `chown -R` in Schritt 4 unter
+   `set -e` gestorben — nach `useradd`, vor den Drop-ins, also mitten im
+   Zustand, den das Skript vermeiden soll. Der Bot *liest* das Archiv nur.
+2. **Das env-Beispiel kannte eine von drei Quelldateien.** Mit `AH_ENV_FILE`
+   liest der Bot nur noch die neue Datei. Gemessen (`env_diff.py`, zweimal
+   `config` importieren, Namen vergleichen): vier Settings wären still auf
+   Defaults gefallen, darunter der Mount-Pfad des ATR-Gateways. Nichts davon
+   wäre im Log aufgetaucht.
+3. **`acl` fehlte**, und der Trockenlauf verschwieg es — die Prüfung war mit
+   `DRY = 0` verriegelt. Ein Trockenlauf, der an einer Stelle schweigt, wo der
+   echte Lauf stoppt, ist kein Trockenlauf.
+4. **Der Checker sagte «Nichts konnte geprüft werden»** bei sechs gemessenen
+   Fehlschlägen; die Meldung hing an «nichts erfüllt». Genau die Verwechslung,
+   die er verhindern sollte, in seinem eigenen Urteilssatz.
+
+Nach dem Lauf (23.10.) noch zwei: der Checker war 0644 mit Shebang
+(`command not found`, und im Switch-Skript still in `|| true`), und er meldete
+die Secrets-Datei als Befund — mit genau dem Modus, den das Switch-Skript selbst
+installiert (root:agentic_historian 0640, damit der Bot seine Datei liest).
+
+**Was daraus folgt.** Ein Runbook, das noch nie gelaufen ist, beschreibt das
+Repo, nicht den Host; der Unterschied zeigt sich nur, wenn man die Skripte
+*vor* dem Lauf gegen die Maschine hält — als Messung, nicht als Lektüre. Und
+eine Prüfung, die ihren eigenen Sollzustand als Fehler meldet, lehrt den Leser,
+sie zu ignorieren (§24, dieselbe Familie). Die Lehre aus §25 hat gehalten: der
+Platzhalter war weg, die Pfade kamen aus der Konfiguration — und genau das hat
+den CIFS-Pfad hereingebracht, weil «was die Konfiguration schreibt» und «was
+die Konfiguration nennt» nicht dasselbe sind.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.

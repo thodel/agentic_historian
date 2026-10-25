@@ -6,12 +6,15 @@ Installed as the forced command of one key in ``~/.ssh/authorized_keys``::
     restrict,command="$HOME/bin/atr-mcp-ro" ssh-ed25519 AAAA… atr-mcp@tei
 
 sshd then runs this script whatever the client asked for, and puts the request
-in ``SSH_ORIGINAL_COMMAND``. Three requests are understood, all read-only:
+in ``SSH_ORIGINAL_COMMAND``. Four requests are understood, all read-only:
 
 * ``queue`` — this user's jobs in ``squeue``, with Slurm's start estimate.
 * ``job <slurm id>`` — ``sacct -D`` for one job, preemptions and requeues included.
 * ``record <job id> [lines]`` — the trainer's record (``job.json``: status,
   timestamps, error, metrics) and the tail of the log of its current stage.
+* ``report <job id> [label]`` — the evaluation reports in the job's ``data/``:
+  without a label, which there are; with one, that report (without its ten
+  example transcriptions) and its held-out check, if it has one (#301).
 
 Everything else exits 2 without running anything. There is no shell on this path:
 the request is split on whitespace, every word is matched against a pattern, and
@@ -33,6 +36,10 @@ SLURM_ID_RE = re.compile(r"^[0-9]{1,12}$")
 RECORD_RE = re.compile(r"^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9._-]{0,120}$")
 STAGE_RE = re.compile(r"^[a-z_]{1,32}$")
 LINES_RE = re.compile(r"^[0-9]{1,3}$")
+#: A report label as ``rescore_on_shared_draw.py`` writes it: a set name or a job
+#: id (``eval_report.<label>.json``), or ``_`` for the run's own
+#: ``eval_report.json``. No slash, so it names a file in ``data/`` and nothing else.
+LABEL_RE = re.compile(r"^(_|[A-Za-z0-9][A-Za-z0-9._-]{0,120})$")
 
 MAX_LINES = 200
 DEFAULT_LINES = 40
@@ -143,10 +150,63 @@ def record(record_id: str, lines: int) -> int:
     return 0
 
 
+def report_path(data: Path, label: str) -> Path:
+    return data / ("eval_report.json" if label == "_" else "eval_report.%s.json" % label)
+
+
+def report(record_id: str, label) -> int:
+    """List a job's evaluation reports, or hand one out.
+
+    The rescore of a finished run writes ``data/eval_report.<label>.json`` and,
+    with ``--heldout``, ``eval_report.<label>.heldout.json`` beside it; neither
+    reaches the record, which is why ``record`` cannot show them. ``examples`` —
+    ten full reference/prediction pairs — is left out: it is for eyeballing on the
+    box, and for a page set it is most of the file.
+    """
+    data = jobs_root() / record_id / "data"
+    if not data.is_dir():
+        print(json.dumps({"id": record_id, "error": "no data directory"}))
+        return 1
+    if label is None:
+        labels = []
+        for path in sorted(data.glob("eval_report*.json")):
+            name = path.name
+            if name.endswith(".heldout.json"):
+                continue
+            labels.append("_" if name == "eval_report.json"
+                          else name[len("eval_report."):-len(".json")])
+        # The run's own first, then the rescores by name.
+        labels.sort(key=lambda name: (name != "_", name))
+        print(json.dumps({"id": record_id, "reports": labels}))
+        return 0
+    path = report_path(data, label)
+    try:
+        raw = json.loads(path.read_text())
+    except FileNotFoundError:
+        print(json.dumps({"id": record_id, "label": label, "error": "no such report"}))
+        return 1
+    except (OSError, ValueError) as exc:
+        print(json.dumps({"id": record_id, "label": label, "error": "unreadable: %s" % exc}))
+        return 1
+    if isinstance(raw, dict):
+        raw.pop("examples", None)
+    heldout = None
+    sidecar = data / ("eval_report.%s.heldout.json" % label)
+    if label != "_" and sidecar.is_file():
+        try:
+            heldout = json.loads(sidecar.read_text())
+        except (OSError, ValueError) as exc:
+            heldout = {"error": "unreadable: %s" % exc}
+    print(json.dumps({"id": record_id, "label": label, "report": raw, "heldout": heldout},
+                     ensure_ascii=False))
+    return 0
+
+
 def main() -> int:
     words = os.environ.get("SSH_ORIGINAL_COMMAND", "").split()
     if not words:
-        return refuse("no request; this key runs `queue`, `job ID` or `record ID [lines]`")
+        return refuse("no request; this key runs `queue`, `job ID`, `record ID [lines]` "
+                      "or `report ID [label]`")
     verb, args = words[0], words[1:]
     if verb == "queue" and not args:
         return queue()
@@ -157,7 +217,11 @@ def main() -> int:
             return refuse("lines must be a number")
         lines = min(MAX_LINES, max(1, int(args[1]))) if len(args) == 2 else DEFAULT_LINES
         return record(args[0], lines)
-    return refuse("not one of `queue`, `job ID`, `record ID [lines]`")
+    if verb == "report" and len(args) in (1, 2) and RECORD_RE.match(args[0]):
+        if len(args) == 2 and not LABEL_RE.match(args[1]):
+            return refuse("not a report label")
+        return report(args[0], args[1] if len(args) == 2 else None)
+    return refuse("not one of `queue`, `job ID`, `record ID [lines]`, `report ID [label]`")
 
 
 if __name__ == "__main__":

@@ -165,7 +165,7 @@ def test_a_long_answer_is_cut_and_says_so(configured, monkeypatch):
 def test_both_sides_use_the_same_patterns():
     """Two copies of a pattern that drift are how a refusal becomes a hole."""
     text = SCRIPT.read_text()
-    for name in ("SLURM_ID_RE", "RECORD_RE"):
+    for name in ("SLURM_ID_RE", "RECORD_RE", "LABEL_RE"):
         ours = getattr(ubelix, name).pattern
         theirs = re.search(name + r' = re\.compile\(r"([^"]+)"\)', text).group(1)
         assert ours == theirs, name
@@ -193,6 +193,15 @@ def ubelix_host(tmp_path):
         "metrics": {"cer": 0.2659, "wer": 0.61, "samples": 120},
     }))
     (rec / "logs" / "train.log").write_text("".join(f"step {i}\n" for i in range(500)))
+    data = rec / "data"
+    data.mkdir()
+    (data / "eval_report.json").write_text(json.dumps({"cer": 0.3214, "samples": 164}))
+    (data / "eval_report.german-medieval-v1-test.json").write_text(json.dumps({
+        "cer": 0.29, "wer": 0.6, "samples": 695, "length_ratio": 1.04,
+        "examples": [{"reference": "x" * 5000, "prediction": "y" * 5000}]}))
+    (data / "eval_report.german-medieval-v1-test.heldout.json").write_text(json.dumps({
+        "checked": True, "shared": [], "draw_documents": 200, "train_documents": 812}))
+    (data / "eval_report.german-medieval-v1-test.raw.jsonl").write_text("{}\n")
 
     def run(request):
         env = {"PATH": f"{bin_dir}:/usr/bin:/bin", "USER": "th19c587",
@@ -213,6 +222,9 @@ def ubelix_host(tmp_path):
     "job", "job 1 2", "job 1;id", "job $(id)", "job ../1",
     "record", "record ../../etc", "record " + RECORD + " 40;id",
     "record " + RECORD + " 1 2", "record " + RECORD + " -1",
+    "report", "report ../x", "report " + RECORD + " ../../etc/passwd",
+    "report " + RECORD + " a/b", "report " + RECORD + " .hidden",
+    "report " + RECORD + " x y",
     "QUEUE", "queue; id", "rm -rf ~",
 ])
 def test_anything_but_the_three_requests_exits_2_and_runs_nothing(ubelix_host, request_):
@@ -283,3 +295,55 @@ def test_an_unknown_record_is_an_answer_not_a_traceback(ubelix_host):
 
 def test_the_script_is_executable():
     assert os.access(SCRIPT, os.X_OK)
+
+
+# ── report: the evaluation files beside the record (#301) ───────────────────
+
+def test_report_without_a_label_lists_the_reports(ubelix_host):
+    done, ran = ubelix_host(f"report {RECORD}")
+    assert done.returncode == 0 and ran == []
+    # The own report as `_`; the held-out sidecar and the raw outputs are not reports.
+    assert json.loads(done.stdout)["reports"] == ["_", "german-medieval-v1-test"]
+
+
+def test_report_hands_out_the_scores_and_the_heldout_check_but_not_the_examples(ubelix_host):
+    done, _ = ubelix_host(f"report {RECORD} german-medieval-v1-test")
+    out = json.loads(done.stdout)
+    assert done.returncode == 0
+    assert out["report"]["cer"] == 0.29 and out["report"]["samples"] == 695
+    assert "examples" not in out["report"]
+    assert out["heldout"] == {"checked": True, "shared": [], "draw_documents": 200,
+                              "train_documents": 812}
+
+
+def test_the_runs_own_report_is_underscore(ubelix_host):
+    out = json.loads(ubelix_host(f"report {RECORD} _")[0].stdout)
+    assert out["report"]["cer"] == 0.3214 and out["heldout"] is None
+
+
+def test_an_unknown_report_is_an_answer_not_a_traceback(ubelix_host):
+    done, _ = ubelix_host(f"report {RECORD} nothing-here")
+    assert done.returncode == 1 and json.loads(done.stdout)["error"] == "no such report"
+
+
+@pytest.mark.parametrize("bad", HOSTILE + ["../x", "a/b", ".hidden", "-x"])
+def test_a_label_that_is_not_one_never_reaches_ssh(configured, calls, bad):
+    result = ubelix.report(RECORD, bad)
+    assert result["ok"] is False and "label" in result["error"]
+    assert calls == []
+
+
+def test_report_is_one_fixed_argv_and_comes_back_parsed(configured, monkeypatch):
+    seen = []
+    payload = {"id": RECORD, "label": "german-medieval-v1-test",
+               "report": {"cer": 0.29}, "heldout": {"checked": True, "shared": []}}
+
+    def fake(argv, **kw):
+        seen.append(argv)
+        return subprocess.CompletedProcess(argv, 0, stdout=json.dumps(payload), stderr="")
+    monkeypatch.setattr(ubelix.subprocess, "run", fake)
+
+    result = ubelix.report(RECORD, "german-medieval-v1-test")
+    assert seen[0][-3:] == ["report", RECORD, "german-medieval-v1-test"]
+    assert result["ok"] is True and result["report"] == {"cer": 0.29}
+    assert result["heldout"]["shared"] == [] and "output" not in result
