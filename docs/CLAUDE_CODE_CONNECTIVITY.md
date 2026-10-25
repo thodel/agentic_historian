@@ -243,7 +243,7 @@ without a login, an authorization server hands tokens to whoever asks.
 
 **One hop further, to UBELIX (#674).** The Slurm cluster is out of reach for the
 same reasons and one more: it sits inside the university network. tei is inside
-it, so `ubelix_queue`, `ubelix_job` and `ubelix_record` ssh from tei to submit02
+it, so `ubelix_queue`, `ubelix_job`, `ubelix_record` and `ubelix_report` ssh from tei to submit02
 with a key that UBELIX's `authorized_keys` binds to one read-only script
 ([`deploy/ubelix-ro/`](../deploy/ubelix-ro/README.md)). They answer "queued,
 running, preempted, what does the log say" and nothing that submits or cancels.
