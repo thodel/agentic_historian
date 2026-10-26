@@ -100,8 +100,10 @@ def test_a_spec_is_a_name_under_the_directory(bad):
 
 
 def test_ubelix_is_printed_never_submitted():
-    cmds = "\n".join(tsp.ubelix_commands("blb-kraken-v1", {"model_id": "kraken-german-xix-blb-v1"}))
-    assert "prepare.sbatch" in cmds and "train.sbatch" in cmds and "--body-only" in cmds
+    body = {"engine": "kraken", "model_id": "kraken-german-xix-blb-v1", "datasets": []}
+    state = {"blb-kraken-v1": {"file": "blb-kraken-v1@c25587d.json", "present": True, "same": True}}
+    cmds = "\n".join(tsp.ubelix_commands([("blb-kraken-v1", body)], state))
+    assert "prepare.sbatch" in cmds and "train.sbatch" in cmds and "curl -fsSL" in cmds
 
 
 # ── the hub names its commit ─────────────────────────────────────────────────

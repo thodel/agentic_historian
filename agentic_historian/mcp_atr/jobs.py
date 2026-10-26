@@ -1552,11 +1552,16 @@ def train_spec_argv(spec: str, action: str = "request", *,
 
     if action not in tsp.ACTIONS:
         raise JobError(f"action must be one of {', '.join(tsp.ACTIONS)}, got {action!r}")
-    name = (spec or "").removesuffix(".json")
-    if name not in tsp.spec_names():
-        raise JobError(f"no spec {name!r} under training/specs/ — there are: "
-                       f"{', '.join(tsp.spec_names()) or 'none'}")
-    argv = [_python(), "-m", "agentic_historian", "train-spec", "--spec", name,
+    names = [n.strip().removesuffix(".json") for n in (spec or "").split(",") if n.strip()]
+    if not names:
+        raise JobError("name a spec")
+    if len(names) > 1 and action != "ubelix":
+        raise JobError("several specs only for action='ubelix' — the others send or follow one run")
+    for name in names:
+        if name not in tsp.spec_names():
+            raise JobError(f"no spec {name!r} under training/specs/ — there are: "
+                           f"{', '.join(tsp.spec_names()) or 'none'}")
+    argv = [_python(), "-m", "agentic_historian", "train-spec", "--spec", ",".join(names),
             "--action", action]
     if job_id:
         if action != "status" or not TRAIN_JOB_ID_RE.match(job_id):

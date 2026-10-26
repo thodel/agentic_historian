@@ -1006,8 +1006,12 @@ def build_server(provider=None, auth_settings=None):
         nothing; ``submit`` sends it to the gateway's trainer on asteraix — GPU
         time, so look at ``request`` first — and is refused when the
         ``model_id`` already has a job; ``status`` follows the newest job of
-        the model (or ``job_id``); ``ubelix`` prints the two Slurm stages for
-        UBELIX, which a person submits — `ubelix_*` stay read-only.
+        the model (or ``job_id``); ``ubelix`` prints the commands a person runs
+        on UBELIX — `ubelix_*` stay read-only. For ``ubelix`` ``spec`` may name
+        several, comma-separated: specs that build the same corpus get one
+        build and the others queue behind it. The body is fetched there from
+        ``training/requests/`` on main (tei cannot copy to UBELIX); when it is
+        not there yet, the output says how to write and commit it first.
         """
         try:
             return jobs.train_spec_job(spec, action, job_id=job_id)

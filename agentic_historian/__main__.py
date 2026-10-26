@@ -974,11 +974,34 @@ def train_spec_cmd(args: argparse.Namespace) -> int:
     """A spec from training/specs/, pinned, as a request or a job (#715)."""
     import train_spec as tsp
 
+    names = [n.strip().removesuffix(".json") for n in args.spec.split(",") if n.strip()]
+    if len(names) > 1 and not (args.action == "ubelix" or args.write_request):
+        print("Error: several specs only with --action ubelix or --write-request", file=sys.stderr)
+        return 2
     try:
-        prepared = tsp.prepare(tsp.load(args.spec))
+        all_prepared = [(n, tsp.prepare(tsp.load(n))) for n in names]
     except tsp.SpecError as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
+    if args.write_request:
+        for n, prep in all_prepared:
+            try:
+                print(f"wrote {tsp.write_request(n, prep)}")
+            except tsp.SpecError as exc:
+                print(f"Error: {n}: {exc}", file=sys.stderr)
+                return 1
+        print("commit training/requests/ and merge — UBELIX fetches them from main")
+        return 0
+    if args.action == "ubelix":
+        ok = True
+        for n, prep in all_prepared:
+            print(tsp.format_prepared(n, prep) + "\n")
+            ok = ok and prep["ok"]
+        states = {n: tsp.request_state(n, prep) for n, prep in all_prepared}
+        print("\n".join(tsp.ubelix_commands([(n, prep["body"]) for n, prep in all_prepared], states)))
+        return 0 if ok else 1
+    prepared = all_prepared[0][1]
+    args.spec = names[0]
     body = prepared["body"]
     if args.body_only:
         if not prepared["ok"]:
@@ -990,9 +1013,6 @@ def train_spec_cmd(args: argparse.Namespace) -> int:
     if args.action == "request":
         print("\n" + json.dumps(body, ensure_ascii=False, indent=1))
         print("\n(request — nothing sent)")
-        return 0 if prepared["ok"] else 1
-    if args.action == "ubelix":
-        print("\n" + "\n".join(tsp.ubelix_commands(args.spec, body)))
         return 0 if prepared["ok"] else 1
     if not prepared["ok"]:
         print("\nError: not sending — fix the problems above", file=sys.stderr)
@@ -1845,7 +1865,12 @@ def build_parser() -> argparse.ArgumentParser:
     p_ts = sub.add_parser(
         "train-spec",
         help="A training spec from training/specs/, pinned: request, submit, status, ubelix (#715)")
-    p_ts.add_argument("--spec", required=True, help="Name of a file under training/specs/ (no .json)")
+    p_ts.add_argument("--spec", required=True,
+                      help="Name of a file under training/specs/ (no .json); several, comma-"
+                           "separated, for --action ubelix and --write-request")
+    p_ts.add_argument("--write-request", action="store_true",
+                      help="Write the pinned body to training/requests/<spec>@<rev>.json in this "
+                           "checkout, to commit (a working tree, not tei's production checkout)")
     p_ts.add_argument("--action", default="request", choices=("request", "submit", "status", "ubelix"))
     p_ts.add_argument("--job-id", default=None, help="status: a trainer job id (default: the newest of the model)")
     p_ts.add_argument("--body-only", action="store_true",
