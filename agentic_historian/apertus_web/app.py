@@ -13,7 +13,7 @@ deployment accident must fail at boot, not serve the GPU to the internet.
 
 One request reaches the model at a time; a second waits, a fourth is turned away
 with 429. The first request after the model was evicted is a cold start on
-idhefix (one to three minutes); the page says so rather than looking hung.
+idhefix (about six minutes: the weights come off the research share); the page says so rather than looking hung.
 """
 
 from __future__ import annotations
@@ -45,7 +45,7 @@ MAX_TOKENS_CAP = 4096
 MAX_WAITING = 3                 # requests allowed to queue behind the running one
 #: A cold start on idhefix plus a long answer. nginx's proxy_read_timeout for
 #: /apertus/ is set above this (deploy/apertus-web/nginx-apertus.conf).
-GATEWAY_TIMEOUT_S = 840.0
+GATEWAY_TIMEOUT_S = 1080.0
 
 INDEX_HTML = (Path(__file__).parent / "index.html").read_text(encoding="utf-8")
 

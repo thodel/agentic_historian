@@ -69,7 +69,8 @@ curl -s -u x:"$PW" https://tei.dh.unibe.ch/apertus/api/status                   
 ```
 
 `"resident": false` means the next question cold-starts the model on idhefix,
-which takes 1–3 minutes. The page says so while it waits.
+which takes about six minutes (16 GB of weights off the research share, then
+compilation). The page says so while it waits.
 
 ## Taking it down after the test
 

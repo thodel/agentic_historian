@@ -180,7 +180,7 @@ async function refreshStatus() {
     resident = s.resident;
     let text = s.gateway !== "ok" ? "Gateway nicht erreichbar"
       : s.resident ? "Modell geladen, Antwort in Sekunden"
-      : "Modell nicht geladen: die erste Anfrage startet es (1–3 min)";
+      : "Modell nicht geladen: die erste Anfrage startet es (ca. 6 min)";
     if (s.busy) text += " · rechnet gerade" + (s.waiting ? ` (${s.waiting} wartend)` : "");
     $("status").innerHTML = dot + text;
   } catch { $("status").innerHTML = '<span class="dot err"></span>Status nicht abrufbar'; }
@@ -199,7 +199,7 @@ $("go").onclick = async () => {
   $("go").disabled = true; $("copy").hidden = true; $("warn").textContent = ""; $("meta").textContent = "";
   const t0 = Date.now();
   const cold = resident === false;
-  $("answer").innerHTML = '<span class="spinner"></span> ' + (cold ? "Modell wird gestartet, das dauert beim ersten Mal 1–3 Minuten …" : "Modell rechnet …");
+  $("answer").innerHTML = '<span class="spinner"></span> ' + (cold ? "Modell wird gestartet, das dauert beim ersten Mal rund 6 Minuten …" : "Modell rechnet …");
   timer = setInterval(() => { $("go").textContent = "Läuft … " + Math.round((Date.now() - t0) / 1000) + " s"; }, 500);
   try {
     const r = await fetch("api/ask", { method: "POST", body: fd });
