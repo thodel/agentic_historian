@@ -150,6 +150,10 @@ def test_status_reads_counts_errors_and_eval(sandbox):
     assert st["planned_pages"] == 2
     assert st["on_disk"] == {"kraken-x": 1, "adjudicated": 1, "page": 1, "errors": 1}
     assert st["errors"] == ["doc1_p0002/rec_kraken-x.error.json"]
+    # a page read after its failure is no longer an error, even if the old file stayed
+    (root / "pages" / "doc1_p0002" / "rec_kraken-x.json").write_text("{}")
+    st = tk.pipeline_status("hertwig-run")
+    assert "errors" not in st and st["on_disk"]["kraken-x"] == 2
     assert st["eval_mean_cer"] == {"D": 0.4, "D~": 0.2}
     with pytest.raises(jobs.JobError):
         tk.pipeline_status("nope")
