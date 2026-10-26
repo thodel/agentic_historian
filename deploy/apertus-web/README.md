@@ -23,6 +23,22 @@ That restraint is the point, because the gateway starts GPU work on a shared car
 
 ## Install on tei
 
+**One script does all of it** (`install_on_tei.sh`): it takes user and venv from
+the `atr-mcp` unit and gateway URL and key from `/etc/atr-mcp.env`, generates a
+password, writes and starts the unit, adds the nginx include with backup and
+rollback, checks for 401 from outside and prints the password. Run it from a
+worktree of the branch, so the checkout that serves the bot and the MCP server
+stays on main:
+
+```bash
+cd /home/dh/agentic_historian
+git fetch origin claude/zen-faraday-f0jpr8
+git worktree add /home/dh/ah-apertus origin/claude/zen-faraday-f0jpr8
+sudo bash /home/dh/ah-apertus/deploy/apertus-web/install_on_tei.sh /home/dh/ah-apertus
+```
+
+The steps below are what it does, for doing them by hand.
+
 ### 1. Credentials
 
 ```bash
