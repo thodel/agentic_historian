@@ -1,0 +1,43 @@
+# Apertus 1.5 test page — https://tei.dh.unibe.ch/apertus/
+# Install:
+#     sudo cp deploy/apertus-web/apertus-web.service /etc/systemd/system/
+#     sudo systemctl daemon-reload && sudo systemctl enable --now apertus-web
+#
+# Same placeholders as atr-mcp.service (User=, WorkingDirectory=, ExecStart=);
+# set them to the values that unit uses on tei.
+
+[Unit]
+Description=Apertus 1.5 test page (agentic_historian)
+Documentation=https://github.com/thodel/agentic_historian/blob/main/deploy/apertus-web/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+User=CHANGEME
+WorkingDirectory=/srv/agentic_historian/agentic_historian
+
+# APERTUS_WEB_PASSWORD, ATR_GATEWAY_URL, ATR_API_KEY — and nothing else.
+# AH_ENV_FILE points config.py at that one file, so the bot's .env.gpustack with
+# every other secret is never read into this process (#567).
+EnvironmentFile=/etc/apertus-web.env
+Environment=AH_ENV_FILE=/etc/apertus-web.env
+
+ExecStart=/srv/agentic_historian/.venv/bin/uvicorn apertus_web.app:app \
+    --host 127.0.0.1 --port 8310 --log-level info
+
+Restart=on-failure
+RestartSec=5s
+
+# It reads an upload into memory and makes one HTTP call. Nothing to write.
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

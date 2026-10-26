@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apertus Bildtest</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root {
+  --bg: #f6f5f2; --panel: #ffffff; --ink: #1d1d1b; --muted: #6b6a66;
+  --line: #dedcd6; --accent: #b4232a; --accent-ink: #ffffff;
+  --ok: #2f7d4f; --warn: #a86400; --err: #b4232a; --code: #f0eee9;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161615; --panel: #201f1d; --ink: #ecebe7; --muted: #a09e98;
+    --line: #3a3935; --accent: #e0474f; --accent-ink: #ffffff;
+    --ok: #5fbf86; --warn: #e0a040; --err: #ff6b72; --code: #2a2926;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+header { padding: 20px 16px 8px; max-width: 1200px; margin: 0 auto; }
+h1 { font-size: 1.4rem; margin: 0 0 4px; }
+.sub { color: var(--muted); margin: 0; font-size: .95rem; }
+main { max-width: 1200px; margin: 0 auto; padding: 8px 16px 40px;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 860px) { main { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+label { font-weight: 600; font-size: .9rem; display: block; margin: 12px 0 6px; }
+#drop { border: 2px dashed var(--line); border-radius: 10px; min-height: 220px;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  color: var(--muted); cursor: pointer; padding: 12px; position: relative; overflow: hidden; }
+#drop.over { border-color: var(--accent); }
+#drop img { max-width: 100%; max-height: 420px; display: block; }
+#file { display: none; }
+.presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.presets button { background: transparent; color: var(--ink); border: 1px solid var(--line);
+  border-radius: 999px; padding: 4px 10px; font-size: .85rem; cursor: pointer; }
+.presets button:hover { border-color: var(--accent); }
+textarea { width: 100%; min-height: 120px; resize: vertical; padding: 10px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink);
+  font: inherit; }
+.row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+.row label { margin: 0; font-weight: 400; display: flex; gap: 6px; align-items: center; }
+input[type=number] { width: 90px; padding: 4px 6px; border: 1px solid var(--line);
+  border-radius: 6px; background: var(--bg); color: var(--ink); font: inherit; }
+#go { margin-top: 14px; width: 100%; padding: 12px; border: 0; border-radius: 8px;
+  background: var(--accent); color: var(--accent-ink); font: 600 1rem system-ui, sans-serif; cursor: pointer; }
+#go:disabled { opacity: .55; cursor: wait; }
+#status { font-size: .85rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); display: inline-block; }
+.dot.ok { background: var(--ok); } .dot.warn { background: var(--warn); } .dot.err { background: var(--err); }
+#answer { white-space: pre-wrap; word-wrap: break-word; background: var(--code);
+  border-radius: 8px; padding: 12px; min-height: 160px; font-size: .95rem; }
+.meta { color: var(--muted); font-size: .82rem; margin-top: 8px; }
+.warnbox { color: var(--warn); font-size: .88rem; margin-top: 8px; }
+.errbox { color: var(--err); }
+.history h2, .result h2 { font-size: 1rem; margin: 0 0 10px; display: flex;
+  justify-content: space-between; align-items: center; gap: 8px; }
+.small { background: transparent; border: 1px solid var(--line); color: var(--ink);
+  border-radius: 6px; padding: 3px 8px; font-size: .8rem; cursor: pointer; }
+.item { border-top: 1px solid var(--line); padding: 10px 0; display: grid;
+  grid-template-columns: 64px minmax(0, 1fr); gap: 10px; }
+.item img { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; }
+.item .q { color: var(--muted); font-size: .82rem; }
+.item .t { font-size: .88rem; white-space: pre-wrap; max-height: 7.5em; overflow: hidden; }
+.item.open .t { max-height: none; }
+.item { cursor: pointer; }
+.spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--muted);
+  border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; vertical-align: -2px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+footer { max-width: 1200px; margin: 0 auto; padding: 0 16px 30px; color: var(--muted); font-size: .8rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Apertus 1.5 · Bildtest</h1>
+  <p class="sub">Ein Bild hochladen, eine Frage stellen. Modell <code>{{MODEL}}</code>
+    über das ATR-Gateway auf idhefix. <span id="status"><span class="dot"></span>Status wird geprüft …</span></p>
+</header>
+
+<main>
+  <section class="panel">
+    <div id="drop" tabindex="0" role="button" aria-label="Bild auswählen">
+      <span id="drophint">Bild hierher ziehen oder klicken<br><small>JPG, PNG, TIFF, WebP · max. 25 MB · wird auf 1.96 MP verkleinert</small></span>
+    </div>
+    <input id="file" type="file" accept="image/*,.tif,.tiff">
+
+    <label for="prompt">Frage an das Modell</label>
+    <div class="presets" id="presets"></div>
+    <textarea id="prompt" style="margin-top:8px"></textarea>
+
+    <div class="row">
+      <label><input type="checkbox" id="thinking"> Thinking-Mode (langsamer, mit Begründung)</label>
+      <label>max. Tokens <input type="number" id="maxtok" value="2048" min="64" max="4096" step="64"></label>
+    </div>
+    <button id="go" disabled>Bild auswählen</button>
+  </section>
+
+  <section class="panel result">
+    <h2>Antwort <button class="small" id="copy" hidden>Kopieren</button></h2>
+    <div id="answer"><span style="color:var(--muted)">Noch keine Anfrage.</span></div>
+    <div class="meta" id="meta"></div>
+    <div class="warnbox" id="warn"></div>
+  </section>
+
+  <section class="panel history" style="grid-column: 1 / -1">
+    <h2>Verlauf dieser Sitzung
+      <span><button class="small" id="export" hidden>Als JSONL herunterladen</button>
+      <button class="small" id="clear" hidden>Leeren</button></span></h2>
+    <div id="hist"><span style="color:var(--muted); font-size:.9rem">Die Ergebnisse bleiben nur in diesem Browser-Tab.</span></div>
+  </section>
+</main>
+
+<footer>
+  Testinstallation, keine Speicherung auf dem Server. Apertus 1.5 ist ein allgemeines Modell und
+  kann Details erfinden: Beschreibungen immer am Bild prüfen.
+</footer>
+
+<script>
+const PRESETS = {
+  "Beschreiben": "Beschreibe dieses Bild sachlich und genau auf Deutsch. Nenne, was zu sehen ist (Personen, Gegenstände, Orte, Szene), die Art des Bildes (z. B. Fotografie, Zeichnung, Druck, Karte, Dokument), sichtbare Beschriftungen und Hinweise auf Zeit und Ort. Erfinde nichts: Was du nicht erkennen kannst, bezeichne als unsicher.",
+  "Kurz (Alt-Text)": "Schreibe einen kurzen Alternativtext (höchstens zwei Sätze) für dieses Bild auf Deutsch.",
+  "Metadaten (JSON)": "Gib für dieses Bild ein JSON-Objekt mit den Feldern titel, bildtyp, datierung_geschaetzt, ort_geschaetzt, personen, schlagwoerter (Liste mit 5 Begriffen) und unsicherheiten aus. Nur JSON, keine Erklärung.",
+  "Personen": "Welche Personen sind zu sehen? Beschreibe für jede Person Kleidung, Haltung und Tätigkeit. Nenne keine Namen, ausser sie stehen lesbar im Bild.",
+  "Beschriftungen": "Gib allen lesbaren Text im Bild wörtlich wieder (Beschriftungen, Schilder, Titel, Stempel). Markiere unsichere Stellen mit [?].",
+  "Transkribieren": "Transcribe the handwritten text in this image exactly as written, line by line. Keep the original spelling, abbreviations and punctuation. Output only the transcription.",
+};
+const $ = (id) => document.getElementById(id);
+let file = null, thumb = null, history = [];
+
+const presetsEl = $("presets");
+for (const [name, text] of Object.entries(PRESETS)) {
+  const b = document.createElement("button");
+  b.type = "button"; b.textContent = name;
+  b.onclick = () => { $("prompt").value = text; };
+  presetsEl.appendChild(b);
+}
+$("prompt").value = PRESETS["Beschreiben"];
+
+function setFile(f) {
+  if (!f) return;
+  if (f.size > 25 * 1024 * 1024) { alert("Bild zu gross (max. 25 MB)."); return; }
+  file = f;
+  const url = URL.createObjectURL(f);
+  const img = new Image();
+  img.onload = () => {
+    const c = document.createElement("canvas"); c.width = 128; c.height = 128;
+    const s = Math.min(img.width, img.height);
+    c.getContext("2d").drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, 128, 128);
+    thumb = c.toDataURL("image/jpeg", 0.7);
+  };
+  img.onerror = () => { thumb = null; };   // TIFF: the browser cannot preview it; the server can read it
+  img.src = url;
+  $("drop").innerHTML = "";
+  const shown = document.createElement("img"); shown.src = url; shown.alt = f.name;
+  shown.onerror = () => { $("drop").textContent = f.name + " (keine Vorschau im Browser, wird trotzdem gesendet)"; };
+  $("drop").appendChild(shown);
+  $("go").disabled = false; $("go").textContent = "Fragen";
+}
+$("drop").onclick = () => $("file").click();
+$("drop").onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") $("file").click(); };
+$("file").onchange = (e) => setFile(e.target.files[0]);
+$("drop").ondragover = (e) => { e.preventDefault(); $("drop").classList.add("over"); };
+$("drop").ondragleave = () => $("drop").classList.remove("over");
+$("drop").ondrop = (e) => { e.preventDefault(); $("drop").classList.remove("over"); setFile(e.dataTransfer.files[0]); };
+document.addEventListener("paste", (e) => {
+  const item = [...(e.clipboardData?.items || [])].find(i => i.type.startsWith("image/"));
+  if (item) setFile(item.getAsFile());
+});
+
+let resident = null;
+async function refreshStatus() {
+  try {
+    const r = await fetch("api/status");
+    const s = await r.json();
+    const dot = '<span class="dot ' + (s.gateway !== "ok" ? "err" : s.resident ? "ok" : "warn") + '"></span>';
+    resident = s.resident;
+    let text = s.gateway !== "ok" ? "Gateway nicht erreichbar"
+      : s.resident ? "Modell geladen, Antwort in Sekunden"
+      : "Modell nicht geladen: die erste Anfrage startet es (1–3 min)";
+    if (s.busy) text += " · rechnet gerade" + (s.waiting ? ` (${s.waiting} wartend)` : "");
+    $("status").innerHTML = dot + text;
+  } catch { $("status").innerHTML = '<span class="dot err"></span>Status nicht abrufbar'; }
+}
+refreshStatus(); setInterval(refreshStatus, 15000);
+
+let timer = null;
+$("go").onclick = async () => {
+  if (!file) return;
+  const prompt = $("prompt").value.trim();
+  if (!prompt) { alert("Bitte eine Frage eingeben."); return; }
+  const fd = new FormData();
+  fd.append("image", file); fd.append("prompt", prompt);
+  fd.append("thinking", $("thinking").checked ? "1" : "");
+  fd.append("max_tokens", $("maxtok").value);
+  $("go").disabled = true; $("copy").hidden = true; $("warn").textContent = ""; $("meta").textContent = "";
+  const t0 = Date.now();
+  const cold = resident === false;
+  $("answer").innerHTML = '<span class="spinner"></span> ' + (cold ? "Modell wird gestartet, das dauert beim ersten Mal 1–3 Minuten …" : "Modell rechnet …");
+  timer = setInterval(() => { $("go").textContent = "Läuft … " + Math.round((Date.now() - t0) / 1000) + " s"; }, 500);
+  try {
+    const r = await fetch("api/ask", { method: "POST", body: fd });
+    const out = await r.json().catch(() => ({ error: "Antwort war kein JSON (HTTP " + r.status + ")." }));
+    if (!r.ok || out.error) throw new Error(out.error || ("HTTP " + r.status));
+    $("answer").textContent = out.text;
+    $("copy").hidden = false;
+    $("meta").textContent = `${out.seconds} s · ${out.prompt_tokens ?? "?"} Eingabe-Tokens · ${out.completion_tokens ?? "?"} Ausgabe-Tokens · Bild ${out.original_size.join("×")} → ${out.sent_size.join("×")} px`;
+    if (out.finish_reason === "length") $("warn").textContent = "Die Antwort wurde am Token-Limit abgeschnitten. Für längere Antworten «max. Tokens» erhöhen.";
+    history.unshift({ time: new Date().toISOString(), file: file.name, prompt, thinking: $("thinking").checked, thumb, ...out });
+    renderHistory();
+    refreshStatus();
+  } catch (e) {
+    $("answer").innerHTML = ""; const s = document.createElement("span"); s.className = "errbox";
+    s.textContent = "Fehler: " + e.message; $("answer").appendChild(s);
+  } finally {
+    clearInterval(timer); $("go").disabled = false; $("go").textContent = "Fragen";
+  }
+};
+$("copy").onclick = () => navigator.clipboard.writeText($("answer").textContent);
+
+function renderHistory() {
+  const h = $("hist"); h.innerHTML = "";
+  $("export").hidden = $("clear").hidden = history.length === 0;
+  for (const it of history) {
+    const d = document.createElement("div"); d.className = "item";
+    const img = document.createElement("img"); if (it.thumb) img.src = it.thumb; img.alt = "";
+    const body = document.createElement("div");
+    const q = document.createElement("div"); q.className = "q";
+    q.textContent = `${it.file} · ${it.seconds} s · ${it.prompt.slice(0, 90)}${it.prompt.length > 90 ? "…" : ""}`;
+    const t = document.createElement("div"); t.className = "t"; t.textContent = it.text;
+    body.append(q, t); d.append(img, body);
+    d.onclick = () => d.classList.toggle("open");
+    h.appendChild(d);
+  }
+}
+$("export").onclick = () => {
+  const lines = history.slice().reverse().map(({ thumb, ...rest }) => JSON.stringify(rest)).join("\n") + "\n";
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([lines], { type: "application/x-ndjson" }));
+  a.download = "apertus-test-" + new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-") + ".jsonl";
+  a.click();
+};
+$("clear").onclick = () => { if (confirm("Verlauf leeren?")) { history = []; renderHistory(); } };
+</script>
+</body>
+</html>

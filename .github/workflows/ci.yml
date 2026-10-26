@@ -100,6 +100,14 @@ jobs:
           assert srv.app is not None
           print('mcp server ok')"
 
+          # The Apertus test page (deploy/apertus-web/).
+          APERTUS_WEB_PASSWORD=$(python -c 'import secrets; print(secrets.token_urlsafe(24))') \
+          python -c "
+          import sys; sys.path.insert(0, '.')
+          import apertus_web.app as web
+          assert web.app is not None
+          print('apertus web ok')"
+
   standalone:
     name: "Standalone: bot imports and starts without the OpenClaw workspace"
     runs-on: ubuntu-latest
