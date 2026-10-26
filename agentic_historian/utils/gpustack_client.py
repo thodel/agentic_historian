@@ -219,7 +219,7 @@ def chat_vision(prompt: str, image_source: str, system: Optional[str] = None,
 def embed(texts: str | list[str], model: Optional[str] = None) -> list[list[float]]:
     """
     Embed one or many texts. Returns list of embedding vectors.
-    Uses GPUSTACK_MODEL_EMBEDDING (qwen3-embedding-0.6b).
+    Uses GPUSTACK_MODEL_EMBEDDING (qwen3-embedding-4b, 2560 d).
     """
     model = model or config.GPUSTACK_MODEL_EMBEDDING
     client = get_client()

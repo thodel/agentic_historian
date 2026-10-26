@@ -85,7 +85,7 @@ The two repos diverged: `agentic-historian` (Gemini) was the cleaner, complete a
 | Vision | `qwen3-vl-30b-a3b-instruct` | Agent A (HTR), Agent B (description) |
 | Text/LLM | `gpt-oss-120b` (reasoning model) | Agent C (NER), D, E, reconciliation, care-flag |
 | Orchestration | `minimax-m2.7` | reserved for NL/SitL orchestrator |
-| Embedding | `qwen3-embedding-0.6b` / `granite-embedding-107m-multilingual` | linking, corpus search |
+| Embedding | `qwen3-embedding-4b` / `granite-embedding-107m-multilingual` | linking, corpus search |
 | Reranker | `jina-reranker-v2-base-multilingual` | entity-linking rerank |
 
 ⚠️ `gpt-oss-120b` is a **reasoning model**: it spends tokens on `reasoning_content` before writing `content`, so text calls need a generous `max_tokens` (the client enforces a floor + retries). Other served models: `qwen3-coder-30b-a3b-instruct`, `faster-whisper-large-v3`; `olmocr-2-7b` (purpose-built OCR) exists but is currently **Not Ready** — bringing it up would be the strongest local HTR backend (see AH-11/AH-12).

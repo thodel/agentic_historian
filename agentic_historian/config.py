@@ -339,7 +339,8 @@ ENABLE_MCP_LINKING = _get("ENABLE_MCP_LINKING", "true").lower() == "true"
 #          internvl3-8b-instruct (64K)
 #   LLMs : gpt-oss-120b (78K, reasoning), minimax-m2.7 (98K),
 #          qwen3-coder-30b-a3b-instruct (146K)
-#   Embeddings: qwen3-embedding-0.6b, granite-embedding-107m-multilingual
+#   Embeddings: qwen3-embedding-4b (2560 d), granite-embedding-107m-multilingual
+#   (qwen3-embedding-0.6b withdrawn by GPUStack on 24.10.2026, #723)
 #   Reranker  : jina-reranker-v2-base-multilingual
 # Re-checked 2026-09-07: the qwen3-vl-* entries are no longer served. The vision
 # role moves to qwen3.8-27b, which is vision-capable and measured at 27.7 % CER
@@ -357,7 +358,7 @@ GPUSTACK_MODEL_ORCHESTRATOR = _get("GPUSTACK_MODEL_ORCHESTRATOR", "minimax-m2.7"
 ORCHESTRATOR_LLM_ENABLED = _get("ORCHESTRATOR_LLM_ENABLED", "false").lower() == "true"
 
 # Retrieval models (planned: hub linking + corpus semantic analysis)
-GPUSTACK_MODEL_EMBEDDING = _get("GPUSTACK_MODEL_EMBEDDING", "qwen3-embedding-0.6b")
+GPUSTACK_MODEL_EMBEDDING = _get("GPUSTACK_MODEL_EMBEDDING", "qwen3-embedding-4b")
 GPUSTACK_MODEL_RERANKER = _get("GPUSTACK_MODEL_RERANKER", "jina-reranker-v2-base-multilingual")
 
 # HLS-DHS live linking. The legacy hits4.php endpoint is dead (redirects to 404);
