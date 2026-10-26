@@ -13,7 +13,8 @@ deployment accident must fail at boot, not serve the GPU to the internet.
 
 One request reaches the model at a time; a second waits, a fourth is turned away
 with 429. The first request after the model was evicted is a cold start on
-idhefix (about six minutes: the weights come off the research share); the page says so rather than looking hung.
+idhefix (about six minutes: the weights come off the research share); the
+page says so rather than looking hung.
 """
 
 from __future__ import annotations
