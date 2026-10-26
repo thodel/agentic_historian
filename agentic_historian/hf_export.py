@@ -1345,6 +1345,29 @@ def free_bytes(path: Path) -> Optional[int]:
         return None
 
 
+#: A tree above this size is not uploaded under a memory limit below
+#: :data:`MEMCG_FLOOR`: on 25.10. `atr-mcp.service` ran with MemoryMax=200M on a
+#: 3 GB host, the page cache of the upload counted against it, and the kernel
+#: killed `pagexml-hf` — and the server with it — at the first batch of the map.
+BIG_TREE = 1_000_000_000
+MEMCG_FLOOR = 2 * 1024 ** 3
+
+
+def memcg_limit(proc_cgroup: Path = Path("/proc/self/cgroup"),
+                root: Path = Path("/sys/fs/cgroup")) -> tuple[Optional[int], str]:
+    """``(memory.max in bytes or None, cgroup path)`` for this process (cgroup v2)."""
+    try:
+        line = next(l for l in proc_cgroup.read_text().splitlines() if l.startswith("0::"))
+    except (OSError, StopIteration):
+        return None, ""
+    path = line.split("::", 1)[1].strip()
+    try:
+        raw = (root / path.lstrip("/") / "memory.max").read_text().strip()
+    except OSError:
+        return None, path
+    return (None if raw == "max" else int(raw)), path
+
+
 def upload_env(scratch: Optional[Path], run_id: str,
                arrow_cache: Optional[Path] = None) -> tuple[dict, list[Path]]:
     """The environment `pagexml-hf` runs in, and the directories to remove after.
@@ -1473,6 +1496,15 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
             free = free_bytes(Path(tempfile.gettempdir()))
             checks = [(Path(tempfile.gettempdir()), free, SCRATCH_FACTOR,
                        "everything", "ATR_HF_SCRATCH")]
+        limit, group = memcg_limit()
+        if limit is not None and limit < MEMCG_FLOOR and size > BIG_TREE:
+            problems.append(
+                f"this process runs under a memory limit of {limit / 1024 ** 2:.0f} MB "
+                f"({group}), and the page cache of a {size / 1e9:.1f} GB upload counts "
+                f"against it — on 25.10. the kernel killed `pagexml-hf` and the MCP server "
+                f"with it. Run it from a shell on the host instead: "
+                f"`PYTHONUNBUFFERED=1 nohup .venv/bin/python3 -m agentic_historian upload-hf "
+                f"--tree {tree} --repo-id {repo_id} > upload.log 2>&1 &`")
         for where, room, factor, what, setting in checks:
             need = int(size * factor)
             if room is not None and room < need:

@@ -1364,6 +1364,34 @@ Platzhalter war weg, die Pfade kamen aus der Konfiguration — und genau das hat
 den CIFS-Pfad hereingebracht, weil «was die Konfiguration schreibt» und «was
 die Konfiguration nennt» nicht dasselbe sind.
 
+## 40. Drei Abbrüche, drei Ursachen, und ich habe zweimal die falsche behoben
+
+Der BLB-Datensatz ging vom 24. auf den 26. Oktober viermal an `pagexml-hf`. Die
+ersten beiden Läufe endeten mit `No space left on device` bei Seite 1280. Die
+Bibliothek lagert etwa das Dreifache des Baums zwischen: den Arrow-Datensatz,
+seine gemappte Kopie und die Parquet-Shards. Auf tei's Platte waren 22 GB frei,
+gebraucht wurden rund 25 GB. Also zog alles auf den Mount (#722). Der dritte
+Lauf baute den Datensatz durch und wurde beim ersten Batch des Mappings per
+SIGKILL beendet. Ich schrieb das dem Memory-Mapping auf CIFS zu und legte Arrow
+wieder lokal ab (#725). Das ist ein brauchbarer Umbau, aber es war nicht die
+Ursache.
+
+Das Kernel-Log sagte `CONSTRAINT_MEMCG`, `oom_memcg=/system.slice/atr-mcp.service`.
+**Der Dienst läuft mit `MemoryMax=200M` auf einem Rechner mit 3 GB RAM**, und
+in diese 200 MB zählt der Seitencache eines Uploads von 7,8 GB. `pagexml-hf`
+selbst hatte 200 MB eigenen Speicher. Der Rest war Cache, der schneller wuchs,
+als der Mount ihn abnahm, und den MCP-Server hat es gleich mitgenommen. Am
+Nachmittag hatte dieselbe Grenze den lokalen Lauf bis Seite 1280 durchgelassen,
+weil die lokale Platte ihren Cache schnell genug zurückschreibt. Deshalb sah die
+Grenze nach Dateisystem aus und nicht nach Speicher.
+
+Die Lektion ist die Reihenfolge. **Die billigste Messung vor dem zweiten Fix
+wäre das Kernel-Log gewesen**, ein `journalctl -k` nach `oom`. Ich habe stattdessen aus
+dem Verlauf eine Ursache abgeleitet, die zum Verlauf passte. `upload-hf` liest
+jetzt die Speichergrenze seines eigenen Cgroups. Liegt sie unter 2 GB und ist
+der Baum grösser als 1 GB, lehnt es ab und nennt den Befehl für eine Shell auf
+dem Host. Der vierte Lauf ging von dort aus.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
