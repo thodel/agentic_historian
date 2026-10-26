@@ -105,3 +105,29 @@ def test_the_cli_runs_pagexml_hf_in_that_environment_and_removes_the_staging():
     assert "hf.upload_env(plan.scratch" in body and "arrow_cache=plan.arrow_cache" in body
     assert "subprocess.run(argv, env=env)" in body
     assert "shutil.rmtree(w, ignore_errors=True)" in body and "finally:" in body
+
+
+# ── a memory limit too small for the upload (25.10., MemoryMax=200M) ─────────
+
+def test_the_memory_limit_is_read_from_the_processs_own_cgroup(tmp_path):
+    (tmp_path / "proc").write_text("0::/system.slice/atr-mcp.service\n")
+    d = tmp_path / "cg" / "system.slice" / "atr-mcp.service"
+    d.mkdir(parents=True)
+    (d / "memory.max").write_text("209715200\n")
+    assert hf.memcg_limit(tmp_path / "proc", tmp_path / "cg") == (209715200, "/system.slice/atr-mcp.service")
+    (d / "memory.max").write_text("max\n")
+    assert hf.memcg_limit(tmp_path / "proc", tmp_path / "cg")[0] is None
+    assert hf.memcg_limit(tmp_path / "missing", tmp_path / "cg") == (None, "")
+
+
+def test_a_big_tree_under_a_small_limit_is_refused_with_the_shell_command(roots, monkeypatch):
+    tree = _tree(roots / "datasets", size=1000)
+    monkeypatch.setattr(config, "ATR_HF_ARROW_CACHE", roots / "local")
+    monkeypatch.setattr(hf, "free_bytes", lambda p: 10**12)
+    monkeypatch.setattr(hf, "BIG_TREE", 100)
+    monkeypatch.setattr(hf, "memcg_limit", lambda: (209715200, "/system.slice/atr-mcp.service"))
+    plan = hf.inspect_upload(tree, "dh-unibe/x")
+    msg = next(p for p in plan.problems if "memory limit" in p)
+    assert "200 MB" in msg and "atr-mcp.service" in msg and "nohup" in msg
+    monkeypatch.setattr(hf, "memcg_limit", lambda: (None, "/user.slice"))
+    assert not any("memory limit" in p for p in hf.inspect_upload(tree, "dh-unibe/x").problems)
