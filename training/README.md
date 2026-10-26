@@ -98,3 +98,14 @@ the Qwen3.5 base (27 % on the Kurrent page benchmark, 14.5 % on the
 project's eval split), Gemini (4.8 % on the same split), and
 `kraken-german-xix-v1` unchanged. Per-project numbers matter more than the
 mean: `lassberg` is one hand, `korrespondenten` is dozens.
+
+## Runs
+
+| spec | where | job | dataset revision | submitted |
+|---|---|---|---|---|
+| `blb-kraken-v1` | asteraix (gateway) | `20261026T193646Z-kraken-german-xix-blb-v1` | `c25587dd22995eaea1058e78554e20e6194ab3ff` | 26.10.2026 |
+| `blb-qwen35-page-v1` | UBELIX | — (commands handed over 26.10.) | same | — |
+| `blb-olmocr2-page-v1` | UBELIX | — (commands handed over 26.10.) | same | — |
+
+The dataset went up on 26.10. as `b84a723` (data) and `c25587d` (the card,
+same data); 2704 rows, 31.8 GB because `pagexml-hf` stores every page as PNG.

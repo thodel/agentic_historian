@@ -1,6 +1,36 @@
-<!-- FRONTMATTER: `pagexml-hf` schreibt beim Upload selbst ein README mit
-     `dataset_info`/`configs`. Dieser Block wird nach dem Upload wörtlich von
-     dort übernommen (`upload_hf_card`), nie von Hand erfunden. -->
+---
+dataset_info:
+  config_name: default
+  features:
+  - name: image
+    dtype:
+      image:
+        decode: false
+  - name: xml_content
+    dtype: string
+  - name: filename
+    dtype: string
+  - name: project_name
+    dtype: string
+  splits:
+  - name: train
+    num_examples: 2704
+    num_bytes: 31828009603
+  download_size: 31828009603
+  dataset_size: 31828009603
+configs:
+- config_name: default
+  data_files:
+  - split: train
+    path: data/train/**/*.parquet
+tags:
+  - image-to-text
+  - htr
+  - trocr
+  - transcription
+  - pagexml
+license: mit
+---
 
 # Laßberg papers at the Badische Landesbibliothek — hand-transcribed pages
 
@@ -84,6 +114,12 @@ are among the 254 of
 and among the 276 pages the project scores engines against. A held-out
 evaluation on either of those must exclude the matching shelfmarks from any
 training on this one.
+
+**7. The images are PNG, and the dataset is four times the scans.** `pagexml-hf`
+re-encodes every page image losslessly as PNG (`imageutils.encode_image`), so
+the 7.8 GB of JPEGs the BLB serves became **31.8 GB** of parquet, one shard per
+project (`manuskripte` alone 12.2 GB). Nothing is lost; a trainer that reads
+four handwriting projects and their `_eval` siblings downloads about 22 GB.
 
 **6. `drucke` is not handwriting.** 896 pages of a printed almanac with a
 transcription are OCR ground truth for Fraktur, not Kurrent. They are in the
