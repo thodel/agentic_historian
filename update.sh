@@ -5,9 +5,10 @@
 # Idempotent and safe to re-run. Run from anywhere:
 #     bash /home/dh/agentic_historian/update.sh
 #
-# Flow: stop service → fast-forward main (hard-reset fallback if history was
-# rewritten) → install pinned deps → import smoke test → restart → verify.
-# Aborts BEFORE restarting if anything is off. The untracked .env.gpustack at the
+# Flow: pre-flight checks + fetch (bot still running) → stop service → fast-forward
+# main (hard-reset fallback if history was rewritten) → install pinned deps →
+# import smoke test → restart → verify. A failed pre-flight check leaves the bot
+# running; anything later aborts BEFORE restarting. The untracked .env.gpustack at the
 # repo root is never touched (it is gitignored, so reset --hard leaves it alone).
 #
 # Overridable via env vars: AH_REPO, AH_SERVICE, AH_BRANCH.
@@ -26,11 +27,10 @@ die() { printf '\n\033[1;31m✗ %s\033[0m\n' "$*" >&2; exit 1; }
 [ -d "$REPO/.git" ] || die "not a git repo: $REPO"
 [ -x "$PY" ]        || die "venv python not found: $PY (create the venv first)"
 
-c "Stopping $SERVICE"
-sudo systemctl stop "$SERVICE" || true
-
 cd "$REPO"
 
+# Checks first, while the bot still runs: a refusal here leaves it up. On
+# 26.10. a WIP check stopped the service and left it stopped.
 c "Pre-flight checks"
 b="$(git branch --show-current || true)"
 [ "$b" = "$BRANCH" ] || die "on branch '$b', expected '$BRANCH'. Resolve manually, then re-run."
@@ -39,6 +39,9 @@ b="$(git branch --show-current || true)"
 
 c "Fetching origin"
 git fetch --prune origin
+
+c "Stopping $SERVICE"
+sudo systemctl stop "$SERVICE" || true
 
 if [ "$(git rev-parse @)" = "$(git rev-parse "origin/$BRANCH")" ]; then
     c "Already at latest ($(git rev-parse --short @))"
