@@ -326,6 +326,8 @@ def pipeline_status(run: str) -> dict:
             for f in d.iterdir():
                 name = f.name
                 if name.endswith(".error.json"):
+                    if (d / name.replace(".error.json", ".json")).is_file():
+                        continue                   # read since, by an older run that kept the file
                     errors.append(f"{d.name}/{name}")
                     key = "errors"
                 elif name.startswith("rec_") and name.endswith(".json"):

@@ -308,6 +308,9 @@ def cmd_recognize(args) -> int:
                     "wall_s": round(time.monotonic() - t0, 1),
                 }
                 _save(rec, payload)
+                # A failure an earlier run recorded is answered now; left behind, it
+                # keeps reading as an open error in transkribus_status.
+                (d / f"rec_{model}.error.json").unlink(missing_ok=True)
                 logger.info(f"[ruemlang] {p.key} {model}: {len(res.lines or [])} line(s), "
                             f"{len(res.text or '')} chars, {payload['wall_s']}s")
     have = {m: sum(1 for p in pages if (page_dir(root, p) / f"rec_{m}.json").exists()) for m in models}
