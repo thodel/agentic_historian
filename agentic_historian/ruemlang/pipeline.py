@@ -470,6 +470,14 @@ def cmd_adjudicate(args) -> int:
 
 # ── xml ──────────────────────────────────────────────────────────────────────
 
+def _blanks_a_page(source_xml: str, texts: list) -> bool:
+    """True when the new reading has no text at all and the page's current
+    version has some. A V 1447 p37, 39, 563: the model read nothing on lines
+    Text Titan had filled, and an empty version went up over it."""
+    had = any(ln["text"].strip() for ln in pagexml.parse_lines(source_xml))
+    return had and not any((t or "").strip() for t in texts)
+
+
 def cmd_xml(args) -> int:
     root = out_root(args)
     collection, pages = _planned(root, args)
@@ -490,8 +498,13 @@ def cmd_xml(args) -> int:
         if src.exists() and a.get("segmented_by") == "given":
             texts = [decisions[i]["text"] if i in decisions else None
                      for i in range(len(a["lines"]))]
+            source = src.read_text(encoding="utf-8")
+            if _blanks_a_page(source, texts):
+                logger.warning(f"[ruemlang] {p.key}: the reading is empty on a page that has "
+                               f"text — not written, the page keeps its version")
+                continue
             try:
-                xml, changed = pagexml.replace_line_texts(src.read_text(encoding="utf-8"), texts)
+                xml, changed = pagexml.replace_line_texts(source, texts)
             except ValueError as exc:
                 logger.error(f"[ruemlang] {p.key}: {exc} — not written")
                 continue
