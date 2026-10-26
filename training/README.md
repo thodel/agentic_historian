@@ -78,14 +78,20 @@ train_spec(spec="blb-qwen35-page-v1", action="ubelix") # the Slurm commands, for
 
 UBELIX is the default place for the two VLM runs (`WHERE_A_RUN_RUNS` in the
 trainer). Its submission stays a person's act — it runs on an account and its
-quota, and the `ubelix_*` tools are read-only on purpose:
+quota, and the `ubelix_*` tools are read-only on purpose. The commands come
+from the tool, for both specs at once (#739):
 
 ```
-cd /home/dh/agentic_historian && .venv/bin/python3 -m agentic_historian train-spec --spec blb-qwen35-page-v1 --body-only > /tmp/blb-qwen35-page-v1.json
-scp /tmp/blb-qwen35-page-v1.json ubelix:~/ubelix/specs/
-ubelix/submit.sh ubelix/prepare.sbatch ~/ubelix/specs/blb-qwen35-page-v1.json
-JOB_ID=<id> ubelix/submit.sh ubelix/train.sbatch -- --partition=gpu --qos=job_gratis --cpus-per-task=12 --time=15:00:00
+train_spec(spec="blb-qwen35-page-v1,blb-olmocr2-page-v1", action="ubelix")
 ```
+
+It prints what is typed on UBELIX, in `~/training-atr-models` after a pull:
+`curl` of the pinned bodies from `training/requests/` on main (tei cannot copy
+to UBELIX), one `prepare` that builds the corpus and a second that queues
+behind it and adopts it, and the two trainings, each reading the **trainer** job
+id its prepare wrote. When a pinned body is not on main yet, the first lines say
+to write it in a working tree (`train-spec --spec … --write-request`) and commit
+it.
 
 `submit` is refused when the `model_id` already has a job. Before the kraken
 run, check that `kraken-german-xix-v1` resolves in the registry the trainer
