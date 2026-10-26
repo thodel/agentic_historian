@@ -591,6 +591,15 @@ def test_new_texts_go_into_transkribus_own_layout():
         pagexml.replace_line_texts(_TK_PAGE, ["only one"])
 
 
+def test_an_empty_reading_does_not_replace_text():
+    from ruemlang import pipeline
+    assert pipeline._blanks_a_page(_TK_PAGE, ["", None])
+    assert pipeline._blanks_a_page(_TK_PAGE, [" ", ""])
+    assert not pipeline._blanks_a_page(_TK_PAGE, ["neu", ""]), "one line read is a reading"
+    blank = _TK_PAGE.replace("alt eins", "").replace("alt zwei", "").replace(">alt<", "><")
+    assert not pipeline._blanks_a_page(blank, ["", ""]), "nothing to lose on an empty page"
+
+
 def test_page_lines_are_scaled_to_the_image_sent(tmp_path):
     from ruemlang import pipeline, transkribus_pages as tp
     p = tp.PageInfo(1, 2, "t", 5, 1, "u", 200, 100, 9, "IN_PROGRESS", 1, 2, 4, "x", 2)
