@@ -247,6 +247,30 @@ def _page_lines(ts, p, d: Path, scale: float) -> Optional[list[dict]]:
     return out
 
 
+# The gateway refuses connections while systemd restarts it; on 26.10. that
+# happened five times in a day and cost five pages of a 560-page run.
+RESTART_WAITS = (10, 20, 40)
+
+
+def _gateway_restarting(exc: Exception) -> bool:
+    """The connection was refused or never made, so the page never reached the
+    gateway and asking again cannot read it twice. A timeout is not this."""
+    import httpx
+    return isinstance(exc.__cause__, httpx.ConnectError)
+
+
+def _recognize(gw, send, model, given, key, waits=RESTART_WAITS):
+    for wait in (*waits, None):
+        try:
+            return (gw.recognize(send, model=model, lines=given) if given
+                    else gw.recognize(send, model=model))
+        except Exception as exc:
+            if wait is None or not _gateway_restarting(exc):
+                raise
+            logger.warning(f"[ruemlang] {key} {model}: gateway not answering, again in {wait}s")
+            time.sleep(wait)
+
+
 def cmd_recognize(args) -> int:
     root = out_root(args)
     collection, pages = _planned(root, args)
@@ -288,8 +312,7 @@ def cmd_recognize(args) -> int:
                 given = _page_lines(ts, p, d, scale) if getattr(args, "on_page_lines", False) else None
                 t0 = time.monotonic()
                 try:
-                    res = (gw.recognize(send, model=model, lines=given) if given
-                           else gw.recognize(send, model=model))
+                    res = _recognize(gw, send, model, given, p.key)
                 except Exception as exc:                       # noqa: BLE001 — record, continue
                     failures += 1
                     streak += 1

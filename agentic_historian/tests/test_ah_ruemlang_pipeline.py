@@ -623,3 +623,50 @@ def test_machine_pages_leave_out_corrected_and_hand_edited(monkeypatch, capsys):
     kept = pipeline._machine_pages(None, 1, pages)
     assert [p.page_nr for p in kept] == [1, 4]
     assert "1 corrected (DONE/FINAL) and 1 edited after their HTR: 2" in capsys.readouterr().out
+
+
+# ── a gateway restart is waited out, not booked as a failed page (26.10.) ───
+
+class _Gw:
+    def __init__(self, fails):
+        self.fails, self.calls = list(fails), 0
+
+    def recognize(self, send, model, lines=None):
+        self.calls += 1
+        if self.fails:
+            raise self.fails.pop(0)
+        return "ok"
+
+
+def _wrapped(cause):
+    err = RuntimeError("ATR gateway unreachable")
+    err.__cause__ = cause
+    return err
+
+
+def test_a_restarting_gateway_is_asked_again(monkeypatch):
+    import httpx
+
+    from ruemlang import pipeline
+    slept = []
+    monkeypatch.setattr(pipeline.time, "sleep", slept.append)
+    refused = lambda: _wrapped(httpx.ConnectError("[Errno 111] Connection refused"))
+    gw = _Gw([refused(), refused()])
+    assert pipeline._recognize(gw, "img", "m", None, "k") == "ok"
+    assert gw.calls == 3 and slept == [10, 20]
+    gw = _Gw([refused() for _ in range(4)])
+    with pytest.raises(RuntimeError):
+        pipeline._recognize(gw, "img", "m", None, "k")
+    assert gw.calls == 4, "three waits, then the page is booked as failed"
+
+
+def test_only_a_refused_connection_is_retried(monkeypatch):
+    import httpx
+
+    from ruemlang import pipeline
+    monkeypatch.setattr(pipeline.time, "sleep", lambda s: None)
+    for err in (_wrapped(httpx.ReadTimeout("slow")), RuntimeError("503 does not fit")):
+        gw = _Gw([err])
+        with pytest.raises(RuntimeError):
+            pipeline._recognize(gw, "img", "m", None, "k")
+        assert gw.calls == 1
