@@ -727,3 +727,14 @@ def test_bern_prompt_is_shipped():
     import external_atr
     text, digest = external_atr.load_prompt("bern_1528.md")
     assert "abbreviation" in text and len(digest) == 8
+
+
+def test_diffs_show_reading_and_notation(tmp_path, capsys):
+    from ruemlang import pipeline
+    assert pipeline._inline_diff("des rats  zů", "deſ raths zu") == "de[-s-]{+ſ+} rat{+h+}s z[-ů-]{+u+}"
+    c = pipeline._confusions("ss s", "ſſ ſ")
+    assert c[("s", "ſ")] == 3
+    pipeline._write_diffs(tmp_path, {12: {"GT": "des rats", "G": "deſ rats", "T": "des rath"}})
+    assert (tmp_path / "diff" / "p0012_G.txt").read_text().startswith("de[-s-]{+ſ+}")
+    out = capsys.readouterr().out
+    assert "G (1 edits): 's'→'ſ' 1" in out and "T (" in out

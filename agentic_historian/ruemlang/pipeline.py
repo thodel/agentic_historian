@@ -756,11 +756,13 @@ def _read_external(root: Path, pages, models: list[str], args) -> dict[str, str]
             _save(rec, {"model": model, "engine": r.engine, "text": r.text, "lines": [],
                         "truncated": bool(r.truncated), "gateway_version": r.service_version,
                         "settings": r.settings, "timing_ms": r.timing_ms,
+                        "finish_reason": getattr(r, "finish_reason", ""),
                         "prompt_tokens": r.prompt_tokens,
                         "completion_tokens": r.completion_tokens, "image_sent": send.name})
             (d / f"rec_{model}.error.json").unlink(missing_ok=True)
             logger.info(f"[ruemlang] {p.key} {model}: {len(r.text)} chars, "
-                        f"{r.prompt_tokens}+{r.completion_tokens} tokens"
+                        f"{r.prompt_tokens}+{r.completion_tokens} tokens, "
+                        f"finish {getattr(r, 'finish_reason', '') or '?'}"
                         + (" — TRUNCATED" if r.truncated else ""))
     read.close()
     return served
@@ -780,6 +782,67 @@ def _ordered_line_cer(gt_texts: list[str], text: str) -> Optional[dict]:
         return {**out, "cer": None}
     errors = sum(Levenshtein.distance(a, b) for a, b in zip(gt, hyp))
     return {**out, "cer": errors / sum(len(t) for t in gt)}
+
+
+def _inline_diff(ref: str, hyp: str) -> str:
+    """``ref`` with the reader's changes marked: ``[-gt-]{+reader+}``, on
+    whitespace-collapsed text — the same strings ``_cer`` scores."""
+    from rapidfuzz.distance import Levenshtein
+    ref = re.sub(r"\s+", " ", ref).strip()
+    hyp = re.sub(r"\s+", " ", hyp).strip()
+    out = []
+    for op in Levenshtein.opcodes(ref, hyp):
+        a, b = ref[op.src_start:op.src_end], hyp[op.dest_start:op.dest_end]
+        if op.tag == "equal":
+            out.append(a)
+        else:
+            out.append((f"[-{a}-]" if a else "") + (f"{{+{b}+}}" if b else ""))
+    return "".join(out)
+
+
+def _confusions(ref: str, hyp: str):
+    """What a reader writes for what the GT has: ``Counter[(gt, reader)]`` over
+    the edit operations, one character each side (``""`` for none). ``s → ſ`` a
+    hundred times is a convention; a spread of letters is reading."""
+    from collections import Counter
+
+    from rapidfuzz.distance import Levenshtein
+    ref = re.sub(r"\s+", " ", ref).strip()
+    hyp = re.sub(r"\s+", " ", hyp).strip()
+    c: Counter = Counter()
+    for op in Levenshtein.editops(ref, hyp):
+        if op.tag == "replace":
+            c[(ref[op.src_pos], hyp[op.dest_pos])] += 1
+        elif op.tag == "delete":
+            c[(ref[op.src_pos], "")] += 1
+        else:
+            c[("", hyp[op.dest_pos])] += 1
+    return c
+
+
+def _write_diffs(root: Path, texts: dict[int, dict[str, str]], top: int = 12) -> None:
+    """``eval/diff/p<page>_<reader>.txt`` per page and reader, and the most
+    frequent confusions per reader over all pages, printed (#747: how much of a
+    CER is reading and how much is notation)."""
+    from collections import Counter
+    if not texts:
+        return
+    out = root / "diff"
+    out.mkdir(exist_ok=True)
+    total: dict[str, Counter] = {}
+    for page, by_reader in sorted(texts.items()):
+        gt = by_reader.get("GT", "")
+        for reader, hyp in by_reader.items():
+            if reader == "GT":
+                continue
+            (out / f"p{page:04d}_{reader}.txt").write_text(_inline_diff(gt, hyp) + "\n", encoding="utf-8")
+            total.setdefault(reader, Counter()).update(_confusions(gt, hyp))
+    show = lambda ch: repr(ch) if ch else "∅"
+    print(f"\nmost frequent confusions (GT → reader, whitespace collapsed; per page: {out}/)")
+    for reader, c in sorted(total.items()):
+        n = sum(c.values())
+        print(f"  {reader:>3} ({n} edits): " + ", ".join(
+            f"{show(a)}→{show(b)} {k}" for (a, b), k in c.most_common(top)))
 
 
 def cmd_eval(args) -> int:
@@ -848,6 +911,7 @@ def cmd_eval(args) -> int:
         _fetch_prior(ts, int(col["colId"]), gt_pages, root)
 
     rows = []
+    diff_texts: dict[int, dict[str, str]] = {}
     for p in gt_pages:
         d = page_dir(root, p)
         gt = d / "gt.xml"
@@ -891,7 +955,9 @@ def cmd_eval(args) -> int:
             row[f"{g}~"] = oc["cer"]
             row[f"{g}~lines"] = {"lines": oc["lines"], "gt_lines": oc["gt_lines"]}
             row[f"{g}_meta"] = {k: rec.get(k) for k in ("truncated", "prompt_tokens",
-                                                       "completion_tokens", "timing_ms")}
+                                                       "completion_tokens", "timing_ms",
+                                                       "finish_reason")}
+            row[f"{g}_meta"]["empty"] = not (rec.get("text") or "").strip()
         prior = d / "prior.xml"
         if prior.exists():
             # T: what Transkribus held before a human corrected the page — its
@@ -906,6 +972,10 @@ def cmd_eval(args) -> int:
                                 "unmatched_chars": m["unmatched_chars"], "lines": len(t_lines)}
             meta = _load(d / "prior.json") or {}
             row["T_version"] = {k: meta.get(k) for k in ("toolName", "status", "userName", "timestamp")}
+        diff_texts[p.page_nr] = {"GT": gt_text, **{k: h for k, h in hyps.items()
+                                                   if h and k in ("D", *labels)}}
+        if prior.exists():
+            diff_texts[p.page_nr]["T"] = "\n".join(l["text"] for l in t_lines if l["text"])
         if not adj:
             row["summary"] = None
             rows.append(row)
@@ -929,6 +999,7 @@ def cmd_eval(args) -> int:
         row["summary"] = adj.get("summary")
         rows.append(row)
     _save(root / "eval.json", rows)
+    _write_diffs(root, diff_texts)
     base = (["A", "B", "C", "D", *labels, "T", "fused"]
             + [f"det-{v}" for v in (args.variants or "").split(",") if v])
     f = lambda v: "     —" if v is None else f"{v:6.3f}"
@@ -962,9 +1033,14 @@ def cmd_eval(args) -> int:
             continue
         tokens = {k: sum(x.get(k) or 0 for x in metas) for k in ("prompt_tokens", "completion_tokens")}
         cut = sum(1 for x in metas if x.get("truncated"))
+        empty = [r["page"] for r in rows if (r.get(f"{g}_meta") or {}).get("empty")]
+        why = sorted({(r[f"{g}_meta"].get("finish_reason") or "not recorded") for r in rows
+                      if (r.get(f"{g}_meta") or {}).get("empty")})
         print(f"\n{g} = {m} @ {served.get(m, '?')}: {len(metas)} page(s), "
               f"{tokens['prompt_tokens']:,} prompt + {tokens['completion_tokens']:,} completion token(s)"
               + (f", {cut} TRUNCATED" if cut else "")
+              + (f", EMPTY on page(s) {_ranges(empty)} (finish_reason: {', '.join(why)})"
+                 if empty else "")
               + f"; line CER on {sum(1 for x in lined if x['lines'] == x['gt_lines'])}/{len(lined)} "
                 "page(s) whose line count matches the GT (line i against GT line i)")
     tools = sorted({(r["T_version"].get("toolName") or "?") for r in rows if r.get("T_version")})
