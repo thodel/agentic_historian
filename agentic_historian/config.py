@@ -768,6 +768,13 @@ ATR_HF_SCRATCH = Path(_get("ATR_HF_SCRATCH", "")) if _get("ATR_HF_SCRATCH", "") 
 #: one local path the MCP server's unit may write.
 ATR_HF_ARROW_CACHE = Path(_get("ATR_HF_ARROW_CACHE", str(DATA_DIR / "hf_arrow_cache")))
 
+#: The memory a heavy MCP job (`upload_hf`, `oai_gt_import` build) gets in its
+#: own systemd user unit (#737), in systemd's notation. Its own budget instead
+#: of the server's MemoryMax=200M, which killed an upload — and the server
+#: with it — on 25.10. 2G is the floor `upload-hf` itself demands for a tree
+#: over 1 GB (`hf_export.MEMCG_FLOOR`); tei has 3 GB, shared with the bot.
+ATR_JOB_MEMORY_MAX = _get("ATR_JOB_MEMORY_MAX", "2G")
+
 #: Where, under ``ATR_RESEARCH_DIR``, a run's readings are exported as text for
 #: the HTR training project (#688): ``export_run_share`` writes
 #: ``<ATR_RESEARCH_DIR>/<this>/<run>/``. Relative to the project root on

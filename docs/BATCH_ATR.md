@@ -1723,6 +1723,19 @@ fest; ein `failed` oder `vanished` Job trägt dann `memory.message`, etwa
 kill“. Der Zähler gilt für den ganzen Dienst; liefen andere Jobs gleichzeitig,
 nennt die Antwort sie, statt zu raten.
 
+**Seit #737 laufen schwere Jobs in einer eigenen Unit.** Ein echtes `upload_hf`
+und ein echter `oai_gt_import`-Build starten über `systemd-run --user` als
+`ah-job-<id>` mit eigenem `MemoryMax` (`ATR_JOB_MEMORY_MAX`, Vorgabe 2G) und
+`OOMPolicy=continue` — ein OOM beendet den Job, nicht den Server. Die Umgebung
+des Servers geht nur **mit Namen** mit (`--setenv=NAME`), kein Token steht in
+der Kommandozeile. `job_status` fragt die Unit (`unit.name`, `unit.applied` —
+das Limit, das der Job tatsächlich fand) und sagt `unknown` statt `vanished`,
+wenn es sie nicht fragen kann. Trockenläufe und leichte Jobs laufen wie bisher.
+Ist kein User-Manager erreichbar, startet der Job **nicht** unter den 200 MB,
+sondern lehnt ab — mit dem `nohup`-Befehl aus seiner eigenen Kommandozeile und
+der einen `sudo`-Zeile, die den Weg über die Unit öffnet
+(`loginctl enable-linger`, siehe [DEPLOYMENT_TEI.md](DEPLOYMENT_TEI.md)).
+
 
 Nicht jede Änderung braucht denselben Deployment-Schritt, und der Unterschied
 hat am 11. Oktober dreimal zugeschlagen:
