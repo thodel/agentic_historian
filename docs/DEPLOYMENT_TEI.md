@@ -300,3 +300,18 @@ ist.
    `dh` liest. Pro Dienst neu ausstellen, per `sudoedit` eintragen, Neustart,
    alten Wert widerrufen; `.env.gpustack` erst bereinigen, wenn feststeht, dass
    die CLI den Key nicht braucht.
+8. ~~**Grosse Uploads und Builds ausserhalb der 200 MB von `atr-mcp`** (#737).~~
+   Entschieden am 27.10.2026: **eigene systemd-User-Unit pro schwerem Job**,
+   das Terminal als Rückfall. Ein echtes `upload_hf` und ein echter
+   `oai_gt_import`-Build starten als `ah-job-<id>` mit
+   `MemoryMax=$ATR_JOB_MEMORY_MAX` (Vorgabe 2G); ohne erreichbaren
+   User-Manager lehnt der Job ab und nennt den `nohup`-Befehl aus seiner
+   eigenen Kommandozeile. **Einmal auf tei, mit sudo:**
+   ```bash
+   sudo loginctl enable-linger dh
+   # prüfen: der User-Manager läuft und darf Speicher begrenzen
+   sudo -u dh XDG_RUNTIME_DIR=/run/user/$(id -u dh) systemctl --user is-system-running
+   cat /sys/fs/cgroup/user.slice/user-$(id -u dh).slice/user@$(id -u dh).service/cgroup.subtree_control   # muss `memory` enthalten
+   ```
+   Fehlt `memory`, setzt die Unit ihr Limit nicht; `job_status` zeigt das als
+   `unit.applied: "max"`.

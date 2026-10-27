@@ -109,6 +109,17 @@ curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8300/mcp   # expect 40
 **401 is the success condition here.** Anything else means authentication is not
 in front of the transport, and the endpoint must not be exposed until it is.
 
+**Heavy jobs need the account's systemd user manager** (#737): a real
+`upload_hf` and a real `oai_gt_import` build run in their own transient unit
+(`systemd-run --user`, `MemoryMax=$ATR_JOB_MEMORY_MAX`, default 2G), out of this
+service's cgroup and its MemoryMax. Without lingering the user manager only runs
+while the account is logged in, and those jobs are refused with the command to
+run them by hand. Once:
+
+```bash
+sudo loginctl enable-linger <the service's User=>
+```
+
 ### 3. nginx
 
 ```bash

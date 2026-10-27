@@ -894,6 +894,13 @@ def build_server(provider=None, auth_settings=None):
         whether a token is configured — reported as present or absent, never
         printed — and whether the repository id is `owner/name` rather than
         something that would create a repository nobody meant.
+
+        **The real upload runs in its own systemd user unit** (`ah-job-<id>`,
+        MemoryMax from `ATR_JOB_MEMORY_MAX`, default 2G), not under this
+        server's 200 MB: an OOM there ends the upload, not the server (#737).
+        Where no user manager is reachable it is refused, and the reply carries
+        the exact command to run it from a shell instead, and the one `sudo`
+        line that makes the unit route possible. `job_status` shows the unit.
         """
         try:
             return jobs.upload_hf_job(tree, repo_id=repo_id, dry_run=dry_run)
@@ -952,6 +959,9 @@ def build_server(provider=None, auth_settings=None):
 
         Then `split_tree` and `upload_hf` with ``tree="datasets:<tree>"``.
         Downloads are throttled and only from the source's own host.
+
+        A real ``build`` runs in its own systemd user unit, as a real
+        `upload_hf` does (#737), or is refused with the command to run it by hand.
         """
         try:
             return jobs.oai_gt_import_job(source, step, dry_run=dry_run, limit=limit,

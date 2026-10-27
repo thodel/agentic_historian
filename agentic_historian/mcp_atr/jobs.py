@@ -33,6 +33,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import shutil
 import signal
 import subprocess
 import sys
@@ -1505,7 +1506,9 @@ def oai_gt_import_job(source: str, step: str, *, dry_run: bool = True,
             "next": ("step='build' (dry run first)" if step == "inventory" else
                      "build again without dry_run" if dry_run else
                      f"split_tree(tree='datasets:{tree}'), then upload_hf(tree='datasets:{tree}')"),
-            **start_and_peek("oai-gt-import", argv)}
+            # The build downloads and writes thousands of pages (#737).
+            **start_and_peek("oai-gt-import", argv,
+                             own_unit=(step == "build" and not dry_run))}
 
 
 LETTER_ID_RE = re.compile(r"^lassberg-letter-[0-9]{4}$")
@@ -1637,7 +1640,7 @@ def upload_hf_job(tree: str, repo_id: Optional[str] = None,
     path = resolve_tree(tree)
     argv = upload_hf_argv(path, repo_id=repo_id, dry_run=dry_run)
     return {"ok": True, "tree": str(path), "private": True,
-            **start_and_peek("upload-hf", argv)}
+            **start_and_peek("upload-hf", argv, own_unit=not dry_run)}
 
 
 def upload_card_argv(card: str, *, repo_id: Optional[str] = None,
@@ -1701,6 +1704,8 @@ class Job:
     progress: dict = field(default_factory=dict)
     #: Set for a failed or vanished job whose cgroup counter says something (#736).
     memory: Optional[dict] = None
+    #: A heavy job's own systemd user unit (#737): name, requested and applied limit.
+    unit: Optional[dict] = None
 
     def as_dict(self) -> dict:
         out = {
@@ -1711,6 +1716,8 @@ class Job:
         }
         if self.memory is not None:
             out["memory"] = self.memory
+        if self.unit is not None:
+            out["unit"] = self.unit
         return out
 
 
@@ -1724,8 +1731,118 @@ def _job_dir(job_id: str) -> Path:
     return jobs_root() / job_id
 
 
+# ── heavy jobs in their own unit (#737) ──────────────────────────────────────
+#
+# The server runs with MemoryMax=200M, and a job started from it shares that
+# budget: on 25.10. a 7.8 GB upload pushed the cgroup over and the kernel
+# killed `pagexml-hf` and the MCP server with it. A heavy job therefore runs in
+# its own transient systemd **user** unit with its own MemoryMax — an OOM there
+# ends the job, not the server. Where no user manager is reachable (it runs
+# only while the account is logged in, unless lingering is enabled) the job is
+# refused with the commands to run it by hand instead: never quietly under the
+# server's 200 MB again.
+
+#: Where systemd keeps the user managers' runtime directories.
+USER_RUNTIME = Path("/run/user")
+
+#: Variables a unit must not inherit from the server: systemd's own, which
+#: describe the server's unit and would mislead the job's.
+_SYSTEMD_OWN_ENV = frozenset({
+    "INVOCATION_ID", "JOURNAL_STREAM", "NOTIFY_SOCKET", "MANAGERPID",
+    "SYSTEMD_EXEC_PID", "LISTEN_PID", "LISTEN_FDS", "LISTEN_FDNAMES",
+    "WATCHDOG_PID", "WATCHDOG_USEC", "MAINPID"})
+_ENV_NAME = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+_MEMORY_RE = re.compile(r"^[0-9]+[KMGT]?$")
+#: `systemctl is-active` answers that mean the unit still has work in it.
+_UNIT_RUNNING = frozenset({"active", "activating", "deactivating", "reloading"})
+
+
+def _user_env() -> dict:
+    """The environment that finds this account's user manager from a system
+    service, which has neither variable set."""
+    runtime = USER_RUNTIME / str(os.getuid())
+    return {**os.environ, "XDG_RUNTIME_DIR": str(runtime),
+            "DBUS_SESSION_BUS_ADDRESS": f"unix:path={runtime}/bus"}
+
+
+def _systemctl(*args: str, timeout: float = 10) -> Optional[subprocess.CompletedProcess]:
+    """``systemctl --user …`` against this account's manager; None when it
+    could not be asked at all."""
+    tool = shutil.which("systemctl")
+    if not tool:
+        return None
+    try:
+        return subprocess.run([tool, "--user", *args], capture_output=True, text=True,
+                              env=_user_env(), timeout=timeout)
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
+def user_manager() -> Optional[str]:
+    """None when a heavy job can get its own unit here, else why not."""
+    if not shutil.which("systemd-run"):
+        return "systemd-run is not on PATH"
+    runtime = USER_RUNTIME / str(os.getuid())
+    if not ((runtime / "bus").exists() or (runtime / "systemd" / "private").exists()):
+        return (f"no systemd user manager for uid {os.getuid()} ({runtime} holds "
+                f"no bus) — it runs only while the account is logged in, unless "
+                f"lingering is enabled")
+    answer = _systemctl("is-system-running")
+    state = answer.stdout.strip() if answer is not None else None
+    if state not in ("running", "degraded"):
+        return f"the user manager does not answer as running (it says {state or 'nothing'!r})"
+    if not _MEMORY_RE.match(str(config.ATR_JOB_MEMORY_MAX)):
+        return (f"ATR_JOB_MEMORY_MAX={config.ATR_JOB_MEMORY_MAX!r} is not a size "
+                f"systemd reads (e.g. 2G, 1536M)")
+    return None
+
+
+def unit_name(job_id: str) -> str:
+    return f"ah-job-{job_id}"
+
+
+def unit_argv(job_id: str, directory: Path, cwd: str) -> list[str]:
+    """`systemd-run --user` for one job. The server's environment is passed **by
+    name** (``--setenv=NAME``): systemd-run takes the values from its own
+    environment, so no token ever stands in this argv or in ``ps``."""
+    names = sorted(n for n in os.environ
+                   if _ENV_NAME.match(n) and n not in _SYSTEMD_OWN_ENV)
+    return ["systemd-run", "--user", f"--unit={unit_name(job_id)}", "--collect",
+            "--quiet", "-p", f"MemoryMax={config.ATR_JOB_MEMORY_MAX}",
+            # The child is what the kernel kills; the runner must live on to
+            # write the exit code and the counters (#736).
+            "-p", "OOMPolicy=continue",
+            f"--working-directory={cwd}",
+            *[f"--setenv={n}" for n in names],
+            _python(), str(RUNNER), str(directory)]
+
+
+def terminal_fallback(kind: str, argv: Sequence[str], reason: str) -> str:
+    """The refusal of a heavy job that cannot have its own unit — with what to
+    run instead, generated from the job's own argv (#737, way C)."""
+    import shlex
+
+    import host_resources
+
+    limit = host_resources.memcg_state()["max"]
+    cwd = Path(config.BASE_DIR).parent
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+    user = os.environ.get("USER") or os.environ.get("LOGNAME") or str(os.getuid())
+    return (
+        f"not started: `{kind}` runs in its own systemd unit with "
+        f"MemoryMax={config.ATR_JOB_MEMORY_MAX}, and that is not possible here — "
+        f"{reason}. Under the server's own limit "
+        f"({host_resources.fmt_bytes(limit)}) a job this size killed the server "
+        f"with it on 25.10., so it is not started there either.\n\n"
+        f"Run it from a shell on the host (its log stays outside the session):\n"
+        f"  cd {shlex.quote(str(cwd))} && PYTHONUNBUFFERED=1 nohup "
+        f"{shlex.join(argv)} > {kind}-{stamp}.log 2>&1 &\n\n"
+        f"Or make the unit route possible, once, with sudo on the host:\n"
+        f"  sudo loginctl enable-linger {user}")
+
+
 def start(kind: str, argv: Sequence[str], *, run: Optional[str] = None,
-          cwd: Optional[Path] = None) -> Job:
+          cwd: Optional[Path] = None, own_unit: bool = False) -> Job:
     """Launch ``argv`` detached, and return the handle immediately.
 
     ``start_new_session=True`` puts the child in its own session and process
@@ -1733,7 +1850,15 @@ def start(kind: str, argv: Sequence[str], *, run: Optional[str] = None,
     cgroup, so surviving a restart also takes ``KillMode=process`` in the unit.
     With the ``mixed`` this shipped with, systemd SIGKILLed the whole cgroup after
     the main process went, and every running job died with the deploy.
+
+    ``own_unit`` (#737) starts it in a transient systemd user unit with its own
+    MemoryMax instead — out of the server's cgroup altogether — or refuses it
+    with the commands to run it by hand (:func:`terminal_fallback`).
     """
+    if own_unit:
+        reason = user_manager()
+        if reason:
+            raise JobError(terminal_fallback(kind, argv, reason))
     job_id = f"{datetime.now(timezone.utc):%Y%m%dT%H%M%S}-{uuid.uuid4().hex[:6]}"
     directory = jobs_root() / job_id
     directory.mkdir(parents=True)
@@ -1742,6 +1867,26 @@ def start(kind: str, argv: Sequence[str], *, run: Optional[str] = None,
             "cwd": str(cwd or Path(config.BASE_DIR).parent)}
     meta_path = directory / "meta.json"
     meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+
+    if own_unit:
+        meta["unit"] = unit_name(job_id)
+        meta["memory_max"] = str(config.ATR_JOB_MEMORY_MAX)
+        meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+        launch = unit_argv(job_id, directory, meta["cwd"])
+        launch[0] = shutil.which("systemd-run") or launch[0]
+        try:
+            done = subprocess.run(launch, capture_output=True, text=True,  # noqa: S603
+                                  env=_user_env(), timeout=60)
+            failure = None if done.returncode == 0 else (
+                done.stderr.strip() or f"systemd-run exited {done.returncode}")
+        except (OSError, subprocess.SubprocessError) as exc:
+            failure = str(exc)
+        if failure:
+            shutil.rmtree(directory, ignore_errors=True)
+            raise JobError(terminal_fallback(kind, argv, f"systemd-run failed: {failure}"))
+        return Job(job_id=job_id, kind=kind, argv=list(argv), started_at=meta["started_at"],
+                   run=run, state="running",
+                   unit={"name": meta["unit"], "memory_max": meta["memory_max"]})
 
     # The child is _run.py, not the batch itself: it outlives the server (which
     # will be restarted) and outlives the batch by one write, which is what makes
@@ -2296,6 +2441,10 @@ def status(job_id: str) -> Job:
     job = Job(job_id=meta["job_id"], kind=meta.get("kind", "?"),
               argv=meta.get("argv", []), started_at=meta.get("started_at", "?"),
               pid=meta.get("pid"), run=meta.get("run"))
+    unit = meta.get("unit")
+    if unit:
+        job.unit = {"name": unit, "memory_max": meta.get("memory_max"),
+                    "applied": _applied_limit(directory)}
 
     recorded = directory / "exit_code"
     if recorded.is_file():
@@ -2303,6 +2452,13 @@ def status(job_id: str) -> Job:
         job.state = "done" if job.exit_code == 0 else "failed"
         job.finished_at = datetime.fromtimestamp(
             recorded.stat().st_mtime, timezone.utc).isoformat(timespec="seconds")
+    elif unit:
+        answer = _systemctl("is-active", unit)
+        if answer is None:
+            # Not "vanished": the unit may be running; it could not be asked.
+            job.state = "unknown"
+        else:
+            job.state = "running" if answer.stdout.strip() in _UNIT_RUNNING else "vanished"
     elif _alive(job.pid):
         job.state = "running"
     else:
@@ -2360,6 +2516,17 @@ def _overlapping(job: Job, end: datetime, cap: int = 500) -> list[str]:
     return sorted(others)
 
 
+def _applied_limit(directory: Path):
+    """The memory.max the job's runner found in its cgroup, or None unread.
+    ``"max"`` where a unit asked for a limit means it did not take — the memory
+    controller is not delegated to the user manager."""
+    try:
+        record = json.loads((directory / "memcg.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return (record.get("start") or {}).get("memory_max")
+
+
 def memory_verdict(directory: Path, job: Job) -> Optional[dict]:
     """Did the memory cgroup kill something while this job ran? (#736)
 
@@ -2409,22 +2576,26 @@ def memory_verdict(directory: Path, job: Job) -> Optional[dict]:
         at_limit = None if None in oom else oom[1] > oom[0]
         out["at_limit"] = at_limit
         size = f"memory.max {host_resources.fmt_bytes(limit)}"
+        group, owner, limit_of = (
+            ("the job's own unit", "this job's unit", "the unit's limit") if job.unit else
+            ("the service's memory cgroup", "this service", "the service's limit"))
         if at_limit:
-            cause = f"the service's memory cgroup ran out ({counter}, {size})"
+            cause = f"{group} ran out ({counter}, {size})"
         elif at_limit is None:
-            cause = (f"an OOM kill in the service's memory cgroup ({counter}, {size}; "
+            cause = (f"an OOM kill in {group} ({counter}, {size}; "
                      f"whether its limit or the host ran out is not known)")
         else:
-            cause = (f"the host ran out of memory, not the service's limit "
+            cause = (f"the host ran out of memory, not {limit_of} "
                      f"({counter}, {size} not reached)")
         if sigkill or read_now:
             message = f"killed: {cause}"
         else:
-            message = (f"an OOM kill hit this service while this job ran — {cause}; "
+            message = (f"an OOM kill hit {owner} while this job ran — {cause}; "
                        f"the exit code alone does not say it was this job's")
         end = (_parse_ts(job.finished_at) if job.finished_at else None) \
             or datetime.now(timezone.utc)
-        others = _overlapping(job, end)
+        # A unit holds one job; only the shared service cgroup has neighbours.
+        others = [] if job.unit else _overlapping(job, end)
         if others:
             out["concurrent_jobs"] = others
             message += (f"; {len(others)} other job(s) ran in this service at the "
@@ -2461,7 +2632,7 @@ PEEK_S = 25
 
 def start_and_peek(kind: str, argv: Sequence[str], *, run: Optional[str] = None,
                    grace_s: float = PEEK_S, poll_s: float = 0.5,
-                   lines: int = 300) -> dict:
+                   lines: int = 300, own_unit: bool = False) -> dict:
     """Start a job, wait a little, and report whatever is true by then.
 
     The shape that fits a protocol with a request timeout and work that does not
@@ -2473,7 +2644,7 @@ def start_and_peek(kind: str, argv: Sequence[str], *, run: Optional[str] = None,
     belongs to the client, not to us, so raising ours only moves the failure to a
     place where the job is also lost.
     """
-    job = start(kind, argv, run=run)
+    job = start(kind, argv, run=run, own_unit=own_unit)
     deadline = time.monotonic() + max(0.0, grace_s)
     while time.monotonic() < deadline:
         current = status(job.job_id)
@@ -2518,7 +2689,13 @@ def stop(job_id: str) -> Job:
     the half-written file the rename is there to prevent.
     """
     job = status(job_id)
-    if job.state == "running" and job.pid:
+    if job.state == "running" and job.unit:
+        # The runner forwards TERM to its child, as a process group signal does.
+        answer = _systemctl("kill", "--kill-whom=main", "--signal=SIGTERM", job.unit["name"])
+        if answer is None or answer.returncode != 0:
+            raise JobError(f"cannot signal unit {job.unit['name']}: "
+                           f"{(answer.stderr.strip() if answer else '') or 'systemctl --user not reachable'}")
+    elif job.state == "running" and job.pid:
         try:
             os.killpg(os.getpgid(job.pid), signal.SIGTERM)
         except (ProcessLookupError, PermissionError) as exc:
