@@ -101,3 +101,10 @@ one is a commit with a diff rather than an edit to a shell line somebody pasted.
   error. Once the first eval shows which conventions the GT does carry
   (deletions, insertions, expansions), align them in a new file.
 
+- `federal_minutes_line.md` — one line of the Federal Council minutes
+  (1848–1903), for `external_lineset.py`. The trainer's own line prompt
+  ("Transcribe the handwritten text in this image exactly as written.") with
+  the context a general model needs and the output discipline of the strict
+  prompts. No editorial marks: the test set's GT has none, so a `[?]` would
+  only cost characters.
+

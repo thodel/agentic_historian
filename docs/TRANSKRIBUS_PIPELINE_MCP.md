@@ -111,6 +111,24 @@ transkribus_pipeline(step="eval", run="hertwig-g", doc="13922499", pages="8,17,2
   external_model="gemini-3.8-flash,gemini-4-argon")
 ```
 
+### The same readers on a published line set
+
+`external_lineset_eval` reads a line-level test set through the external API
+and scores it as the trainer scores its adapters: corpus CER, `truncated_cer`,
+`length_ratio`, plus empty answers with their `finish_reason` and the most
+frequent confusions. The default set is the Federal Council minutes
+(`dh-unibe/image-text_federal-minutes-testset`, 2,751 Kurrent lines,
+1848–1903, Hodel & Schoch 2021). Its numbers for the trainer's arms are in
+training-atr-models `docs/EVAL_SETS.md`. Billed per line, so it needs `sample`
+or `full=true`:
+
+```
+external_lineset_eval(run="fedmin-argon", model="gemini-4-argon", sample=100)
+external_lineset_eval(run="fedmin-argon", model="gemini-4-argon", full=true)
+```
+
+The second call reads only the lines the first did not.
+
 ### When the models are trained again (decided 27.10.)
 
 - **A V 1443 Hertwig:** pages are corrected first (option B: towards about 100

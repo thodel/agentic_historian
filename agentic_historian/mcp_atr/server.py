@@ -73,6 +73,7 @@ if str(_PKG) not in sys.path:               # same flat-import arrangement as __
 
 import config                                # noqa: E402
 from mcp_atr import jobs                     # noqa: E402
+from mcp_atr import lineset                  # noqa: E402
 from mcp_atr import transkribus              # noqa: E402
 from mcp_atr import ubelix                   # noqa: E402
 from utils import atr_gpu                   # noqa: E402
@@ -1374,6 +1375,38 @@ def build_server(provider=None, auth_settings=None):
                 prior=prior, status=status, replace_machine_text=replace_machine_text,
                 on_page_lines=on_page_lines, external_model=external_model,
                 external_prompt=external_prompt, external_reasoning=external_reasoning)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def external_lineset_eval(run: str, model: str, sample: Optional[int] = None,
+                              full: bool = False,
+                              dataset: Optional[str] = None, workers: int = 8,
+                              prompt: Optional[str] = None,
+                              reasoning: Optional[str] = None) -> dict:
+        """An external model (Gemini, Argon) on a published **line** test set,
+        scored as the trainer scores its adapters, so the number sits in the
+        same table (training-atr-models ``docs/EVAL_SETS.md``).
+
+        Default set: ``dh-unibe/image-text_federal-minutes-testset`` — the
+        Federal Council minutes (Bundesratsprotokolle 1848–1903, Hodel & Schoch
+        2021), 2,751 Kurrent lines. Default prompt ``federal_minutes_line.md``.
+
+        **Billed per line**: exactly one of ``sample`` (that many lines, spread
+        evenly over the set) or ``full=true``. Do a sample first and read its
+        report. The model is preflighted against the API's list; readings go to
+        ``VLM_TEST_ROOT/<run>/readings_<model>.jsonl`` as they come, so a
+        re-run resumes and never pays twice under the same settings.
+
+        The report (end of `job_log`, and ``report_<model>.json``): corpus CER
+        (Σ edits / Σ reference chars; an unanswered line counts as empty),
+        ``truncated_cer``, ``length_ratio``, the CER over answered lines,
+        whitespace-flat, empty answers with their ``finish_reason``, tokens, and
+        the most frequent confusions (GT → model).
+        """
+        try:
+            return lineset.lineset_job(run, model, sample=sample, full=full, dataset=dataset,
+                                       workers=workers, prompt=prompt, reasoning=reasoning)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 

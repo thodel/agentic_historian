@@ -47,6 +47,7 @@ from loguru import logger                     # noqa: E402
 
 import config                                 # noqa: E402
 import transkribus as tk                      # noqa: E402
+import textdiff                               # noqa: E402
 from ruemlang import adjudicate, linecer, pagexml, textalign      # noqa: E402
 from ruemlang import transkribus_pages as tp             # noqa: E402
 
@@ -784,40 +785,9 @@ def _ordered_line_cer(gt_texts: list[str], text: str) -> Optional[dict]:
     return {**out, "cer": errors / sum(len(t) for t in gt)}
 
 
-def _inline_diff(ref: str, hyp: str) -> str:
-    """``ref`` with the reader's changes marked: ``[-gt-]{+reader+}``, on
-    whitespace-collapsed text — the same strings ``_cer`` scores."""
-    from rapidfuzz.distance import Levenshtein
-    ref = re.sub(r"\s+", " ", ref).strip()
-    hyp = re.sub(r"\s+", " ", hyp).strip()
-    out = []
-    for op in Levenshtein.opcodes(ref, hyp):
-        a, b = ref[op.src_start:op.src_end], hyp[op.dest_start:op.dest_end]
-        if op.tag == "equal":
-            out.append(a)
-        else:
-            out.append((f"[-{a}-]" if a else "") + (f"{{+{b}+}}" if b else ""))
-    return "".join(out)
-
-
-def _confusions(ref: str, hyp: str):
-    """What a reader writes for what the GT has: ``Counter[(gt, reader)]`` over
-    the edit operations, one character each side (``""`` for none). ``s → ſ`` a
-    hundred times is a convention; a spread of letters is reading."""
-    from collections import Counter
-
-    from rapidfuzz.distance import Levenshtein
-    ref = re.sub(r"\s+", " ", ref).strip()
-    hyp = re.sub(r"\s+", " ", hyp).strip()
-    c: Counter = Counter()
-    for op in Levenshtein.editops(ref, hyp):
-        if op.tag == "replace":
-            c[(ref[op.src_pos], hyp[op.dest_pos])] += 1
-        elif op.tag == "delete":
-            c[(ref[op.src_pos], "")] += 1
-        else:
-            c[("", hyp[op.dest_pos])] += 1
-    return c
+# Shared with external_lineset: the same edit view on a page and on a line.
+_inline_diff = textdiff.inline_diff
+_confusions = textdiff.confusions
 
 
 def _write_diffs(root: Path, texts: dict[int, dict[str, str]], top: int = 12) -> None:
@@ -837,12 +807,9 @@ def _write_diffs(root: Path, texts: dict[int, dict[str, str]], top: int = 12) ->
                 continue
             (out / f"p{page:04d}_{reader}.txt").write_text(_inline_diff(gt, hyp) + "\n", encoding="utf-8")
             total.setdefault(reader, Counter()).update(_confusions(gt, hyp))
-    show = lambda ch: repr(ch) if ch else "∅"
     print(f"\nmost frequent confusions (GT → reader, whitespace collapsed; per page: {out}/)")
     for reader, c in sorted(total.items()):
-        n = sum(c.values())
-        print(f"  {reader:>3} ({n} edits): " + ", ".join(
-            f"{show(a)}→{show(b)} {k}" for (a, b), k in c.most_common(top)))
+        print(f"  {reader:>3} ({sum(c.values())} edits): {textdiff.show(c, top)}")
 
 
 def cmd_eval(args) -> int:
