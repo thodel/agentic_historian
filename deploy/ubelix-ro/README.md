@@ -1,7 +1,7 @@
 # UBELIX, read-only, from the ATR MCP server
 
-Four tools on the MCP server on tei, `ubelix_queue`, `ubelix_job`,
-`ubelix_record` and `ubelix_report`, answer "is the training still queued, was
+Six tools on the MCP server on tei, `ubelix_queue`, `ubelix_job`,
+`ubelix_record`, `ubelix_report`, `ubelix_prepared` and `ubelix_checkout`, answer "is the training still queued, was
 it preempted, what does its log say, what did the rescore measure" from a cloud
 session (#674, #301). Until now each of those questions
 cost a round trip through a person: copy a command, run it on submit02, paste
@@ -25,6 +25,8 @@ tei sends. The script understands four requests:
 | `job <digits>` | `sacct -j <id> -u $USER -D -X` (preemptions and requeues) |
 | `record <id> [lines]` | reads `job.json` (status, timestamps, `error`, `metrics` with the CER; not the request) and the tail of `logs/<stage>.log` (or `runner.log`) under `/scratch/network/users/$USER/runs/jobs/<id>/`, at most 200 lines |
 | `report <id> [label]` | without a label, the evaluation reports in that job's `data/` (`_` is the run's own `eval_report.json`); with one, `eval_report.<label>.json` without its `examples`, and the held-out check `eval_report.<label>.heldout.json` beside it if there is one. A label is a set name or a job id, no slash |
+| `prepared <slurm id>` | what a `prepare.sbatch` run left for stage 2 (#740): the trainer id in `runs/prep-<slurm id>.jobid` (there once the prepare has started), `sacct` state, the record's status and stage, and the `JOB_ID=… ubelix/submit.sh ubelix/train.sbatch …` line its log `~/ubelix/logs/prep-<slurm id>.out` ends with |
+| `checkout` | `~/training-atr-models`: HEAD, uncommitted files, and the distance to `origin/main` by `git ls-remote` — nothing is fetched |
 
 Anything else exits 2 having run nothing. A stolen MCP token therefore costs
 reading the queue and the trainer's records, never submitting, cancelling or
@@ -78,6 +80,16 @@ restrict,command="/storage/homefs/th19c587/bin/atr-mcp-ro" ssh-ed25519 AAAA… a
 Use the absolute path (`echo ~/bin/atr-mcp-ro` prints it). `restrict` turns
 off PTY, port, agent and X11 forwarding. Your own key's line stays as it is.
 
+**Updating the script** (#740 and later): copy the new `atr-mcp-ro` over the
+old one and compare the checksum with the one under *As installed* below. The
+forced command and the key stay as they are; nothing on tei restarts for it,
+and the tools that use a new verb answer `refused` until the script is there.
+
+```bash
+curl -fsSL -o ~/bin/atr-mcp-ro https://raw.githubusercontent.com/thodel/agentic_historian/main/deploy/ubelix-ro/atr-mcp-ro
+chmod 755 ~/bin/atr-mcp-ro && sha256sum ~/bin/atr-mcp-ro | cut -c1-12
+```
+
 ### 3. On tei: check the binding before wiring it up
 
 ```bash
@@ -121,7 +133,7 @@ Without both variables the tools answer "not configured" and do nothing.
 | MCP service user on tei | `dh` (`systemctl show -p User --value atr-mcp`) |
 | key | `/home/dh/.ssh/ubelix_mcp`, ed25519, `SHA256:dZmPE9GQi5YcHVs4wfozFpGE4Vwb+LeNgxhPF2b+TLo atr-mcp@tei` |
 | destination | `th19c587@submit02.unibe.ch` (130.92.20.12, also `submit02.hpc.unibe.ch`); direct from tei, no jump host, no `~/.ssh/config` entry |
-| script on UBELIX | `/storage/homefs/th19c587/bin/atr-mcp-ro`; current version (with `report`) has sha256 `c54fcbc8022d…`; before it `ea80973a046d…` (#708, `metrics`, no `report`) and `a592320d06d1…` (#678) (`sha256sum ~/bin/atr-mcp-ro`) |
+| script on UBELIX | `/storage/homefs/th19c587/bin/atr-mcp-ro`; current version (with `prepared` and `checkout`, #740) has sha256 `1f34ba53facd…`; before it `c54fcbc8022d…` (with `report`), `ea80973a046d…` (#708, `metrics`, no `report`) and `a592320d06d1…` (#678) (`sha256sum ~/bin/atr-mcp-ro`) |
 | `/etc/atr-mcp.env` | `ATR_UBELIX_SSH_HOST=th19c587@submit02.unibe.ch`, `ATR_UBELIX_SSH_KEY=/home/dh/.ssh/ubelix_mcp` |
 
 The check from tei, as `dh`, with that key only:
