@@ -876,8 +876,13 @@ pflegen.
 
 **Seit #691 aus der Session:** `upload_hf_card(card="hf-dataset-card.md",
 repo_id=…)` — holt das README vom Hub, setzt dessen Frontmatter wörtlich in die
-Karte, schreibt die Karte nach `docs/` zurück und lädt sie als README hoch;
-`dry_run=True` (Vorgabe) zeigt nur den Spleiss. Und `upload_hf` endet jetzt mit
+Karte und lädt sie als README hoch; `dry_run=True` (Vorgabe) zeigt nur den
+Spleiss. **Seit #738 schreibt der Job nicht mehr nach `docs/`**: die gespleisste
+Karte liegt im Job-Verzeichnis (`data/mcp_jobs/<id>/`), weil eine lokale
+Änderung im Produktions-Checkout `update.sh` in der Vorabprüfung anhält (26.10.).
+Weicht die Karte in `docs/` vom Hub ab, nennt die Ausgabe das mit dem Diff; aus
+einem Arbeitsbaum schreibt `python -m agentic_historian upload-hf-card --card …
+--write-back` sie zurück, zum Committen — auf tei und in einem MCP-Job abgelehnt. Und `upload_hf` endet jetzt mit
 dem, was der Hub hält (Zeilen, Bytes, Spalten, privat). Der Token kommt aus der
 Konfiguration, nie in die Kommandozeile; `hf` wird über `HF_CLI` gefunden (auf
 tei `/opt/pagexml-hf/bin/hf`), wenn `huggingface_hub` im venv fehlt.

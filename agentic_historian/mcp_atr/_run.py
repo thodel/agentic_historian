@@ -18,6 +18,13 @@ SIGTERM is forwarded rather than ignored: ``jobs.stop`` signals the whole proces
 group, and the batch runner writes every page through a temp file and renames, so
 a forwarded TERM leaves finished pages, no half-written ones, and an exit code
 that says what happened.
+
+It also writes ``memcg.json``: the ``oom_kill`` counter of its memory cgroup
+before the child starts and after it ends (#736). A job that died of
+``exited -9`` said nothing more on 25.10.; the cause — the service's
+``MemoryMax=200M`` — was only in the kernel log, which takes sudo. The counter
+is in ``memory.events`` and readable without it, and ``jobs.status`` compares
+the two.
 """
 
 from __future__ import annotations
@@ -29,6 +36,43 @@ import signal
 import subprocess
 import sys
 from pathlib import Path
+
+PROC_CGROUP = Path("/proc/self/cgroup")
+CGROUP_ROOT = Path("/sys/fs/cgroup")
+
+
+def memcg() -> dict:
+    """This process's cgroup, its ``memory.max`` and two counters of
+    ``memory.events``: ``oom`` (the cgroup hit its own limit) and ``oom_kill``
+    (a process in it was OOM-killed, by the cgroup or by the host). None where
+    unread — no package import, see the module docstring."""
+    out = {"cgroup": None, "memory_max": None, "oom": None, "oom_kill": None}
+    try:
+        line = next(ln for ln in PROC_CGROUP.read_text().splitlines()
+                    if ln.startswith("0::"))
+    except (OSError, StopIteration):
+        return out
+    out["cgroup"] = line.split("::", 1)[1].strip()
+    base = CGROUP_ROOT / out["cgroup"].lstrip("/")
+    try:
+        raw = (base / "memory.max").read_text().strip()
+        out["memory_max"] = raw if raw == "max" else int(raw)
+    except (OSError, ValueError):
+        pass
+    try:
+        for ln in (base / "memory.events").read_text().splitlines():
+            key, _, value = ln.partition(" ")
+            if key in ("oom", "oom_kill"):
+                out[key] = int(value)
+    except (OSError, ValueError):
+        pass
+    return out
+
+
+def _write_json(path: Path, data: dict) -> None:
+    tmp = path.with_name(path.name + ".part")
+    tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    os.replace(tmp, path)
 
 
 def main(argv: list[str]) -> int:
@@ -53,6 +97,13 @@ def main(argv: list[str]) -> int:
         scratch = directory / "tmp"
         scratch.mkdir(exist_ok=True)
         env.update(TMPDIR=str(scratch), TEMP=str(scratch), TMP=str(scratch))
+        # Where a job keeps what it produced — upload-hf-card's spliced card
+        # (#738), instead of the production checkout's docs/.
+        env["AH_JOB_DIR"] = str(directory)
+        # Its own file, not meta.json: the server rewrites meta.json with the
+        # pid right after starting this process.
+        record = {"start": memcg()}
+        _write_json(directory / "memcg.json", record)
         proc = subprocess.Popen(  # noqa: S603 — argv validated by mcp_atr.jobs
             command, cwd=cwd, stdout=log, stderr=subprocess.STDOUT,
             stdin=subprocess.DEVNULL, env=env,
@@ -68,6 +119,8 @@ def main(argv: list[str]) -> int:
             signal.signal(sig, forward)
 
         code = proc.wait()
+        record["end"] = memcg()
+        _write_json(directory / "memcg.json", record)
 
     # Scratch is the job's, and can be gigabytes (a parquet conversion); the
     # log and the exit code are what stays.
