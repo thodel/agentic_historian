@@ -11,7 +11,8 @@
 # running; anything later aborts BEFORE restarting. The untracked .env.gpustack at the
 # repo root is never touched (it is gitignored, so reset --hard leaves it alone).
 #
-# Overridable via env vars: AH_REPO, AH_SERVICE, AH_BRANCH.
+# Overridable via env vars: AH_REPO, AH_SERVICE, AH_BRANCH, AH_MCP_PY,
+# AH_MCP_SERVICE, AH_RESTART_MCP (0 = leave the MCP running as it is).
 #
 set -euo pipefail
 
@@ -61,6 +62,17 @@ c "Installing pinned dependencies"
 # set CI validates against, so it guarantees every runtime dep is present.
 "$PY" -m pip install -q -r "$REPO/requirements-dev.txt"
 
+# The ATR MCP's jobs run on the repo root's venv (atr-mcp.service), not the
+# bot's. It was kept by hand and fell behind twice: atr-client on 25.10.,
+# huggingface_hub on 27.10. Runtime requirements only; a failure here does not
+# stop the bot's deploy, it is named.
+MCP_PY="${AH_MCP_PY:-$REPO/.venv/bin/python}"
+if [ -x "$MCP_PY" ] && [ "$MCP_PY" != "$PY" ]; then
+    c "Installing runtime dependencies into the MCP venv ($MCP_PY)"
+    "$MCP_PY" -m pip install -q -r "$PKG/requirements.txt" \
+        || printf '\n\033[1;33m! MCP venv install failed — the bot deploy goes on; fix it by hand\033[0m\n'
+fi
+
 c "Import smoke test"
 SMOKE=("$PY" -c "import bot, config, orchestrator, ingest, agent_tools, nl_orchestrator, semantic; from utils import publish_github, mcp_probe; from knowledge_hub import store; from eval import harness; print('imports OK')")
 # Import as the service does. Since #567 the bot runs as its own user, owns its
@@ -82,6 +94,16 @@ sudo systemctl start "$SERVICE"
 sleep 3
 systemctl is-active --quiet "$SERVICE" || die "$SERVICE failed to start — see: journalctl -u $SERVICE -n 40"
 c "✓ $SERVICE active on $(git rev-parse --short @)"
+
+# The MCP serves the code it was started with; its jobs survive a restart
+# (KillMode=process). AH_RESTART_MCP=0 leaves it alone.
+MCP_SERVICE="${AH_MCP_SERVICE:-atr-mcp.service}"
+if [ "${AH_RESTART_MCP:-1}" = 1 ] && systemctl is-active --quiet "$MCP_SERVICE" 2>/dev/null; then
+    c "Restarting $MCP_SERVICE"
+    sudo systemctl restart "$MCP_SERVICE" \
+        && systemctl is-active --quiet "$MCP_SERVICE" \
+        || printf '\n\033[1;33m! %s did not come back — see: journalctl -u %s -n 40\033[0m\n' "$MCP_SERVICE" "$MCP_SERVICE"
+fi
 
 c "Recent journal"
 journalctl -u "$SERVICE" -n 12 --no-pager 2>/dev/null \

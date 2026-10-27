@@ -617,6 +617,50 @@ def _resources(counts: bool) -> dict:
             "caches": caches, "summary": summary}
 
 
+#: The runtime requirements every job runs on — this server's own Python, which
+#: is the jobs' (``_python``). ``update.sh`` installs them since 27.10.; before,
+#: this venv was kept by hand and fell behind twice (atr-client 25.10.,
+#: huggingface_hub 27.10.), each time found by a job that died on an import.
+REQUIREMENTS = Path(__file__).resolve().parents[1] / "requirements.txt"
+
+#: Programs a tool runs: name → what needs it.
+PROGRAMS = {"git": "server_status, provenance", "ssh": "ubelix_*",
+            "systemd-run": "jobs in their own unit (#737)",
+            "pagexml-hf": "upload_hf"}
+
+
+def _dependencies() -> dict:
+    """Which runtime requirements this Python has, at which version, and which
+    programs are on PATH. ``missing`` is what a job would die on."""
+    import importlib.metadata as md
+    import re as _re
+    have, missing = {}, []
+    for raw in REQUIREMENTS.read_text(encoding="utf-8").splitlines():
+        line = raw.split("#", 1)[0].strip()
+        if not line:
+            continue
+        name = _re.split(r"[\s<>=!~@;\[]", line, maxsplit=1)[0]
+        try:
+            have[name] = md.version(name)
+        except md.PackageNotFoundError:
+            missing.append(name)
+    programs = {prog: bool(shutil.which(prog)) for prog in PROGRAMS}
+    if not programs["pagexml-hf"] and shutil.which(config.HF_CLI):
+        programs["pagexml-hf"] = True          # configured under another name
+    lines_ok = None
+    try:                                        # given-line reading (serving-atr-inference#235)
+        import inspect
+
+        import atr_client
+        lines_ok = "lines" in inspect.signature(atr_client.AtrClient.recognize).parameters
+    except Exception:                           # noqa: BLE001 — reported, never fatal
+        lines_ok = False
+    return {"python": sys.executable, "packages": have, "missing": missing,
+            "programs": programs,
+            "missing_programs": [f"{k} ({PROGRAMS[k]})" for k, ok in programs.items() if not ok],
+            "atr_client_given_lines": lines_ok}
+
+
 def server_status(counts: bool = False) -> dict:
     """Which code answers, which data roots apply, what lies under them (#690).
 
@@ -667,10 +711,18 @@ def server_status(counts: bool = False) -> dict:
         "transkribus_pass": "set" if config._get("TRANSKRIBUS_PASS", "") else "unset",
         "gateway": config.ATR_GATEWAY_URL,
     }
+    deps = _dependencies()
+    resources = _resources(counts)
+    if deps["missing"] or deps["missing_programs"] or deps["atr_client_given_lines"] is False:
+        resources["summary"].append(
+            "MISSING for jobs: " + ", ".join(deps["missing"] + deps["missing_programs"]
+                                             + ([] if deps["atr_client_given_lines"] is not False
+                                                else ["atr-client without given lines"]))
+            + f" — install into {deps['python']} (update.sh does since 27.10.)")
     return {"ok": True,
             "code": {**provenance.code_state(), **_git_state(checkout)},
-            "env": env, "roots": roots,
-            "resources": _resources(counts),
+            "env": env, "roots": roots, "dependencies": deps,
+            "resources": resources,
             "runs": _runs(Path(config.VLM_TEST_ROOT)),
             "counted": counts}
 
