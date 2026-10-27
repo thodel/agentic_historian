@@ -1048,6 +1048,10 @@ def resolve_source(source: str):
                 "dots, dashes, underscores and '/' only, and no '..' segment"
             )
         return f"{nextcloud.DAV_PREFIX}{folder}"
+    if raw.startswith(DATASETS_PREFIX):
+        # A dataset's own pages, by name (#752): the held-out side of a
+        # ground-truth tree is the one set of pages here with known text.
+        return dataset_project(raw)
     candidate = Path(raw)
     if not candidate.is_absolute():
         candidate = Path(config.NEXTCLOUD_STAGING_DIR) / candidate
@@ -1470,6 +1474,34 @@ def resolve_tree(tree: str) -> Path:
             f"one, and the name here is that directory's name, not a path "
             f"(a tree under ATR_DATASETS_DIR is `datasets:<name>`)")
     return path
+
+
+def dataset_project(spec: str) -> Path:
+    """One project of a tree under ``ATR_DATASETS_DIR``, by name (#752).
+
+    ``datasets:<tree>/<project>`` — ``datasets:lassberg-blb-gt/lassberg_eval``.
+    The project holds the page images and, under ``page/``, the PAGE XML with
+    the hand-corrected text, so the same name is a `start_batch` source (the
+    images) and a `score_ground_truth` ground truth (the XML): the held-out
+    pages of a dataset are measured without copying them anywhere. Each part
+    passes `validate_run`, so the name picks a directory and never a path.
+    ``datasets:<tree>`` alone is the whole tree, train side included.
+    """
+    raw = (spec or "").strip()
+    if not raw.startswith(DATASETS_PREFIX):
+        raise JobError(f"{raw!r} is not a `datasets:<tree>/<project>` name")
+    tree, _, project = raw[len(DATASETS_PREFIX):].partition("/")
+    path = resolve_tree(DATASETS_PREFIX + tree)
+    if not project:
+        return path
+    project = validate_run(project)
+    target = path / project
+    if not target.is_dir():
+        there = sorted(p.name for p in path.iterdir()
+                       if p.is_dir() and not p.name.startswith((".", "_")))
+        raise JobError(f"no project {project!r} in tree {tree!r} — there are: "
+                       f"{', '.join(there) or 'none'}")
+    return target
 
 
 def _tree_names(root: Path, cap: int = 50) -> list[str]:
@@ -2183,7 +2215,11 @@ def _score_run_names(runs: Sequence[str]) -> list[str]:
 
 
 def _score_gt_dir(gt_dir: Optional[str]) -> Path:
-    """A ground-truth directory under the root, or the root itself."""
+    """A ground-truth directory under the root, or the root itself — or a
+    dataset project by name, ``datasets:<tree>/<project>``, whose ``page/``
+    folder holds the reference text (#752)."""
+    if gt_dir and gt_dir.strip().startswith(DATASETS_PREFIX):
+        return dataset_project(gt_dir)
     root = Path(config.GT_ROOT)
     folder = root / validate_run(gt_dir) if gt_dir else root
     if not folder.is_dir():

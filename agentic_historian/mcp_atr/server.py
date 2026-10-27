@@ -424,7 +424,10 @@ def build_server(provider=None, auth_settings=None):
         ``source`` is either a directory — inside the mirror, the comparison
         root, the read-only share mount, the page cache or its cold tier on the
         research share — or ``dav:<folder>``, which reads that folder of the
-        Nextcloud share directly, with no mirror and no mount. Either way a
+        Nextcloud share directly, with no mirror and no mount — or
+        ``datasets:<tree>/<project>``, one project of a ground-truth tree under
+        `ATR_DATASETS_DIR` by name (``datasets:lassberg-blb-gt/lassberg_eval``),
+        which is how a dataset's held-out pages are read (#752). Either way a
         source that is not already on local disk is read through a working-copy
         cache, so each page crosses the network once rather than once per
         model. The cold tier (`ATR_PAGE_CACHE_ARCHIVE`) is the source that
@@ -646,6 +649,12 @@ def build_server(provider=None, auth_settings=None):
         handover that makes a targeted run possible: only pages whose identity is
         settled, because a wrong key there does not produce a bad number — it
         sends every model to read a different page.
+
+        ``gt_dir`` is a folder under the ground-truth root, or
+        ``datasets:<tree>/<project>``: the PAGE XML under that project's
+        ``page/`` is the reference. With the same name as `start_batch`'s
+        source, the held-out side of a dataset (``…_eval``) is read and scored
+        in place (#752). Pages there carry no Transkribus status and count.
 
         **Asynchronous, like every other long call here.** 552 pages against
         eight readings is about a quarter of an hour, and on 2026-10-05 this tool
