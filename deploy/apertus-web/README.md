@@ -21,6 +21,24 @@ That restraint is the point, because the gateway starts GPU work on a shared car
 - **Nothing is stored on the server.** The history lives in the browser tab and
   can be downloaded there as JSONL.
 
+## Up and down
+
+```bash
+sudo bash /home/dh/agentic_historian/deploy/apertus-web/apertus_up.sh     # page + warm model
+sudo bash /home/dh/agentic_historian/deploy/apertus-web/apertus_down.sh   # page off
+```
+
+- **`apertus_up.sh`** runs `install_on_tei.sh` (idempotent, keeps the
+  password). Then it sends one tiny image through the gateway, so the cold start
+  on idhefix (~6 min) happens before the first tester arrives. It waits until
+  Apertus answers and prints the URL and the password. `--no-warm` brings up
+  only the page.
+- **`apertus_down.sh`** stops and disables the unit and removes the nginx
+  include, with a backup outside `sites-enabled/` and a rollback. Unit, snippet
+  and env file stay in place, so `apertus_up.sh` brings back the same password.
+- Card 1 on idhefix needs no step of its own: the gateway evicts Apertus as soon
+  as another model needs the room.
+
 ## Install on tei
 
 **One script does all of it** (`install_on_tei.sh`): it takes user and venv from
@@ -90,6 +108,8 @@ which takes about six minutes (16 GB of weights off the research share, then
 compilation). The page says so while it waits.
 
 ## Taking it down after the test
+
+`apertus_down.sh` does this; by hand:
 
 ```bash
 sudo systemctl disable --now apertus-web
