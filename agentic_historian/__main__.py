@@ -906,20 +906,28 @@ def upload_hf(args: argparse.Namespace) -> int:
                               arrow_cache=plan.arrow_cache)
     for w in work:
         print(f"staging in {w} (removed afterwards)")
+    peak = hf.StagingPeak(work)
     try:
-        result = subprocess.run(argv, env=env)
+        with peak:
+            result = subprocess.run(argv, env=env)
     finally:
         for w in work:
             shutil.rmtree(w, ignore_errors=True)
+    for where, size in peak.peak.items():
+        print(f"staging peak: {size / 1e9:.2f} GB in {where}")
     if result.returncode != 0:
         print(f"\nError: pagexml-hf exited {result.returncode}", file=sys.stderr)
         return 1
     where = "private" if plan.private else "PUBLIC"
     print(f"\nuploaded {plan.pages} page(s) to {plan.repo_id} ({where})")
-    hf.record_upload(plan.tree, plan.repo_id, private=plan.private)
+    hf.record_upload(plan.tree, plan.repo_id, private=plan.private,
+                     tree_bytes=plan.tree_bytes, png_factor=plan.png_factor,
+                     hub_estimate=plan.hub_estimate,
+                     staging_peak=peak.peak or None)
     # And what the hub holds now, from the hub (#691): the check that ran over
     # a second channel on 2026-10-22 — 281 rows? four columns? private?
     print(hf.format_hub_state(hf.hub_state(plan.repo_id)))
+    print(hf.format_hub_shards(hf.hub_shards(plan.repo_id)))
     return 0
 
 

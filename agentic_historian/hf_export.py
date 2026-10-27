@@ -1015,7 +1015,7 @@ def read_manifest(tree: Path) -> dict:
     return found if isinstance(found, dict) else {}
 
 
-def record_upload(tree: Path, repo_id: str, *, private: bool) -> None:
+def record_upload(tree: Path, repo_id: str, *, private: bool, **facts) -> None:
     """Note in the tree's manifest that it went to the hub (#711).
 
     A split, an undo or a rebuild after this point changes what a published
@@ -1028,7 +1028,8 @@ def record_upload(tree: Path, repo_id: str, *, private: bool) -> None:
         return
     manifest.setdefault("uploads", []).append({
         "repo_id": repo_id, "private": private,
-        "at": datetime.now(timezone.utc).isoformat(timespec="seconds")})
+        "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        **{k: v for k, v in facts.items() if v is not None}})
     path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
                     encoding="utf-8")
 
@@ -1078,6 +1079,12 @@ class UploadPlan:
     scratch_free: Optional[int] = None
     arrow_cache: Optional[Path] = None
     arrow_free: Optional[int] = None
+    #: What the hub will hold (#741): the PNG factor measured on a sample, the
+    #: estimate it gives, and the largest shard (one per project).
+    png_factor: Optional[float] = None
+    png_sample: int = 0
+    hub_estimate: Optional[int] = None
+    largest_shard: Optional[tuple] = None
 
     @property
     def ok(self) -> bool:
@@ -1246,6 +1253,80 @@ def hub_projects(repo_id: str, token: Optional[str] = None) -> dict:
     return {"projects": sorted(found)}
 
 
+def hub_shards(repo_id: str, token: Optional[str] = None) -> dict:
+    """``{project: bytes}`` of the parquet shards on the hub (#741), from the
+    tree API — no download. ``{"error": …}`` when the hub does not answer."""
+    import requests
+
+    url = f"https://huggingface.co/api/datasets/{repo_id}/tree/main/data"
+    tok = token or hub_token()
+    headers = {"Authorization": f"Bearer {tok}"} if tok else {}
+    try:
+        r = requests.get(url, headers=headers, params={"recursive": "true"}, timeout=30)
+        if r.status_code != 200:
+            return {"error": f"hub answered {r.status_code}"}
+        entries = r.json()
+    except (requests.RequestException, ValueError) as exc:
+        return {"error": f"{type(exc).__name__}: {exc}"}
+    out: dict = {}
+    for e in entries if isinstance(entries, list) else []:
+        parts = str(e.get("path", "")).split("/")
+        if e.get("type") == "file" and len(parts) == 4 and parts[3].endswith(".parquet"):
+            size = (e.get("lfs") or {}).get("size") or e.get("size") or 0
+            out[parts[2]] = out.get(parts[2], 0) + int(size)
+    return out
+
+
+def format_hub_shards(shards: dict) -> str:
+    if not shards or "error" in shards:
+        return f"shards    : not read ({(shards or {}).get('error', 'none')})"
+    name, biggest = max(shards.items(), key=lambda kv: kv[1])
+    return (f"shards    : {len(shards)} project(s), {sum(shards.values()) / 1e9:.2f} GB, "
+            f"largest {name} {biggest / 1e9:.2f} GB")
+
+
+def dir_bytes(path: Path) -> int:
+    total = 0
+    for root, _dirs, files in os.walk(path):
+        for f in files:
+            try:
+                total += os.stat(os.path.join(root, f)).st_size
+            except OSError:
+                pass
+    return total
+
+
+class StagingPeak:
+    """The largest size each staging directory reaches during an upload (#741),
+    sampled every ``every_s`` seconds in a thread — the numbers the space
+    factors are to be calibrated on, instead of a second guess."""
+
+    def __init__(self, paths: Sequence[Path], every_s: float = 30.0):
+        import threading
+
+        self.paths = [Path(p) for p in paths]
+        self.peak = {str(p): 0 for p in self.paths}
+        self._stop = threading.Event()
+        self._thread = threading.Thread(target=self._run, args=(every_s,), daemon=True)
+
+    def sample(self) -> None:
+        for p in self.paths:
+            self.peak[str(p)] = max(self.peak[str(p)], dir_bytes(p))
+
+    def _run(self, every_s: float) -> None:
+        while not self._stop.wait(every_s):
+            self.sample()
+
+    def __enter__(self):
+        self._thread.start()
+        return self
+
+    def __exit__(self, *exc):
+        self._stop.set()
+        self._thread.join(timeout=5)
+        return False
+
+
 def projects_lost(hub: list, tree: dict) -> list:
     """Projects on the hub that an upload of ``tree`` would remove."""
     return sorted(set(hub) - set(tree))
@@ -1311,6 +1392,46 @@ def upload_card(repo_id: str, card: Path, token: Optional[str] = None) -> str:
 ARROW_FACTOR = 2.2
 SHARD_FACTOR = 1.1
 SCRATCH_FACTOR = ARROW_FACTOR + SHARD_FACTOR
+#: Headroom on the shards' estimate: the parquet files carry the XML and the
+#: columns beside the images.
+SHARD_HEADROOM = 1.05
+#: Pages sampled to measure what `pagexml-hf` makes of the images (#741).
+PNG_SAMPLE = 12
+
+
+def png_factor(images: Sequence[Path], sample: int = PNG_SAMPLE) -> tuple[Optional[float], int]:
+    """How much larger the images become as `pagexml-hf` stores them (#741).
+
+    `pagexml-hf` re-encodes every page losslessly as PNG
+    (``imageutils.encode_image``): RGB, ``format="PNG"``. On 26.10. that made
+    7.8 GB of the BLB's JPEGs 31.8 GB on the hub. This does the same to an
+    evenly spread sample and returns ``(png bytes / original bytes, pages
+    sampled)``, or ``(None, 0)`` when nothing could be measured.
+    """
+    import io
+
+    try:
+        from PIL import Image
+    except ImportError:
+        return None, 0
+    images = sorted(images)
+    if not images:
+        return None, 0
+    step = max(1, len(images) // max(1, sample))
+    orig = png = n = 0
+    for path in images[::step][:sample]:
+        try:
+            data = path.read_bytes()
+            with Image.open(io.BytesIO(data)) as im:
+                im = im if im.mode == "RGB" else im.convert("RGB")
+                buf = io.BytesIO()
+                im.save(buf, format="PNG")
+        except Exception:  # noqa: BLE001 — an unreadable sample is skipped, not fatal
+            continue
+        orig += len(data)
+        png += len(buf.getvalue())
+        n += 1
+    return (png / orig if orig else None), n
 
 
 def scratch_for(tree: Path) -> Optional[Path]:
@@ -1446,6 +1567,8 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
     tree = Path(tree).expanduser()
     problems: list[str] = []
     pages, projects, objects = 0, {}, {}
+    all_images: list = []
+    image_bytes: dict = {}
     if not tree.is_dir():
         problems.append(f"no export tree at {tree} — run `export-hf --out` first")
     else:
@@ -1458,6 +1581,8 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
                       if f.is_file() and f.suffix.lower() in exts]
             projects[project.name] = len(xmls)
             pages += len(xmls)
+            all_images.extend(images)
+            image_bytes[project.name] = sum(f.stat().st_size for f in images)
             n_objects = count_objects(x.stem for x in xmls)
             if n_objects is not None:
                 objects[project.name] = n_objects
@@ -1484,17 +1609,27 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
     scratch, size, free = scratch_for(tree), 0, None
     arrow = Path(config.ATR_HF_ARROW_CACHE) if scratch else None
     arrow_free = None
+    factor, sampled, estimate, largest = None, 0, None, None
     if tree.is_dir():
         size = tree_bytes(tree)
+        factor, sampled = png_factor(all_images)
+        if factor:
+            other = max(0, size - sum(image_bytes.values()))
+            estimate = int(sum(image_bytes.values()) * factor + other)
+            name, biggest = max(image_bytes.items(), key=lambda kv: kv[1], default=(None, 0))
+            largest = (name, int(biggest * factor)) if name else None
+        # The shards are the images as PNG (#741): with a measured factor that is
+        # what TMPDIR has to hold, not the tree. Without one, the old guess.
+        shard_need = int(estimate * SHARD_HEADROOM) if estimate else int(size * SHARD_FACTOR)
         if scratch:
             free = free_bytes(scratch)
             arrow_free = free_bytes(arrow)
-            checks = [(arrow, arrow_free, ARROW_FACTOR, "the Arrow dataset and its mapped copy",
-                       "ATR_HF_ARROW_CACHE"),
-                      (scratch, free, SHARD_FACTOR, "the parquet shards", "ATR_HF_SCRATCH")]
+            checks = [(arrow, arrow_free, int(size * ARROW_FACTOR),
+                       "the Arrow dataset and its mapped copy", "ATR_HF_ARROW_CACHE"),
+                      (scratch, free, shard_need, "the parquet shards", "ATR_HF_SCRATCH")]
         else:
             free = free_bytes(Path(tempfile.gettempdir()))
-            checks = [(Path(tempfile.gettempdir()), free, SCRATCH_FACTOR,
+            checks = [(Path(tempfile.gettempdir()), free, int(size * ARROW_FACTOR) + shard_need,
                        "everything", "ATR_HF_SCRATCH")]
         limit, group = memcg_limit()
         if limit is not None and limit < MEMCG_FLOOR and size > BIG_TREE:
@@ -1505,8 +1640,7 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
                 f"with it. Run it from a shell on the host instead: "
                 f"`PYTHONUNBUFFERED=1 nohup .venv/bin/python3 -m agentic_historian upload-hf "
                 f"--tree {tree} --repo-id {repo_id} > upload.log 2>&1 &`")
-        for where, room, factor, what, setting in checks:
-            need = int(size * factor)
+        for where, room, need, what, setting in checks:
             if room is not None and room < need:
                 problems.append(
                     f"{room / 1e9:.1f} GB free at {where}, and `pagexml-hf` needs about "
@@ -1518,7 +1652,9 @@ def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
                       problems=problems, mode=tree_mode(tree),
                       kind=str(manifest.get("kind") or ""), objects=objects,
                       scratch=scratch, tree_bytes=size, scratch_free=free,
-                      arrow_cache=arrow, arrow_free=arrow_free)
+                      arrow_cache=arrow, arrow_free=arrow_free,
+                      png_factor=factor, png_sample=sampled, hub_estimate=estimate,
+                      largest_shard=largest)
 
 
 def format_upload(plan: UploadPlan) -> str:
@@ -1544,6 +1680,12 @@ def format_upload(plan: UploadPlan) -> str:
              *([f"arrow     : {plan.arrow_cache}"
                 + (f"   ({plan.arrow_free / 1e9:.1f} GB free, local disk)"
                    if plan.arrow_free is not None else "")] if plan.arrow_cache else []),
+             *([f"hub size  : ≈ {plan.hub_estimate / 1e9:.1f} GB "
+                f"(the images as PNG, ×{plan.png_factor:.1f} over {plan.png_sample} sampled "
+                f"page(s))"
+                + (f"; largest shard {plan.largest_shard[0]} ≈ "
+                   f"{plan.largest_shard[1] / 1e9:.1f} GB" if plan.largest_shard else "")]
+               if plan.hub_estimate else []),
              f"pagexml-hf: {plan.tool or 'not found'}",
              f"token     : {'present' if plan.token else 'missing'}"]
     if plan.problems:
