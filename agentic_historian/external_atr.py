@@ -101,6 +101,10 @@ class Reading:
     service_version: str = "?"
     prompt_tokens: int = 0
     completion_tokens: int = 0
+    #: Why the model stopped (``stop``, ``length``, a filter …). On 27.10.
+    #: gemini-3.8-flash answered three written Bern pages with nothing and no
+    #: completion tokens, and without this the record could not say why.
+    finish_reason: str = ""
     #: What produced this reading, for `atr_batch.is_complete`: a truncated page
     #: is worth re-reading when these change and not otherwise. See that
     #: function — the remedy for a cut-off page used to be a no-op.
@@ -348,7 +352,12 @@ def openai_recogniser(*, base_url: Optional[str] = None,
                             + ("+structured" if structured else ""),
             prompt_tokens=int(getattr(usage, "prompt_tokens", 0) or 0),
             completion_tokens=int(getattr(usage, "completion_tokens", 0) or 0),
+            finish_reason=str(getattr(choice, "finish_reason", "") or ""),
             settings=settings)
+        if not diplomatic.strip():
+            logger.warning(f"[external] {Path(image).name}: empty answer "
+                           f"(finish_reason={reading.finish_reason or '?'}, "
+                           f"{reading.completion_tokens} completion tokens)")
         if reading.truncated:
             logger.warning(
                 f"[external] {Path(image).name} hit the {budget}-token ceiling "

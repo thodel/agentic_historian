@@ -472,3 +472,27 @@ def test_the_models_own_default_is_recorded_as_such(monkeypatch):
 
     assert "think-default" in ex.openai_recogniser(reasoning="",
                                                    max_tokens=8192).settings
+
+
+# ── why a model stopped (27.10.: Flash answered written pages with nothing) ──
+
+def test_the_finish_reason_is_recorded(monkeypatch, tmp_path):
+    from types import SimpleNamespace
+
+    import openai
+    answers = iter([("", "content_filter", 0), ("Item", "stop", 3)])
+
+    def create(**body):
+        text, why, n = next(answers)
+        return SimpleNamespace(
+            choices=[SimpleNamespace(message=SimpleNamespace(content=text), finish_reason=why)],
+            usage=SimpleNamespace(prompt_tokens=10, completion_tokens=n))
+    client = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
+    monkeypatch.setattr(ex.config, "GEMINI_API_KEY", "k")
+    monkeypatch.setattr(openai, "OpenAI", lambda **kw: client)
+    img = tmp_path / "p.jpg"
+    img.write_bytes(b"\xff\xd8\xff")
+    read = ex.openai_recogniser(prompt="bern_1528.md", reasoning="low")
+    blank = read(img, "gemini-3.8-flash")
+    assert blank.text == "" and blank.finish_reason == "content_filter"
+    assert read(img, "gemini-4-argon").finish_reason == "stop"
