@@ -43,6 +43,8 @@ webdav4==0.11.0
 yarl==1.24.2
 rdflib==7.6.0
 numpy>=1.24.0
+huggingface_hub>=0.24
+pyarrow>=15
 # build backend — required for test_ah_109's editable install with --no-build-isolation
 setuptools>=61.0
 atr-client @ git+https://github.com/thodel/serving-atr-inference@38f83b06c5443b0c0c95ede40e89c11ea5a440a8#subdirectory=clients/python

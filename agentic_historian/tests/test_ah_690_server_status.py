@@ -178,3 +178,24 @@ def test_the_tool_is_on_the_server_and_only_sees():
     assert "def server_status(" in src
     body = src[src.index("def server_status("):src.index("def share_list(")]
     assert "never switches" in body
+
+
+# ── what a job would die on (27.10.: huggingface_hub missing in the MCP venv) ─
+
+def test_dependencies_name_what_is_missing(tmp_path, monkeypatch):
+    req = tmp_path / "requirements.txt"
+    req.write_text("# comment\nloguru>=0.7.0\nno-such-package-xyz>=1  # gone\n"
+                   "atr-client @ git+https://example.org/x#subdirectory=c\n")
+    monkeypatch.setattr(jobs, "REQUIREMENTS", req)
+    monkeypatch.setattr(jobs.shutil, "which", lambda prog: None if prog == "ssh" else f"/bin/{prog}")
+    deps = jobs._dependencies()
+    assert "loguru" in deps["packages"]
+    assert "no-such-package-xyz" in deps["missing"]
+    assert deps["missing_programs"] == ["ssh (ubelix_*)"]
+    assert deps["python"] == sys.executable
+
+
+def test_the_shipped_requirements_parse():
+    deps = jobs._dependencies()
+    assert set(deps["packages"]) | set(deps["missing"]) >= {"loguru", "openai", "rapidfuzz",
+                                                           "huggingface_hub", "pyarrow", "httpx"}

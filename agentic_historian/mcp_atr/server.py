@@ -363,6 +363,12 @@ def build_server(provider=None, auth_settings=None):
         against ~25 needed, 3 GB RAM, MemoryMax=200M). ``summary`` says it in
         one line each. Read before a big upload.
 
+        ``dependencies``: the runtime requirements in the Python every job
+        runs on, with versions, the ones ``missing``, the programs the tools
+        call (git, ssh, systemd-run, pagexml-hf) and whether atr-client can
+        read on given lines. A missing one also lands in ``summary``. On
+        27.10. a job died on ``huggingface_hub`` that nobody had installed.
+
         ``counts`` walks the page cache and the cold tier for page counts
         (seconds over CIFS, within a budget), and sizes the upload caches
         (leftovers of aborted uploads); off by default.
