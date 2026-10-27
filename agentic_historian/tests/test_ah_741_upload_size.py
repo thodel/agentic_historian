@@ -23,11 +23,24 @@ if str(PKG) not in sys.path:
 import config                              # noqa: E402
 import hf_export as hf                     # noqa: E402
 
-Image = pytest.importorskip("PIL.Image")
+pytest.importorskip("PIL")
+
+
+def _pil():
+    """The real Pillow, resolved at run time. ``test_ah_108`` installs a
+    ``MagicMock`` PIL into ``sys.modules`` while pytest collects; a module-level
+    import would bind to it and write images that are not images (see
+    ``test_ah_235_tocr_segmentation._make_temp_image``)."""
+    for name in [n for n in list(sys.modules) if n == "PIL" or n.startswith("PIL.")]:
+        if type(sys.modules[name]).__module__.startswith("unittest.mock"):
+            del sys.modules[name]
+    from PIL import Image
+    return Image
 
 
 def _jpeg(path: Path, seed: int, size=(240, 320)) -> None:
     import random
+    Image = _pil()
     rnd = random.Random(seed)
     im = Image.new("RGB", size)
     im.putdata([(rnd.randrange(256), rnd.randrange(256), rnd.randrange(256))
@@ -52,6 +65,7 @@ def test_the_factor_is_what_pagexml_hf_makes_of_the_images(tmp_path):
     tree = _tree(tmp_path, {"a": 3})
     images = sorted((tree / "a").glob("*.jpg"))
     factor, n = hf.png_factor(images)
+    Image = _pil()
     expected = []
     for p in images:
         buf = io.BytesIO()
