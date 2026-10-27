@@ -187,3 +187,31 @@ def report(record_id: str, label: Optional[str] = None) -> dict:
     except (ValueError, AttributeError):
         pass
     return result
+
+
+def _parsed(result: dict) -> dict:
+    try:
+        parsed = json.loads(result["output"])
+        del result["output"]
+        result.update(parsed)
+    except (ValueError, AttributeError, KeyError):
+        pass
+    return result
+
+
+def prepared(slurm_id) -> dict:
+    """What a ``prepare.sbatch`` run left for stage 2 (#740): the trainer job
+    id, the Slurm state, the record's status, and the train line its log ends
+    with."""
+    try:
+        return _parsed(_call("prepared", validate_slurm_id(slurm_id)))
+    except UbelixError as exc:
+        return {"ok": False, "error": str(exc)}
+
+
+def checkout() -> dict:
+    """The trainer checkout on UBELIX against ``origin/main``, without fetching."""
+    try:
+        return _parsed(_call("checkout"))
+    except UbelixError as exc:
+        return {"ok": False, "error": str(exc)}

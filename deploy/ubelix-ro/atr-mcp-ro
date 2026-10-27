@@ -6,7 +6,7 @@ Installed as the forced command of one key in ``~/.ssh/authorized_keys``::
     restrict,command="$HOME/bin/atr-mcp-ro" ssh-ed25519 AAAA… atr-mcp@tei
 
 sshd then runs this script whatever the client asked for, and puts the request
-in ``SSH_ORIGINAL_COMMAND``. Four requests are understood, all read-only:
+in ``SSH_ORIGINAL_COMMAND``. Six requests are understood, all read-only:
 
 * ``queue`` — this user's jobs in ``squeue``, with Slurm's start estimate.
 * ``job <slurm id>`` — ``sacct -D`` for one job, preemptions and requeues included.
@@ -15,6 +15,14 @@ in ``SSH_ORIGINAL_COMMAND``. Four requests are understood, all read-only:
 * ``report <job id> [label]`` — the evaluation reports in the job's ``data/``:
   without a label, which there are; with one, that report (without its ten
   example transcriptions) and its held-out check, if it has one (#301).
+* ``prepared <slurm id>`` — what a ``prepare.sbatch`` run left for stage 2
+  (#740): the trainer job id it wrote to ``runs/prep-<slurm id>.jobid``, the
+  Slurm state, the record's status, and the ``train.sbatch`` line its log ends
+  with — the id and the command a person otherwise read off two files.
+* ``checkout`` — the trainer checkout ``submit.sh`` runs (``~/training-atr-models``):
+  HEAD, uncommitted files, and how far it is from ``origin/main`` by
+  ``git ls-remote``, which fetches nothing. The question the preflight refused on
+  twice on 26.10.
 
 Everything else exits 2 without running anything. There is no shell on this path:
 the request is split on whitespace, every word is matched against a pattern, and
@@ -70,6 +78,35 @@ def jobs_root() -> Path:
     if override:
         return Path(override)
     return Path("/scratch/network/users") / user() / "runs" / "jobs"
+
+
+def runs_root() -> Path:
+    """``$S/runs`` of the ubelix scripts, beside the jobs root."""
+    override = os.environ.get("ATR_MCP_RO_RUNS")
+    return Path(override) if override else jobs_root().parent
+
+
+def logs_root() -> Path:
+    """``#SBATCH --output=/storage/homefs/%u/ubelix/logs/%x-%j.out``."""
+    override = os.environ.get("ATR_MCP_RO_LOGS")
+    return Path(override) if override else Path.home() / "ubelix" / "logs"
+
+
+def repo_root() -> Path:
+    """The checkout ``submit.sh`` runs (``ATR_TRAIN_REPO``'s default)."""
+    override = os.environ.get("ATR_MCP_RO_REPO")
+    return Path(override) if override else Path.home() / "training-atr-models"
+
+
+def capture(argv: list) -> tuple:
+    """``(exit code, stdout)`` of a fixed argv, for answers that are parsed."""
+    try:
+        done = subprocess.run(argv, capture_output=True, text=True, timeout=20)
+        return done.returncode, done.stdout
+    except FileNotFoundError:
+        return 127, ""
+    except subprocess.TimeoutExpired:
+        return 124, ""
 
 
 def refuse(why: str) -> int:
@@ -202,11 +239,90 @@ def report(record_id: str, label) -> int:
     return 0
 
 
+TRAIN_LINE = "ubelix/submit.sh ubelix/train.sbatch"
+
+
+def prepared(slurm_id: str) -> int:
+    """What one prepare run left for stage 2 (#740). Read-only, JSON."""
+    out = {"slurm_id": slurm_id, "trainer_id": None, "slurm": None,
+           "record": None, "next": None, "artefact": None}
+    idfile = runs_root() / ("prep-%s.jobid" % slurm_id)
+    try:
+        trainer_id = idfile.read_text().strip()
+    except OSError:
+        trainer_id = ""
+    if trainer_id and RECORD_RE.match(trainer_id):
+        out["trainer_id"] = trainer_id
+    elif trainer_id:
+        out["error"] = "the id file holds something that is not a trainer id"
+    code, text = capture(["sacct", "-j", slurm_id, "-u", user(), "-X", "-n", "-P",
+                          "--format=JobName,State,Start,End,ExitCode"])
+    first = text.strip().splitlines()[0] if text.strip() else ""
+    parts = first.split("|")
+    if len(parts) == 5:
+        out["slurm"] = dict(zip(("name", "state", "start", "end", "exit"), parts))
+    elif first:
+        out["slurm"] = {"raw": first[:200]}
+    if out["trainer_id"]:
+        try:
+            raw = json.loads((jobs_root() / out["trainer_id"] / "job.json").read_text())
+            out["record"] = {k: raw.get(k) for k in ("status", "stage", "updated_at", "error")}
+        except (OSError, ValueError):
+            out["record"] = None
+    log = logs_root() / ("prep-%s.out" % slurm_id)
+    try:
+        lines = tail(log, 400) if log.is_file() else []
+    except OSError:
+        lines = []
+    for line in reversed(lines):
+        if out["next"] is None and TRAIN_LINE in line and "JOB_ID=" in line:
+            out["next"] = line.strip()
+        if out["artefact"] is None and "artefact" in line:
+            out["artefact"] = line.strip()[-300:]
+    print(json.dumps(out, ensure_ascii=False))
+    return 0
+
+
+def checkout() -> int:
+    """The trainer checkout against origin/main, without fetching (#740)."""
+    repo = str(repo_root())
+    out = {"repo": repo}
+    code, head = capture(["git", "-C", repo, "rev-parse", "HEAD"])
+    if code != 0:
+        print(json.dumps({"repo": repo, "error": "not a git checkout"}))
+        return 1
+    head = head.strip()
+    out["head"] = head
+    _, subject = capture(["git", "-C", repo, "log", "-1", "--format=%cs %s"])
+    out["subject"] = subject.strip()[:200]
+    _, status = capture(["git", "-C", repo, "status", "--porcelain", "--untracked-files=no"])
+    out["uncommitted"] = len([l for l in status.splitlines() if l.strip()])
+    code, remote = capture(["git", "-C", repo, "ls-remote", "origin", "refs/heads/main"])
+    sha = remote.split()[0] if code == 0 and remote.strip() else None
+    out["origin_main"] = sha
+    if sha is None:
+        out["behind"] = None
+        out["note"] = "origin did not answer"
+    elif sha == head:
+        out["behind"] = 0
+    else:
+        known, _ = capture(["git", "-C", repo, "cat-file", "-e", sha + "^{commit}"])
+        if known == 0:
+            _, count = capture(["git", "-C", repo, "rev-list", "--count", "HEAD.." + sha])
+            out["behind"] = int(count.strip() or 0)
+        else:
+            out["behind"] = None
+            out["note"] = "origin/main is ahead by commits this checkout has not fetched"
+    out["up_to_date"] = out["behind"] == 0 and out["uncommitted"] == 0
+    print(json.dumps(out, ensure_ascii=False))
+    return 0
+
+
 def main() -> int:
     words = os.environ.get("SSH_ORIGINAL_COMMAND", "").split()
     if not words:
-        return refuse("no request; this key runs `queue`, `job ID`, `record ID [lines]` "
-                      "or `report ID [label]`")
+        return refuse("no request; this key runs `queue`, `job ID`, `record ID [lines]`, "
+                      "`report ID [label]`, `prepared ID` or `checkout`")
     verb, args = words[0], words[1:]
     if verb == "queue" and not args:
         return queue()
@@ -221,7 +337,12 @@ def main() -> int:
         if len(args) == 2 and not LABEL_RE.match(args[1]):
             return refuse("not a report label")
         return report(args[0], args[1] if len(args) == 2 else None)
-    return refuse("not one of `queue`, `job ID`, `record ID [lines]`, `report ID [label]`")
+    if verb == "prepared" and len(args) == 1 and SLURM_ID_RE.match(args[0]):
+        return prepared(args[0])
+    if verb == "checkout" and not args:
+        return checkout()
+    return refuse("not one of `queue`, `job ID`, `record ID [lines]`, `report ID [label]`, "
+                  "`prepared ID`, `checkout`")
 
 
 if __name__ == "__main__":

@@ -228,7 +228,7 @@ def build_server(provider=None, auth_settings=None):
             "numbers are disagreement, never quality — there is no ground truth "
             "here, and a model that hallucinates fluently disagrees exactly as "
             "much as one that reads badly. "
-            "ubelix_queue, ubelix_job, ubelix_record and ubelix_report read UBELIX's "
+            "ubelix_queue, ubelix_job, ubelix_record, ubelix_report, ubelix_prepared and ubelix_checkout read UBELIX's "
             "Slurm queue, the trainer's records and their evaluation reports there; "
             "they cannot submit or cancel. "
             "A Transkribus volume (export ground truth, fine-tune kraken, evaluate, "
@@ -1168,6 +1168,29 @@ def build_server(provider=None, auth_settings=None):
         whose ``heldout.checked`` is false, is not a held-out number.
         """
         return ubelix.report(record_id, label)
+
+    @server.tool()
+    def ubelix_prepared(slurm_id: str) -> dict:
+        """What a ``prepare.sbatch`` run on UBELIX left for stage 2.
+
+        ``slurm_id`` is the number ``submit.sh`` printed (``Submitted batch
+        job N``). The answer: ``trainer_id`` — the id ``train.sbatch`` takes as
+        ``JOB_ID``, read from ``runs/prep-<N>.jobid``, which exists once the
+        prepare has **started**; ``slurm`` (state, start, end); ``record``
+        (the trainer's status and stage); ``next``, the exact
+        ``JOB_ID=… ubelix/submit.sh ubelix/train.sbatch …`` line the prepare's
+        log ends with once the corpus is ready; and its last artefact line
+        (built or adopted). Read-only: the person runs ``next``.
+        """
+        return ubelix.prepared(slurm_id)
+
+    @server.tool()
+    def ubelix_checkout() -> dict:
+        """The trainer checkout on UBELIX (``~/training-atr-models``) against
+        ``origin/main``: HEAD, uncommitted files, commits behind — by ``git
+        ls-remote``, which fetches nothing. ``submit.sh`` refuses a checkout
+        that is behind or dirty; this says so before anyone tries."""
+        return ubelix.checkout()
 
     # ── a Transkribus volume: ground truth → kraken fine-tune → full read ───
 
