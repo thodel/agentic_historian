@@ -200,3 +200,23 @@ def test_rereading_machine_text_on_the_pages_own_lines(sandbox):
         tk.pipeline_argv("eval", "e", doc="1", replace_machine_text=True)
     with pytest.raises(jobs.JobError):
         tk.pipeline_argv("plan", "e", doc="1", on_page_lines=True)
+
+
+def test_external_readers_only_in_eval(sandbox):
+    argv = tk.pipeline_argv("eval", "bern-g", doc="13922499", pages="8,17",
+                            extra_model="kraken-bern-hertwig-v2",
+                            external_model="gemini-3.8-flash, gemini-4-argon",
+                            external_prompt="bern_1528.md", external_reasoning="low")
+    assert _after(argv, "--external-model") == "gemini-3.8-flash,gemini-4-argon"
+    assert _after(argv, "--external-prompt") == "bern_1528.md"
+    assert _after(argv, "--external-reasoning") == "low"
+    assert _after(tk.pipeline_argv("eval", "e", doc="1", external_model="m",
+                                   external_reasoning=""), "--external-reasoning") == ""
+    for kw in ({"step": "run", "external_model": "gemini-4-argon"},
+               {"step": "eval", "external_model": "x;rm"},
+               {"step": "eval", "external_model": "m", "external_prompt": "../etc/passwd"},
+               {"step": "eval", "external_model": "m", "external_reasoning": "max"},
+               {"step": "eval", "external_prompt": "bern_1528.md"}):
+        step = kw.pop("step")
+        with pytest.raises(jobs.JobError):
+            tk.pipeline_argv(step, "e", doc="1", **kw)

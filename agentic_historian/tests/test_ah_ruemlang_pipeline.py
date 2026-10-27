@@ -670,3 +670,60 @@ def test_only_a_refused_connection_is_retried(monkeypatch):
         with pytest.raises(RuntimeError):
             pipeline._recognize(gw, "img", "m", None, "k")
         assert gw.calls == 1
+
+
+# ── reader G: an external model, page text without geometry (#747) ──────────
+
+def test_external_labels():
+    from ruemlang import pipeline
+    assert pipeline._external_labels(["gemini-4-argon"]) == {"G": "gemini-4-argon"}
+    assert pipeline._external_labels(["a", "b"]) == {"G1": "a", "G2": "b"}
+
+
+def test_ordered_line_cer_only_when_the_lines_line_up():
+    from ruemlang import pipeline
+    gt = ["Item der erst", "", "artickel ist"]
+    m = pipeline._ordered_line_cer(gt, "Item der erst\n\nartikel ist\n")
+    assert m["lines"] == m["gt_lines"] == 2 and m["cer"] == 1 / 25
+    m = pipeline._ordered_line_cer(gt, "Item der erst artickel ist")
+    assert m["cer"] is None and m["lines"] == 1, "joined lines are not paired by guess"
+
+
+def test_external_reader_records_and_resumes(tmp_path, monkeypatch):
+    import sys
+    import types
+
+    from PIL import Image
+
+    from ruemlang import pipeline, transkribus_pages as tp
+    calls = []
+
+    def read(image, model):
+        calls.append(model)
+        if model == "bad":
+            raise RuntimeError("400 bad request")
+        return types.SimpleNamespace(text="Item\nder erst", engine="external", truncated=False,
+                                     service_version=f"{model}@prompt-x", settings="prompt-x|max8192",
+                                     timing_ms=5, prompt_tokens=10, completion_tokens=4)
+    read.settings, read.close = "prompt-x|max8192", lambda: None
+    fake = types.SimpleNamespace(
+        openai_recogniser=lambda **kw: read,
+        preflight=lambda m: types.SimpleNamespace(refused=(m == "nope"), line=f"  {m}"))
+    monkeypatch.setitem(sys.modules, "external_atr", fake)
+    p = tp.PageInfo(1, 2, "t", 5, 1, "u", 200, 100, 9, "DONE", 1, 2, 4, "x", 2)
+    d = pipeline.page_dir(tmp_path, p)
+    Image.new("RGB", (20, 10)).save(d / "image.jpg")
+    args = types.SimpleNamespace(external_prompt="bern_1528.md", external_reasoning=None, force=False)
+    served = pipeline._read_external(tmp_path, [p], ["gemini-4-argon", "nope", "bad"], args)
+    assert set(served) == {"gemini-4-argon", "bad"}, "a model the API does not list is not read"
+    rec = pipeline._load(d / "rec_gemini-4-argon.json")
+    assert rec["text"] == "Item\nder erst" and rec["lines"] == [] and rec["prompt_tokens"] == 10
+    assert (d / "rec_bad.error.json").exists()
+    pipeline._read_external(tmp_path, [p], ["gemini-4-argon"], args)
+    assert calls == ["gemini-4-argon", "bad"], "a page already read is not paid for twice"
+
+
+def test_bern_prompt_is_shipped():
+    import external_atr
+    text, digest = external_atr.load_prompt("bern_1528.md")
+    assert "abbreviation" in text and len(digest) == 8

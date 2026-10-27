@@ -67,6 +67,8 @@ TRAIN_STAGES = ("prepare", "compile", "train", "test", "register")
 PIPELINE_STEPS = ("survey", "plan", "eval", "run", "upload")
 STATUS_RE = re.compile(r"^[A-Z_]{2,16}(,[A-Z_]{2,16}){0,4}$")
 READERS = ("A", "B", "D")
+#: external_atr.REASONING_LEVELS, repeated so building argv imports no API client.
+REASONING_LEVELS = ("none", "minimal", "low", "medium", "high")
 
 
 # ── validation ───────────────────────────────────────────────────────────────
@@ -232,7 +234,9 @@ def pipeline_argv(step: str, run: str, *, doc: Optional[str] = None,
                   no_llm: bool = False, upload: bool = False, limit: Optional[int] = None,
                   variants: Optional[str] = None, prior: bool = False,
                   status: Optional[str] = None, replace_machine_text: bool = False,
-                  on_page_lines: bool = False) -> list[str]:
+                  on_page_lines: bool = False, external_model: Optional[str] = None,
+                  external_prompt: Optional[str] = None,
+                  external_reasoning: Optional[str] = None) -> list[str]:
     if step not in PIPELINE_STEPS:
         raise JobError(f"step must be one of {', '.join(PIPELINE_STEPS)}, got {step!r}")
     out = Path(config.VLM_TEST_ROOT) / jobs.validate_run(run)
@@ -292,6 +296,24 @@ def pipeline_argv(step: str, run: str, *, doc: Optional[str] = None,
             argv += ["--status", st]
         if prior:
             argv.append("--prior")
+    if external_model or external_prompt or external_reasoning is not None:
+        # Billed per page, so measured on the held-out pages only — a whole
+        # volume through an API is a decision for after the numbers (#747).
+        if step != "eval":
+            raise JobError("external_model, external_prompt and external_reasoning belong to step eval")
+        models = [_model(m, "external_model") for m in str(external_model or "").split(",")]
+        models = [m for m in models if m]
+        if not models:
+            raise JobError("external_prompt or external_reasoning without external_model")
+        argv += ["--external-model", ",".join(models)]
+        if external_prompt:
+            if not re.match(r"^[A-Za-z0-9_][A-Za-z0-9_.-]*\.md$", external_prompt):
+                raise JobError(f"external_prompt: a file name under prompts/, got {external_prompt!r}")
+            argv += ["--external-prompt", external_prompt]
+        if external_reasoning is not None:
+            if external_reasoning not in ("", *REASONING_LEVELS):
+                raise JobError(f"external_reasoning: one of {', '.join(REASONING_LEVELS)} or ''")
+            argv += ["--external-reasoning", external_reasoning]
     if step == "run" and not upload:
         argv.append("--dry-run")      # everything up to the PAGE XML, nothing posted
     return argv

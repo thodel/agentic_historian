@@ -90,3 +90,14 @@ one is a commit with a diff rather than an edit to a shell line somebody pasted.
   being indistinguishable from a blank leaf: an empty answer is a success by
   every signal the runner has, which is exactly how 5 lost pages hid inside a
   column called `empty`.
+
+- `bern_1528.md` — the Bern Disputation volumes in the Staatsarchiv Bern
+  (A V 1443 Hertwig, A V 1447 Schlussredaktion), for reader G in
+  `ruemlang/pipeline.py eval` (#747). Built on `lassberg_atr_strict2.md`'s
+  output discipline, with the conventions of the ground truth it is scored
+  against: diplomatic, abbreviations as written, one answer line per page line
+  (G gets a line CER only when its line count equals the GT's), and no
+  editorial marks beyond `[...]` — every mark the GT does not carry counts as an
+  error. Once the first eval shows which conventions the GT does carry
+  (deletions, insertions, expansions), align them in a new file.
+
