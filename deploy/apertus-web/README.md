@@ -70,7 +70,8 @@ before the first `location /mcp/`, and roll back if `nginx -t` fails.
 ```bash
 sudo cp deploy/apertus-web/nginx-apertus.conf /etc/nginx/snippets/apertus.conf
 F=$(readlink -f /etc/nginx/sites-enabled/tei.dh.unibe.ch)   # on tei a copy, not a symlink
-B=$F.bak-$(date +%Y%m%d-%H%M%S)
+sudo mkdir -p /etc/nginx/backup
+B=/etc/nginx/backup/$(basename "$F").$(date +%Y%m%d-%H%M%S)   # never inside sites-enabled/
 sudo cp "$F" "$B"
 sudo sed -i '0,/^[[:space:]]*location \/mcp\//s//    include \/etc\/nginx\/snippets\/apertus.conf;\n\n&/' "$F"
 sudo diff "$B" "$F"

@@ -88,7 +88,11 @@ echo "service: 401 without password (as it must)"
 # ── 4. nginx: snippet plus one include line, with backup and rollback ──────────
 install -m 0644 "$HERE/nginx-apertus.conf" "$SNIPPET"
 if ! grep -q 'snippets/apertus.conf' "$SITE"; then
-  BACKUP="$SITE.bak-$(date +%Y%m%d-%H%M%S)"
+  # Never next to $SITE: nginx loads every file in sites-enabled/, so a backup
+  # there is a second server block, `nginx -t` fails on "duplicate default
+  # server", and every later reload with it (tei, 2026-10-27).
+  mkdir -p /etc/nginx/backup
+  BACKUP="/etc/nginx/backup/$(basename "$SITE").$(date +%Y%m%d-%H%M%S)"
   cp "$SITE" "$BACKUP"
   # First `location /mcp/` lies inside the TLS server block (see deploy/mcp-atr/).
   sed -i '0,/^[[:space:]]*location \/mcp\//s//    include \/etc\/nginx\/snippets\/apertus.conf;\n\n&/' "$SITE"
