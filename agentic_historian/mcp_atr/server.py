@@ -1309,7 +1309,10 @@ def build_server(provider=None, auth_settings=None):
                              variants: Optional[str] = None, prior: bool = False,
                              status: Optional[str] = None,
                              replace_machine_text: bool = False,
-                             on_page_lines: bool = False) -> dict:
+                             on_page_lines: bool = False,
+                             external_model: Optional[str] = None,
+                             external_prompt: Optional[str] = None,
+                             external_reasoning: Optional[str] = None) -> dict:
         """Read a Transkribus document's untranscribed pages and post the result
         back, or measure the readers on its transcribed ones. Files under
         ``VLM_TEST_ROOT/<run>``; every step resumes where it stopped.
@@ -1348,6 +1351,17 @@ def build_server(provider=None, auth_settings=None):
         inference with given-line support). In eval it measures the reading
         alone, without the segmentation's losses.
 
+        **External readers** (eval only, #747): ``external_model`` names one or
+        more model ids at the external API (`GEMINI_BASE_URL`), comma-separated,
+        e.g. ``"gemini-3.8-flash,gemini-4-argon"`` — columns G (or G1, G2 …).
+        They read the page image and return page text without geometry, so G
+        has page CER, and line CER only where its line count equals the GT's.
+        ``external_prompt`` is a file under ``prompts/`` (default
+        ``bern_1528.md``); ``external_reasoning`` the thinking level (default
+        GEMINI_REASONING, "low"; ``""`` = the model's own). Billed per page and
+        preflighted against the API's model list; tokens and truncation are in
+        the table. Combine with the gateway readers or set them to "none".
+
         With A, B or C in the run the vLLM models need the card: stop party on
         idhefix first (`gateway_models` → headroom).
         """
@@ -1358,7 +1372,8 @@ def build_server(provider=None, auth_settings=None):
                 line_model=line_model, trocr_model=trocr_model, page_model=page_model,
                 no_llm=no_llm, upload=upload, limit=limit, variants=variants,
                 prior=prior, status=status, replace_machine_text=replace_machine_text,
-                on_page_lines=on_page_lines)
+                on_page_lines=on_page_lines, external_model=external_model,
+                external_prompt=external_prompt, external_reasoning=external_reasoning)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 

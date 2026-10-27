@@ -66,6 +66,8 @@ ANCHORS_BY_DOC = {
 DEFAULT_LINE_MODEL = "qwen3vl-medieval-german-v3"
 DEFAULT_TROCR_MODEL = "trocr-kurrent-xvi-xvii"
 DEFAULT_PAGE_MODEL = "qwen3.5-4b-german-kurrent-xvi-xix-page-v1"
+#: The prompt reader G reads Bern 1528 with (#747); a name under ``prompts/``.
+DEFAULT_EXTERNAL_PROMPT = "bern_1528.md"
 MAX_SIDE = 3500          # px; larger page images are downscaled for the gateway, coordinates scaled back
 
 
@@ -714,6 +716,72 @@ def cmd_survey(args) -> int:
     return 0
 
 
+def _external_labels(models: list[str]) -> dict[str, str]:
+    """Column label per external model: ``G`` for one, ``G1``, ``G2`` … for several."""
+    if len(models) == 1:
+        return {"G": models[0]}
+    return {f"G{i}": m for i, m in enumerate(models, 1)}
+
+
+def _read_external(root: Path, pages, models: list[str], args) -> dict[str, str]:
+    """Reader G (#747): each page through an external model's API (Gemini, via
+    ``external_atr``). Page text only — a chat completion has no polygons — so G
+    is scored on the page and, where its lines line up with the GT's, by line.
+    Writes ``rec_<model>.json`` beside the other readers' and resumes the same
+    way. Returns ``{model: settings}`` for the models the API serves."""
+    import external_atr
+    read = external_atr.openai_recogniser(prompt=args.external_prompt,
+                                          reasoning=args.external_reasoning)
+    served: dict[str, str] = {}
+    for model in models:
+        pf = external_atr.preflight(model)
+        print(pf.line)
+        if pf.refused:
+            continue
+        served[model] = read.settings
+        for p in pages:
+            d = page_dir(root, p)
+            rec = d / f"rec_{model}.json"
+            if rec.exists() and not args.force:
+                continue
+            img = next(i for i in d.glob("image.*") if not i.name.endswith(".part"))
+            send, _scale = _prepare_image(img, d)
+            try:
+                r = read(send, model)
+            except Exception as exc:                       # noqa: BLE001 — record, continue
+                logger.error(f"[ruemlang] {p.key} {model}: {type(exc).__name__}: {exc}")
+                _save(d / f"rec_{model}.error.json",
+                      {"model": model, "error": f"{type(exc).__name__}: {exc}"})
+                continue
+            _save(rec, {"model": model, "engine": r.engine, "text": r.text, "lines": [],
+                        "truncated": bool(r.truncated), "gateway_version": r.service_version,
+                        "settings": r.settings, "timing_ms": r.timing_ms,
+                        "prompt_tokens": r.prompt_tokens,
+                        "completion_tokens": r.completion_tokens, "image_sent": send.name})
+            (d / f"rec_{model}.error.json").unlink(missing_ok=True)
+            logger.info(f"[ruemlang] {p.key} {model}: {len(r.text)} chars, "
+                        f"{r.prompt_tokens}+{r.completion_tokens} tokens"
+                        + (" — TRUNCATED" if r.truncated else ""))
+    read.close()
+    return served
+
+
+def _ordered_line_cer(gt_texts: list[str], text: str) -> Optional[dict]:
+    """Line CER for a reader without geometry: only when it gives as many
+    non-empty lines as the ground truth has, line i against GT line i, same
+    formula as ``linecer.matched_cer``. Otherwise None — pairing lines by their
+    text was tried on 22.10. and scored readers above 1."""
+    from rapidfuzz.distance import Levenshtein
+    norm = lambda t: re.sub(r"\s+", " ", t or "").strip()
+    gt = [norm(t) for t in gt_texts if norm(t)]
+    hyp = [norm(t) for t in (text or "").splitlines() if norm(t)]
+    out = {"lines": len(hyp), "gt_lines": len(gt)}
+    if not gt or len(hyp) != len(gt):
+        return {**out, "cer": None}
+    errors = sum(Levenshtein.distance(a, b) for a, b in zip(gt, hyp))
+    return {**out, "cer": errors / sum(len(t) for t in gt)}
+
+
 def cmd_eval(args) -> int:
     """Measure, on pages a human has transcribed, what each model and the
     arbitrated result get wrong: CER against the Transkribus text.
@@ -768,7 +836,12 @@ def cmd_eval(args) -> int:
     sub = argparse.Namespace(**vars(args))
     sub.out = str(root); sub.pages = None; sub.limit = None
     cmd_recognize(sub)
-    cmd_adjudicate(sub)
+    gateway = [m for m in (args.line_model, args.trocr_model, args.page_model, args.extra_model) if m]
+    if gateway:
+        cmd_adjudicate(sub)
+    external = [m.strip() for m in (args.external_model or "").split(",") if m.strip()]
+    labels = _external_labels(external) if external else {}
+    served = _read_external(root, gt_pages, external, args) if external else {}
     ref = _reference(args)
     anchors = _anchors(args)
     if args.prior:
@@ -779,7 +852,7 @@ def cmd_eval(args) -> int:
         d = page_dir(root, p)
         gt = d / "gt.xml"
         adj = _load(d / "adjudicated.json")
-        if not gt.exists() or not adj:
+        if not gt.exists() or not (adj or labels):
             continue
         gt_text = "\n".join(l["text"] for l in pagexml.parse_lines(gt.read_text(encoding="utf-8")) if l["text"])
         hyps = {
@@ -789,7 +862,8 @@ def cmd_eval(args) -> int:
             **({"D": "\n".join((ln.get("text") or "") for ln in
                                (_load(d / f"rec_{args.extra_model}.json") or {}).get("lines", []))}
                if args.extra_model else {}),
-            "fused": "\n".join(x["text"] for x in adj["decisions"]),
+            **({"fused": "\n".join(x["text"] for x in adj["decisions"])} if adj else {}),
+            **{g: (_load(d / f"rec_{m}.json") or {}).get("text", "") for g, m in labels.items()},
         }
         row = {"page": p.page_nr, "gt_chars": len(gt_text)}
         for k, h in hyps.items():
@@ -809,6 +883,15 @@ def cmd_eval(args) -> int:
                                        "missed_lines": m["missed_lines"],
                                        "unmatched_chars": m["unmatched_chars"],
                                        "lines": len(rec["lines"])}
+        for g, m in labels.items():
+            rec = _load(d / f"rec_{m}.json")
+            if not rec:
+                continue
+            oc = _ordered_line_cer([t for _, t in gt_lines], rec.get("text", ""))
+            row[f"{g}~"] = oc["cer"]
+            row[f"{g}~lines"] = {"lines": oc["lines"], "gt_lines": oc["gt_lines"]}
+            row[f"{g}_meta"] = {k: rec.get(k) for k in ("truncated", "prompt_tokens",
+                                                       "completion_tokens", "timing_ms")}
         prior = d / "prior.xml"
         if prior.exists():
             # T: what Transkribus held before a human corrected the page — its
@@ -823,6 +906,10 @@ def cmd_eval(args) -> int:
                                 "unmatched_chars": m["unmatched_chars"], "lines": len(t_lines)}
             meta = _load(d / "prior.json") or {}
             row["T_version"] = {k: meta.get(k) for k in ("toolName", "status", "userName", "timestamp")}
+        if not adj:
+            row["summary"] = None
+            rows.append(row)
+            continue
         variants = {"fused": [x["text"] for x in sorted(adj["decisions"], key=lambda x: int(x["index"]))]}
         if args.variants:
             built = None
@@ -842,7 +929,8 @@ def cmd_eval(args) -> int:
         row["summary"] = adj.get("summary")
         rows.append(row)
     _save(root / "eval.json", rows)
-    base = ["A", "B", "C", "D", "T", "fused"] + [f"det-{v}" for v in (args.variants or "").split(",") if v]
+    base = (["A", "B", "C", "D", *labels, "T", "fused"]
+            + [f"det-{v}" for v in (args.variants or "").split(",") if v])
     f = lambda v: "     —" if v is None else f"{v:6.3f}"
     for title, cols, note in (
             ("page CER (whole page, each side in its own line order)",
@@ -855,7 +943,7 @@ def cmd_eval(args) -> int:
         print(f"\n{title}\n{'page':>5} {'gt':>5} " + " ".join(f"{k:>{w}}" for k in cols) + note)
         for r in rows:
             print(f"{r['page']:>5} {r['gt_chars']:>5} " + " ".join(f"{f(r.get(k)):>{w}}" for k in cols)
-                  + (f"  {r['summary']}" if note else ""))
+                  + (f"  {r['summary'] or ''}" if note else ""))
         means = {k: [r[k] for r in rows if r.get(k) is not None] for k in cols}
         print(f"{'mean':>11} " + " ".join(f"{f(sum(v)/len(v) if v else None):>{w}}" for v in means.values()))
     seg = {k: [r[f"{k}~seg"] for r in rows if r.get(f"{k}~seg")] for k in ("A", "B", "D", "T")}
@@ -866,6 +954,19 @@ def cmd_eval(args) -> int:
             if v:
                 t = lambda f: sum(x[f] for x in v)
                 print(f"  {k}: {t('lines')} / {t('gt_lines')} / {t('missed_lines')} / {t('unmatched_chars')}")
+    for g, m in labels.items():
+        metas = [r[f"{g}_meta"] for r in rows if r.get(f"{g}_meta")]
+        lined = [r[f"{g}~lines"] for r in rows if r.get(f"{g}~lines")]
+        if m not in served and not metas:
+            print(f"\n{g} = {m}: not read (refused by the API's model list)")
+            continue
+        tokens = {k: sum(x.get(k) or 0 for x in metas) for k in ("prompt_tokens", "completion_tokens")}
+        cut = sum(1 for x in metas if x.get("truncated"))
+        print(f"\n{g} = {m} @ {served.get(m, '?')}: {len(metas)} page(s), "
+              f"{tokens['prompt_tokens']:,} prompt + {tokens['completion_tokens']:,} completion token(s)"
+              + (f", {cut} TRUNCATED" if cut else "")
+              + f"; line CER on {sum(1 for x in lined if x['lines'] == x['gt_lines'])}/{len(lined)} "
+                "page(s) whose line count matches the GT (line i against GT line i)")
     tools = sorted({(r["T_version"].get("toolName") or "?") for r in rows if r.get("T_version")})
     if args.prior:
         print(f"\nT = the first version with text before the current one, on "
@@ -985,6 +1086,13 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--variants", default="A,B,D",
                    help="also score rules-only fusion with each of these as primary (no arbiter, "
                         "costs nothing); empty for none")
+    p.add_argument("--external-model", default=None,
+                   help="reader G: model id(s) at the external API (GEMINI_BASE_URL), comma-"
+                        "separated, e.g. gemini-3.8-flash,gemini-4-argon; billed per page")
+    p.add_argument("--external-prompt", default=DEFAULT_EXTERNAL_PROMPT,
+                   help=f"prompt file under prompts/ for G (default {DEFAULT_EXTERNAL_PROMPT})")
+    p.add_argument("--external-reasoning", default=None,
+                   help="thinking level for G (default GEMINI_REASONING; '' = the model's own)")
     _adj_args(p); p.set_defaults(func=cmd_eval)
 
     p = sub.add_parser("run", help="all steps in order; --dry-run plans, reads, adjudicates "

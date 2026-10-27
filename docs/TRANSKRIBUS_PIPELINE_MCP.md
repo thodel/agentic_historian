@@ -83,6 +83,44 @@ That run needs no vLLM, so party can stay up, and it takes hours instead of a
 day. If A, B or C stay in, party on idhefix must be stopped first; check with
 `gateway_models` → `headroom`.
 
+### External readers: Gemini and Argon (reader G, #747)
+
+`eval` can add one or more models behind the external API (`GEMINI_BASE_URL`,
+the key in `.env.gpustack`): `external_model="gemini-3.8-flash,gemini-4-argon"`
+gives columns `G1`, `G2` (`G` for one). They read the page image and return
+page text without geometry, so:
+
+- **page CER** as for the other readers;
+- **line CER** only on pages where the answer has as many non-empty lines as
+  the ground truth, line *i* against GT line *i*; otherwise `—`, and the summary
+  says on how many pages it applied. Pairing lines by their text was tried on
+  22.10. and scored readers above 1.
+
+The prompt is `prompts/bern_1528.md` (diplomatic, abbreviations as written, one
+answer line per page line), `external_prompt` names another file under
+`prompts/`. `external_reasoning` defaults to `GEMINI_REASONING` ("low"):
+thinking tokens are billed and count against the output ceiling. Every model is
+preflighted against the API's model list before a page is sent; tokens and
+truncated pages are printed under the table. Eval only: a whole volume through
+an API is a decision for after the numbers.
+
+```
+transkribus_pipeline(step="eval", run="hertwig-g", doc="13922499", pages="8,17,26,39,48,55",
+  prior=true, extra_model="kraken-bern-hertwig-v2", line_model="none", trocr_model="none",
+  page_model="none", no_llm=true, variants="",
+  external_model="gemini-3.8-flash,gemini-4-argon")
+```
+
+### When the models are trained again (decided 27.10.)
+
+- **A V 1443 Hertwig:** pages are corrected first (option B: towards about 100
+  DONE pages, from 58); a new `kraken-bern-hertwig-v3` is trained **on request**,
+  not on a threshold.
+- **A V 1447 Schlussredaktion:** `kraken-bern-schlussredaktion-v2` once **250
+  pages are DONE** (130 on 26.10.; `step="survey"` counts them). Then: GT
+  export, HF upload, training, `eval` on the same 8 test pages, and the
+  re-read on the page's own lines for the pages still uncorrected.
+
 ## What stays manual, and why
 
 1. **Switching on a model whose gate did not run.** A second training on the
