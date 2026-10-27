@@ -15,6 +15,10 @@ One request reaches the model at a time; a second waits, a fourth is turned away
 with 429. The first request after the model was evicted is a cold start on
 idhefix (about six minutes: the weights come off the research share); the
 page says so rather than looking hung.
+
+The page can also diagnose the model and bring it up (``/api/diagnose``,
+``/api/warmup``, ``ops.py``): the half of ``apertus_up.sh`` that needs no root.
+Installing the page itself stays with the script, on tei, with sudo.
 """
 
 from __future__ import annotations
@@ -37,6 +41,7 @@ from starlette.responses import HTMLResponse, JSONResponse, Response
 from starlette.routing import Route
 
 import config
+from apertus_web import ops
 
 MODEL = os.environ.get("APERTUS_WEB_MODEL", "apertus-1.5-8b")
 MAX_PIXELS = 1_960_000          # the model's own processor ceiling
@@ -115,6 +120,11 @@ def build_app(gateway_url: str | None = None, api_key: str | None = None,
     headers = {"X-API-Key": key} if key else {}
     slot = asyncio.Semaphore(1)
     waiting = 0
+    warmup = ops.Warmup()
+    background: set[asyncio.Task] = set()     # a task nobody references is collected
+
+    def client(timeout: float = 10) -> httpx.AsyncClient:
+        return httpx.AsyncClient(timeout=timeout, headers=headers, transport=transport)
 
     def guarded(handler):
         async def wrapper(request: Request) -> Response:
@@ -226,10 +236,40 @@ def build_app(gateway_url: str | None = None, api_key: str | None = None,
             "model": MODEL,
         })
 
+    async def diagnose(request: Request) -> Response:
+        """Each check with what it found and what to do about it."""
+        async with client(30) as c:
+            checks = await ops.diagnose(c, gateway, MODEL, warmup.view())
+        return JSONResponse({"model": MODEL, "checks": checks,
+                             "warmup": warmup.view()})
+
+    async def warmup_state(request: Request) -> Response:
+        return JSONResponse(warmup.view())
+
+    async def warmup_start(request: Request) -> Response:
+        """Bring the model up on idhefix; the page polls ``GET /api/warmup``."""
+        if not _same_origin(request):
+            return JSONResponse({"error": "Anfrage von fremder Seite abgelehnt."}, status_code=403)
+        if warmup.state == "running":
+            return JSONResponse(warmup.view(), status_code=409)
+
+        async def run() -> None:
+            async with client(GATEWAY_TIMEOUT_S) as c:
+                await warmup.run(c, gateway, MODEL, GATEWAY_TIMEOUT_S)
+
+        warmup.state = "running"              # before the task runs: no second start
+        task = asyncio.create_task(run())
+        background.add(task)
+        task.add_done_callback(background.discard)
+        return JSONResponse(warmup.view(), status_code=202)
+
     return Starlette(routes=[
         Route("/", guarded(index), methods=["GET"]),
         Route("/api/status", guarded(status), methods=["GET"]),
         Route("/api/ask", guarded(ask), methods=["POST"]),
+        Route("/api/diagnose", guarded(diagnose), methods=["GET"]),
+        Route("/api/warmup", guarded(warmup_state), methods=["GET"]),
+        Route("/api/warmup", guarded(warmup_start), methods=["POST"]),
     ])
 
 

@@ -71,6 +71,31 @@ input[type=number] { width: 90px; padding: 4px 6px; border: 1px solid var(--line
 .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--muted);
   border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; vertical-align: -2px; }
 @keyframes spin { to { transform: rotate(360deg); } }
+#sys { grid-column: 1 / -1; padding: 0; }
+#sys > summary { cursor: pointer; padding: 12px 16px; font-weight: 600; list-style: none;
+  display: flex; align-items: center; gap: 8px; }
+#sys > summary::-webkit-details-marker { display: none; }
+#sys > summary::after { content: "▸"; margin-left: auto; color: var(--muted); }
+#sys[open] > summary::after { content: "▾"; }
+#sysbody { padding: 0 16px 16px; }
+.sysbtns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.sysbtns button { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line);
+  background: transparent; color: var(--ink); font: 600 .9rem system-ui, sans-serif; cursor: pointer; }
+.sysbtns button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.sysbtns button:disabled { opacity: .55; cursor: wait; }
+.checks { list-style: none; margin: 0; padding: 0; }
+.checks li { display: grid; grid-template-columns: 22px minmax(0, 12rem) minmax(0, 1fr); gap: 8px;
+  padding: 7px 0; border-top: 1px solid var(--line); font-size: .9rem; align-items: baseline; }
+@media (max-width: 600px) { .checks li { grid-template-columns: 22px minmax(0, 1fr); }
+  .checks li .cd { grid-column: 2; } }
+.checks .cd { color: var(--muted); overflow-wrap: anywhere; }
+.ic-ok { color: var(--ok); } .ic-warn { color: var(--warn); } .ic-error { color: var(--err); }
+#wstate { font-size: .9rem; margin: 10px 0 0; }
+#werr { margin-top: 10px; border: 1px solid var(--err); border-radius: 8px; padding: 10px; }
+#werr .hint { font-weight: 600; color: var(--err); margin-bottom: 6px; }
+#werr pre, #wlog { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--code);
+  border-radius: 6px; padding: 8px; font-size: .8rem; margin: 6px 0 0; }
+#wlog { color: var(--muted); max-height: 9em; overflow: auto; }
 footer { max-width: 1200px; margin: 0 auto; padding: 0 16px 30px; color: var(--muted); font-size: .8rem; }
 </style>
 </head>
@@ -78,10 +103,31 @@ footer { max-width: 1200px; margin: 0 auto; padding: 0 16px 30px; color: var(--m
 <header>
   <h1>Apertus 1.5 · Bildtest</h1>
   <p class="sub">Ein Bild hochladen, eine Frage stellen. Modell <code>{{MODEL}}</code>
-    über das ATR-Gateway auf idhefix. <span id="status"><span class="dot"></span>Status wird geprüft …</span></p>
+    über das ATR-Gateway auf idhefix. <span id="status" style="cursor:pointer" title="Details im Systempanel"><span class="dot"></span>Status wird geprüft …</span></p>
 </header>
 
 <main>
+  <details class="panel" id="sys">
+    <summary><span class="dot" id="sysdot"></span>System: Diagnose und Modell hochfahren</summary>
+    <div id="sysbody">
+      <div class="sysbtns">
+        <button id="diag">Prüfen</button>
+        <button id="up" class="primary">Modell hochfahren</button>
+      </div>
+      <ul class="checks" id="checks"><li><span></span><span class="cd">Noch nicht geprüft.</span></li></ul>
+      <div id="wstate" hidden></div>
+      <div id="werr" hidden>
+        <div class="hint" id="whint"></div>
+        <div>Meldung des Gateways:</div><pre id="wmsg"></pre>
+        <div style="margin-top:6px">Log auf idhefix ansehen <button class="small" id="jcopy">Befehl kopieren</button></div>
+        <pre id="wjournal"></pre>
+      </div>
+      <pre id="wlog" hidden></pre>
+      <p class="meta" style="margin-top:10px">Startet das Modell auf idhefix. Die Webseite selbst
+        richtet <code>apertus_up.sh</code> auf tei ein, das braucht sudo.</p>
+    </div>
+  </details>
+
   <section class="panel">
     <div id="drop" tabindex="0" role="button" aria-label="Bild auswählen">
       <span id="drophint">Bild hierher ziehen oder klicken<br><small>JPG, PNG, TIFF, WebP · max. 25 MB · wird auf 1.96 MP verkleinert</small></span>
@@ -187,7 +233,79 @@ async function refreshStatus() {
 }
 refreshStatus(); setInterval(refreshStatus, 15000);
 
+const ICON = { ok: "✓", warn: "!", error: "✕" };
+function renderChecks(checks) {
+  const ul = $("checks"); ul.innerHTML = "";
+  let worst = "ok";
+  for (const c of checks) {
+    if (c.state === "error" || (c.state === "warn" && worst === "ok")) worst = c.state;
+    const li = document.createElement("li");
+    const i = document.createElement("span"); i.className = "ic-" + c.state; i.textContent = ICON[c.state] || "?";
+    const l = document.createElement("span"); l.textContent = c.label;
+    const d = document.createElement("span"); d.className = "cd"; d.textContent = c.detail;
+    li.append(i, l, d); ul.appendChild(li);
+  }
+  $("sysdot").className = "dot " + (worst === "error" ? "err" : worst);
+  if (worst === "error") $("sys").open = true;
+}
+async function runDiagnose() {
+  $("diag").disabled = true; $("diag").textContent = "Prüft …";
+  try {
+    const r = await fetch("api/diagnose");
+    const d = await r.json();
+    renderChecks(d.checks || []);
+    renderWarmup(d.warmup);
+  } catch (e) {
+    renderChecks([{ label: "Testseite", state: "error", detail: "Diagnose nicht abrufbar: " + e.message }]);
+  } finally { $("diag").disabled = false; $("diag").textContent = "Prüfen"; }
+}
+let wpoll = null;
+function renderWarmup(w) {
+  if (!w || w.state === "idle") return;
+  const st = $("wstate"); st.hidden = false;
+  $("up").disabled = w.state === "running";
+  $("up").textContent = w.state === "running" ? "Fährt hoch …" : "Modell hochfahren";
+  if (w.state === "running") {
+    st.innerHTML = '<span class="spinner"></span> Modell fährt hoch, seit ' + (w.elapsed ?? 0) +
+      " s (Kaltstart ca. 6 min). Die Seite kann offen bleiben oder geschlossen werden.";
+  } else if (w.state === "ok") {
+    st.innerHTML = '<span class="ic-ok">✓</span> Modell bereit nach ' + w.seconds + " s. Antwort auf den Test: «" +
+      (w.answer || "").replace(/[<>&]/g, "") + "»";
+  } else {
+    st.innerHTML = '<span class="ic-error">✕</span> Hochfahren fehlgeschlagen nach ' + w.seconds + " s.";
+  }
+  $("werr").hidden = w.state !== "error";
+  if (w.state === "error") {
+    $("whint").textContent = w.hint || "";
+    $("wmsg").textContent = w.error || "";
+    $("wjournal").textContent = w.journal || "";
+    $("sys").open = true;
+  }
+  $("wlog").hidden = !(w.log && w.log.length);
+  $("wlog").textContent = (w.log || []).join("\n");
+  if (w.state === "running" && !wpoll) wpoll = setInterval(pollWarmup, 3000);
+  if (w.state !== "running" && wpoll) { clearInterval(wpoll); wpoll = null; refreshStatus(); runDiagnose(); }
+}
+async function pollWarmup() {
+  try { renderWarmup(await (await fetch("api/warmup")).json()); } catch { /* next poll */ }
+}
+$("diag").onclick = runDiagnose;
+$("up").onclick = async () => {
+  $("up").disabled = true; $("sys").open = true;
+  try {
+    const r = await fetch("api/warmup", { method: "POST" });
+    renderWarmup(await r.json());
+  } catch (e) {
+    $("up").disabled = false;
+    renderChecks([{ label: "Hochfahren", state: "error", detail: e.message }]);
+  }
+};
+$("jcopy").onclick = () => navigator.clipboard.writeText($("wjournal").textContent);
+runDiagnose();
+
 let timer = null;
+$("status").onclick = () => { $("sys").open = true; runDiagnose(); };
+
 $("go").onclick = async () => {
   if (!file) return;
   const prompt = $("prompt").value.trim();
@@ -215,6 +333,7 @@ $("go").onclick = async () => {
   } catch (e) {
     $("answer").innerHTML = ""; const s = document.createElement("span"); s.className = "errbox";
     s.textContent = "Fehler: " + e.message; $("answer").appendChild(s);
+    $("sys").open = true; runDiagnose();
   } finally {
     clearInterval(timer); $("go").disabled = false; $("go").textContent = "Fragen";
   }

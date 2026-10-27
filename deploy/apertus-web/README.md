@@ -36,6 +36,16 @@ sudo bash /home/dh/agentic_historian/deploy/apertus-web/apertus_down.sh   # page
 - **`apertus_down.sh`** stops and disables the unit and removes the nginx
   include, with a backup outside `sites-enabled/` and a rollback. Unit, snippet
   and env file stay in place, so `apertus_up.sh` brings back the same password.
+- **From the page itself:** the panel *System: Diagnose und Modell hochfahren*
+  does the model half of `apertus_up.sh` without root. **Prüfen** checks, in
+  order: gateway reachable, key accepted, model registered, model loaded, and
+  room on its card (naming who holds the memory, and an orphaned
+  `VLLM::EngineCore` as such). **Modell hochfahren** warms the model and shows
+  the elapsed time, the test answer, or on failure a hint, the gateway's own
+  message, the `journalctl` command for idhefix and a log of the attempt. The
+  panel opens by itself when a check or a question fails. Installing the page
+  stays with `apertus_up.sh`: it needs sudo, and a page that is down cannot
+  start itself.
 - Card 1 on idhefix needs no step of its own: the gateway evicts Apertus as soon
   as another model needs the room.
 
