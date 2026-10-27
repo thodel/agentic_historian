@@ -41,9 +41,11 @@ sudo -u "$RUN_USER" test -r "$PKG/apertus_web/app.py" \
   || die "$RUN_USER cannot read $PKG — give it access (as the MCP checkout has)"
 echo "user: $RUN_USER   venv: $VENV_BIN   code: $PKG"
 
-# The venv must import the page with only what it already has.
+# The venv must import the page with only what it already has — and with the
+# unit's own AH_ENV_FILE, so a check that passes here passes there too.
+UNIT_ENV_FILE="$(sed -n 's/^Environment=AH_ENV_FILE=//p' "$HERE/apertus-web.service")"
 sudo -u "$RUN_USER" env -C "$PKG" APERTUS_WEB_PASSWORD=import-check-only-xxxxxxxx \
-  ATR_GATEWAY_URL=http://127.0.0.1:1 AH_ENV_FILE=/dev/null \
+  ATR_GATEWAY_URL=http://127.0.0.1:1 AH_ENV_FILE="$UNIT_ENV_FILE" \
   "$VENV_BIN/python" -c 'import apertus_web.app as w; assert w.app is not None' \
   || die "the MCP venv cannot import apertus_web (see the traceback above)"
 
