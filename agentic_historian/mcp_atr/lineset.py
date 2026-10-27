@@ -29,7 +29,8 @@ REASONING_LEVELS = ("none", "minimal", "low", "medium", "high")
 
 def lineset_argv(run: str, model: str, *, dataset: Optional[str] = None,
                  sample: Optional[int] = None, full: bool = False, workers: int = 8,
-                 prompt: Optional[str] = None, reasoning: Optional[str] = None) -> list[str]:
+                 prompt: Optional[str] = None, reasoning: Optional[str] = None,
+                 pages: bool = False, project: Optional[str] = None) -> list[str]:
     if not model or not jobs.MODEL_RE.match(model):
         raise JobError(f"model: invalid model id {model!r}")
     if bool(sample) == bool(full):
@@ -58,10 +59,16 @@ def lineset_argv(run: str, model: str, *, dataset: Optional[str] = None,
         if reasoning not in ("", *REASONING_LEVELS):
             raise JobError(f"reasoning: one of {', '.join(REASONING_LEVELS)} or ''")
         argv += ["--reasoning", reasoning]
+    if pages:
+        argv.append("--pages")
+    if project:
+        argv += ["--project", jobs.validate_run(project)]
     return argv
 
 
 def lineset_job(run: str, model: str, **kw) -> dict:
     argv = lineset_argv(run, model, **kw)
+    # A page set's parquet row group is whole scans — hundreds of MB, past the
+    # server's 200 MiB; such a job runs in its own unit (#737).
     return {"ok": True, "run_dir": str(Path(config.VLM_TEST_ROOT) / run), "billed": True,
-            **jobs.start_and_peek("external-lineset", argv)}
+            **jobs.start_and_peek("external-lineset", argv, own_unit=bool(kw.get("pages")))}
