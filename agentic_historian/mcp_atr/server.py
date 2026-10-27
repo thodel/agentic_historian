@@ -354,8 +354,17 @@ def build_server(provider=None, auth_settings=None):
         mount, the staging dir, the research project root. ``runs``: the
         fifty newest runs with pages per model.
 
+        ``resources``: free and total space on `/`, the data directory,
+        `ATR_DATASETS_DIR`, `ATR_HF_ARROW_CACHE`, the upload scratch and
+        `VLM_TEST_ROOT`; the host's RAM and swap; this service's
+        `memory.max`, `memory.high`, `memory.current` and OOM counters — the
+        three numbers that decided the BLB uploads of 25.10. (22 GB free
+        against ~25 needed, 3 GB RAM, MemoryMax=200M). ``summary`` says it in
+        one line each. Read before a big upload.
+
         ``counts`` walks the page cache and the cold tier for page counts
-        (seconds over CIFS, within a budget); off by default.
+        (seconds over CIFS, within a budget), and sizes the upload caches
+        (leftovers of aborted uploads); off by default.
 
         Sees, never switches: changing the checkout is a deployment act on
         the machine, not a tool call.
@@ -543,7 +552,14 @@ def build_server(provider=None, auth_settings=None):
     @server.tool()
     def job_status(job_id: Optional[str] = None, limit: int = 10) -> dict:
         """One job, or the most recent ones. Progress is counted from the run's
-        own output, which is the same number the runner uses to resume."""
+        own output, which is the same number the runner uses to resume.
+
+        A ``failed`` or ``vanished`` job carries ``memory`` when the service's
+        memory cgroup has something to say: its OOM counter before and after
+        the job, whether the cgroup's own limit or the host ran out, and the
+        other jobs that ran at the same time (the counter is the service's,
+        not the job's). ``exited -9`` alone is how a wrong cause was fixed
+        first on 25.10."""
         try:
             if job_id:
                 return jobs.status(job_id).as_dict()
@@ -1026,10 +1042,13 @@ def build_server(provider=None, auth_settings=None):
         ``card`` is a card's **name** under `docs/` (``hf-dataset-card*.md``),
         never a path. Before the upload the card's front matter is replaced
         by the block the hub README carries — the one `pagexml-hf` wrote on
-        upload, with the measured rows, bytes and features — and the spliced
-        card is written back to `docs/`, so the card in the repository is the
-        card on the hub. A dataset without a README yet is refused: its sizes
-        are measured by the upload, not typed.
+        upload, with the measured rows, bytes and features. The spliced card
+        goes to the job's directory and from there to the hub; `docs/` on
+        the server's checkout is **not** written (#738) — a local change
+        there stops `update.sh`. Where the card in `docs/` differs from the
+        hub, the output says so with the diff, to be committed from a working
+        tree. A dataset without a README yet is refused: its sizes are
+        measured by the upload, not typed.
 
         ``dry_run`` (the default) fetches the hub README, shows the splice,
         writes and uploads nothing. The token comes from the configuration

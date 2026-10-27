@@ -1707,6 +1707,22 @@ Datenwurzeln mit dem Inhalt von `GT_ROOT` (die Namen, die `keys_from`,
 Läufe mit Seiten je Modell. Nur lesend, keine Geheimnisse (Schlüssel als
 `set`/`unset`). Umschalten bleibt eine Handlung auf der Maschine.
 
+**Seit #735 auch Platz und Speicher** (`resources`, ohne sudo): frei/gesamt
+auf `/`, dem Datenverzeichnis, `ATR_DATASETS_DIR`, `ATR_HF_ARROW_CACHE`, dem
+Upload-Scratch und `VLM_TEST_ROOT`; RAM und Swap des Hosts; `memory.max`,
+`memory.high`, `memory.current` und die OOM-Zähler des Dienstes — je eine Zeile
+in `resources.summary`. Mit `counts=true` zusätzlich die Grösse der
+Upload-Caches (Reste abgebrochener Uploads). Vor jedem grossen Upload lesen:
+am 25.10. entschieden 22 GB frei, 3 GB RAM und `MemoryMax=200M` drei Fehlversuche.
+
+**Seit #736 erklärt `job_status` einen SIGKILL.** Der Läufer hält den
+`oom_kill`-Zähler des Dienst-Cgroups (`memory.events`) vor und nach dem Job
+fest; ein `failed` oder `vanished` Job trägt dann `memory.message`, etwa
+„killed: the service's memory cgroup ran out (oom_kill 3 → 5, memory.max
+200 MiB)“ — oder „the host ran out of memory“, oder „SIGKILL, but no OOM
+kill“. Der Zähler gilt für den ganzen Dienst; liefen andere Jobs gleichzeitig,
+nennt die Antwort sie, statt zu raten.
+
 
 Nicht jede Änderung braucht denselben Deployment-Schritt, und der Unterschied
 hat am 11. Oktober dreimal zugeschlagen:

@@ -230,13 +230,18 @@ def test_a_dry_run_shows_the_splice_and_writes_nothing(tmp_path, monkeypatch, ca
     assert "hf_secret" not in out
 
 
-def test_a_real_run_writes_the_card_back_and_uploads_it(tmp_path, monkeypatch, capsys):
+def test_a_real_run_uploads_the_spliced_card_and_leaves_docs_alone(tmp_path, monkeypatch, capsys):
+    """#738 changed this: the card is no longer written back to `docs/`."""
     cli = _cli()
     card = _card(tmp_path, monkeypatch)
+    job_dir = tmp_path / "mcp_jobs" / "j1"
+    job_dir.mkdir(parents=True)
+    monkeypatch.setenv("AH_JOB_DIR", str(job_dir))
     monkeypatch.setattr(hf, "hub_readme", lambda repo_id, token=None: HUB)
     uploads = []
     monkeypatch.setattr(hf, "upload_card",
-                        lambda repo_id, path, token=None: uploads.append((repo_id, path)) or "hf")
+                        lambda repo_id, path, token=None: uploads.append(
+                            (repo_id, path, path.read_text(encoding="utf-8"))) or "hf")
     monkeypatch.setattr(hf, "hub_state", lambda repo_id, token=None: {
         "repo_id": repo_id, "rows": 281, "bytes": 2198208407,
         "columns": ["image", "text"], "private": True})
@@ -245,10 +250,11 @@ def test_a_real_run_writes_the_card_back_and_uploads_it(tmp_path, monkeypatch, c
                                             repo_id="dh-unibe/z", dry_run=False))
 
     assert rc == 0
-    assert uploads == [("dh-unibe/z", card)]
-    text = card.read_text(encoding="utf-8")
+    ((repo_id, path, text),) = uploads
+    assert repo_id == "dh-unibe/z" and path == job_dir / "hf-dataset-card-z.md"
     assert text.startswith("---\ndataset_info:") and "num_examples: 281" in text
     assert "**Nobody has read this text.**" in text
+    assert card.read_text(encoding="utf-8") == CARD_PLACEHOLDER
     out = capsys.readouterr().out
     assert "uploaded hf-dataset-card-z.md as README.md" in out
     assert "281 row(s)" in out

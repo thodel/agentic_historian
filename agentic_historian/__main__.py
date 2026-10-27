@@ -18,9 +18,11 @@ All agent logs go to stdout (loguru default).
 
 import argparse
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Optional
 
 # The package's modules import each other flatly (``import config``), which works
 # when the process starts inside this directory — how the bot and the tests are
@@ -1055,14 +1057,49 @@ def train_spec_cmd(args: argparse.Namespace) -> int:
     return 0
 
 
+#: The production checkout on tei — `update.sh`'s `AH_REPO`. A card is never
+#: written back into it: a local change there stops the next `update.sh` at its
+#: pre-flight ("tracked changes on prod"), as on 26.10. (#738).
+PRODUCTION_CHECKOUT = Path(os.environ.get("AH_REPO", "/home/dh/agentic_historian"))
+
+
+def _production_reason() -> Optional[str]:
+    """Why ``--write-back`` is refused here, or None in a working tree."""
+    if os.environ.get("AH_JOB_DIR"):
+        return "this runs as an MCP job, on the server's checkout"
+    try:
+        if Path(config.REPO_ROOT).resolve() == PRODUCTION_CHECKOUT.resolve():
+            return f"{config.REPO_ROOT} is the production checkout (AH_REPO)"
+    except OSError:
+        pass
+    return None
+
+
+def _frontmatter_diff(name: str, old: str, new: str, cap: int = 80) -> list[str]:
+    """What the splice changes, as a unified diff without context — by
+    construction the front matter and, on a first upload, the placeholder."""
+    import difflib
+
+    lines = list(difflib.unified_diff(old.splitlines(), new.splitlines(),
+                                      f"docs/{name}", "hub", n=0, lineterm=""))
+    return lines[:cap] + ([f"… {len(lines) - cap} more line(s)"] if len(lines) > cap else [])
+
+
 def upload_hf_card(args: argparse.Namespace) -> int:
     """Put a dataset card from `docs/` on the hub as README.md (#691).
 
     Before the upload the card's front matter is replaced by the one the hub
-    README carries — the block `pagexml-hf` wrote with the measured sizes — and
-    the spliced card is written back to `docs/`, so the card in the repository
-    is the card on the hub. A dry run prints the splice and writes nothing.
+    README carries — the block `pagexml-hf` wrote with the measured sizes. The
+    spliced card is written to the job's directory (``AH_JOB_DIR``) or a
+    temporary one and uploaded from there, **not** back to `docs/` (#738): on
+    tei that is the production checkout, and a local change there stops
+    `update.sh`. Where the card in `docs/` differs from the hub, the output
+    says so with the diff, to be committed from a working tree —
+    ``--write-back`` does that there and is refused on production. A dry run
+    prints the splice and writes nothing.
     """
+    import tempfile
+
     import hf_export as hf
 
     try:
@@ -1070,6 +1107,14 @@ def upload_hf_card(args: argparse.Namespace) -> int:
     except (ValueError, FileNotFoundError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
+    write_back = bool(getattr(args, "write_back", False))
+    if write_back and not args.dry_run:
+        refused = _production_reason()
+        if refused:
+            print(f"Error: --write-back is for a working tree, and {refused} — a "
+                  f"change to docs/ there stops update.sh. Upload without it and "
+                  f"commit the card from a dev checkout.", file=sys.stderr)
+            return 2
     repo_id = args.repo_id or hf.DEFAULT_REPO_ID
     if not hf._REPO_ID_RE.match(repo_id):
         print(f"Error: repo id {repo_id!r} is not owner/name", file=sys.stderr)
@@ -1084,8 +1129,9 @@ def upload_hf_card(args: argparse.Namespace) -> int:
               f"with this token) — upload the dataset first; its sizes are "
               f"measured there", file=sys.stderr)
         return 1
+    text = card.read_text(encoding="utf-8")
     try:
-        spliced = hf.splice_frontmatter(card.read_text(encoding="utf-8"), readme)
+        spliced = hf.splice_frontmatter(text, readme)
     except ValueError as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
@@ -1094,15 +1140,30 @@ def upload_hf_card(args: argparse.Namespace) -> int:
     print(f"repo      : {repo_id}")
     print("frontmatter (from the hub, verbatim):")
     print("\n".join("  " + ln for ln in (fm or "").splitlines()))
-    changed = spliced != card.read_text(encoding="utf-8")
-    print(f"card text : {'updated with the hub front matter' if changed else 'already carries it'}")
+    changed = spliced != text
+    if changed:
+        print(f"card text : docs/{card.name} differs from the hub in the front "
+              f"matter only — commit it from a dev checkout "
+              f"(upload-hf-card --write-back there):")
+        print("\n".join("  " + ln for ln in _frontmatter_diff(card.name, text, spliced)))
+    else:
+        print(f"card text : docs/{card.name} already carries the hub's front matter")
     if args.dry_run:
         print("\n(dry run — nothing written, nothing uploaded)")
         return 0
-    if changed:
-        card.write_text(spliced, encoding="utf-8")
+    if write_back:
+        target = card
+        if changed:
+            card.write_text(spliced, encoding="utf-8")
+            print(f"wrote     : {card} — commit it")
+    else:
+        job_dir = os.environ.get("AH_JOB_DIR")
+        out_dir = Path(job_dir) if job_dir else Path(tempfile.mkdtemp(prefix="hf-card-"))
+        target = out_dir / card.name
+        target.write_text(spliced, encoding="utf-8")
+        print(f"spliced   : {target} (docs/ untouched)")
     try:
-        how = hf.upload_card(repo_id, card)
+        how = hf.upload_card(repo_id, target)
     except RuntimeError as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
@@ -1897,6 +1958,10 @@ def build_parser() -> argparse.ArgumentParser:
     p_card.add_argument("--dry-run", action="store_true",
                         help="Fetch the hub README, show the splice, write and "
                              "upload nothing")
+    p_card.add_argument("--write-back", action="store_true",
+                        help="Also write the spliced card to docs/, to commit — "
+                             "in a working tree only; refused on tei's production "
+                             "checkout and in an MCP job")
     p_card.set_defaults(func=upload_hf_card)
 
     p_tk = sub.add_parser(

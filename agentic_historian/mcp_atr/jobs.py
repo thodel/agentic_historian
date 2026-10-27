@@ -572,6 +572,50 @@ def _runs(root: Path, cap: int = 50) -> list[dict]:
     return out
 
 
+def _hf_scratch_dir() -> Optional[Path]:
+    """Where an upload stages its parquet shards (``hf_export.scratch_for``
+    for a tree under ``ATR_DATASETS_DIR``)."""
+    if config.ATR_HF_SCRATCH:
+        return Path(config.ATR_HF_SCRATCH)
+    if config.ATR_DATASETS_DIR:
+        return Path(config.ATR_DATASETS_DIR) / "_hf_scratch"
+    return None
+
+
+def _resources(counts: bool) -> dict:
+    """Disk, RAM and the service's memory limit (#735) — the three numbers
+    that decided the BLB uploads of 25./26.10., none of them known before.
+
+    One ``statvfs`` per root, ``/proc/meminfo`` and the service's own cgroup:
+    no sudo, no walk. Cache sizes are a walk and come only with ``counts``.
+    """
+    import host_resources as hr
+
+    disk = {name: hr.disk(path) for name, path in (
+        ("root", "/"), ("data_dir", config.DATA_DIR),
+        ("datasets_dir", config.ATR_DATASETS_DIR),
+        ("hf_arrow_cache", config.ATR_HF_ARROW_CACHE),
+        ("hf_scratch", _hf_scratch_dir()),
+        ("vlm_test_root", config.VLM_TEST_ROOT))}
+    host = hr.meminfo()
+    service = hr.memcg_state()
+    summary = [f"{name}: {hr.fmt_bytes(d['free'])} free of {hr.fmt_bytes(d['total'])}"
+               for name, d in disk.items() if d.get("path")]
+    summary.append(f"RAM {hr.fmt_bytes(host['ram_available'])} available of "
+                   f"{hr.fmt_bytes(host['ram_total'])}, swap "
+                   f"{hr.fmt_bytes(host['swap_free'])} free of "
+                   f"{hr.fmt_bytes(host['swap_total'])}")
+    summary.append(f"service memory.max {hr.fmt_bytes(service['max'])}, "
+                   f"in use {hr.fmt_bytes(service['current'])}, "
+                   f"oom_kill {service['oom_kill'] if service['oom_kill'] is not None else '?'}")
+    caches = None
+    if counts:
+        caches = {"hf_arrow_cache": hr.dir_bytes(config.ATR_HF_ARROW_CACHE),
+                  "hf_scratch": hr.dir_bytes(_hf_scratch_dir())}
+    return {"disk": disk, "host": host, "service": service,
+            "caches": caches, "summary": summary}
+
+
 def server_status(counts: bool = False) -> dict:
     """Which code answers, which data roots apply, what lies under them (#690).
 
@@ -586,6 +630,11 @@ def server_status(counts: bool = False) -> dict:
     ``counts`` walks the page cache and its cold tier for page counts (seconds
     over CIFS, within a budget); off by default because a status call that
     takes as long as the thing it describes is the wrong kind of status.
+
+    ``resources`` (#735) is what stands before every big job: free space on
+    each root, the host's RAM and swap, and the service's own memory limit
+    and OOM counter. With ``counts`` it also sizes the upload caches —
+    leftovers of aborted uploads.
     """
     import provenance
 
@@ -620,6 +669,7 @@ def server_status(counts: bool = False) -> dict:
     return {"ok": True,
             "code": {**provenance.code_state(), **_git_state(checkout)},
             "env": env, "roots": roots,
+            "resources": _resources(counts),
             "runs": _runs(Path(config.VLM_TEST_ROOT)),
             "counted": counts}
 
@@ -1649,14 +1699,19 @@ class Job:
     exit_code: Optional[int] = None
     finished_at: Optional[str] = None
     progress: dict = field(default_factory=dict)
+    #: Set for a failed or vanished job whose cgroup counter says something (#736).
+    memory: Optional[dict] = None
 
     def as_dict(self) -> dict:
-        return {
+        out = {
             "job_id": self.job_id, "kind": self.kind, "state": self.state,
             "started_at": self.started_at, "finished_at": self.finished_at,
             "exit_code": self.exit_code, "pid": self.pid, "run": self.run,
             "argv": self.argv, "progress": self.progress,
         }
+        if self.memory is not None:
+            out["memory"] = self.memory
+        return out
 
 
 def _now() -> str:
@@ -2256,7 +2311,133 @@ def status(job_id: str) -> Job:
         # costs somebody a re-run they did not know they needed.
         job.state = "vanished"
     job.progress = run_progress(job.run)
+    if job.state in ("failed", "vanished"):
+        job.memory = memory_verdict(directory, job)
     return job
+
+
+#: Exit codes of a SIGKILL: Popen's ``-9``, and a shell's ``128 + 9``.
+SIGKILL_CODES = (-9, 137)
+#: How a job reports a child that was SIGKILLed (``pagexml-hf exited -9``).
+_CHILD_KILLED = re.compile(r"exited (-9|137)\b|\bKilled\b|SIGKILL")
+
+
+def _parse_ts(value) -> Optional[datetime]:
+    """An ISO timestamp, as UTC when it carries no zone (comparable either way)."""
+    try:
+        ts = datetime.fromisoformat(str(value))
+    except (TypeError, ValueError):
+        return None
+    return ts if ts.tzinfo else ts.replace(tzinfo=timezone.utc)
+
+
+def _overlapping(job: Job, end: datetime, cap: int = 500) -> list[str]:
+    """The other jobs that ran in this service while ``job`` did."""
+    start = _parse_ts(job.started_at)
+    if start is None:
+        return []
+    root = jobs_root()
+    others = []
+    names = sorted((d.name for d in root.iterdir() if d.is_dir()), reverse=True)[:cap]
+    for name in names:
+        if name == job.job_id:
+            continue
+        meta_path = root / name / "meta.json"
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        o_start = _parse_ts(meta.get("started_at"))
+        if o_start is None or o_start >= end:
+            continue
+        recorded = root / name / "exit_code"
+        o_end = (datetime.fromtimestamp(recorded.stat().st_mtime, timezone.utc)
+                 if recorded.is_file() else None)
+        if o_end is None and not _alive(meta.get("pid")):
+            continue        # vanished, end unknown: not counted either way
+        if o_end is None or o_end > start:
+            others.append(name)
+    return sorted(others)
+
+
+def memory_verdict(directory: Path, job: Job) -> Optional[dict]:
+    """Did the memory cgroup kill something while this job ran? (#736)
+
+    ``_run.py`` wrote the cgroup's ``oom_kill`` counter before the job's child
+    started and after it ended. A job whose runner was killed too (the server
+    and its jobs share the cgroup — 25.10.) has no end reading; the counter is
+    then read now, and the verdict says so. None for a job started before
+    #736, which has no ``memcg.json``.
+
+    The counter belongs to the whole cgroup: with another job running at the
+    same time it cannot say which one the kernel killed, and the answer names
+    the others instead of guessing.
+    """
+    import host_resources
+
+    try:
+        record = json.loads((directory / "memcg.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    first = record.get("start") or {}
+    last = record.get("end")
+    read_now = last is None
+    if read_now:
+        state = host_resources.memcg_state(first.get("cgroup"))
+        last = {"cgroup": state["cgroup"], "oom": state["oom"],
+                "oom_kill": state["oom_kill"], "memory_max": state["max"]}
+    before, after = first.get("oom_kill"), last.get("oom_kill")
+    limit = first.get("memory_max")
+    sigkill = job.exit_code in SIGKILL_CODES
+    if not sigkill and job.exit_code is not None:
+        sigkill = bool(_CHILD_KILLED.search(read_log(job.job_id, 200)))
+    out = {"cgroup": first.get("cgroup"), "oom_kill": [before, after],
+           "memory_max": limit, "read_now": read_now, "sigkill": sigkill}
+    if before is None or after is None:
+        if not (sigkill or read_now):
+            return None
+        out["oom_killed"] = None
+        out["message"] = ("the memory cgroup's oom_kill counter could not be read — "
+                          "whether memory ended this job is not known")
+        return out
+    out["oom_killed"] = after > before
+    counter = f"oom_kill {before} → {after}"
+    if read_now:
+        counter += ", the second read now: the job's runner died with it"
+    if after > before:
+        oom = (first.get("oom"), last.get("oom"))
+        at_limit = None if None in oom else oom[1] > oom[0]
+        out["at_limit"] = at_limit
+        size = f"memory.max {host_resources.fmt_bytes(limit)}"
+        if at_limit:
+            cause = f"the service's memory cgroup ran out ({counter}, {size})"
+        elif at_limit is None:
+            cause = (f"an OOM kill in the service's memory cgroup ({counter}, {size}; "
+                     f"whether its limit or the host ran out is not known)")
+        else:
+            cause = (f"the host ran out of memory, not the service's limit "
+                     f"({counter}, {size} not reached)")
+        if sigkill or read_now:
+            message = f"killed: {cause}"
+        else:
+            message = (f"an OOM kill hit this service while this job ran — {cause}; "
+                       f"the exit code alone does not say it was this job's")
+        end = (_parse_ts(job.finished_at) if job.finished_at else None) \
+            or datetime.now(timezone.utc)
+        others = _overlapping(job, end)
+        if others:
+            out["concurrent_jobs"] = others
+            message += (f"; {len(others)} other job(s) ran in this service at the "
+                        f"same time ({', '.join(others[:5])}), so the counter does "
+                        f"not say which one was killed")
+    elif sigkill:
+        message = (f"SIGKILL, but no OOM kill in this service ({counter}) — "
+                   f"something else sent it: look in the kernel log and at who "
+                   f"stops jobs")
+    else:
+        return None
+    out["message"] = message
+    return out
 
 
 def list_jobs(limit: int = 20) -> list[Job]:
