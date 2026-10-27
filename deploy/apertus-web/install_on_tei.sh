@@ -102,7 +102,11 @@ fi
 if nginx -t 2>/dev/null; then
   systemctl reload nginx
   # The include must be in the configuration nginx runs, not just in a file.
-  nginx -T 2>/dev/null | grep -q '^# configuration file /etc/nginx/snippets/apertus.conf' \
+  # Into a variable, not `nginx -T | grep -q`: grep -q stops reading at the first
+  # match, nginx -T dies of SIGPIPE, and under pipefail the check failed exactly
+  # when the snippet WAS loaded (tei, 2026-10-27).
+  LOADED="$(nginx -T 2>/dev/null || true)"
+  grep -q '^# configuration file /etc/nginx/snippets/apertus.conf' <<<"$LOADED" \
     || die "nginx does not load $SNIPPET — is $SITE the file in sites-enabled?"
 else
   nginx -t || true
