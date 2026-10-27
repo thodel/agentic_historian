@@ -22,7 +22,11 @@ HERE="$CHECKOUT/deploy/apertus-web"
 ENV_FILE=/etc/apertus-web.env
 UNIT=/etc/systemd/system/apertus-web.service
 SNIPPET=/etc/nginx/snippets/apertus.conf
-SITE=/etc/nginx/sites-available/tei.dh.unibe.ch
+# The file nginx actually loads. On tei, sites-enabled/ holds a *copy*, not a
+# symlink to sites-available/ (2026-10-27): an include added to sites-available
+# was never read, and /apertus/ answered 404. readlink -f follows a symlink
+# when there is one and returns the copy when there is not.
+SITE="$(readlink -f /etc/nginx/sites-enabled/tei.dh.unibe.ch)"
 PORT=8310
 
 die() { echo "ERROR: $*" >&2; exit 1; }
@@ -93,6 +97,9 @@ if ! grep -q 'snippets/apertus.conf' "$SITE"; then
 fi
 if nginx -t 2>/dev/null; then
   systemctl reload nginx
+  # The include must be in the configuration nginx runs, not just in a file.
+  nginx -T 2>/dev/null | grep -q '^# configuration file /etc/nginx/snippets/apertus.conf' \
+    || die "nginx does not load $SNIPPET — is $SITE the file in sites-enabled?"
 else
   nginx -t || true
   [ -n "${BACKUP:-}" ] && cp "$BACKUP" "$SITE" && echo "ROLLBACK: $SITE restored"
