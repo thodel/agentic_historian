@@ -55,7 +55,7 @@ def _parquet(path: Path, n: int):
 def test_a_run_reads_scores_and_resumes(tmp_path, monkeypatch):
     shard = tmp_path / "s.parquet"
     _parquet(shard, 6)
-    monkeypatch.setattr(el, "fetch", lambda dataset, dest: [shard])
+    monkeypatch.setattr(el, "fetch", lambda dataset, dest, project=None: [shard])
     calls = []
 
     def read(img, model):
@@ -109,3 +109,79 @@ def test_the_line_prompt_ships():
     import external_atr
     text, _ = external_atr.load_prompt("federal_minutes_line.md")
     assert "exactly as written" in text and "one line" in text
+
+
+# ── a page set: the reference is the PAGE XML (St. Gallen Missiven) ──────────
+
+_PAGE = """<?xml version="1.0" encoding="UTF-8"?>
+<PcGts xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"><Page imageFilename="p.jpg" imageWidth="20" imageHeight="10">
+<TextRegion id="r1"><TextLine id="l1"><Coords points="0,0 9,0 9,4 0,4"/>
+<Word id="w1"><TextEquiv><Unicode>Den</Unicode></TextEquiv></Word>
+<TextEquiv><Unicode>Den fromen wysen</Unicode></TextEquiv></TextLine>
+<TextLine id="l2"><Coords points="0,5 9,5 9,9 0,9"/><TextEquiv><Unicode>burgermaister</Unicode></TextEquiv></TextLine>
+</TextRegion></Page></PcGts>"""
+
+
+def test_a_page_reference_is_its_lines_own_text():
+    assert el.page_text(_PAGE) == "Den fromen wysen\nburgermaister", "the line's TextEquiv, never word 1"
+
+
+def test_a_large_scan_is_shrunk_and_a_small_one_kept():
+    import io
+
+    from PIL import Image
+    buf = io.BytesIO()
+    Image.new("RGB", (5000, 2000)).save(buf, "JPEG")
+    with Image.open(io.BytesIO(el.shrink(buf.getvalue()))) as im:
+        assert max(im.size) == el.PAGE_MAX_SIDE
+    small = io.BytesIO()
+    Image.new("RGB", (100, 50)).save(small, "JPEG")
+    assert el.shrink(small.getvalue()) == small.getvalue()
+
+
+def test_pages_report_a_median_per_page():
+    refs = {"a": "Den fromen", "b": "burgermaister", "c": "Item"}
+    rep = el.report({"a": {"text": "Den fromen"}, "b": {"text": "burgermeister"},
+                     "c": {"text": "Itam"}}, refs)
+    s = rep["per_item_cer"]
+    assert s["n"] == 3 and s["best"] == 0.0 and s["worst"] == 0.25
+    assert s["median"] == round(1 / 13, 4)
+
+
+def test_a_page_run_reads_xml_content(tmp_path, monkeypatch):
+    pa = pytest.importorskip("pyarrow")
+    import io
+
+    import pyarrow.parquet as pq
+    from PIL import Image
+    buf = io.BytesIO()
+    Image.new("RGB", (40, 20)).save(buf, "JPEG")
+    shard = tmp_path / "data" / "train" / "sg-missiven" / "0000.parquet"
+    shard.parent.mkdir(parents=True)
+    pq.write_table(pa.table({"image": [{"bytes": buf.getvalue(), "path": None}] * 2,
+                             "xml_content": [_PAGE, _PAGE],
+                             "filename": ["p1.jpg", "p2.jpg"]}), shard)
+    monkeypatch.setattr(el, "fetch", lambda dataset, dest, project=None: [shard])
+    monkeypatch.setattr(el.config, "ATR_DATASETS_DIR", None)
+    read = lambda img, model: types.SimpleNamespace(
+        text="Den fromen wysen\nburgermaister", truncated=False, prompt_tokens=9,
+        completion_tokens=4, settings="s", service_version="v", finish_reason="stop")
+    read.settings, read.close = "s", lambda: None
+    monkeypatch.setitem(sys.modules, "external_atr", types.SimpleNamespace(
+        openai_recogniser=lambda **kw: read,
+        preflight=lambda m: types.SimpleNamespace(refused=False, line="ok")))
+    out = tmp_path / "run"
+    assert el.main(["--model", "m", "--out", str(out), "--full", "--pages",
+                    "--project", "sg-missiven"]) == 0
+    rep = json.loads((out / "report_m.json").read_text())
+    assert rep["all"]["cer"] == 0.0 and rep["per_item_cer"]["n"] == 2
+
+
+def test_lineset_argv_page_mode(monkeypatch, tmp_path):
+    monkeypatch.setattr(lineset.config, "VLM_TEST_ROOT", tmp_path)
+    argv = lineset.lineset_argv("sg", "gemini-4-argon", sample=20, pages=True,
+                                dataset="dh-unibe/image-text_sg-missiven", project="sg-missiven",
+                                prompt="sg_missiven_page.md")
+    assert "--pages" in argv and argv[argv.index("--project") + 1] == "sg-missiven"
+    with pytest.raises(JobError):
+        lineset.lineset_argv("sg", "m", sample=2, project="../x")

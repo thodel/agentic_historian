@@ -54,13 +54,18 @@ DEFAULT_PROMPT = "federal_minutes_line.md"
 
 # ── the set ──────────────────────────────────────────────────────────────────
 
-def fetch(dataset: str, dest: Path) -> list[Path]:
-    """The dataset's parquet shards, downloaded once to ``dest``."""
+def fetch(dataset: str, dest: Path, project: Optional[str] = None) -> list[Path]:
+    """The dataset's parquet shards, downloaded once to ``dest`` — only one
+    project's (``data/<split>/<project>/``) when ``project`` is named: the St.
+    Gallen Missiven carry a second, 534 MB single-line copy of the same pages."""
     from huggingface_hub import snapshot_download
+    patterns = ([f"data/*/{project}/*.parquet"] if project
+                else ["*.parquet", "**/*.parquet"])
     local = snapshot_download(repo_id=dataset, repo_type="dataset",
-                              allow_patterns=["*.parquet", "**/*.parquet"],
+                              allow_patterns=patterns,
                               local_dir=str(dest), token=config.HF_TOKEN or None)
-    shards = sorted(Path(local).rglob("*.parquet"))
+    shards = sorted(p for p in Path(local).rglob("*.parquet")
+                    if not project or p.parent.name == project)
     if not shards:
         raise SystemExit(f"no parquet shards in {dataset}")
     return shards
@@ -80,20 +85,54 @@ def chosen(total: int, sample: Optional[int]) -> set[int]:
     return {int(i * step) for i in range(sample)}
 
 
-def rows(shards: list[Path], wanted: set[int]) -> Iterator[tuple[int, str, str, bytes]]:
+def page_text(xml: str) -> str:
+    """A page's reference: its lines' own ``TextEquiv``, one per line, in
+    document order — what ``pagexml-hf`` stores as ``xml_content``."""
+    from ruemlang import pagexml
+    return "\n".join(ln["text"] for ln in pagexml.parse_lines(xml) if ln["text"].strip())
+
+
+def rows(shards: list[Path], wanted: set[int],
+         pages: bool = False) -> Iterator[tuple[int, str, str, bytes]]:
     """``(index, key, reference, image bytes)`` in order, a batch at a time —
-    the MCP's jobs run under a 200 MiB memory limit, the set is 220 MB."""
+    the MCP's jobs run under a 200 MiB memory limit, the line set is 220 MB.
+    A line set carries its text in ``text``; a page set (``pages``) only in
+    the PAGE XML of ``xml_content``, and its rows are whole scans, so they come
+    four at a time."""
     import pyarrow.parquet as pq
+    cols = ["image", "xml_content" if pages else "text", "filename"]
     i = 0
     for shard in shards:
         pf = pq.ParquetFile(shard)
-        for batch in pf.iter_batches(batch_size=64, columns=["image", "text", "filename"]):
+        for batch in pf.iter_batches(batch_size=4 if pages else 64, columns=cols):
             for rec in batch.to_pylist():
                 if i in wanted:
                     img = rec["image"]
                     data = img.get("bytes") if isinstance(img, dict) else img
-                    yield i, str(rec.get("filename") or i), rec.get("text") or "", data
+                    ref = page_text(rec.get("xml_content") or "") if pages else rec.get("text") or ""
+                    yield i, str(rec.get("filename") or i), ref, data
                 i += 1
+
+
+#: Longest side sent for a page. A scan straight from the archive is 20 MB and
+#: more; the model reads a 3500 px copy as well, and the batch runner sends
+#: working copies of about that size too.
+PAGE_MAX_SIDE = 3500
+
+
+def shrink(data: bytes) -> bytes:
+    """A page image no larger than :data:`PAGE_MAX_SIDE`, as JPEG; small ones
+    unchanged."""
+    import io
+
+    from PIL import Image
+    with Image.open(io.BytesIO(data)) as im:
+        if max(im.size) <= PAGE_MAX_SIDE and len(data) < 8_000_000:
+            return data
+        f = min(1.0, PAGE_MAX_SIDE / max(im.size))
+        out = io.BytesIO()
+        im.convert("RGB").resize((round(im.width * f), round(im.height * f))).save(out, "JPEG", quality=90)
+        return out.getvalue()
 
 
 # ── scoring: textmetrics.Score's definitions ─────────────────────────────────
@@ -125,6 +164,19 @@ def _flat(s: str) -> str:
     return re.sub(r"\s+", " ", s or "").strip()
 
 
+def page_cers(readings: dict[str, dict], refs: dict[str, str]) -> list[float]:
+    """CER per answered page, whitespace collapsed — the pipeline's and
+    ``score_ground_truth``'s page CER, whose median is what pages compare by:
+    a corpus rate is dominated by the longest pages."""
+    from rapidfuzz.distance import Levenshtein
+    out = []
+    for k, r in refs.items():
+        if k in readings and _flat(r):
+            h = _flat(readings[k].get("text", ""))
+            out.append(Levenshtein.distance(h, _flat(r)) / len(_flat(r)))
+    return sorted(out)
+
+
 def report(readings: dict[str, dict], refs: dict[str, str]) -> dict:
     """Headline over every chosen line (unanswered = empty), the same over
     answered lines, whitespace-flat, and what went wrong."""
@@ -144,7 +196,17 @@ def report(readings: dict[str, dict], refs: dict[str, str]) -> dict:
         "prompt_tokens": sum(m.get("prompt_tokens") or 0 for m in meta),
         "completion_tokens": sum(m.get("completion_tokens") or 0 for m in meta),
         "confusions": textdiff.show(conf, 20),
+        "per_item_cer": _spread(page_cers(readings, refs)),
     }
+
+
+def _spread(values: list[float]) -> Optional[dict]:
+    if not values:
+        return None
+    import statistics
+    p90 = values[min(len(values) - 1, round(0.9 * (len(values) - 1)))]
+    return {"n": len(values), "median": round(statistics.median(values), 4),
+            "p90": round(p90, 4), "best": round(values[0], 4), "worst": round(values[-1], 4)}
 
 
 # ── reading ──────────────────────────────────────────────────────────────────
@@ -173,7 +235,7 @@ def run(args) -> int:
     if pf.refused:
         return 2
     base = Path(config.ATR_DATASETS_DIR) if config.ATR_DATASETS_DIR else out.parent / "_datasets"
-    shards = fetch(args.dataset, base / args.dataset.replace("/", "__"))
+    shards = fetch(args.dataset, base / args.dataset.replace("/", "__"), args.project)
     total = count(shards)
     wanted = chosen(total, None if args.full else args.sample)
     print(f"{args.dataset}: {total} line(s) in {len(shards)} shard(s); "
@@ -187,7 +249,7 @@ def run(args) -> int:
     tmp.mkdir(exist_ok=True)
     refs: dict[str, str] = {}
     todo: list[tuple[str, str, bytes]] = []
-    for _i, key, ref, data in rows(shards, wanted):
+    for _i, key, ref, data in rows(shards, wanted, pages=args.pages):
         refs[key] = ref
         if key not in have:
             todo.append((key, ref, data))
@@ -200,7 +262,7 @@ def run(args) -> int:
         img = tmp / (re.sub(r"[^\w.-]", "_", key) or "line")
         if not img.suffix:
             img = img.with_suffix(".jpg")
-        img.write_bytes(data)
+        img.write_bytes(shrink(data) if args.pages else data)
         try:
             r = read(img, args.model)
         except Exception as exc:              # noqa: BLE001 — recorded, read again next run
@@ -239,6 +301,10 @@ def run(args) -> int:
     print(f"  empty answers {rep['empty_answers']}, truncated {rep['truncated']},"
           f" finish {rep['finish_reasons']}")
     print(f"  tokens {rep['prompt_tokens']:,} prompt + {rep['completion_tokens']:,} completion")
+    if args.pages and rep["per_item_cer"]:
+        s = rep["per_item_cer"]
+        print(f"  per page (whitespace collapsed): median {s['median']}  p90 {s['p90']}"
+              f"  best {s['best']}  worst {s['worst']}  over {s['n']} page(s)")
     print(f"  confusions (GT → model): {rep['confusions']}")
     print(f"report: {out / f'report_{args.model}.json'}")
     return 0
@@ -254,6 +320,11 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--sample", type=int, default=None, help="this many lines, spread evenly")
     ap.add_argument("--full", action="store_true", help="every line of the set")
     ap.add_argument("--workers", type=int, default=8, help="lines read at once")
+    ap.add_argument("--pages", action="store_true",
+                    help="a page set: the reference is the PAGE XML in xml_content, the image a "
+                         "whole scan (sent at most 3500 px); report the per-page median CER")
+    ap.add_argument("--project", default=None,
+                    help="only this project of the dataset (data/<split>/<project>/)")
     return ap
 
 

@@ -1398,7 +1398,9 @@ def build_server(provider=None, auth_settings=None):
                               full: bool = False,
                               dataset: Optional[str] = None, workers: int = 8,
                               prompt: Optional[str] = None,
-                              reasoning: Optional[str] = None) -> dict:
+                              reasoning: Optional[str] = None,
+                              pages: bool = False,
+                              project: Optional[str] = None) -> dict:
         """An external model (Gemini, Argon) on a published **line** test set,
         scored as the trainer scores its adapters, so the number sits in the
         same table (training-atr-models ``docs/EVAL_SETS.md``).
@@ -1418,10 +1420,19 @@ def build_server(provider=None, auth_settings=None):
         ``truncated_cer``, ``length_ratio``, the CER over answered lines,
         whitespace-flat, empty answers with their ``finish_reason``, tokens, and
         the most frequent confusions (GT → model).
+
+        ``pages=true`` takes a **page** set instead: the reference is the PAGE
+        XML (`xml_content`, the lines' own text), the image a whole scan sent at
+        most 3500 px wide, and the report adds the per-page median CER — the
+        number pages are compared by. ``project`` reads one project of the
+        dataset only (``data/<split>/<project>/``), e.g.
+        ``dataset="dh-unibe/image-text_sg-missiven", project="sg-missiven"``.
+        Runs in its own unit (whole scans exceed the server's memory limit).
         """
         try:
             return lineset.lineset_job(run, model, sample=sample, full=full, dataset=dataset,
-                                       workers=workers, prompt=prompt, reasoning=reasoning)
+                                       workers=workers, prompt=prompt, reasoning=reasoning,
+                                       pages=pages, project=project)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 

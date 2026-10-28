@@ -108,3 +108,9 @@ one is a commit with a diff rather than an edit to a shell line somebody pasted.
   prompts. No editorial marks: the test set's GT has none, so a `[?]` would
   only cost characters.
 
+- `sg_missiven_page.md` — whole pages of the St. Gallen Missiven
+  (`dh-unibe/image-text_sg-missiven`), for `external_lineset.py --pages`.
+  The `bern_1528.md` discipline for a 15th–17th-century chancery: diplomatic,
+  abbreviations as written, one answer line per page line, no marks — a best
+  reading instead of `[...]`, because the GT carries no marks either.
+
