@@ -212,6 +212,32 @@ def _card(gpu: dict, index: int) -> dict | None:
     return None
 
 
+def _gateway_residents(gpu: dict, card: dict, card_index: int,
+                       model_id: str) -> tuple[bool, int, list[str]]:
+    """Whether ``model_id`` is loaded already, and what the gateway would evict.
+
+    A lazy vLLM model the gateway holds on this card is not in the way: the
+    gateway evicts it before it launches the next one. Counting its memory as
+    taken refused a whole run on 2026-10-28 — Apertus, left resident by the
+    smoke run, held 32 834 MiB of card 1, the preflight saw 142 MiB free, and
+    the very model it was holding was refused as not fitting. Only a resident
+    the report names as ``lazy`` counts; a pinned one stays, and an older
+    gateway that lists no residents is read as before.
+    """
+    vllm = gpu.get("vllm") or {}
+    if vllm.get("gpu") != card_index:
+        return False, 0, []
+    residents = [r for r in vllm.get("residents") or [] if isinstance(r, dict)]
+    if any(r.get("id") == model_id for r in residents):
+        return True, 0, []
+    if not residents or any(r.get("residency") != "lazy" for r in residents):
+        return False, 0, []
+    pids = set(vllm.get("pids") or [])
+    held = sum(int(row.get("used_mib") or 0) for row in card.get("processes") or []
+               if row.get("pid") in pids and not row.get("orphaned"))
+    return False, held, [str(r.get("id")) for r in residents]
+
+
 def gpu_headroom(model_id: str, probe: dict | None = None) -> Headroom:
     """Whether ``model_id`` fits on its card right now.
 
@@ -269,10 +295,21 @@ def gpu_headroom(model_id: str, probe: dict | None = None) -> Headroom:
 
     ours, theirs = _occupants(card)
     free = int(card.get("memory_free_mib") or 0)
-    fits = free >= need
-    shortfall = 0 if fits else need - free
+    resident, evictable, evicted = _gateway_residents(gpu, card, card_index, model_id)
+    if resident:
+        return Headroom(model=model_id, card=card_index, needed_mib=need, free_mib=free,
+                        shortfall_mib=0, fits=True, registered=True,
+                        ours=ours, theirs=theirs,
+                        reason=f"{model_id} is already resident on gpu {card_index}")
+    fits = free + evictable >= need
+    shortfall = 0 if fits else need - free - evictable
 
-    if fits:
+    if fits and evictable and free < need:
+        reason = (f"{model_id} fits on gpu {card_index} once the gateway evicts "
+                  f"{', '.join(evicted)}: needs {need} MiB "
+                  f"(vram_mb {vram_mb} x {MIN_HEADROOM} + {RESERVE_MB}), "
+                  f"{free} MiB free + {evictable} MiB evictable")
+    elif fits:
         reason = (f"{model_id} fits on gpu {card_index}: needs {need} MiB "
                   f"(vram_mb {vram_mb} x {MIN_HEADROOM} + {RESERVE_MB}), "
                   f"{free} MiB free")
