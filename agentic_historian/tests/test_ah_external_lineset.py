@@ -185,3 +185,29 @@ def test_lineset_argv_page_mode(monkeypatch, tmp_path):
     assert "--pages" in argv and argv[argv.index("--project") + 1] == "sg-missiven"
     with pytest.raises(JobError):
         lineset.lineset_argv("sg", "m", sample=2, project="../x")
+
+
+# ── notation apart from reading (28.10., Missiven: u/v, virgules, superscripts) ─
+
+def test_convention_normalized_cer_separates_notation():
+    import textdiff
+    assert textdiff.normalize_convention("Vnd ů ä ß ſ, Jr/ HERR.") == "und u a s s ir herr"
+    refs = {"a": "und unser rat, burgermaister"}
+    rep = el.report({"a": {"text": "vnd vnser rat / burgermaiſter"}}, refs)
+    assert rep["all"]["cer"] > 0.1, "the headline keeps the notation"
+    assert rep["convention_normalized"]["all"]["cer"] == 0.0
+    assert rep["convention_normalized"]["per_item_cer"]["median"] == 0.0
+
+
+def test_the_worst_items_are_named():
+    refs = {"a": "Item", "b": "kurz", "c": "lang genug"}
+    rep = el.report({"a": {"text": "Item"}, "b": {"text": "ein ganz anderer text"},
+                     "c": {"text": "lang genug"}}, refs)
+    assert rep["worst"][0]["key"] == "b" and rep["worst"][0]["cer"] > 1
+
+
+def test_the_v2_prompt_names_the_gt_conventions():
+    import external_atr
+    text, digest = external_atr.load_prompt("sg_missiven_page_v2.md")
+    assert "by sound" in text and "virgule" in text
+    assert digest != external_atr.load_prompt("sg_missiven_page.md")[1]

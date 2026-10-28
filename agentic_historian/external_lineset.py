@@ -164,17 +164,21 @@ def _flat(s: str) -> str:
     return re.sub(r"\s+", " ", s or "").strip()
 
 
-def page_cers(readings: dict[str, dict], refs: dict[str, str]) -> list[float]:
-    """CER per answered page, whitespace collapsed — the pipeline's and
-    ``score_ground_truth``'s page CER, whose median is what pages compare by:
-    a corpus rate is dominated by the longest pages."""
+def item_cers(readings: dict[str, dict], refs: dict[str, str],
+              norm=_flat) -> dict[str, float]:
+    """CER per answered page (or line), whitespace collapsed by default — the
+    pipeline's and ``score_ground_truth``'s page CER, whose median is what
+    pages compare by: a corpus rate is dominated by the longest pages."""
     from rapidfuzz.distance import Levenshtein
-    out = []
+    out = {}
     for k, r in refs.items():
-        if k in readings and _flat(r):
-            h = _flat(readings[k].get("text", ""))
-            out.append(Levenshtein.distance(h, _flat(r)) / len(_flat(r)))
-    return sorted(out)
+        if k in readings and norm(r):
+            out[k] = Levenshtein.distance(norm(readings[k].get("text", "")), norm(r)) / len(norm(r))
+    return out
+
+
+def page_cers(readings: dict[str, dict], refs: dict[str, str]) -> list[float]:
+    return sorted(item_cers(readings, refs).values())
 
 
 def report(readings: dict[str, dict], refs: dict[str, str]) -> dict:
@@ -197,6 +201,16 @@ def report(readings: dict[str, dict], refs: dict[str, str]) -> dict:
         "completion_tokens": sum(m.get("completion_tokens") or 0 for m in meta),
         "confusions": textdiff.show(conf, 20),
         "per_item_cer": _spread(page_cers(readings, refs)),
+        # Diagnostic only (textdiff.normalize_convention): reading without notation.
+        "convention_normalized": {
+            "all": score([(textdiff.normalize_convention(h), textdiff.normalize_convention(r))
+                          for h, r in every]),
+            "per_item_cer": _spread(sorted(item_cers(
+                readings, refs, textdiff.normalize_convention).values()))},
+        # The worst items by name: on 28.10. one Missiven page scored 142 %, which
+        # is a reference that does not cover the leaf, not a reading.
+        "worst": [{"key": k, "cer": round(v, 4)} for k, v in sorted(
+            item_cers(readings, refs).items(), key=lambda kv: -kv[1])[:3]],
     }
 
 
@@ -305,6 +319,11 @@ def run(args) -> int:
         s = rep["per_item_cer"]
         print(f"  per page (whitespace collapsed): median {s['median']}  p90 {s['p90']}"
               f"  best {s['best']}  worst {s['worst']}  over {s['n']} page(s)")
+    c = rep["convention_normalized"]
+    print(f"  convention-normalized (diagnostic: u/v, i/j, diacritics, ſ/ß, punctuation, case off):"
+          f" CER {c['all']['cer']}"
+          + (f", per page median {c['per_item_cer']['median']}" if args.pages and c["per_item_cer"] else ""))
+    print("  worst: " + ", ".join(f"{w['key']} {w['cer']}" for w in rep["worst"]))
     print(f"  confusions (GT → model): {rep['confusions']}")
     print(f"report: {out / f'report_{args.model}.json'}")
     return 0

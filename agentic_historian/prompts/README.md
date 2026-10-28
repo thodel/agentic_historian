@@ -114,3 +114,12 @@ one is a commit with a diff rather than an edit to a shell line somebody pasted.
   abbreviations as written, one answer line per page line, no marks — a best
   reading instead of `[...]`, because the GT carries no marks either.
 
+- `sg_missiven_page_v2.md` — the Missiven prompt in the conventions the GT
+  turned out to use (28.10., 20 pages, Argon median 16.2 %): its most frequent
+  differences were `u`→`v` 288×, missing commas and points, `,`→`/`, `i`→`I`,
+  `u`→`ů`, `ü`→`ú`, `s`→`ß` — notation, not reading. So: u/v by sound,
+  virgule as comma, no superscripts, no ß/ſ, lower case except names and
+  sentence starts. A **new file**: `67efd42a` is what the first 20 pages
+  measured. Inferred from the confusions, not from an edition guideline; where
+  the guideline is known, it wins.
+
