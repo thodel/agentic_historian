@@ -519,7 +519,8 @@ def score_gt(args: argparse.Namespace) -> int:
         files = expand_gt_paths(gt_paths)
         if getattr(args, "limit", None):
             files = files[:max(1, int(args.limit))]
-        scored, unusable, report = score_run_dirs(files, run_dirs)
+        scored, unusable, report = score_run_dirs(
+            files, run_dirs, match=getattr(args, "match", None) or "auto")
     except (GroundTruthError, NotADirectoryError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
@@ -1757,6 +1758,15 @@ def build_parser() -> argparse.ArgumentParser:
                             "Bare `--keys-out` writes GT_ROOT/gt-keys.txt, which "
                             "survives a reboot — /tmp does not, and a reboot ate "
                             "the first list after sixteen minutes of work")
+    p_sgt.add_argument("--match", choices=("auto", "name", "content"),
+                       default="auto",
+                       help="How a ground-truth page finds its reading (#758). "
+                            "auto: the page named like the file (or its "
+                            "imageFilename) when the reading has one, else by "
+                            "content. name: by name only, and a reading without "
+                            "that page is reported missing — for a dataset "
+                            "project, where the stem is the key. content: always "
+                            "by content, as a Transkribus harvest needs")
     p_sgt.add_argument("--writer-agreement", action="store_true",
                        help="Also measure whether a machine reading is enough to "
                             "tell whose hand a page is in: `writer_of` on each "

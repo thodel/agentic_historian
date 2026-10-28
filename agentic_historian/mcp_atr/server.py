@@ -655,6 +655,12 @@ def build_server(provider=None, auth_settings=None):
         ``page/`` is the reference. With the same name as `start_batch`'s
         source, the held-out side of a dataset (``…_eval``) is read and scored
         in place (#752). Pages there carry no Transkribus status and count.
+        There each page is taken **by name** — ``page/<stem>.xml`` is the
+        reading under ``<stem>`` — so a page a model read too badly to be found
+        by content stays in its row with its real error instead of dropping
+        out as "not located" (#758: 14.0 % reported against 23.0 % over all
+        pages on 2026-10-27). A reading without that page is listed under
+        ``missing_reading``. The table also gives the character-weighted CER.
 
         **Asynchronous, like every other long call here.** 552 pages against
         eight readings is about a quarter of an hour, and on 2026-10-05 this tool
