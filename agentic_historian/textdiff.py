@@ -51,3 +51,19 @@ def show(pairs, top: int = 12) -> str:
     """``'s'→'ſ' 40, ∅→'.' 12`` for the most frequent of a Counter of pairs."""
     sym = lambda ch: repr(ch) if ch else "∅"
     return ", ".join(f"{sym(a)}→{sym(b)} {k}" for (a, b), k in pairs.most_common(top))
+
+
+def normalize_convention(s: str) -> str:
+    """Both sides mapped onto one notation-free form, for a **diagnostic** CER
+    that separates "could it read the page" from "did it write our notation"
+    (the trainer reports the same as ``convention_normalized``). Lower case;
+    u/v and i/j by letter, not by sound; diacritics and superscript letters off
+    (ů, ü, ú, ä → u, u, u, a); ſ and ß as s; punctuation, virgules and
+    hyphenation marks dropped; whitespace collapsed. Never the headline: a GT
+    that normalises u/v is a choice the reader should meet, and this hides it."""
+    import unicodedata
+    s = unicodedata.normalize("NFD", (s or "").lower())
+    s = "".join(ch for ch in s if not unicodedata.combining(ch))
+    s = s.translate(str.maketrans({"v": "u", "j": "i", "ſ": "s", "ß": "s", "ÿ": "y"}))
+    s = re.sub(r"[^\w\s]|_", "", s)
+    return _flat(s)
