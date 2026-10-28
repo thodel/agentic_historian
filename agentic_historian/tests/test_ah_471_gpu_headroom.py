@@ -284,3 +284,42 @@ def test_gateway_report_carries_the_headroom_beside_the_two_raw_reports(monkeypa
     assert report["gpu_serving"]["host"] == "idhefix"        # still there
     assert report["headroom"][MODEL]["shortfall_mib"] == 6106
     assert report["headroom"][MODEL]["fits"] is False
+
+
+#: 2026-10-28. Apertus left resident on card 1 by the smoke run: 142 MiB free,
+#: 32 834 MiB in the gateway's EngineCore, which the gateway evicts on demand.
+GPU_28_10 = {
+    "host": "srv",
+    "cards": [
+        {"index": 1, "memory_total_mib": 46068, "memory_free_mib": 142,
+         "processes": [
+             {"pid": 3941233, "used_mib": 32834, "service": "atr-gateway.service",
+              "user": "tobias", "age_s": 4353.1, "orphaned": False},
+             {"pid": 3832385, "used_mib": 5810, "service": "atr-kraken.service",
+              "user": "tobias", "age_s": 228266.0, "orphaned": False},
+         ]},
+    ],
+    "vllm": {"gpu": 1, "pids": [3941233],
+             "residents": [{"id": "apertus-1.5-8b", "vram_mb": 18000, "residency": "lazy"}]},
+}
+MODELS_28_10 = {"models": MODELS["models"] + [
+    {"id": "apertus-1.5-8b", "engine": "vllm", "vram_mb": 18000, "gpu_affinity": 1,
+     "residency": "lazy"}]}
+
+
+def test_a_lazy_resident_the_gateway_evicts_is_not_in_the_way():
+    h = gpu_headroom(MODEL, probe(GPU_28_10, MODELS_28_10))
+    assert h.fits is True and h.shortfall_mib == 0
+    assert "evicts apertus-1.5-8b" in h.reason
+
+
+def test_the_resident_model_itself_fits():
+    h = gpu_headroom("apertus-1.5-8b", probe(GPU_28_10, MODELS_28_10))
+    assert h.fits is True and "already resident" in h.reason
+
+
+def test_a_pinned_resident_stays_in_the_way():
+    gpu = {**GPU_28_10, "vllm": {**GPU_28_10["vllm"], "residents": [
+        {"id": "apertus-1.5-8b", "vram_mb": 18000, "residency": "pinned"}]}}
+    h = gpu_headroom(MODEL, probe(gpu, MODELS_28_10))
+    assert h.fits is False and h.shortfall_mib == needed_mib(12000) - 142
