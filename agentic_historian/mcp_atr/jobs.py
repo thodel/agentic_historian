@@ -1155,7 +1155,8 @@ EXTERNAL_NEEDS_A_SELECTION = (
 def score_argv(runs: Sequence[str], *, gt_dir: Optional[Path] = None,
                limit: Optional[int] = None, keys_out: Optional[Path] = None,
                out: Optional[Path] = None,
-               writer_agreement: bool = False) -> list[str]:
+               writer_agreement: bool = False,
+               match: Optional[str] = None) -> list[str]:
     """The exact argv for one ``score-gt`` run.
 
     The documented CLI, for the reason `batch_argv` gives: the MCP path and the
@@ -1182,6 +1183,8 @@ def score_argv(runs: Sequence[str], *, gt_dir: Optional[Path] = None,
         argv += ["--out", str(out)]
     if writer_agreement:
         argv.append("--writer-agreement")
+    if match:
+        argv += ["--match", match]
     return argv
 
 
@@ -2124,7 +2127,8 @@ def score_job(runs: Sequence[str], gt_dir: Optional[str] = None,
     out = Path(config.VLM_TEST_ROOT) / f"score-gt-{stamp}.md"
     argv = score_argv([_run_dir(n) for n in names], gt_dir=folder, limit=limit,
                       keys_out=keys_file, out=out,
-                      writer_agreement=writer_agreement)
+                      writer_agreement=writer_agreement,
+                      match=_score_match(gt_dir))
     return {"ok": True, "runs": names, "ground_truth_dir": str(folder),
             "report": str(out),
             # The per-page table as data, for `score_report` (#689).
@@ -2227,6 +2231,16 @@ def _score_gt_dir(gt_dir: Optional[str]) -> Path:
     return folder
 
 
+def _score_match(gt_dir: Optional[str]) -> Optional[str]:
+    """``name`` for a dataset project, where each ``page/<stem>.xml`` is the
+    reading stored under ``<stem>`` and a page a model read badly must stay in
+    its row (#758); otherwise the CLI's default, which takes a name where it
+    finds one and content elsewhere."""
+    if gt_dir and gt_dir.strip().startswith(DATASETS_PREFIX):
+        return "name"
+    return None
+
+
 def score_ground_truth(runs: Sequence[str], gt_dir: Optional[str] = None,
                        limit: Optional[int] = None,
                        keys_out: Optional[str] = None) -> dict:
@@ -2248,7 +2262,9 @@ def score_ground_truth(runs: Sequence[str], gt_dir: Optional[str] = None,
         files = expand_gt_paths([str(folder)])
         if limit is not None:
             files = files[:max(1, int(limit))]
-        scored, unusable, report = score_run_dirs(files, [_run_dir(n) for n in names])
+        scored, unusable, report = score_run_dirs(
+            files, [_run_dir(n) for n in names],
+            match=_score_match(gt_dir) or "auto")
     except GroundTruthError as exc:
         raise JobError(str(exc)) from exc
 

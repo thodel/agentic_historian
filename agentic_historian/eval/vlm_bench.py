@@ -818,7 +818,9 @@ def references_from_ground_truth(gt_paths: Iterable[str],
         # ground-truth file it happened to be least unlike.
         return {}, [Path(f).name for f in files]
 
-    scored = gt_score.score(files, voters, unusable=unusable)
+    # By content, always: here the question is which page the candidates
+    # agree on, and a name would answer it before they are asked (#758).
+    scored = gt_score.score(files, voters, unusable=unusable, match="content")
 
     references: dict[str, str] = {}
     unlocated: list[str] = []
