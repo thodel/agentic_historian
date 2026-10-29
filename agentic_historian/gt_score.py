@@ -591,10 +591,13 @@ def _summary_lines(scored: list[Scored],
                 "",
                 "**Sorted by median, and the median is the number to compare.** A "
                 "corpus-level rate would be dominated by the longest pages, and "
-                "this corpus mixes hands: the best and worst columns are four to "
-                "five times apart within a single engine, because Laßberg's own "
-                "hand reads far worse than his correspondents'. An engine that "
-                "happens to have located more of the easier pages would win a "
+                "this corpus mixes hands: the best and worst columns can lie "
+                "several times apart within a single engine, because hands, "
+                "layouts and ground-truth sources differ in difficulty — which "
+                "hand reads worse depends on the model and the set (the "
+                "Transkribus GT and the BLB eval split have pointed opposite "
+                "ways). An engine that happens to have scored more of the "
+                "easier pages would win a "
                 "comparison that ignored that, which is why the stratification "
                 "question in the published report is not a footnote.", "",
                 "Two unrelated German pages of this corpus score about 68 % "
