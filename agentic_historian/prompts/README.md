@@ -123,3 +123,11 @@ one is a commit with a diff rather than an edit to a shell line somebody pasted.
   measured. Inferred from the confusions, not from an edition guideline; where
   the guideline is known, it wins.
 
+- `sg_missiven_page_v3.md` — v2 with what its own run showed (28.10., same 20
+  pages: median 12.8 % against v1's 16.2 %, convention-normalised unchanged at
+  8 %). The remaining notation came in pairs: `u`→`ü` 40× beside `e`→∅ 164×,
+  and `o`→∅ 77× — the GT writes a superscript letter into the line (`ue`,
+  `uo`, `oe`, `ae`) where v2 asked for `ü`/`u`. And `ß`→`s` 65×: the GT
+  keeps ß, which v2 told the model to drop. So v3 writes superscripts inline
+  and keeps ß; ſ stays s. A new file; `13640adc` is v2.
+

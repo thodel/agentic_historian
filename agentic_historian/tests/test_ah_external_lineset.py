@@ -211,3 +211,10 @@ def test_the_v2_prompt_names_the_gt_conventions():
     text, digest = external_atr.load_prompt("sg_missiven_page_v2.md")
     assert "by sound" in text and "virgule" in text
     assert digest != external_atr.load_prompt("sg_missiven_page.md")[1]
+
+
+def test_the_v3_prompt_writes_superscripts_inline_and_keeps_sz():
+    import external_atr
+    text, digest = external_atr.load_prompt("sg_missiven_page_v3.md")
+    assert '"uo"' in text and '"ue"' in text and "Keep ß" in text
+    assert digest != external_atr.load_prompt("sg_missiven_page_v2.md")[1]
