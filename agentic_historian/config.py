@@ -439,6 +439,11 @@ ENABLE_ROUTING_PRIOR = _get("ENABLE_ROUTING_PRIOR", "false").lower() == "true"
 # "vote" (align+vote+arbitrate) | "llm_merge" (LLM merges the raw texts).
 ENABLE_MULTI_ENGINE_FUSION = _get("ENABLE_MULTI_ENGINE_FUSION", "false").lower() == "true"
 FUSION_STRATEGY = _get("FUSION_STRATEGY", "vote")
+# Measured against ground truth on 187 pages with a VLM and two TrOCRs of
+# comparable strength (#416, 29.10.2026, docs/EVALUATION_HARNESS.md): the vote
+# lands between the second-worst and the worst candidate, 0.152 against
+# 0.106 for the best reader, and loses on 9 pages in 10 even where no reader
+# leads by more than two points. Off is the measured default, not a cautious one.
 # Agreement gate: when max pairwise CER between candidates is below this threshold,
 # skip LLM arbitration and take the consensus directly (cost control).
 FUSION_AGREEMENT_CER_THRESHOLD = float(_get("FUSION_AGREEMENT_CER_THRESHOLD", "0.05"))

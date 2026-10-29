@@ -225,3 +225,73 @@ to give. On the first real run of this bench the two of them cost 2 of 3 pages f
 *every* candidate including the good ones. Locating therefore counts only readings
 that are non-degenerate and hold at least two pages — and the excluded candidate is
 still scored on the page. The collapse is the finding, not a reason to lose the page.
+
+## Fusion on a field of equals, with a VLM in it (#416, measured 29.10.2026)
+
+#416 had three measurements and a condition: voting lost where one reader led
+(13 Federal-Council pages, Hertwig), won once where the candidates were of
+comparable strength with uncorrelated errors (150 lines), and asked for "the same
+comparison on pages with three or more candidates of comparable strength,
+including a VLM" before the pipeline changes. The T4 draw of training-atr-models
+is that field: 5,952 lines on 214 pages from 18 datasets, read by a Qwen3.5-4B
+line VLM and three TrOCRs on the same crops against the same references
+(`docs/TROCR.md` there; the files on the share under
+`eval_sets/t4-trocr-vs-vlm-xvi-xix/`, `SHA256SUMS` beside them). The 100-page
+TrOCR arm trained on 27 of the draw's pages, so those are left out: **187 pages,
+4,836 lines**.
+
+```bash
+python -m eval.fusion_on_lineset /mnt/wbkolleg_dh_1/Textrecognition_Training/eval_sets/t4-trocr-vs-vlm-xvi-xix \
+    --arm vlm=t4b-vlm.raw.jsonl --arm trocr-full=t4b-trocr-full.raw.jsonl \
+    --arm trocr-100p=t4b-trocr-100p.raw.jsonl --exclude-pages pages_in_100p_training.txt
+```
+
+The vote without arbitration, the no-merge band left where it is (it fires on
+15 % of the lines at 0.35), scored with the harness's own `eval.metrics.cer`
+(pooled rows raw; the medians fold case and punctuation like every bench table).
+
+| reading | pooled CER |
+|---|---:|
+| `vlm` (Qwen3.5-4B line) | 0.1074 |
+| `trocr-full` | 0.1064 |
+| `trocr-100p` | 0.1491 |
+| best single reader per page (an oracle) | 0.0835 |
+| **fused, vote, candidates in that order** | **0.1519** |
+| fused, vote, candidates reversed | 0.1898 |
+
+| field | pages | fusion won | median fused | median best single | fusion costs | median lead |
+|---|---:|---:|---:|---:|---:|---:|
+| Kandidaten vergleichbar stark (lead ≤ 2 pt) | 115 | 10 (9 %) | 6.0 % | 3.8 % | **+2.17 pt** | 0.7 % |
+| ein Kandidat führt klar | 72 | 0 (0 %) | 27.3 % | 11.9 % | **+15.41 pt** | 4.8 % |
+
+Line by line instead of page by page (the training repo's `score_pairs`, which
+reproduces TROCR.md's 0.0936 / 0.0910 to the digit) the same field gives fusion
+0.1495 against 0.1108 / 0.1103 for the two good readers, and on the comparable
+stratum +1.7 points with a 95 % page bootstrap of [+1.1, +2.5]. The condition
+#416 named does not rescue the vote: **on a field of three comparable readers
+including a VLM, fusion lands between the second-worst and the worst
+candidate**, and loses on nine pages in ten even where the lead is under two
+points. With `trocr-zeroshot` as a fourth, weak candidate it is 0.1411 — and
+0.3080 with the candidates reversed, worse than the weak reader alone.
+
+Two mechanisms, both measured:
+
+* **The vote is not a vote where it matters.** 59 % of the aligned columns are
+  consensus, 29 % a majority, and 12 % have three different readings. Those
+  fall to `_most_backed`, which takes the first — the pivot, i.e. the longest
+  candidate, and on equal length whichever the caller listed first. In
+  production that is the VLM, because it is the first pick. Reordering the same
+  three candidates moves the fused CER from 0.124 (the page's best reader
+  first) to 0.189 (its worst first). That gap is list order, not evidence.
+* **Two TrOCRs outvote the VLM where they are wrong alike.** They share an
+  architecture and nested training data; where both misread the same way they
+  are a majority against a correct VLM. That is the Federal-Council mechanism
+  (#416) with a VLM in the field — the VLM's differently distributed errors do
+  not help it when it is one against two.
+
+What this does not say: that no fusion could work. A per-line oracle that picks
+the best reader of each *line* reaches 0.0654 on all 214 pages, two points
+under the best reader per page — there is signal in the field. The vote as
+built does not find it, and the pipeline has no quality signal at recognition
+time to find it with (#313). Both flags that would fuse in production,
+`ENABLE_MULTI_ENGINE_FUSION` and `ENABLE_ENSEMBLE_HTR`, default to off.
