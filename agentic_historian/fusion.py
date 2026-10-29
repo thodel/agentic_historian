@@ -196,6 +196,13 @@ def _most_backed(opts: dict) -> tuple[str, list[str]]:
 
     With all-singleton readings `max` returns the first, which is arbitrary but
     never empty — unlike the arbitration, which may legitimately answer "".
+
+    Arbitrary is measurable (#416, 29.10.2026): on the T4 draw 12 % of the
+    aligned columns are three-way splits, and "the first" is the pivot — the
+    longest candidate, on equal length the first in the caller's list, in
+    production the VLM. Listing the same three candidates in reverse moved the
+    fused CER by 3.8 points, with a weak fourth candidate by 16.7. A vote whose
+    answer depends on the order of the voters is reporting the order.
     """
     tally: dict[str, list[str]] = {}
     for lbl, tok in opts.items():
@@ -260,6 +267,14 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
     not changing the pipeline yet, and production fuses three to seven including
     a VLM whose errors are distributed differently. ``changed`` is what turns
     that into evidence from real runs rather than another small sample.
+
+    **The vote itself, on the wide sample (29.10.2026, docs/EVALUATION_HARNESS.md):**
+    187 pages, a VLM and two TrOCRs of comparable strength, the vote without
+    arbitration came out at 0.152 against 0.106–0.107 for either good reader,
+    and lost on 9 pages in 10 even where the best reader led by under two
+    points. The hope above — that a VLM in the field changes the outcome — is
+    measured and does not hold. The vote is also order-dependent (see
+    ``_most_backed``): the same three candidates reversed give 0.190.
     """
     if no_merge_cer is None:
         try:
