@@ -738,3 +738,10 @@ def test_diffs_show_reading_and_notation(tmp_path, capsys):
     assert (tmp_path / "diff" / "p0012_G.txt").read_text().startswith("de[-s-]{+ſ+}")
     out = capsys.readouterr().out
     assert "G (1 edits): 's'→'ſ' 1" in out and "T (" in out
+
+
+def test_the_bern_v2_prompt_keeps_virgule_and_superscripts():
+    import external_atr
+    text, digest = external_atr.load_prompt("bern_1528_v2.md")
+    assert '"/"' in text and "U+0364" in text and "ͤ" in text
+    assert digest != external_atr.load_prompt("bern_1528.md")[1]

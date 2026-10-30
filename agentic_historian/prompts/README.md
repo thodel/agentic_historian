@@ -131,3 +131,14 @@ one is a commit with a diff rather than an edit to a shell line somebody pasted.
   keeps ß, which v2 told the model to drop. So v3 writes superscripts inline
   and keeps ß; ſ stays s. A new file; `13640adc` is v2.
 
+- `bern_1528_v2.md` — the Bern prompt in the conventions its GT turned out
+  to use (#747, diffs of 30.10. on the 14 test pages). Argon's most frequent
+  differences there were notation: words joined that the GT keeps apart
+  (262× on the Schlussredaktion), the virgule dropped or turned into a comma
+  (`/`→∅ 107×; on Hertwig 160×, and a space read as `,` 116×), `ſ` for `s`
+  (65×), the superscript e (`ͤ`, a combining character in the GT) left out
+  (58×), and `D` written `d` (46×) — some 500 of the 645 edits Argon makes
+  beyond the volume's own kraken model. So v2 keeps the virgule, writes ſ as s,
+  keeps superscripts as combining characters (U+0364, U+0366), keeps capitals
+  and word boundaries as written. A new file; `a6e9e1e9` is v1.
+
