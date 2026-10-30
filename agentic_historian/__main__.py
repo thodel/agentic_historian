@@ -426,11 +426,13 @@ def atr_batch(args: argparse.Namespace) -> int:
             return 2
     else:
         recognise = batch.gateway_recogniser()
+    via_gateway = getattr(args, "via", "gateway") != "external"
     try:
         report = batch.run_batch(
             pages, models, args.run, out_root, recognise,
             retries=args.retries, concurrency=args.concurrency, cache=cache,
             probe=probe, source=str(source), gateway=config.ATR_GATEWAY_URL,
+            energy=batch.energy_reader() if via_gateway else None,
         )
     finally:
         close = getattr(recognise, "close", None)

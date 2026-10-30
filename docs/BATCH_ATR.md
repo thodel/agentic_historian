@@ -952,6 +952,29 @@ tmux new -s atr
 # … run the command …          detach: Ctrl-B d      reattach: tmux attach -t atr
 ```
 
+### Energy (serving-atr-inference#240)
+
+The gateway meters its cards (`GET /gpu/energy`: `power.draw` every 2 s,
+integrated per card). The batch reads that meter before and after each model,
+and model-major is what makes the difference attributable: one model at a time
+on the card. The report then has an **Energy** section with Wh, Wh per page
+read and Wh per 1 000 lines for each model, and `energy.json` beside each
+model's results keeps the figures for a rebuilt report.
+
+Three things to read before using a number:
+
+- **It is the whole card's draw while the model ran, idle included.** That is
+  what the run cost the machine. It is GPU only and includes no PUE.
+- **Watched below 100 %** means the meter could not read part of the window.
+  The figure is then a floor.
+- **Shared** means another model was called, or a foreign process was seen on
+  the card, inside the window. The figure is then not this model's alone, and
+  it is not split.
+
+A gateway from before #240, or one with the meter off, gives no section and no
+error; the log says once that the energy was not read. Carbon is not computed
+here. The factors live in training-atr-models' `footprint`.
+
 ---
 
 ## 4 · Publish the outputs
