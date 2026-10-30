@@ -1392,6 +1392,78 @@ jetzt die Speichergrenze seines eigenen Cgroups. Liegt sie unter 2 GB und ist
 der Baum grösser als 1 GB, lehnt es ab und nennt den Befehl für eine Shell auf
 dem Host. Der vierte Lauf ging von dort aus.
 
+## 41. Der Bewerter liess genau die Seiten weg, an denen das Modell scheiterte
+
+Am 27. Oktober war das erste der drei Fine-Tunes auf dem BLB-Datensatz fertig:
+`kraken-german-xix-blb-v1`, das 19.-Jahrhundert-Modell des Projekts, nur auf den
+BLB-Zeilen nachtrainiert. 38 360 Zeilen, 136 Epochen, beste Epoche 126. Der
+Trainer meldete 8,7 % CER auf seinen zurückgehaltenen Zeilen. Das ist eine Zahl
+pro Zeile auf den Zeilenboxen der Ground Truth. Fehler der Segmentierung kann
+sie nicht enthalten.
+
+Gemessen habe ich deshalb ganze Seiten: die `_eval`-Projekte des Datensatzes,
+Objekte, die das Modell nie gesehen hat, gelesen über das Gateway mit dessen
+Segmentierung, altes und neues Modell im selben Lauf. Dafür fehlte dem ATR-MCP
+ein Weg zu den Seiten, `start_batch` und `score_ground_truth` nehmen jetzt
+`datasets:<baum>/<projekt>` (#752). Ergebnis, Median und nach Zeichen gewichtet:
+Laßbergs Hand 5,3 / 7,1 % gegen 14,5 / 15,9 % vorher, Manuskripte 10,1 / 12,1 %
+gegen 20,6 / 21,9 %, Korrespondenten 23,0 / 25,6 % gegen 23,0 / 28,1 %.
+
+**Die erste Zahl für die Korrespondenten war 14,0 %.** `score_ground_truth`
+ordnet eine Transkription über den Inhalt einer Lesung zu, weil
+Transkribus-Seiten keinen gemeinsamen Schlüssel mit unseren Seiten haben. Eine
+Lesung, die schlecht genug ist, sieht dann aus wie „diese Seite ist nicht im
+Lauf“ und fällt aus jeder Zeile. Das waren sechs von 22 Seiten: Tabellen und
+Listen, an denen die Segmentierung zerfällt, mit 55 bis 89 % CER. Der Bericht
+nannte sie „nicht zugeordnet“, eine Kategorie für Unsicherheit über die
+Identität. Hier gab es keine Unsicherheit: Datei und Lesung heissen gleich.
+
+Bemerkt habe ich es nur, weil ich die Liste der nicht zugeordneten Seiten
+gelesen habe statt nur die Tabelle. Seither ordnet der Bewerter eine Seite mit
+Namen über den Namen zu (#758). Die Abnahme war, dass er von selbst auf die
+Werte kommt, die ich von Hand nachgerechnet hatte. Dabei fiel noch etwas auf:
+Für eine der sechs Seiten war meine Nachrechnung eine Untergrenze, weil der
+alte Bericht die CER zur eigenen Seite nirgends enthielt.
+
+**Was daraus folgt.** Ein Median über „die Seiten, deren Identität feststeht“,
+ist dann eine Qualitätszahl, wenn das Feststellen der Identität nicht davon
+abhängt, wie gut gelesen wurde. Bei der Zuordnung über den Inhalt hängt es
+davon ab. Die Liste dessen, was eine Messung weglässt, gehört zu jeder
+Messung. Ein Nebenbefund, der den gleichen Mechanismus hat: Der Standardtext
+des Berichts behauptete, Laßbergs Hand lese sich viel schlechter als die der
+Korrespondenten. Auf den BLB-Seiten ist es umgekehrt (5,3 gegen 23,0 %).
+Der Satz stammte aus der Transkribus-Auswertung, und bei der lässt der
+Inhaltsabgleich die schlechtesten Seiten ab etwa 45 % CER ebenfalls weg. Er
+ist jetzt neutral (#761).
+
+## 42. Der Log kam in 64-KiB-Blöcken, und der Fix kam beim laufenden Job nicht an
+
+Das olmOCR-Training auf UBELIX (Slurm 20187922) zeigte 12,7 Stunden lang keine
+einzige Fortschrittszeile und dann alles auf einmal, als die Zeitgrenze den
+Prozess beendete. Ob es nach dem Requeue am Checkpoint weitermachte oder bei
+null begann, war von aussen nicht zu sehen. Ich habe es aus Zeiten
+erschlossen: eine Validierung nach fünf Stunden passte nur zu einem Neustart
+ab Schritt 700. Das stimmte, war aber geraten.
+
+Die Ursache stand im Trainer: `_mirror` liest die Pipe des Kindprozesses mit
+`BufferedReader.read(65536)`. Auf einer Pipe gibt das erst zurück, wenn 64 KiB
+beisammen sind oder der Prozess endet. Bei 64 s pro Schritt und rund 70 Bytes
+pro Zeile sind das viele Stunden. Ein Kindprozess, der jede Sekunde eine Zeile
+schreibt, zeigte es in drei Sekunden: `read` lieferte beim Prozessende,
+`read1` sofort. Der Fix ist `read1` plus `PYTHONUNBUFFERED` für das Kind
+(training-atr-models#329).
+
+Zwei Dinge daran. Meine ersten Tests waren auch ohne den Fix grün. Der eine
+fand seinen Suchtext in der Kopfzeile des Logs, die das Kommando enthält. Der
+andere lief in einer Shell, die `PYTHONUNBUFFERED` schon setzt. Erst die
+Gegenprobe ohne Fix zeigte das. Und der Fix kam beim laufenden Job nicht an,
+obwohl der Checkout gepullt war: Der Trainer friert für jeden Job einen
+Arbeitsbaum des Commits beim Einreichen ein (`~/.cache/…/worktrees/448bef6…`),
+und ein Requeue läuft auf diesem Stand weiter. Gesehen habe ich das erst an
+`PYTHONPATH` in `/proc/<pid>/environ` des Trainingsprozesses. Das Einfrieren
+ist richtig, ein Job soll mit dem Code fertig laufen, mit dem er begann. Ich
+hatte nur angenommen, ein Pull wirke beim nächsten Start.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
