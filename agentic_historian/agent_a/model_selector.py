@@ -556,6 +556,27 @@ def score_model(
 
 # ── Public selector ──────────────────────────────────────────────────────────
 
+#: A script candidate within this much confidence of the leading one is a close
+#: runner-up (#775): its models stay in contention as a secondary script.
+SCRIPT_ALT_MARGIN = 0.25
+
+
+def close_script_candidates(element) -> list[str]:
+    """The runners-up of a ranked Schrift (#775) within SCRIPT_ALT_MARGIN of the first."""
+    cands = element.get("kandidaten") if isinstance(element, dict) else None
+    if not isinstance(cands, list) or len(cands) < 2:
+        return []
+    top = cands[0].get("zuversicht") if isinstance(cands[0], dict) else None
+    out = []
+    for c in cands[1:]:
+        if not isinstance(c, dict) or not c.get("schrift"):
+            continue
+        conf = c.get("zuversicht")
+        if top is None or conf is None or top - conf <= SCRIPT_ALT_MARGIN:
+            out.append(str(c["schrift"]))
+    return out
+
+
 @dataclass
 class SourceCriteria:
     """
@@ -672,9 +693,18 @@ class SourceCriteria:
                 return None
             return parse_century(wert)
 
-        # Schrift -> script
+        # Schrift -> script. With a ranked list (#775) the close runners-up join
+        # the leading reading as alternatives, which score_model keeps in
+        # contention without letting them outrank it (#379); a distant one does
+        # not. A pinned Schrift carries no list.
         script_raw = _unwrap(source_json.get("Schrift"))
         script = normalise_script(script_raw) if script_raw else None
+        ranked = [script] + [normalise_script(a) for a in
+                             close_script_candidates(source_json.get("Schrift"))]
+        ranked = list(dict.fromkeys(r for r in ranked if r))
+        if script and len(ranked) > 1:
+            # The form score_model reads as a ranked set: the first leads.
+            script = "; ".join(ranked)
 
         # Sprache -> lang
         lang_raw = _unwrap(source_json.get("Sprache"))

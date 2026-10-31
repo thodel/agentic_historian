@@ -175,3 +175,17 @@ def test_fetch_then_run_shows_agent_b_the_first_page_and_not_the_tei(tmp_path):
     assert sorted(p.name for p in (tmp_path / "saa-x" / "runs").iterdir()) == ["00.json", "01.json"]
     with pytest.raises(SystemExit, match="#771"):
         eb.run(tmp_path, describe=describe, runs=1, pages="spread", get=get)
+
+
+def test_the_bench_calls_agent_bs_real_image_only_path(tmp_path, monkeypatch):
+    """The first run on tei would have died here: the bench passes no pins, and
+    the image-only path read ``pins.get`` on None."""
+    import config
+    from agents import source_description as agent_b
+    monkeypatch.setattr(config, "DESCRIPTIONS_DIR", tmp_path)
+    monkeypatch.setattr(agent_b.gs, "chat_vision", lambda *a, **k:
+                        '{"Schrift": {"wert": "Bastarda"}}\n\n## B\nText.')
+    img = tmp_path / "p.jpg"
+    img.write_bytes(b"\xff\xd8\xff")
+    result = eb._agent_b_image_only("saa-x-r0", str(img), 12)
+    assert result["source_json"]["Schrift"]["wert"] == "Bastarda"
