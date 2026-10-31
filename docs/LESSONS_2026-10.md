@@ -1499,6 +1499,35 @@ Ergebnis, das allen Erwartungen über Modellgrösse widerspricht (vier Millionen
 Parameter vor vier Milliarden), verlangt zuerst die Prüfung, ob die Messung
 dem kleinen Modell etwas geschenkt hat. Erst danach kommt die Freude.
 
+## 44. Ich habe die Schritte einer Epoche für die Länge des Laufs gehalten
+
+Das olmOCR-Seitenmodell auf dem BLB-Datensatz (Slurm 20187922) begann am
+27. Oktober. Im Log des Runners stand `convergence: 947 steps/epoch × 1 epochs
+= 947 steps`. Mit diesen 947 Schritten habe ich gerechnet und sie so gemeldet;
+ob sie in ein Fenster von 15 Stunden passen, liess ich offen. Der Job brauchte
+vier Fenster und war erst am 31. Oktober fertig. Der Fortschrittsbalken des Trainings rechnete mit
+**2841** Schritten: Die Anfrage setzt `--epochs 1 --max-epochs 3 --patience 1`,
+und weil sich der Validierungsverlust nach Epoche 1 und 2 noch verbesserte,
+liefen alle drei Epochen. Die Zeile im Runner-Log beschreibt das Minimum,
+nicht den Lauf.
+
+Zu sehen war das erst, als der Log am Ende des ersten Fensters endlich kam
+(§42). Bis dahin habe ich mit einer Zahl gerechnet, die ich nicht geprüft
+hatte, und der Nutzer hat sie als Länge des Laufs gelesen, wie ich auch.
+
+Das Ergebnis selbst ist brauchbar. Auf denselben 168 Eval-Seiten und mit
+denselben Einstellungen wie das Qwen3.5-Seitenmodell misst der Trainer
+**16,6 %** CER (gekürzt 16,2 %) gegen 21,5 % (19,9 %). Beide Auswertungen
+brechen nach 1536 Ausgabe-Tokens ab, sodass beide Zahlen Obergrenzen sind.
+Und beide sind nicht mit den Kraken-Zahlen über das Gateway vergleichbar,
+solange die Modelle dort nicht registriert sind.
+
+**Was daraus folgt.** Die Dauer eines Trainings steht in der Gesamtzahl der
+Schritte, die der Trainer selbst ansetzt (`x/2841`), nicht in einer Zeile über
+die Konvergenz. Wo eine Anfrage `max_epochs` über `epochs` setzt, ist die
+obere Grenze die Zahl, mit der man rechnen muss. Das Early Stopping kann sie
+nur verkürzen, und ob es das tut, weiss man erst nach der ersten Validierung.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
