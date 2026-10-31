@@ -59,8 +59,13 @@ TAIL_BYTES = 256 * 1024
 #: (``cer``, ``wer``, ``samples``, …; a flat dict of numbers): the job store
 #: refuses ``completed`` without a ``cer``, so a finished record without it here
 #: was a record read through a filter, not one without a number (24.10.2026).
+#: ``registration``, ``promoted`` and ``promotion_reason`` are what a finished
+#: Slurm job leaves for the hand registration on asteraix: the weights directory
+#: and the YAML to write (training-atr-models#17). On 31.10.2026 a person had to
+#: open job.json on UBELIX for them, because this filter dropped them.
 RECORD_FIELDS = ("id", "status", "stage", "host", "created_at", "updated_at",
-                 "finished_at", "error", "metrics")
+                 "finished_at", "error", "metrics",
+                 "registration", "promoted", "promotion_reason")
 
 REFUSED = 2
 

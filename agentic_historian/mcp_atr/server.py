@@ -1197,6 +1197,12 @@ def build_server(provider=None, auth_settings=None):
         ``error``, and ``metrics`` with ``cer``/``wer`` once evaluated) and the
         last lines of its current stage's log, at most 200.
 
+        A finished job also carries ``registration`` — where its weights are and
+        the YAML to register them with on asteraix, because a Slurm job never
+        writes the registry itself — and ``promoted`` / ``promotion_reason``.
+        Needs the script on UBELIX at the version deploy/ubelix-ro/README.md
+        names; an older one leaves these fields out.
+
         ``record_id`` is the trainer's job id, e.g.
         ``20261019T180118Z-olmocr2-7b-medieval-page-px4m-native-r16`` — not the
         Slurm id. Slurm only knows the job as ``vlm-train``; which record a Slurm
