@@ -86,6 +86,8 @@ __all__ = [
     "format_merge_report",
     "MERGE_RANK",
     "format_report",
+    "energy_reader",
+    "energy_between",
 ]
 
 #: Page images a batch reads. PDFs are excluded on purpose — the recognisers take
@@ -702,6 +704,23 @@ class ModelOutcome:
     #: outage, look at the corpus for a page that is gone.
     source_missing: int = 0
     source_missing_keys: list[str] = field(default_factory=list)
+    #: What the card drew while this model ran (serving-atr-inference#240): the
+    #: difference of two readings of the gateway's meter, from
+    #: :func:`energy_between`. None when nothing was read: a run without the
+    #: meter, or one rebuilt from files written before #240.
+    energy: Optional[dict] = None
+
+    @property
+    def wh_per_page(self) -> Optional[float]:
+        """Watt-hours per page read in this run. Failed pages drew power too and
+        are in the numerator; resumed pages drew none and are in neither."""
+        wh = (self.energy or {}).get("wh")
+        return wh / self.done if wh is not None and self.done else None
+
+    @property
+    def wh_per_1000_lines(self) -> Optional[float]:
+        wh = (self.energy or {}).get("wh")
+        return wh / self.lines * 1000 if wh is not None and self.lines else None
 
     @property
     def attempted(self) -> int:
@@ -817,6 +836,7 @@ class BatchReport:
                     "source_missing": m.source_missing,
                     "source_missing_keys": list(m.source_missing_keys),
                     "errors": m.errors[:20],
+                    "energy": m.energy,
                 }
                 for m in self.models
             ],
@@ -1624,10 +1644,89 @@ def preflight(models: Sequence[str], probe: dict | None = None,
                       for model in models])
 
 
+# ── what the card drew (serving-atr-inference#240) ───────────────────────────
+
+#: A reading of the gateway's power meter for one model, or None.
+EnergyReader = Callable[[str], Optional[dict]]
+
+#: The file beside a model's results that keeps its energy for a rebuilt report.
+ENERGY_FILE = "energy.json"
+
+
+def energy_reader(base_url: Optional[str] = None, api_key: Optional[str] = None,
+                  timeout: float = 10.0) -> EnergyReader:
+    """Read ``GET /gpu/energy?model=…`` on the gateway; None when it cannot say.
+
+    A gateway from before #240 answers 404, one with the meter off 503: the
+    batch runs either way and its report says the energy was not read. Logged
+    once, not per model.
+    """
+    import httpx
+
+    url = (base_url or config.ATR_GATEWAY_URL or "").rstrip("/") + "/gpu/energy"
+    key = config.ATR_API_KEY if api_key is None else api_key
+    said: list[str] = []
+
+    def read(model: str) -> Optional[dict]:
+        try:
+            r = httpx.get(url, params={"model": model},
+                          headers={"X-API-Key": key} if key else {}, timeout=timeout)
+            r.raise_for_status()
+            return r.json()
+        except (httpx.HTTPError, ValueError) as exc:
+            if not said:
+                logger.warning("energy not read from {}: {}", url, exc)
+                said.append(url)
+            return None
+
+    return read
+
+
+def energy_between(before: Optional[dict], after: Optional[dict],
+                   model: str) -> Optional[dict]:
+    """What the model's card drew between two meter readings, and what shared it.
+
+    The whole card's draw over the window, idle included: that is what the
+    batch cost the machine. ``shared`` is True when another model was called or
+    a foreign process was seen on the card inside the window — said, not split.
+    ``watched`` is the share of the window the meter actually read; below 1 the
+    watt-hours are a floor. None when there was nothing to subtract; a dict with
+    only ``unmeasured`` when the two readings cannot be compared.
+    """
+    if before is None or after is None:
+        return None
+    if before.get("since") != after.get("since"):
+        return {"unmeasured": "the gateway restarted while this model ran"}
+    card = (after.get("model") or {}).get("card")
+    c0 = (before.get("cards") or {}).get(str(card))
+    c1 = (after.get("cards") or {}).get(str(card))
+    if card is None or c0 is None or c1 is None:
+        return {"unmeasured": f"the meter has no reading for card {card}"}
+    window = after["monotonic_s"] - before["monotonic_s"]
+    measured = c1["measured_s"] - c0["measured_s"]
+    r0, r1 = before.get("requests") or {}, after.get("requests") or {}
+    calls = {m: n - r0.get(m, 0) for m, n in r1.items() if n - r0.get(m, 0) > 0}
+    own = calls.pop(model, 0)
+    foreign = c1.get("foreign_seen", 0) - c0.get("foreign_seen", 0)
+    return {
+        "card": card,
+        "wh": round(c1["wh"] - c0["wh"], 3),
+        "window_s": round(window, 1),
+        "measured_s": round(measured, 1),
+        "gap_s": round(c1["gap_s"] - c0["gap_s"], 1),
+        "watched": round(measured / window, 3) if window > 0 else None,
+        "calls": own,
+        "other_calls": calls,
+        "foreign_seen": foreign,
+        "shared": bool(calls) or foreign > 0,
+    }
+
+
 def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
               out_root: Path, recognise: Recogniser, *,
               probe: Optional[dict] = None, source: Optional[str] = None,
-              gateway: Optional[str] = None, **kwargs) -> BatchReport:
+              gateway: Optional[str] = None, energy: Optional[EnergyReader] = None,
+              **kwargs) -> BatchReport:
     """Every model over every page, **model-major** — see the module docstring.
 
     One model being abandoned never stops the batch: the others still run, and the
@@ -1654,10 +1753,17 @@ def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
     )
     started = time.perf_counter()
     for model in models:
-        report.models.append(
-            run_model(pages, model, run, out_root, recognise, manifest=manifest,
-                      identity=identities.get(model), **kwargs)
-        )
+        # Model-major is what makes this attributable: one model at a time on
+        # the card, read before and after (serving-atr-inference#240).
+        before = energy(model) if energy else None
+        outcome = run_model(pages, model, run, out_root, recognise, manifest=manifest,
+                            identity=identities.get(model), **kwargs)
+        if energy:
+            outcome.energy = energy_between(before, energy(model), model)
+            if outcome.energy is not None:
+                _write_atomic(out_root / model / ENERGY_FILE,
+                              json.dumps(outcome.energy, indent=2))
+        report.models.append(outcome)
     report.elapsed_s = time.perf_counter() - started
     report.ended_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     return report
@@ -1954,6 +2060,12 @@ def report_from_outputs(run_dir: Path) -> BatchReport:
         if seen:
             outcome.elapsed_s = (max(seen) - min(seen)).total_seconds()
             stamps += seen
+        energy_file = model_dir / ENERGY_FILE
+        if energy_file.exists():
+            try:
+                outcome.energy = json.loads(energy_file.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                outcome.energy = None
         report.models.append(outcome)
 
     report.pages = max((m.attempted for m in report.models), default=0)
@@ -2301,6 +2413,41 @@ def _skipped_lines(report: BatchReport) -> list:
     return [f"- not pages, skipped: **{len(report.skipped_files)}** ({reasons})"]
 
 
+def _energy_section(report: BatchReport) -> list[str]:
+    """Watt-hours per page and per 1 000 lines, per model (serving-atr-inference#240)."""
+    measured = [m for m in report.models if m.energy]
+    if not measured:
+        return []
+    out = ["", "## Energy", "",
+           "| model | card | Wh | Wh/page | Wh/1 000 lines | watched | shared |",
+           "|---|---:|---:|---:|---:|---:|---|"]
+    for m in measured:
+        e = m.energy
+        if "unmeasured" in e:
+            out.append(f"| `{m.model}` | – | – | – | – | – | {e['unmeasured']} |")
+            continue
+        per_page = "–" if m.wh_per_page is None else f"{m.wh_per_page:.2f}"
+        per_lines = "–" if m.wh_per_1000_lines is None else f"{m.wh_per_1000_lines:.1f}"
+        watched = "–" if e.get("watched") is None else f"{e['watched']:.0%}"
+        if e["shared"]:
+            who = [f"`{k}` ×{n}" for k, n in sorted(e["other_calls"].items())]
+            if e["foreign_seen"]:
+                who.append("a foreign process")
+            shared = "yes: " + ", ".join(who)
+        else:
+            shared = "no"
+        out.append(f"| `{m.model}` | {e['card']} | {e['wh']:.1f} | {per_page} | "
+                   f"{per_lines} | {watched} | {shared} |")
+    out += ["",
+            "The whole card's draw while the model ran, idle included, from the "
+            "gateway's meter (`GET /gpu/energy`): what the batch cost the machine, "
+            "GPU only. Below 100 % watched the figure is a floor. **Shared** means "
+            "something else used the card in that window; the energy is then not "
+            "this model's alone and is not split. Carbon is computed from these "
+            "watt-hours with the factors in training-atr-models' `footprint`, not here."]
+    return out
+
+
 def format_report(report: BatchReport) -> str:
     """A Markdown summary of the run — what each model produced and what it cost.
 
@@ -2346,6 +2493,7 @@ def format_report(report: BatchReport) -> str:
             "else — including the empty column, which a resumed run undercounts "
             "and this does not — is read from the results themselves.",
         ]
+    lines += _energy_section(report)
     lines += _truncation_section(report)
     lines += (_empty_section(report) + _repetitive_section(report)
               + _deliberation_section(report))
