@@ -95,7 +95,7 @@ def test_offline_abc_pipeline_contract_is_deterministic(tmp_path, monkeypatch):
         calls.append(("A", Path(path).name))
         return {"transcription": transcription, "qa_score": 0.91, "source": "mock-vlm"}
 
-    def fake_b(doc_id, transcription, image_path=None):
+    def fake_b(doc_id, transcription, image_path=None, page_count=None):
         calls.append(("B", doc_id, transcription, image_path))
         assert transcription == "Hans von Bern tuend kund."
         return description
@@ -223,7 +223,7 @@ def test_runstate_recorded_after_vlm(tmp_path, monkeypatch):
 
     monkeypatch.setattr(ar, "process_file", lambda fp: _MockAgentA.process_file(fp))
     monkeypatch.setattr(br, "describe",
-                       lambda doc_id, transcription, image_path=None: _MockAgentB.describe(
+                       lambda doc_id, transcription, image_path=None, page_count=None: _MockAgentB.describe(
                            doc_id, transcription, image_path))
     monkeypatch.setattr(cr, "extract_entities",
                        lambda doc_id, transcription: _MockAgentC.extract_entities(
@@ -266,7 +266,7 @@ def test_runstate_recorded_after_agent_b(tmp_path, monkeypatch):
     import agents.entity_agent as cr
     monkeypatch.setattr(ar, "process_file", lambda fp: _MockAgentA.process_file(fp))
     monkeypatch.setattr(br, "describe",
-                       lambda doc_id, transcription, image_path=None: _MockAgentB.describe(
+                       lambda doc_id, transcription, image_path=None, page_count=None: _MockAgentB.describe(
                            doc_id, transcription, image_path))
     monkeypatch.setattr(cr, "extract_entities",
                        lambda doc_id, transcription: _MockAgentC.extract_entities(
@@ -305,7 +305,7 @@ def test_runstate_recorded_after_agent_c(tmp_path, monkeypatch):
     import agents.entity_agent as cr
     monkeypatch.setattr(ar, "process_file", lambda fp: _MockAgentA.process_file(fp))
     monkeypatch.setattr(br, "describe",
-                       lambda doc_id, transcription, image_path=None: _MockAgentB.describe(
+                       lambda doc_id, transcription, image_path=None, page_count=None: _MockAgentB.describe(
                            doc_id, transcription, image_path))
     monkeypatch.setattr(cr, "extract_entities",
                        lambda doc_id, transcription: _MockAgentC.extract_entities(
@@ -340,7 +340,7 @@ def test_runstate_source_url_stored(tmp_path, monkeypatch):
     import agents.entity_agent as cr
     monkeypatch.setattr(ar, "process_file", lambda fp: _MockAgentA.process_file(fp))
     monkeypatch.setattr(br, "describe",
-                       lambda doc_id, transcription, image_path=None: _MockAgentB.describe(
+                       lambda doc_id, transcription, image_path=None, page_count=None: _MockAgentB.describe(
                            doc_id, transcription, image_path))
     monkeypatch.setattr(cr, "extract_entities",
                        lambda doc_id, transcription: _MockAgentC.extract_entities(
@@ -382,7 +382,7 @@ def test_runstate_source_url_explicit_override(tmp_path, monkeypatch):
     import agents.entity_agent as cr
     monkeypatch.setattr(ar, "process_file", lambda fp: _MockAgentA.process_file(fp))
     monkeypatch.setattr(br, "describe",
-                       lambda doc_id, transcription, image_path=None: _MockAgentB.describe(
+                       lambda doc_id, transcription, image_path=None, page_count=None: _MockAgentB.describe(
                            doc_id, transcription, image_path))
     monkeypatch.setattr(cr, "extract_entities",
                        lambda doc_id, transcription: _MockAgentC.extract_entities(
@@ -418,7 +418,7 @@ def test_pipeline_json_derived_from_runstate(tmp_path, monkeypatch):
     import agents.entity_agent as cr
     monkeypatch.setattr(ar, "process_file", lambda fp: _MockAgentA.process_file(fp))
     monkeypatch.setattr(br, "describe",
-                       lambda doc_id, transcription, image_path=None: _MockAgentB.describe(
+                       lambda doc_id, transcription, image_path=None, page_count=None: _MockAgentB.describe(
                            doc_id, transcription, image_path))
     monkeypatch.setattr(cr, "extract_entities",
                        lambda doc_id, transcription: _MockAgentC.extract_entities(
@@ -470,7 +470,7 @@ def test_runstate_grouped_pipeline(tmp_path, monkeypatch):
     monkeypatch.setattr(ar, "process_file", lambda fp: fake_transcribe(fp))
     monkeypatch.setattr(ar, "save_transcription", lambda *a, **k: None)
     monkeypatch.setattr(br, "describe",
-                       lambda doc_id, transcription, image_path=None: _MockAgentB.describe(
+                       lambda doc_id, transcription, image_path=None, page_count=None: _MockAgentB.describe(
                            doc_id, transcription, image_path))
     monkeypatch.setattr(cr, "extract_entities",
                        lambda doc_id, transcription: _MockAgentC.extract_entities(
