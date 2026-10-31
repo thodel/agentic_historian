@@ -133,7 +133,7 @@ Without both variables the tools answer "not configured" and do nothing.
 | MCP service user on tei | `dh` (`systemctl show -p User --value atr-mcp`) |
 | key | `/home/dh/.ssh/ubelix_mcp`, ed25519, `SHA256:dZmPE9GQi5YcHVs4wfozFpGE4Vwb+LeNgxhPF2b+TLo atr-mcp@tei` |
 | destination | `th19c587@submit02.unibe.ch` (130.92.20.12, also `submit02.hpc.unibe.ch`); direct from tei, no jump host, no `~/.ssh/config` entry |
-| script on UBELIX | `/storage/homefs/th19c587/bin/atr-mcp-ro`; current version (with `prepared` and `checkout`, #740) has sha256 `1f34ba53facd…`; before it `c54fcbc8022d…` (with `report`), `ea80973a046d…` (#708, `metrics`, no `report`) and `a592320d06d1…` (#678) (`sha256sum ~/bin/atr-mcp-ro`) |
+| script on UBELIX | `/storage/homefs/th19c587/bin/atr-mcp-ro`; current version (with `registration`, `promoted` and `promotion_reason` in `record`) has sha256 `ec40ca049415…`; before it `1f34ba53facd…` (with `prepared` and `checkout`, #740), `c54fcbc8022d…` (with `report`), `ea80973a046d…` (#708, `metrics`, no `report`) and `a592320d06d1…` (#678) (`sha256sum ~/bin/atr-mcp-ro`) |
 | `/etc/atr-mcp.env` | `ATR_UBELIX_SSH_HOST=th19c587@submit02.unibe.ch`, `ATR_UBELIX_SSH_KEY=/home/dh/.ssh/ubelix_mcp` |
 
 The check from tei, as `dh`, with that key only:

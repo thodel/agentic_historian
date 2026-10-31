@@ -191,6 +191,9 @@ def ubelix_host(tmp_path):
         "id": RECORD, "status": "training", "stage": "train", "host": "ubelix",
         "updated_at": "2026-10-20T08:58:07Z", "request": {"secret": "not handed out"},
         "metrics": {"cer": 0.2659, "wer": 0.61, "samples": 120},
+        "promoted": False,
+        "promotion_reason": "not registered: Slurm job 20187922 (#17)",
+        "registration": "not registered: this ran as Slurm job 20187922 ... local_path: /x",
     }))
     (rec / "logs" / "train.log").write_text("".join(f"step {i}\n" for i in range(500)))
     data = rec / "data"
@@ -261,6 +264,17 @@ def test_record_hands_out_the_status_fields_and_the_stage_log_tail(ubelix_host):
     assert out["metrics"] == {"cer": 0.2659, "wer": 0.61, "samples": 120}
     assert out["log"]["path"].endswith("logs/train.log")
     assert out["log"]["tail"] == ["step 497", "step 498", "step 499"]
+
+
+def test_record_hands_out_what_the_hand_registration_needs(ubelix_host):
+    """On 31.10.2026 the registration note of two finished page models could
+    only be read by opening job.json on UBELIX: the filter dropped it."""
+    done, _ = ubelix_host(f"record {RECORD} 1")
+    out = json.loads(done.stdout)
+    assert out["registration"].endswith("local_path: /x")
+    assert out["promoted"] is False
+    assert "Slurm job" in out["promotion_reason"]
+    assert "request" not in out, "the full request still stays on UBELIX"
 
 
 def test_record_lines_are_capped_on_ubelix_too(ubelix_host):
