@@ -1503,17 +1503,17 @@ dem kleinen Modell etwas geschenkt hat. Erst danach kommt die Freude.
 
 Das olmOCR-Seitenmodell auf dem BLB-Datensatz (Slurm 20187922) begann am
 27. Oktober. Im Log des Runners stand `convergence: 947 steps/epoch × 1 epochs
-= 947 steps`. Daraus habe ich gefolgert, der Job passe in ein Fenster von
-15 Stunden, und das so gemeldet. Er brauchte vier Fenster und war erst am
-31. Oktober fertig. Der Fortschrittsbalken des Trainings rechnete mit
+= 947 steps`. Mit diesen 947 Schritten habe ich gerechnet und sie so gemeldet;
+ob sie in ein Fenster von 15 Stunden passen, liess ich offen. Der Job brauchte
+vier Fenster und war erst am 31. Oktober fertig. Der Fortschrittsbalken des Trainings rechnete mit
 **2841** Schritten: Die Anfrage setzt `--epochs 1 --max-epochs 3 --patience 1`,
 und weil sich der Validierungsverlust nach Epoche 1 und 2 noch verbesserte,
 liefen alle drei Epochen. Die Zeile im Runner-Log beschreibt das Minimum,
 nicht den Lauf.
 
 Zu sehen war das erst, als der Log am Ende des ersten Fensters endlich kam
-(§42). Bis dahin habe ich aus einer Zahl, die ich nicht geprüft hatte, eine
-Dauer abgeleitet und dem Nutzer eine Zeit genannt.
+(§42). Bis dahin habe ich mit einer Zahl gerechnet, die ich nicht geprüft
+hatte, und der Nutzer hat sie als Länge des Laufs gelesen, wie ich auch.
 
 Das Ergebnis selbst ist brauchbar. Auf denselben 168 Eval-Seiten und mit
 denselben Einstellungen wie das Qwen3.5-Seitenmodell misst der Trainer
