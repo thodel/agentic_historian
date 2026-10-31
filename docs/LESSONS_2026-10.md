@@ -1464,6 +1464,41 @@ und ein Requeue läuft auf diesem Stand weiter. Gesehen habe ich das erst an
 ist richtig, ein Job soll mit dem Code fertig laufen, mit dem er begann. Ich
 hatte nur angenommen, ein Pull wirke beim nächsten Start.
 
+## 43. Gleichwertig wird ein Vergleich erst, wenn alle Leser im selben Durchgang bewertet werden
+
+Am 30. Oktober las `kraken-german-xix-blb-v1` die 276 Transkribus-Seiten mit
+Ground Truth. Bewertet allein, über seinen eigenen Lauf, ergab das 12,2 % im
+Median, und alle 276 Seiten waren zugeordnet. Die veröffentlichte Tabelle der
+acht Leser steht auf 226 Seiten. Die 12,2 % daneben zu stellen, wäre bequem
+gewesen und falsch: Ein Lauf mit 276 Seiten bietet einer Transkription weniger
+Seiten zum Verwechseln als die Lesung des ganzen Korpus mit 6719 Seiten. Die
+Zuordnung über den Inhalt fällt dann leichter, und genau die schwer gelesenen
+Seiten bleiben drin, die in der Tabelle fehlen.
+
+Also habe ich alles in einem Durchgang bewertet: die beiden Läufe der Tabelle
+und den neuen gegen dieselben 552 Dateien. Das kostete 45 Minuten statt
+zwei. Dafür kamen dieselben 226 Seiten heraus und jede veröffentlichte Zahl
+unverändert, und das ist die Probe, dass der Vergleich gleichwertig ist. Auf
+diesen Seiten liest das nachtrainierte Kraken mit 12,0 % gegen 16,1 % beim
+Zeilen-VLM, das das Korpus gelesen hat. Auf 154 von 226 Seiten ist es besser.
+Sein Ausgangsmodell, das nie einen Laßberg-Brief gesehen hat, liegt mit
+16,7 % gleichauf mit den beiden VLMs.
+
+Die Gegenprobe auf Überschneidung gehört dazu. 18 der 226 Seiten sind
+BLB-Signaturen. Neun davon stammen aus Objekten der BLB-Trainingsseite, ihre
+Zeilen kann das Modell gesehen haben. Ohne sie bleibt der Median bei 12,0 %
+(217 Seiten). Das Ergebnis hängt also nicht an ihnen. Ich hatte das vorher
+nicht gewusst, und die Trennung musste vor dem Hinschauen festliegen: Die
+Liste der Eval-Objekte stand in der Anweisung, bevor die Zahlen da waren.
+
+**Was daraus folgt.** Eine Zahl wird mit einer Tabelle vergleichbar, wenn sie
+mit demselben Verfahren über dieselben Seiten entsteht. Bei einer Zuordnung
+über den Inhalt gehören auch die anderen Lesungen zum Verfahren. Dass die
+alten Zahlen unverändert wiederkommen, ist der billigste Beleg dafür. Und ein
+Ergebnis, das allen Erwartungen über Modellgrösse widerspricht (vier Millionen
+Parameter vor vier Milliarden), verlangt zuerst die Prüfung, ob die Messung
+dem kleinen Modell etwas geschenkt hat. Erst danach kommt die Freude.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
