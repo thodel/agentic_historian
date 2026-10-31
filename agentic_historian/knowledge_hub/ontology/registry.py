@@ -44,6 +44,7 @@ RDFS_NS = Namespace("http://www.w3.org/2000/01/rdf-schema#")
 GEO = Namespace("http://www.w3.org/2003/01/geo/wgs84_pos#")
 XSD = Namespace("http://www.w3.org/2001/XMLSchema#")
 SCHEMA = Namespace("https://schema.org/")
+SKOS = Namespace("http://www.w3.org/2004/02/skos/core#")
 #: Unser Namensraum für Begriffe. Nicht ``ah:`` (das sind die Instanzen unter
 #: ``/id/``), und nicht ``sdhss:`` — das gehört SDHSS.
 SHB = Namespace("https://tei.dh.unibe.ch/ontology/")
@@ -51,7 +52,7 @@ SHB = Namespace("https://tei.dh.unibe.ch/ontology/")
 PREFIXES = {
     "crm": str(CRM), "sdh": str(SDH), "sdh-slc": str(SDH_SLC), "crm-sup": str(CRM_SUP),
     "prov": str(PROV), "owl": str(OWL), "rdf": str(RDF_NS), "rdfs": str(RDFS_NS),
-    "geo": str(GEO), "xsd": str(XSD), "shb": str(SHB), "schema": str(SCHEMA),
+    "geo": str(GEO), "xsd": str(XSD), "shb": str(SHB), "schema": str(SCHEMA), "skos": str(SKOS),
 }
 
 LITERAL = "rdfs:Literal"
@@ -162,6 +163,8 @@ TERMS: tuple[Term, ...] = (
     _c(PROV, "Agent", "w3c", "Korpus: wer eine Lesung verantwortet — Modell oder Historiker"),
     _c(PROV, "SoftwareAgent", "w3c", "Korpus: das Erkennungsmodell"),
     _c(PROV, "Person", "w3c", "Korpus: der pseudonyme Historiker (zugleich E21)"),
+    _p(SKOS, "closeMatch", "w3c", "KG-14: ein Abgleich mit Konfidenz < 1 — nie owl:sameAs; heute ungenutzt, "
+       "weil das HBLS keine URI je Person hat (die Konfidenz steht an der E42)"),
     _p(PROV, "wasDerivedFrom", "w3c", "jeder Knoten → sein Datensatz; Korpus: kombinierte Lesung → ihre Quellen"),
     _p(PROV, "wasGeneratedBy", "w3c", "Korpus: Lesung → Erkennungslauf, kombinierte Lesung → E13"),
     _p(PROV, "used", "w3c", "Korpus: Lauf → Modell, E13 → die gewählten Lesungen"),
@@ -267,6 +270,13 @@ TERMS: tuple[Term, ...] = (
     _p(SHB, "editorPseudonym", "ours", "Hub-Export: das Pseudonym des Historikers als Literal — der "
        "Korpusgraph führt ihn als E21 an der E13", domain=str(CRM["E33_Linguistic_Object"]), range=LITERAL,
        label="Pseudonym des Editors"),
+    # Bestandsgraph, KG-14 (SIKART): Kennungen als Behauptungen mit Herkunft
+    _p(SHB, "matchConfidence", "ours", "KG-14: die an einer gelesenen Stichprobe gemessene Trefferquote eines "
+       "Abgleichs, an seiner E42 — eine Behauptung der Quelle hat keine (sie sagt es)",
+       domain=str(CRM["E42_Identifier"]), range=DOUBLE, label="Konfidenz des Abgleichs"),
+    _p(SHB, "conflictsWith", "ours", "KG-14: zwei Kennungen desselben Schemas für dieselbe Person, von zwei "
+       "Quellen verschieden behauptet — beide stehen, beidseitig verwiesen; keine stille Wahl",
+       domain=str(CRM["E42_Identifier"]), range=str(CRM["E42_Identifier"]), label="widerspricht"),
     _p(SHB, "confirmedAt", "ours", "Hub-Export: Zeitpunkt der Bestätigung — der Korpusgraph trägt ihn als "
        "prov:endedAtTime an der E13", domain=str(CRM["E33_Linguistic_Object"]), range=LITERAL,
        label="bestätigt am"),

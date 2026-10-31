@@ -126,6 +126,28 @@ Gruppentyp (`sdh:P99` → `crm-sup:C9`).
 | `articles.hls_code` `D`/`F` + 4–6 Ziffern | `owl:sameAs https://hls-dhs-dss.ch/de/articles/<id>/` am **Lemma** (Ziffern auf sechs Stellen) | 721 Lemmata; «-none-» → `withheld` |
 | `articles.text` | **nichts** | der Text bleibt im MCP; der Graph trägt, was das Lexikon über wen sagt, nicht wie |
 
+### SIKART Künstlernamen (`sikart.db`, SIK-ISEA, CC0, KG-14 / ch-h-bot#582)
+
+`knowledge_hub/sources/sikart.py`; gemessen am Ingest vom 30.10.2026 (17 665 Einträge) mit der
+Tabelle `links` aus S-6 (ch-h-bot#581). Vollbau 909 061 Tripel in 29 s, SHACL grün.
+
+| Feld | Begriff | Bemerkung |
+|---|---|---|
+| `persons.kind` person / collective / family | `E21_Person` / `E74_Group` mit `sdh:P99` → `crm-sup:C9` «Künstlerkollektiv», «Künstlerfamilie» | 17 441 / 150 / 74 |
+| `persons.id`, `permalink` | `E42` (`sikart`) mit der Id, `owl:sameAs` `recherche.sik-isea.ch/sik:person-<id>` | der Permalink ist die SIKART-URI der Person; Namensraum in `shapes.ttl` ergänzt |
+| `name`, `name_sort` | `E41_Appellation`, P2 «Name» / «Sortierform» | |
+| `vita` | `P3_has_note` an der Person | die einzeilige Vita, wörtlich |
+| `redacted` | `P3_has_note` «lebende Person: … zurückgehalten» | 6 445; die Kürzung (#577 b) steht schon in der DB |
+| `dates.type` = `Geburtsdatum` / `Todesdatum` an einer Person | `E67_Birth` / `E69_Death` mit P4 (Tag, wo `iso`, sonst Jahr) | 16 123 / 9 326; **nur** diese beiden Typen |
+| `Taufdatum`, `Begräbnisdatum`, `Geburtsnachweisdatum`, `Todesnachweisdatum`, `Nachweisdatum`, `Gründungsdatum`, `Auflösdatum`; Geburts-/Todesdatum an einer Gruppe (7) | `E13` P140 Person, P177 Typ der Quelle als E55 (`date-type`), P4 | 1 032; Taufe ist keine Geburt, ein Nachweis kein Ereignis; wie MLS «nachgewiesen» — keine eigene sdhss-Qualifikation, OntoMe hat dafür keinen Begriff |
+| `Erstdatum`/`Letztdatum`, `Epochenerst-/-letztdatum` | **eine** `E7_Activity` je Person, P14 Person, P2 «Tätigkeit, nachgewiesen», P4 von der ersten zur letzten Erwähnung, die Rohwerte als P3 an der E52 | 818 Tätigkeiten; Hans Acker 1413–1461 ist Wirken, nicht Leben |
+| `places` (Geburtsort, Todesort, Erst-/Letzt-Ort, Nachweisorte, …) | `E41_Appellation` mit P2 = SIKARTs Ortstyp **am Ereignis** (E67/E69/E7/E13), Text «Basel (BS)» | 19 561; **keine E53** — ein Ort ohne Id wird nicht erfunden (Epic 14, Stolperstein 5) |
+| `links` (und `identifiers`, in `links` gespiegelt) — jede Behauptung | `E42` mit P190 Wert, P2 Schema (`identifier-source`), `prov:wasDerivedFrom` → **Teildatensatz der Quelle** (`dataset/sikart/csv` mit Last-Modified + ETag; `…/wikidata-sparql-…` mit Methode und Abfragedatum; `…/metagrid-…`; `…/match-…`) | 29 029 SIKART, 30 677 Wikidata, 26 Metagrid, 302 Abgleiche |
+| `links.confidence` = 1 und Schema mit URI | `owl:sameAs` Person → Wikidata, GND, HLS-Artikel, `dodis.ch/P<id>`, VIAF, histhub, Theaterlexikon | 31 012 Kanten, 1 623 HLS, 1 622 Personen mit HLS-Artikel (1 517 aus der CSV) |
+| `links.confidence` < 1 (HBLS 0,99) | **kein** `owl:sameAs`; `shb:matchConfidence` an der E42 (`skos:closeMatch` registriert, hier ungenutzt: das HBLS hat keine URI je Person) | 192 |
+| `links.conflicts_with` | `shb:conflictsWith` E42 ↔ E42, beidseitig | 162 Paare (10 QID, 1 HLS, 151 GND-Zeilen); keine stille Wahl |
+| `website`, `dok` | **nichts** | `DOK` ist in #577 ungeklärt |
+
 ## Was die Prüfung bemerkt
 
 `validate.py` meldet: unbekannte Klasse/Property (nicht im Register oder nicht in
