@@ -295,3 +295,53 @@ under the best reader per page — there is signal in the field. The vote as
 built does not find it, and the pipeline has no quality signal at recognition
 time to find it with (#313). Both flags that would fuse in production,
 `ENABLE_MULTI_ENGINE_FUSION` and `ENABLE_ENSEMBLE_HTR`, default to off.
+
+## Agent B against the catalogue: e-codices (#779)
+
+`eval/ecodices_bench.py` measures the source description (Agent B) against the
+holding library's scholarly description on e-codices: TEI P5 `msDesc`, written by
+someone who saw the whole volume. Agent B is shown page images only, never the
+TEI. Until now the only thing measured about Agent B was its instability (#379).
+
+Three phases, split like `vlm_bench`. `fetch` and `run` need e-codices and the
+VLM and run **on tei**; this project's cloud sessions could not reach
+e-codices.ch (31.10.2026). `score` needs neither and holds every judgement.
+
+```bash
+cd ~/agentic_historian/agentic_historian
+# 1. TEI and IIIF manifest per volume. The licence is read per file and printed.
+python -m eval.ecodices_bench fetch runs/ecodices-2026-11 saa-0428 <id> <id> …
+#    A manifest that links no TEI: give it, --tei saa-0428=https://…/saa-0428_….xml
+# 2. Agent B, three runs per volume, first page only (= production, pages[0]).
+python -m eval.ecodices_bench run runs/ecodices-2026-11 --runs 3
+# 3. Anywhere: report.md and scores.json in the run directory.
+python -m eval.ecodices_bench score runs/ecodices-2026-11
+```
+
+**Choosing the volumes.** Aim for 30 of them, spread over centuries and holdings.
+Prefer archive holdings (closest to our administrative records) and volumes the
+catalogue gives several hands. Check the parser against two or three
+descriptions read by hand before trusting a report. The offline fixtures are
+synthetic, so the first `fetch` is where the parser first meets real files.
+
+**What is compared.** Per element and run, each verdict is one of: hit, miss, no
+answer, or not in the catalogue.
+
+- **Schrift:** compared by script family (`SCRIPT_FAMILIES`), with "gotisch" as
+  the generic family.
+- **Datierung:** Agent B's year range must overlap `origDate`
+  `notBefore`–`notAfter`.
+- **Schreiber:** the number of hands, from `handDesc/@hands` or counted
+  `handNote`s.
+- **Beschreibstoff:** `supportDesc/@material`.
+
+Stability is the share of runs that give the most common answer. A run that
+answers nothing lowers it.
+
+**What it is not.**
+- A hit on a description published years ago proves less, because the model may
+  have read it in training. The report gives each volume's publication year.
+- e-codices is mostly codices, and our corpus is mostly chancery and
+  administrative records.
+- `--pages spread` is refused until Agent B takes several images (#771). This
+  report is the baseline that #771, #775 and #776 are measured against.

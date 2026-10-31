@@ -289,7 +289,8 @@ def _describe_cached(doc_id: str, transcription: str, pages, image_path,
         return hit
 
     desc = agent_b.describe(doc_id=doc_id, transcription=transcription,
-                            image_path=image_path)
+                            image_path=image_path,
+                            page_count=len(pages) if pages else None)
     if desc:
         dc.store(key, desc)
     return desc

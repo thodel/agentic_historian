@@ -16,6 +16,7 @@ import care_flag
 import config
 from utils import gpustack_client as gs
 from utils import llm_json
+from element_basis import IMAGE_ELEMENTS, VOLUME_ELEMENTS, basis_line  # noqa: F401
 from agents.source_heuristic import (
     MANUSCRIPT_SYSTEM,
     full_codicological,
@@ -67,6 +68,59 @@ def _apply_pins(source_json: dict, pins: dict) -> dict:
     return source_json
 
 
+# ── what each element rests on (#772) ─────────────────────────────────────────
+#
+# An element said what it claimed, never what the claim was made from. "Eine
+# Hand" read off page 1 of a 200-page register was stored and published like a
+# statement about the register. Every element now carries ``quelle`` (vlm,
+# berechnet, historiker) and ``basis`` (which pages, of how many, and whether the
+# transcription was seen), and the elements that describe the whole volume are
+# held to what was seen: from one page they are marked unsicher and say so.
+
+def _basis_instruction(n_images: int, page_count: Optional[int]) -> str:
+    """The prompt line that ties the description to what the model was shown."""
+    of = f" von {page_count}" if page_count else ""
+    return (f"GRUNDLAGE: Du siehst {n_images} Seite(n){of} dieses Dokuments. Keine Aussage "
+            "darf weiter reichen als das Gesehene: Schreiber/Haende, Lagen, Blaetter und "
+            "Einband beschreibst du nur fuer die gezeigten Seiten (z.B. \"auf der "
+            "gezeigten Seite eine Hand\"), nicht fuer den ganzen Band.\n\n")
+
+
+def _ground(source_json: dict, *, images: list, page_count: Optional[int],
+            text_seen: bool) -> dict:
+    """Stamp every element with ``quelle`` and ``basis``; hold volume claims to one page.
+
+    A pinned element (``quelle == "historiker"``, #147) keeps its source. An
+    element with no value is left alone: it claims nothing. A bare string becomes
+    ``{"wert": ...}`` so the stamp has somewhere to go.
+    """
+    if not isinstance(source_json, dict):
+        return source_json
+    seen = [Path(str(i)).name for i in images]
+    for elem in HANDSCHRIFTEN_ELEMENTS:
+        el = source_json.get(elem)
+        if el is None or el == "" or el == []:
+            continue
+        if not isinstance(el, dict):
+            el = {"wert": el}
+        if el.get("quelle") == "historiker":
+            el["basis"] = {"historiker": True}
+            source_json[elem] = el
+            continue
+        el["quelle"] = "vlm"
+        basis = {"seiten": seen, "von": page_count}
+        if elem not in IMAGE_ELEMENTS:
+            basis["transkription"] = text_seen
+        el["basis"] = basis
+        if elem in VOLUME_ELEMENTS and len(seen) <= 1 and page_count != 1 and el.get("wert"):
+            el["unsicher"] = True
+            note = (f"beobachtet auf {len(seen)} von {page_count or '?'} Seite(n); "
+                    "fuer den Band nicht geprueft")
+            el["notiz"] = f"{el['notiz']}; {note}" if el.get("notiz") else note
+        source_json[elem] = el
+    return source_json
+
+
 def _sampling() -> dict:
     """Sampling params for every Agent B call, from config.
 
@@ -85,7 +139,7 @@ def _sampling() -> dict:
 
 
 def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
-             pins: Optional[dict] = None) -> dict:
+             pins: Optional[dict] = None, page_count: Optional[int] = None) -> dict:
     """
     Erstellt eine vollstaendige Quellenbeschreibung nach dem Ad Fontes 16-Element-Schema.
     Nutzt Agent A's Transkription + optional das Originalbild.
@@ -93,6 +147,9 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
     ``pins`` are historian-confirmed criteria (century/lang/script) that Agent B
     must adopt: they are injected as constraints and their Ad-Fontes elements are
     overwritten with quelle="historiker" (#147).
+
+    ``page_count`` is how many pages the document has; every element records how
+    many of them it was made from, and the volume-level ones are held to it (#772).
 
     Returns a dict with both 'source_description' (markdown str) AND 'source_json'
     (dict keyed by the 16 Ad Fontes element names).
@@ -117,7 +174,7 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
         # alone is enough to pick trocr-kurrent-XVI-XVII over a blind fallback
         # (#299). Describe from the image; never from the broken text.
         if image_path:
-            from_image = _describe_from_image(doc_id, image_path, pins)
+            from_image = _describe_from_image(doc_id, image_path, pins, page_count)
             if from_image is not None:
                 return from_image
         logger.warning(f"[Agent B] Transkription degeneriert/unlesbar — keine LLM-Beschreibung: {doc_id}")
@@ -163,6 +220,7 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
     full_prompt = (
         f"{MANUSCRIPT_SYSTEM}\n\n"
         f"{_pin_constraint(pins)}"
+        f"{_basis_instruction(1 if image_path else 0, page_count)}"
         # SEC-16 (#587): the transcription is scan-derived data, not instructions.
         # Fence it and say so, so text inside the image cannot steer the
         # description that gets published.
@@ -217,6 +275,8 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
 
     # Human pins are authoritative — overwrite the mapped elements (#147).
     source_json = _apply_pins(source_json, pins)
+    source_json = _ground(source_json, images=[image_path] if image_sent else [],
+                          page_count=page_count, text_seen=bool(transcription))
 
     # Care-Flag analysis
     care = _care_flag(transcription)
@@ -241,7 +301,8 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
     return result
 
 
-def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict]) -> Optional[dict]:
+def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict],
+                         page_count: Optional[int] = None) -> Optional[dict]:
     """Describe the source from the IMAGE alone, when the transcription is
     unreadable (#301). Returns None if the VLM gives us nothing usable.
 
@@ -257,6 +318,7 @@ def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict]) -> 
     prompt = (
         f"{MANUSCRIPT_SYSTEM}\n\n"
         f"{_pin_constraint(pins)}"
+        f"{_basis_instruction(1, page_count)}"
         "Die maschinelle Transkription dieses Dokuments ist unbrauchbar "
         "(Wiederholungskollaps) und wird dir daher NICHT vorgelegt.\n"
         "Beschreibe die Quelle AUSSCHLIESSLICH anhand des Bildes.\n\n"
@@ -287,6 +349,8 @@ def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict]) -> 
         return None
 
     source_json = _apply_pins(source_json, pins)
+    source_json = _ground(source_json, images=[image_path], page_count=page_count,
+                          text_seen=False)
     result = {
         "doc_id": doc_id,
         "source_description": (
@@ -425,7 +489,9 @@ def _save(doc_id: str, result: dict):
         f"- **Kontext:** {care.get('care_context') or '—'}\n"
         f"- **Care-Typen:** {', '.join(care.get('care_types', []) or ['—'])}\n"
         f"- **Beteiligte:** {', '.join(care.get('beteiligte', []) or ['—'])}\n\n"
-        f"_Bildgrundlage: {result.get('image_path', 'none')}_\n"
+        f"_Bildgrundlage: {result.get('image_path', 'none')}_"
+        + (f" — _{basis_line(source_json)}_" if basis_line(source_json) else "")
+        + "\n"
     )
 
     # JSON (cleaned, schema-aligned)

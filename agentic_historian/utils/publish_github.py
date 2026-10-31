@@ -26,6 +26,8 @@ from typing import Optional
 import requests
 from loguru import logger
 
+from element_basis import basis_line
+
 import config
 import ensemble_coverage
 from utils import document_id
@@ -130,6 +132,17 @@ def collect_artifacts(doc_id: str) -> dict[str, Path]:
     return {name: p for name, p in candidates.items() if p.exists()}
 
 
+def _basis_note(el) -> str:
+    """What an element rests on, for the table (#772): pinned, or n of m pages."""
+    if not isinstance(el, dict):
+        return ""
+    if el.get("quelle") == "historiker":
+        return " _(Historiker:in)_"
+    if el.get("unsicher") and el.get("notiz"):
+        return f" _({el['notiz']})_"
+    return ""
+
+
 def _val(x) -> str:
     """Unwrap Agent B's ``{"wert": …}`` element shape (or return the value)."""
     if isinstance(x, dict):
@@ -212,10 +225,14 @@ def _index_md(doc_id: str, artifacts: dict[str, bytes], source_url: Optional[str
 
     meta = []
     for element, label in (("Datierung", "Datierung"), ("Sprache", "Sprache"),
-                           ("Schrift", "Schrift")):
+                           ("Schrift", "Schrift"), ("Schreiber", "Schreiber")):
         v = _val(sj.get(element))
         if v:
-            meta.append(f"| {label} | {v} |")
+            meta.append(f"| {label} | {v}{_basis_note(sj.get(element))} |")
+    # What the description was made from, beside what it says (#772).
+    _basis = basis_line(sj)
+    if _basis:
+        meta.append(f"| Grundlage | {_basis} |")
     if a_meta.get("qa_score") is not None:
         meta.append(f"| HTR | {a_meta.get('source', '?')} (QA {a_meta.get('qa_score')}) |")
     # The numbers behind the notice, for a reader who wants them rather than the
