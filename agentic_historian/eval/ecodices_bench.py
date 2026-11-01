@@ -186,7 +186,7 @@ def date_range(text: str) -> Optional[tuple[int, int]]:
     """A year range from Agent B's Datierung. None when it names no date.
 
     "1450", "1450–1460", "um 1450" (±10), "15. Jh.", "XV. Jh.", "1. Hälfte 15. Jh.",
-    "Mitte 15. Jh.", "Ende 15. Jh.", "14./15. Jh."
+    "Mitte 15. Jh.", "Ende 15. Jh.", "14./15. Jh.", "12.–16. Jh."
     """
     low = (text or "").lower()
     years = [int(y) for y in re.findall(r"(?<!\d)(1\d{3}|[5-9]\d{2})(?!\d)", low)]
@@ -196,7 +196,7 @@ def date_range(text: str) -> Optional[tuple[int, int]]:
             return lo - 10, hi + 10
         return lo, hi
     cents: list[int] = []
-    m = re.search(r"(\d{1,2})\s*\.?\s*(?:/\s*(\d{1,2})\s*\.?\s*)?(?:jh|jahrh)", low)
+    m = re.search(r"(\d{1,2})\s*\.?\s*(?:[/–-]\s*(\d{1,2})\s*\.?\s*)?(?:jh|jahrh)", low)
     if m:
         cents = [int(m.group(1))] + ([int(m.group(2))] if m.group(2) else [])
     if not cents:
@@ -303,6 +303,7 @@ class VolumeScore:
     judgements: dict = field(default_factory=dict)    # element -> Counter of verdicts
     stability: dict = field(default_factory=dict)     # element -> share agreeing with the mode
     published: Optional[str] = None
+    reward: dict = field(default_factory=dict)        # term -> mean reward, + brier (#782)
 
 
 def score_volume(ref: Reference, runs: list[dict]) -> VolumeScore:
@@ -314,7 +315,23 @@ def score_volume(ref: Reference, runs: list[dict]) -> VolumeScore:
         given = [a for a in answers if a is not None]
         vs.stability[element] = (round(Counter(given).most_common(1)[0][1] / len(runs), 3)
                                  if given else None)
+    from eval import ecodices_reward              # lazy: it imports this module
+    vs.reward = ecodices_reward.summarise_runs(ref, runs)
     return vs
+
+
+def summarise_reward(scores: list[VolumeScore]) -> dict:
+    """Mean of each volume's mean reward per term, and the mean Brier score (#782)."""
+    out = {}
+    with_reward = [vs.reward for vs in scores if vs.reward]
+    if not with_reward:
+        return out
+    for term in (*ELEMENTS, "Schrift_brier", "format", "total"):
+        vals = [r[term] for r in with_reward if term in r]
+        out[term] = round(sum(vals) / len(vals), 4) if vals else None
+    briers = [r["brier"] for r in with_reward if r.get("brier") is not None]
+    out["brier"] = round(sum(briers) / len(briers), 4) if briers else None
+    return out
 
 
 def summarise(scores: list[VolumeScore]) -> dict:
@@ -335,6 +352,21 @@ def summarise(scores: list[VolumeScore]) -> dict:
     return out
 
 
+def _reward_lines(scores: list[VolumeScore]) -> list[str]:
+    r = summarise_reward(scores)
+    if not r:
+        return []
+    fmt = lambda v: "–" if v is None else f"{v:+.3f}"  # noqa: E731
+    lines = ["## Belohnung (#782)", "",
+             "| Term | mittlere Belohnung |", "|---|---:|"]
+    lines += [f"| {t} | {fmt(r.get(t))} |" for t in (*ELEMENTS, "Schrift_brier", "format", "total")]
+    brier = "–" if r.get("brier") is None else f"{r['brier']:.3f}"
+    lines += ["", f"Brier-Score der Schrift-Zuversicht: **{brier}** (0 = perfekt kalibriert, "
+              "1 = immer mit voller Sicherheit falsch). Treffer +1, Fehler −1, keine Antwort "
+              "−0,5, nicht im Katalog 0; eine Datierung zählt voll bis 50 Jahre Breite.", ""]
+    return lines
+
+
 def format_report(scores: list[VolumeScore], meta: dict) -> str:
     summary = summarise(scores)
     lines = ["# Agent B gegen die Katalogbeschreibungen von e-codices (#779)", "",
@@ -353,6 +385,7 @@ def format_report(scores: list[VolumeScore], meta: dict) -> str:
               "zählt als nicht getroffen. Stabilität: Anteil der Läufe mit der häufigsten "
               "Antwort, im Mittel über die Bände.",
               "",
+              *_reward_lines(scores),
               "**Vorbehalte.** Die Beschreibungen können im Training der Modelle gewesen sein "
               "(siehe Jahr der Veröffentlichung je Band); e-codices ist vorwiegend "
               "Buchhandschrift; Schrift wird auf Familienebene verglichen.",
@@ -382,7 +415,8 @@ def score(bench_dir: Path) -> tuple[list[VolumeScore], str]:
     report = format_report(scores, meta)
     (bench_dir / "report.md").write_text(report, encoding="utf-8")
     (bench_dir / "scores.json").write_text(json.dumps(
-        {"summary": summarise(scores), "volumes": [asdict(s) for s in scores]},
+        {"summary": summarise(scores), "reward": summarise_reward(scores),
+         "volumes": [asdict(s) for s in scores]},
         indent=2, ensure_ascii=False), encoding="utf-8")
     return scores, report
 
