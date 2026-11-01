@@ -35,5 +35,10 @@ def basis_line(source_json: Optional[dict]) -> str:
             if n > 1:
                 names = ", ".join(seen[:_NAMES_SHOWN]) + (", …" if n > _NAMES_SHOWN else "")
                 line += f": {names}"
+            roles = basis.get("rollen") or {}
+            said = [f"{role} {name}" for role in ("typisch", "untypisch")
+                    for name, r in roles.items() if r == role]
+            if said:                                  # #774
+                line += f" ({'; '.join(said)})"
             return line
     return ""

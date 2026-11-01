@@ -136,10 +136,33 @@ def _rank_script(source_json: dict) -> dict:
     return source_json
 
 
-def _basis_instruction(n_images: int, page_count: Optional[int]) -> str:
+def _roles_instruction(images: list, roles: Optional[dict]) -> str:
+    """Which of the images are the typical and the untypical page (#774)."""
+    if not roles:
+        return ""
+    names = [Path(str(p)).name for p in images]
+    parts = []
+    for role, says in (("typisch", "die typischste Seite des Dokuments; Schrift und "
+                                   "Datierung beschreibst du vor allem nach ihr"),
+                       ("untypisch", "die untypischste Seite; dort kann eine zweite Hand, "
+                                     "ein Nachtrag oder ein Wechsel der Schreibkampagne "
+                                     "stehen — sag, ob das so ist")):
+        hits = [i + 1 for i, n in enumerate(names) if roles.get(n) == role]
+        if hits:
+            parts.append(f"Bild {hits[0]} ist {says}.")
+    return (" ".join(parts) + " ") if parts else ""
+
+
+def _basis_instruction(n_images: int, page_count: Optional[int],
+                       roles_line: str = "") -> str:
     """The prompt line that ties the description to what the model was shown."""
     of = f" von {page_count}" if page_count else ""
-    spread = ("Die Bilder sind in regelmaessigem Abstand ueber das ganze Dokument gezogen, "
+    spread = ("Die Bilder sind ueber das ganze Dokument gezogen, in der Reihenfolge "
+              "des Dokuments. " + roles_line +
+              "Beschreibe das Dokument, nicht eine einzelne Seite; wo sich die Seiten "
+              "unterscheiden (Schrift, Haende, Einrichtung), sag es. "
+              if n_images > 1 and roles_line else
+              "Die Bilder sind in regelmaessigem Abstand ueber das ganze Dokument gezogen, "
               "erste und letzte Seite eingeschlossen, in der Reihenfolge des Dokuments. "
               "Beschreibe das Dokument, nicht eine einzelne Seite; wo sich die Seiten "
               "unterscheiden (Schrift, Haende, Einrichtung), sag es. "
@@ -193,7 +216,7 @@ def _vision_call(prompt: str, images: list[str], doc_id: str) -> tuple[str, list
 
 
 def _ground(source_json: dict, *, images: list, page_count: Optional[int],
-            text_seen: bool) -> dict:
+            text_seen: bool, roles: Optional[dict] = None) -> dict:
     """Stamp every element with ``quelle`` and ``basis``; hold volume claims to one page.
 
     A pinned element (``quelle == "historiker"``, #147) keeps its source. An
@@ -215,6 +238,10 @@ def _ground(source_json: dict, *, images: list, page_count: Optional[int],
             continue
         el["quelle"] = "vlm"
         basis = {"seiten": seen, "von": page_count}
+        if roles:                                     # #774: the typical and the untypical page
+            named = {n: r for n, r in roles.items() if n in seen}
+            if named:
+                basis["rollen"] = named
         if elem not in IMAGE_ELEMENTS:
             basis["transkription"] = text_seen
         el["basis"] = basis
@@ -245,7 +272,8 @@ def _sampling() -> dict:
 
 
 def describe(doc_id: str, transcription: str, image_path=None,
-             pins: Optional[dict] = None, page_count: Optional[int] = None) -> dict:
+             pins: Optional[dict] = None, page_count: Optional[int] = None,
+             page_roles: Optional[dict] = None) -> dict:
     """
     Erstellt eine vollstaendige Quellenbeschreibung nach dem Ad Fontes 16-Element-Schema.
     Nutzt Agent A's Transkription + optional das Originalbild.
@@ -258,7 +286,8 @@ def describe(doc_id: str, transcription: str, image_path=None,
     many of them it was made from, and the volume-level ones are held to it (#772).
 
     ``image_path`` is one page or a list of pages (#771); the pages actually sent
-    are in ``pages_seen``, and what the call cost in ``cost``.
+    are in ``pages_seen``, and what the call cost in ``cost``. ``page_roles``
+    names the typical and the untypical page among them (#774), by file name.
 
     Returns a dict with both 'source_description' (markdown str) AND 'source_json'
     (dict keyed by the 16 Ad Fontes element names).
@@ -284,7 +313,7 @@ def describe(doc_id: str, transcription: str, image_path=None,
         # alone is enough to pick trocr-kurrent-XVI-XVII over a blind fallback
         # (#299). Describe from the image; never from the broken text.
         if images:
-            from_image = _describe_from_image(doc_id, images, pins, page_count)
+            from_image = _describe_from_image(doc_id, images, pins, page_count, page_roles)
             if from_image is not None:
                 return from_image
         logger.warning(f"[Agent B] Transkription degeneriert/unlesbar — keine LLM-Beschreibung: {doc_id}")
@@ -331,7 +360,7 @@ def describe(doc_id: str, transcription: str, image_path=None,
     full_prompt = (
         f"{MANUSCRIPT_SYSTEM}\n\n"
         f"{_pin_constraint(pins)}"
-        f"{_basis_instruction(len(images), page_count)}"
+        f"{_basis_instruction(len(images), page_count, _roles_instruction(images, page_roles))}"
         # SEC-16 (#587): the transcription is scan-derived data, not instructions.
         # Fence it and say so, so text inside the image cannot steer the
         # description that gets published.
@@ -387,7 +416,8 @@ def describe(doc_id: str, transcription: str, image_path=None,
     # Human pins are authoritative — overwrite the mapped elements (#147).
     source_json = _apply_pins(source_json, pins)
     source_json = _ground(source_json, images=sent,
-                          page_count=page_count, text_seen=bool(transcription))
+                          page_count=page_count, text_seen=bool(transcription),
+                          roles=page_roles)
 
     # Care-Flag analysis
     care = _care_flag(transcription)
@@ -405,6 +435,7 @@ def describe(doc_id: str, transcription: str, image_path=None,
         "pages_seen": [Path(p).name for p in sent],
         "cost": cost,
     }
+    _with_roles(result, page_roles)
 
     _save(doc_id, result)
     _validate_and_log(doc_id, source_json)
@@ -414,8 +445,19 @@ def describe(doc_id: str, transcription: str, image_path=None,
     return result
 
 
+def _with_roles(result: dict, page_roles: Optional[dict]) -> dict:
+    """``page_roles`` for the pages actually seen; a page that was not sent has no role."""
+    if page_roles:
+        seen = set(result.get("pages_seen") or [])
+        roles = {name: role for name, role in page_roles.items() if name in seen}
+        if roles:
+            result["page_roles"] = roles
+    return result
+
+
 def _describe_from_image(doc_id: str, image_path, pins: Optional[dict],
-                         page_count: Optional[int] = None) -> Optional[dict]:
+                         page_count: Optional[int] = None,
+                         page_roles: Optional[dict] = None) -> Optional[dict]:
     """Describe the source from the IMAGE alone, when the transcription is
     unreadable (#301). Returns None if the VLM gives us nothing usable.
 
@@ -436,7 +478,7 @@ def _describe_from_image(doc_id: str, image_path, pins: Optional[dict],
     prompt = (
         f"{MANUSCRIPT_SYSTEM}\n\n"
         f"{_pin_constraint(pins)}"
-        f"{_basis_instruction(len(images), page_count)}"
+        f"{_basis_instruction(len(images), page_count, _roles_instruction(images, page_roles))}"
         "Die maschinelle Transkription dieses Dokuments ist unbrauchbar "
         "(Wiederholungskollaps) und wird dir daher NICHT vorgelegt.\n"
         "Beschreibe die Quelle AUSSCHLIESSLICH anhand des Bildes.\n\n"
@@ -467,7 +509,7 @@ def _describe_from_image(doc_id: str, image_path, pins: Optional[dict],
 
     source_json = _apply_pins(_rank_script(source_json), pins)
     source_json = _ground(source_json, images=sent, page_count=page_count,
-                          text_seen=False)
+                          text_seen=False, roles=page_roles)
     result = {
         "doc_id": doc_id,
         "source_description": (
@@ -486,6 +528,7 @@ def _describe_from_image(doc_id: str, image_path, pins: Optional[dict],
         "low_confidence": True,       # honest: this is not a text-backed reading
         "source": "image-only",
     }
+    _with_roles(result, page_roles)
     _save(doc_id, result)
     _validate_and_log(doc_id, source_json)
     logger.info(f"[Agent B] Bild-Beschreibung (Transkription unlesbar): {doc_id}")

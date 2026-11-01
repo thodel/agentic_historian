@@ -264,7 +264,7 @@ def run_find_passages(query: str, entity_type: str = "",
 
 
 def _describe_cached(doc_id: str, transcription: str, pages, image_path,
-                     on_phase=None) -> dict:
+                     on_phase=None, page_roles=None) -> dict:
     """Agent B's description, reused when these exact page images were described
     before (#387).
 
@@ -289,9 +289,10 @@ def _describe_cached(doc_id: str, transcription: str, pages, image_path,
               decision=f"description reused (cache {key[:8]})")
         return hit
 
+    extra = {"page_roles": page_roles} if page_roles else {}
     desc = agent_b.describe(doc_id=doc_id, transcription=transcription,
                             image_path=image_path,
-                            page_count=len(pages) if pages else None)
+                            page_count=len(pages) if pages else None, **extra)
     if desc:
         dc.store(key, desc)
     return desc
@@ -1371,10 +1372,19 @@ def run_full_pipeline_group(
     if ctx.transcription:
         try:
             import page_sample
-            shown = [str(pages[i]) for i in page_sample.spread(len(pages), config.AGENT_B_PAGES)]
+            from page_features import image_features
+            # Which pages (#774): the spread (#771), or the most and the least
+            # typical among them when AGENT_B_PAGE_CHOICE=typical.
+            chosen = page_sample.choose(
+                len(pages), config.AGENT_B_PAGES, config.AGENT_B_PAGE_CHOICE,
+                features=lambda i: image_features(pages[i]))
+            shown = [str(pages[i]) for i, _ in chosen]
+            roles = {Path(pages[i]).name: role for i, role in chosen
+                     if role != page_sample.SAMPLE}
             ctx.description = _describe_cached(
                 doc_id, ctx.transcription, pages,
-                (shown if len(shown) > 1 else (shown[0] if shown else None)), on_phase)
+                (shown if len(shown) > 1 else (shown[0] if shown else None)), on_phase,
+                page_roles=roles or None)
             try:
                 from runstate import RunState, DONE, ERROR
                 state = RunState.load_or_new(doc_id)

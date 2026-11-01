@@ -435,6 +435,10 @@ AGENT_B_PAGES = max(1, int(_get("AGENT_B_PAGES", "5")))
 # Long side, in pixels, of each page when several go into one call (#771). One
 # page alone is sent as it is.
 AGENT_B_PAGE_MAX_PX = int(_get("AGENT_B_PAGE_MAX_PX", "1600"))
+# Which pages those are (#774): "spread" at even intervals (#771), or "typical" —
+# the most and the least typical page among them, chosen from page features.
+# "spread" until the e-codices bench has measured that "typical" is steadier.
+AGENT_B_PAGE_CHOICE = _get("AGENT_B_PAGE_CHOICE", "spread").strip().lower()
 
 ENABLE_ROUTING_PRIOR = _get("ENABLE_ROUTING_PRIOR", "false").lower() == "true"
 
