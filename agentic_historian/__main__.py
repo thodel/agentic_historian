@@ -165,6 +165,8 @@ def atr_batch(args: argparse.Namespace) -> int:
         print(f"Warning: no gateway probe ({exc}) — the run's model "
               "versions will read as unreported", file=sys.stderr)
 
+    #: Models that did not fit and run under a headroom lease (#473).
+    needs_headroom: list[str] = []
     external = getattr(args, "via", "gateway") == "external"
     if external and not getattr(args, "no_preflight", False):
         # The gateway's /models cannot answer for a model that lives at an API:
@@ -187,7 +189,32 @@ def atr_batch(args: argparse.Namespace) -> int:
         checked = batch.preflight(models, probe=probe)
         for line in checked.lines():
             print(line, file=sys.stderr if checked.refused else sys.stdout)
-        if checked.nothing_runs:
+        # A model that exists and does not fit is not refused when the gateway may
+        # clear its card under a lease (#473): it runs, after the lease is taken.
+        # Asked here, before the share is walked: the dry run says what the gateway
+        # would free, and a model it cannot make room for is dropped now, not after
+        # 24 minutes of listing (#472).
+        if not getattr(args, "no_headroom", False) and checked.leasable:
+            from headroom_lease import HeadroomClient, HeadroomRefused
+
+            client = HeadroomClient()
+            for model in checked.leasable:
+                try:
+                    would = client.check(model)
+                except HeadroomRefused as exc:
+                    print(f"  -> {model}: no headroom either — {exc}", file=sys.stderr)
+                    continue
+                needs_headroom.append(model)
+                freed = ", ".join(f"{f.get('engine')} {f.get('mib', '?')} MiB" for f in would)
+                print(f"  -> {model}: runs under a headroom lease; the gateway would free "
+                      f"{freed or 'nothing'} when its turn comes (--no-headroom leaves the "
+                      "card alone)")
+        if needs_headroom:
+            wanted = set(checked.runnable) | set(needs_headroom)
+            models = [m for m in models if m in wanted]
+        else:
+            models = None
+        if models is None and checked.nothing_runs:
             # No run directory, no report: this run did not start. The two
             # reasons are different enough to name: a card that is full is a
             # "later", a model id the gateway does not have is a "never".
@@ -198,7 +225,8 @@ def atr_batch(args: argparse.Namespace) -> int:
                    else "no model both exists on the gateway and fits")
             print(f"Error: {why} — nothing to run", file=sys.stderr)
             return 1
-        models = checked.runnable
+        if models is None:
+            models = checked.runnable
 
     from utils import nextcloud
 
@@ -427,12 +455,18 @@ def atr_batch(args: argparse.Namespace) -> int:
     else:
         recognise = batch.gateway_recogniser()
     via_gateway = getattr(args, "via", "gateway") != "external"
+    headroom = None
+    if needs_headroom and via_gateway:
+        from headroom_lease import HeadroomClient
+
+        headroom = HeadroomClient()
     try:
         report = batch.run_batch(
             pages, models, args.run, out_root, recognise,
             retries=args.retries, concurrency=args.concurrency, cache=cache,
             probe=probe, source=str(source), gateway=config.ATR_GATEWAY_URL,
             energy=batch.energy_reader() if via_gateway else None,
+            headroom=headroom, needs_headroom=needs_headroom,
         )
     finally:
         close = getattr(recognise, "close", None)
@@ -1692,6 +1726,10 @@ def build_parser() -> argparse.ArgumentParser:
                               "arithmetic is wrong and the run should go — a check "
                               "without an exit gets removed at the first false "
                               "alarm instead of corrected (#472).")
+    p_batch.add_argument("--no-headroom", action="store_true",
+                         help="Do not ask the gateway to free a full card (#473): a model "
+                              "that does not fit is dropped, as before. For a run that "
+                              "must not touch the engines on the card.")
     p_batch.add_argument("--dry-run", action="store_true",
                          help="Print the plan (pages, models, calls) and exit")
     p_batch.set_defaults(func=atr_batch)
