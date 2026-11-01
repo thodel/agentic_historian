@@ -1528,6 +1528,35 @@ die Konvergenz. Wo eine Anfrage `max_epochs` über `epochs` setzt, ist die
 obere Grenze die Zahl, mit der man rechnen muss. Das Early Stopping kann sie
 nur verkürzen, und ob es das tut, weiss man erst nach der ersten Validierung.
 
+## 45. Die erste Zahl eines fremden Modells war zur Hälfte Schreibweise
+
+Argon (`gemini-4-argon`) las die St. Galler Missiven am 28. Oktober mit einem
+Median von 16,2 % CER pro Seite, die Berner Schlussredaktion mit 0,198. Beide
+Zahlen sahen nach Lesefehlern aus. Die Verwechslungen, die `eval` und
+`external_lineset` seit #750 ausgeben, sagten etwas anderes: Bei den Missiven
+war die häufigste Abweichung `u`→`v` (288×), danach fehlende Kommas, Virgeln
+statt Kommas, `ů` und `ú` für Buchstaben, die die GT in die Zeile schreibt.
+In Bern liess Argon die Virgel weg, schrieb `ſ` und liess das übergeschriebene
+e (`ͤ`) fallen. Mein erster Prompt hatte ausdrücklich verlangt, u/v *nicht* zu
+normalisieren, also das Gegenteil der Konvention, an der gemessen wurde.
+
+Ein Prompt in der Schreibweise der jeweiligen GT, jeweils als neue Datei,
+senkte die Missiven auf 12,8 und dann 10,5 %. Die konventions-normalisierte
+CER blieb dabei um 7–8 % stehen; das ist das eigentliche Lesen. Bern sank auf
+0,166. Zwei meiner Annahmen über die Konvention waren falsch und erst im
+nächsten Lauf zu sehen: dass die Missiven-GT ß auflöst und dass sie Umlaute
+schreibt. Sie behält ß und schreibt `ue`/`uo`. Die Diffs korrigieren eine
+Vermutung über die Konvention, aber erst im Lauf danach.
+
+**Was daraus folgt.** Die erste CER eines Modells, das nicht auf diese GT
+trainiert ist, sagt wenig, bevor die Verwechslungen gelesen sind. Erst kommen
+die Diffs, dann ein Prompt in der Schreibweise der GT, dann die Zahl. Wo eine
+Editionsrichtlinie existiert, ist sie die bessere Quelle als meine Ableitung
+aus 20 Seiten. Und eine Seite mit über 100 % CER bei jedem Leser
+(`StadtASG_Missive_418_853`) ist ein Befund über die Referenz, nicht über die
+Leser. Die Übersicht steht in [TRANSKRIBUS_PIPELINE_MCP.md](TRANSKRIBUS_PIPELINE_MCP.md),
+Abschnitt „Which reader when“.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.

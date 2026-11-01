@@ -1385,7 +1385,7 @@ def build_server(provider=None, auth_settings=None):
         They read the page image and return page text without geometry, so G
         has page CER, and line CER only where its line count equals the GT's.
         ``external_prompt`` is a file under ``prompts/`` (default
-        ``bern_1528.md``); ``external_reasoning`` the thinking level (default
+        ``bern_1528_v2.md``); ``external_reasoning`` the thinking level (default
         GEMINI_REASONING, "low"; ``""`` = the model's own). Billed per page and
         preflighted against the API's model list; tokens and truncation are in
         the table. Combine with the gateway readers or set them to "none".

@@ -68,7 +68,8 @@ DEFAULT_LINE_MODEL = "qwen3vl-medieval-german-v3"
 DEFAULT_TROCR_MODEL = "trocr-kurrent-xvi-xvii"
 DEFAULT_PAGE_MODEL = "qwen3.5-4b-german-kurrent-xvi-xix-page-v1"
 #: The prompt reader G reads Bern 1528 with (#747); a name under ``prompts/``.
-DEFAULT_EXTERNAL_PROMPT = "bern_1528.md"
+#: v2 since 01.11.: the GT's conventions, Schlussredaktion 0.198 -> 0.166.
+DEFAULT_EXTERNAL_PROMPT = "bern_1528_v2.md"
 MAX_SIDE = 3500          # px; larger page images are downscaled for the gateway, coordinates scaled back
 
 

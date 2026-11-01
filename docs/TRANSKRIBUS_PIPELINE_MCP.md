@@ -96,9 +96,10 @@ page text without geometry, so:
   says on how many pages it applied. Pairing lines by their text was tried on
   22.10. and scored readers above 1.
 
-The prompt is `prompts/bern_1528.md` (diplomatic, abbreviations as written, one
-answer line per page line), `external_prompt` names another file under
-`prompts/`. `external_reasoning` defaults to `GEMINI_REASONING` ("low"):
+The prompt is `prompts/bern_1528_v2.md` (since 01.11.; the conventions of the
+Bern GT: virgule as `/`, ſ as s, superscripts as combining characters,
+capitals and word boundaries as written — see below), `external_prompt` names
+another file under `prompts/`. `external_reasoning` defaults to `GEMINI_REASONING` ("low"):
 thinking tokens are billed and count against the output ceiling. Every model is
 preflighted against the API's model list before a page is sent; tokens and
 truncated pages are printed under the table. Eval only: a whole volume through
@@ -110,6 +111,47 @@ transkribus_pipeline(step="eval", run="hertwig-g", doc="13922499", pages="8,17,2
   page_model="none", no_llm=true, variants="",
   external_model="gemini-3.8-flash,gemini-4-argon")
 ```
+
+### Which reader when — what the Argon tests showed (#747, 27.–30.10.)
+
+`gemini-4-argon` against our own models and Transkribus, on corrected pages
+(page CER, mean or median as noted; reasoning `low`):
+
+| material | Argon | comparison | best reader |
+|---|---:|---|---|
+| Bern, Hertwig (5 pages, `bern_1528_v2.md`) | 0.303 | kraken 0.325 · Transkribus German Genius **0.265** | Transkribus |
+| Bern, Schlussredaktion (6 pages, v2) | 0.166 | kraken **0.131** · Text Titan 0.187 | the volume's kraken |
+| Federal Council minutes, **lines** (100) | 0.370 | line adapters ~0.10 | line adapters |
+| Laßberg, 19th c., pages (34) | median 4.5 % | Flash 4.8 % · Qwen line model 14.5 % | Argon ≈ Flash |
+| St. Gallen Missiven, pages (20, `sg_missiven_page_v3.md`) | median **10.5 %** | Flash 22.0 % (v1 prompt) | Argon |
+
+What follows from it:
+
+- **Whole pages only.** On line crops Argon writes a third more than the line
+  holds (`length_ratio` 1.34) — neighbouring lines, mostly.
+- **Most of the distance is notation, not reading.** The confusions
+  (`eval` and `external_lineset` print them) showed it every time: u/v,
+  virgules turned into commas, superscripts dropped or written as umlauts,
+  ſ, capitals. A prompt in the GT's own conventions closed much of it —
+  Missiven 16.2 → 12.8 → 10.5 % (v1 → v3), Bern Schlussredaktion 0.198 →
+  0.166; the convention-normalised CER (`external_lineset`) stayed near 7–8 %
+  on the Missiven, which is what Argon actually misreads. Conventions are
+  read off the confusions and written into a **new** prompt file each time, so
+  every run keeps its digest.
+- **Edited texts trip a filter.** On the Bern volumes 3 of 14 pages came back
+  empty with `finish_reason: content_filter: OTHER` — the Disputation is
+  edited, and the API refuses to reproduce what it knows. About one page in
+  five would need another reader.
+- **Where it pays:** a first reading of material **before 1800 for which we
+  have no model of our own**, to be corrected into ground truth. Not for Bern
+  (kraken or Transkribus are better), not for Laßberg (Flash reads as well for
+  less). About 0.006 $ a page at the introductory price, roughly double from
+  1 December 2026.
+- **A test set must not be corrected from the reader it tests.** Pages
+  corrected on top of an Argon reading inherit its choices and flatter it;
+  start from the Transkribus HTR instead.
+- Laßberg is edited and the Missiven are our models' training data: neither
+  is an unseen-text test. An unpublished one is still missing.
 
 ### The same readers on a published line set
 
