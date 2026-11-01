@@ -23,8 +23,8 @@ e-codices.ch (31.10.2026: empty replies and 502) — and every judgement lives i
   rather than assumed for the collection: CC BY 3.0 and the Public Domain Mark
   both occur. The TEI is used to measure and is not republished.
 * ``run``: Agent B describes each volume from page images only — never from the
-  TEI — R times, ``--pages first`` (what production sends today, ``pages[0]``)
-  or ``--pages spread`` (k pages at even intervals, #771). It uses Agent B's
+  TEI — R times, ``--pages first`` (page 1 alone, what production sent before #771)
+  or ``--pages spread`` (k pages at even intervals, what it sends since). It uses Agent B's
   image-only path, the one production takes when the transcription is unusable;
   Schrift, Datierung, Schreiber and Beschreibstoff are read off the page in both.
 * ``score``: per element hit / miss / not in the catalogue, and the stability of
@@ -454,15 +454,15 @@ def tei_url(manifest: dict) -> Optional[str]:
     return None
 
 
-def pick_pages(n: int, how: str, k: int = 5) -> list[int]:
-    """Indices of the pages to show: ``first`` (production today) or ``spread`` (#771)."""
-    if n <= 0:
-        return []
-    if how == "first":
-        return [0]
-    if n <= k:
-        return list(range(n))
-    return sorted({round(i * (n - 1) / (k - 1)) for i in range(k)})
+def pick_pages(n: int, how: str, k: Optional[int] = None) -> list[int]:
+    """Indices of the pages to show: ``first`` (before #771) or ``spread`` (#771).
+
+    ``spread`` is the production sample, ``page_sample.spread``, so the bench
+    measures what Agent B is actually shown.
+    """
+    import config
+    import page_sample
+    return page_sample.spread(n, 1 if how == "first" else (k or config.AGENT_B_PAGES))
 
 
 def fetch(ids: Iterable[str], bench_dir: Path, *, get: Callable[[str], bytes],
@@ -486,13 +486,13 @@ def fetch(ids: Iterable[str], bench_dir: Path, *, get: Callable[[str], bytes],
     return done
 
 
-def run(bench_dir: Path, *, describe: Callable[[str, str, int], dict], runs: int = 3,
+def run(bench_dir: Path, *, describe: Callable[[str, list, int], dict], runs: int = 3,
         pages: str = "first", get: Callable[[str], bytes]) -> None:
-    """Agent B on each fetched volume, R times, from page images only."""
-    if pages != "first":
-        # Agent B takes one image today; several are #771. Measuring "spread" with
-        # one of its pages would be a third configuration nobody runs.
-        raise SystemExit("--pages spread needs Agent B to take several images (#771)")
+    """Agent B on each fetched volume, R times, from page images only.
+
+    ``describe`` gets the list of pages shown: one for ``first``, k at even
+    intervals for ``spread`` (#771).
+    """
     for vdir in sorted(p for p in bench_dir.iterdir() if (p / "tei.xml").exists()):
         urls = canvases(json.loads((vdir / "manifest.json").read_text(encoding="utf-8")))
         shown = pick_pages(len(urls), pages)
@@ -507,9 +507,11 @@ def run(bench_dir: Path, *, describe: Callable[[str, str, int], dict], runs: int
             out = vdir / "runs" / f"{r:02d}.json"
             if out.exists():
                 continue
-            result = describe(f"{vdir.name}-r{r}", str(images[0]), len(urls))
+            result = describe(f"{vdir.name}-r{r}", [str(p) for p in images], len(urls))
+            seen = result.get("pages_seen") or [p.name for p in images]
             out.write_text(json.dumps({"source_json": result.get("source_json") or {},
-                                       "pages_shown": [p.name for p in images]},
+                                       "pages_shown": [p.name for p in images],
+                                       "pages_seen": seen},
                                       ensure_ascii=False, indent=2), encoding="utf-8")
 
 
@@ -520,9 +522,9 @@ def _http_get(url: str) -> bytes:
     return r.content
 
 
-def _agent_b_image_only(doc_id: str, image: str, page_count: int) -> dict:
+def _agent_b_image_only(doc_id: str, images, page_count: int) -> dict:
     from agents import source_description as agent_b
-    return agent_b._describe_from_image(doc_id, image, None, page_count) or {}
+    return agent_b._describe_from_image(doc_id, images, None, page_count) or {}
 
 
 def main(argv: Optional[list[str]] = None) -> int:

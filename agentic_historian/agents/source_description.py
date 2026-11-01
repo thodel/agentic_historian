@@ -7,6 +7,7 @@ Emits BOTH Markdown and structured JSON (per AH-20).
 
 import json
 import re
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -138,10 +139,57 @@ def _rank_script(source_json: dict) -> dict:
 def _basis_instruction(n_images: int, page_count: Optional[int]) -> str:
     """The prompt line that ties the description to what the model was shown."""
     of = f" von {page_count}" if page_count else ""
-    return (f"GRUNDLAGE: Du siehst {n_images} Seite(n){of} dieses Dokuments. Keine Aussage "
+    spread = ("Die Bilder sind in regelmaessigem Abstand ueber das ganze Dokument gezogen, "
+              "erste und letzte Seite eingeschlossen, in der Reihenfolge des Dokuments. "
+              "Beschreibe das Dokument, nicht eine einzelne Seite; wo sich die Seiten "
+              "unterscheiden (Schrift, Haende, Einrichtung), sag es. "
+              if n_images > 1 else "")
+    return (f"GRUNDLAGE: Du siehst {n_images} Seite(n){of} dieses Dokuments. {spread}Keine Aussage "
             "darf weiter reichen als das Gesehene: Schreiber/Haende, Lagen, Blaetter und "
             "Einband beschreibst du nur fuer die gezeigten Seiten (z.B. \"auf der "
             "gezeigten Seite eine Hand\"), nicht fuer den ganzen Band.\n\n")
+
+
+def _images(image_path) -> list[str]:
+    """One image path, a list of them (#771), or nothing — always as a list."""
+    if not image_path:
+        return []
+    if isinstance(image_path, (list, tuple)):
+        return [str(p) for p in image_path if p]
+    return [str(image_path)]
+
+
+def _vision_call(prompt: str, images: list[str], doc_id: str) -> tuple[str, list[str], dict]:
+    """Agent B's vision call over ``images``: ``(raw, images actually sent, cost)``.
+
+    Several pages go into one call, scaled to ``AGENT_B_PAGE_MAX_PX`` (#771). A
+    backend that refuses several images (vLLM's per-prompt image limit) is asked
+    again with the first page alone, and the result says so: ``pages_seen`` then
+    names one page, not five. Raises when the single-page call fails too.
+    """
+    sent = list(images)
+    t0 = time.monotonic()
+    try:
+        if len(sent) > 1:
+            raw = gs.chat_vision(prompt, image_source=sent, system=None, max_tokens=3500,
+                                 image_max_px=config.AGENT_B_PAGE_MAX_PX, **_sampling())
+        else:
+            raw = gs.chat_vision(prompt, image_source=sent[0], system=None, max_tokens=3500,
+                                 **_sampling())
+    except Exception as e:
+        if len(sent) <= 1:
+            raise
+        logger.warning(f"[Agent B] {len(sent)} Seiten in einem Aufruf abgelehnt, "
+                       f"nur die erste: {e}")
+        sent = sent[:1]
+        t0 = time.monotonic()
+        raw = gs.chat_vision(prompt, image_source=sent[0], system=None, max_tokens=3500,
+                             **_sampling())
+    cost = {"seiten": len(sent), "sekunden": round(time.monotonic() - t0, 1),
+            **gs.last_usage()}
+    logger.info(f"[Agent B] {doc_id}: {cost['seiten']} Seite(n) gesehen, "
+                f"{cost['sekunden']} s, Tokens {gs.last_usage() or 'unbekannt'}")
+    return raw, sent, cost
 
 
 def _ground(source_json: dict, *, images: list, page_count: Optional[int],
@@ -196,7 +244,7 @@ def _sampling() -> dict:
     return out
 
 
-def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
+def describe(doc_id: str, transcription: str, image_path=None,
              pins: Optional[dict] = None, page_count: Optional[int] = None) -> dict:
     """
     Erstellt eine vollstaendige Quellenbeschreibung nach dem Ad Fontes 16-Element-Schema.
@@ -209,11 +257,15 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
     ``page_count`` is how many pages the document has; every element records how
     many of them it was made from, and the volume-level ones are held to it (#772).
 
+    ``image_path`` is one page or a list of pages (#771); the pages actually sent
+    are in ``pages_seen``, and what the call cost in ``cost``.
+
     Returns a dict with both 'source_description' (markdown str) AND 'source_json'
     (dict keyed by the 16 Ad Fontes element names).
     """
     logger.info(f"[Agent B] Verarbeite: {doc_id}")
     pins = pins or {}
+    images = _images(image_path)
 
     # #276: never fabricate a description for a degenerate/illegible transcription.
     # u-17__ was a VLM repetition-collapse ("uuuu") that Agent B rationalised into a
@@ -231,8 +283,8 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
         # "Kurrent, 16th c." from the page without reading a word of it, and that
         # alone is enough to pick trocr-kurrent-XVI-XVII over a blind fallback
         # (#299). Describe from the image; never from the broken text.
-        if image_path:
-            from_image = _describe_from_image(doc_id, image_path, pins, page_count)
+        if images:
+            from_image = _describe_from_image(doc_id, images, pins, page_count)
             if from_image is not None:
                 return from_image
         logger.warning(f"[Agent B] Transkription degeneriert/unlesbar — keine LLM-Beschreibung: {doc_id}")
@@ -248,18 +300,19 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
             # would record a judgement about a welfare document that nobody made.
             "care_flag": care_flag.unclassified(
                 "Transkription unlesbar/degeneriert — nicht klassifiziert"),
-            "image_path": image_path or "none",
+            "image_path": images[0] if images else "none",
+            "pages_seen": [],
             "low_confidence": True,
         }
         _save(doc_id, result)
         return result
 
-    if image_path:
+    if images:
         prompt_obj = full_codicological()
     else:
         prompt_obj = for_transcription()
 
-    user_prompt = prompt_obj.build_user_prompt(image_available=(image_path is not None))
+    user_prompt = prompt_obj.build_user_prompt(image_available=bool(images))
 
     # Chunking: take first + last part of the transcription so the
     # description is not silently truncated to only page 1 of a multi-page order.
@@ -278,7 +331,7 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
     full_prompt = (
         f"{MANUSCRIPT_SYSTEM}\n\n"
         f"{_pin_constraint(pins)}"
-        f"{_basis_instruction(1 if image_path else 0, page_count)}"
+        f"{_basis_instruction(len(images), page_count)}"
         # SEC-16 (#587): the transcription is scan-derived data, not instructions.
         # Fence it and say so, so text inside the image cannot steer the
         # description that gets published.
@@ -312,12 +365,10 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
     # invented from the text, and the result recorded image_path as if it were
     # provenance. Schrift and Datierung — the two elements that drive model
     # selection (#299) — are exactly the ones you read off the page.
-    raw, image_sent = "", False
-    if image_path:
+    raw, sent, cost = "", [], {}
+    if images:
         try:
-            raw = gs.chat_vision(full_prompt, image_source=str(image_path),
-                                 system=None, max_tokens=3500, **_sampling())
-            image_sent = True
+            raw, sent, cost = _vision_call(full_prompt, images, doc_id)
         except Exception as e:
             # Don't lose the description over it: fall back to text-only, but say so.
             logger.warning(f"[Agent B] Bild-Call fehlgeschlagen, Fallback auf Text: {e}")
@@ -335,7 +386,7 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
     source_json = _rank_script(source_json)
     # Human pins are authoritative — overwrite the mapped elements (#147).
     source_json = _apply_pins(source_json, pins)
-    source_json = _ground(source_json, images=[image_path] if image_sent else [],
+    source_json = _ground(source_json, images=sent,
                           page_count=page_count, text_seen=bool(transcription))
 
     # Care-Flag analysis
@@ -350,18 +401,20 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
         "sampling": _sampling(),
         "care_flag": care,
         # Provenance, not aspiration (#308): only claim the image when it was sent.
-        "image_path": str(image_path) if image_sent else "none",
+        "image_path": sent[0] if sent else "none",
+        "pages_seen": [Path(p).name for p in sent],
+        "cost": cost,
     }
 
     _save(doc_id, result)
     _validate_and_log(doc_id, source_json)
 
     logger.info(f"[Agent B] Fertig: {doc_id}"
-                f"{' (mit Bild)' if image_sent else ' (nur Text)'}")
+                f"{f' (mit {len(sent)} Bild(ern))' if sent else ' (nur Text)'}")
     return result
 
 
-def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict],
+def _describe_from_image(doc_id: str, image_path, pins: Optional[dict],
                          page_count: Optional[int] = None) -> Optional[dict]:
     """Describe the source from the IMAGE alone, when the transcription is
     unreadable (#301). Returns None if the VLM gives us nothing usable.
@@ -374,11 +427,16 @@ def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict],
     ``low_confidence=True``. Its job is not to be a finished codicological
     description — it is to give the model selector something TRUE to match on
     (script + century), so #299's re-run can pick a real model and recover the run.
+
+    ``image_path`` is one page or a list of pages (#771).
     """
+    images = _images(image_path)
+    if not images:
+        return None
     prompt = (
         f"{MANUSCRIPT_SYSTEM}\n\n"
         f"{_pin_constraint(pins)}"
-        f"{_basis_instruction(1, page_count)}"
+        f"{_basis_instruction(len(images), page_count)}"
         "Die maschinelle Transkription dieses Dokuments ist unbrauchbar "
         "(Wiederholungskollaps) und wird dir daher NICHT vorgelegt.\n"
         "Beschreibe die Quelle AUSSCHLIESSLICH anhand des Bildes.\n\n"
@@ -397,9 +455,7 @@ def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict],
         + SCRIPT_CANDIDATES_RULE
     )
     try:
-        raw = gs.chat_vision(prompt, image_source=str(image_path), system=None,
-                             **_sampling(),
-                             max_tokens=3500)
+        raw, sent, cost = _vision_call(prompt, images, doc_id)
     except Exception as e:
         logger.warning(f"[Agent B] Bild-Beschreibung fehlgeschlagen: {e}")
         return None
@@ -410,7 +466,7 @@ def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict],
         return None
 
     source_json = _apply_pins(_rank_script(source_json), pins)
-    source_json = _ground(source_json, images=[image_path], page_count=page_count,
+    source_json = _ground(source_json, images=sent, page_count=page_count,
                           text_seen=False)
     result = {
         "doc_id": doc_id,
@@ -424,7 +480,9 @@ def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict],
         # one. Which is exactly "unknown" and was stored as "no" (#631).
         "care_flag": care_flag.unclassified(
             "nur Bildbeschreibung — Care-Flag braucht die Transkription"),
-        "image_path": str(image_path),
+        "image_path": sent[0],
+        "pages_seen": [Path(p).name for p in sent],
+        "cost": cost,
         "low_confidence": True,       # honest: this is not a text-backed reading
         "source": "image-only",
     }
@@ -562,6 +620,7 @@ def _save(doc_id: str, result: dict):
         "elements": source_json,
         "care_flag": care,
         "image_path": result.get("image_path", "none"),
+        "pages_seen": result.get("pages_seen", []),
     }
 
     config.DESCRIPTIONS_DIR.mkdir(parents=True, exist_ok=True)

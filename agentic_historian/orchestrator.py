@@ -279,7 +279,8 @@ def _describe_cached(doc_id: str, transcription: str, pages, image_path,
     """
     import description_cache as dc
 
-    key = dc.content_key(pages)
+    shown = image_path if isinstance(image_path, (list, tuple)) else ()
+    key = dc.content_key(pages, shown=shown)
     hit = dc.load(key)
     if hit:
         logger.info(f"[Orchestrator] Phase 2: description reused (cache {key[:8]})")
@@ -1364,12 +1365,16 @@ def run_full_pipeline_group(
         except Exception as e2:
             logger.warning(f"[Orchestrator] Group Phase 1 RunState persist skipped: {e2}")
 
-    # PHASE 2: Agent B — one source description for the whole order
+    # PHASE 2: Agent B — one source description for the whole order, from k pages
+    # at even intervals rather than page 1 alone (#771): page 1 of a copy book is
+    # often the cover, the index or a later addition.
     if ctx.transcription:
         try:
+            import page_sample
+            shown = [str(pages[i]) for i in page_sample.spread(len(pages), config.AGENT_B_PAGES)]
             ctx.description = _describe_cached(
                 doc_id, ctx.transcription, pages,
-                str(pages[0]) if pages else None, on_phase)
+                (shown if len(shown) > 1 else (shown[0] if shown else None)), on_phase)
             try:
                 from runstate import RunState, DONE, ERROR
                 state = RunState.load_or_new(doc_id)

@@ -35,12 +35,17 @@ def _dir() -> Path:
     return config.DATA_DIR / "descriptions"
 
 
-def content_key(paths: Iterable) -> str:
+def content_key(paths: Iterable, shown: Iterable = ()) -> str:
     """A stable key for a set of page images: hash of the sorted per-file hashes.
 
     Sorted, so page order in the caller cannot change the key; per-file, so adding
     a page changes it. Returns "" when nothing is readable — an unkeyable input
     must miss the cache rather than collide with another document.
+
+    ``shown`` are the pages Agent B was shown when that is more than one (#771):
+    a description made from five pages is not the one made from page 1, so the
+    two must not share an entry. One page or none leaves the key as it was, so the
+    entries written before #771 still answer for single pages.
     """
     digests = []
     for p in sorted(str(x) for x in (paths or [])):
@@ -51,7 +56,11 @@ def content_key(paths: Iterable) -> str:
             return ""
     if not digests:
         return ""
-    return hashlib.sha256("".join(sorted(digests)).encode("utf-8")).hexdigest()[:32]
+    joined = "".join(sorted(digests))
+    shown = [Path(str(p)).name for p in shown or ()]
+    if len(shown) > 1:
+        joined += "|shown:" + ",".join(shown)
+    return hashlib.sha256(joined.encode("utf-8")).hexdigest()[:32]
 
 
 def load(key: str) -> Optional[dict]:

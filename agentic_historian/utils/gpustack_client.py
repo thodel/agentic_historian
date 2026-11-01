@@ -21,6 +21,7 @@ Async API (for the async port): ask() / ask_structured()
 
 import asyncio
 import base64
+import threading
 import requests
 from pathlib import Path
 from typing import Optional
@@ -71,26 +72,54 @@ def encode_image(path: str | Path) -> str:
         return base64.b64encode(f.read()).decode("utf-8")
 
 
-def image_url(image_source: str | Path) -> str:
+def _encode_scaled(path: str, max_px: int) -> Optional[str]:
+    """The image with its long side at most ``max_px``, as base64 JPEG; None if PIL can't.
+
+    Only for several pages in one call (#771): five full-resolution scans are
+    five times the image tokens of one, and the call is about script and layout
+    across the volume, not about reading a line.
+    """
+    try:
+        import io
+
+        from PIL import Image
+        with Image.open(path) as im:
+            if max(im.size) <= max_px:
+                return None
+            im = im.convert("RGB")
+            im.thumbnail((max_px, max_px))
+            buf = io.BytesIO()
+            im.save(buf, format="JPEG", quality=85)
+        return base64.b64encode(buf.getvalue()).decode("utf-8")
+    except Exception as e:                        # unreadable → send the original
+        logger.debug(f"[gpustack] could not scale {path}: {e}")
+        return None
+
+
+def image_url(image_source: str | Path, max_px: Optional[int] = None) -> str:
     """Gibt entweder eine URL oder einen base64-data-URI zurück."""
     s = str(image_source)
     if s.startswith(("http://", "https://")):
         return s
     # Lokale Datei → base64
-    return f"data:image/jpeg;base64,{encode_image(s)}"
+    scaled = _encode_scaled(s, max_px) if max_px else None
+    return f"data:image/jpeg;base64,{scaled or encode_image(s)}"
 
 
-def _build_messages(prompt: str, system: Optional[str], image_source: Optional[str]) -> list[dict]:
+def _build_messages(prompt: str, system: Optional[str], image_source,
+                    image_max_px: Optional[int] = None) -> list[dict]:
+    """``image_source`` is one image or a list of them (#771), in the order shown."""
     if image_source:
         # Vision-Call: System-Messages mit Listen-Inhalten verursachen bei diesem
         # GPUStack-Setup 400er Fehler — Instructions deshalb inline im user content.
         text = f"{system}\n\n{prompt}" if system else prompt
+        sources = list(image_source) if isinstance(image_source, (list, tuple)) else [image_source]
         return [
             {
                 "role": "user",
-                "content": [
-                    {"type": "text", "text": text},
-                    {"type": "image_url", "image_url": {"url": image_url(image_source)}},
+                "content": [{"type": "text", "text": text}] + [
+                    {"type": "image_url", "image_url": {"url": image_url(src, image_max_px)}}
+                    for src in sources
                 ],
             }
         ]
@@ -99,6 +128,20 @@ def _build_messages(prompt: str, system: Optional[str], image_source: Optional[s
         messages.append({"role": "system", "content": system})
     messages.append({"role": "user", "content": prompt})
     return messages
+
+
+_usage = threading.local()
+
+
+def _record_usage(response) -> None:
+    u = getattr(response, "usage", None)
+    _usage.last = {k: getattr(u, k) for k in ("prompt_tokens", "completion_tokens")
+                   if isinstance(getattr(u, k, None), int)} if u is not None else {}
+
+
+def last_usage() -> dict:
+    """Token counts of this thread's last completion, as far as the backend said (#771)."""
+    return dict(getattr(_usage, "last", {}) or {})
 
 
 @retry(
@@ -137,6 +180,7 @@ def _create(
     if presence_penalty is not None:
         request["presence_penalty"] = presence_penalty
     response = client.chat.completions.create(**request)
+    _record_usage(response)
     choice = response.choices[0]
     return choice.message.content, (choice.finish_reason or "")
 
@@ -147,16 +191,21 @@ def chat(
     system: Optional[str] = None,
     temperature: float = 1.0,
     max_tokens: int = 4096,
-    image_source: Optional[str] = None,
+    image_source=None,
     agent_name: str = "unknown",
     frequency_penalty: Optional[float] = None,
     presence_penalty: Optional[float] = None,
     seed: Optional[int] = None,
+    image_max_px: Optional[int] = None,
 ) -> str:
-    """Generischer Chat-Call an GPUStack. Returns the model's text `content`."""
+    """Generischer Chat-Call an GPUStack. Returns the model's text `content`.
+
+    ``image_source`` is one image or a list (several pages in one call, #771);
+    ``image_max_px`` scales local images down to that long side first.
+    """
     model = model or config.GPUSTACK_MODEL_TEXT
     budget = max(max_tokens, MIN_MAX_TOKENS)
-    messages = _build_messages(prompt, system, image_source)
+    messages = _build_messages(prompt, system, image_source, image_max_px)
 
     content, finish = _create(
         model,
@@ -196,7 +245,7 @@ def chat_text(prompt: str, system: Optional[str] = None, **kwargs) -> str:
     return chat(prompt, model=config.GPUSTACK_MODEL_TEXT, system=system, **kwargs)
 
 
-def chat_vision(prompt: str, image_source: str, system: Optional[str] = None,
+def chat_vision(prompt: str, image_source, system: Optional[str] = None,
                 model: Optional[str] = None, **kwargs) -> str:
     """Vision-Call (VLM). ``model`` defaults to ``GPUSTACK_MODEL_VISION``.
 
