@@ -16,14 +16,24 @@ IMAGE_ELEMENTS = ("Beschreibstoff", "Blaetter", "Format", "Lagen", "Schriftraum_
 VOLUME_ELEMENTS = ("Schreiber", "Blaetter", "Lagen", "Einband")
 
 
+#: At most this many page names in the line; beyond that, the count says it.
+_NAMES_SHOWN = 8
+
+
 def basis_line(source_json: Optional[dict]) -> str:
-    """One sentence for a reader: how many pages the description was made from."""
+    """One sentence for a reader: how many pages the description was made from,
+    and which, when it was more than one (#771)."""
     if not isinstance(source_json, dict):
         return ""
     for elem in IMAGE_ELEMENTS:
         el = source_json.get(elem)
         basis = el.get("basis") if isinstance(el, dict) else None
         if isinstance(basis, dict) and "seiten" in basis:
-            n, of = len(basis["seiten"]), basis.get("von")
-            return f"Beschreibung aus {n} von {of if of else '?'} Seite(n)"
+            seen = list(basis["seiten"])
+            n, of = len(seen), basis.get("von")
+            line = f"Beschreibung aus {n} von {of if of else '?'} Seite(n)"
+            if n > 1:
+                names = ", ".join(seen[:_NAMES_SHOWN]) + (", …" if n > _NAMES_SHOWN else "")
+                line += f": {names}"
+            return line
     return ""

@@ -343,8 +343,11 @@ answers nothing lowers it.
   have read it in training. The report gives each volume's publication year.
 - e-codices is mostly codices, and our corpus is mostly chancery and
   administrative records.
-- `--pages spread` is refused until Agent B takes several images (#771). This
-  report is the baseline that #771, #775 and #776 are measured against.
+- `--pages first` shows page 1 alone, as Agent B did before #771. Its report is
+  the baseline that #771, #775 and #776 are measured against.
+- `--pages spread` shows the pages production now shows: `AGENT_B_PAGES` (default
+  5) at even intervals, first and last included (#771). Run both into separate
+  directories and compare the two reports.
 
 **The reward (#782).** `eval/ecodices_reward.py` turns each verdict into a
 number, and `score` writes the mean per term and the script's Brier score under

@@ -429,6 +429,12 @@ AGENT_B_TEMPERATURE = float(_get("AGENT_B_TEMPERATURE", "0.0"))
 # Sent when set; backends may ignore it. Temperature 0 is what actually pins the
 # output, the seed only helps where the endpoint honours it.
 AGENT_B_SEED: int | None = int(_get("AGENT_B_SEED", "0")) or None
+# How many pages of a multi-page document Agent B sees, at even intervals with the
+# first and last always among them (#771). 1 is the old behaviour: page 1 only.
+AGENT_B_PAGES = max(1, int(_get("AGENT_B_PAGES", "5")))
+# Long side, in pixels, of each page when several go into one call (#771). One
+# page alone is sent as it is.
+AGENT_B_PAGE_MAX_PX = int(_get("AGENT_B_PAGE_MAX_PX", "1600"))
 
 ENABLE_ROUTING_PRIOR = _get("ENABLE_ROUTING_PRIOR", "false").lower() == "true"
 

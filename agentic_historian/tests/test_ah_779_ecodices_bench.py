@@ -13,8 +13,8 @@ e-codices' shape (``eval/fixtures/ecodices``):
 * "gotisch" is the generic family: it neither beats nor loses to "Textura";
 * stability is the share of runs giving the most common answer;
 * the report and scores.json come out of a bench directory;
-* ``run`` shows Agent B the first page only (as production does) and never the
-  TEI; ``spread`` is refused until #771.
+* ``run`` shows Agent B the first page (``first``) or the production sample
+  (``spread``, #771), and never the TEI.
 """
 
 import json
@@ -151,7 +151,7 @@ def test_the_manifest_gives_pages_and_the_tei():
     assert eb.pick_pages(12, "spread") == [0, 3, 6, 8, 11]
 
 
-def test_fetch_then_run_shows_agent_b_the_first_page_and_not_the_tei(tmp_path):
+def test_fetch_then_run_shows_agent_b_the_chosen_pages_and_not_the_tei(tmp_path):
     got = []
 
     def get(url):
@@ -165,17 +165,23 @@ def test_fetch_then_run_shows_agent_b_the_first_page_and_not_the_tei(tmp_path):
     assert eb.fetch(["saa-x"], tmp_path, get=get) == ["saa-x"]
     seen = []
 
-    def describe(doc_id, image, page_count):
-        seen.append((image, page_count))
-        assert b"<TEI" not in Path(image).read_bytes()
+    def describe(doc_id, images, page_count):
+        seen.append(([Path(i).name for i in images], page_count))
+        assert all(b"<TEI" not in Path(i).read_bytes() for i in images)
         return {"source_json": _sj("Bastarda")}
 
     eb.run(tmp_path, describe=describe, runs=2, get=get)
-    assert [Path(i).name for i, _ in seen] == ["page-0000.jpg", "page-0000.jpg"]
+    assert [names for names, _ in seen] == [["page-0000.jpg"]] * 2
     assert {n for _, n in seen} == {12}
     assert sorted(p.name for p in (tmp_path / "saa-x" / "runs").iterdir()) == ["00.json", "01.json"]
-    with pytest.raises(SystemExit, match="#771"):
-        eb.run(tmp_path, describe=describe, runs=1, pages="spread", get=get)
+
+    spread = tmp_path / "spread"
+    assert eb.fetch(["saa-x"], spread, get=get) == ["saa-x"]
+    seen.clear()
+    eb.run(spread, describe=describe, runs=1, pages="spread", get=get)
+    assert seen == [([f"page-{i:04d}.jpg" for i in (0, 3, 6, 8, 11)], 12)]
+    run = json.loads((spread / "saa-x" / "runs" / "00.json").read_text())
+    assert run["pages_seen"] == run["pages_shown"] == seen[0][0]
 
 
 def test_the_bench_calls_agent_bs_real_image_only_path(tmp_path, monkeypatch):
