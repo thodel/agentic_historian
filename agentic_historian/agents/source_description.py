@@ -44,7 +44,9 @@ def pins_from_runstate(state) -> dict:
     return pins
 
 
-def _pin_constraint(pins: dict) -> str:
+def _pin_constraint(pins: Optional[dict]) -> str:
+    # None is "no pins": eval/ecodices_bench calls the image-only path without any.
+    pins = pins or {}
     lines = [f"- {elem} = {fmt(pins[f])}"
              for f, (elem, fmt) in _PIN_TO_ELEMENT.items() if pins.get(f) is not None]
     if not lines:
@@ -64,6 +66,8 @@ def _apply_pins(source_json: dict, pins: dict) -> dict:
         el = el if isinstance(el, dict) else {}
         el["wert"] = fmt(pins[field])
         el["quelle"] = "historiker"
+        # A pinned value is not one candidate among the model's (#775).
+        el.pop("kandidaten", None)
         source_json[element] = el
     return source_json
 
@@ -76,6 +80,60 @@ def _apply_pins(source_json: dict, pins: dict) -> dict:
 # berechnet, historiker) and ``basis`` (which pages, of how many, and whether the
 # transcription was seen), and the elements that describe the whole volume are
 # held to what was seen: from one page they are marked unsicher and say so.
+
+# ── Schrift as a ranked list (#775) ───────────────────────────────────────────
+#
+# Schrift drives model selection, and one label hid how close the call was: the
+# same images were "Kursive", "Fraktur" and "Gotische Textura" in three runs
+# (#379). Agent B now gives up to three candidates with a confidence and the
+# letterforms behind each; ``wert`` stays the first, so every reader of
+# ``Schrift.wert`` runs unchanged.
+
+SCRIPT_CANDIDATES_RULE = (
+    "- Schrift: gib zusaetzlich \"kandidaten\" an, bis zu drei Schriftarten absteigend, "
+    "je {\"schrift\": str, \"zuversicht\": Zahl 0-1, \"merkmale\": [beobachtete "
+    "Buchstabenformen, z.B. \"langes s\", \"Schleifen an Oberlaengen\"]}. Die Zuversichten "
+    "summieren sich hoechstens zu 1; \"wert\" ist der erste Kandidat.\n")
+
+
+def script_candidates(element) -> list[dict]:
+    """The validated candidate list of a Schrift element: at most three, best first.
+
+    A candidate needs a name; its confidence is clamped to 0..1 (None when the
+    model gave none) and the list is sorted by it. Anything else is dropped,
+    not repaired: a wrong shape here is the model's, and it must not become a
+    ranking nobody made.
+    """
+    raw = element.get("kandidaten") if isinstance(element, dict) else None
+    out = []
+    for c in raw if isinstance(raw, list) else []:
+        if not isinstance(c, dict) or not str(c.get("schrift") or "").strip():
+            continue
+        try:
+            conf = min(1.0, max(0.0, float(c["zuversicht"]))) if c.get("zuversicht") is not None else None
+        except (TypeError, ValueError):
+            conf = None
+        marks = c.get("merkmale")
+        out.append({"schrift": str(c["schrift"]).strip(), "zuversicht": conf,
+                    "merkmale": [str(m) for m in marks] if isinstance(marks, list) else []})
+    if any(c["zuversicht"] is not None for c in out):
+        out.sort(key=lambda c: -(c["zuversicht"] or 0.0))
+    return out[:3]
+
+
+def _rank_script(source_json: dict) -> dict:
+    """Validate Schrift.kandidaten; ``wert`` becomes the first candidate."""
+    el = source_json.get("Schrift") if isinstance(source_json, dict) else None
+    if not isinstance(el, dict):
+        return source_json
+    cands = script_candidates(el)
+    if cands:
+        el["kandidaten"] = cands
+        el["wert"] = cands[0]["schrift"]
+    else:
+        el.pop("kandidaten", None)
+    return source_json
+
 
 def _basis_instruction(n_images: int, page_count: Optional[int]) -> str:
     """The prompt line that ties the description to what the model was shown."""
@@ -241,6 +299,7 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
         "- Verwende KEINE Markdown-Codefences um das JSON.\n"
         "- Gib das JSON als Erstes aus, direkt gefolgt vom Markdown.\n"
         "- Fehlende oder nicht beobachtbare Felder mit null oder leerem String/[] je nach Typ.\n"
+        + SCRIPT_CANDIDATES_RULE +
         "- JSON erlaubt KEINE Kommentare: kennzeichne unsichere Angaben, indem du dem\n"
         "  Wert die Zeichenkette \" (unsicher)\" anhaengst (z.B. \"Bern (unsicher)\").\n"
     )
@@ -273,6 +332,7 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
     # ── Parse Markdown + JSON from response ────────────────────────────────────
     source_json, description_md = _parse_response(raw)
 
+    source_json = _rank_script(source_json)
     # Human pins are authoritative — overwrite the mapped elements (#147).
     source_json = _apply_pins(source_json, pins)
     source_json = _ground(source_json, images=[image_path] if image_sent else [],
@@ -334,6 +394,7 @@ def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict],
         "- Verwende KEINE Markdown-Codefences um das JSON.\n"
         "- Nicht beobachtbare Felder: null bzw. leerer String/[].\n"
         "- Unsichere Angaben mit \" (unsicher)\" kennzeichnen.\n"
+        + SCRIPT_CANDIDATES_RULE
     )
     try:
         raw = gs.chat_vision(prompt, image_source=str(image_path), system=None,
@@ -348,7 +409,7 @@ def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict],
         logger.warning(f"[Agent B] Bild-Beschreibung leer: {doc_id}")
         return None
 
-    source_json = _apply_pins(source_json, pins)
+    source_json = _apply_pins(_rank_script(source_json), pins)
     source_json = _ground(source_json, images=[image_path], page_count=page_count,
                           text_seen=False)
     result = {

@@ -62,10 +62,31 @@ def _criteria(state: RunState) -> SourceCriteria:
                           century=c.get("century"), document_type=c.get("document_type"))
 
 
+#: Gate 1 opens when Agent B's two leading script candidates are closer than this
+#: (#775): a 55/45 call between two scripts is a question for the historian.
+SCRIPT_GATE_MARGIN = 0.2
+
+
+def script_margin(source_json: Optional[dict]) -> Optional[float]:
+    """Confidence of the first script candidate minus the second; None without two."""
+    el = source_json.get("Schrift") if isinstance(source_json, dict) else None
+    cands = el.get("kandidaten") if isinstance(el, dict) else None
+    if not isinstance(cands, list) or len(cands) < 2:
+        return None
+    a, b = (cands[0] or {}).get("zuversicht"), (cands[1] or {}).get("zuversicht")
+    if a is None or b is None:
+        return None
+    return round(a - b, 4)
+
+
 def agent_b_unsicher(source_json: Optional[dict]) -> bool:
-    """True if Agent B flagged any routing-relevant element ``(unsicher)``."""
+    """True if Agent B flagged a routing element ``(unsicher)``, or its two leading
+    script candidates are closer than SCRIPT_GATE_MARGIN (#775)."""
     if not isinstance(source_json, dict):
         return False
+    margin = script_margin(source_json)
+    if margin is not None and margin < SCRIPT_GATE_MARGIN:
+        return True
     for element in ("Datierung", "Sprache", "Schrift"):
         el = source_json.get(element)
         wert = el.get("wert") if isinstance(el, dict) else el
