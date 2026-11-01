@@ -87,6 +87,13 @@ def agent_b_unsicher(source_json: Optional[dict]) -> bool:
     margin = script_margin(source_json)
     if margin is not None and margin < SCRIPT_GATE_MARGIN:
         return True
+    # The reference collection names another script (#776) — when that is allowed
+    # to open the gate at all.
+    import config
+    el = source_json.get("Schrift")
+    if (getattr(config, "REFERENCE_PINS_GATE", False) and isinstance(el, dict)
+            and isinstance(el.get("referenz"), dict) and el["referenz"].get("widerspruch")):
+        return True
     for element in ("Datierung", "Sprache", "Schrift"):
         el = source_json.get(element)
         wert = el.get("wert") if isinstance(el, dict) else el

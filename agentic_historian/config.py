@@ -439,6 +439,10 @@ AGENT_B_PAGE_MAX_PX = int(_get("AGENT_B_PAGE_MAX_PX", "1600"))
 # the most and the least typical page among them, chosen from page features.
 # "spread" until the e-codices bench has measured that "typical" is steadier.
 AGENT_B_PAGE_CHOICE = _get("AGENT_B_PAGE_CHOICE", "spread").strip().lower()
+# A contradiction between the reference collection's suggestion and Agent B's
+# script opens Gate 1 (#776) only when this is on. Off until leave_one_out has
+# shown the suggestion can stand beside the VLM; the suggestion is shown anyway.
+REFERENCE_PINS_GATE = _get("REFERENCE_PINS_GATE", "false").lower() == "true"
 
 ENABLE_ROUTING_PRIOR = _get("ENABLE_ROUTING_PRIOR", "false").lower() == "true"
 

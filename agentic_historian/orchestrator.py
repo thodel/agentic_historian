@@ -278,6 +278,7 @@ def _describe_cached(doc_id: str, transcription: str, pages, image_path,
     invalidation is explicit (Gate-1 correction, reprocess); see description_cache.
     """
     import description_cache as dc
+    import reference_pins
 
     shown = image_path if isinstance(image_path, (list, tuple)) else ()
     key = dc.content_key(pages, shown=shown)
@@ -287,6 +288,8 @@ def _describe_cached(doc_id: str, transcription: str, pages, image_path,
         _emit(on_phase, doc_id, "agent_b", "B",
               output=hit.get("source_json"),
               decision=f"description reused (cache {key[:8]})")
+        # After the cache, not in it: the collection grows with every pin (#776).
+        reference_pins.attach(hit, image_path)
         return hit
 
     extra = {"page_roles": page_roles} if page_roles else {}
@@ -295,6 +298,7 @@ def _describe_cached(doc_id: str, transcription: str, pages, image_path,
                             page_count=len(pages) if pages else None, **extra)
     if desc:
         dc.store(key, desc)
+        reference_pins.attach(desc, image_path)
     return desc
 
 
@@ -1390,6 +1394,9 @@ def run_full_pipeline_group(
                 state = RunState.load_or_new(doc_id)
                 state.stage_status["agent_b"] = DONE
                 state.artifacts["description"] = ctx.description
+                # The order's pages, so a later script pin can file the order as
+                # an exemplar (#776) — the description keeps only file names.
+                state.artifacts["page_images"] = [str(p) for p in pages]
                 state.save()
             except Exception as e2:
                 logger.warning(f"[Orchestrator] Group Phase 2 RunState persist skipped: {e2}")
