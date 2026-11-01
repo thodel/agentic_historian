@@ -345,3 +345,19 @@ answers nothing lowers it.
   administrative records.
 - `--pages spread` is refused until Agent B takes several images (#771). This
   report is the baseline that #771, #775 and #776 are measured against.
+
+**The reward (#782).** `eval/ecodices_reward.py` turns each verdict into a
+number, and `score` writes the mean per term and the script's Brier score under
+"Belohnung" in the report and `reward` in `scores.json`.
+
+- A hit scores +1, a miss −1, no answer −0.5, and an element the catalogue does
+  not name scores 0.
+- A dating hit scores `min(1, 50 / width in years)`, so "12.–16. Jh." does not
+  count like "Mitte 15. Jh.".
+- A Brier term on the first script candidate's confidence (#775) penalises a
+  confident wrong script. A bare label counts as p = 1, so leaving out the
+  confidence does not avoid the term.
+- A completion that is not the 16-element JSON scores −1 in total.
+
+`trl_reward_funcs()` returns the same terms in the signature TRL's
+`GRPOTrainer` takes, `f(completions, reference, **kwargs)`, with their weights.
