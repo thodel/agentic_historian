@@ -265,7 +265,8 @@ def cli(monkeypatch, tmp_path):
             source="dav:Lassberg", models=",".join(by_model), run="r1",
             out_root=str(out_root), limit=None, sample=None, seed=1,
             concurrency=1, retries=0, cache_dir=str(tmp_path / "cache"),
-            no_listing_cache=False, dry_run=False, no_preflight=False)
+            no_listing_cache=False, dry_run=False, no_preflight=False,
+            no_headroom=True)  # V2 alone; the lease (#473) has its own tests
         for key, value in over.items():
             setattr(args, key, value)
         return cli_module.atr_batch(args), out_root
@@ -359,7 +360,8 @@ def test_the_refused_model_is_dropped_and_the_other_is_submitted(
         source="dav:Lassberg", models=f"{XIX},{MEDIEVAL}", run="r1",
         out_root=str(tmp_path / "out"), limit=None, sample=None, seed=1,
         concurrency=1, retries=0, cache_dir=str(tmp_path / "cache"),
-        no_listing_cache=False, dry_run=False, no_preflight=False))
+        no_listing_cache=False, dry_run=False, no_preflight=False,
+        no_headroom=True))  # V2 alone; the lease (#473) has its own tests
 
     assert code == 0
     assert submitted == [[MEDIEVAL]]

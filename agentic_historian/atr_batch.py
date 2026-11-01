@@ -1232,6 +1232,7 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
               manifest: Optional[Path] = None,
               cache: Optional["PageSource"] = None,
               identity: Optional["provenance.ModelIdentity"] = None,
+              heartbeat: Optional[Callable[[], None]] = None,
               sleep=time.sleep) -> ModelOutcome:
     """Read every page with one model, writing into ``out_root/<model>/``.
 
@@ -1416,6 +1417,11 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
                 )
                 return False
 
+        if heartbeat is not None:
+            # The lease's heartbeat (#473), from the loop that reads the pages:
+            # a run that hangs loses its lease like one that died. It throttles
+            # itself, and it never raises.
+            heartbeat()
         done = index + 1
         if res.status == "done" and (done % 10 == 0 or done == total):
             logger.info(_progress_line(model, done, total, outcome,
@@ -1596,6 +1602,16 @@ class Preflight:
         return bool(self.verdicts) and not self.runnable
 
     @property
+    def leasable(self) -> list[str]:
+        """Models that exist and do not fit — the ones a headroom lease could help (#473).
+
+        Not an unlisted id (no lease makes a 404 go away) and not an unknown
+        need (the gateway refuses to clear a card on a guess).
+        """
+        return [v.model for v in self.verdicts
+                if v.fits is False and v.registered is not False]
+
+    @property
     def unlisted(self) -> list[ModelVerdict]:
         """Models ``/models`` answered about and did not have. Typos live here."""
         return [v for v in self.verdicts if v.registered is False]
@@ -1726,12 +1742,19 @@ def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
               out_root: Path, recognise: Recogniser, *,
               probe: Optional[dict] = None, source: Optional[str] = None,
               gateway: Optional[str] = None, energy: Optional[EnergyReader] = None,
+              headroom: Optional["object"] = None, needs_headroom: Sequence[str] = (),
               **kwargs) -> BatchReport:
     """Every model over every page, **model-major** — see the module docstring.
 
     One model being abandoned never stops the batch: the others still run, and the
     report says which one stopped and why. A run that aborts wholesale because the
     third model was mistyped throws away the two that worked.
+
+    A model in ``needs_headroom`` did not fit at the preflight (#473). Right before
+    its pass ``headroom`` (a :class:`headroom_lease.HeadroomClient`) asks the gateway
+    to clear the card under a lease; the page loop renews it and the pass releases
+    it. A model the gateway cannot make room for is abandoned with the gateway's
+    reason, and the others still run.
     """
     out_root = Path(out_root)
     out_root.mkdir(parents=True, exist_ok=True)
@@ -1755,9 +1778,27 @@ def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
     for model in models:
         # Model-major is what makes this attributable: one model at a time on
         # the card, read before and after (serving-atr-inference#240).
+        lease = None
+        if headroom is not None and model in needs_headroom:
+            from headroom_lease import HeadroomRefused
+
+            try:
+                lease = headroom.acquire(model, holder=run)
+            except HeadroomRefused as exc:
+                logger.error(f"[batch] {model}: no headroom — {exc}")
+                report.models.append(ModelOutcome(model=model, aborted=f"no headroom: {exc}"))
+                continue
+            if lease is not None:
+                logger.info(f"[batch] {model}: {lease.line()}")
         before = energy(model) if energy else None
-        outcome = run_model(pages, model, run, out_root, recognise, manifest=manifest,
-                            identity=identities.get(model), **kwargs)
+        try:
+            outcome = run_model(pages, model, run, out_root, recognise, manifest=manifest,
+                                identity=identities.get(model),
+                                heartbeat=lease.beat if lease is not None else None,
+                                **kwargs)
+        finally:
+            if lease is not None:
+                lease.release()
         if energy:
             outcome.energy = energy_between(before, energy(model), model)
             if outcome.energy is not None:
