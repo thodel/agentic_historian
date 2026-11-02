@@ -100,6 +100,14 @@ def apply_criteria_change(
     """
     inferred_value = state.criteria.get(field)
     state.invalidate(field, value=value, user=state.gate_decisions.get("user"))
+    if field == "script":
+        # The pin becomes an exemplar (#776). Never at the pin's expense.
+        try:
+            import reference_pins
+            reference_pins.add_from_pin(state, value, vlm_label=inferred_value or "",
+                                        user=state.gate_decisions.get("user") or "")
+        except Exception as exc:  # noqa: BLE001
+            logger.warning(f"[card] {state.doc_id}: pin not filed as an exemplar: {exc}")
     match = select_model(state)
     state.gate_decisions["model"] = (
         {"id": match.model.model_id, "name": match.model.name,

@@ -487,31 +487,49 @@ def fetch(ids: Iterable[str], bench_dir: Path, *, get: Callable[[str], bytes],
 
 
 def run(bench_dir: Path, *, describe: Callable[[str, list, int], dict], runs: int = 3,
-        pages: str = "first", get: Callable[[str], bytes]) -> None:
+        pages: str = "first", get: Callable[[str], bytes], features=None) -> None:
     """Agent B on each fetched volume, R times, from page images only.
 
     ``describe`` gets the list of pages shown: one for ``first``, k at even
-    intervals for ``spread`` (#771).
+    intervals for ``spread`` (#771), and for ``typical`` the most and the least
+    typical page among them (#774), measured on up to
+    ``page_sample.TYPICALITY_POOL`` pages; then it also gets ``page_roles``.
+    ``features`` replaces ``page_features.image_features`` in the tests.
     """
+    import page_sample
+
     for vdir in sorted(p for p in bench_dir.iterdir() if (p / "tei.xml").exists()):
         urls = canvases(json.loads((vdir / "manifest.json").read_text(encoding="utf-8")))
-        shown = pick_pages(len(urls), pages)
-        images = []
-        for i in shown:
+
+        def page(i: int, vdir=vdir, urls=urls) -> Path:
             path = vdir / f"page-{i:04d}.jpg"
             if not path.exists():
                 path.write_bytes(get(urls[i]))
-            images.append(path)
+            return path
+
+        roles: dict[str, str] = {}
+        if pages == "typical":
+            import config
+
+            if features is None:
+                from page_features import image_features as features
+            chosen = page_sample.choose(len(urls), config.AGENT_B_PAGES, "typical",
+                                        features=lambda i: features(page(i)))
+            images = [page(i) for i, _ in chosen]
+            roles = {page(i).name: role for i, role in chosen if role != page_sample.SAMPLE}
+        else:
+            images = [page(i) for i in pick_pages(len(urls), pages)]
         (vdir / "runs").mkdir(exist_ok=True)
         for r in range(runs):
             out = vdir / "runs" / f"{r:02d}.json"
             if out.exists():
                 continue
-            result = describe(f"{vdir.name}-r{r}", [str(p) for p in images], len(urls))
+            extra = {"page_roles": roles} if roles else {}
+            result = describe(f"{vdir.name}-r{r}", [str(p) for p in images], len(urls), **extra)
             seen = result.get("pages_seen") or [p.name for p in images]
             out.write_text(json.dumps({"source_json": result.get("source_json") or {},
                                        "pages_shown": [p.name for p in images],
-                                       "pages_seen": seen},
+                                       "pages_seen": seen, "page_roles": roles},
                                       ensure_ascii=False, indent=2), encoding="utf-8")
 
 
@@ -522,9 +540,9 @@ def _http_get(url: str) -> bytes:
     return r.content
 
 
-def _agent_b_image_only(doc_id: str, images, page_count: int) -> dict:
+def _agent_b_image_only(doc_id: str, images, page_count: int, page_roles=None) -> dict:
     from agents import source_description as agent_b
-    return agent_b._describe_from_image(doc_id, images, None, page_count) or {}
+    return agent_b._describe_from_image(doc_id, images, None, page_count, page_roles) or {}
 
 
 def main(argv: Optional[list[str]] = None) -> int:
@@ -538,7 +556,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     r = sub.add_parser("run", help="Agent B on every fetched volume (VLM)")
     r.add_argument("dir", type=Path)
     r.add_argument("--runs", type=int, default=3)
-    r.add_argument("--pages", choices=("first", "spread"), default="first")
+    r.add_argument("--pages", choices=("first", "spread", "typical"), default="first")
     s = sub.add_parser("score", help="judge the runs against the TEI (no network)")
     s.add_argument("dir", type=Path)
     args = ap.parse_args(argv)

@@ -264,7 +264,7 @@ def run_find_passages(query: str, entity_type: str = "",
 
 
 def _describe_cached(doc_id: str, transcription: str, pages, image_path,
-                     on_phase=None) -> dict:
+                     on_phase=None, page_roles=None) -> dict:
     """Agent B's description, reused when these exact page images were described
     before (#387).
 
@@ -278,6 +278,7 @@ def _describe_cached(doc_id: str, transcription: str, pages, image_path,
     invalidation is explicit (Gate-1 correction, reprocess); see description_cache.
     """
     import description_cache as dc
+    import reference_pins
 
     shown = image_path if isinstance(image_path, (list, tuple)) else ()
     key = dc.content_key(pages, shown=shown)
@@ -287,13 +288,17 @@ def _describe_cached(doc_id: str, transcription: str, pages, image_path,
         _emit(on_phase, doc_id, "agent_b", "B",
               output=hit.get("source_json"),
               decision=f"description reused (cache {key[:8]})")
+        # After the cache, not in it: the collection grows with every pin (#776).
+        reference_pins.attach(hit, image_path)
         return hit
 
+    extra = {"page_roles": page_roles} if page_roles else {}
     desc = agent_b.describe(doc_id=doc_id, transcription=transcription,
                             image_path=image_path,
-                            page_count=len(pages) if pages else None)
+                            page_count=len(pages) if pages else None, **extra)
     if desc:
         dc.store(key, desc)
+        reference_pins.attach(desc, image_path)
     return desc
 
 
@@ -1371,15 +1376,27 @@ def run_full_pipeline_group(
     if ctx.transcription:
         try:
             import page_sample
-            shown = [str(pages[i]) for i in page_sample.spread(len(pages), config.AGENT_B_PAGES)]
+            from page_features import image_features
+            # Which pages (#774): the spread (#771), or the most and the least
+            # typical among them when AGENT_B_PAGE_CHOICE=typical.
+            chosen = page_sample.choose(
+                len(pages), config.AGENT_B_PAGES, config.AGENT_B_PAGE_CHOICE,
+                features=lambda i: image_features(pages[i]))
+            shown = [str(pages[i]) for i, _ in chosen]
+            roles = {Path(pages[i]).name: role for i, role in chosen
+                     if role != page_sample.SAMPLE}
             ctx.description = _describe_cached(
                 doc_id, ctx.transcription, pages,
-                (shown if len(shown) > 1 else (shown[0] if shown else None)), on_phase)
+                (shown if len(shown) > 1 else (shown[0] if shown else None)), on_phase,
+                page_roles=roles or None)
             try:
                 from runstate import RunState, DONE, ERROR
                 state = RunState.load_or_new(doc_id)
                 state.stage_status["agent_b"] = DONE
                 state.artifacts["description"] = ctx.description
+                # The order's pages, so a later script pin can file the order as
+                # an exemplar (#776) — the description keeps only file names.
+                state.artifacts["page_images"] = [str(p) for p in pages]
                 state.save()
             except Exception as e2:
                 logger.warning(f"[Orchestrator] Group Phase 2 RunState persist skipped: {e2}")

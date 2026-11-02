@@ -135,6 +135,34 @@ def convert_mirror(args: argparse.Namespace) -> int:
 MISSING_KEYS_SHOWN = 100
 
 
+def reference_pins_cmd(args: argparse.Namespace) -> int:
+    """Fill the reference collection from existing pins, and measure it (#776)."""
+    import json as _json
+
+    import reference_pins
+    from runstate import RunState
+
+    coll = reference_pins.ReferenceCollection()
+    if args.backfill:
+        states = []
+        for doc_id in RunState.known_doc_ids():
+            try:
+                states.append(RunState.load(doc_id))
+            except Exception as exc:  # noqa: BLE001 — one broken state is not the run
+                print(f"  {doc_id}: unreadable ({exc})", file=sys.stderr)
+        counts = reference_pins.backfill(states, collection=coll)
+        print(f"backfill: {counts['added']} exemplar(s) added, {counts['no_image']} pinned "
+              f"without an image on this host, {counts['no_pin']} run(s) without a script pin")
+    result = reference_pins.leave_one_out(coll)
+    print(f"collection: {result['exemplars']} exemplar(s)")
+    if result["suggested"]:
+        print(f"leave-one-out: suggestion right {result['suggestion_hits']} of "
+              f"{result['suggested']}; VLM right {result['vlm_hits']} of {result['vlm_answered']}")
+    if args.json:
+        print(_json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
+
+
 def atr_batch(args: argparse.Namespace) -> int:
     """Read every page under --source with every --models entry, model-major."""
     import atr_batch as batch
@@ -1583,6 +1611,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_pull.add_argument("--list", action="store_true",
                         help="List what is in the share and exit, without downloading")
     p_pull.set_defaults(func=pull_share)
+
+    p_ref = sub.add_parser(
+        "reference-pins",
+        help="Historian script pins as a reference collection: backfill and measure (#776)")
+    p_ref.add_argument("--backfill", action="store_true",
+                       help="File every pinned script in data/runs as an exemplar")
+    p_ref.add_argument("--json", action="store_true", help="Also print the per-document rows")
+    p_ref.set_defaults(func=reference_pins_cmd)
 
     p_conv = sub.add_parser(
         "convert-mirror",

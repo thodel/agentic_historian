@@ -348,6 +348,10 @@ answers nothing lowers it.
 - `--pages spread` shows the pages production now shows: `AGENT_B_PAGES` (default
   5) at even intervals, first and last included (#771). Run both into separate
   directories and compare the two reports.
+- `--pages typical` puts the most and the least typical page among them (#774),
+  chosen from page features (`page_features`, a stand-in until #773) measured on
+  up to 60 pages. Production uses it with `AGENT_B_PAGE_CHOICE=typical`; the
+  default stays `spread` until this comparison says `typical` is steadier.
 
 **The reward (#782).** `eval/ecodices_reward.py` turns each verdict into a
 number, and `score` writes the mean per term and the script's Brier score under
