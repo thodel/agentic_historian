@@ -142,3 +142,12 @@ one is a commit with a diff rather than an edit to a shell line somebody pasted.
   keeps superscripts as combining characters (U+0364, U+0366), keeps capitals
   and word boundaries as written. A new file; `a6e9e1e9` is v1.
 
+- `sg_missiven_page_v4.md` — v3 without later endorsements. The worst page of
+  every Missiven run (`StadtASG_Missive_418_853`, 142–152 % for Argon and
+  Flash alike) is an address leaf: the GT holds the address (85 characters),
+  Argon read it nearly right and then transcribed the chancery's later docket
+  in another hand ("Des Thuom Capittels schryben unnd bericht der vechd …
+  a° 1476", 120 characters) that the GT leaves out. A convention, not a
+  misreading; v4 leaves endorsements and dockets out and transcribes an
+  address leaf's address alone. A new file; `64a5acdf` is v3.
+
