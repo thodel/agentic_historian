@@ -44,6 +44,8 @@ import re
 import sys
 from pathlib import Path
 
+from run_layout import page_files
+
 #: A reading that carries no text: an optional single letter or digit, a dot,
 #: nothing else. Deliberately narrow — see the module docstring for why the
 #: tempting "drop anything short" and "drop anything small" both cut real text.
@@ -77,7 +79,7 @@ def clean_run(model_dir: Path, *, dry_run: bool = False) -> dict:
     """
     pages = dropped = kept = 0
     touched = []
-    for meta in sorted(model_dir.glob("*.json")):
+    for meta in page_files(model_dir):
         data = json.loads(meta.read_text(encoding="utf-8"))
         lines = data.get("lines") or []
         if not lines:

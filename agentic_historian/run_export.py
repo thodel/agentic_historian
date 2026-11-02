@@ -81,6 +81,7 @@ from loguru import logger
 
 import config
 import hf_export as hf
+from run_layout import page_files
 
 #: The PAGE schema every Transkribus export in this project declares, and the one
 #: `pagexml-hf` was written against. The parser takes the namespace from the
@@ -209,7 +210,7 @@ def model_dirs(run_dir: Path, model: Optional[str] = None) -> list[Path]:
     if not run_dir.is_dir():
         raise NotADirectoryError(f"no run directory at {run_dir}")
     found = [d for d in sorted(run_dir.iterdir())
-             if d.is_dir() and any(d.glob("*.json"))]
+             if d.is_dir() and page_files(d)]
     if model:
         found = [d for d in found if d.name == model]
         if not found:
@@ -233,7 +234,7 @@ def read_run(run_dir: Path, model: Optional[str] = None) -> list[RunPage]:
     """
     pages: list[RunPage] = []
     for d in model_dirs(Path(run_dir), model):
-        for jf in sorted(d.glob("*.json")):
+        for jf in page_files(d):
             try:
                 meta = json.loads(jf.read_text(encoding="utf-8"))
             except (OSError, ValueError) as exc:

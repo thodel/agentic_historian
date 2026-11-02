@@ -169,7 +169,62 @@ GATEWAY_PROBES = (
     ("models", "/models"),
     ("gpu_serving", "/gpu"),
     ("gpu_training", "/train/gpu"),
+    # The gateway's open headroom leases (#473/#474): which engines a run has
+    # taken off the card, for whom, and for how much longer.
+    ("leases", "/headroom"),
 )
+
+
+def lent_engines(probe: dict, now: Optional[float] = None) -> dict:
+    """Mark an engine that is down because of a lease as *geliehen* (#474).
+
+    ``/health`` says ``reachable: false`` for an engine a lease stopped, exactly
+    as it does for one that crashed — and the two want opposite responses: wait
+    for the lease, or go and look. So every engine named in an open lease's
+    ``freed`` gets ``lent`` (lease id, holder, model, remaining seconds, and the
+    lease's state), and ``state`` says ``geliehen`` instead of ``unerreichbar``.
+    A lease in ``restoring`` is one whose engine did not come back: it stays
+    ``unerreichbar``, with the lease's ``last_error`` beside it, because that is
+    a defect the gateway is retrying, not a loan. Returns the lease summary, or
+    ``{}`` when the gateway has no ``/headroom`` to ask.
+    """
+    import time as _time
+
+    leases = (probe.get("leases") or {}).get("leases")
+    if not isinstance(leases, list):
+        return {}
+    now = _time.time() if now is None else now
+    by_engine: dict = {}
+    summary = []
+    for lease in leases:
+        expires = lease.get("expires_at")
+        left = max(0, round(expires - now)) if isinstance(expires, (int, float)) else None
+        row = {"lease_id": lease.get("lease_id"), "holder": lease.get("holder") or "",
+               "model": lease.get("model"), "card": lease.get("card"),
+               "state": lease.get("state"), "remaining_s": left,
+               "freed": [f.get("engine") for f in lease.get("freed") or []]}
+        if lease.get("state") == "restoring":
+            row["pending"] = lease.get("pending") or []
+            row["last_error"] = lease.get("last_error") or ""
+        summary.append(row)
+        for f in lease.get("freed") or []:
+            by_engine[f.get("engine")] = row
+    engines = (probe.get("health") or {}).get("engines")
+    for engine in engines if isinstance(engines, list) else []:
+        if not isinstance(engine, dict):
+            continue
+        row = by_engine.get(engine.get("name"))
+        if engine.get("reachable") is not False:
+            continue
+        if row is None:
+            engine["state"] = "unerreichbar"
+        elif row["state"] == "restoring":
+            engine["state"] = "unerreichbar"
+            engine["lent"] = row
+        else:
+            engine["state"] = "geliehen"
+            engine["lent"] = row
+    return {"open": len(summary), "leases": summary}
 
 
 def gateway_probe() -> dict:
@@ -208,6 +263,8 @@ def gateway_report() -> dict:
     """
     probe = gateway_probe()
     probe["headroom"] = atr_gpu.headroom_report(probe)
+    if lent := lent_engines(probe):
+        probe["leases"] = lent
     return probe
 
 
@@ -331,6 +388,14 @@ def build_server(provider=None, auth_settings=None):
         whose size or card the registry does not state is ``fits: null``, never
         ``true``: this is a preflight, and a cheerful default would defeat it
         (#471).
+
+        **And who has the card on loan.** ``leases`` lists the gateway's open
+        headroom leases — holder (the run), model, remaining seconds — and an
+        engine that is down because of one carries ``state: geliehen`` and the
+        lease under ``lent``, where ``/health`` alone says ``reachable: false``
+        as for a crash. ``unerreichbar`` is an engine down with no lease to
+        explain it, or one whose lease is ``restoring`` because it did not come
+        back: that one is a defect, not a loan (#474).
         """
         return gateway_report()
 

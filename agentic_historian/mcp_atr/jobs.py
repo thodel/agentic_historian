@@ -45,6 +45,7 @@ from pathlib import Path
 from typing import Optional, Sequence
 
 import config
+from run_layout import page_files, read_lease
 from utils import nextcloud
 
 __all__ = [
@@ -2035,11 +2036,18 @@ def run_progress(run: Optional[str]) -> dict:
     run_dir = Path(config.VLM_TEST_ROOT) / run
     if not run_dir.is_dir():
         return {}
-    per_model = {}
+    per_model, leases = {}, {}
     for child in sorted(run_dir.iterdir()):
         if child.is_dir():
-            per_model[child.name] = sum(1 for _ in child.glob("*.json"))
+            per_model[child.name] = len(page_files(child))
+            lease = read_lease(child)
+            if lease is not None:
+                leases[child.name] = lease
     out: dict = {"run_dir": str(run_dir), "pages_written": per_model}
+    if leases:
+        # What the run took off the card, while it still holds it (#474): which
+        # engines are down because of this run, and since when.
+        out["leases"] = leases
     report = run_dir / "report.md"
     if report.is_file():
         out["report"] = str(report)

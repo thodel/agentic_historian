@@ -57,6 +57,7 @@ import provenance
 
 import config
 import page_quality
+from run_layout import ENERGY_FILE, LEASE_FILE, page_files, read_lease
 
 __all__ = [
     "IMAGE_EXTS",
@@ -709,6 +710,10 @@ class ModelOutcome:
     #: :func:`energy_between`. None when nothing was read: a run without the
     #: meter, or one rebuilt from files written before #240.
     energy: Optional[dict] = None
+    #: The headroom lease held for this model (#474), as
+    #: :meth:`headroom_lease.HeadroomLease.record` gives it. None when the model
+    #: fitted without one — and then the report has no lease section.
+    lease: Optional[dict] = None
 
     @property
     def wh_per_page(self) -> Optional[float]:
@@ -1665,8 +1670,30 @@ def preflight(models: Sequence[str], probe: dict | None = None,
 #: A reading of the gateway's power meter for one model, or None.
 EnergyReader = Callable[[str], Optional[dict]]
 
-#: The file beside a model's results that keeps its energy for a rebuilt report.
-ENERGY_FILE = "energy.json"
+# ENERGY_FILE and LEASE_FILE (#474), beside a model's results, keep its energy and
+# its lease for a rebuilt report; ``run_layout.page_files`` leaves them out of the pages.
+
+
+def _write_lease(model_dir: Path, lease) -> None:
+    """``lease.json`` beside the pages (#474): written when the lease is taken, when
+    it is lost and when it is released, so ``job_status`` sees it while the model
+    runs and a rebuilt report sees how it ended. Never raises: a record that
+    cannot be written must not cost the pages."""
+    try:
+        _write_atomic(model_dir / LEASE_FILE, json.dumps(lease.record(), indent=2,
+                                                         ensure_ascii=False))
+    except Exception as exc:  # noqa: BLE001
+        logger.warning(f"[batch] {model_dir.name}: lease record not written: {exc}")
+
+
+def _lease_beat(model_dir: Path, lease) -> Callable[[], None]:
+    """The heartbeat, and the record rewritten the moment the lease is lost."""
+    def beat() -> None:
+        was = lease.lost
+        lease.beat()
+        if lease.lost and not was:
+            _write_lease(model_dir, lease)
+    return beat
 
 
 def energy_reader(base_url: Optional[str] = None, api_key: Optional[str] = None,
@@ -1790,15 +1817,20 @@ def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
                 continue
             if lease is not None:
                 logger.info(f"[batch] {model}: {lease.line()}")
+                _write_lease(out_root / model, lease)
         before = energy(model) if energy else None
         try:
             outcome = run_model(pages, model, run, out_root, recognise, manifest=manifest,
                                 identity=identities.get(model),
-                                heartbeat=lease.beat if lease is not None else None,
+                                heartbeat=_lease_beat(out_root / model, lease)
+                                if lease is not None else None,
                                 **kwargs)
         finally:
             if lease is not None:
                 lease.release()
+                _write_lease(out_root / model, lease)
+        if lease is not None:
+            outcome.lease = lease.record()
         if energy:
             outcome.energy = energy_between(before, energy(model), model)
             if outcome.energy is not None:
@@ -1950,7 +1982,7 @@ def merge_runs(run_dirs: Sequence[Path], out_root: Path, *,
     seen: dict = {}
     for attempt, directory in enumerate(runs, start=1):
         for model_dir in sorted(p for p in directory.iterdir() if p.is_dir()):
-            for json_path in sorted(model_dir.glob("*.json")):
+            for json_path in page_files(model_dir):
                 data = _read_result(json_path)
                 if data is None:
                     continue
@@ -2063,7 +2095,7 @@ def report_from_outputs(run_dir: Path) -> BatchReport:
     for model_dir in sorted(p for p in run_dir.iterdir() if p.is_dir()):
         outcome = ModelOutcome(model=model_dir.name)
         seen: list[datetime] = []
-        for json_path in sorted(model_dir.glob("*.json")):
+        for json_path in page_files(model_dir):
             data = _read_result(json_path)
             if data is None:
                 outcome.failed += 1
@@ -2107,6 +2139,7 @@ def report_from_outputs(run_dir: Path) -> BatchReport:
                 outcome.energy = json.loads(energy_file.read_text(encoding="utf-8"))
             except (OSError, ValueError):
                 outcome.energy = None
+        outcome.lease = read_lease(model_dir)
         report.models.append(outcome)
 
     report.pages = max((m.attempted for m in report.models), default=0)
@@ -2489,6 +2522,67 @@ def _energy_section(report: BatchReport) -> list[str]:
     return out
 
 
+def _span(start: str, end: str) -> str:
+    """``2026-11-02 09:14 – 11:52 UTC`` from two ISO stamps; what is missing says so."""
+    def parse(stamp: str) -> Optional[datetime]:
+        try:
+            return datetime.fromisoformat(stamp) if stamp else None
+        except ValueError:
+            return None
+    a, b = parse(start), parse(end)
+    if a is None:
+        return "?"
+    left = a.astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M")
+    if b is None:
+        return f"{left} UTC – (not released)"
+    b = b.astimezone(timezone.utc)
+    right = b.strftime("%H:%M") if b.date() == a.astimezone(timezone.utc).date() \
+        else b.strftime("%Y-%m-%d %H:%M")
+    return f"{left} – {right} UTC"
+
+
+def lease_lines(lease: dict) -> list[str]:
+    """One model's lease as report lines: engines, MiB, span, how it ended (#474)."""
+    from headroom_lease import OUTCOMES
+
+    freed = lease.get("freed") or []
+    engines = ", ".join(f"`{f.get('engine')}` {f['mib']:,} MiB" if isinstance(f.get("mib"), int)
+                        else f"`{f.get('engine')}`" for f in freed) or "nothing"
+    outcome = lease.get("outcome") or "unconfirmed"
+    said = OUTCOMES.get(outcome, outcome)
+    restore = lease.get("restore") or {}
+    lines = [f"- `{lease.get('model')}` on card {lease.get('card')}: freed {engines} "
+             f"({lease.get('freed_mib', 0):,} MiB), "
+             f"{_span(lease.get('acquired_at', ''), lease.get('released_at', ''))} "
+             f"— lease `{lease.get('lease_id')}`",
+             f"  - **{outcome}**: {said}" if outcome != "restored" else f"  - {said}"]
+    if outcome == "restoring":
+        lines.append(f"  - still down: {', '.join(restore.get('pending') or []) or '?'}"
+                     + (f" — {restore['last_error']}" if restore.get("last_error") else ""))
+    elif outcome == "unconfirmed" and restore.get("error"):
+        lines.append(f"  - release failed: {restore['error']}")
+    if lease.get("lost"):
+        lines.append(f"  - lost while reading: {lease['lost']}")
+    return lines
+
+
+def _lease_section(report: BatchReport) -> list[str]:
+    """What the run took off the card and whether it came back (#474). Absent
+    without a lease: an empty section would read as if something had been freed."""
+    held = [m.lease for m in report.models if m.lease]
+    if not held:
+        return []
+    out = ["", "## Headroom lease", ""]
+    for lease in held:
+        out += lease_lines(lease)
+    out += ["",
+            "Engines the gateway stopped to make room for the model (#473), and the "
+            "span they were down. Only **restored** is the gateway's confirmation "
+            "that every one runs again; anything else is worth a look at "
+            "`GET /headroom` and `systemctl --user status <unit>` on the serving box."]
+    return out
+
+
 def format_report(report: BatchReport) -> str:
     """A Markdown summary of the run — what each model produced and what it cost.
 
@@ -2534,6 +2628,7 @@ def format_report(report: BatchReport) -> str:
             "else — including the empty column, which a resumed run undercounts "
             "and this does not — is read from the results themselves.",
         ]
+    lines += _lease_section(report)
     lines += _energy_section(report)
     lines += _truncation_section(report)
     lines += (_empty_section(report) + _repetitive_section(report)
