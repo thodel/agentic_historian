@@ -218,3 +218,10 @@ def test_the_v3_prompt_writes_superscripts_inline_and_keeps_sz():
     text, digest = external_atr.load_prompt("sg_missiven_page_v3.md")
     assert '"uo"' in text and '"ue"' in text and "Keep ß" in text
     assert digest != external_atr.load_prompt("sg_missiven_page_v2.md")[1]
+
+
+def test_the_v4_prompt_leaves_later_dockets_out():
+    import external_atr
+    text, digest = external_atr.load_prompt("sg_missiven_page_v4.md")
+    assert "docket" in text and "address alone" in text and '"uo"' in text
+    assert digest != external_atr.load_prompt("sg_missiven_page_v3.md")[1]
