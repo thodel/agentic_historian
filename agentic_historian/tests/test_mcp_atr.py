@@ -221,6 +221,35 @@ def test_a_job_whose_process_vanished_is_not_reported_as_done(sandbox):
         os.killpg(os.getpgid(real_pid), signal.SIGTERM)
 
 
+def _is_zombie(pid: int) -> bool:
+    import subprocess
+    out = subprocess.run(["ps", "-o", "stat=", "-p", str(pid)], capture_output=True, text=True,
+                         check=False)
+    return out.stdout.strip().startswith("Z")
+
+
+def test_a_killed_runner_is_vanished_not_a_running_zombie(sandbox):
+    """tei, 02.11.2026: a finished runner sat <defunct> under atr-mcp for 75 minutes,
+    because nothing waited for it, and os.kill(pid, 0) succeeds on a zombie. A
+    runner killed before it writes an exit code must read "vanished", and asking
+    must reap it."""
+    job = jobs.start("test", [sys.executable, "-c", "import time; time.sleep(30)"])
+    os.killpg(os.getpgid(job.pid), signal.SIGKILL)
+    assert _wait_for(lambda: _is_zombie(job.pid)), "the killed runner is our zombie now"
+    assert jobs.status(job.job_id).state == "vanished"
+    assert not _is_zombie(job.pid), "asking reaped it"
+    with pytest.raises(ChildProcessError):
+        os.waitpid(job.pid, os.WNOHANG)
+
+
+def test_alive_still_asks_the_kernel_about_a_pid_that_is_not_our_child():
+    """After a server restart the runners are nobody's children here; waitpid says
+    ChildProcessError and the kernel answers. pid 1 is alive and never ours."""
+    assert jobs._alive(1) is True
+    assert jobs._alive(2147483646) is False
+    assert jobs._alive(None) is False and jobs._alive(0) is False
+
+
 def test_the_log_tail_is_bounded_at_both_ends(sandbox):
     job = jobs.start("test", [sys.executable, "-c",
                               "print('\\n'.join(str(i) for i in range(5000)))"])

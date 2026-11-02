@@ -1992,7 +1992,27 @@ def start(kind: str, argv: Sequence[str], *, run: Optional[str] = None,
 
 
 def _alive(pid: Optional[int]) -> bool:
+    """Whether the job's runner still runs.
+
+    A runner this server started is its child, and a child that has ended stays a
+    zombie until its parent reaps it — ``os.kill(pid, 0)`` succeeds on a zombie.
+    Seen on tei 02.11.2026: the runner of a finished survey sat ``<defunct>`` under
+    ``atr-mcp`` for 75 minutes. Harmless for that job (it had written its exit
+    code), but a runner killed before writing one would have been reported
+    "running" instead of "vanished" for as long as the zombie lived. So: reap our
+    own child first, ask the kernel second. ``waitpid`` on this one pid only —
+    never ``-1``, which would take exit statuses from ``subprocess.run`` calls
+    elsewhere in the server. A pid that is not our child (the server was
+    restarted since the job began) raises ``ChildProcessError``; then the kernel
+    answers as before.
+    """
     if not pid:
+        return False
+    try:
+        reaped, _ = os.waitpid(pid, os.WNOHANG)
+    except ChildProcessError:
+        reaped = 0
+    if reaped == pid:
         return False
     try:
         os.kill(pid, 0)
