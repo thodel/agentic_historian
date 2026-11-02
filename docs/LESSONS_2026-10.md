@@ -1557,6 +1557,104 @@ aus 20 Seiten. Und eine Seite mit über 100 % CER bei jedem Leser
 Leser. Die Übersicht steht in [TRANSKRIBUS_PIPELINE_MCP.md](TRANSKRIBUS_PIPELINE_MCP.md),
 Abschnitt „Which reader when“.
 
+## 46. Zwei Seitenmodelle über das Gateway: vorne im Median, aber mit einer anderen Art Fehler
+
+Am 2. November lasen die beiden Seitenmodelle auf dem BLB-Datensatz
+(`olmocr2-7b-…-blb-page-px4m-native-v1`, `qwen3.5-4b-…-blb-page-v1`) zum
+ersten Mal über das Gateway. Gemessen habe ich sie auf denselben Seiten wie
+das nachtrainierte Kraken (§43): den vier Eval-Projekten des Datensatzes,
+nach Namen zugeordnet (#758), und den 276 Transkribus-Seiten, in einem
+Durchgang mit allen veröffentlichten Lesungen.
+
+| Satz | Seiten | olmOCR | Kraken BLB | Qwen3.5 Seite | Kraken alt |
+|---|---:|---:|---:|---:|---:|
+| `lassberg_eval` | 23 | **4,4 %** | 5,3 % | 7,4 % | 14,5 % |
+| `korrespondenten_eval` | 22 | **21,0 %** | 23,0 % | 21,5 % | 23,0 % |
+| `unbestimmt_eval` | 7 | **7,6 %** | 9,1 % | 11,7 % | 22,3 % |
+| `manuskripte_eval` | 105 | 12,0 % | **10,1 %** | 13,5 % | 20,6 % |
+| Transkribus, 224 Seiten | 224 | **10,7 %** | 12,0 % | 12,5 % | 16,7 % |
+
+Alles Mediane der CER pro Seite. Mit zwei Lesungen mehr ordnet die
+gemeinsame Bewertung 224 statt 226 Transkribus-Seiten zu; die Zahlen der
+veröffentlichten Tabelle bewegen sich dabei um höchstens 0,3 Punkte
+(Kraken BLB bleibt bei 12,0 %, das Qwen-Zeilenmodell geht von 16,1 auf
+16,0 %). Das ist die Probe aus §43, diesmal mit kleiner Abweichung, die die
+Zuordnung über den Inhalt erklärt. Auf den Briefen liegt olmOCR vorn, auch
+ohne die neun Transkribus-Seiten aus BLB-Trainingsobjekten (11,2 % gegen
+12,0 % auf 215 Seiten). Auf 131 der 224 Seiten liest es besser als Kraken
+BLB. Bei den Manuskripten liegt Kraken vorn, obwohl olmOCR auch dort auf 66
+von 105 Seiten besser ist. Der Median kippt an zwei Objekten. `K 2912,32`
+ist eine zweispaltige mittelhochdeutsche Handschrift mit abgesetzten
+Initialen: olmOCR liest die erste Spalte und schreibt danach Punkte bis zur
+Token-Grenze (80 % gegen 12 %). `K 2912,37` ist ein Inhaltsverzeichnis
+(20 % gegen 7 %).
+
+Die Zahl allein verdeckt den wichtigsten Befund: **die Fehler sind von
+anderer Art.** Auf den 29 Seiten aus dem Staatsarchiv Thurgau liegt olmOCR
+bei 19,8 % und Kraken BLB bei 11,8 %. Eine Seite von Pupikofer (1828) zeigt,
+warum. Kraken liest „Sie haben die letzte schöne Woche nicht zu einem
+Staziergange nach Sipchofzell benutzt; dafür regnet es nun wieder, und
+selbst der Barometer vermag nichts dagege“: Die Fehler liegen in einzelnen
+Buchstaben, und die Wörter bleiben erkennbar. olmOCR liest „Sie haben die
+letzte schöne Wache nicht zu einem Odeonperg, nach Schlosshull bewegt;
+dafür ergiebt es nun mehrer, und selbst der Kameruder vermag nichts
+dagegen“. Das ist flüssiges Deutsch, das so nicht dasteht. Die CER zählt
+beides gleich. Eine Leserin erkennt den Kraken-Fehler auf einen Blick, den
+von olmOCR nur mit dem Bild daneben.
+
+Beide Modelle laufen manchmal in eine Schleife aus Gedankenstrichen oder
+Punkten, bis 4096 Tokens erreicht sind, aber Qwen3.5 viel öfter: auf 8 der
+157 BLB-Seiten und 3 der 276 Transkribus-Seiten. olmOCR tut es auf 2
+BLB-Seiten, beide bei den Manuskripten, und auf keiner Transkribus-Seite.
+Der Median bemerkt das kaum (Korrespondenten 21,5 %), der gewichtete Wert
+umso mehr (43,1 % gegen 22,7 % bei olmOCR). Pro Seite kostet olmOCR auf
+der Karte 1,41 Wh, Qwen3.5 1,10 Wh.
+
+Eine Zahl ist mir zu gut: Die sechs vollen Seiten von `K 3123,57` (je
+2500–2900 Zeichen) lesen beide Seitenmodelle mit 0,2 bis 0,8 % CER, Kraken
+BLB mit 4,7 bis 6,9 %. Die Eval-Projekte des BLB-Datensatzes
+waren in beiden Trainingsanfragen ausgeschlossen. Ob derselbe Text in
+einem der anderen 20 Datensätze des Rezepts steckt, habe ich nicht
+geprüft.
+
+**Was daraus folgt.** Bei VLMs auf Seitenebene muss neben dem Median
+gelesen werden, *wie* sie sich irren. Eine Vision-Sprachmodell-Lesung kann
+im Median vorne liegen und doch die gefährlichere sein, weil ihre Fehler
+wie Text aussehen. Für eine Edition zählt das mehr als ein Prozentpunkt.
+Der gewichtete Wert und die Liste der abgebrochenen Seiten gehören in jede
+Tabelle mit einem VLM. Und wo zwei Lesungen verschiedener Art vorliegen,
+ist ihr Unterschied ein Werkzeug: Wo Kraken und olmOCR auseinandergehen,
+ist eine von beiden falsch.
+
+## 47. Zwei Modelle auf einer Karte haben sich gegenseitig ausgeladen
+
+Die Registrierung eines neu trainierten Modells hat den einen Wert nicht
+übernommen, den die Qwen3.5-Einträge von Hand tragen. Das Gateway startete
+`qwen3.5-4b-…-blb-page-v1` mit vLLMs Standard von 256 Sequenzen. Qwen3.5
+ist hybrid und hält pro Sequenz einen Mamba-Block vor; die Karte hatte 130.
+Der Start brach ab, und `start_batch` sah nur einen 502 „vLLM process
+exited (code 1) during startup“. Die Ursache stand im Journal des Gateways
+auf idhefix, das kein Werkzeug von hier aus liest. Es war wörtlich
+derselbe Fehler wie am 21. September beim Qwen3.5-Zeilenmodell, und
+`config/models.yaml` erklärt ihn in einem Kommentar. Die Registrierung aus
+`training-atr-models` kennt das Feld `max_num_seqs`, setzt es aber nicht.
+Die Zeile `max_num_seqs: 64` habe ich dann von Hand nachgetragen.
+
+Danach habe ich Qwen3.5 gestartet, während olmOCR noch zwei Läufe hatte.
+Beide Modelle haben kein `gpu_affinity`, und das Gateway lud jedes auf
+Kosten des anderen auf dieselbe Karte, sodass beide Läufe abwechselnd 502
+„vLLM unreachable“ bekamen. Ich habe olmOCR angehalten, Qwen3.5 ganz
+durchlaufen lassen und olmOCR danach fortgesetzt. Weil die Läufe an
+vorhandenen Dateien weitermachen, ging dabei keine Seite verloren
+(„What held up“).
+
+**Was daraus folgt.** Ein Wert, den ein Modelltyp zum Starten braucht,
+gehört in die Registrierung, nicht in den Kopf dessen, der sie schreibt.
+Für Qwen3.5 lässt er sich aus dem Basismodell ableiten. Und zwei
+Seiten-VLMs ohne feste Karte laufen nacheinander, nicht nebeneinander:
+Ein `start_batch` für ein zweites Modell ist eine Anweisung an das
+Gateway, das erste auszuladen.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
