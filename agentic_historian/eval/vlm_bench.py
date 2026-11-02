@@ -82,6 +82,7 @@ if str(PKG) not in sys.path:                        # `python -m eval.vlm_bench`
 
 from eval.harness import cer_table                                  # noqa: E402
 from eval.metrics import cer                                        # noqa: E402
+from run_layout import page_files                                 # noqa: E402
 
 #: Below this many located pages a candidate's numbers are reported but order
 #: nothing. Not a tuned threshold: the Inzigkofen set is 8 pages, and the point
@@ -413,7 +414,7 @@ def load_run(run_dir: Path) -> tuple[dict[str, dict[str, str]], dict[str, dict]]
         pages = {p.stem: p.read_text(encoding="utf-8")
                  for p in sorted(model_dir.glob("*.txt"))}
         records = []
-        for rec in sorted(model_dir.glob("*.json")):
+        for rec in page_files(model_dir):
             try:
                 records.append(json.loads(rec.read_text(encoding="utf-8")))
             except (OSError, json.JSONDecodeError):

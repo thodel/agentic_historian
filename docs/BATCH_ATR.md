@@ -533,8 +533,8 @@ mid-word is the ceiling, not the model.
 
 Registered, servable, and still unable to start: the three engine services hold
 card 1 whether anyone is using them or not, and a vLLM model that does not fit
-finds out at its cold start — which is *after* the share has been walked.
-Measured 2026-09-23 on idhefix, card 1 of 46 068 MiB:
+would find out at its cold start — after the share has been walked. Measured
+2026-09-23 on idhefix, card 1 of 46 068 MiB:
 
 | service | MiB held | used by a corpus run? |
 |---|---|---|
@@ -543,34 +543,66 @@ Measured 2026-09-23 on idhefix, card 1 of 46 068 MiB:
 | `atr-kraken` | 988 | no |
 | `qwen3.5-4b-german-xix-v2` needs | 15 848 | — |
 
-With party resident there are 9 742 MiB free and the run dies at page 1 with
-`GPU 1 has 9742 MB free, needs 15848 MB`, 24 minutes of enumeration already
-spent. Check before starting:
+**The run makes the room itself** (#473, #474). Nobody stops party by hand any
+more:
+
+1. **At the preflight**, before the share is listed, every model that does not
+   fit is asked about with a dry run (`POST /headroom` with `dry_run`). One the
+   gateway can make room for stays in the run; one it cannot is dropped then,
+   with the shortfall, not after 24 minutes of enumeration.
+2. **Right before that model's pass** the run takes a **lease**: the gateway
+   stops the idle engines it needs out of the way and holds the lease, not the
+   run. Lazy vLLM models the launch would evict anyway are counted as room and
+   left to the manager.
+3. **While the pass reads**, the page loop renews the lease every 5 minutes
+   (TTL 15). A run that hangs or dies — `ParseError`, `SIGKILL`, a lost network
+   — stops renewing, the lease expires, and the **gateway** starts the engines
+   again. Nothing has to be remembered.
+4. **After the pass**, also when it raised, the run releases the lease and the
+   gateway starts what it stopped.
+
+`--no-headroom` leaves the card alone: a model that does not fit is dropped, as
+before.
+
+**What it cost is on record.** The lease is written to `<run>/<model>/lease.json`
+when it is taken, when it is lost and when it is released, so it is visible
+while the run is still going:
+
+- `job_status` carries it under `progress.leases`: engines, MiB, since when, and
+  `outcome: held` until the pass ends;
+- `report.md` (and `report-run`, rebuilt from the file) has a **Headroom lease**
+  section: which engines, how many MiB, from when to when, and how it ended. A
+  run that held no lease has no such section;
+- `gateway_models` lists the gateway's open leases with holder and remaining
+  seconds, and an engine that is down because of one says `state: geliehen`
+  with the lease under `lent` — where `/health` alone says `reachable: false`,
+  exactly as for a crash. `unerreichbar` is an engine down with no lease to
+  explain it.
+
+**The outcome in the report**, and what each wants:
+
+| outcome | means | do |
+|---|---|---|
+| `restored` | the gateway confirmed every engine runs again | nothing |
+| `restoring` | an engine did not start; the gateway retries on every tick | look: the report names the unit and the error |
+| `expired` | the lease ran out before the run released it; the gateway restored on its own | check the engine is up |
+| `unconfirmed` | the release got no answer; the TTL restores | check the engine is up |
+| `held` | the run is still reading — or died before it could release | if the run is gone, wait one TTL (15 min), then check |
+
+**If an engine stays down after a run**, from tei and then on idhefix:
 
 ```bash
-# from tei — what is on the serving box's cards right now
-curl -sH "X-API-Key: $ATR_API_KEY" "$ATR_GATEWAY_URL/gpu" \
-  | python3 -c "import json,sys; c=json.load(sys.stdin)['cards'][1]; \
-                print(c['memory_free_mib'], 'free'); \
-                [print(' ', p['used_mib'], p['service']) for p in c['processes']]"
+# from tei — open leases, and what each is still restoring
+curl -sH "X-API-Key: $ATR_API_KEY" "$ATR_GATEWAY_URL/headroom" | python3 -m json.tool
+# on idhefix — the unit itself, and why it did not start
+systemctl --user status atr-party
+journalctl --user -u atr-party -n 50
+journalctl --user -u atr-gateway | grep headroom | tail -20
 ```
 
-Short of the model's `vram_mb`, free the card **on idhefix** — no sudo needed,
-these are user units:
-
-```bash
-systemctl --user stop atr-party         # the big one; restart it after the run
-```
-
-Two things about that line. It frees ~11.8 GB and nothing restarts it — party
-has been down since 2026-09-23 because a chat message is the only record that it
-should come back. And card 0 is not an alternative: its 10 392 MiB belong to
-another user's `rag-change` workers and are never ours to free.
-
-Both are why this is done by hand today and should not be. #470 replaces it: the
-run states what it needs, the gateway frees what it can, and a lease with a
-timeout puts the engines back even when the run dies — which this one did three
-times in a day.
+A lease in `restoring` keeps retrying; once the unit's own problem is fixed it
+comes back without anything else. Card 0 is still never an option: its
+10 392 MiB belong to another user's `rag-change` workers.
 
 ---
 
