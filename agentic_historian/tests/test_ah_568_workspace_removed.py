@@ -42,10 +42,25 @@ def test_no_openclaw_home_file_is_tracked_anywhere():
     assert not stray, f"OpenClaw home files tracked in the bot repo: {stray}"
 
 
+#: The one place skills may be tracked: the Hermes deployment bundle (#803).
+#: That is not an agent's home in the bot's tree — it is what the repo *ships*
+#: to tei, like deploy/systemd ships the bot's units — and the home-file check
+#: above still applies to it: no SOUL.md, AGENTS.md or MEMORY.md may live there.
+DEPLOYED_SKILLS = "deploy/hermes/skills/"
+
+
 def test_no_skills_directory_is_tracked():
     stray = sorted(f for f in _tracked()
-                   if f.startswith("skills/") or "/skills/" in f)
+                   if (f.startswith("skills/") or "/skills/" in f)
+                   and not f.startswith(DEPLOYED_SKILLS))
     assert not stray, f"OpenClaw skills tracked in the bot repo: {stray}"
+
+
+def test_the_deployed_skills_are_a_bundle_not_a_home():
+    shipped = sorted(f for f in _tracked() if f.startswith(DEPLOYED_SKILLS))
+    assert shipped, "the Hermes bundle ships its skills (#803)"
+    assert all(Path(f).name not in OPENCLAW_HOME for f in shipped)
+    assert all(Path(f).name in {"SKILL.md", "digest_fetch.py"} for f in shipped), shipped
 
 
 # ── kept, and findable ───────────────────────────────────────────────────────
