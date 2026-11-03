@@ -1,0 +1,83 @@
+# ~/.hermes/config.yaml for dh-bot on tei (H2 #798, H4 #800) — structure, no secrets.
+# Keys follow Hermes' cli-config.yaml.example; `hermes config set` writes the same
+# file, so either way works. Secrets live in ~/.hermes/.env (see env.example).
+
+model:
+  provider: custom                      # GPUStack is OpenAI-compatible
+  base_url: https://gpustack.unibe.ch/v1
+  default: qwen3.8-27b                  # OpenClaw's default too
+  # api key: GPUSTACK_API_KEY in .env
+
+providers:
+  gpustack-oss:                         # the reasoning model, pinned per job only
+    base_url: https://gpustack.unibe.ch/v1
+    model: gpt-oss-120b
+    key_env: GPUSTACK_API_KEY
+    request_timeout_seconds: 600
+
+agent:
+  max_turns: 60
+  reasoning_effort: medium
+
+platforms:
+  discord:
+    enabled: true
+    # token, allowed roles, home channel: DISCORD_* in .env
+
+discord:
+  require_mention: true
+  thread_require_mention: true
+  auto_thread: false
+  # free_response_channels: []        # none: dh-bot answers when addressed
+
+security:
+  approval:
+    transport: discord
+approvals:
+  mode: smart                           # auxiliary check; `manual` while testing
+  cron_mode: deny                       # a cron run never gets a dangerous command through
+  unattended_mode: deny
+
+terminal:
+  backend: local                        # runs as `hermes`; no view of /home/dh
+  cwd: /home/hermes/dh-bot
+  timeout: 1800
+
+cron:
+  catch_up_missed: true                 # per job overridden in cron.md (queue worker: off)
+  max_parallel_jobs: 1
+
+# The MCP federation (H4). Every source is Streamable HTTP at /mcp/<name>/mcp;
+# /mcp/<name> alone is a landing page (302) — the OpenClaw trap.
+mcp_servers:
+  eos:
+    url: https://tei.dh.unibe.ch/mcp/eos/mcp
+  kf:
+    url: https://tei.dh.unibe.ch/mcp/kf/mcp
+  ssrq:
+    url: https://tei.dh.unibe.ch/mcp/ssrq/mcp
+  hbls:
+    url: https://tei.dh.unibe.ch/mcp/hbls/mcp
+  # hls: needs a key nobody has recorded (#800) — add with `headers:` once known
+  # dmj, outremer, sikart, wd-pre1500, swisslib: same pattern, add as needed
+  atr:
+    url: https://tei.dh.unibe.ch/mcp/atr/mcp
+    # OAuth per deploy/mcp-atr/README.md. Reading tools only — dh-bot never
+    # operates the Historian (#801):
+    include_tools:
+      - server_status
+      - gateway_models
+      - job_status
+      - job_log
+      - batch_report
+      - run_files
+      - read_pages
+      - compare_readings
+      - research_list
+      - share_list
+      - ubelix_queue
+      - ubelix_job
+      - ubelix_record
+      - ubelix_report
+      - ubelix_prepared
+      - ubelix_checkout
