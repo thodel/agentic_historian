@@ -68,8 +68,16 @@ class FakeRunner:
         """The git subcommand of each call — `rev-parse`, `ls-remote`, …"""
         verbs = []
         for cmd in self.calls:
-            args = [a for a in (cmd[3:] if cmd[:2] == ["git", "-C"] else cmd[1:])
-                    if not a.startswith("-")]
+            rest = list(cmd[3:] if cmd[:2] == ["git", "-C"] else cmd[1:])
+            args, skip = [], False
+            for a in rest:
+                if skip:                       # the value of a `-c key=value`
+                    skip = False
+                    continue
+                if a == "-c":
+                    skip = True
+                elif not a.startswith("-"):
+                    args.append(a)
             if args:
                 verbs.append(args[0])
         return verbs
@@ -78,9 +86,10 @@ class FakeRunner:
 URL = "https://github.com/thodel/agentic_historian.git"
 
 
-def _runner(*, remote=REMOTE, head=HEAD, remote_ok=True):
+def _runner(*, remote=REMOTE, head=HEAD, remote_ok=True, head_ok=True):
     return FakeRunner({
-        ("--no-optional-locks", "rev-parse", "HEAD"): (True, head + "\n"),
+        ("-c", f"safe.directory={updater._REPO_ROOT}", "--no-optional-locks",
+         "rev-parse", "HEAD"): (head_ok, head + "\n"),
         ("git", "ls-remote", "--", URL, updater.MAIN_REF):
             (remote_ok, f"{remote}\t{updater.MAIN_REF}\n" if remote_ok else ""),
     })
@@ -546,3 +555,22 @@ def test_the_deploy_state_is_read_not_written(tmp_path, monkeypatch):
 def test_update_sh_records_the_deploy_for_the_bot():
     text = (PKG.parent / "update.sh").read_text(encoding="utf-8")
     assert "deploy.json" in text and "deployed_at" in text
+
+
+
+def test_the_checkout_is_trusted_for_this_call_only():
+    """dh owns the checkout, the bot runs as agentic_historian: git refuses a
+    repository of another owner ("dubious ownership") unless told, and told
+    here on the command line, not in a config the service would have to write."""
+    runner = _runner()
+    updater.remote_status(runner=runner, url=URL)
+    revparse = next(cmd for cmd in runner.calls if "rev-parse" in cmd)
+    assert f"safe.directory={updater._REPO_ROOT}" in revparse
+
+
+def test_an_unreadable_checkout_falls_back_to_the_deploy_record(tmp_path, monkeypatch):
+    state = tmp_path / "deploy.json"
+    state.write_text('{"sha": "%s", "deployed_at": "x", "by": "dh"}' % HEAD)
+    monkeypatch.setattr(updater, "DEPLOY_STATE_PATH", state)
+    status = updater.remote_status(runner=_runner(head_ok=False, remote=HEAD), url=URL)
+    assert status["current_sha"] == HEAD[:12] and status["relation"] == "same"
