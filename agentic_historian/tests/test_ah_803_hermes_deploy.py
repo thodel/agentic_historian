@@ -127,8 +127,12 @@ def fake_curl(tmp_path):
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir()
     curl = bin_dir / "curl"
-    curl.write_text("#!/usr/bin/env bash\n"
-                    "case \" $* \" in *\" -sSIL \"*) cat \"$FAKE_HEADERS\";; *) cat \"$FAKE_BODY\";; esac\n")
+    curl.write_text(
+        "#!/usr/bin/env bash\n"
+        "# -I/-sSIL answers with the headers; anything else is the body, to -o FILE or stdout\n"
+        "all=\" $* \"; out=; while [ $# -gt 0 ]; do case \"$1\" in -o) out=$2; shift;; esac; shift; done\n"
+        "case \"$all\" in *\" -sSIL \"*) cat \"$FAKE_HEADERS\";; "
+        "*) if [ -n \"$out\" ]; then cat \"$FAKE_BODY\" > \"$out\"; else cat \"$FAKE_BODY\"; fi;; esac\n")
     curl.chmod(curl.stat().st_mode | stat.S_IEXEC)
     headers, body = tmp_path / "h.txt", tmp_path / "b.csv"
 
