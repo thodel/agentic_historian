@@ -75,10 +75,13 @@ class FakeRunner:
         return verbs
 
 
+URL = "https://github.com/thodel/agentic_historian.git"
+
+
 def _runner(*, remote=REMOTE, head=HEAD, remote_ok=True):
     return FakeRunner({
         ("--no-optional-locks", "rev-parse", "HEAD"): (True, head + "\n"),
-        ("ls-remote", "origin", updater.MAIN_REF):
+        ("git", "ls-remote", "--", URL, updater.MAIN_REF):
             (remote_ok, f"{remote}\t{updater.MAIN_REF}\n" if remote_ok else ""),
     })
 
@@ -90,7 +93,7 @@ def test_the_status_check_never_fetches():
     should it be, because `.git/hooks/*` runs as the service user."""
     runner = _runner()
 
-    updater.remote_status(runner=runner)
+    updater.remote_status(runner=runner, url=URL)
 
     assert "fetch" not in runner.git_verbs
     assert "pull" not in runner.git_verbs
@@ -102,14 +105,14 @@ def test_the_status_check_does_not_let_git_status_touch_the_index():
     a write. The flag is the whole reason this is not a plain `rev-parse`."""
     runner = _runner()
 
-    updater.remote_status(runner=runner)
+    updater.remote_status(runner=runner, url=URL)
 
     revparse = next(cmd for cmd in runner.calls if "rev-parse" in cmd)
     assert "--no-optional-locks" in revparse
 
 
 def test_it_names_both_commits():
-    status = updater.remote_status(runner=_runner())
+    status = updater.remote_status(runner=_runner(), url=URL)
 
     assert status["ok"] is True
     assert status["current_sha"] == HEAD[:12]
@@ -118,7 +121,7 @@ def test_it_names_both_commits():
 
 
 def test_the_same_commit_is_reported_as_the_same():
-    status = updater.remote_status(runner=_runner(remote=HEAD))
+    status = updater.remote_status(runner=_runner(remote=HEAD), url=URL)
 
     assert status["relation"] == "same"
 
@@ -127,7 +130,7 @@ def test_a_difference_is_not_called_behind():
     """The honest limit. Without the remote objects locally, a different hash
     could be ahead, behind or diverged, and picking one would be a guess printed
     as a fact."""
-    status = updater.remote_status(runner=_runner())
+    status = updater.remote_status(runner=_runner(), url=URL)
 
     assert status["relation"] == "unknown"
     assert status["relation"] not in ("behind", "ahead", "diverged")
@@ -138,12 +141,12 @@ def test_a_full_ref_is_asked_for_not_a_branch_name():
     deployed."""
     assert updater.MAIN_REF == "refs/heads/main"
     runner = _runner()
-    updater.remote_status(runner=runner)
+    updater.remote_status(runner=runner, url=URL)
     assert any(updater.MAIN_REF in cmd for cmd in runner.calls)
 
 
 def test_an_unreachable_remote_is_an_error_not_an_up_to_date():
-    status = updater.remote_status(runner=_runner(remote_ok=False))
+    status = updater.remote_status(runner=_runner(remote_ok=False), url=URL)
 
     assert status["ok"] is False
     assert status["relation"] == "unknown"
@@ -506,3 +509,40 @@ def test_the_switch_script_runs_the_checker_through_the_venv_python():
     line = next(l for l in SWITCH.splitlines()
                 if "check_separation.py" in l and "--secrets" in l and not l.strip().startswith(("#", "say")))
     assert line.strip().startswith('"$VENV_PY"'), line
+
+
+
+# ── #804: the remote is asked by URL, never as the checkout's `origin` ──────
+
+def test_the_remote_is_the_public_url_not_origin():
+    """As its own user the bot has no SSH key, and an SSH `origin` — or a
+    config it cannot read — answered "'origin' does not appear to be a git
+    repository" (03.11.). The public HTTPS URL needs neither."""
+    runner = _runner()
+    updater.remote_status(runner=runner, url=URL)
+    lsr = next(cmd for cmd in runner.calls if "ls-remote" in cmd)
+    assert "origin" not in lsr and URL in lsr
+    assert lsr[:2] == ["git", "ls-remote"], "outside the checkout: no -C, no repo config read"
+
+
+def test_the_default_url_is_https_and_public():
+    url = updater.remote_url()
+    assert url.startswith("https://github.com/") and url.endswith(".git")
+    assert "@" not in url, "no credential in the URL"
+
+
+def test_the_deploy_state_is_read_not_written(tmp_path, monkeypatch):
+    state = tmp_path / "deploy.json"
+    state.write_text('{"sha": "abc123def4567890", "deployed_at": "2026-11-04T10:00:00+01:00", "by": "dh"}')
+    monkeypatch.setattr(updater, "DEPLOY_STATE_PATH", state)
+    status = updater.remote_status(runner=_runner(), url=URL)
+    assert status["deployed"]["by"] == "dh"
+    failed = updater.remote_status(runner=_runner(remote_ok=False), url=URL)
+    assert failed["ok"] is False and failed["deployed"]["sha"].startswith("abc123")
+    monkeypatch.setattr(updater, "DEPLOY_STATE_PATH", tmp_path / "missing.json")
+    assert updater.remote_status(runner=_runner(), url=URL)["deployed"] is None
+
+
+def test_update_sh_records_the_deploy_for_the_bot():
+    text = (PKG.parent / "update.sh").read_text(encoding="utf-8")
+    assert "deploy.json" in text and "deployed_at" in text
