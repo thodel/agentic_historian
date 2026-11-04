@@ -131,13 +131,25 @@ def remote_status(runner: SubprocessRunner | None = None, url: str | None = None
 
     # --no-optional-locks: `git status` otherwise refreshes `.git/index`, which
     # is a write, which is the thing this function exists to avoid.
-    head_r = _run_git(r, "--no-optional-locks", "rev-parse", "HEAD")
+    # The checkout belongs to dh and the bot runs as agentic_historian, so git
+    # calls it "dubious ownership" and treats it as no repository at all — on
+    # 04.11. that read "'origin' does not appear to be a git repository" (#804).
+    # Trusting this one directory for this one call is the narrow fix; a global
+    # safe.directory would be config the service user would have to write.
+    head_r = _run_git(r, "-c", f"safe.directory={_REPO_ROOT}",
+                      "--no-optional-locks", "rev-parse", "HEAD")
     current_sha = head_r.stdout.strip()[:12] if head_r.ok else ""
+    deployed_early = None
+    if not current_sha:
+        # Still unreadable (a .git the ACL does not open): what the deploy
+        # recorded is the next-best answer, and it is labelled as such.
+        deployed_early = deploy_state()
+        current_sha = str((deployed_early or {}).get("sha", ""))[:12]
 
     # Outside any repository (cwd /), so git reads neither the checkout's
     # remote nor its config: only the public URL is asked (#804).
     remote_r = r.run(["git", "ls-remote", "--", url or remote_url(), MAIN_REF], cwd=Path("/"))
-    deployed = deploy_state()
+    deployed = deployed_early or deploy_state()
     if not remote_r.ok:
         return dict(ok=False, current_sha=current_sha, target_sha=None,
                     relation="unknown", writes_nothing=True, deployed=deployed,
