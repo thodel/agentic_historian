@@ -95,6 +95,19 @@ sleep 3
 systemctl is-active --quiet "$SERVICE" || die "$SERVICE failed to start — see: journalctl -u $SERVICE -n 40"
 c "✓ $SERVICE active on $(git rev-parse --short @)"
 
+# What went live, for the bot's /update (#804): it runs as its own user, cannot
+# ask the checkout's remote and must not write the checkout, so the deploy —
+# which already can — records the state where the bot reads it.
+DEPLOY_JSON="$PKG/data/deploy.json"
+if printf '{"sha": "%s", "deployed_at": "%s", "by": "%s"}\n' \
+        "$(git rev-parse @)" "$(date -Iseconds)" "$(id -un)" > "$DEPLOY_JSON.tmp" 2>/dev/null \
+        && mv "$DEPLOY_JSON.tmp" "$DEPLOY_JSON"; then
+    chmod 0644 "$DEPLOY_JSON" 2>/dev/null || true
+else
+    rm -f "$DEPLOY_JSON.tmp" 2>/dev/null || true
+    printf '\n\033[1;33m! could not write %s — /update will not show the deploy time\033[0m\n' "$DEPLOY_JSON"
+fi
+
 # The MCP serves the code it was started with; its jobs survive a restart
 # (KillMode=process). AH_RESTART_MCP=0 leaves it alone.
 MCP_SERVICE="${AH_MCP_SERVICE:-atr-mcp.service}"

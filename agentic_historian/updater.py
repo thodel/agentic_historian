@@ -30,6 +30,9 @@ from pathlib import Path
 _REPO_ROOT = Path(__file__).parent.parent
 _PKG_DIR = Path(__file__).parent               # agentic_historian/ — where `import bot` resolves
 _MARKER_PATH = _PKG_DIR / "data" / ".update-marker.json"
+#: Written by ``update.sh`` (as the deploying user) after a successful restart:
+#: which commit went live, when, by whom. The bot reads it; it never writes it.
+DEPLOY_STATE_PATH = _PKG_DIR / "data" / "deploy.json"
 
 # Import smoke test — validates the new on-disk code in a subprocess. Built as a
 # proper argv list ([python, "-c", CODE]) so the whole snippet stays ONE argument
@@ -86,7 +89,26 @@ def _run_git(runner: SubprocessRunner, *git_args: str) -> CmdResult:
 MAIN_REF = "refs/heads/main"
 
 
-def remote_status(runner: SubprocessRunner | None = None) -> dict:
+def remote_url() -> str:
+    """The public HTTPS address of the code repository. Asked directly, never
+    through the checkout's ``origin`` (#804): the bot runs as its own user, has
+    no SSH key and must not be given one, and an SSH remote — or a repository
+    config it cannot read — answered "'origin' does not appear to be a git
+    repository". The repository is public, so reading needs no credential."""
+    import config
+    return f"https://github.com/{config.GITHUB_CODE_REPO}.git"
+
+
+def deploy_state(path: Path | None = None) -> dict | None:
+    """What ``update.sh`` recorded at the last deploy, or None."""
+    try:
+        data = json.loads((path or DEPLOY_STATE_PATH).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def remote_status(runner: SubprocessRunner | None = None, url: str | None = None) -> dict:
     """What origin/main is, and what this process runs — **writing nothing** (#567).
 
     ``fetch_status`` below writes: ``git fetch origin main:refs/remotes/origin/main``
@@ -112,22 +134,25 @@ def remote_status(runner: SubprocessRunner | None = None) -> dict:
     head_r = _run_git(r, "--no-optional-locks", "rev-parse", "HEAD")
     current_sha = head_r.stdout.strip()[:12] if head_r.ok else ""
 
-    remote_r = _run_git(r, "ls-remote", "origin", MAIN_REF)
+    # Outside any repository (cwd /), so git reads neither the checkout's
+    # remote nor its config: only the public URL is asked (#804).
+    remote_r = r.run(["git", "ls-remote", "--", url or remote_url(), MAIN_REF], cwd=Path("/"))
+    deployed = deploy_state()
     if not remote_r.ok:
         return dict(ok=False, current_sha=current_sha, target_sha=None,
-                    relation="unknown", writes_nothing=True,
+                    relation="unknown", writes_nothing=True, deployed=deployed,
                     error=remote_r.stderr.strip() or "git ls-remote failed")
 
     first = remote_r.stdout.split("\n", 1)[0].split()
     target_sha = first[0][:12] if first else ""
     if not target_sha:
         return dict(ok=False, current_sha=current_sha, target_sha=None,
-                    relation="unknown", writes_nothing=True,
+                    relation="unknown", writes_nothing=True, deployed=deployed,
                     error=f"origin has no {MAIN_REF}")
 
     return dict(ok=True, current_sha=current_sha, target_sha=target_sha,
                 relation="same" if target_sha == current_sha else "unknown",
-                writes_nothing=True, error=None)
+                writes_nothing=True, deployed=deployed, error=None)
 
 
 def fetch_status(runner: SubprocessRunner | None = None) -> dict:

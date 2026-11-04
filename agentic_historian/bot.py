@@ -1984,13 +1984,18 @@ async def update_cmd(ctx):
     import updater
 
     status = await _run_blocking(ctx, updater.remote_status)
+    dep = status.get("deployed") or {}
+    deployed = (f"\n_Zuletzt deployt: `{str(dep.get('sha', '?'))[:12]}` am "
+                f"{dep.get('deployed_at', '?')} von {dep.get('by', '?')}._" if dep else "")
     if not status.get("ok"):
-        await ctx.followup.send(f"❌ Abfrage fehlgeschlagen: {status.get('error', '?')}")
+        await ctx.followup.send(f"❌ Abfrage fehlgeschlagen: {status.get('error', '?')}"
+                                f"\nDieser Prozess läuft `{status.get('current_sha') or '?'}`."
+                                + deployed)
         return
 
     here, there = status["current_sha"], status["target_sha"]
     if status["relation"] == "same":
-        await ctx.followup.send(f"✅ Läuft auf `origin/main` — `{here}`.")
+        await ctx.followup.send(f"✅ Läuft auf `origin/main` — `{here}`." + deployed)
         return
 
     await ctx.followup.send(
@@ -1999,7 +2004,7 @@ async def update_cmd(ctx):
         f"pip install -r requirements-dev.txt && sudo systemctl restart "
         f"agentic-historian`.\n"
         f"_Welcher der beiden Stände der ältere ist, lässt sich von hier nicht "
-        f"sagen — dazu bräuchte es ein `git fetch`, und das schreibt (#567)._")
+        f"sagen — dazu bräuchte es ein `git fetch`, und das schreibt (#567)._" + deployed)
 
 
 
