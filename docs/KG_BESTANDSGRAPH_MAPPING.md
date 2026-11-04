@@ -148,6 +148,44 @@ Tabelle `links` aus S-6 (ch-h-bot#581). Vollbau 909 061 Tripel in 29 s, SHACL gr
 | `links.conflicts_with` | `shb:conflictsWith` E42 ↔ E42, beidseitig | 162 Paare (10 QID, 1 HLS, 151 GND-Zeilen); keine stille Wahl |
 | `website`, `dok` | **nichts** | `DOK` ist in #577 ungeklärt |
 
+### Zwei Briefwechsel: Escher und Bullinger (KG-16 / ch-h-bot#619, KG-15 / ch-h-bot#632)
+
+`knowledge_hub/sources/escher.py` und `bullinger.py`, das Gemeinsame in `_letters.py`. Beide
+lesen die Datenbank ihres Providers samt `person_links` (link_metagrid.py, E-5 #618 / B-5
+#631). In den Graphen kommen Metadaten, Register und Nennungen, **kein Brieftext** — Bullinger
+steht unter CC BY-NC-ND.
+
+| Feld | Begriff | Bemerkung |
+|---|---|---|
+| Brief | `E31_Document`, E42 (`escher` «B0133» / `bullinger` «Brief 6120»), `owl:sameAs` Permalink | Namensräume `briefedition.alfred-escher.ch` und `bullinger-digital.ch` in `shapes.ttl` ergänzt |
+| Herkunft des Briefs | `prov:wasDerivedFrom` → Teildatensatz | Bullinger: die **Textklasse** (Edition, Transkription, HTR, Metadaten) — das ist die Herkunft dessen, was über den Brief gesagt wird; Escher: die Lesefassung |
+| Absender | `P14_carried_out_by` an der `E65_Creation` (`Build.author`) | Bullinger auch Gruppen (E74, «Geistliche von Zürich»); Escher nach dem Titel der Edition, `role_conflict` als P3 am Brief (E-1: das TEI vertauscht die Rollen in 97 %) |
+| Empfänger | `E13` «Empfänger» (`Build.role`) | |
+| Schreibort | `P7_took_place_at` an der E65 | Escher: Ortsname → Register über den Schlüssel, sonst einen **eindeutigen** Namen; 190 mehrdeutige, 67 ohne Treffer bleiben ohne P7 |
+| Empfangsort (Bullinger) | `E13` «Empfangsort» | |
+| Datum | `P4` an der E65, P82a/P82b als `xsd:date` | so genau wie die Quelle: ein Tag; eine Spanne (Escher `date_when2`, Bullinger `date_from`/`date_to`); nur eine Grenze (Bullinger «nicht vor/nach»); sonst das Jahr mit Notiz; Unsicherheit als P3 |
+| Person, Ort, Organisation | `E21` / `E53` (lat/long) / `E74` mit Register-Id als E42 | Bullinger: Varianten als E41 «alias», GeoNames als E42; Escher: HLS-Artikel des Orts als `owl:sameAs` |
+| `person_links` — jede Behauptung | `E42` mit P190, P2 Schema, `prov:wasDerivedFrom` → Register bzw. Metagrid (Methode als Version) | wie KG-14; Wikipedia, Helveticat, LoC … bleiben E42 ohne sameAs (kein Personen-URI-Schema) |
+| Konfidenz 1 und Schema mit URI | `owl:sameAs` → HLS, GND, Wikidata, `dodis.ch/P<id>`, VIAF, histhub | Metagrids Verweise von Escher-Personen auf Bullinger-Seiten bleiben E42: zwei Jahrhunderte, kein sameAs ohne Prüfung |
+| `conflicts_with` | `shb:conflictsWith` E42 ↔ E42, beidseitig | |
+| Nennung | `P67_refers_to` vom Brief **und** `E13` «Nennung im Text»/«Nennung im Regest», P140 Brief, P141 Entität, Zahl als P3, `prov:wasDerivedFrom` → die Schicht | Bullinger zählt je Brief und Schicht, **nicht je Satz** — der Graph sagt nicht mehr als die Datenbank |
+| Verweis Brief → Brief (Escher `letter_refs`) | `P67_refers_to` zwischen E31 | |
+
+Gemessen 04.11.2026. **Escher:** 603 924 Tripel in 14 s, SHACL grün; 5 018 E31, 3 710 E21,
+2 216 E53; 4 854 Absender, 4 891 Empfänger, 4 405 Schreibort, 4 998 datiert; 19 195 Personen-
+und 30 489 Ortsnennungen, 2 856 Verweise Brief → Brief; 6 374 sameAs (1 204 HLS-Personen,
+1 022 HLS-Orte), 70 Konfliktkanten. Abnahmefrage «alle Briefe Eschers an Personen mit
+HLS-Artikel 1850–1860» (pyoxigraph): 151 Briefe an 41 Personen in 0,01 s — dieselbe Zahl wie
+SQL auf `escher.db`.
+
+**Bullinger:** 1 615 187 Tripel in 34 s, SHACL grün; 13 114 E31, 6 043 E21, 337 E74, 3 077 E53;
+13 496 Absender, 13 616 Empfänger, 12 507 Schreibort, 6 946 Empfangsort, alle 13 114 datiert;
+90 772 Personen- und 81 277 Ortsnennungen; 4 120 sameAs (493 HLS — 91 aus dem Register, 402 aus
+Metagrid, B-5), 12 Konfliktkanten (6 GND-Paare); 32 Verweise ohne Registereintrag. Abnahme
+(pyoxigraph, 1,7 s Laden): 173 Korrespondenten stehen mit GND neben ihrem HLS-Artikel, in 3,8 s —
+dieselbe Zahl wie SQL auf `bullinger.db`; an der Spitze Bullinger (12 674 Briefe), Blarer (775),
+Fabricius (746), Haller (739).
+
 ## Was die Prüfung bemerkt
 
 `validate.py` meldet: unbekannte Klasse/Property (nicht im Register oder nicht in
