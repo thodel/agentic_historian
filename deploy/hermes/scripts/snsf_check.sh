@@ -18,7 +18,12 @@ BASE="${SNSF_BASELINE:-$(dirname "$(readlink -f "$0")")/snsf_grants_baseline_met
 headers=$(curl -sSIL --max-time 60 "$URL" | tr -d '\r')
 last_modified=$(printf '%s\n' "$headers" | awk -F': ' 'tolower($1)=="last-modified"{v=$2} END{print v}')
 content_length=$(printf '%s\n' "$headers" | awk -F': ' 'tolower($1)=="content-length"{v=$2} END{print v}')
-header_hash=$(curl -sSL --max-time 120 -r 0-65535 "$URL" | head -2 | sha256sum | cut -d' ' -f1)
+# Into a file, not a pipe: `head -2` would close the pipe while curl still
+# writes the 64 KiB block, and curl exits 23 (EPIPE) — the first live run.
+head_file=$(mktemp)
+trap 'rm -f "$head_file"' EXIT
+curl -sSL --max-time 120 -r 0-65535 "$URL" -o "$head_file"
+header_hash=$(head -2 "$head_file" | sha256sum | cut -d' ' -f1)
 
 python3 - "$BASE" "$URL" "$last_modified" "$content_length" "$header_hash" <<'EOF'
 import json, sys

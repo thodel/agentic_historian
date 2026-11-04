@@ -136,7 +136,10 @@ def fake_curl(tmp_path):
             first_line="GrantNumber;Title;Abstract"):
         headers.write_text(f"HTTP/2 200\r\nlast-modified: {last_modified}\r\n"
                            f"content-length: {length}\r\ncontent-type: text/csv\r\n\r\n")
-        body.write_text(first_line + "\n1;x;y\n2;z;w\n")
+        # 64 KiB and more, as the real range request returns: `head -2` closes
+        # the pipe long before the writer is done, which is what broke the
+        # first live run (curl exit 23, EPIPE) — a three-line body hides it.
+        body.write_text(first_line + "\n1;x;y\n" + "".join(f"{i};z;w\n" for i in range(20_000)))
         env = {**os.environ, "PATH": f"{bin_dir}:{os.environ['PATH']}",
                "FAKE_HEADERS": str(headers), "FAKE_BODY": str(body),
                "SNSF_BASELINE": str(tmp_path / "base.json")}
