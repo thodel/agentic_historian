@@ -10,7 +10,7 @@ and leaves the agent one job: to read ``digest_items.json`` and rate it.
     python3 digest_fetch.py --days 7 --out ~/.hermes/cron/digest_items.json
     python3 digest_fetch.py --feeds feeds.txt --days 7       # JSON to stdout
 
-RSS 2.0 and Atom are both read. A feed that cannot be fetched or parsed is
+RSS 2.0, RSS 1.0 (RDF) and Atom are read. A feed that cannot be fetched or parsed is
 listed under ``errors`` with its reason, never silently dropped: a digest that
 says "nothing this week" because a feed was down is the failure this exists
 to make visible.
@@ -58,6 +58,8 @@ DEFAULT_FEEDS = [
 
 ATOM = "{http://www.w3.org/2005/Atom}"
 DC = "{http://purl.org/dc/elements/1.1/}"
+RDF = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF"
+RSS1 = "{http://purl.org/rss/1.0/}"
 USER_AGENT = "dh-bot-digest/1 (+https://tei.dh.unibe.ch)"
 SUMMARY_CHARS = 600
 
@@ -124,9 +126,21 @@ def parse_feed(raw: bytes) -> list[dict]:
                                        or _text(e.find(f"{ATOM}content")))[:SUMMARY_CHARS],
             })
         return items
+    if root.tag == RDF:
+        # RSS 1.0 — OJS journals (Critical Digital Humanities) and OpenEdition
+        # (Histoire & mesure): <item> elements beside <channel>, dates in dc:date.
+        for it in root.iter(f"{RSS1}item"):
+            items.append({
+                "title": _text(it.find(f"{RSS1}title")),
+                "link": _text(it.find(f"{RSS1}link")) or it.get(f"{RDF[:-3]}about", ""),
+                "published": parse_date(_text(it.find(f"{DC}date"))),
+                "authors": [_text(n) for n in it.findall(f"{DC}creator") if _text(n)],
+                "summary": _strip_html(_text(it.find(f"{RSS1}description")))[:SUMMARY_CHARS],
+            })
+        return items
     channel = root.find("channel")
     if channel is None:
-        raise ValueError(f"neither RSS nor Atom: root <{root.tag}>")
+        raise ValueError(f"neither RSS, RSS 1.0 nor Atom: root <{root.tag}>")
     for it in channel.findall("item"):
         authors = [_text(n) for n in it.findall(f"{DC}creator")] or [_text(it.find("author"))]
         items.append({

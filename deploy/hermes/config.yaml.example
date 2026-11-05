@@ -37,6 +37,13 @@ approvals:
   mode: smart                           # auxiliary check; `manual` while testing
   cron_mode: deny                       # a cron run never gets a dangerous command through
   unattended_mode: deny
+# Rule keys the queue worker needs even under cron_mode: deny (the first run,
+# 2026-11-05, was blocked on both): writing the state file and the PR body
+# through a heredoc, and dropping its own branch after a failed attempt.
+# Nothing else — `rm -r`, `systemctl`, `sh -c` stay denied in cron runs.
+command_allowlist:
+  - script execution via heredoc
+  - git branch force delete
 
 terminal:
   backend: local                        # runs as `hermes`; no view of /home/dh

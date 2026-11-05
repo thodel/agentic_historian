@@ -20,10 +20,6 @@ metadata:
       schedule: "0 13,17,21 * * *"
       deliver: discord
       prompt: Run the dh-bot queue worker exactly as the skill says. Work autonomously; never ask for confirmation.
-required_environment_variables:
-  - name: GH_TOKEN
-    help: GitHub token with repo scope, for gh. Never read it from a file in the workspace.
-    required_for: gh issue/pr commands
 ---
 
 # dh-bot queue worker
@@ -63,6 +59,22 @@ These clones are yours. There is no production checkout in your home and you
 have no way to reach one — the running services on tei belong to other users.
 A task that needs their runtime data is a task to hand back (comment on the
 issue, say what you need), not to run.
+
+## Tools in a cron run
+
+You have the terminal and `gh`, which is signed in on its own (`gh auth
+login`; there is no token in your environment — Hermes refuses to pass one,
+and you never need it). The first run (2026-11-05) lost twenty minutes finding
+this out, so:
+
+- **`terminal` only.** `execute_code` is blocked in cron sessions; do not try it.
+- Write files, the state included, through the terminal with a heredoc
+  (`cat > "${DHBOT_STATE}" <<'EOF' … EOF`): the operator's `command_allowlist`
+  carries `script execution via heredoc` and `git branch force delete` for
+  you. `write_file` refuses to overwrite an existing file.
+- Everything else the approval system blocks (`rm -r`, `systemctl`, `sh -c`,
+  pipes into a shell) stays blocked: there is nobody to ask in a cron run, and
+  the answer would be no. Find a path without it, or hand the task back.
 
 ## State
 
@@ -114,6 +126,14 @@ exist. Write it back after every state change, not only at the end.
 
 On any failure in 6–11: `active` → `failed` with the error, restore the clone
 (`git checkout main`, delete the branch), report one line, finish.
+
+**Hand-back** is the same path, chosen on purpose: the issue needs something
+you cannot give (the live host, runtime data, a decision), or its code part is
+already merged. Then comment on the issue with what is done and what is
+needed, **strip the label** as in step 13 — the issue now waits for a human,
+and a `failed` entry is never retried anyway — and report:
+`Issue #N in <repo>: **title** → Hand-back, kein PR: <reason in one line>`.
+(The first run, 2026-11-05, did exactly this on serving-atr-inference#158.)
 
 ## The pull request
 

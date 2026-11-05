@@ -43,8 +43,8 @@ What each job needs, beyond the skill:
 
 | job | needs | from |
 |---|---|---|
-| dh-bot-queue | `GH_TOKEN` (repo scope), `gh`, `uv`, `git-lfs`, the nine clones under `~/repos` | README steps 1, 6; `env.example` |
-| repo-status | `GH_TOKEN` | `env.example` |
+| dh-bot-queue | `gh` signed in (`gh auth login`), `uv`, `git-lfs`, the nine clones under `~/repos`, `command_allowlist` in config | README steps 1, 6; `config.yaml.example` |
+| repo-status | `gh` signed in | README step 6 |
 | dh-digest | network to the 17 feeds (four are Google Alerts) | — |
 | snsf-grants | network to data.snf.ch; writes `~/.hermes/scripts/snsf_grants_baseline_meta.json` | — |
 

@@ -90,6 +90,29 @@ def test_a_failing_feed_is_listed_not_dropped():
         ("D", "OSError"), ("J", "ValueError")]
 
 
+def _rdf(*items: tuple[str, datetime]) -> bytes:
+    """RSS 1.0 as OpenEdition and OJS serve it: items beside the channel, dc:date."""
+    body = "".join(
+        f'<item rdf:about="https://r1/{i}"><title>{t}</title><link>https://r1/{i}</link>'
+        f"<dc:creator>C {i}</dc:creator><dc:date>{d.isoformat()}</dc:date>"
+        f"<description>D {i}</description></item>" for i, (t, d) in enumerate(items))
+    return (b'<?xml version="1.0"?><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" '
+            b'xmlns="http://purl.org/rss/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/">'
+            b"<channel rdf:about=\"https://r1\"><title>f</title><items/></channel>" + body.encode()
+            + b"</rdf:RDF>")
+
+
+def test_rss_one_point_zero_is_read_too():
+    """Critical Digital Humanities and Histoire & mesure were the two 'errors' of
+    the first live digest (04.11.2026): rdf:RDF, not rss."""
+    out = df.collect([("H", "u")], 7, fetch=lambda u: _rdf(("alt", NOW - timedelta(days=30)),
+                                                           ("neu", NOW - timedelta(days=1))),
+                     now=NOW)
+    assert out["errors"] == []
+    assert [(i["title"], i["link"], i["authors"]) for i in out["items"]] == [
+        ("neu", "https://r1/1", ["C 1"])]
+
+
 def test_an_atom_link_without_rel_is_the_link():
     """Google Alert feeds write <link href="…"/> with no rel attribute."""
     raw = (b'<feed xmlns="http://www.w3.org/2005/Atom"><entry><title>t</title>'
@@ -127,8 +150,12 @@ def fake_curl(tmp_path):
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir()
     curl = bin_dir / "curl"
-    curl.write_text("#!/usr/bin/env bash\n"
-                    "case \" $* \" in *\" -sSIL \"*) cat \"$FAKE_HEADERS\";; *) cat \"$FAKE_BODY\";; esac\n")
+    curl.write_text(
+        "#!/usr/bin/env bash\n"
+        "# -I/-sSIL answers with the headers; anything else is the body, to -o FILE or stdout\n"
+        "all=\" $* \"; out=; while [ $# -gt 0 ]; do case \"$1\" in -o) out=$2; shift;; esac; shift; done\n"
+        "case \"$all\" in *\" -sSIL \"*) cat \"$FAKE_HEADERS\";; "
+        "*) if [ -n \"$out\" ]; then cat \"$FAKE_BODY\" > \"$out\"; else cat \"$FAKE_BODY\"; fi;; esac\n")
     curl.chmod(curl.stat().st_mode | stat.S_IEXEC)
     headers, body = tmp_path / "h.txt", tmp_path / "b.csv"
 
@@ -136,7 +163,10 @@ def fake_curl(tmp_path):
             first_line="GrantNumber;Title;Abstract"):
         headers.write_text(f"HTTP/2 200\r\nlast-modified: {last_modified}\r\n"
                            f"content-length: {length}\r\ncontent-type: text/csv\r\n\r\n")
-        body.write_text(first_line + "\n1;x;y\n2;z;w\n")
+        # 64 KiB and more, as the real range request returns: `head -2` closes
+        # the pipe long before the writer is done, which is what broke the
+        # first live run (curl exit 23, EPIPE) — a three-line body hides it.
+        body.write_text(first_line + "\n1;x;y\n" + "".join(f"{i};z;w\n" for i in range(20_000)))
         env = {**os.environ, "PATH": f"{bin_dir}:{os.environ['PATH']}",
                "FAKE_HEADERS": str(headers), "FAKE_BODY": str(body),
                "SNSF_BASELINE": str(tmp_path / "base.json")}
@@ -220,9 +250,30 @@ def test_the_digest_skill_calls_the_script_it_ships():
 def test_the_queue_skill_keeps_the_protocol_rules():
     text = (BUNDLE / "skills" / "dh-bot-queue" / "SKILL.md").read_text()
     for rule in ("Teil von #", "500 changed lines", "never `git add -A`", "claude/",
-                 "No merge, no approve", "--remove-label dh-bot"):
+                 "No merge, no approve", "--remove-label dh-bot", "Hand-back"):
         assert rule in text, rule
     assert "/home/dh" not in text, "the worker must not know the production checkouts"
+
+
+def test_no_skill_asks_hermes_for_a_token_it_refuses_to_pass():
+    # The first cron run (2026-11-05): "refusing to register Hermes provider
+    # credential 'GH_TOKEN'". gh is signed in on its own; a skill that declares
+    # the variable only logs a warning per run and misleads the next operator.
+    for path in sorted((BUNDLE / "skills").glob("*/SKILL.md")):
+        fm = _frontmatter(path)
+        declared = [v["name"] for v in fm.get("required_environment_variables", [])]
+        assert not [v for v in declared if v.endswith(("_TOKEN", "_KEY"))], (path, declared)
+    assert "GH_TOKEN=" not in (BUNDLE / "env.example").read_text()
+
+
+def test_the_cron_run_keeps_deny_mode_and_allows_exactly_what_the_worker_needs():
+    import yaml
+    cfg = yaml.safe_load((BUNDLE / "config.yaml.example").read_text())
+    assert cfg["approvals"]["cron_mode"] == "deny"
+    assert cfg["command_allowlist"] == ["script execution via heredoc", "git branch force delete"]
+    skill = (BUNDLE / "skills" / "dh-bot-queue" / "SKILL.md").read_text()
+    assert "`execute_code` is blocked" in skill
+    assert "<<'EOF'" in skill
 
 
 def test_the_bundle_holds_no_secret_values():
