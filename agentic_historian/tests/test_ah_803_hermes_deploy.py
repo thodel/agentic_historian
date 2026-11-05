@@ -271,6 +271,11 @@ def test_the_cron_run_keeps_deny_mode_and_allows_exactly_what_the_worker_needs()
     cfg = yaml.safe_load((BUNDLE / "config.yaml.example").read_text())
     assert cfg["approvals"]["cron_mode"] == "deny"
     assert cfg["command_allowlist"] == ["script execution via heredoc", "git branch force delete"]
+    atr = cfg["mcp_servers"]["atr"]
+    assert atr["auth"] == "oauth"
+    include = atr["tools"]["include"]                      # the documented key; include_tools is ignored
+    assert "read_pages" in include and "ubelix_queue" in include
+    assert not {"start_batch", "stop_job", "kraken_train", "upload_hf"} & set(include)
     skill = (BUNDLE / "skills" / "dh-bot-queue" / "SKILL.md").read_text()
     assert "`execute_code` is blocked" in skill
     assert "<<'EOF'" in skill

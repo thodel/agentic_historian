@@ -69,22 +69,28 @@ mcp_servers:
   # dmj, outremer, sikart, wd-pre1500, swisslib: same pattern, add as needed
   atr:
     url: https://tei.dh.unibe.ch/mcp/atr/mcp
-    # OAuth per deploy/mcp-atr/README.md. Reading tools only — dh-bot never
-    # operates the Historian (#801):
-    include_tools:
-      - server_status
-      - gateway_models
-      - job_status
-      - job_log
-      - batch_report
-      - run_files
-      - read_pages
-      - compare_readings
-      - research_list
-      - share_list
-      - ubelix_queue
-      - ubelix_job
-      - ubelix_record
-      - ubelix_report
-      - ubelix_prepared
-      - ubelix_checkout
+    # OAuth 2.1 (PKCE, dynamic client registration) against the server's own
+    # password form, deploy/mcp-atr/README.md; once: `hermes mcp login atr`,
+    # the token then lives in ~/.hermes/mcp-tokens/atr.json and refreshes itself.
+    auth: oauth
+    # Reading tools only — dh-bot never operates the Historian (#801). The key
+    # is `tools.include` (a list; `include_tools` is silently ignored, which
+    # would hand dh-bot start_batch).
+    tools:
+      include:
+        - server_status
+        - gateway_models
+        - job_status
+        - job_log
+        - batch_report
+        - run_files
+        - read_pages
+        - compare_readings
+        - research_list
+        - share_list
+        - ubelix_queue
+        - ubelix_job
+        - ubelix_record
+        - ubelix_report
+        - ubelix_prepared
+        - ubelix_checkout
