@@ -16,6 +16,7 @@ agents/
   corpus_analysis.py    — Agent D: corpus stats, topics, taxonomy, care, Voyant
   meta_agent.py         — Agent E: resource tracking / report
   search_agent.py       — federated person search (parallel MCP query + resolve + rank)
+  argument_agent.py     — Agent F: questions answered from evidence, every quote checked (#812)
   source_heuristic.py   — Ad Fontes (UZH) codicological prompt framework (16 elements)
 agent_a/          — two-pronged HTR (VLM + kraken/TrOCR via the serving-atr-inference gateway)
 knowledge_hub/
@@ -152,6 +153,8 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `ENABLE_ROUTING_PRIOR` | Additive routing prior from historian feedback in model selection (default `false`) |
 | `ORCHESTRATOR_LLM_ENABLED` | Optional LLM-orchestration overlay (`nl_orchestrator` + `orchestrator_llm`), **off by default**; no slash command reaches the planner while it is off (S4, #569) |
 | `KH_BACKEND` | Knowledge-hub store backend (`json` today; QLEVER at WP4) |
+| `ARGUMENT_MAX_TOKENS` / `_MAX_CALLS` | Agent F's budget per question (default 300000 tokens, 12 calls), checked before every call (#812) |
+| `ARGUMENT_MAX_ROUNDS` / `_SAMPLE_SIZE` / `_CALL_MAX_TOKENS` | Reflection rounds after the first answer (2), passages shown to the binding stage (12), `max_tokens` per call (8192) |
 
 See `deploy/gpustack.env.example` for the full template (and
 `deploy/systemd/agentic_historian.env.example` for the production secrets file).
@@ -706,6 +709,46 @@ approximate** where readings share almost nothing: a long replaced block is cut
 proportionally and narrowed to the best-matching stretch, enough to see *that*
 and roughly *how* readings differ, not which word answers which. And a
 `historian_chosen` reading is the closest available one, not ground truth.
+
+## Agent F: questions answered from evidence (#812)
+
+`agents/argument_agent.py` answers a research question so that every claim
+points to a passage a reader can open, and says what kind of text that passage
+is. It follows SPIRE ([docs/SPIRE_COMPARISON.md](../docs/SPIRE_COMPARISON.md))
+and argues only with `evidence.py` items (#811).
+
+```bash
+python -m agentic_historian ask "Wie wird Almosen begründet?" --bestand kf --from 1300 --to 1399
+```
+
+writes `answer.md`, `audit.json` and `pool.json` under
+`OUTPUTS_DIR/questions/<question_id>/`; the same is the `ask` tool in
+`agent_tools`.
+
+| stage | what it does | model call |
+|---|---|---|
+| `plan` | 2–4 sub-questions, ≤3 search terms each in the sources' spelling, period, languages; a plan the model does not give falls back to the question, marked | 1 |
+| `retrieve` | own passages (`passage_find`, widened to the line and its neighbours) and the federation's full text (`search_fulltext`, as `edition` items); every call a coverage row: `ok` / `empty` / `partial` / `failed` | — |
+| `sample` | balanced round-robin over sub-question × (holding, century, language); out of the asked period → dropped and counted | — |
+| `bind` | claims citing evidence ids with quotes; `check_bindings` accepts a quote only as a verbatim substring of the passage its id names | 1 |
+| `represent` | the answer page, rendered without a model | — |
+| `reflect` | up to `ARGUMENT_MAX_ROUNDS` rounds of targeted follow-up queries and rebinding | 1 per round |
+
+What it refuses, each with its reason in `audit.json`: a quote not in the cited
+passage (`quote is in ev-…, not in the cited passage` when it stands
+elsewhere — the near-miss that looks like a success), an id the model was not
+shown, a translated quote (it fails the substring check by construction), a
+summary that quotes anything no accepted binding carries. A federation source
+that does not answer is `failed` or `partial`, not `empty` —
+`search_fulltext` swallows the error, so the agent catches it through the
+`call_tool` hook. `complete` is false whenever a search failed, the plan fell
+back, or the budget stopped the run; the page then opens with
+**Unvollständig** and says why.
+
+No model scores the answer. The claims are the model's wording; what is
+checked is that each quote stands verbatim in the passage it names. Measuring
+the bindings is the job of a historian's review (Gate 4 in the SPIRE
+comparison), not of another model.
 
 ## Models
 

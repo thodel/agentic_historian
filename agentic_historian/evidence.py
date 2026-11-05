@@ -64,11 +64,13 @@ import config
 
 __all__ = [
     "COMBINED",
+    "EDITION",
     "PUBLISHED",
     "STATUSES",
     "EvidenceItem",
     "Reading",
     "ReadingSet",
+    "edition_item",
     "evidence_id",
     "item_for_span",
     "item_from_passage_row",
@@ -84,10 +86,16 @@ AUTO_SELECTED = "auto_selected"
 AUTO_FUSED = "auto_fused"
 NOT_CHOSEN = "not_chosen"
 UNCORRECTED = "uncorrected"
+#: Text quoted from another project's edition through the MCP federation
+#: (#812): an editor's transcription, not one of our readings. It has no Gate 2,
+#: no candidates and no band; what it has is somebody else's editorial
+#: responsibility, which is why it is its own status and not ``ground_truth``.
+EDITION = "edition"
 
-#: Strongest editorial fact first; see the module docstring.
+#: Strongest editorial fact first; see the module docstring. ``edition`` stands
+#: apart: it is not a reading this pipeline produced.
 STATUSES = (GROUND_TRUTH, HISTORIAN_CHOSEN, HISTORIAN_COMBINED, AUTO_SELECTED,
-            AUTO_FUSED, NOT_CHOSEN, UNCORRECTED)
+            AUTO_FUSED, NOT_CHOSEN, UNCORRECTED, EDITION)
 
 #: The reading key of the published transcription (``pipeline.json``'s
 #: ``transcription``, one page's section of it). Not an engine: it is derived
@@ -672,14 +680,19 @@ def _cuts_letter(text: str, start: int, end: int) -> bool:
             or (0 < start < len(text) and unicodedata.combining(text[start]) != 0))
 
 
-def item_from_passage_row(row: dict, *, pipeline: dict,
-                          state=None) -> EvidenceItem | None:
+def item_from_passage_row(row: dict, *, pipeline: dict, state=None,
+                          widen_lines: int = 0) -> EvidenceItem | None:
     """A ``passage_index`` row (#395) read as an evidence item.
 
     The index counts offsets in the published transcription, so the row maps to
     the published reading of the page whose section holds it. ``None`` when the
     row no longer matches that text — an index older than the transcription it
     points into — rather than an item quoting what the page no longer says.
+
+    A row is one mention — *almosen*, *spital* — which locates a passage but
+    is not one. ``widen_lines`` takes the line holding the mention and that many
+    lines on each side, inside the same page, so an argument (#812) quotes what
+    the page says about the word rather than the word.
     """
     start, end = row.get("char_start"), row.get("char_end")
     doc_id = row.get("doc_id") or pipeline.get("doc_id") or ""
@@ -691,5 +704,56 @@ def item_from_passage_row(row: dict, *, pipeline: dict,
     for page, s, e in _published_sections(full):
         if s <= start and end <= e:
             rs = reading_set(doc_id, page, state=state, pipeline=pipeline)
-            return item_for_span(rs, PUBLISHED, start - s, end - s)
+            a, b = start - s, end - s
+            if widen_lines > 0:
+                a, b = _widen_to_lines(full[s:e], a, b, widen_lines)
+            return item_for_span(rs, PUBLISHED, a, b)
     return None
+
+
+def _widen_to_lines(text: str, start: int, end: int, n: int) -> tuple[int, int]:
+    """``[start, end)`` grown to whole lines, plus ``n`` lines on each side."""
+    a = text.rfind("\n", 0, start) + 1
+    for _ in range(n):
+        if a == 0:
+            break
+        a = text.rfind("\n", 0, a - 1) + 1
+    b = text.find("\n", end)
+    b = len(text) if b == -1 else b
+    for _ in range(n):
+        if b >= len(text):
+            break
+        nxt = text.find("\n", b + 1)
+        b = len(text) if nxt == -1 else nxt
+    # trailing blank lines are not part of the passage
+    while b > a and text[b - 1] in "\n \t":
+        b -= 1
+    return a, b
+
+
+def edition_item(source: str, doc_id: str, text: str, *,
+                 title: str | None = None, url: str | None = None,
+                 datierung: str | None = None) -> EvidenceItem | None:
+    """An evidence item for text an edition returned through the federation.
+
+    The whole ``text`` is the quote — it is what the source said, and there is
+    no reading of ours to cut it from. The id names the source, so the same
+    snippet from two editions is two pieces of evidence. ``agreement`` is
+    ``single`` and ``page_band`` ``unmeasurable``: nothing was compared, and
+    saying anything else would claim a check that did not happen.
+    """
+    text = text or ""
+    if not text.strip() or not source:
+        return None
+    key = f"edition/{source}"
+    return EvidenceItem(
+        evidence_id=evidence_id(f"{source}:{doc_id}", "", key, 0, len(text)),
+        doc_id=doc_id, page="",
+        reading={"engine": "edition", "model_id": source, "status": EDITION},
+        char_start=0, char_end=len(text), quote=text, match="exact",
+        agreement="single", alternatives=[], identical_readings=[],
+        page_band="unmeasurable", max_pairwise_cer=None,
+        source={"datierung": datierung, "datierung_unsicher": None,
+                "sprache": None, "sprachen": [], "bestand": source,
+                "title": title},
+        anchor=None, catalogue_url=url)

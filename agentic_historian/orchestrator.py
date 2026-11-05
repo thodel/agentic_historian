@@ -263,6 +263,36 @@ def run_find_passages(query: str, entity_type: str = "",
     }
 
 
+def run_ask(question: str, bestand: str = "", year_from: int = 0,
+            year_to: int = 0, write: bool = True) -> dict:
+    """Agent F: answer a question from evidence (#812).
+
+    Here for the same reason as `run_find_passages`: `agent_tools` resolves
+    every tool on this module. The work is in `agents.argument_agent`. Returns
+    plain data — the claims with their checked quotes, what is missing, and
+    where the answer was written — because a tool result goes back to a model.
+    """
+    from agents import argument_agent as af
+
+    res = af.ask(question, bestand=bestand or None, year_from=year_from or None,
+                 year_to=year_to or None)
+    out = af.write_result(res, config.OUTPUTS_DIR / "questions") if write else None
+    return {
+        "question_id": res.question_id,
+        "complete": res.complete,
+        "claims": [{"claim": c.text,
+                    "evidence": [b.evidence_id for b in c.bindings if b.ok]}
+                   for c in res.claims],
+        "rejected_claims": len(res.rejected_claims),
+        "evidence_found": len(res.pool),
+        "evidence_shown": len(res.sampled),
+        "calls": len(res.audit.calls),
+        "tokens": res.audit.tokens,
+        "stopped_because": res.audit.stopped_because,
+        "written_to": str(out) if out else None,
+    }
+
+
 def _describe_cached(doc_id: str, transcription: str, pages, image_path,
                      on_phase=None, page_roles=None) -> dict:
     """Agent B's description, reused when these exact page images were described
