@@ -281,6 +281,21 @@ def test_the_cron_run_keeps_deny_mode_and_allows_exactly_what_the_worker_needs()
     assert "<<'EOF'" in skill
 
 
+def test_bots_md_lists_every_slash_command_of_the_historian():
+    # docs/BOTS.md (H5, #801) names each Historian command with its gate; a new
+    # command without a row is a boundary nobody decided.
+    bot = (REPO / "agentic_historian" / "bot.py").read_text(encoding="utf-8")
+    names = set(re.findall(r'slash_command\((?:[^)]|\n)*?name="([a-z_]+)"', bot))
+    assert len(names) >= 30
+    doc = (REPO / "docs" / "BOTS.md").read_text(encoding="utf-8")
+    missing = sorted(n for n in names if f"| `/{n}` |" not in doc)
+    assert not missing, missing
+    assert "`start_batch`" in doc and "lesend" in doc
+    rules = (BUNDLE / "agents-boundaries.md").read_text(encoding="utf-8")
+    for phrase in ("fehlt absichtlich", "biete nicht an", "Lesen kostet"):
+        assert phrase in rules, phrase
+
+
 def test_the_bundle_holds_no_secret_values():
     pattern = re.compile(r"(ghp_[A-Za-z0-9]{20,}|MT[A-Za-z0-9]{22}\.[A-Za-z0-9_-]{6}\.|gpustack_[A-Za-z0-9]{16,}"
                          r"|(?i:token|key|secret|password)\s*[:=]\s*['\"]?[A-Za-z0-9+/_-]{24,})")
