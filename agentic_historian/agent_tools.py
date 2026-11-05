@@ -59,6 +59,22 @@ AGENT_TOOLS: tuple[AgentTool, ...] = (
                            "description": "Restrict to one holding."},
                "top_k": {"type": "integer", "required": False,
                          "description": "How many passages to return."}}),
+    AgentTool("ask", "run_ask",
+              "Agent F: answer a research question from evidence. Every claim "
+              "is bound to a passage, every quote checked verbatim against it, "
+              "and each passage says which reading or edition it comes from "
+              "(#812).",
+              {"question": {"type": "string", "required": True,
+                            "description": "The research question."},
+               "bestand": {"type": "string", "required": False,
+                           "description": "Restrict to one holding."},
+               "year_from": {"type": "integer", "required": False,
+                             "description": "Start of the period asked about."},
+               "year_to": {"type": "integer", "required": False,
+                           "description": "End of the period asked about."},
+               "write": {"type": "boolean", "required": False,
+                         "description": "Write answer.md/audit.json/pool.json "
+                                        "(default true)."}}),
     AgentTool("run_full_pipeline", "run_full_pipeline",
               "Full A→B→C(→D) pipeline on one document.",
               {"file_path": {"type": "string", "required": True,

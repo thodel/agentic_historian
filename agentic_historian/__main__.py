@@ -2095,6 +2095,20 @@ def build_parser() -> argparse.ArgumentParser:
     p_cmp.add_argument("--out", help="Also write the report to this path")
     p_cmp.set_defaults(func=compare_runs_cmd)
 
+    p_ask = sub.add_parser(
+        "ask",
+        help="Agent F: answer a question from evidence, every quote checked (#812)")
+    p_ask.add_argument("question", help="The research question")
+    p_ask.add_argument("--bestand", help="Restrict to one holding")
+    p_ask.add_argument("--from", dest="year_from", type=int,
+                       help="Start of the period asked about (year)")
+    p_ask.add_argument("--to", dest="year_to", type=int,
+                       help="End of the period asked about (year)")
+    p_ask.add_argument("--out", help="Directory for <question_id>/answer.md, "
+                                     "audit.json, pool.json (default: "
+                                     "OUTPUTS_DIR/questions)")
+    p_ask.set_defaults(func=ask_cmd)
+
     p_pub = sub.add_parser("publish-batch",
                            help="Propose a run directory to a GitHub repo as a PR")
     p_pub.add_argument("--run-dir", required=True, help="The run directory to publish")
@@ -2117,6 +2131,25 @@ def build_parser() -> argparse.ArgumentParser:
     p_pub.set_defaults(func=publish_batch)
 
     return parser
+
+
+def ask_cmd(args) -> int:
+    """Answer a question from evidence and print where the answer went (#812)."""
+    from agents import argument_agent as af
+
+    res = af.ask(args.question, bestand=args.bestand, year_from=args.year_from,
+                 year_to=args.year_to)
+    out = af.write_result(res, Path(args.out) if args.out
+                          else config.OUTPUTS_DIR / "questions")
+    print(f"answer    : {out / 'answer.md'}")
+    print(f"claims    : {len(res.claims)} supported, "
+          f"{len(res.rejected_claims)} rejected")
+    print(f"evidence  : {len(res.pool)} found, {len(res.sampled)} shown")
+    print(f"cost      : {len(res.audit.calls)} call(s), {res.audit.tokens} tokens")
+    if not res.complete:
+        print("incomplete: " + (res.audit.stopped_because
+                                or "a search failed or no plan; see audit.json"))
+    return 0
 
 
 def main() -> None:

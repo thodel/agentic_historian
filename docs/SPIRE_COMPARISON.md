@@ -2,8 +2,8 @@
 
 Status: 2026-11-05. A reading of one paper against this repository, and the
 add-ons it suggests. Ideas 1 and 2 are issues; ideas 3–8 are recorded here
-until someone opens them. Idea 2 has a first implementation; the rest is not
-implemented.
+until someone opens them. Ideas 1 and 2 have first implementations; the rest is
+not implemented.
 
 **Paper.** Yating Pan, Jiajun Zhang, Jun Wang, Qi Su (Peking University):
 *Extending AI for Research to the Humanities: A Multi-Agent Framework for
@@ -80,6 +80,9 @@ output needs both.
 → balanced sampling → claim–evidence binding with a mechanical verbatim check
 → answer + audit → at most two reflection rounds, token-budgeted. Published as
 a commit under `docs/questions/<id>/` in the outputs repo.
+First version: `agentic_historian/agents/argument_agent.py` and
+`python -m agentic_historian ask` ([README section](../agentic_historian/README.md#agent-f-questions-answered-from-evidence-812));
+the bot command and publishing to the outputs repo are still open.
 
 ### 2. Evidence unit with reading provenance — #811
 

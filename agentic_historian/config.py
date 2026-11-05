@@ -357,6 +357,19 @@ GPUSTACK_MODEL_TEXT = _get("GPUSTACK_MODEL_TEXT", "gpt-oss-120b")
 GPUSTACK_MODEL_ORCHESTRATOR = _get("GPUSTACK_MODEL_ORCHESTRATOR", "minimax-m2.7")
 ORCHESTRATOR_LLM_ENABLED = _get("ORCHESTRATOR_LLM_ENABLED", "false").lower() == "true"
 
+# Agent F — evidence-grounded questions (#812). SPIRE, the design it follows,
+# reports ~505k tokens and ~22 calls per question; on gpt-oss-120b (a reasoning
+# model, see GPUSTACK_TEXT_MAX_TOKENS) that needs a ceiling. The agent checks
+# both before every call and stops — saying what it did not do — at either.
+ARGUMENT_MAX_TOKENS = int(_get("ARGUMENT_MAX_TOKENS", "300000"))
+ARGUMENT_MAX_CALLS = int(_get("ARGUMENT_MAX_CALLS", "12"))
+#: Reflection rounds after the first answer. SPIRE caps at two.
+ARGUMENT_MAX_ROUNDS = int(_get("ARGUMENT_MAX_ROUNDS", "2"))
+#: Passages the binding stage sees. SPIRE samples 8–15.
+ARGUMENT_SAMPLE_SIZE = int(_get("ARGUMENT_SAMPLE_SIZE", "12"))
+#: Per call. A reasoning model spends part of it before any content.
+ARGUMENT_CALL_MAX_TOKENS = int(_get("ARGUMENT_CALL_MAX_TOKENS", "8192"))
+
 # Retrieval models (planned: hub linking + corpus semantic analysis)
 GPUSTACK_MODEL_EMBEDDING = _get("GPUSTACK_MODEL_EMBEDDING", "qwen3-embedding-4b")
 GPUSTACK_MODEL_RERANKER = _get("GPUSTACK_MODEL_RERANKER", "jina-reranker-v2-base-multilingual")
