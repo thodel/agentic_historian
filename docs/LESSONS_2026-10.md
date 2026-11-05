@@ -1655,6 +1655,51 @@ Seiten-VLMs ohne feste Karte laufen nacheinander, nicht nebeneinander:
 Ein `start_batch` für ein zweites Modell ist eine Anweisung an das
 Gateway, das erste auszuladen.
 
+## 48. Das Seitenmodell unterschreibt die Briefe an Laßberg mit Laßbergs Namen
+
+Für die Modellkarte des Qwen3.5-Seitenmodells (4. November) habe ich die
+Thurgauer Seite aus §46 auch in seiner Lesung angesehen. Der Brief ist von
+Johann Adam Pupikofer, Diakon in Bischofszell, an Laßberg. Qwen unterschreibt
+ihn mit **„JvLaszberg“**. kraken liest an derselben Stelle „Pupitofen“.
+
+Ein Einzelfall ist das nicht. Die Schlüsse aller 29 Thurgauer Seiten habe
+ich in Qwens Lesung durchgesehen und die auffälligen mit kraken verglichen.
+Viermal setzt Qwen dort, wo Pupikofer unterschreibt, Laßberg oder seinen
+Wohnsitz ein:
+
+| Brief | Qwen3.5-Seitenmodell | kraken BLB |
+|---|---|---|
+| 1244 | JvLaszberg | Pupitofen |
+| 1220 | Stiftsdirektor / JvL, danach Diar. Schulttheis | Dia. Ppilofer |
+| 1797 | Der Eppishausen | Dian. Elpoitohen |
+| 3226 | Eppishausen / Dr. Hauptmann | Dias. Pupikofer |
+
+Im Text von 1797 steht bei Qwen „Herr von Laßberg sagt mir“, wo kraken
+„Herr von Liebenau“ liest. Auf mehreren weiteren Seiten steht am Schluss ein
+„Schultheiß“ in wechselnder Schreibung; wer diese Briefe geschrieben hat,
+habe ich nicht geprüft. In die Nähe von Pupikofers Namen kommt Qwen nur auf
+einer der Seiten, die ich verglichen habe („Drac. Hupitfaser“, 1280, kraken:
+„Diec. Pupitofer“).
+
+Der Grund liegt nahe, geprüft ist er nicht. Das Modell ist auf Laßbergs
+Nachlass nachtrainiert, und dort ist „Laßberg“ der häufigste Name unter
+einem Brief. Wo es einen Namen nicht lesen kann, schreibt es den
+wahrscheinlichsten. In der CER fällt das kaum auf, denn eine Unterschrift
+sind ein Dutzend Zeichen. Für eine Edition ist es der schwerste denkbare
+Fehler: Er vertauscht Absender und Empfänger eines Briefes, und er sieht
+dabei völlig plausibel aus. kraken liest Namen schlecht, aber es setzt keine
+anderen ein: Es liest Zeile für Zeile Zeichen, ohne ein Sprachmodell, das
+einen wahrscheinlicheren Text vorschlagen könnte.
+
+**Was daraus folgt.** Namen, Orte und Daten aus einer VLM-Lesung sind
+Vorschläge, keine Lesungen, und das gilt umso mehr, je näher das Training am
+Korpus liegt. Eine Prüfung, die sich anbietet: Wo ein Seiten-VLM den Namen
+des Empfängers oder seinen Wohnsitz in die letzten Zeilen eines Briefes
+schreibt, ist die Seite zu prüfen, bevor sie in ein Register geht. Mit der
+CER misst man das nicht. Man braucht dafür einen Blick auf die Stellen, an
+denen die Lesungen auseinandergehen, hier die Unterschrift. Die Karte des
+Qwen-Modells auf Hugging Face nennt den Fall mit dem ersten Beispiel.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
