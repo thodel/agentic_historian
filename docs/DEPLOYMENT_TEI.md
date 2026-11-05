@@ -263,6 +263,49 @@ Zu `130.92.59.240:8201` (kraken) liegt aus dieser Sitzung **keine eigene
 Messung** vor; der Stand ist der zuvor berichtete „unten". `/atr_engines` sagt
 es verlässlich.
 
+## Der Agent: dh-bot auf Hermes (seit 04.11.2026)
+
+Gemessen am 05.11.2026 (#798, #799). `dh-bot` ist nicht mehr der OpenClaw-Agent
+unter `dh`, sondern ein Hermes-Agent (Nous Research, v0.22.6) unter einem
+**eigenen Benutzer `hermes`** (uid 1001, Home `/home/hermes` 0750, Linger an).
+Bis zum Cut-over (H6, #802) läuft er in Discord als Test-Anwendung
+`dh-bot-hermes`; OpenClaw läuft daneben weiter, aber ohne den Queue-Job.
+
+| | |
+|---|---|
+| Dienst | User-Unit `hermes-gateway` von `hermes` (`systemctl --user`, braucht in einer `sudo -iu hermes`-Shell `XDG_RUNTIME_DIR` und `DBUS_SESSION_BUS_ADDRESS`, beides in `~/.bashrc`) |
+| Profil | `~/.hermes/` — `config.yaml` (Struktur: `deploy/hermes/config.yaml.example`), `.env` (0600, Namen: `deploy/hermes/env.example`), `SOUL.md`, `skills/`, `scripts/`, `cron/` |
+| Modell | `qwen3.8-27b` über `model.provider: custom` auf GPUStack; `gpt-oss-120b` als `providers.gpustack-oss`, nur je Job gepinnt |
+| Werkzeuge | `terminal.backend: local`, also Befehle **als `hermes`**; `approvals.mode: smart`, `cron_mode: deny` plus `command_allowlist` mit genau zwei Regeln (Heredoc, eigenen Branch löschen) |
+| GitHub | `gh` per `gh auth login` als `hermes` (`~/.config/gh/hosts.yml`); **kein** `GH_TOKEN` in `.env` — Hermes reicht `*_TOKEN` nicht ans Terminal durch |
+| Klone | `~/repos/<repo>` für die neun Repos des Queue-Workers; keine Produktions-Checkouts, kein Blick in `/home/dh` |
+| Quellen | MCP über nginx: `https://tei.dh.unibe.ch/mcp/<name>/mcp` (kf, eos, hbls, ssrq); `hls` ohne Schlüssel entfernt (#800) |
+| Cron | vier Jobs in `~/.hermes/cron/jobs.json`, Ausgaben unter `~/.hermes/cron/output/<job>/`, Zustellung in den Home-Kanal; Befehle in `deploy/hermes/cron.md` |
+
+Was der Agent **nicht** kann, und warum das so ist: `/etc/agentic_historian.env`
+(0640 `root:agentic_historian`) ist für `hermes` unlesbar, `/home/dh` ebenso —
+die S2-Trennung (#567) gilt damit in beide Richtungen. Der Historian-Bot
+bleibt für dh-bot nur über `atr-mcp` erreichbar, mit Lesewerkzeugen (#801).
+
+Zwei Dinge, die beim Debuggen Zeit kosten:
+
+* **Zwei Apps, ein Name.** In Discord antwortet `dh-bot` (App
+  `1519706253314756758`) aus OpenClaw und `dh-bot-hermes` aus Hermes. Eine
+  Meldung „ohne Freigabe kann ich nicht“ um 13:00/17:00/21:00 kam von OpenClaws
+  Queue-Job — der ist seit 05.11. `enabled: false` (`openclaw cron show
+  8b33083e…`), die Queue gehört Hermes (`hermes cron list`, Job `0466f6a110f5`).
+* **`gh` schreibt als `thodel`.** Kommentare und PRs des Queue-Workers tragen
+  den Namen des Token-Inhabers. Ein eigenes GitHub-Konto für dh-bot ist Teil der
+  Rotation in H6.
+
+Prüfen, als `hermes`:
+
+```bash
+hermes status; hermes gateway status | head -3
+hermes cron list
+loginctl show-user hermes -p Linger; systemctl --user is-enabled hermes-gateway
+```
+
 ## Was bei einem Neustart passiert
 
 Die wirksame Konfiguration liegt in Dateien im Checkout, also übersteht sie
