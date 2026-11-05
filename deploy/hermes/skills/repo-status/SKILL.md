@@ -13,17 +13,14 @@ metadata:
       schedule: "0 15 * * 2"
       deliver: discord
       prompt: Do the weekly repo status check as the skill says and reply with the overview only.
-required_environment_variables:
-  - name: GH_TOKEN
-    help: GitHub token with repo scope, for gh.
-    required_for: gh commands
 ---
 
 # Repo status check
 
 Weekly, Tuesday 15:00 Europe/Zurich (OpenClaw job "Repo Status Check", #799).
-It ran fine there; what changes here is only where the token comes from (an
-environment variable, not a file in a scratch directory) and that the stale
+It ran fine there; what changes here is only where the token lives (`gh auth
+login` as `hermes`, not a file in a scratch directory — Hermes refuses to pass
+a `GH_TOKEN` through to the terminal, and `gh` needs none) and that the stale
 "known context" block is gone — the report describes today, not July.
 
 ## Repositories

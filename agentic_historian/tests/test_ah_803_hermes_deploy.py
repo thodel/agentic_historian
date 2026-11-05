@@ -255,6 +255,27 @@ def test_the_queue_skill_keeps_the_protocol_rules():
     assert "/home/dh" not in text, "the worker must not know the production checkouts"
 
 
+def test_no_skill_asks_hermes_for_a_token_it_refuses_to_pass():
+    # The first cron run (2026-11-05): "refusing to register Hermes provider
+    # credential 'GH_TOKEN'". gh is signed in on its own; a skill that declares
+    # the variable only logs a warning per run and misleads the next operator.
+    for path in sorted((BUNDLE / "skills").glob("*/SKILL.md")):
+        fm = _frontmatter(path)
+        declared = [v["name"] for v in fm.get("required_environment_variables", [])]
+        assert not [v for v in declared if v.endswith(("_TOKEN", "_KEY"))], (path, declared)
+    assert "GH_TOKEN=" not in (BUNDLE / "env.example").read_text()
+
+
+def test_the_cron_run_keeps_deny_mode_and_allows_exactly_what_the_worker_needs():
+    import yaml
+    cfg = yaml.safe_load((BUNDLE / "config.yaml.example").read_text())
+    assert cfg["approvals"]["cron_mode"] == "deny"
+    assert cfg["command_allowlist"] == ["script execution via heredoc", "git branch force delete"]
+    skill = (BUNDLE / "skills" / "dh-bot-queue" / "SKILL.md").read_text()
+    assert "`execute_code` is blocked" in skill
+    assert "<<'EOF'" in skill
+
+
 def test_the_bundle_holds_no_secret_values():
     pattern = re.compile(r"(ghp_[A-Za-z0-9]{20,}|MT[A-Za-z0-9]{22}\.[A-Za-z0-9_-]{6}\.|gpustack_[A-Za-z0-9]{16,}"
                          r"|(?i:token|key|secret|password)\s*[:=]\s*['\"]?[A-Za-z0-9+/_-]{24,})")
