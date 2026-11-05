@@ -108,6 +108,7 @@ runs its start path (up to `bot.run`) without any `workspace/`.
 | `/campaign_status [bestand] [beenden]` | A campaign's coverage report — comparisons per bucket, which buckets crossed n≥10 *during* it, selection agreement |
 | `/votes_stats [bereich]` | What the Gate-2 votes have measured: coverage (#333), selection agreement (#334), engine strength (#335), routing overrides (#154). The ranking lives here and deliberately nowhere else — see *Quality without ground truth* |
 | `/find <query> [typ] [bestand] [seite]` | Semantic search over the passage index; each hit deep-links into the published catalogue at the place in the text |
+| `/ask <frage> [bestand] [von] [bis]` | Agent F (#812): answer a research question from evidence — every claim bound to a passage, every quote checked verbatim, each passage labelled with what kind of text it is. Runs for minutes in its own thread; the answer is posted to the channel (not the interaction, which expires after 15 min) and published to `docs/questions/<id>/` in the outputs repo when `ENABLE_GITHUB_PUBLISH` is on |
 | `/status`, `/progress` | Status |
 
 Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-gated when `REQUIRED_DISCORD_ROLE_ID` is set. All commands are serialised through a single worker queue (responsive, no per-user races).
@@ -723,7 +724,11 @@ python -m agentic_historian ask "Wie wird Almosen begründet?" --bestand kf --fr
 
 writes `answer.md`, `audit.json` and `pool.json` under
 `OUTPUTS_DIR/questions/<question_id>/`; the same is the `ask` tool in
-`agent_tools`.
+`agent_tools`. `--publish` (and the `/ask` bot command, always) also commits
+the answer to the outputs repo as `docs/questions/<question_id>/index.md` plus
+the two JSON files — one commit per answer, like a document — when
+`ENABLE_GITHUB_PUBLISH` is on. The page body is wrapped in `{% raw %}`, so a
+`{{` in a transcription or in the model's wording is not read as Liquid.
 
 | stage | what it does | model call |
 |---|---|---|

@@ -1578,6 +1578,52 @@ async def find_cmd(
         await ctx.followup.send(message, ephemeral=True)
 
 
+@bot.slash_command(
+    name="ask",
+    description="Eine Frage an den Korpus — jede Behauptung mit wörtlich geprüftem Beleg")
+@require_role
+async def ask_cmd(
+    ctx,
+    frage: Option(str, "Die Forschungsfrage", required=True),
+    bestand: Option(str, "Nur in diesem Bestand", required=False),
+    von: Option(int, "Zeitraum ab (Jahr)", required=False),
+    bis: Option(int, "Zeitraum bis (Jahr)", required=False),
+):
+    """Agent F (#812): answer from evidence, then publish the answer page.
+
+    Three things differ from the other commands, each for a reason:
+
+    * **It runs in its own thread, not in the job queue.** Agent F reads and
+      calls GPUStack for minutes; in the single FIFO it would hold up every
+      pipeline run behind it, and it writes nothing a pipeline job reads.
+    * **The answer goes to the channel, not to the interaction.** A follow-up
+      only works for 15 minutes after the command; a question with two
+      reflection rounds can take longer, and its answer would then be lost.
+    * **Mentions are limited to the asker.** The question is echoed, and a
+      question containing ``@everyone`` must not ping the server.
+    """
+    from agents import argument_agent as af
+
+    await ctx.defer()
+    await ctx.followup.send(
+        "⏳ Frage angenommen. Agent F plant, sucht, prüft jedes Zitat wörtlich "
+        "— das dauert einige Minuten; die Antwort kommt hier in den Kanal.")
+    allowed = discord.AllowedMentions(everyone=False, roles=False,
+                                      users=[ctx.author])
+    try:
+        done = await asyncio.to_thread(
+            af.answer, frage, bestand=bestand or None, year_from=von or None,
+            year_to=bis or None, publish=True)
+    except Exception as exc:                       # noqa: BLE001 — SEC-14 (#585)
+        logger.exception("[ask] {}", exc)
+        await ctx.channel.send(
+            f"{ctx.author.mention} ❌ Die Frage liess sich nicht beantworten "
+            f"— Details siehe Log.", allowed_mentions=allowed)
+        return
+    for message in af.format_discord(done, mention=ctx.author.mention):
+        await ctx.channel.send(message, allowed_mentions=allowed)
+
+
 @bot.slash_command(name="atr_jobs", description="Training jobs on asteraix")
 @require_role
 async def atr_jobs_cmd(ctx):

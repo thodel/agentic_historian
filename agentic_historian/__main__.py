@@ -2107,6 +2107,10 @@ def build_parser() -> argparse.ArgumentParser:
     p_ask.add_argument("--out", help="Directory for <question_id>/answer.md, "
                                      "audit.json, pool.json (default: "
                                      "OUTPUTS_DIR/questions)")
+    p_ask.add_argument("--publish", action="store_true",
+                       help="Also commit the answer to the outputs repo as "
+                            "docs/questions/<question_id>/ "
+                            "(needs ENABLE_GITHUB_PUBLISH)")
     p_ask.set_defaults(func=ask_cmd)
 
     p_pub = sub.add_parser("publish-batch",
@@ -2137,10 +2141,11 @@ def ask_cmd(args) -> int:
     """Answer a question from evidence and print where the answer went (#812)."""
     from agents import argument_agent as af
 
-    res = af.ask(args.question, bestand=args.bestand, year_from=args.year_from,
-                 year_to=args.year_to)
-    out = af.write_result(res, Path(args.out) if args.out
-                          else config.OUTPUTS_DIR / "questions")
+    done = af.answer(args.question, bestand=args.bestand,
+                     year_from=args.year_from, year_to=args.year_to,
+                     publish=args.publish,
+                     out_dir=Path(args.out) if args.out else None)
+    res, out = done.result, done.local_dir
     print(f"answer    : {out / 'answer.md'}")
     print(f"claims    : {len(res.claims)} supported, "
           f"{len(res.rejected_claims)} rejected")
@@ -2149,6 +2154,8 @@ def ask_cmd(args) -> int:
     if not res.complete:
         print("incomplete: " + (res.audit.stopped_because
                                 or "a search failed or no plan; see audit.json"))
+    if args.publish:
+        print(f"published : {done.page_url or done.commit_url or done.not_published}")
     return 0
 
 
