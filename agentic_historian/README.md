@@ -46,6 +46,7 @@ nl_orchestrator.py — NL/Scholar-in-the-Loop planner: LLM picks which agent too
                     Optional overlay, OFF by default (ORCHESTRATOR_LLM_ENABLED); no slash
                     command reaches it, and the standalone bot runs without it (S4, #569).
 semantic.py       — embedding retrieval + reproducible clustering with LLM labels (#28)
+evidence.py       — evidence unit: a quote, the reading it comes from, its Gate-2 status and the engines' agreement on that span (#811)
 utils/publish_github.py — publish outputs to the public catalogue repo (one commit/doc, #200)
 knowledge_hub/store.py  — swappable HubStore backend seam (JSON today, QLEVER at WP4, #26)
 output_site/      — scaffolding installed into the output repo (Pages config, index Action)
@@ -665,6 +666,46 @@ BAT_664 the 0.20-scored model read the page correctly and the 0.80-scored one di
 not. A candidate whose output is in the wrong writing system altogether (CJK for a
 Latin-script German page) can never be selected — that is not a quality judgement
 but a statement about possibility.
+
+## Evidence: a quote names its reading (#811)
+
+`evidence.py` is the unit anything that *argues* from the corpus cites — the
+evidence-grounded questions of #812, and any later claim–evidence review. It
+exists because a quotation from HTR output is a statement about a recogniser
+until shown otherwise: on BAT_664 the published text reads *"Iuser femitlich
+geñs"* where TrOCR escriptmask reads *"unser frùntlich gruͦs"*.
+
+An `EvidenceItem` carries:
+
+| field | |
+|---|---|
+| `evidence_id` | `ev-` + 12 hex of (doc, page, `engine/model_id`, start, end) — the reading is part of the identity, because offsets only mean something in one text |
+| `quote` | the reading's own characters at those offsets; no item if they are not there |
+| `reading.status` | `ground_truth` · `historian_chosen` · `historian_combined` · `auto_selected` · `auto_fused` · `not_chosen` · `uncorrected` — from the Gate-2 record (`RunState.closest_reading`, `gate2_auto`, `gate2_rejected`), never guessed |
+| `agreement` | over *this span*: `contested` (with each other reading's text there), `agreed`, or `single` — nothing independent to compare, which is not agreement |
+| `identical_readings` | readings byte-identical to the quoted one; they do not count as corroboration (one model under two ids, or the published copy of a candidate) |
+| `page_band` | `merge` / `no_merge` / `unmeasurable`, against `ENSEMBLE_NO_MERGE_CER` |
+| `source` | Agent B's `Datierung` with its `unsicher` flag, `Sprache` as a set, the holding |
+| `anchor` | `passage-<start>-<end>` in the published transcription (#397), for the published reading only |
+
+`reading_set(doc_id, page, state=…, pipeline=…)` builds every reading of a page
+from the run state (which knows pages and decisions) and `pipeline.json` (which
+has the published text and the description). `item_for_span` cuts one item;
+`locate_quote` finds a quote in every reading — exact first, then through
+`ruemlang/textalign.py`'s orthographic normalisation, always returning the
+reading's own characters and never cutting a letter from its combining mark;
+`item_from_passage_row` reads a `passage_index` row as an item and refuses a
+row that no longer matches its text.
+
+Three limits, stated rather than papered over. A **published `pipeline.json`
+does not record which page a candidate belongs to** (`PipelineContext.to_json`
+drops `RecognitionResult.page`), so a multi-page order read from it alone has
+its candidates counted as `unattributed` — saa-0428: 48 — and its published
+text can only be `uncorrected`. The run state has the pages. **Alternatives are
+approximate** where readings share almost nothing: a long replaced block is cut
+proportionally and narrowed to the best-matching stretch, enough to see *that*
+and roughly *how* readings differ, not which word answers which. And a
+`historian_chosen` reading is the closest available one, not ground truth.
 
 ## Models
 

@@ -274,7 +274,7 @@ port and no firewall exception on this path.
 | path | |
 |---|---|
 | `agentic_historian/` | the package — agents, orchestrator, gates, clients, bot, MCP server ([its README](agentic_historian/README.md) documents every module) |
-| `docs/` | runbooks and plans: batch ATR, training integration, evaluation harness, connectivity, Nextcloud, lessons |
+| `docs/` | runbooks and plans: batch ATR, training integration, evaluation harness, connectivity, Nextcloud, lessons; literature comparisons ([SPIRE](docs/SPIRE_COMPARISON.md)) with citation files in `docs/references/` |
 | `deploy/` | systemd units and nginx config for the pieces that run on tei, and the environment template (`gpustack.env.example`) |
 
 ## Running it
