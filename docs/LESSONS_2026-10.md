@@ -1655,7 +1655,7 @@ Seiten-VLMs ohne feste Karte laufen nacheinander, nicht nebeneinander:
 Ein `start_batch` für ein zweites Modell ist eine Anweisung an das
 Gateway, das erste auszuladen.
 
-## 48. Das Seitenmodell unterschreibt die Briefe an Laßberg mit Laßbergs Namen
+## 48. Die Seitenmodelle unterschreiben die Briefe an Laßberg mit Laßbergs Namen
 
 Für die Modellkarte des Qwen3.5-Seitenmodells (4. November) habe ich die
 Thurgauer Seite aus §46 auch in seiner Lesung angesehen. Der Brief ist von
@@ -1681,7 +1681,27 @@ habe ich nicht geprüft. In die Nähe von Pupikofers Namen kommt Qwen nur auf
 einer der Seiten, die ich verglichen habe („Drac. Hupitfaser“, 1280, kraken:
 „Diec. Pupitofer“).
 
-Der Grund liegt nahe, geprüft ist er nicht. Das Modell ist auf Laßbergs
+**olmOCR tut es auch** (nachgetragen am 5. November). Dieselben 29 Schlüsse
+in seiner Lesung, jeder Treffer mit kraken verglichen: Ebenfalls viermal
+steht dort Laßberg oder sein Wohnsitz, wo Pupikofer aus Bischofszell
+schreibt.
+
+| Brief | olmOCR-Seitenmodell | kraken BLB |
+|---|---|---|
+| 3168 | Herzlich der Ihrige. / JvLaszberg | Herzlich der Ihrige. / Pupitofern |
+| 1186 | Bischofzell … / Dieterich Eppishausen | Bschofzell … / Dian Fupitoferen |
+| 1202 | Eppishall den 17. Oct. 29 / Jv. Dal. Jagilfrow | Bschafzell den 17. Oct. 37 / Dac. Pupilofer |
+| 1280 | Eppishall den 10. Febr. 1829 / Jv / Diac. Papilofers | Bschofzell den 10. Febr. 1829 / Diec. Pupitofer |
+
+olmOCR tut es auf zwei Arten: Es ersetzt die Unterschrift (3168, 1186), oder
+es verlegt den Brief nach „Eppishall“ und stellt Laßbergs Initialen „Jv“ vor
+den Namen (1202, 1280). Und es trifft **andere Seiten** als Qwen: Keine der
+acht Seiten ist bei beiden betroffen. Zusammen sind es 8 von 29, mehr als
+jede vierte. Wer zwei VLM-Lesungen nebeneinanderlegt, um Fehler zu finden,
+findet diesen also gerade dort, wo sie auseinandergehen, aber er weiss
+nicht, welche der beiden recht hat; erst kraken daneben sagt es.
+
+Der Grund liegt nahe, geprüft ist er nicht. Beide Modelle sind auf Laßbergs
 Nachlass nachtrainiert, und dort ist „Laßberg“ der häufigste Name unter
 einem Brief. Wo es einen Namen nicht lesen kann, schreibt es den
 wahrscheinlichsten. In der CER fällt das kaum auf, denn eine Unterschrift
@@ -1697,8 +1717,10 @@ Korpus liegt. Eine Prüfung, die sich anbietet: Wo ein Seiten-VLM den Namen
 des Empfängers oder seinen Wohnsitz in die letzten Zeilen eines Briefes
 schreibt, ist die Seite zu prüfen, bevor sie in ein Register geht. Mit der
 CER misst man das nicht. Man braucht dafür einen Blick auf die Stellen, an
-denen die Lesungen auseinandergehen, hier die Unterschrift. Die Karte des
-Qwen-Modells auf Hugging Face nennt den Fall mit dem ersten Beispiel.
+denen die Lesungen auseinandergehen, hier die Unterschrift, und eine
+Lesung ohne Sprachmodell daneben. Die Karte des Qwen-Modells auf Hugging
+Face nennt alle vier Fälle; die olmOCR-Karte noch keinen. Geprüft sind nur
+die 29 Thurgauer Seiten, nicht die übrigen 195 Transkribus-Seiten.
 
 ## What held up
 
