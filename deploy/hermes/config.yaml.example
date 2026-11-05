@@ -65,8 +65,29 @@ mcp_servers:
     url: https://tei.dh.unibe.ch/mcp/ssrq/mcp
   hbls:
     url: https://tei.dh.unibe.ch/mcp/hbls/mcp
-  # hls: needs a key nobody has recorded (#800) — add with `headers:` once known
-  # dmj, outremer, sikart, wd-pre1500, swisslib: same pattern, add as needed
+  outremer:
+    url: https://tei.dh.unibe.ch/mcp/outremer/mcp
+  sikart:
+    url: https://tei.dh.unibe.ch/mcp/sikart/mcp
+  wd-pre1500:
+    url: https://tei.dh.unibe.ch/mcp/wd-pre1500/mcp
+  hls:
+    url: https://tei.dh.unibe.ch/mcp/hls/mcp
+    # HTTP Basic (mcp-hls on idhefix, HLS_AUTH_USER/HLS_AUTH_PASS in its .env);
+    # HLS_BASIC is base64("user:pass") in ~/.hermes/.env. ${VAR} resolves from
+    # .env, and an unset variable fails the entry closed instead of retrying 401s.
+    headers:
+      Authorization: "Basic ${HLS_BASIC}"
+  # dmj: the Digital Medievalist editorial MCP (dmj_management on tei, 8016),
+  # bearer DMJ_MCP_TOKEN from /home/dh/dmj_management/.env — only with a
+  # reading filter, it can act on OJS (#800, #801):
+  # dmj:
+  #   url: https://tei.dh.unibe.ch/mcp/dmj/mcp
+  #   headers:
+  #     Authorization: "Bearer ${DMJ_MCP_TOKEN}"
+  #   tools:
+  #     include: [...]
+  # swisslib: not wired on tei (no nginx location, no tunnel to 8005) — nothing to add
   atr:
     url: https://tei.dh.unibe.ch/mcp/atr/mcp
     # OAuth 2.1 (PKCE, dynamic client registration) against the server's own
