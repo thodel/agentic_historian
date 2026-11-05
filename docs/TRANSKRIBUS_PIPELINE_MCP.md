@@ -123,7 +123,7 @@ transkribus_pipeline(step="eval", run="hertwig-g", doc="13922499", pages="8,17,2
 | Bern, Schlussredaktion (6 pages, v2) | 0.166 | kraken **0.131** · Text Titan 0.187 | the volume's kraken |
 | Federal Council minutes, **lines** (100) | 0.370 | line adapters ~0.10 | line adapters |
 | Laßberg, 19th c., pages (34) | median 4.5 % | Flash 4.8 % · Qwen line model 14.5 % | Argon ≈ Flash |
-| St. Gallen Missiven, pages (20, `sg_missiven_page_v3.md`) | median **10.5 %** | Flash 22.0 % (v1 prompt) | Argon |
+| St. Gallen Missiven, pages (20, `sg_missiven_page_v4.md`) | median **10.2 %**, p90 16.5 % | Flash 22.0 % (v1 prompt) | Argon |
 
 What follows from it:
 
@@ -133,11 +133,19 @@ What follows from it:
   (`eval` and `external_lineset` print them) showed it every time: u/v,
   virgules turned into commas, superscripts dropped or written as umlauts,
   ſ, capitals. A prompt in the GT's own conventions closed much of it —
-  Missiven 16.2 → 12.8 → 10.5 % (v1 → v3), Bern Schlussredaktion 0.198 →
-  0.166; the convention-normalised CER (`external_lineset`) stayed near 7–8 %
-  on the Missiven, which is what Argon actually misreads. Conventions are
+  Missiven 16.2 → 12.8 → 10.5 → 10.2 % (v1 → v4), Bern Schlussredaktion
+  0.198 → 0.166; the convention-normalised CER (`external_lineset`) stayed
+  near 6–8 % on the Missiven, which is what Argon actually misreads. Conventions are
   read off the confusions and written into a **new** prompt file each time, so
   every run keeps its digest.
+- **What counts as the page is a convention too.** The worst Missiven page
+  of every run (`StadtASG_Missive_418_853`, 142–152 % for Argon and Flash
+  alike) was an address leaf: the GT holds the address, Argon added the
+  chancery's later docket in another hand. v4 leaves endorsements and dockets
+  out, and the page fell to the ordinary range (worst page 147 → 21.8 %, p90
+  21.2 → 16.5 %). A page above 100 % for every reader is a question about the
+  reference — read it (`worst` in the report names it) before tuning the
+  prompt.
 - **Edited texts trip a filter.** On the Bern volumes 3 of 14 pages came back
   empty with `finish_reason: content_filter: OTHER` — the Disputation is
   edited, and the API refuses to reproduce what it knows. About one page in
