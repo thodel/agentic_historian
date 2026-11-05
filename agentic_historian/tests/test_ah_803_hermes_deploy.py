@@ -250,7 +250,7 @@ def test_the_digest_skill_calls_the_script_it_ships():
 def test_the_queue_skill_keeps_the_protocol_rules():
     text = (BUNDLE / "skills" / "dh-bot-queue" / "SKILL.md").read_text()
     for rule in ("Teil von #", "500 changed lines", "never `git add -A`", "claude/",
-                 "No merge, no approve", "--remove-label dh-bot"):
+                 "No merge, no approve", "--remove-label dh-bot", "Hand-back"):
         assert rule in text, rule
     assert "/home/dh" not in text, "the worker must not know the production checkouts"
 

@@ -127,6 +127,14 @@ exist. Write it back after every state change, not only at the end.
 On any failure in 6–11: `active` → `failed` with the error, restore the clone
 (`git checkout main`, delete the branch), report one line, finish.
 
+**Hand-back** is the same path, chosen on purpose: the issue needs something
+you cannot give (the live host, runtime data, a decision), or its code part is
+already merged. Then comment on the issue with what is done and what is
+needed, **strip the label** as in step 13 — the issue now waits for a human,
+and a `failed` entry is never retried anyway — and report:
+`Issue #N in <repo>: **title** → Hand-back, kein PR: <reason in one line>`.
+(The first run, 2026-11-05, did exactly this on serving-atr-inference#158.)
+
 ## The pull request
 
 The body, verbatim in structure:
