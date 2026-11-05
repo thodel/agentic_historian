@@ -40,6 +40,9 @@ data/feedback/
 # läuft die Prüfung je Rechner gegen etwas anderes.
 !knowledge_hub/ontology/snapshots/*.json
 !tests/fixtures/bestandsgraph/*.json
+# Eine dritte (#811): echte pipeline.json-Ausschnitte (BAT_664, saa-0428), gegen
+# die die Evidenz-Einheit geprüft wird — ohne sie liefe der Test nur lokal.
+!tests/fixtures/evidence/*.json
 # Lock files from shared_lock (#393) — one appears next to every file the
 # wrappers protect, named .<target>.lock. Per-host runtime artefacts: a
 # committed one means nothing anywhere else. The *.json rule above does not

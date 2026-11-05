@@ -2,7 +2,8 @@
 
 Status: 2026-11-05. A reading of one paper against this repository, and the
 add-ons it suggests. Ideas 1 and 2 are issues; ideas 3–8 are recorded here
-until someone opens them. Nothing in this document is implemented.
+until someone opens them. Idea 2 has a first implementation; the rest is not
+implemented.
 
 **Paper.** Yating Pan, Jiajun Zhang, Jun Wang, Qi Su (Peking University):
 *Extending AI for Research to the Humanities: A Multi-Agent Framework for
@@ -87,7 +88,8 @@ quote must be a substring of that reading, and which states its status
 (`historian_chosen` / `auto_selected` / `uncorrected` / `ground_truth`) and the
 engines' agreement over *that span* (`agreed` / `contested` / `single`, via
 `path_compare.compute_disagreements`). This is the part SPIRE cannot do and the
-prerequisite for 1.
+prerequisite for 1. First version: `agentic_historian/evidence.py`, described in
+[its README section](../agentic_historian/README.md#evidence-a-quote-names-its-reading-811).
 
 ### 3. Community tier over the Bestandsgraph
 
