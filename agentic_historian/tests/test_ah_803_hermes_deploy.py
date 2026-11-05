@@ -90,6 +90,29 @@ def test_a_failing_feed_is_listed_not_dropped():
         ("D", "OSError"), ("J", "ValueError")]
 
 
+def _rdf(*items: tuple[str, datetime]) -> bytes:
+    """RSS 1.0 as OpenEdition and OJS serve it: items beside the channel, dc:date."""
+    body = "".join(
+        f'<item rdf:about="https://r1/{i}"><title>{t}</title><link>https://r1/{i}</link>'
+        f"<dc:creator>C {i}</dc:creator><dc:date>{d.isoformat()}</dc:date>"
+        f"<description>D {i}</description></item>" for i, (t, d) in enumerate(items))
+    return (b'<?xml version="1.0"?><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" '
+            b'xmlns="http://purl.org/rss/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/">'
+            b"<channel rdf:about=\"https://r1\"><title>f</title><items/></channel>" + body.encode()
+            + b"</rdf:RDF>")
+
+
+def test_rss_one_point_zero_is_read_too():
+    """Critical Digital Humanities and Histoire & mesure were the two 'errors' of
+    the first live digest (04.11.2026): rdf:RDF, not rss."""
+    out = df.collect([("H", "u")], 7, fetch=lambda u: _rdf(("alt", NOW - timedelta(days=30)),
+                                                           ("neu", NOW - timedelta(days=1))),
+                     now=NOW)
+    assert out["errors"] == []
+    assert [(i["title"], i["link"], i["authors"]) for i in out["items"]] == [
+        ("neu", "https://r1/1", ["C 1"])]
+
+
 def test_an_atom_link_without_rel_is_the_link():
     """Google Alert feeds write <link href="…"/> with no rel attribute."""
     raw = (b'<feed xmlns="http://www.w3.org/2005/Atom"><entry><title>t</title>'
