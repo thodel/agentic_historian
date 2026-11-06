@@ -186,6 +186,27 @@ Metagrid, B-5), 12 Konfliktkanten (6 GND-Paare); 32 Verweise ohne Registereintra
 dieselbe Zahl wie SQL auf `bullinger.db`; an der Spitze Bullinger (12 674 Briefe), Blarer (775),
 Fabricius (746), Haller (739).
 
+### Human Lineage — Verwandtschaft über die Quellen hinweg (HL-9 / #830, ch-h-bot#640)
+
+`knowledge_hub/sources/humanlineage.py` ist keine Quelle mit eigenen Personen, sondern eine
+**Schicht über dem gebauten Graphen**: sie liest die `.nt` der anderen Quellen, nimmt jede
+E21 mit einer Kennung, die Human Lineage auflöst (`owl:sameAs` Wikidata/HLS/GND oder E42
+`hls`/`gnd`), fragt den MCP (`get_by_identifier`, dann `get_relatives`) und schreibt nur, was
+**beide** Seiten kennen. Human Lineage ist CC BY-SA 4.0 (Zenodo-Schnappschuss, DOI im
+Datensatz-Knoten); ob ShareAlike zur Graph-Lizenz passt, ist vor einem Export zu entscheiden —
+das Manifest trägt die Frage unter `licence`.
+
+| Feld | Begriff | Bemerkung |
+|---|---|---|
+| Treffer (`status: match`, genau eine Person) | `owl:sameAs https://humanlineage.org/person/<id>`, dazu die QID, wo der Graph sie nicht hatte | Namensraum `humanlineage.org` in `shapes.ttl` ergänzt; mehrdeutige Antworten werden gezählt (`lookup_ambiguous`), nie geraten |
+| `parents` / `children` | `P152_has_parent`, Kind → Elternteil | nur wenn der andere auch im Graphen ist (`relatives_outside_graph` zählt den Rest) |
+| `spouses` | `sdh-slc:C9 Relationship` «Ehe», zwei P20, `prov:wasDerivedFrom` → Human Lineage, P3 mit Schnappschuss | symmetrisch, einmal je Paar; `couple_facts` (Datum, Ort) kommen, wenn der Dump sie trägt |
+| `siblings_derived` | **keine Kante** | abgeleitet, nicht belegt — gezählt |
+| Datensatz | `prov:Entity`, `prov:value` «Zenodo <DOI>, snapshot <Datum>», `owl:sameAs https://humanlineage.org/`, `rdfs:comment` Lizenz | |
+
+Das Mass (Issue): Königsfelden (14 bestätigte Habsburger Kanten in HL-4) und das Basler
+Grundbuch (16) — gemessen, sobald der Lauf auf tei die `.nt` der beiden gesehen hat.
+
 ## Was die Prüfung bemerkt
 
 `validate.py` meldet: unbekannte Klasse/Property (nicht im Register oder nicht in
