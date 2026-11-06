@@ -763,10 +763,15 @@ On tei, as `dh` (the CLI reads `.env.gpustack`, not the service's env file, and
 publishes nothing without `--publish`):
 
 ```bash
-cd /home/dh/agentic_historian/agentic_historian
-.venv/bin/python -c "import passage_index; print(passage_index.passage_count(), 'passages indexed')"
-.venv/bin/python -m agentic_historian ask "Wie wird Almosen in den Königsfelder Urkunden begründet?" --from 1300 --to 1499
+cd /home/dh/agentic_historian            # the repository root, not the package folder
+git pull --ff-only
+(cd agentic_historian && .venv/bin/python -c "import passage_index; print(passage_index.passage_count(), 'passages indexed')")
+agentic_historian/.venv/bin/python -m agentic_historian ask "Wie wird Almosen in den Königsfelder Urkunden begründet?" --from 1300 --to 1499
 ```
+
+`python -m agentic_historian` resolves the package folder from the current
+directory, so it runs from the repository root; inside the package folder it
+answers `No module named agentic_historian` (the first attempt, 06.11.2026).
 
 The command prints where the answer went, then the lines to read first:
 
