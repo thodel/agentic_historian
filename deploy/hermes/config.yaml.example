@@ -18,6 +18,7 @@ providers:
 agent:
   max_turns: 60
   reasoning_effort: medium
+  restart_after_turn_timeout: 300       # a turn parked on a clarify card held a restart for 30 min (06.11.)
 
 platforms:
   discord:
@@ -37,6 +38,19 @@ approvals:
   mode: smart                           # auxiliary check; `manual` while testing
   cron_mode: deny                       # a cron run never gets a dangerous command through
   unattended_mode: deny
+  # Checked before everything else, in every session, --yolo included: the
+  # detours the first probes tried on their way to a batch (#801) — SSH, the
+  # two GPU hosts, the gateway ports, the batch client. dh-bot reaches the
+  # Historian over atr-mcp only.
+  deny:
+    - "ssh *"
+    - "*ssh *"
+    - "scp *"
+    - "*130.92.59.240*"
+    - "*130.92.59.242*"
+    - "*:8200*"
+    - "*:8201*"
+    - "*atr_batch*"
 # Rule keys the queue worker needs even under cron_mode: deny (the first run,
 # 2026-11-05, was blocked on both): writing the state file and the PR body
 # through a heredoc, and dropping its own branch after a failed attempt.
