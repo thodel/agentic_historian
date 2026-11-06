@@ -309,8 +309,13 @@ e-codices.ch (31.10.2026). `score` needs neither and holds every judgement.
 
 ```bash
 cd ~/agentic_historian/agentic_historian
+# 0. Choose 30 volumes from the catalogue (OAI-PMH), not by hand. Writes
+#    candidates.tsv (every inspected volume, and why it was or was not taken),
+#    selected.txt, and the selected volumes' manifest/TEI in fetch's layout.
+python -m eval.ecodices_bench candidates runs/ecodices-2026-11 --n 30 --max-inspect 300
 # 1. TEI and IIIF manifest per volume. The licence is read per file and printed.
-python -m eval.ecodices_bench fetch runs/ecodices-2026-11 saa-0428 <id> <id> …
+#    After step 0 only needed for volumes added by hand.
+python -m eval.ecodices_bench fetch runs/ecodices-2026-11 --ids-from runs/ecodices-2026-11/selected.txt
 #    A manifest that links no TEI: give it, --tei saa-0428=https://…/saa-0428_….xml
 # 2. Agent B, three runs per volume, first page only (= production, pages[0]).
 python -m eval.ecodices_bench run runs/ecodices-2026-11 --runs 3
@@ -318,9 +323,17 @@ python -m eval.ecodices_bench run runs/ecodices-2026-11 --runs 3
 python -m eval.ecodices_bench score runs/ecodices-2026-11
 ```
 
-**Choosing the volumes.** Aim for 30 of them, spread over centuries and holdings.
-Prefer archive holdings (closest to our administrative records) and volumes the
-catalogue gives several hands. Check the parser against two or three
+**Choosing the volumes.** Thirty, spread over centuries and holdings, chosen by
+`candidates` (`eval/ecodices_candidates.py`) rather than by hand — the volumes
+one happens to know are the famous ones, which a model is likeliest to have read
+about. It lists ids over OAI-PMH, inspects up to `--max-inspect` of them
+(`saa` archive holdings first, then an even spread; cached under `_candidates/`),
+keeps volumes with a date and at least `--min-pages` pages, and takes them
+round-robin over centuries, several catalogued hands before one before unstated.
+`saa-0428` (#375) is always in. The choice is deterministic. The OAI base URL is
+e-codices' documented one but unverified from here (no cloud access): if it
+answers otherwise, `--oai-url` or `--ids-file` (one id per line) route around it.
+Check the parser against two or three
 descriptions read by hand before trusting a report. The offline fixtures are
 synthetic, so the first `fetch` is where the parser first meets real files.
 
