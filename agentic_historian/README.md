@@ -110,7 +110,7 @@ runs its start path (up to `bot.run`) without any `workspace/`.
 | `/find <query> [typ] [bestand] [seite]` | Semantic search over the passage index; each hit deep-links into the published catalogue at the place in the text |
 | `/status`, `/progress` | Status |
 
-Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-gated when `REQUIRED_DISCORD_ROLE_ID` is set. All commands are serialised through a single worker queue (responsive, no per-user races).
+Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-gated when `REQUIRED_DISCORD_ROLE_ID` is set. All commands are serialised through a single worker queue (responsive, no per-user races). The complete list with each command's gate, and how it relates to `dh-bot` (the research agent on the same server, which reaches this bot only read-only over `atr-mcp`), is [`docs/BOTS.md`](../docs/BOTS.md).
 
 ## Environment Variables (`.env.gpustack`, repo root)
 

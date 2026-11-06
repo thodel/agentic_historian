@@ -298,6 +298,9 @@ In production the bot runs on tei under `agentic-historian.service` as its own
 user, and since 23.10.2026 it reads **only** `/etc/agentic_historian.env`
 (`AH_ENV_FILE`); the dotenv files in the checkout are the CLI's —
 [`docs/DEPLOYMENT_TEI.md`](docs/DEPLOYMENT_TEI.md) says what a deploy does now.
+What this bot does and what `dh-bot` (the Hermes agent on the same server)
+does — one table, one rule, every slash command — is
+[`docs/BOTS.md`](docs/BOTS.md).
 
 As a **standalone** process (separation epic #565) it is decoupled from the OpenClaw
 agent: its own Discord token, its own secrets file (`deploy/systemd/agentic_historian.env.example`
