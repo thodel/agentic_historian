@@ -64,16 +64,23 @@ import config
 import evidence as ev
 
 __all__ = [
+    "Answered",
     "Audit",
     "Binding",
     "BudgetExhausted",
     "Claim",
     "Plan",
+    "QuestionIdRefused",
     "Result",
+    "answer",
     "ask",
     "bind",
     "check_bindings",
+    "format_discord",
+    "page_url",
     "plan",
+    "publish_files",
+    "question_path",
     "reflect",
     "render_markdown",
     "represent",
@@ -902,3 +909,168 @@ def write_result(res: Result, out_dir: Path) -> Path:
     for name, body in represent(res).items():
         (d / name).write_text(body, encoding="utf-8")
     return d
+
+
+# ── publishing and Discord ───────────────────────────────────────────────────
+
+#: Where answers live in the outputs repo; Pages serves ``docs/``, so the page
+#: is ``<catalogue>/questions/<question_id>/``.
+QUESTIONS_PREFIX = "docs/questions"
+
+_QID = re.compile(r"^q-[0-9a-f]{10}$")
+
+#: Discord's limit is 2000; the margin is for the mention and the link.
+_DISCORD_LIMIT = 1900
+
+
+class QuestionIdRefused(ValueError):
+    """A question id that may not become a path in the outputs repo."""
+
+
+def question_path(question_id: str) -> str:
+    """``docs/questions/<question_id>`` — or a refusal. The id is made here
+    (:func:`question_id`), so anything else reaching this is a defect."""
+    if not _QID.match(question_id or ""):
+        raise QuestionIdRefused(f"not a question id: {question_id!r}")
+    return f"{QUESTIONS_PREFIX}/{question_id}"
+
+
+def page_url(question_id: str) -> str | None:
+    """The published page, or None without a configured catalogue."""
+    from passage_find import catalogue_base
+
+    base = catalogue_base()
+    return f"{base}/questions/{question_id}/" if base else None
+
+
+def publish_files(res: Result) -> dict[str, bytes]:
+    """The files one answer publishes, keyed by their path in the outputs repo.
+
+    ``index.md`` is the answer page. Pages renders it through Jekyll, and Liquid
+    would read a ``{{`` or ``{%`` in a transcription or in the model's wording
+    as template syntax — so the body is wrapped in ``{% raw %}``, with every
+    ``{%`` inside it written as ``{&#37;`` so nothing can close the block. The title is
+    JSON-quoted, which is valid YAML, so a question with a colon or a quote
+    does not break the front matter. ``audit.json`` and ``pool.json`` sit next
+    to it; the page links them.
+    """
+    prefix = question_path(res.question_id)
+    files = represent(res)
+    title = res.question if len(res.question) <= 120 else res.question[:117] + "…"
+    # Only `{% endraw %}` could end the raw block early, and Liquid tolerates
+    # any whitespace inside a tag, so every `{%` is written as an entity: the
+    # page shows the same characters and Liquid sees no tag.
+    body = files["answer.md"].replace("{%", "{&#37;")
+    page = "\n".join([
+        "---", "layout: default", f"title: {json.dumps('Frage: ' + title, ensure_ascii=False)}",
+        "---", "",
+        "{% raw %}", body,
+        "Dateien: [audit.json](audit.json) · [pool.json](pool.json)",
+        "{% endraw %}", ""])
+    return {f"{prefix}/index.md": page.encode("utf-8"),
+            f"{prefix}/audit.json": files["audit.json"].encode("utf-8"),
+            f"{prefix}/pool.json": files["pool.json"].encode("utf-8")}
+
+
+@dataclass
+class Answered:
+    """One answered question and where it went."""
+
+    result: Result
+    local_dir: Path
+    page_url: str | None = None
+    commit_url: str | None = None
+    #: Why there is no commit, when there is none — said, not inferred.
+    not_published: str = ""
+
+
+def answer(question: str, *, bestand: str | None = None,
+           year_from: int | None = None, year_to: int | None = None,
+           publish: bool = False, out_dir: Path | None = None,
+           **kwargs) -> Answered:
+    """:func:`ask`, written locally, and — when asked and switched on —
+    committed to the outputs repo. Publishing never fails the answer: the
+    local files are there either way, and ``not_published`` says why a
+    commit is missing."""
+    res = ask(question, bestand=bestand, year_from=year_from, year_to=year_to,
+              **kwargs)
+    local = write_result(res, out_dir or config.OUTPUTS_DIR / "questions")
+    done = Answered(res, local)
+    if not publish:
+        done.not_published = "nicht angefordert"
+        return done
+    from utils import publish_github
+
+    if not publish_github.is_enabled():
+        done.not_published = "Publizieren ist aus (ENABLE_GITHUB_PUBLISH=false)"
+        return done
+    done.commit_url = publish_github.publish_question(res.question_id,
+                                                      publish_files(res))
+    if done.commit_url:
+        done.page_url = page_url(res.question_id)
+    else:
+        done.not_published = "Commit fehlgeschlagen oder schon aktuell (siehe Log)"
+    return done
+
+
+def _clip(text: str, n: int) -> str:
+    text = " ".join((text or "").split())
+    return text if len(text) <= n else text[: n - 1] + "…"
+
+
+def _short_status(it) -> str:
+    r = it.reading
+    s = _STATUS_DE.get(r.get("status"), r.get("status") or "")
+    if r.get("status") == ev.EDITION:
+        s = f"{s} {r.get('model_id')}"
+    if it.agreement == "contested":
+        s += ", Engines uneinig"
+    return s
+
+
+def format_discord(done: Answered, *, mention: str = "") -> list[str]:
+    """The answer as Discord messages, each under the limit.
+
+    A digest, not the page: each claim with its first accepted quote and what
+    kind of text the quote is. The page (or, unpublished, the local path) has
+    the rest. Pure, so it is tested without a Discord client.
+    """
+    res = done.result
+    head = [f"{mention} 📜 **{_clip(res.question, 200)}**".strip()]
+    if not res.complete:
+        head.append("⚠️ **Unvollständig** — "
+                    + (res.audit.stopped_because
+                       or "nicht jede Suche hat geantwortet oder kein Plan vom Modell"))
+    if not res.claims:
+        head.append("Keine Behauptung liess sich aus den gefundenen Passagen belegen.")
+
+    blocks = []
+    for i, c in enumerate(res.claims, 1):
+        ok = [b for b in c.bindings if b.ok]
+        it = res.pool[ok[0].evidence_id]
+        where = it.doc_id + (f", {it.page}" if it.page else "")
+        more = f" (+{len(ok) - 1} Beleg(e))" if len(ok) > 1 else ""
+        blocks.append(f"**{i}.** {_clip(c.text, 300)}\n"
+                      f"> „{_clip(ok[0].quote, 200)}“ — {where} · "
+                      f"{_short_status(it)}{more}")
+
+    tail = [(f"Passagen: {len(res.pool)} gefunden, {len(res.sampled)} vorgelegt · "
+             f"verworfen: {len(res.rejected_claims)} Behauptung(en) · "
+             f"{len(res.audit.calls)} Modellaufruf(e), {res.audit.tokens} Tokens")]
+    if done.page_url:
+        tail.append(f"Ganze Antwort mit allen Belegen: {done.page_url}")
+    elif done.commit_url:
+        tail.append(f"Publiziert: {done.commit_url}")
+    else:
+        tail.append(f"Nicht publiziert ({done.not_published}); lokal unter "
+                    f"`{done.local_dir.name}`.")
+
+    messages, current = [], "\n".join(head)
+    for block in blocks + ["\n".join(tail)]:
+        if len(current) + 2 + len(block) > _DISCORD_LIMIT:
+            messages.append(current)
+            current = block
+        else:
+            current = f"{current}\n\n{block}" if current else block
+    messages.append(current)
+    return [m[:_DISCORD_LIMIT] for m in messages]

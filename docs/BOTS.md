@@ -12,7 +12,7 @@ Historian über Pull Requests und *bedient* ihn nie.
 | | **dh-bot** (Hermes, Benutzer `hermes`) | **agentic-historian** (discord.py, Benutzer `agentic_historian`) |
 |---|---|---|
 | Was es ist | ein Agent: Gespräch, Recherche, Gedächtnis, Skills, Cron | ein Bedienpult: deterministische Slash-Befehle mit Rollen-Gate, keine LLM-Orchestrierung (S4 #569 aus) |
-| Recherche in den Quellen (KF, EOS, HBLS, SSRQ, HLS, SIKART, outremer, wd-pre1500, DMJ) | **ja**, über die MCP-Föderation (#800, neun Quellen, DMJ nur lesend) | nur, wo es die eigene Pipeline speist (`/search`, `/entity`, `/find`, `/sparql`) |
+| Recherche in den Quellen (KF, EOS, HBLS, SSRQ, HLS, SIKART, outremer, wd-pre1500, DMJ) | **ja**, über die MCP-Föderation (#800, neun Quellen, DMJ nur lesend) | nur, wo es die eigene Pipeline speist (`/search`, `/entity`, `/find`, `/sparql`, `/ask`) |
 | ATR-Läufe, Training, Votes, Kampagnen, Publizieren, Share, Hot-Folder, Engines | **nein** — fragt über `atr-mcp` lesend nach dem Stand (16 Lesewerkzeuge, kein `start_batch`) | **ja**, allein: die einzigen Prozesse mit GPU-, Trainings-, Daten- und Share-Zugriff |
 | Issues mit Label `dh-bot` bearbeiten, PRs öffnen | **ja**, dreimal täglich (Queue-Worker, #799) — auch im Code des Historian | nein, nie |
 | Mergen | nie (Regel 8 des Protokolls) — ein Mensch oder der Prüflauf | nie |
@@ -66,6 +66,7 @@ Die Liste wird gegen `bot.py` geprüft (`test_ah_803_hermes_deploy.py`).
 | `/agent_e` | Rolle | Run Agent E — meta report | bleibt — Betrieb, nur der Historian |
 | `/progress` | offen | Show phase progress | bleibt |
 | `/find` | Rolle | Stellen im Korpus finden — nach Bedeutung, nicht nach Wortlaut | bleibt — der eigene Passagen-Index und die eigenen Lesungen |
+| `/ask` | Rolle | Eine Frage an den Korpus — jede Behauptung mit wörtlich geprüftem Beleg (Agent F, #812) | neu, beim Historian — zitiert die eigenen Lesungen mit ihrem Gate-2-Status und publiziert nach `docs/questions/`, beides nur hier; Editionstext der Föderation (EOS) nur als gekennzeichneter Beleg. Feste Stufenfolge, das Modell wählt keine Werkzeuge (S4 bleibt aus) |
 | `/atr_jobs` | Rolle | Training jobs on asteraix | bleibt — Betrieb, nur der Historian |
 | `/atr_job` | Rolle | One training job in detail | bleibt — Betrieb, nur der Historian |
 | `/atr_gpu` | Rolle | GPU memory on both ATR machines, and what holds it | bleibt — Betrieb, nur der Historian |

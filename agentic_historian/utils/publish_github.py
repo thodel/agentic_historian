@@ -729,6 +729,35 @@ def publish_training(run_id: str, files: dict[str, bytes],
     return url
 
 
+def publish_question(question_id: str, files: dict[str, bytes],
+                     session: requests.Session | None = None) -> str | None:
+    """Commit one Agent F answer to the output repo (#812).
+
+    ``files`` comes from ``argument_agent.publish_files``, which decides what an
+    answer publishes and where; this only commits it, as ``publish_training``
+    does for a run. Non-fatal: returns the commit URL, or None when publishing
+    is disabled, there is nothing to commit, the tree already matches, or the
+    commit failed — the answer exists locally either way.
+    """
+    if not files:
+        logger.info(f"[Publish] question {question_id}: nothing to publish")
+        return None
+    if not is_enabled():
+        logger.info(f"[Publish] question {question_id}: disabled "
+                    f"(ENABLE_GITHUB_PUBLISH=false)")
+        return None
+    try:
+        url = _commit_files(files, f"Publish answer {question_id}", session=session)
+    except Exception as e:                           # noqa: BLE001
+        logger.warning(f"[Publish] question {question_id} failed: {e}")
+        return None
+    if url:
+        logger.info(f"[Publish] question {question_id}: {len(files)} file(s) → {url}")
+    else:
+        logger.info(f"[Publish] question {question_id}: already up to date")
+    return url
+
+
 # ── publishing a directory tree (#batch) ─────────────────────────────────────
 
 #: What may be published from a local directory. An allowlist, not a denylist:

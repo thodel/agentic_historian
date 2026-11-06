@@ -82,7 +82,8 @@ output needs both.
 a commit under `docs/questions/<id>/` in the outputs repo.
 First version: `agentic_historian/agents/argument_agent.py` and
 `python -m agentic_historian ask` ([README section](../agentic_historian/README.md#agent-f-questions-answered-from-evidence-812));
-the bot command and publishing to the outputs repo are still open.
+`/ask` in the bot and publishing to `docs/questions/<id>/` followed; a live
+run on tei is still open.
 
 ### 2. Evidence unit with reading provenance — #811
 

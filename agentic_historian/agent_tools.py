@@ -72,9 +72,9 @@ AGENT_TOOLS: tuple[AgentTool, ...] = (
                              "description": "Start of the period asked about."},
                "year_to": {"type": "integer", "required": False,
                            "description": "End of the period asked about."},
-               "write": {"type": "boolean", "required": False,
-                         "description": "Write answer.md/audit.json/pool.json "
-                                        "(default true)."}}),
+               "publish": {"type": "boolean", "required": False,
+                           "description": "Also commit the answer to the "
+                                          "outputs repo (default false)."}}),
     AgentTool("run_full_pipeline", "run_full_pipeline",
               "Full A→B→C(→D) pipeline on one document.",
               {"file_path": {"type": "string", "required": True,

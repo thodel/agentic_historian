@@ -264,7 +264,7 @@ def run_find_passages(query: str, entity_type: str = "",
 
 
 def run_ask(question: str, bestand: str = "", year_from: int = 0,
-            year_to: int = 0, write: bool = True) -> dict:
+            year_to: int = 0, publish: bool = False) -> dict:
     """Agent F: answer a question from evidence (#812).
 
     Here for the same reason as `run_find_passages`: `agent_tools` resolves
@@ -274,9 +274,10 @@ def run_ask(question: str, bestand: str = "", year_from: int = 0,
     """
     from agents import argument_agent as af
 
-    res = af.ask(question, bestand=bestand or None, year_from=year_from or None,
-                 year_to=year_to or None)
-    out = af.write_result(res, config.OUTPUTS_DIR / "questions") if write else None
+    done = af.answer(question, bestand=bestand or None,
+                     year_from=year_from or None, year_to=year_to or None,
+                     publish=publish)
+    res = done.result
     return {
         "question_id": res.question_id,
         "complete": res.complete,
@@ -289,7 +290,9 @@ def run_ask(question: str, bestand: str = "", year_from: int = 0,
         "calls": len(res.audit.calls),
         "tokens": res.audit.tokens,
         "stopped_because": res.audit.stopped_because,
-        "written_to": str(out) if out else None,
+        "written_to": str(done.local_dir),
+        "page_url": done.page_url,
+        "not_published": done.not_published,
     }
 
 
