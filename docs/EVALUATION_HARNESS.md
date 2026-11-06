@@ -353,6 +353,36 @@ answers nothing lowers it.
   up to 60 pages. Production uses it with `AGENT_B_PAGE_CHOICE=typical`; the
   default stays `spread` until this comparison says `typical` is steadier.
 
+## Consistency of the hand, all pages against all (#773)
+
+`hand_consistency.py` asks whether page images say, without the VLM, if a
+volume is one hand and where it changes. It follows Ferilli & Piscopo (CEUR
+Vol-4304, paper 1): every page against every other, the most typical page by
+centrality, outliers at mean + 2 sd, block means along the volume, and the best
+single changepoint (mean distance across the split / within its parts).
+
+Per page: Otsu binarisation, lines from the row profile (or from a PAGE XML),
+and per line x-height, slant, stroke width, ink density and the 256-ray radial
+profile of each letter-sized component (±5° tolerance). CPU only, numpy and
+Pillow.
+
+```bash
+cd ~/agentic_historian/agentic_historian
+# one volume: page images in a directory, in name order
+python -m hand_consistency analyse <dir> --out report.json
+# validation against catalogued hands: the volumes `eval.ecodices_bench fetch` saved,
+# 30 pages each at even intervals (cached as page-NNNN.jpg), on tei (e-codices network)
+python -m hand_consistency validate runs/ecodices-2026-11 --pages 30
+```
+
+`validate` writes `hand_consistency.md` beside the bench: per volume the
+catalogue's number of hands, the 2-cluster silhouette, the changepoint ratio
+and where it falls. **The decision:** the measure separates hands only if
+volumes with several hands score clearly higher on both, over at least five
+volumes with a known count. If they do not, #773 ends with that finding and
+#777 and #778 fall away. Until that table exists nothing computed here goes into
+a description, and `page_features` (#774, #776) stays the stand-in.
+
 **The reward (#782).** `eval/ecodices_reward.py` turns each verdict into a
 number, and `score` writes the mean per term and the script's Brier score under
 "Belohnung" in the report and `reward` in `scores.json`.
