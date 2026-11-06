@@ -71,6 +71,20 @@ def test_authority_sources_flagged():
     assert reg.get_source("hls").authority is True
     assert reg.get_source("hbls").authority is True
     assert reg.get_source("wikidata").authority is True
+    assert reg.get_source("humanlineage").authority is True
+
+
+def test_humanlineage_is_a_person_hub_with_the_genealogical_tools():
+    """The Human Lineage snapshot joins the federation as a person authority
+    (thodel/humanlineage_mcp): it speaks the contract natively over streamable
+    HTTP, and it is the one hub that can walk a family."""
+    hl = reg.get_source("humanlineage")
+    assert hl.kinds == ("person",)
+    assert hl.transport == "http"
+    assert hl.url.endswith("/mcp/humanlineage/mcp")
+    assert {"search_persons", "get_person", "resolve_name", "get_by_identifier",
+            "get_relatives", "get_family_tree"} <= set(hl.tools)
+    assert hl in reg.sources_for_kind("person")
 
 
 def test_repointing_base_url_moves_all_tei_sources(monkeypatch):

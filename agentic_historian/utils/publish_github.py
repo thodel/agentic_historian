@@ -128,6 +128,7 @@ def collect_artifacts(doc_id: str) -> dict[str, Path]:
         "entities.md": config.OUTPUTS_DIR / f"{doc_id}_entities.md",
         "entities.json": config.OUTPUTS_DIR / f"{doc_id}_entities.json",
         "pipeline.json": config.OUTPUTS_DIR / f"{doc_id}_pipeline.json",
+        "hand_consistency.json": config.OUTPUTS_DIR / f"{doc_id}_hand.json",   # #777, read by #778
     }
     return {name: p for name, p in candidates.items() if p.exists()}
 

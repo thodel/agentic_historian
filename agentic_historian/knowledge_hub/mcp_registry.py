@@ -157,6 +157,34 @@ SOURCES: tuple[MCPSource, ...] = (
         notes="Königsfelden persons, places, register entries.",
     ),
     MCPSource(
+        name="humanlineage",
+        title="Human Lineage — open genealogical dataset (GEDCOM-X, Zenodo snapshot)",
+        kinds=("person",),
+        # The streamable-HTTP client POSTs to the bare `url`, and the server is
+        # mounted at its public path /mcp/humanlineage/mcp (nginx proxies without
+        # rewriting), so the path carries the trailing /mcp. Verified 06.11.2026:
+        # POST /mcp/kf answers 302 text/html, POST /mcp/kf/mcp answers the stream.
+        path="humanlineage/mcp",
+        # The server speaks the contract natively: search_persons(query, limit)
+        # answers rows with id/name/life_dates/occupation/hls_id/gnd_id/
+        # wikidata_id, get_person(pid) the full record with parents, children
+        # and spouses. Beyond the contract it offers resolve_name (ranked
+        # candidates with a status and birth/death-year narrowing),
+        # get_by_identifier (QID, GND, VIAF, HLS id), get_relatives and
+        # get_family_tree — the genealogical walk no other hub has.
+        tools=("search_persons", "get_person", "resolve_name", "get_by_identifier",
+               "get_relatives", "get_family_tree", "snapshot_info"),
+        authority=True,
+        transport="http",
+        notes="Offline snapshot of one Zenodo version of Human Lineage "
+              "(humanlineage.org, concept DOI 10.5281/zenodo.23284943, CC BY-SA "
+              "4.0): 2.7 M deceased persons with a persistent identifier, their "
+              "Wikidata/VIAF/GND/ISNI/LCCN/BnF ids, HLS ids via Wikidata P902, "
+              "and 615k parent-child and couple relationships. An authority on "
+              "Wikidata's word, with provenance: every answer carries the snapshot "
+              "date. Served from idhefix :8025 (thodel/humanlineage_mcp).",
+    ),
+    MCPSource(
         name="wikidata",
         title="Wikidata / GND authority",
         kinds=("person", "place", "org"),
