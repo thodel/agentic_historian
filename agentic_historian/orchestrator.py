@@ -761,6 +761,7 @@ def run_full_pipeline(
                 "lang": crit.lang or lang,
                 "century": crit.century,
                 "document_type": crit.document_type,
+                "region": crit.region,
             }.items():
                 if v is not None and k not in state.criteria:
                     state.criteria[k] = v

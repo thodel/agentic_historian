@@ -59,7 +59,8 @@ def _level(score: Optional[float]) -> str:
 def _criteria(state: RunState) -> SourceCriteria:
     c = state.criteria
     return SourceCriteria(script=c.get("script"), lang=c.get("lang"),
-                          century=c.get("century"), document_type=c.get("document_type"))
+                          century=c.get("century"), document_type=c.get("document_type"),
+                          region=c.get("region"))
 
 
 #: Gate 1 opens when Agent B's two leading script candidates are closer than this

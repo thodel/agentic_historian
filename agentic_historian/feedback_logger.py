@@ -40,7 +40,7 @@ def _now_iso() -> str:
 
 # Fields tracked in routing feedback
 ROUTING_FEEDBACK_FIELDS = frozenset(
-    {"century", "lang", "script", "document_type",
+    {"century", "lang", "script", "document_type", "region",
      "model_select", "path_preference"}
 )
 

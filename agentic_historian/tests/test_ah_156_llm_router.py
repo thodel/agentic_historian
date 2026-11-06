@@ -230,7 +230,7 @@ def test_valid_actions_contains_expected_values():
 
 def test_valid_fields_contains_expected_values():
     """VALID_FIELDS contains all expected criterion fields."""
-    assert VALID_FIELDS == {"century", "lang", "script", "document_type"}
+    assert VALID_FIELDS == {"century", "lang", "script", "document_type", "region"}
 
 
 def test_llm_router_system_prompt_exists():

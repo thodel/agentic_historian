@@ -116,7 +116,7 @@ def _default_runners(state) -> dict:
         return StageResult(artifact=ents, agent="C", decision=f"{n} entities")
 
     def _model_select(st):
-        crit = {k: st.criteria.get(k) for k in ("script", "lang", "century", "document_type")}
+        crit = {k: st.criteria.get(k) for k in ("script", "lang", "century", "document_type", "region")}
         return StageResult(artifact=crit, agent="model_select", decision=f"criteria={crit}")
 
     def _kraken(st):
