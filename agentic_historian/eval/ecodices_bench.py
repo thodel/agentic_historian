@@ -533,11 +533,64 @@ def run(bench_dir: Path, *, describe: Callable[[str, list, int], dict], runs: in
                                       ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+USER_AGENT = "agentic-historian-bench/1.0 (research; University of Bern, Digital Humanities)"
+RETRY_STATUS = {429, 500, 502, 503, 504}
+
+
+class PoliteGetter:
+    """GET with a pause between requests and retries on 429/5xx.
+
+    e-codices answered a burst of 300 manifest requests (6.11.2026) with 503
+    and 400 after the first: a run of the bench is a guest on a library's
+    server. ``delay`` seconds between any two requests; a retryable status
+    waits ``Retry-After`` if given, else ``backoff`` (5, 20, 60 s), then gives
+    up and raises — the caller names the volume and goes on.
+    """
+
+    def __init__(self, delay: float = 1.0, backoff=(5, 20, 60), sleep=None, client=None):
+        import time
+        self.delay, self.backoff = delay, tuple(backoff)
+        self._sleep, self._now = sleep or time.sleep, time.monotonic
+        self._client, self._last = client, None
+
+    def _wait(self, seconds: float) -> None:
+        if seconds > 0:
+            self._sleep(seconds)
+
+    def __call__(self, url: str) -> bytes:
+        import httpx
+        if self._client is None:
+            self._client = httpx.Client(timeout=60, follow_redirects=True,
+                                        headers={"User-Agent": USER_AGENT})
+        for attempt in range(len(self.backoff) + 1):
+            if self._last is not None:
+                self._wait(self.delay - (self._now() - self._last))
+            try:
+                r = self._client.get(url)
+            except httpx.TransportError:
+                if attempt == len(self.backoff):
+                    raise
+                self._last = self._now()
+                self._wait(self.backoff[attempt])
+                continue
+            self._last = self._now()
+            if r.status_code in RETRY_STATUS and attempt < len(self.backoff):
+                ra = r.headers.get("Retry-After", "")
+                self._wait(min(float(ra), 300) if ra.isdigit() else self.backoff[attempt])
+                continue
+            r.raise_for_status()
+            return r.content
+        raise AssertionError("unreachable")
+
+
+_GETTER: Optional[PoliteGetter] = None
+
+
 def _http_get(url: str) -> bytes:
-    import httpx
-    r = httpx.get(url, timeout=60, follow_redirects=True)
-    r.raise_for_status()
-    return r.content
+    global _GETTER
+    if _GETTER is None:
+        _GETTER = PoliteGetter()
+    return _GETTER(url)
 
 
 def _agent_b_image_only(doc_id: str, images, page_count: int, page_roles=None) -> dict:
@@ -547,6 +600,8 @@ def _agent_b_image_only(doc_id: str, images, page_count: int, page_roles=None) -
 
 def main(argv: Optional[list[str]] = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+    ap.add_argument("--delay", type=float, default=1.0,
+                    help="seconds between two requests to e-codices (default 1)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     c = sub.add_parser("candidates", help="choose the volumes from the catalogue and fetch them "
                                           "(network; see eval/ecodices_candidates.py)")
@@ -560,6 +615,9 @@ def main(argv: Optional[list[str]] = None) -> int:
     c.add_argument("--ids-file", type=Path, default=None,
                    help="choose among these ids instead of listing e-codices over OAI-PMH")
     c.add_argument("--oai-url", default=None)
+    c.add_argument("--max-failures", type=int, default=10,
+                   help="stop after this many volumes in a row could not be read "
+                        "(the server is refusing; what was read stays cached)")
     f = sub.add_parser("fetch", help="TEI + IIIF manifest per volume (network)")
     f.add_argument("dir", type=Path)
     f.add_argument("ids", nargs="*", help="e-codices ids, e.g. saa-0428 csg-1072")
@@ -574,6 +632,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     s = sub.add_parser("score", help="judge the runs against the TEI (no network)")
     s.add_argument("dir", type=Path)
     args = ap.parse_args(argv)
+    global _GETTER
+    _GETTER = PoliteGetter(delay=args.delay)
 
     if args.cmd == "candidates":
         from eval import ecodices_candidates as ec
@@ -584,7 +644,8 @@ def main(argv: Optional[list[str]] = None) -> int:
         chosen = ec.candidates(args.dir, get=_http_get, n=args.n, max_inspect=args.max_inspect,
                                min_pages=args.min_pages, ids=ids,
                                oai_url=args.oai_url or ec.OAI_URL,
-                               prefer=tuple(args.prefer or ec.PREFER))
+                               prefer=tuple(args.prefer or ec.PREFER),
+                               max_failures=args.max_failures)
         print("\n".join(chosen))
         return 0
     if args.cmd == "fetch":

@@ -40,6 +40,7 @@ import sys
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from pathlib import Path
+from urllib.parse import quote
 from xml.etree import ElementTree as ET
 
 OAI_URL = "https://www.e-codices.unifr.ch/oai/oai.php"
@@ -60,7 +61,7 @@ def list_ids_oai(get: Callable[[str], bytes], base: str = OAI_URL,
     """Every volume id the OAI-PMH interface lists, following resumption tokens."""
     ids: list[str] = []
     url = f"{base}?verb=ListIdentifiers&metadataPrefix=oai_dc"
-    for _ in range(max_pages):
+    for page in range(max_pages):
         root = ET.fromstring(get(url))
         err = root.find(f"{OAI}error")
         if err is not None:
@@ -72,9 +73,16 @@ def list_ids_oai(get: Callable[[str], bytes], base: str = OAI_URL,
             if vid:
                 ids.append(vid)
         token = root.find(f".//{OAI}resumptionToken")
+        size = token.get("completeListSize") if token is not None else None
+        print(f"OAI page {page + 1}: {len(ids)} id(s) so far"
+              + (f" of {size}" if size else ""), file=sys.stderr)
         if token is None or not (token.text or "").strip():
+            if size and size.isdigit() and int(size) > len(set(ids)):
+                print(f"OAI: the server announced {size} records but the listing ended at "
+                      f"{len(set(ids))}; it may be incomplete (--ids-file routes around it)",
+                      file=sys.stderr)
             break
-        url = f"{base}?verb=ListIdentifiers&resumptionToken={token.text.strip()}"
+        url = f"{base}?verb=ListIdentifiers&resumptionToken={quote(token.text.strip(), safe='')}"
     return sorted(set(ids))
 
 
@@ -163,14 +171,32 @@ def select(cands: Iterable[Candidate], n: int = 30, min_pages: int = 10,
 def candidates(bench_dir: Path, *, get: Callable[[str], bytes], n: int = 30,
                max_inspect: int = 300, min_pages: int = 10, ids: list[str] | None = None,
                oai_url: str = OAI_URL, prefer: Iterable[str] = PREFER,
-               must: Iterable[str] = MUST) -> list[str]:
-    """Discover, inspect, select, write; returns the selected ids."""
+               must: Iterable[str] = MUST, max_failures: int = 10) -> list[str]:
+    """Discover, inspect, select, write; returns the selected ids.
+
+    After ``max_failures`` volumes in a row could not be read, inspection stops:
+    that is the server refusing, not 300 bad volumes. What was read is cached;
+    a later run continues from there.
+    """
     bench_dir.mkdir(parents=True, exist_ok=True)
     cache = bench_dir / "_candidates"
     pool = ids if ids is not None else list_ids_oai(get, oai_url)
     order = inspection_order(pool, max_inspect, prefer, must)
     print(f"{len(pool)} id(s) listed; inspecting {len(order)}", file=sys.stderr)
-    cands = [c for c in (inspect(i, cache, get) for i in order) if c]
+    cands: list[Candidate] = []
+    failed = 0
+    for i in order:
+        c = inspect(i, cache, get)
+        if c:
+            cands.append(c)
+            failed = 0
+        elif not (cache / i / "manifest.json").exists():
+            failed += 1
+            if max_failures and failed >= max_failures:
+                print(f"stopped after {failed} volumes in a row could not be read — e-codices "
+                      f"is refusing; {len(cands)} read and cached, run again later",
+                      file=sys.stderr)
+                break
     chosen = select(cands, n, min_pages, prefer, must)
     taken = set(chosen)
     rows = ["id\tselected\tpages\tcentury\tdate_from\tdate_to\thands\tfamilies\tlicence\tpublished"]

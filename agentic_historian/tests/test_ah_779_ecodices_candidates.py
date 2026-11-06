@@ -139,3 +139,83 @@ def test_fetch_takes_ids_from_a_file(tmp_path, monkeypatch):
     monkeypatch.setattr(eb, "fetch", lambda ids, d, **kw: seen.extend(ids) or list(ids))
     assert eb.main(["fetch", str(tmp_path / "b"), "--ids-from", str(tmp_path / "ids.txt")]) == 0
     assert seen == ["saa-0428", "csg-0001"]
+
+
+# ── a guest on the library's server (6.11.2026: 300 requests, 503 after the first) ──
+
+class _Resp:
+    def __init__(self, status, body=b"", headers=None):
+        self.status_code, self.content, self.headers = status, body, headers or {}
+
+    def raise_for_status(self):
+        if self.status_code >= 400:
+            raise RuntimeError(f"HTTP {self.status_code}")
+
+
+class _Client:
+    def __init__(self, answers):
+        self.answers, self.urls = list(answers), []
+
+    def get(self, url):
+        self.urls.append(url)
+        return self.answers.pop(0)
+
+
+def test_the_getter_pauses_and_retries_a_refusal():
+    slept = []
+    client = _Client([_Resp(503), _Resp(429, headers={"Retry-After": "7"}), _Resp(200, b"ok"),
+                      _Resp(200, b"two")])
+    g = eb.PoliteGetter(delay=1.0, backoff=(5, 20), sleep=slept.append, client=client)
+    assert g("u1") == b"ok"
+    waits = [s for s in slept if s > 1]          # the fake sleep stops no clock: drop the pauses
+    assert waits == [5, 7], "backoff first, then the server's Retry-After"
+    assert g("u2") == b"two"
+    assert 0 < slept[-1] <= 1.0, "a pause before the next request"
+
+
+def test_the_getter_gives_up_and_does_not_retry_a_client_error():
+    client = _Client([_Resp(503), _Resp(503), _Resp(503)])
+    g = eb.PoliteGetter(delay=0, backoff=(1, 1), sleep=lambda s: None, client=client)
+    with pytest.raises(RuntimeError, match="503"):
+        g("u")
+    client = _Client([_Resp(400)])
+    g = eb.PoliteGetter(delay=0, backoff=(1, 1), sleep=lambda s: None, client=client)
+    with pytest.raises(RuntimeError, match="400"):
+        g("u")
+    assert len(client.urls) == 1
+
+
+def test_inspection_stops_when_the_server_refuses(tmp_path, capsys):
+    ids = [f"zzz-{i:04d}" for i in range(50)]
+    calls = []
+
+    def refusing(url):
+        calls.append(url)
+        if "saa-0428" in url:
+            return _get()(url)
+        raise RuntimeError("HTTP 503")
+
+    chosen = ec.candidates(tmp_path, get=refusing, n=5, ids=ids, max_failures=4)
+    assert chosen == ["saa-0428"]
+    assert len([u for u in calls if "zzz" in u]) == 4, "four refusals in a row, then stop"
+    assert "e-codices is refusing" in capsys.readouterr().err
+
+
+def test_an_incomplete_oai_listing_is_said(capsys):
+    page = (b'<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/"><ListIdentifiers>'
+            b'<header><identifier>oai:x:saa-0001</identifier></header>'
+            b'<resumptionToken completeListSize="2900"/></ListIdentifiers></OAI-PMH>')
+    assert ec.list_ids_oai(lambda url: page) == ["saa-0001"]
+    assert "announced 2900 records" in capsys.readouterr().err
+
+
+def test_a_resumption_token_is_url_encoded():
+    urls = []
+    first = _oai(["saa-0001"], token="a|b/c=d").decode().encode()
+
+    def get(url):
+        urls.append(url)
+        return first if len(urls) == 1 else _oai(["saa-0002"])
+
+    ec.list_ids_oai(get)
+    assert urls[1].endswith("resumptionToken=a%7Cb%2Fc%3Dd")
