@@ -1,7 +1,8 @@
 # UBELIX, read-only, from the ATR MCP server
 
-Six tools on the MCP server on tei, `ubelix_queue`, `ubelix_job`,
-`ubelix_record`, `ubelix_report`, `ubelix_prepared` and `ubelix_checkout`, answer "is the training still queued, was
+Eight tools on the MCP server on tei, `ubelix_queue`, `ubelix_job`,
+`ubelix_record`, `ubelix_report`, `ubelix_prepared`, `ubelix_checkout`,
+`ubelix_purge_candidates` and `ubelix_purge_plan`, answer "is the training still queued, was
 it preempted, what does its log say, what did the rescore measure" from a cloud
 session (#674, #301). Until now each of those questions
 cost a round trip through a person: copy a command, run it on submit02, paste
@@ -17,7 +18,7 @@ The missing hop is tei → UBELIX, and this directory is that hop.
 
 **The key can run one script and nothing else.** UBELIX's `authorized_keys`
 binds it to `atr-mcp-ro` as a forced command, so sshd runs that script whatever
-tei sends. The script understands four requests:
+tei sends. The script understands these requests:
 
 | request | runs |
 |---|---|
@@ -27,10 +28,15 @@ tei sends. The script understands four requests:
 | `report <id> [label]` | without a label, the evaluation reports in that job's `data/` (`_` is the run's own `eval_report.json`); with one, `eval_report.<label>.json` without its `examples`, and the held-out check `eval_report.<label>.heldout.json` beside it if there is one. A label is a set name or a job id, no slash |
 | `prepared <slurm id>` | what a `prepare.sbatch` run left for stage 2 (#740): the trainer id in `runs/prep-<slurm id>.jobid` (there once the prepare has started), `sacct` state, the record's status and stage, and the `JOB_ID=… ubelix/submit.sh ubelix/train.sbatch …` line its log `~/ubelix/logs/prep-<slurm id>.out` ends with |
 | `checkout` | `~/training-atr-models`: HEAD, uncommitted files, and the distance to `origin/main` by `git ls-remote` — nothing is fetched |
+| `purge-candidates <share\|scratch> <statuses> [YYYY-MM-DD]` | what a clean-up of `jobs/*/data` would take and what it protects, with the reason (#824): `python3 ~/training-atr-models/ubelix/plan_purge.py --json --jobs-root <root> --status <statuses> [--ended-before <date>]` (training-atr-models#387). `share` is `training_folder/jobs` on the research storage, `scratch` is `runs/jobs`; statuses are `failed`, `cancelled`, `completed`. Never `--write` |
+| `plan <purge-YYYYMMDDTHHMMSSZ>` | `~/ubelix/plans/<name>.json` with its sha256, `plan_purge.py --verify` on it, and the tail of each `~/ubelix/logs/purge-*.out` whose head names this plan (the `apply_purge.sh` runs) |
 
 Anything else exits 2 having run nothing. A stolen MCP token therefore costs
-reading the queue and the trainer's records, never submitting, cancelling or
-writing. `scancel`, `sbatch` and `close_job` are deliberately absent; adding one
+reading the queue, the trainer's records and the clean-up plans, never
+submitting, cancelling, deleting or writing. A clean-up is planned with
+`plan_purge.py --write` and run with `ubelix/apply_purge.sh <plan>` by a person on
+submit02, one line each (training-atr-models#387); the two purge tools read what
+lies between, so a plan can be checked from a session before it runs. `scancel`, `sbatch` and `close_job` are deliberately absent; adding one
 is a separate decision with its own issue.
 
 Both sides validate. tei (`mcp_atr/ubelix.py`) refuses before opening a
@@ -90,6 +96,11 @@ curl -fsSL -o ~/bin/atr-mcp-ro https://raw.githubusercontent.com/thodel/agentic_
 chmod 755 ~/bin/atr-mcp-ro && sha256sum ~/bin/atr-mcp-ro | cut -c1-12
 ```
 
+The version with `purge-candidates` and `plan` (#824) prints `a7e3e48f6af3`.
+Its two verbs also need training-atr-models#387 in `~/training-atr-models`
+(`git -C ~/training-atr-models pull -q`); without it `purge-candidates` answers
+that the checkout predates it.
+
 ### 3. On tei: check the binding before wiring it up
 
 ```bash
@@ -133,7 +144,7 @@ Without both variables the tools answer "not configured" and do nothing.
 | MCP service user on tei | `dh` (`systemctl show -p User --value atr-mcp`) |
 | key | `/home/dh/.ssh/ubelix_mcp`, ed25519, `SHA256:dZmPE9GQi5YcHVs4wfozFpGE4Vwb+LeNgxhPF2b+TLo atr-mcp@tei` |
 | destination | `th19c587@submit02.unibe.ch` (130.92.20.12, also `submit02.hpc.unibe.ch`); direct from tei, no jump host, no `~/.ssh/config` entry |
-| script on UBELIX | `/storage/homefs/th19c587/bin/atr-mcp-ro`; current version (with `registration`, `promoted` and `promotion_reason` in `record`) has sha256 `ec40ca049415…`; before it `1f34ba53facd…` (with `prepared` and `checkout`, #740), `c54fcbc8022d…` (with `report`), `ea80973a046d…` (#708, `metrics`, no `report`) and `a592320d06d1…` (#678) (`sha256sum ~/bin/atr-mcp-ro`) |
+| script on UBELIX | `/storage/homefs/th19c587/bin/atr-mcp-ro`; in the repo since #824 (with `purge-candidates` and `plan`): sha256 `a7e3e48f6af3…`, to be installed; installed version (with `registration`, `promoted` and `promotion_reason` in `record`) has sha256 `ec40ca049415…`; before it `1f34ba53facd…` (with `prepared` and `checkout`, #740), `c54fcbc8022d…` (with `report`), `ea80973a046d…` (#708, `metrics`, no `report`) and `a592320d06d1…` (#678) (`sha256sum ~/bin/atr-mcp-ro`) |
 | `/etc/atr-mcp.env` | `ATR_UBELIX_SSH_HOST=th19c587@submit02.unibe.ch`, `ATR_UBELIX_SSH_KEY=/home/dh/.ssh/ubelix_mcp` |
 
 The check from tei, as `dh`, with that key only:

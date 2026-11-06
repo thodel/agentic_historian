@@ -35,6 +35,10 @@ import config
 SLURM_ID_RE = re.compile(r"^[0-9]{1,12}$")
 RECORD_RE = re.compile(r"^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9._-]{0,120}$")
 LABEL_RE = re.compile(r"^(_|[A-Za-z0-9][A-Za-z0-9._-]{0,120})$")
+PURGE_ROOT_RE = re.compile(r"^(share|scratch)$")
+STATUSES_RE = re.compile(r"^(failed|cancelled|completed)(,(failed|cancelled|completed)){0,2}$")
+DATE_RE = re.compile(r"^20[0-9]{2}-[01][0-9]-[0-3][0-9]$")
+PLAN_RE = re.compile(r"^purge-[0-9]{8}T[0-9]{6}Z$")
 #: An ssh destination: ``host``, ``user@host`` or an alias from ~/.ssh/config.
 #: Never anything ssh would read as an option.
 HOST_RE = re.compile(r"^(?!-)[A-Za-z0-9._-]{1,64}(@[A-Za-z0-9._-]{1,253})?$")
@@ -46,6 +50,10 @@ SSH_TIMEOUT_S = 30
 #: What comes back is capped: squeue for a busy account, or a record whose log
 #: lines are long, must not become a reply the broker chokes on.
 MAX_OUTPUT_CHARS = 20_000
+#: A purge plan names every job it takes and every one it protects, and a plan's
+#: answer carries the log of its run: a cut there would make the JSON unreadable,
+#: so these two calls get more room (#824).
+MAX_PLAN_CHARS = 200_000
 
 REFUSED = 2
 
@@ -103,13 +111,13 @@ def ssh_argv(*request: str) -> list[str]:
             host, *request]
 
 
-def _cap(text: str) -> str:
-    if len(text) <= MAX_OUTPUT_CHARS:
+def _cap(text: str, limit: int = MAX_OUTPUT_CHARS) -> str:
+    if len(text) <= limit:
         return text
-    return text[:MAX_OUTPUT_CHARS] + f"\n… cut at {MAX_OUTPUT_CHARS} characters"
+    return text[:limit] + f"\n… cut at {limit} characters"
 
 
-def _call(*request: str) -> dict:
+def _call(*request: str, cap: int = MAX_OUTPUT_CHARS) -> dict:
     argv = ssh_argv(*request)
     try:
         done = subprocess.run(argv, capture_output=True, text=True,
@@ -119,7 +127,7 @@ def _call(*request: str) -> dict:
     except FileNotFoundError:
         return {"ok": False, "error": "ssh is not installed on this server"}
     result = {"ok": done.returncode == 0, "exit": done.returncode,
-              "output": _cap(done.stdout)}
+              "output": _cap(done.stdout, cap)}
     if done.stderr.strip():
         result["stderr"] = _cap(done.stderr.strip())
     if done.returncode == REFUSED:
@@ -213,5 +221,48 @@ def checkout() -> dict:
     """The trainer checkout on UBELIX against ``origin/main``, without fetching."""
     try:
         return _parsed(_call("checkout"))
+    except UbelixError as exc:
+        return {"ok": False, "error": str(exc)}
+
+
+def validate_purge(root: str, statuses: str, ended_before: Optional[str]) -> list[str]:
+    """The words of a ``purge-candidates`` request, or :class:`UbelixError`."""
+    if not isinstance(root, str) or not PURGE_ROOT_RE.match(root):
+        raise UbelixError(f"root is share or scratch, not {root!r}")
+    text = statuses.replace(" ", "") if isinstance(statuses, str) else statuses
+    if not isinstance(text, str) or not STATUSES_RE.match(text):
+        raise UbelixError(f"statuses are a comma list of failed, cancelled, completed, "
+                          f"not {statuses!r}")
+    words = [root, text]
+    if ended_before is not None:
+        if not isinstance(ended_before, str) or not DATE_RE.match(ended_before):
+            raise UbelixError(f"ended_before is YYYY-MM-DD, not {ended_before!r}")
+        words.append(ended_before)
+    return words
+
+
+def validate_plan(name: str) -> str:
+    if isinstance(name, str) and name.endswith(".json"):
+        name = name[:-len(".json")]
+    if not isinstance(name, str) or not PLAN_RE.match(name):
+        raise UbelixError(f"not a plan name: {name!r} (expected e.g. purge-20261106T091233Z)")
+    return name
+
+
+def purge_candidates(root: str = "share", statuses: str = "failed,cancelled",
+                     ended_before: Optional[str] = None) -> dict:
+    """What ``plan_purge.py`` would put in a clean-up plan, without writing one
+    (#824, training-atr-models#387)."""
+    try:
+        return _parsed(_call("purge-candidates", *validate_purge(root, statuses, ended_before),
+                             cap=MAX_PLAN_CHARS))
+    except UbelixError as exc:
+        return {"ok": False, "error": str(exc)}
+
+
+def purge_plan(name: str) -> dict:
+    """A written plan, its sha256 and verification, and the runs that applied it."""
+    try:
+        return _parsed(_call("plan", validate_plan(name), cap=MAX_PLAN_CHARS))
     except UbelixError as exc:
         return {"ok": False, "error": str(exc)}

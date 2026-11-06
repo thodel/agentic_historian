@@ -288,7 +288,8 @@ def build_server(provider=None, auth_settings=None):
             "much as one that reads badly. "
             "ubelix_queue, ubelix_job, ubelix_record, ubelix_report, ubelix_prepared and ubelix_checkout read UBELIX's "
             "Slurm queue, the trainer's records and their evaluation reports there; "
-            "they cannot submit or cancel. "
+            "ubelix_purge_candidates and ubelix_purge_plan read clean-up plans; "
+            "none of them can submit, cancel or delete — a person runs the one line. "
             "A Transkribus volume (export ground truth, fine-tune kraken, evaluate, "
             "read the rest, post it back) runs through transkribus_gt_export, "
             "upload_hf, kraken_train, transkribus_pipeline and transkribus_status, "
@@ -1313,6 +1314,42 @@ def build_server(provider=None, auth_settings=None):
         ls-remote``, which fetches nothing. ``submit.sh`` refuses a checkout
         that is behind or dirty; this says so before anyone tries."""
         return ubelix.checkout()
+
+    @server.tool()
+    def ubelix_purge_candidates(root: str = "share", statuses: str = "failed,cancelled",
+                                ended_before: Optional[str] = None) -> dict:
+        """What a clean-up of ``jobs/*/data`` on UBELIX would take, and what it
+        must not — without writing a plan (#824).
+
+        Runs ``ubelix/plan_purge.py --json`` (training-atr-models#387) in the
+        UBELIX checkout. ``root`` is ``share`` (``training_folder/jobs`` on the
+        research storage) or ``scratch`` (``runs/jobs``); ``statuses`` a comma
+        list of ``failed``, ``cancelled``, ``completed``; ``ended_before`` a
+        date ``YYYY-MM-DD``. The answer under ``candidates``: ``entries`` (job,
+        status, end, size from the last inventory), ``protected`` with the
+        reason for each (held-out pool, builder of an adopted artefact,
+        registered ``local_path``), ``total_bytes``.
+
+        Read-only. Nothing here writes, deletes or submits: a person writes the
+        plan with ``plan_purge.py … --write`` and runs it with
+        ``ubelix/apply_purge.sh <plan>``; ``ubelix_purge_plan`` reads both.
+        """
+        return ubelix.purge_candidates(root, statuses, ended_before)
+
+    @server.tool()
+    def ubelix_purge_plan(name: str) -> dict:
+        """A clean-up plan written on UBELIX, and what became of it (#824).
+
+        ``name`` is the file name ``plan_purge.py --write`` printed, e.g.
+        ``purge-20261106T091233Z`` (``.json`` may be left on). The answer:
+        ``plan`` (entries, protected with reasons, ``entries_sha256``),
+        ``sha256`` of the file — the one ``apply_purge.sh`` checks before every
+        entry — ``verify`` (``plan_purge.py --verify``: do the entries still
+        match their checksum), and ``runs``: the log tail of each
+        ``apply_purge.sh`` run of this plan, with ``df`` before and after and
+        one ``removed``/``skip`` line per entry. Read-only.
+        """
+        return ubelix.purge_plan(name)
 
     # ── a Transkribus volume: ground truth → kraken fine-tune → full read ───
 
