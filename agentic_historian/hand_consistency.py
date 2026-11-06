@@ -465,6 +465,81 @@ def analyse_images(paths: Iterable[str | Path], blocks: int = BLOCKS) -> tuple[V
     return analyse(pages, blocks), skipped
 
 
+# ── the hypothesis for the historian (#777) ──────────────────────────────────
+#
+# Ferilli & Piscopo read a rising block mean as a reason to *check* for a resumed
+# campaign, not as a finding. So this is an entry a historian reads, marked
+# ``quelle = berechnet`` and ``unsicher`` (#772), and it never sets ``Schreiber``.
+# The thresholds are anchors, not measurements: docs/HAND_CONSISTENCY.md says
+# where each comes from and how ``validate`` calibrates them against volumes
+# whose catalogue gives the number of hands.
+
+#: Fewer pages than this and three blocks hold two pages each — no hypothesis.
+HINT_MIN_PAGES = 8
+#: At most this many pages of a volume are measured, at even intervals (#771's spread).
+HINT_MAX_PAGES = 30
+#: Changepoint: mean distance across the split over mean distance within. 1.0 is
+#: no structure; the synthetic two-hand volume gives > 1.5, one hand ≈ 1.1.
+HINT_CHANGE_RATIO = 1.25
+#: Silhouette of the best 2-medoid split; ~0 for one homogeneous hand.
+HINT_SILHOUETTE = 0.15
+#: Drift: last block's mean centrality over the first, as a fraction — the
+#: "rise towards the end" of the paper.
+HINT_DRIFT = 0.10
+#: The key of the computed element in ``source_json``. A separate element, not a
+#: sentence inside ``Weitere_Hinweise``: #772 gives every element one ``quelle``,
+#: and the VLM's hints and a computed hypothesis are two sources.
+HINT_ELEMENT = "Schriftverlauf"
+
+
+def hypothesis(report: VolumeReport, *, total_pages: Optional[int] = None,
+               min_pages: int = HINT_MIN_PAGES, change_ratio: float = HINT_CHANGE_RATIO,
+               silhouette: float = HINT_SILHOUETTE, drift: float = HINT_DRIFT) -> Optional[dict]:
+    """The ``Schriftverlauf`` element for ``source_json`` when the volume shows a
+    change or a drift of the hand — or ``None``, which is the common case."""
+    n = len(report.pages)
+    if n < min_pages:
+        return None
+    parts: list[str] = []
+    cp = report.changepoint or {}
+    sil = report.silhouette2 or 0.0
+    change = bool(cp) and cp.get("ratio", 0) >= change_ratio and sil >= silhouette
+    if change:
+        parts.append(f"Schriftbild ändert sich ab {cp['page']} (Trennmass {cp['ratio']:.2f}, "
+                     f"Silhouette {sil:.2f})")
+    rel = None
+    if len(report.blocks) >= 2 and report.blocks[0]["centrality"]:
+        rel = (report.blocks[-1]["centrality"] - report.blocks[0]["centrality"]) / report.blocks[0]["centrality"]
+        if rel >= drift:
+            parts.append(f"Blockmittel steigen zum Ende (+{rel * 100:.0f} %)")
+    if not parts:
+        return None
+    if report.outliers:
+        shown = ", ".join(report.outliers[:3]) + (", …" if len(report.outliers) > 3 else "")
+        parts.append(f"{shown} weicht stark ab" if len(report.outliers) == 1 else f"{shown} weichen stark ab")
+    text = "; ".join(parts) + ". Mögliche neue Hand oder Schreibkampagne. Nicht geprüft."
+    return {
+        "wert": text, "unsicher": True, "quelle": "berechnet",
+        "basis": {"seiten": n, "von": total_pages or n, "methode": "hand_consistency",
+                  "schwellen": {"min_pages": min_pages, "change_ratio": change_ratio,
+                                "silhouette": silhouette, "drift": drift},
+                  "changepoint": cp or None, "silhouette2": report.silhouette2,
+                  "drift": round(rel, 4) if rel is not None else None,
+                  "blocks": report.blocks, "ausreisser": list(report.outliers)},
+    }
+
+
+def describe_volume(paths: Sequence[str | Path], *, max_pages: int = HINT_MAX_PAGES,
+                    blocks: int = BLOCKS) -> tuple[VolumeReport, list[str], Optional[dict]]:
+    """Up to ``max_pages`` of a volume at even intervals, the report, the pages
+    that gave no features, and the hypothesis (or ``None``)."""
+    import page_sample
+    paths = list(paths)
+    chosen = [paths[i] for i in page_sample.spread(len(paths), min(max_pages, len(paths)))]
+    rep, skipped = analyse_images(chosen, blocks)
+    return rep, skipped, hypothesis(rep, total_pages=len(paths))
+
+
 # ── validation against catalogued hands (#779 volumes) ───────────────────────
 
 def validate(bench_dir: Path, pages: int = 30, get=None) -> list[dict]:
@@ -492,23 +567,26 @@ def validate(bench_dir: Path, pages: int = 30, get=None) -> list[dict]:
         rep, skipped = analyse_images(files)
         (vdir / "hand_consistency.json").write_text(
             json.dumps({**asdict(rep), "skipped": skipped}, ensure_ascii=False), encoding="utf-8")
+        hint = hypothesis(rep, total_pages=len(urls))
         rows.append({"id": vdir.name, "hands": ref.hands, "pages": len(rep.pages),
                      "skipped": len(skipped), "silhouette2": rep.silhouette2,
                      "changepoint_ratio": (rep.changepoint or {}).get("ratio"),
                      "changepoint_page": (rep.changepoint or {}).get("page"),
-                     "outliers": len(rep.outliers), "typical": rep.typical})
+                     "outliers": len(rep.outliers), "typical": rep.typical,
+                     "hint": bool(hint)})
     return rows
 
 
 def format_validation(rows: list[dict]) -> str:
     """The table #773 asks for, and the comparison that decides it."""
-    lines = ["| volume | hands (catalogue) | pages | silhouette (2) | changepoint ratio | at | outliers |",
-             "|---|---:|---:|---:|---:|---|---:|"]
+    lines = ["| volume | hands (catalogue) | pages | silhouette (2) | changepoint ratio | at | outliers | hint (#777) |",
+             "|---|---:|---:|---:|---:|---|---:|---|"]
     for r in rows:
         lines.append(f"| {r['id']} | {r['hands'] if r['hands'] is not None else '—'} | {r['pages']} "
                      f"| {r['silhouette2'] if r['silhouette2'] is not None else '—'} "
                      f"| {r['changepoint_ratio'] if r['changepoint_ratio'] is not None else '—'} "
-                     f"| {r['changepoint_page'] or '—'} | {r['outliers']} |")
+                     f"| {r['changepoint_page'] or '—'} | {r['outliers']} "
+                     f"| {'fires' if r.get('hint') else '—'} |")
 
     def mean(key, pred):
         v = [r[key] for r in rows if pred(r) and r[key] is not None]
@@ -520,6 +598,13 @@ def format_validation(rows: list[dict]) -> str:
     for key in ("silhouette2", "changepoint_ratio"):
         (m1, n1), (m2, n2) = mean(key, one), mean(key, many)
         lines.append(f"| mean {key} | {m1} (n={n1}) | {m2} (n={n2}) |")
+    fired_many = sum(1 for r in rows if many(r) and r.get("hint"))
+    fired_one = sum(1 for r in rows if one(r) and r.get("hint"))
+    n_many, n_one = sum(1 for r in rows if many(r)), sum(1 for r in rows if one(r))
+    lines += ["", f"The #777 hypothesis fires on {fired_many} of {n_many} several-hands volumes "
+              f"and on {fired_one} of {n_one} one-hand volumes (it should: all of the first, "
+              f"none of the second; the catalogue does not say *where* a hand changes, so "
+              f"the block is not checked here)."]
     lines += ["", "The measure separates hands only if the several-hands column is clearly "
               "higher on both rows, over at least five volumes with a known count. If it is "
               "not, #773 ends with that finding and #777/#778 fall away."]

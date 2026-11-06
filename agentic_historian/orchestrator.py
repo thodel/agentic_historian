@@ -335,6 +335,37 @@ def _describe_cached(doc_id: str, transcription: str, pages, image_path,
     return desc
 
 
+def _hand_hint(doc_id: str, pages, description, on_phase=None) -> Optional[dict]:
+    """The hand-consistency hypothesis for a multi-page order (#777): measured
+    after Agent B, written to ``<doc>_hand.json``, and added to ``source_json``
+    as the computed element ``Schriftverlauf`` when it fires. Off by config;
+    never fatal."""
+    if not getattr(config, "HAND_CONSISTENCY_HINT", False):
+        return None
+    try:
+        import hand_consistency as hc
+        from dataclasses import asdict
+        if len(pages) < hc.HINT_MIN_PAGES:
+            return None
+        rep, skipped, hint = hc.describe_volume(pages)
+        out = config.OUTPUTS_DIR / f"{doc_id}_hand.json"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps({**asdict(rep), "skipped": skipped, "hint": hint},
+                                  ensure_ascii=False), encoding="utf-8")
+        if hint and isinstance(description, dict):
+            sj = description.get("source_json")
+            if isinstance(sj, dict):
+                sj[hc.HINT_ELEMENT] = hint
+        _emit(on_phase, doc_id, "hand_consistency", "B",
+              output=hint["wert"] if hint else None,
+              decision=(f"{len(rep.pages)} pages, hypothesis" if hint
+                        else f"{len(rep.pages)} pages, no hypothesis"))
+        return hint
+    except Exception as e:  # noqa: BLE001 — a measurement that fails is not a failed run
+        logger.warning(f"[Orchestrator] hand consistency skipped ({doc_id}): {e}")
+        return None
+
+
 def _vision_image_path(img, fp):
     """The image to hand Agent B on a single-doc run, or ``None``.
 
@@ -1423,6 +1454,7 @@ def run_full_pipeline_group(
                 doc_id, ctx.transcription, pages,
                 (shown if len(shown) > 1 else (shown[0] if shown else None)), on_phase,
                 page_roles=roles or None)
+            _hand_hint(doc_id, pages, ctx.description, on_phase)          # #777
             try:
                 from runstate import RunState, DONE, ERROR
                 state = RunState.load_or_new(doc_id)

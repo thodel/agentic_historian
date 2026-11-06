@@ -452,6 +452,12 @@ AGENT_B_PAGE_MAX_PX = int(_get("AGENT_B_PAGE_MAX_PX", "1600"))
 # the most and the least typical page among them, chosen from page features.
 # "spread" until the e-codices bench has measured that "typical" is steadier.
 AGENT_B_PAGE_CHOICE = _get("AGENT_B_PAGE_CHOICE", "spread").strip().lower()
+# After Agent B, a multi-page order is measured page against page (#773) and a
+# change or drift of the hand becomes the computed element ``Schriftverlauf``
+# (#777), written to ``<doc>_hand.json`` beside the outputs. Off until the
+# e-codices table (``hand_consistency validate``) has shown that the measure
+# separates hands — docs/HAND_CONSISTENCY.md.
+HAND_CONSISTENCY_HINT = _get("HAND_CONSISTENCY_HINT", "false").lower() == "true"
 # A contradiction between the reference collection's suggestion and Agent B's
 # script opens Gate 1 (#776) only when this is on. Off until leave_one_out has
 # shown the suggestion can stand beside the VLM; the suggestion is shown anyway.
