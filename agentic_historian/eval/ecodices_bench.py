@@ -548,9 +548,23 @@ def _agent_b_image_only(doc_id: str, images, page_count: int, page_roles=None) -
 def main(argv: Optional[list[str]] = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
+    c = sub.add_parser("candidates", help="choose the volumes from the catalogue and fetch them "
+                                          "(network; see eval/ecodices_candidates.py)")
+    c.add_argument("dir", type=Path)
+    c.add_argument("--n", type=int, default=30)
+    c.add_argument("--max-inspect", type=int, default=300,
+                   help="volumes whose manifest and TEI are read to choose from")
+    c.add_argument("--min-pages", type=int, default=10)
+    c.add_argument("--prefer", action="append", default=None, metavar="PREFIX",
+                   help="id prefixes inspected and taken first (default: saa)")
+    c.add_argument("--ids-file", type=Path, default=None,
+                   help="choose among these ids instead of listing e-codices over OAI-PMH")
+    c.add_argument("--oai-url", default=None)
     f = sub.add_parser("fetch", help="TEI + IIIF manifest per volume (network)")
     f.add_argument("dir", type=Path)
-    f.add_argument("ids", nargs="+", help="e-codices ids, e.g. saa-0428 csg-1072")
+    f.add_argument("ids", nargs="*", help="e-codices ids, e.g. saa-0428 csg-1072")
+    f.add_argument("--ids-from", type=Path, default=None,
+                   help="a file of ids, one per line (e.g. selected.txt from candidates)")
     f.add_argument("--tei", action="append", default=[], metavar="ID=URL",
                    help="TEI URL for a volume whose manifest links none")
     r = sub.add_parser("run", help="Agent B on every fetched volume (VLM)")
@@ -561,10 +575,28 @@ def main(argv: Optional[list[str]] = None) -> int:
     s.add_argument("dir", type=Path)
     args = ap.parse_args(argv)
 
+    if args.cmd == "candidates":
+        from eval import ecodices_candidates as ec
+        ids = None
+        if args.ids_file:
+            ids = [ln.strip() for ln in args.ids_file.read_text(encoding="utf-8").splitlines()
+                   if ln.strip() and not ln.startswith("#")]
+        chosen = ec.candidates(args.dir, get=_http_get, n=args.n, max_inspect=args.max_inspect,
+                               min_pages=args.min_pages, ids=ids,
+                               oai_url=args.oai_url or ec.OAI_URL,
+                               prefer=tuple(args.prefer or ec.PREFER))
+        print("\n".join(chosen))
+        return 0
     if args.cmd == "fetch":
         tei = dict(item.split("=", 1) for item in args.tei)
+        ids = list(args.ids)
+        if args.ids_from:
+            ids += [ln.strip() for ln in args.ids_from.read_text(encoding="utf-8").splitlines()
+                    if ln.strip() and not ln.startswith("#")]
+        if not ids:
+            ap.error("fetch needs ids or --ids-from")
         args.dir.mkdir(parents=True, exist_ok=True)
-        fetch(args.ids, args.dir, get=_http_get, tei_urls=tei)
+        fetch(ids, args.dir, get=_http_get, tei_urls=tei)
         return 0
     if args.cmd == "run":
         import config
