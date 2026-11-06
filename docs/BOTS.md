@@ -85,9 +85,12 @@ Die Liste wird gegen `bot.py` geprüft (`test_ah_803_hermes_deploy.py`).
 
 ## Was dh-bot daraus wissen muss
 
-Die drei Befunde der ersten Proben (05.11.2026, #800), als Regeln in
-`AGENTS.md` von dh-bot — der Wortlaut liegt in
-[`deploy/hermes/agents-boundaries.md`](../deploy/hermes/agents-boundaries.md):
+Die drei Befunde der ersten Proben (05.11.2026, #800), als Regeln in der
+`SOUL.md` von dh-bot — der Wortlaut liegt in
+[`deploy/hermes/soul-boundaries.md`](../deploy/hermes/soul-boundaries.md);
+in `AGENTS.md` wären sie wirkungslos, Hermes liest die im Gateway nicht. Dazu
+`approvals.deny` im Terminal für SSH, die GPU-Hosts und den Batch-Client, als
+Sperre, die nicht vom Lesen abhängt:
 
 1. **Ein fehlendes Werkzeug fehlt absichtlich.** Wer einen Batch, ein
    Training, eine Kampagne will, bekommt den Hinweis auf den Historian-Befehl

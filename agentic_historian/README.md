@@ -75,12 +75,12 @@ python bot.py            # or: python -m agentic_historian  (entry point, see py
 `config.py` loads `.env.gpustack` from the **repo root** (real process env always wins; dotenv never overrides it). In production the bot runs under systemd (`agentic-historian.service`).
 
 **Standalone deployment (separation epic #565).** In production the bot is its own
-process, decoupled from the OpenClaw agent `dh-bot`: its own Discord application and
+process, decoupled from the agent `dh-bot` (Hermes since 06.11.2026, OpenClaw before — [`docs/BOTS.md`](../docs/BOTS.md)): its own Discord application and
 token (S1, #566); its own secrets file read via `AH_ENV_FILE` instead of the shared
 `.env.gpustack`, plus a hardened systemd unit (S2, #567 — see
 [`deploy/systemd/SEPARATION.md`](../deploy/systemd/SEPARATION.md) and
 `deploy/systemd/agentic_historian.env.example`); the LLM-orchestration overlay off by default
-(S4, #569); and the OpenClaw home (`workspace/` — AGENTS.md, SOUL.md, skills/, …)
+(S4, #569); and the agent's former home (`workspace/` — AGENTS.md, SOUL.md, skills/, …)
 lifted out of this repository altogether (S3, #568; the env template moved to
 `deploy/gpustack.env.example`). CI's **standalone** job proves the bot imports and
 runs its start path (up to `bot.run`) without any `workspace/`.

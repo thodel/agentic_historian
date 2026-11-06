@@ -302,16 +302,16 @@ What this bot does and what `dh-bot` (the Hermes agent on the same server)
 does — one table, one rule, every slash command — is
 [`docs/BOTS.md`](docs/BOTS.md).
 
-As a **standalone** process (separation epic #565) it is decoupled from the OpenClaw
-agent: its own Discord token, its own secrets file (`deploy/systemd/agentic_historian.env.example`
+As a **standalone** process (separation epic #565) it is decoupled from the `dh-bot`
+agent (OpenClaw until 06.11.2026, Hermes since — [`docs/BOTS.md`](docs/BOTS.md)): its own Discord token, its own secrets file (`deploy/systemd/agentic_historian.env.example`
 → `/etc/agentic_historian.env`, read via `AH_ENV_FILE`) separate from the shared `.env.gpustack`,
 a hardened systemd unit, the LLM-orchestration overlay off by default, and the
-OpenClaw home (`workspace/`) no longer in this repository (S3, #568) — see
+agent's former home (`workspace/`) no longer in this repository (S3, #568) — see
 [`deploy/systemd/SEPARATION.md`](deploy/systemd/SEPARATION.md). S2 (own secrets,
 sandbox, own user) is in force on tei since 23.10.2026 and measured by
-`deploy/systemd/check_separation.py`; the key rotation (S2 item 4) and the bot's
-own Discord application (S1, #566) are still open. CI's `standalone` job proves the
-bot builds and starts without OpenClaw.
+`deploy/systemd/check_separation.py`; the bot's own Discord application (S1, #566)
+since 04.11.2026; the key rotation (S2 item 4) is #802. CI's `standalone` job proves the
+bot builds and starts without any agent workspace.
 
 Contribution rules — one issue, one branch off `origin/main`, one PR, never
 stacked — are in

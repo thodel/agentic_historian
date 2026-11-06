@@ -160,8 +160,9 @@ UBELIX offers `publickey,keyboard-interactive` and accepted the key without a
 second factor. That settles the technical half of "Before installing"; whether
 the terms of use allow it is the account holder's call, made by installing it.
 
-**The key is readable by everything that runs as `dh` on tei**, the OpenClaw
-agent included (deploy/systemd/SEPARATION.md). The forced command is what
+**The key is readable by everything that runs as `dh` on tei** (the OpenClaw
+agent included, until it stopped on 06.11.2026; the Hermes agent runs as
+`hermes` and cannot read it — deploy/systemd/SEPARATION.md). The forced command is what
 limits that to reading the queue. If `atr-mcp` ever moves to its own user, the
 key moves with it: a new key in that user's home, the old line removed from
 UBELIX's `authorized_keys`.

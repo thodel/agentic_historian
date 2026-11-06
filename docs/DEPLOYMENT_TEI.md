@@ -30,9 +30,12 @@ Drop-In: /etc/systemd/system.control/agentic-historian.service.d/50-MemoryMax.co
 
 Vier Dinge, die man daraus wissen muss:
 
-* **Der Dienst heisst `agentic-historian`**, nicht `dh-bot`. `dh-bot` ist der
+* **Der Dienst heisst `agentic-historian`**, nicht `dh-bot`. `dh-bot` war der
   OpenClaw-Agent *und* der Discord-Anzeigename dieses Bots (`dh-bot#5188`) —
-  eine Namensgleichheit, die beim Debuggen zweimal Zeit gekostet hat.
+  eine Namensgleichheit, die beim Debuggen zweimal Zeit gekostet hat. Seit S1
+  (04.11.2026) hat der Bot seine eigene Anwendung `agentic_historian`; seit dem
+  06.11.2026 ist der Agent Hermes und heisst in Discord `dh-bot-hermes`
+  (Abschnitt «Der Agent»).
 * **Der Bot läuft als `agentic_historian`**, nicht als `dh`. Er kann das
   Checkout, das venv und alles ausserhalb der zwei Datenverzeichnisse nicht
   schreiben (`ProtectSystem=strict`), und er kann nichts lesen, was `dh` für
@@ -179,7 +182,8 @@ erst nach dem Aufruf. Zwei Dinge dazu, aus der Dokumentation:
 | 4 Rotation | — | **offen** |
 
 Gemessen mit `deploy/systemd/check_separation.py --secrets
-/etc/agentic_historian.env --openclaw-secrets /home/dh/.openclaw/openclaw.json`,
+/etc/agentic_historian.env --openclaw-secrets /home/dh/.openclaw/openclaw.json`
+(heute `--agent-secrets /home/hermes/.hermes/.env`),
 als root: 7 erfüllt, 0 nicht erfüllt, 1 nicht gemessen (`ProtectHome`, nicht
 anwendbar bei einem Checkout unter `/home`). Der Lauf und seine vier Vorab- und
 zwei Nachbefunde stehen in
@@ -263,13 +267,16 @@ Zu `130.92.59.240:8201` (kraken) liegt aus dieser Sitzung **keine eigene
 Messung** vor; der Stand ist der zuvor berichtete „unten". `/atr_engines` sagt
 es verlässlich.
 
-## Der Agent: dh-bot auf Hermes (seit 04.11.2026)
+## Der Agent: dh-bot auf Hermes (seit 04.11.2026, allein seit 06.11.2026)
 
-Gemessen am 05.11.2026 (#798, #799). `dh-bot` ist nicht mehr der OpenClaw-Agent
-unter `dh`, sondern ein Hermes-Agent (Nous Research, v0.22.6) unter einem
-**eigenen Benutzer `hermes`** (uid 1001, Home `/home/hermes` 0750, Linger an).
-Bis zum Cut-over (H6, #802) läuft er in Discord als Test-Anwendung
-`dh-bot-hermes`; OpenClaw läuft daneben weiter, aber ohne den Queue-Job.
+Gemessen am 05./06.11.2026 (#798, #799, #802). `dh-bot` ist nicht mehr der
+OpenClaw-Agent unter `dh`, sondern ein Hermes-Agent (Nous Research, v0.22.6)
+unter einem **eigenen Benutzer `hermes`** (uid 1001, Home `/home/hermes` 0750,
+Linger an). In Discord heisst er `dh-bot-hermes` — die Anwendung bleibt, das war
+der Cut-over-Entscheid. **OpenClaw ist seit 06.11.2026 07:47 aus**
+(`openclaw-gateway` `disabled`/`inactive`, kein Prozess); die Anwendung `dh-bot`
+(`1519706253314756758`) wird nach der Beobachtungswoche gelöscht, bis dahin ist
+`systemctl --user start openclaw-gateway` als `dh` der Rückweg.
 
 | | |
 |---|---|
@@ -289,11 +296,16 @@ bleibt für dh-bot nur über `atr-mcp` erreichbar, mit Lesewerkzeugen (#801).
 
 Zwei Dinge, die beim Debuggen Zeit kosten:
 
-* **Zwei Apps, ein Name.** In Discord antwortet `dh-bot` (App
-  `1519706253314756758`) aus OpenClaw und `dh-bot-hermes` aus Hermes. Eine
-  Meldung „ohne Freigabe kann ich nicht“ um 13:00/17:00/21:00 kam von OpenClaws
-  Queue-Job — der ist seit 05.11. `enabled: false` (`openclaw cron show
-  8b33083e…`), die Queue gehört Hermes (`hermes cron list`, Job `0466f6a110f5`).
+* **Zwei Apps, ein Name — bis zur Löschung.** `dh-bot` (App
+  `1519706253314756758`) war OpenClaw und schweigt seit 06.11.; `dh-bot-hermes`
+  ist Hermes. Antwortet `dh-bot` doch, läuft OpenClaw wieder (`systemctl --user
+  is-active openclaw-gateway` als `dh`). Die Queue gehört Hermes (`hermes cron
+  list`, Job `0466f6a110f5`).
+* **Die Regeln stehen in der SOUL, nicht in AGENTS.md.** Hermes liest
+  `~/dh-bot/AGENTS.md` in Gateway-Sitzungen nicht (nur `/init` der CLI kennt
+  die Datei); `~/.hermes/SOUL.md` trägt die Grenzen aus `docs/BOTS.md`, und
+  `approvals.deny` sperrt SSH, die GPU-Hosts und den Batch-Client im Terminal
+  (`deploy/hermes/soul-boundaries.md`, `config.yaml.example`).
 * **`gh` schreibt als `thodel`.** Kommentare und PRs des Queue-Workers tragen
   den Namen des Token-Inhabers. Ein eigenes GitHub-Konto für dh-bot ist Teil der
   Rotation in H6.
@@ -338,9 +350,12 @@ ist.
 6. ~~**Wo die OpenClaw-Credentials liegen.**~~ `/home/dh/.openclaw/openclaw.json`
    (0600 dh, die Konfiguration samt Tokens) und `/home/dh/.openclaw/credentials/`
    (0700 dh, Pairing-Dateien); gemessen am 23.10.2026, für den Bot unerreichbar.
-7. **Die Rotation** (Punkt 4 von #567). Die nach `/etc/agentic_historian.env`
-   kopierten Werte stehen weiter in `.env.gpustack`, die der OpenClaw-Agent als
-   `dh` liest. Pro Dienst neu ausstellen, per `sudoedit` eintragen, Neustart,
+   Seit 06.11.2026 Historie: der Agent ist Hermes, seine Secrets sind
+   `/home/hermes/.hermes/.env` (0600 hermes), ebenso unerreichbar; `.openclaw`
+   geht mit dem Rückbau (#802 Schritt 6).
+7. **Die Rotation** (Punkt 4 von #567, jetzt #802 Schritt 7). Die nach
+   `/etc/agentic_historian.env` kopierten Werte stehen weiter in `.env.gpustack`;
+   seit OpenClaw aus ist, liest sie kein Agent mehr, nur noch die CLI als `dh`. Pro Dienst neu ausstellen, per `sudoedit` eintragen, Neustart,
    alten Wert widerrufen; `.env.gpustack` erst bereinigen, wenn feststeht, dass
    die CLI den Key nicht braucht.
 8. ~~**Grosse Uploads und Builds ausserhalb der 200 MB von `atr-mcp`** (#737).~~

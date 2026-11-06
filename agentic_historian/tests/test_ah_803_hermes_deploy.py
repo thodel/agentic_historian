@@ -291,9 +291,14 @@ def test_bots_md_lists_every_slash_command_of_the_historian():
     missing = sorted(n for n in names if f"| `/{n}` |" not in doc)
     assert not missing, missing
     assert "`start_batch`" in doc and "lesend" in doc
-    rules = (BUNDLE / "agents-boundaries.md").read_text(encoding="utf-8")
-    for phrase in ("fehlt absichtlich", "biete nicht an", "Lesen kostet"):
+    import yaml
+    rules = (BUNDLE / "soul-boundaries.md").read_text(encoding="utf-8")
+    for phrase in ("fehlt absichtlich", "biete nicht an", "Lesen kostet", "nie über `clarify`"):
         assert phrase in rules, phrase
+    assert "SOUL.md" in rules and "AGENTS.md" in rules      # says where, and where not
+    cfg = yaml.safe_load((BUNDLE / "config.yaml.example").read_text())
+    assert "ssh *" in cfg["approvals"]["deny"] and "*atr_batch*" in cfg["approvals"]["deny"]
+    assert cfg["agent"]["restart_after_turn_timeout"] == 300
 
 
 def test_the_bundle_holds_no_secret_values():

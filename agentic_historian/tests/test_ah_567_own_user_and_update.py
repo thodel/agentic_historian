@@ -323,7 +323,7 @@ def test_the_switch_script_verifies_with_the_checker():
     exists is that #567 was closed on intentions."""
     assert _invokes(SWITCH, "check_separation.py"), (
         "the script no longer runs the checker — only talks about it")
-    assert "--openclaw-secrets" in SWITCH, (
+    assert "--agent-secrets" in SWITCH, (
         "it does not tell the operator how to answer the Definition of Done")
 
 
@@ -335,7 +335,7 @@ def test_the_switch_script_has_a_dry_run_and_needs_root_otherwise():
 def test_the_switch_script_does_not_move_secrets_or_touch_openclaw():
     """Two things a script that prints what it does must not do."""
     assert "it does not create or fill the env file" in SWITCH
-    assert "does not touch the OpenClaw agent" in SWITCH
+    assert "does not touch the dh-bot agent" in SWITCH
     assert "DISCORD_BOT_TOKEN" not in SWITCH, "a secret name in a deploy script"
 
 

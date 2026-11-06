@@ -12,8 +12,8 @@
          │
          ▼
 ┌────────────────────────────────────────────────────────┐
-│           OpenClaw orchestrator (sessions_spawn)        │
-│  parallel: one subagent per MCP source                 │
+│        dh-bot (Hermes; OpenClaw until 11/2026)         │
+│  one MCP call per source, in parallel                  │
 └──────────┬──────────────┬──────────────┬──────────────┘
            │              │              │              │
     ┌──────▼──┐    ┌──────▼──┐    ┌──────▼──┐    ┌──────▼──┐

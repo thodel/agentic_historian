@@ -34,7 +34,7 @@ The bot process currently holds every secret in `.env.gpustack` at once:
 
 | Secret | Reach if leaked |
 | --- | --- |
-| Discord bot token | the bot's Discord identity — and, while the application is shared with the OpenClaw agent `dh-bot`, the agent's too (S1, #566) |
+| Discord bot token | the bot's Discord identity (its own application `agentic_historian` since 04.11.2026, S1 #566 — before that it was shared with the agent `dh-bot`) |
 | GPUStack key | the GPU scheduler |
 | ATR gateway key | start jobs on a two-A40 host |
 | GitHub token | write on the outputs repo; branch/PR on the code repo |
@@ -44,9 +44,9 @@ The bot process currently holds every secret in `.env.gpustack` at once:
 
 `hardening.conf` reduces the **blast radius** of a bot compromise (no writes
 outside the data dir, no privilege escalation). It does **not** reduce the **set**
-of secrets in the one process — splitting the bot's secrets from the OpenClaw
-agent and giving each only what it needs is tracked in #567 (and the separation
-epic #565), not here.
+of secrets in the one process — splitting the bot's secrets from the agent
+and giving each only what it needs is #567 (in force since 23.10.2026) and the
+separation epic #565, not here.
 
 ## Key rotation (SEC-9, #580, action required)
 

@@ -144,14 +144,14 @@ def test_nothing_measured_exits_non_zero(monkeypatch, capsys):
     assert "kein Bestehen" in capsys.readouterr().err
 
 
-def test_the_openclaw_question_is_unmeasured_until_the_path_is_named():
+def test_the_agent_question_is_unmeasured_until_the_path_is_named():
     """Where those credentials live is host knowledge. Guessing a path and
     reporting "unreachable" would answer the Definition of Done with a guess."""
     rows = _rows(HARDENED)
 
-    label, (ok, why) = next((name, v) for name, v in rows.items() if "OpenClaw" in name)
+    label, (ok, why) = next((name, v) for name, v in rows.items() if "Agent-Credentials" in name)
     assert ok is None
-    assert "--openclaw-secrets" in why
+    assert "--agent-secrets" in why
 
 
 def test_an_unreadable_secret_file_is_unmeasured_not_safe():
@@ -167,10 +167,10 @@ def test_an_unreadable_secret_file_is_unmeasured_not_safe():
 # ── the Definition of Done, once the path is named ──────────────────────────
 
 def test_credentials_the_bot_user_cannot_reach_are_the_done_condition():
-    rows = _rows(HARDENED, openclaw_secrets=Path("/home/dh/.openclaw/creds.json"),
+    rows = _rows(HARDENED, agent_secrets=Path("/home/dh/.openclaw/creds.json"),
                  stat=_stat_for({"/home/dh/.openclaw/creds.json": (0o600, 1000)}))
 
-    label, (ok, why) = next((name, v) for name, v in rows.items() if "OpenClaw" in name)
+    label, (ok, why) = next((name, v) for name, v in rows.items() if "Agent-Credentials" in name)
     assert ok is True
     assert "Definition of Done" in why
 
@@ -186,10 +186,10 @@ def test_credentials_owned_by_the_service_user_are_reachable(monkeypatch):
     monkeypatch.setattr(check, "_user_name", lambda uid: "dh" if uid == 1000 else str(uid))
     same_user = dict(HARDENED, User="dh")
 
-    rows = _rows(same_user, openclaw_secrets=Path("/home/dh/.openclaw/creds.json"),
+    rows = _rows(same_user, agent_secrets=Path("/home/dh/.openclaw/creds.json"),
                  stat=_stat_for({"/home/dh/.openclaw/creds.json": (0o600, 1000)}))
 
-    label, (ok, why) = next((name, v) for name, v in rows.items() if "OpenClaw" in name)
+    label, (ok, why) = next((name, v) for name, v in rows.items() if "Agent-Credentials" in name)
     assert ok is False, "0600 does not help when the reader owns the file"
     assert "er kann sie lesen" in why
 
@@ -198,17 +198,17 @@ def test_a_different_owner_with_0600_is_out_of_reach(monkeypatch):
     """The counter-test to the one above: the same mode, another owner."""
     monkeypatch.setattr(check, "_user_name", lambda uid: {1000: "dh", 1001: "dh-bot"}.get(uid, str(uid)))
 
-    rows = _rows(HARDENED, openclaw_secrets=Path("/home/dh/.openclaw/creds.json"),
+    rows = _rows(HARDENED, agent_secrets=Path("/home/dh/.openclaw/creds.json"),
                  stat=_stat_for({"/home/dh/.openclaw/creds.json": (0o600, 1000)}))
 
-    assert next(ok for name, (ok, _w) in rows.items() if "OpenClaw" in name) is True
+    assert next(ok for name, (ok, _w) in rows.items() if "Agent-Credentials" in name) is True
 
 
 def test_world_readable_credentials_are_reachable_whoever_owns_them():
-    rows = _rows(HARDENED, openclaw_secrets=Path("/srv/creds.json"),
+    rows = _rows(HARDENED, agent_secrets=Path("/srv/creds.json"),
                  stat=_stat_for({"/srv/creds.json": (0o644, 0)}))
 
-    label, (ok, why) = next((name, v) for name, v in rows.items() if "OpenClaw" in name)
+    label, (ok, why) = next((name, v) for name, v in rows.items() if "Agent-Credentials" in name)
     assert ok is False
     assert "0o644" in label
 
