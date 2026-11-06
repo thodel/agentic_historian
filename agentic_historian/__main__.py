@@ -2095,6 +2095,13 @@ def build_parser() -> argparse.ArgumentParser:
     p_cmp.add_argument("--out", help="Also write the report to this path")
     p_cmp.set_defaults(func=compare_runs_cmd)
 
+    p_emb = sub.add_parser(
+        "embed-passages",
+        help="Embed every passage that has no vector yet, so /find and Agent F "
+             "can rank it (#396, #812)")
+    p_emb.add_argument("--doc-id", help="Only this document's passages")
+    p_emb.set_defaults(func=embed_passages_cmd)
+
     p_ask = sub.add_parser(
         "ask",
         help="Agent F: answer a question from evidence, every quote checked (#812)")
@@ -2135,6 +2142,24 @@ def build_parser() -> argparse.ArgumentParser:
     p_pub.set_defaults(func=publish_batch)
 
     return parser
+
+
+def embed_passages_cmd(args) -> int:
+    """Embed what has no vector; say what was cached, sent and skipped."""
+    import passage_embeddings as pe
+    import passage_index
+
+    rows = passage_index.query_passages(doc_id=args.doc_id, limit=1_000_000)
+    print(f"passages  : {len(rows)}" + (f" in {args.doc_id}" if args.doc_id else ""))
+    print(f"model     : {pe._model()}")
+    try:
+        done = pe.embed_passages(rows)
+    except Exception as e:                    # noqa: BLE001 — said, not raised
+        print(f"failed    : {e}")
+        return 1
+    print(f"embedded  : {done.embedded} new, {done.cached} already had a vector, "
+          f"{done.skipped} with no text to embed")
+    return 0
 
 
 def ask_cmd(args) -> int:

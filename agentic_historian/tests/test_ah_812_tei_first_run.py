@@ -108,3 +108,124 @@ def test_a_read_only_database_is_read_without_the_missing_columns(old_db):
     assert rows and rows[0]["context"].startswith("git och dem spital")
     assert rows[0]["gnd_id"] is None
     assert passage_index.passage_count() == 1
+
+
+# ── the older column names, and the missing vectors ─────────────────────────
+
+def _cli():
+    """The package's ``__main__``, loaded by path — under pytest, ``import
+    __main__`` is pytest's own (as in test_ah_392_batch_runner)."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("ah_cli_812", PKG / "__main__.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+LEGACY_SCHEMA = """
+CREATE TABLE passages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    doc_id TEXT NOT NULL, page INTEGER NOT NULL, chunk_idx INTEGER,
+    char_start INTEGER NOT NULL, char_end INTEGER NOT NULL,
+    entity_type TEXT NOT NULL, text TEXT NOT NULL, normalised TEXT NOT NULL,
+    context TEXT, hub_id TEXT, gnd TEXT, hls TEXT, wikidata TEXT,
+    controlled_vocab TEXT, hub_confidence TEXT, link_method TEXT,
+    created_at TEXT NOT NULL, content_hash TEXT, bestand TEXT
+);
+CREATE INDEX ix_passages_doc_id ON passages(doc_id);
+CREATE INDEX ix_passages_entity_type ON passages(entity_type);
+CREATE INDEX ix_passages_normalised ON passages(normalised);
+CREATE INDEX ix_passages_hub_id ON passages(hub_id);
+CREATE INDEX ix_passages_bestand ON passages(bestand);
+INSERT INTO passages (doc_id, page, char_start, char_end, entity_type, text,
+                      normalised, context, gnd, hls, created_at, bestand)
+VALUES ('kf__U-17_0597', 1, 10, 16, 'CARE_ACTOR', 'spital', 'spital',
+        'git och dem spital', '4056272-1', '007953', '2026-10-01', 'kf');
+"""
+
+
+@pytest.fixture
+def legacy_db(tmp_path):
+    """The column set tei's database printed on 06.11.2026, before gnd_id/hls_id."""
+    path = tmp_path / "passages.db"
+    con = sqlite3.connect(path)
+    con.executescript(LEGACY_SCHEMA)
+    con.commit()
+    con.close()
+    yield path
+    passage_index._teardown_test_db()
+
+
+def test_links_under_the_old_names_are_copied_to_the_new_columns(legacy_db):
+    passage_index._reset_test_db(legacy_db)
+    row = passage_index.query_passages()[0]
+    assert (row["gnd_id"], row["hls_id"]) == ("4056272-1", "007953")
+    on_disk = sqlite3.connect(legacy_db).execute(
+        "SELECT gnd_id, hls_id, gnd, hls FROM passages").fetchone()
+    assert on_disk == ("4056272-1", "007953", "4056272-1", "007953"), \
+        "copied, and the old columns left as they were"
+
+
+def test_a_value_already_in_the_new_column_is_never_overwritten(legacy_db):
+    con = sqlite3.connect(legacy_db)
+    con.executescript("ALTER TABLE passages ADD COLUMN gnd_id TEXT;"
+                      "ALTER TABLE passages ADD COLUMN hls_id TEXT;"
+                      "UPDATE passages SET gnd_id = 'newer';")
+    con.commit()
+    con.close()
+    passage_index._reset_test_db(legacy_db)
+    row = passage_index.query_passages()[0]
+    assert row["gnd_id"] == "newer" and row["hls_id"] == "007953"
+
+
+def test_a_read_only_legacy_database_answers_with_its_links(legacy_db):
+    ro = sqlite3.connect(f"file:{legacy_db}?mode=ro", uri=True, check_same_thread=False)
+    passage_index._reset_test_db(legacy_db)
+    passage_index._DB = ro
+    passage_index._init_schema(ro)
+    row = passage_index.query_passages()[0]
+    assert (row["gnd_id"], row["hls_id"]) == ("4056272-1", "007953")
+
+
+def test_embed_passages_has_a_command(legacy_db, monkeypatch, capsys):
+    import argparse
+
+    import passage_embeddings as pe
+    embed_passages_cmd = _cli().embed_passages_cmd
+
+    passage_index._reset_test_db(legacy_db)
+    seen = {}
+
+    def fake(rows):
+        seen["rows"] = rows
+        return pe.Embedded(cached=0, embedded=len(rows), skipped=0)
+
+    monkeypatch.setattr(pe, "embed_passages", fake)
+    assert embed_passages_cmd(argparse.Namespace(doc_id=None)) == 0
+    out = capsys.readouterr().out
+    assert "passages  : 1" in out and "embedded  : 1 new" in out
+    assert [r["normalised"] for r in seen["rows"]] == ["spital"]
+
+
+def test_a_failed_embedding_is_said_not_raised(legacy_db, monkeypatch, capsys):
+    import argparse
+
+    import passage_embeddings as pe
+    embed_passages_cmd = _cli().embed_passages_cmd
+
+    passage_index._reset_test_db(legacy_db)
+
+    def boom(rows):
+        raise RuntimeError("GPUStack 403")
+
+    monkeypatch.setattr(pe, "embed_passages", boom)
+    assert embed_passages_cmd(argparse.Namespace(doc_id=None)) == 1
+    assert "failed    : GPUStack 403" in capsys.readouterr().out
+
+
+def test_the_empty_result_names_the_command():
+    import passage_find
+
+    f = passage_find.Found(query="almosen", indexed=1, candidates=1)
+    assert "python -m agentic_historian embed-passages" in f.why_empty()

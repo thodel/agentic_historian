@@ -218,7 +218,8 @@ def test_passages_that_were_never_embedded_say_that(index):
     found = pf.find("almosen", embedder=Fake())
 
     assert found.candidates == 1 and found.hits == []
-    assert "embed_passages" in found.why_empty()
+    # the command to run, since #812 a CLI subcommand rather than a function
+    assert "python -m agentic_historian embed-passages" in found.why_empty()
     assert "#396" in found.why_empty()
 
 

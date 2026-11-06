@@ -99,6 +99,13 @@ _ADDED_COLUMNS = {
     "hls_id": "TEXT",
 }
 
+#: Columns an older schema used for the same thing. The database on tei
+#: (06.11.2026) has ``gnd`` and ``hls`` beside the new, empty ``gnd_id`` and
+#: ``hls_id``; a link it recorded sits under the old name. The migration copies
+#: it across where the new column is empty, and a read falls back to it — so a
+#: database the CLI cannot write still answers with its links (#812).
+_LEGACY_COLUMNS = {"gnd_id": "gnd", "hls_id": "hls"}
+
 #: The columns `query_passages` returns, in order.
 _ROW_COLUMNS = (
     "id", "doc_id", "page", "bestand", "entity_type", "text", "normalised",
@@ -137,6 +144,37 @@ def _add_missing_columns(db: sqlite3.Connection) -> None:
                            f"rows are read without it")
             continue
         logger.info(f"[passage_index] added column {name} {decl}")
+    _copy_legacy_columns(db)
+
+
+def _copy_legacy_columns(db: sqlite3.Connection) -> None:
+    """Fill an empty new column from its older name, once, never overwriting."""
+    have = _columns(db)
+    for new, old in _LEGACY_COLUMNS.items():
+        if new not in have or old not in have:
+            continue
+        try:
+            cur = db.execute(
+                f"UPDATE passages SET {new} = {old} "
+                f"WHERE ({new} IS NULL OR {new} = '') AND {old} IS NOT NULL AND {old} != ''")
+        except sqlite3.OperationalError as e:
+            logger.warning(f"[passage_index] cannot copy {old} → {new} ({e}); "
+                           f"reads fall back to {old}")
+            continue
+        if cur.rowcount:
+            logger.info(f"[passage_index] copied {cur.rowcount} value(s) {old} → {new}")
+
+
+def _select_expr(column: str, have: set[str]) -> str:
+    """How `query_passages` reads one column from this file."""
+    old = _LEGACY_COLUMNS.get(column)
+    if column in have and old in have:
+        return f"COALESCE(NULLIF({column}, ''), NULLIF({old}, '')) AS {column}"
+    if column in have:
+        return column
+    if old in have:
+        return f"{old} AS {column}"
+    return f"NULL AS {column}"
 
 
 def upsert_passages(doc_id: str, records: list[dict]) -> int:
@@ -240,7 +278,7 @@ def query_passages(
     # Only the columns the file has: one the migration could not add reads
     # as None rather than failing the whole query (#812).
     have = _columns(db)
-    select = ", ".join(c if c in have else f"NULL AS {c}" for c in _ROW_COLUMNS)
+    select = ", ".join(_select_expr(c, have) for c in _ROW_COLUMNS)
     sql = (
         f"SELECT {select}"
         " FROM passages " + where_sql +

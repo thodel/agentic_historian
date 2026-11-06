@@ -159,8 +159,8 @@ class Found:
             return (f"Im Index liegen {self.indexed} Passage(n), aber keine in "
                     f"{self.scope()}.")
         return (f"{self.candidates} Passage(n) in {self.scope()} haben noch "
-                f"keinen Vektor — `passage_embeddings.embed_passages()` "
-                f"ausführen (#396).")
+                f"keinen Vektor — `python -m agentic_historian embed-passages` "
+                f"im Repository ausführen (#396).")
 
 
 # ── the search ───────────────────────────────────────────────────────────────
