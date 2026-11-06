@@ -271,9 +271,29 @@ def test_the_cron_run_keeps_deny_mode_and_allows_exactly_what_the_worker_needs()
     cfg = yaml.safe_load((BUNDLE / "config.yaml.example").read_text())
     assert cfg["approvals"]["cron_mode"] == "deny"
     assert cfg["command_allowlist"] == ["script execution via heredoc", "git branch force delete"]
+    atr = cfg["mcp_servers"]["atr"]
+    assert atr["auth"] == "oauth"
+    include = atr["tools"]["include"]                      # the documented key; include_tools is ignored
+    assert "read_pages" in include and "ubelix_queue" in include
+    assert not {"start_batch", "stop_job", "kraken_train", "upload_hf"} & set(include)
     skill = (BUNDLE / "skills" / "dh-bot-queue" / "SKILL.md").read_text()
     assert "`execute_code` is blocked" in skill
     assert "<<'EOF'" in skill
+
+
+def test_bots_md_lists_every_slash_command_of_the_historian():
+    # docs/BOTS.md (H5, #801) names each Historian command with its gate; a new
+    # command without a row is a boundary nobody decided.
+    bot = (REPO / "agentic_historian" / "bot.py").read_text(encoding="utf-8")
+    names = set(re.findall(r'slash_command\((?:[^)]|\n)*?name="([a-z_]+)"', bot))
+    assert len(names) >= 30
+    doc = (REPO / "docs" / "BOTS.md").read_text(encoding="utf-8")
+    missing = sorted(n for n in names if f"| `/{n}` |" not in doc)
+    assert not missing, missing
+    assert "`start_batch`" in doc and "lesend" in doc
+    rules = (BUNDLE / "agents-boundaries.md").read_text(encoding="utf-8")
+    for phrase in ("fehlt absichtlich", "biete nicht an", "Lesen kostet"):
+        assert phrase in rules, phrase
 
 
 def test_the_bundle_holds_no_secret_values():

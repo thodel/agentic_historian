@@ -188,8 +188,11 @@ Pattern: FastAPI + SSE/streamable-http, same structure as SSRQ MCP. Expose:
 ### 3. Register MCP
 
 ```bash
-openclaw mcp add hbls --url https://tei.dh.unibe.ch/mcp/hbls/ --port TBD
-openclaw gateway restart
+# as hermes on tei (dh-bot runs on Hermes since 2026-11-04, #798); the endpoint is
+# /mcp/<name>/mcp — /mcp/<name>/ alone is a landing page (302), see #800
+hermes mcp add hbls --url https://tei.dh.unibe.ch/mcp/hbls/mcp
+hermes mcp test hbls
+hermes gateway restart
 ```
 
 ### 4. Verify

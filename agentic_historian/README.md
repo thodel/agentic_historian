@@ -111,7 +111,7 @@ runs its start path (up to `bot.run`) without any `workspace/`.
 | `/ask <frage> [bestand] [von] [bis]` | Agent F (#812): answer a research question from evidence — every claim bound to a passage, every quote checked verbatim, each passage labelled with what kind of text it is. Runs for minutes in its own thread; the answer is posted to the channel (not the interaction, which expires after 15 min) and published to `docs/questions/<id>/` in the outputs repo when `ENABLE_GITHUB_PUBLISH` is on |
 | `/status`, `/progress` | Status |
 
-Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-gated when `REQUIRED_DISCORD_ROLE_ID` is set. All commands are serialised through a single worker queue (responsive, no per-user races).
+Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-gated when `REQUIRED_DISCORD_ROLE_ID` is set. All commands are serialised through a single worker queue (responsive, no per-user races). The complete list with each command's gate, and how it relates to `dh-bot` (the research agent on the same server, which reaches this bot only read-only over `atr-mcp`), is [`docs/BOTS.md`](../docs/BOTS.md).
 
 ## Environment Variables (`.env.gpustack`, repo root)
 

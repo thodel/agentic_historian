@@ -116,6 +116,16 @@ what broke OpenClaw. One entry per source, see `config.yaml.example`. `hls`
 needs a key nobody has recorded — leave it out until #800 settles it.
 `atr-mcp` gets a tool filter: the reading tools only.
 
+Measured 05.11.2026, as `hermes`: kf 14, eos, hbls, ssrq (imported), outremer
+4, sikart 7, wd-pre1500 6, hls 10 (Basic auth, `HLS_BASIC` in `.env`), atr 16
+of 39 (`auth: oauth`, once `hermes mcp login atr`: open the printed URL in a
+browser, enter the server's password, paste the `127.0.0.1:27890/callback?…`
+address back; tokens in `~/.hermes/mcp-tokens/`, 30-day refresh). The gateway
+log line `MCP: registered 130 tool(s) from 9 server(s)` is the tally; a server's
+own count comes from `MCP server '<name>' (HTTP): registered N tool(s)`. Probe:
+"was läuft auf der ATR-Karte" answers over `gateway_models`; "starte einen
+Batch" is refused because the tool is not there — not because approval is.
+
 ## Cron (H3, #799)
 
 Four jobs, all of which were failing in OpenClaw. `cron.md` has the commands;
