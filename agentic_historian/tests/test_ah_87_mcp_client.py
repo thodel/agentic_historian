@@ -10,6 +10,8 @@ import asyncio
 import sys
 from pathlib import Path
 
+import pytest
+
 PKG = Path(__file__).resolve().parents[1]
 if str(PKG) not in sys.path:
     sys.path.insert(0, str(PKG))
@@ -131,3 +133,74 @@ def test_search_persons_sync_wrapper(monkeypatch):
     monkeypatch.setattr(mc, "_call_tool", fake_call)
     fr = mc.search_persons_sync("Z")
     assert isinstance(fr, mc.FederatedResult) and fr.persons
+
+
+# ── HLS: HTTP Basic, fail closed (#800, #812) ────────────────────────────────
+
+class _Resp:
+    def __init__(self, body, sid=None):
+        self._body, self.headers = body, ({"mcp-session-id": sid} if sid else {})
+        self.status_code = 200
+        self.text = __import__("json").dumps(body)
+
+    def raise_for_status(self):
+        pass
+
+    def json(self):
+        return self._body
+
+
+def test_hls_without_its_key_fails_closed_and_names_it(monkeypatch):
+    import config
+    monkeypatch.setattr(config, "HLS_BASIC", "")
+    with pytest.raises(mc.MCPError, match="needs HLS_BASIC"):
+        run(mc._http_rpc(reg.get_source("hls"), "tools/list", {}))
+
+
+def test_hls_sends_the_basic_header(monkeypatch):
+    import config
+    monkeypatch.setattr(config, "HLS_BASIC", "dXNlcjpwYXNz")
+    sent = []
+
+    class _Client:
+        def __init__(self, *a, **k):
+            pass
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *a):
+            return False
+
+        async def post(self, url, json=None, headers=None):
+            sent.append((url, dict(headers or {})))
+            return _Resp({"jsonrpc": "2.0", "id": 1, "result": {"tools": []}}, sid="s1")
+
+    monkeypatch.setattr(mc.httpx, "AsyncClient", _Client)
+    monkeypatch.setattr(mc, "_decode_jsonrpc_body", lambda r: r.json())
+    assert run(mc._http_rpc(reg.get_source("hls"), "tools/list", {})) == {"tools": []}
+    assert sent and all(h.get("Authorization") == "Basic dXNlcjpwYXNz" for _, h in sent)
+    assert sent[0][0].endswith("/mcp/hls/mcp")
+
+
+def test_other_sources_send_no_authorization(monkeypatch):
+    sent = []
+
+    class _Client:
+        def __init__(self, *a, **k):
+            pass
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *a):
+            return False
+
+        async def post(self, url, json=None, headers=None):
+            sent.append(dict(headers or {}))
+            return _Resp({"jsonrpc": "2.0", "id": 1, "result": {}})
+
+    monkeypatch.setattr(mc.httpx, "AsyncClient", _Client)
+    monkeypatch.setattr(mc, "_decode_jsonrpc_body", lambda r: r.json())
+    run(mc._http_rpc(reg.get_source("kf"), "tools/list", {}))
+    assert sent and not any("Authorization" in h for h in sent)

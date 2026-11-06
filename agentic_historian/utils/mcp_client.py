@@ -208,6 +208,13 @@ async def _http_rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
     url = source.url
     headers = {"Content-Type": "application/json",
                "Accept": "application/json, text/event-stream"}
+    if source.basic_auth_config:
+        token = getattr(config, source.basic_auth_config, "") or ""
+        if not token:
+            # Fail closed and say what is missing, rather than a bare 401.
+            raise MCPError(f"{source.name}: needs {source.basic_auth_config} "
+                           f"(HTTP Basic, base64 of user:pass) — not set")
+        headers["Authorization"] = f"Basic {token}"
     init_req = {"jsonrpc": "2.0", "id": 1, "method": "initialize",
                 "params": {"protocolVersion": _PROTOCOL_VERSION,
                            "capabilities": {},

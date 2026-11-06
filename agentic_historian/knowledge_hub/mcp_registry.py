@@ -51,6 +51,9 @@ class MCPSource:
     adapter  optional callable mapping the source's native record -> PersonResult;
              None = already conforms
     notes    free-text provenance / caveats
+    basic_auth_config  name of a config attribute holding base64("user:pass")
+             for an ``Authorization: Basic`` header; the source fails closed
+             when it is empty (hls, #800)
     """
 
     name: str
@@ -65,6 +68,7 @@ class MCPSource:
     tool_map: dict = field(default_factory=dict)
     adapter: Optional[Callable] = None
     notes: str = ""
+    basic_auth_config: Optional[str] = None
 
     def tool(self, logical: str) -> str:
         """Resolve a logical operation to this source's actual tool name."""
@@ -106,12 +110,21 @@ def _hbls_adapter(raw: dict) -> dict:
 # ── The registry — edit HERE to add a knowledge hub ──────────────────────────
 # Every source below is LIVE (confirmed 2026-07-03). To add one, append an
 # MCPSource and follow docs/knowledge_hub.md §"Adding a source".
+#
+# Since #800 (05.11.2026) every source on tei speaks Streamable HTTP at
+# /mcp/<name>/mcp; /mcp/<name> alone is a landing page for humans and answers
+# 302 (dh-bot's Hermes config uses the /mcp form). The registry kept the old
+# paths and EOS's SSE transport, so from then on every federation call of this
+# repository failed: Agent C's linking, /search, and Agent F's full text
+# ("302 Moved Temporarily", "SSE stream closed"), found on Agent F's first run
+# on tei (06.11.2026, #812).
 SOURCES: tuple[MCPSource, ...] = (
     MCPSource(
         name="eos",
         title="EOS — HGB Basel (documents & spans)",
         kinds=("person", "place", "org", "fulltext"),
-        path="eos",
+        path="eos/mcp",
+        transport="http",
         authority=False,
         # eos exposes search_persons but names full-text search `search_text`
         # (verified via tools/list 2026-07-06); no get_person.
@@ -122,7 +135,8 @@ SOURCES: tuple[MCPSource, ...] = (
         name="hbls",
         title="HBLS — Historisch-Biographisches Lexikon der Schweiz",
         kinds=("person",),
-        path="hbls",
+        path="hbls/mcp",
+        transport="http",
         authority=True,
         # hbls exposes a generic `search` (args query/limit) returning article
         # records keyed headword/id/snippet (verified live 2026-07-06); map the
@@ -135,7 +149,9 @@ SOURCES: tuple[MCPSource, ...] = (
         name="hls",
         title="HLS-DHS — Historisches Lexikon der Schweiz",
         kinds=("person", "place", "org"),
-        path="hls",
+        path="hls/mcp",
+        transport="http",
+        basic_auth_config="HLS_BASIC",
         authority=True,
         # hls prefixes every tool `hls_` (verified via tools/list 2026-07-06).
         tool_map={"search_persons": "hls_search_persons",
@@ -151,9 +167,9 @@ SOURCES: tuple[MCPSource, ...] = (
         # it on 2026-11-06. HLS has hls_search_fulltext too and is left out on
         # purpose: a lexicon is secondary literature, not a source to quote.
         kinds=("person", "place", "fulltext"),
-        path="kf",
+        path="kf/mcp",
         authority=False,
-        transport="http",   # streamable-HTTP server (nginx rewrites /mcp/kf → /mcp)
+        transport="http",
         notes="Königsfelden persons, places, register entries.",
     ),
     MCPSource(
