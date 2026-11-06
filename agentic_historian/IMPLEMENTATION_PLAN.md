@@ -53,6 +53,7 @@ adding a source is a data change per [`docs/knowledge_hub.md`](docs/knowledge_hu
 | **HBLS** | `…/mcp/hbls` | ~137k merged person records | ✅ Live |
 | **HLS** | `…/mcp/hls` | Historisches Lexikon der Schweiz — person/place authority (replaces the local `hls.json` dump) | ✅ Live |
 | **GND / Wikidata** | gateway `wikidata` MCP | External authority reconciliation | ✅ Live |
+| **Human Lineage** | `…/mcp/humanlineage/mcp` | Open genealogical dataset (Zenodo snapshot, CC BY-SA 4.0): 2.7 M deceased persons with Wikidata/GND/VIAF/HLS ids and 615k family relations; name resolution with dates, identifier join, relatives, family trees | ✅ Live (idhefix :8025) |
 
 `…` = `config.MCP_BASE_URL` (default `https://tei.dh.unibe.ch/mcp`, VPN-gated).
 All sources are consumed the same way — as MCP servers behind the common
