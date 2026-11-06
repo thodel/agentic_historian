@@ -119,6 +119,46 @@ SCRIPT_ALIASES: dict[str, list[str]] = {
     "sütterlin": ["sütterlin", "suetterlin"],
 }
 
+#: The region a source comes from — the fifth routing criterion (#491 L0). The
+#: vocabulary is deliberately coarse: it is the scorer key of #491/#110, and a
+#: cell is only as good as the text behind it. Canonical value → what Agent B's
+#: ``Provenienz`` or a description may say. Keep it the only region vocabulary.
+REGION_ALIASES: dict[str, list[str]] = {
+    "Swiss": ["schweiz", "swiss", "eidgenöss", "bern", "zürich", "zurich", "basel",
+              "luzern", "st. gallen", "st.gallen", "sankt gallen", "aargau", "königsfelden",
+              "thurgau", "solothurn", "freiburg i. ü", "fribourg", "graubünden", "wallis",
+              "schaffhausen", "zug", "glarus", "appenzell"],
+    "South German": ["süddeutsch", "south german", "schwaben", "swabia", "württemberg",
+                     "konstanz", "constance", "bodensee", "oberrhein", "freiburg i. br",
+                     "ulm", "reichenau", "st. blasien", "baden"],
+    "Bavaria": ["bayern", "bavaria", "münchen", "munich", "augsburg", "regensburg",
+                "nürnberg", "nuremberg", "franken", "franconia"],
+    "Austrian": ["österreich", "austria", "wien", "vienna", "tirol", "tyrol", "salzburg",
+                 "steiermark", "styria", "vorarlberg", "habsburg"],
+    "Alsace": ["elsass", "alsace", "strassburg", "strasbourg", "colmar"],
+    "Saxon": ["sachsen", "saxon", "leipzig", "dresden", "meissen", "wittenberg"],
+    "North German": ["norddeutsch", "north german", "hamburg", "lübeck", "bremen",
+                     "niedersachsen", "hanse", "westfalen", "westphalia"],
+    "Rhineland": ["rheinland", "rhineland", "köln", "cologne", "mainz", "trier", "koblenz"],
+}
+
+
+def normalise_region(raw: str) -> Optional[str]:
+    """The region a text names, canonicalised to ``REGION_ALIASES`` — or None.
+
+    First match in table order wins; the table puts the Swiss cell first because
+    that is where the corpora are. A region the table does not know is None, not
+    the raw string: an unknown value would be a cell no scorer has.
+    """
+    if not raw:
+        return None
+    low = raw.lower()
+    for canonical, aliases in REGION_ALIASES.items():
+        if any(a in low for a in aliases):
+            return canonical
+    return None
+
+
 LANG_ALIASES: dict[str, str] = {
     "deutsch": "de", "german": "de",
     "latein": "la", "latin": "la",
@@ -666,6 +706,7 @@ class SourceCriteria:
             century=century,
             date_raw=description,
             document_type=doc_type,
+            region=normalise_region(description),
             notes=description,
         )
 
@@ -734,6 +775,10 @@ class SourceCriteria:
                     doc_type = dtype
                     break
 
+        # Provenienz -> region (#491 L0). Provenance, not Aufbewahrungsort: a
+        # Bernese charter kept in Berlin is still Swiss writing.
+        region = normalise_region(_unwrap(source_json.get("Provenienz")) or "")
+
         fb = cls.from_agent_b(fallback_description) if fallback_description else None
 
         return cls(
@@ -743,6 +788,7 @@ class SourceCriteria:
             century=century if century is not None else (fb.century if fb else None),
             date_raw=dat_raw or (fb.date_raw if fb else ""),
             document_type=doc_type if doc_type is not None else (fb.document_type if fb else None),
+            region=region if region is not None else (fb.region if fb else None),
             notes=fallback_description,
         )
 

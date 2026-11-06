@@ -12,7 +12,7 @@ Enable with ORCHESTRATOR_LLM_ENABLED=true (default: False, opt-in).
 Decision schema (JSON returned by LLM):
     {
         "action": "criteria_change" | "path_preference" | "entity_link" | "proceed",
-        "field": "century" | "lang" | "script" | "document_type" | null,
+        "field": "century" | "lang" | "script" | "document_type" | "region" | null,
         "value": <int | str | null>,
         "confidence": 0.6 – 1.0
     }
@@ -65,12 +65,14 @@ _PATH_OPTIONS: Optional[list] = None
 def _get_field_options() -> dict:
     global _FIELD_OPTIONS
     if _FIELD_OPTIONS is None:
-        from routing_card import FIELD_OPTIONS, century_options, lang_options, script_options, type_options
+        from routing_card import (FIELD_OPTIONS, century_options, lang_options,  # noqa: F401
+                                  region_options, script_options, type_options)
         _FIELD_OPTIONS = {
             "century": {v for _, v in century_options()},
             "lang": {v for _, v in lang_options()},
             "script": {v for _, v in script_options()},
             "document_type": {v for _, v in type_options()},
+            "region": {v for _, v in region_options()},
         }
     return _FIELD_OPTIONS
 
@@ -93,7 +95,7 @@ def build_routing_prompt(state: RunState) -> str:
 
     # Summarise criteria
     criteria_parts = []
-    for f in ("century", "lang", "script", "document_type"):
+    for f in ("century", "lang", "script", "document_type", "region"):
         val = state.criteria.get(f)
         marker = " [GESPERRT — Mensch]" if f in pinned else ""
         if val is not None:
@@ -151,7 +153,7 @@ def build_routing_prompt(state: RunState) -> str:
 # ── Response parser ───────────────────────────────────────────────────────────
 
 VALID_ACTIONS = {"criteria_change", "path_preference", "entity_link", "proceed"}
-VALID_FIELDS = {"century", "lang", "script", "document_type"}
+VALID_FIELDS = {"century", "lang", "script", "document_type", "region"}
 
 
 def parse_routing_response(text: str) -> dict | None:

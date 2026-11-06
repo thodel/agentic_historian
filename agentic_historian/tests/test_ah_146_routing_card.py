@@ -113,14 +113,55 @@ def test_route_command_registered():
     assert cmd is not None and [o.name for o in cmd.options] == ["doc_id"]
 
 
-def test_build_view_has_four_field_selects():
+def test_build_view_has_five_field_selects():
     import asyncio
     import discord
     st = _state(script="Kurrent", lang="de", century=16)
     # discord.ui.View construction needs a running loop (as in the live bot).
     view = asyncio.run(_build_view_async(st))
     selects = [c for c in view.children if isinstance(c, discord.ui.Select)]
-    assert len(selects) == 4
+    assert len(selects) == 5                       # five rows: Discord's maximum
     custom_ids = {s.custom_id for s in selects}
     assert custom_ids == {f"ah:saa-0428:gate1:{f}"
-                          for f in ("century", "lang", "script", "document_type")}
+                          for f in ("century", "lang", "script", "document_type", "region")}
+
+
+# ── region, the fifth criterion (#491 L0) ────────────────────────────────────
+
+def test_region_options_are_the_scorer_vocabulary_and_fit_discord():
+    from agent_a.model_selector import REGION_ALIASES
+    opts = rc.region_options()
+    assert [v for _, v in opts] == list(REGION_ALIASES)
+    assert ("Schweiz", "Swiss") in opts and len(opts) <= 25
+    assert "region" in rc.FIELD_OPTIONS and rc.FIELD_LABELS["region"] == "Region"
+
+
+def test_region_pin_is_recorded_without_rerunning_kraken():
+    st = _state(script="Kurrent", lang="de", century=15)
+    rc.apply_criteria_change(st, "region", "Swiss")
+    assert st.criteria["region"] == "Swiss"
+    assert st.human_overrides[-1]["field"] == "region"
+    # no stage reads region yet: nothing becomes dirty, nothing re-runs
+    assert st.dirty_stages() == []
+    assert st.stage_status["kraken"] == DONE
+    card = rc.render_card(st)
+    assert "`Region    `: Swiss" in card and card.count("Historiker:in") == 1
+
+
+def test_region_is_read_from_agent_b_provenienz_not_from_the_archive():
+    from agent_a.model_selector import SourceCriteria, normalise_region
+    sj = {"Schrift": {"wert": "Kursive", "unsicher": False},
+          "Sprache": {"wert": "Deutsch", "unsicher": False},
+          "Datierung": {"wert": "15. Jh.", "unsicher": True},
+          "Provenienz": {"wert": "Kloster Königsfelden, Aargau", "unsicher": False},
+          "Aufbewahrungsort": {"wert": "Staatsbibliothek Berlin", "unsicher": False},
+          "Inhalt": {"wert": "Urkunde", "unsicher": False}}
+    crit = SourceCriteria.from_source_json(sj)
+    assert crit.region == "Swiss"
+    # the markdown path finds it too, and an unknown place is None, not a new cell
+    assert SourceCriteria.from_agent_b("Urkunde aus dem Erzstift Salzburg, 14. Jh.").region == "Austrian"
+    assert normalise_region("Timbuktu") is None and normalise_region("") is None
+    # the fallback: no Provenienz in the JSON, the description names the place
+    sj.pop("Provenienz")
+    assert SourceCriteria.from_source_json(sj, "Brief aus Strassburg").region == "Alsace"
+

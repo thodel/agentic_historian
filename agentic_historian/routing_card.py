@@ -2,8 +2,9 @@
 routing_card.py — Gate 1 routing card (HITL-1b, #146).
 
 The card shows the pipeline's inferred routing metadata for a document and lets
-a historian correct it with clicks (never free text). The four selects map 1:1
-onto ``SourceCriteria`` (script / lang / century / document_type); confirming a
+a historian correct it with clicks (never free text). The five selects map 1:1
+onto ``SourceCriteria`` (script / lang / century / document_type / region — the
+fifth since #491 L0, because the scorer cell needs it); confirming a
 change re-selects the kraken model (and marks the kraken path dirty via the
 RunState), so the model + score on the card update in place.
 
@@ -24,7 +25,8 @@ import gate_guard
 from feedback_logger import log_routing_feedback
 
 from agent_a.model_selector import (
-    LANG_ALIASES, SCRIPT_ALIASES, ModelMatch, SourceCriteria, select_kraken_model,
+    LANG_ALIASES, REGION_ALIASES, SCRIPT_ALIASES, ModelMatch, SourceCriteria,
+    select_kraken_model,
 )
 from knowledge_hub import hub
 from runstate import RunState
@@ -55,14 +57,29 @@ def type_options() -> list[tuple[str, str]]:
     return [(t.capitalize(), t) for t in types[:25]]
 
 
+_REGION_LABELS = {"Swiss": "Schweiz", "South German": "Süddeutschland", "Bavaria": "Bayern",
+                  "Austrian": "Österreich", "Alsace": "Elsass", "Saxon": "Sachsen",
+                  "North German": "Norddeutschland", "Rhineland": "Rheinland"}
+
+
+def region_options() -> list[tuple[str, str]]:
+    # The scorer vocabulary of #491 — one table, in the model selector; the card
+    # only labels it. A region the table lacks cannot be pinned, on purpose.
+    return [(_REGION_LABELS.get(k, k), k) for k in list(REGION_ALIASES)[:25]]
+
+
 FIELD_OPTIONS = {
     "century": century_options,
     "lang": lang_options,
     "script": script_options,
     "document_type": type_options,
+    "region": region_options,
 }
 FIELD_LABELS = {"century": "Datierung", "lang": "Sprache",
-                "script": "Schrift", "document_type": "Typ"}
+                "script": "Schrift", "document_type": "Typ", "region": "Region"}
+#: The selects on the card, in row order. Discord allows five action rows, and
+#: the card has no buttons, so the fifth row is the last one there is.
+CARD_FIELDS = ("century", "lang", "script", "document_type", "region")
 
 
 # ── Model (re-)selection from the current criteria ───────────────────────────
@@ -74,6 +91,7 @@ def _criteria(state: RunState) -> SourceCriteria:
         lang=c.get("lang"),
         century=c.get("century"),
         document_type=c.get("document_type"),
+        region=c.get("region"),
     )
 
 
@@ -146,6 +164,7 @@ def render_card(state: RunState, match: Optional[ModelMatch] = None) -> str:
     lines.append(row("lang", c.get("lang")))
     lines.append(row("script", c.get("script")))
     lines.append(row("document_type", c.get("document_type")))
+    lines.append(row("region", c.get("region")))
     if match:
         warn = " ⚠️" if match.score < 0.6 else ""
         lines.append(f"`{'HTR-Modell':<10}`: {match.model.name} "
@@ -184,7 +203,7 @@ def build_view(state: RunState, runners: Optional[dict] = None):
     class RoutingCardView(discord.ui.View):
         def __init__(self):
             super().__init__(timeout=None)
-            for field in ("century", "lang", "script", "document_type"):
+            for field in CARD_FIELDS:
                 self.add_item(_FieldSelect(field))
 
         async def interaction_check(self, interaction, /) -> bool:

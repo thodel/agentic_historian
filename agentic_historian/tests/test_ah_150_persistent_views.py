@@ -47,7 +47,7 @@ def test_gate1_custom_ids_are_stable_and_encode_doc():
     import discord
     ids = {c.custom_id for c in view.children if isinstance(c, discord.ui.Select)}
     assert ids == {f"ah:saa-0428:gate1:{f}" for f in
-                   ("century", "lang", "script", "document_type")}
+                   ("century", "lang", "script", "document_type", "region")}   # region: #491 L0
     # every id round-trips through the parser
     for cid in ids:
         assert pv.parse_custom_id(cid)[0] == "saa-0428"

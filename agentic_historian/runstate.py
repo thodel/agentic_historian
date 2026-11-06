@@ -48,6 +48,10 @@ _INVALIDATION: dict[str, tuple[list[str], list[str]]] = {
     "lang":          (["model_select", "kraken", "reconcile", "agent_b", "agent_c"], ["agent_d"]),
     "script":        (["model_select", "kraken", "reconcile", "agent_b"], []),
     "document_type": (["model_select", "kraken", "reconcile", "agent_b"], []),
+    # Gate 1 — region (#491 L0): pinned like the four above, but no stage reads it
+    # yet — model selection ignores it, and the scorer cell (#491 L1/L4) is not
+    # built. The day a stage consumes it, it goes into this list.
+    "region":        ([], []),
     # Gate 2 — path preference: pick the winning transcription, re-run B/C on it.
     "path_preference": (["reconcile", "agent_b", "agent_c"], ["agent_d"]),
     # Gate 3 — entity link: writes the hub only; no stage re-run.
@@ -55,7 +59,7 @@ _INVALIDATION: dict[str, tuple[list[str], list[str]]] = {
 }
 
 # Which criteria fields are "pinned" onto SourceCriteria when set by a human.
-CRITERIA_FIELDS = {"century", "lang", "script", "document_type"}
+CRITERIA_FIELDS = {"century", "lang", "script", "document_type", "region"}
 
 
 def _now() -> str:
