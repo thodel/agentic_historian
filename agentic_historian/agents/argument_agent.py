@@ -380,7 +380,8 @@ def federation_fulltext(query: str, *, bestand: str | None = None,
     for h in hits:
         if bestand and h.source != bestand:
             continue
-        it = ev.edition_item(h.source, h.doc_id, h.snippet)
+        it = ev.edition_item(h.source, h.doc_id, plain_snippet(h.snippet),
+                             datierung=h.year, title=h.title)
         if it is not None:
             it.retrieval = {"score": round(float(h.score or 0.0), 4),
                             "scored_by": "fulltext"}
@@ -390,6 +391,23 @@ def federation_fulltext(query: str, *, bestand: str | None = None,
     if errors:
         raise PartialRetrieval(items, errors)
     return items
+
+
+#: The highlighting a search engine wraps around the matched term —
+#: ``<b>Almosen</b>`` (EOS), ``<mark>elemosina</mark>`` (KF). Only these tags:
+#: an edition uses angle brackets for its own purposes (``<…>`` for supplied
+#: text), and removing every ``<…>`` would delete words from the source.
+_HIGHLIGHT = re.compile(r"</?(?:b|mark|em|strong|i|u|span)(?:\s[^>]*)?>", re.IGNORECASE)
+
+
+def plain_snippet(snippet: str) -> str:
+    """A search snippet as the source's text: highlight tags out, entities
+    decoded. Left in, ``<b>Almosen</b> Schaf ner`` would make every verbatim
+    quote of the passage fail the binding check — a model quotes the words,
+    not the markup."""
+    import html
+
+    return html.unescape(_HIGHLIGHT.sub("", snippet or ""))
 
 
 def _load_pipeline(doc_id: str) -> dict | None:
@@ -553,9 +571,16 @@ Zusammenfassung verweist auf Behauptungen als [1], [2], … und zitiert nicht.
  "summary": "..."}}"""
 
 
+def _where(it) -> str:
+    """How a reader finds the passage: the source's own title (a shelfmark
+    for KF) when it sent one, else the document id."""
+    title = (it.source or {}).get("title")
+    return (title or it.doc_id) + (f", {it.page}" if it.page else "")
+
+
 def _describe(it) -> str:
     r, s = it.reading, it.source or {}
-    bits = [it.doc_id + (f", {it.page}" if it.page else "")]
+    bits = [_where(it)]
     if s.get("datierung"):
         bits.append(s["datierung"] + (" (unsicher)" if s.get("datierung_unsicher") else ""))
     if r.get("status") == ev.EDITION:
@@ -807,7 +832,7 @@ _DROP_DE = {
 
 def _cite(it, quote: str) -> list[str]:
     r, s = it.reading, it.source or {}
-    where = it.doc_id + (f", {it.page}" if it.page else "")
+    where = _where(it)
     link = f"[{where}]({it.catalogue_url})" if it.catalogue_url else where
     head = f"- `{it.evidence_id}` „{quote}“ — {link}"
     status = _STATUS_DE.get(r.get("status"), r.get("status") or "")
@@ -1048,7 +1073,7 @@ def format_discord(done: Answered, *, mention: str = "") -> list[str]:
     for i, c in enumerate(res.claims, 1):
         ok = [b for b in c.bindings if b.ok]
         it = res.pool[ok[0].evidence_id]
-        where = it.doc_id + (f", {it.page}" if it.page else "")
+        where = _where(it)
         more = f" (+{len(ok) - 1} Beleg(e))" if len(ok) > 1 else ""
         blocks.append(f"**{i}.** {_clip(c.text, 300)}\n"
                       f"> „{_clip(ok[0].quote, 200)}“ — {where} · "

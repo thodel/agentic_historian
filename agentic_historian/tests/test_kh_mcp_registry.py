@@ -47,7 +47,7 @@ def test_external_source_has_no_tei_url():
 
 
 def test_sources_for_kind_filters():
-    """PERSON sources include the biographical registers; fulltext only EOS."""
+    """PERSON sources include the biographical registers; fulltext EOS and KF (#812)."""
     person_sources = {s.name for s in reg.sources_for_kind("person")}
     assert {"hbls", "hls", "kf"} <= person_sources
     fulltext_sources = {s.name for s in reg.sources_for_kind("fulltext")}

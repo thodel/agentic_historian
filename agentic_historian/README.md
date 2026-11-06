@@ -755,6 +755,33 @@ checked is that each quote stands verbatim in the passage it names. Measuring
 the bindings is the job of a historian's review (Gate 4 in the SPIRE
 comparison), not of another model.
 
+### The first live run (#812)
+
+Everything above is tested offline against recorded federation answers; what
+no offline test can say is whether `gpt-oss-120b` keeps to the binding format.
+On tei, as `dh` (the CLI reads `.env.gpustack`, not the service's env file, and
+publishes nothing without `--publish`):
+
+```bash
+cd /home/dh/agentic_historian/agentic_historian
+.venv/bin/python -c "import passage_index; print(passage_index.passage_count(), 'passages indexed')"
+.venv/bin/python -m agentic_historian ask "Wie wird Almosen in den Königsfelder Urkunden begründet?" --from 1300 --to 1499
+```
+
+The command prints where the answer went, then the lines to read first:
+
+| line | expect | if not |
+|---|---|---|
+| `searches` | `ok` for `fulltext` (KF and EOS answer *elemosina*, *spital*, *almosen*) | `failed` naming `kf`: the tei KF server has no `search_fulltext` after all — take `fulltext` out of its `kinds` |
+| `searches` for `passages` | `ok`, or `failed — Der Passagen-Index ist leer` | an empty index is a gap, not an error: the edition text still answers |
+| `rejected` | few, and no single reason dominating | many `quote not in the cited passage`: the model normalises or expands what it copies (KF snippets interleave abbreviation and expansion, `un̄ und`) — a prompt change or a decision about normalised matches, never a silent fuzzy accept. Many `unknown id`: it invents ids — number the passages instead |
+| `incomplete` | absent | `no plan`: read `audit.json` → `audit.events`; a plan that does not parse usually means `ARGUMENT_CALL_MAX_TOKENS` is too small for the reasoning model |
+| `cost` | a handful of calls, well under `ARGUMENT_MAX_TOKENS` | the budget line in `answer.md` names the skipped stage |
+
+Then `answer.md` itself: does each claim follow from its quotes? That reading
+is the measurement this run is for. `/ask` in Discord comes after — it publishes
+whenever `ENABLE_GITHUB_PUBLISH` is on.
+
 ## Models
 
 Model registry lives in the sibling repo **serving-atr-inference**:

@@ -57,6 +57,12 @@ class TextHit(BaseModel):
     doc_id: str
     snippet: str
     score: float = 0.0
+    #: What the source says about the document, when it says it (#812): KF
+    #: and EOS both send a ``year``, KF a shelfmark ``title`` ("StAAG
+    #: U.17/0289"), EOS a ``dossier_id``. Dropping them made every edition
+    #: passage undated to a period check.
+    year: Optional[str] = None
+    title: Optional[str] = None
 
 
 class FederatedResult(BaseModel):
@@ -259,6 +265,10 @@ async def _call_tool(source: reg.MCPSource, tool: str, arguments: dict) -> Any:
     return _unwrap_tool_result(result)
 
 
+def _str_or_none(v: Any) -> Optional[str]:
+    return str(v) if v not in (None, "") else None
+
+
 def _items(raw: Any) -> list[dict]:
     """Coerce a tool result into a list of record dicts."""
     if isinstance(raw, list):
@@ -386,7 +396,10 @@ async def search_fulltext(
                 TextHit(source=s.name,
                         doc_id=str(r.get("doc_id") or r.get("id") or ""),
                         snippet=str(r.get("snippet") or r.get("text") or ""),
-                        score=float(r.get("score") or 0.0))
+                        score=float(r.get("score") or 0.0),
+                        year=_str_or_none(r.get("year") or r.get("date")),
+                        title=_str_or_none(r.get("title") or r.get("short_id")
+                                           or r.get("dossier_id")))
                 for r in _items(raw)
             ]
         except Exception:
