@@ -3,7 +3,7 @@
 # `agentic_historian`, reads only its own secrets file, and is confined to its
 # two data directories.
 #
-# Today it runs as `dh` — the user the OpenClaw agent runs as — so each process
+# Until 23.10.2026 it ran as `dh` — the user the OpenClaw agent ran as — so each process
 # can read the other's secrets, and no file mode helps while the reader owns the
 # file. This script does the switch in the one order that works and then
 # *measures* whether it took, rather than reporting its own intentions.
@@ -28,7 +28,7 @@
 # (SEPARATION.md, S1). The bot's name is `agentic_historian`.
 #
 # What it does NOT do, on purpose:
-#   * it does not touch the OpenClaw agent, its files or its service;
+#   * it does not touch the dh-bot agent (Hermes as `hermes` since 06.11.2026; OpenClaw as `dh` before), its files or its service;
 #   * it does not make the checkout or the venv writable for the new user —
 #     `/update` reports and no longer pulls (#567), so the deploy runs from
 #     outside as whoever owns the checkout;
@@ -197,9 +197,9 @@ fi
 # and is the report, not a reason to abort.
 "$VENV_PY" "$REPO/deploy/systemd/check_separation.py" --secrets "$ENV_FILE" || true
 say ""
-say "Name the OpenClaw credentials to answer the Definition of Done:"
-say "  deploy/systemd/check_separation.py --openclaw-secrets <path>"
+say "Name the agent's credentials to answer the Definition of Done:"
+say "  deploy/systemd/check_separation.py --agent-secrets /home/hermes/.hermes/.env"
 say ""
 say "Then rotate what both processes handled while they shared a user — the keys"
-say "copied out of .env.gpustack are still readable there by the OpenClaw agent"
+say "copied out of .env.gpustack are still readable there by whatever runs as dh"
 say "until they are replaced (SEPARATION.md, #567 item 4)."

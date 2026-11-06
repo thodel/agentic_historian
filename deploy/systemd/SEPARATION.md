@@ -1,5 +1,12 @@
 # Separating the bot from the OpenClaw agent (S1 #566, S2 #567, S3 #568)
 
+> **Stand 06.11.2026:** der Agent ist nicht mehr OpenClaw. `dh-bot` läuft als
+> Hermes unter dem eigenen Benutzer `hermes` (#803, Cut-over #802); OpenClaw ist
+> aus. Was unten steht, ist die Trennung, wie sie gemessen wurde, und bleibt als
+> Historie stehen; die Grenze zwischen den zwei Bots von heute steht in
+> [`docs/BOTS.md`](../../docs/BOTS.md), der Checker heisst jetzt
+> `check_separation.py --agent-secrets /home/hermes/.hermes/.env`.
+
 Part of the separation epic #565. The Historian bot and the OpenClaw agent
 `dh-bot` both run on `tei` as user `dh` and read the same `.env.gpustack` — which
 holds the OpenClaw agent's mail / calendar / SSH credentials that the bot never
@@ -376,7 +383,8 @@ Repo-Zustand:
 - [x] `check_separation.py --openclaw-secrets /home/dh/.openclaw/openclaw.json`
       answers `ok` — 0600 dh, and the service runs as `agentic_historian`. **23.10.2026.**
 - [ ] Every secret that lived in the shared `.env.gpustack` rotated, the new value
-      in `/etc/agentic_historian.env` only.
+      in `/etc/agentic_historian.env` only — tracked as #802 step 7 since the
+      agent moved; nothing but the CLI reads `.env.gpustack` now.
 
 ## S3 — the OpenClaw home is no longer in this repo (#568)
 
@@ -431,10 +439,12 @@ git archive --prefix=openclaw-workspace/ "${rm_commit}^" workspace | tar -x -C /
 - [x] No OpenClaw home file is tracked in this repository (`test_ah_568`).
 - [x] The bot imports, starts and deploys without `workspace/` (`standalone` CI job).
 - [x] The env template and the two planning documents are still findable.
-- [ ] The agent's workspace on tei lives outside the bot checkout, and OpenClaw
-      is pointed at it — a host action, done before the deploy above.
-- [ ] The OpenClaw agent has its own repository (optional; the archive recipe
-      above seeds it).
+- [x] The agent's workspace on tei lives outside the bot checkout — since
+      04.11.2026 it is `/home/hermes/dh-bot` (Hermes); OpenClaw's workspace under
+      `/home/dh/.openclaw` stops mattering with the agent (06.11.2026, #802).
+- [x] The agent has its own place in a repository: `deploy/hermes/` here (skills,
+      scripts, config templates, the SOUL building block — #803), not a repo of
+      its own; the archive recipe above is for the OpenClaw files only.
 
 ## S1 — the bot's own Discord application and token (#566)
 

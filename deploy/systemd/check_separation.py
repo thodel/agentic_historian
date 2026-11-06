@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""Is the separation from the OpenClaw agent actually in force? (#567)
+"""Is the separation from the dh-bot agent actually in force? (#567)
 
     sudo deploy/systemd/check_separation.py
-    deploy/systemd/check_separation.py --openclaw-secrets /home/dh/.openclaw/credentials.json
+    deploy/systemd/check_separation.py --agent-secrets /home/hermes/.hermes/.env
+
+The agent was OpenClaw (as ``dh``) until 06.11.2026 and is Hermes (as
+``hermes``) since (#803); ``--openclaw-secrets`` still works as an alias.
     deploy/systemd/check_separation.py --json
 
 #567's Definition of Done is a statement about a **running host**: "the bot
-process cannot read the OpenClaw credentials, runs hardened under systemd, and
+process cannot read the agent's credentials, runs hardened under systemd, and
 writes only into its data directory". Nothing checked it, and that is not a
 small gap — #567 and #571 were both closed with the repo side marked ✅ while
 **none** of it was in force on tei: no hardening drop-in installed, no
@@ -22,8 +25,8 @@ Three values per row, as in ``bot.security_posture``
 ---------------------------------------------------
 ``True`` holds, ``False`` does not, and ``None`` means **not measured here** —
 never "probably fine". Two rows are routinely ``None`` and say why: where the
-OpenClaw credentials live is host knowledge (name it with
-``--openclaw-secrets``), and ``ProtectHome`` cannot apply while the checkout
+agent's credentials live is host knowledge (name it with
+``--agent-secrets``), and ``ProtectHome`` cannot apply while the checkout
 itself is under ``/home``.
 
 The exit code counts only the rows that were measured: a host where nothing
@@ -120,7 +123,7 @@ def _group_name(gid: int) -> str:
 
 
 def posture(properties: dict[str, str] | None, *, secret_files=(),
-            openclaw_secrets: Path | None = None, stat=os.stat) -> list[Row]:
+            agent_secrets: Path | None = None, stat=os.stat) -> list[Row]:
     """The rows #567's three items come down to, measured where possible."""
     rows: list[Row] = []
 
@@ -135,10 +138,10 @@ def posture(properties: dict[str, str] | None, *, secret_files=(),
     # ── item 3: a user of its own ───────────────────────────────────────────
     rows.append((
         f"User= ({service_user})", service_user not in ("", "root", "dh"),
-        "ein eigener Benutzer — die Secrets des OpenClaw-Agenten liegen damit "
+        "ein eigener Benutzer — die Secrets des Agenten liegen damit "
         "ausserhalb seiner Reichweite" if service_user not in ("", "root", "dh")
         else f"läuft als {service_user!r}, demselben Benutzer wie der "
-             "OpenClaw-Agent: beide lesen die Secrets des anderen (Punkt 3)"))
+             "Agent: beide lesen die Secrets des anderen (Punkt 3)"))
 
     # ── item 2: the hardening, as systemd reports it ────────────────────────
     for name, wanted in REQUIRED.items():
@@ -199,20 +202,20 @@ def posture(properties: dict[str, str] | None, *, secret_files=(),
         rows.append((f"{path} ({oct(mode)}, {owner}:{group})", ok, why))
 
     # ── the Definition of Done itself ───────────────────────────────────────
-    if openclaw_secrets is None:
-        rows.append(("OpenClaw-Credentials erreichbar?", None,
+    if agent_secrets is None:
+        rows.append(("Agent-Credentials erreichbar?", None,
                      "nicht geprüft: wo sie liegen, ist Host-Wissen — mit "
-                     "--openclaw-secrets <pfad> wird daraus eine Messung"))
+                     "--agent-secrets <pfad> wird daraus eine Messung"))
     else:
-        measured = _mode_of(Path(openclaw_secrets), stat=stat)
+        measured = _mode_of(Path(agent_secrets), stat=stat)
         if measured is None:
-            rows.append((f"OpenClaw-Credentials ({openclaw_secrets})", None,
+            rows.append((f"Agent-Credentials ({agent_secrets})", None,
                          "Pfad nicht lesbar von hier — existiert er?"))
         else:
             mode, uid, _gid = measured
             owner = _user_name(uid)
             reachable = bool(mode & 0o077) or owner == service_user
-            rows.append((f"OpenClaw-Credentials ({oct(mode)}, {owner})", not reachable,
+            rows.append((f"Agent-Credentials ({oct(mode)}, {owner})", not reachable,
                          "für den Bot-Benutzer unerreichbar — das ist die "
                          "Definition of Done" if not reachable else
                          f"der Bot läuft als {service_user!r} und die Datei gehört "
@@ -237,14 +240,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--unit", default=UNIT)
     parser.add_argument("--secrets", type=Path, action="append", default=None,
                         help="an env file the bot reads; repeatable")
-    parser.add_argument("--openclaw-secrets", type=Path, default=None,
-                        help="where the OpenClaw agent keeps its credentials")
+    parser.add_argument("--agent-secrets", "--openclaw-secrets", dest="agent_secrets",
+                        type=Path, default=None,
+                        help="where the dh-bot agent keeps its credentials "
+                             "(Hermes: /home/hermes/.hermes/.env; the old flag is an alias)")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
 
     secrets = args.secrets if args.secrets is not None else _default_secret_files()
     rows = posture(unit_properties(args.unit), secret_files=secrets,
-                   openclaw_secrets=args.openclaw_secrets)
+                   agent_secrets=args.agent_secrets)
     held, failed, unmeasured = verdict(rows)
 
     if args.json:
@@ -254,7 +259,7 @@ def main(argv: list[str] | None = None) -> int:
                           "held": held, "failed": failed, "unmeasured": unmeasured},
                          indent=2, ensure_ascii=False))
     else:
-        print(f"Trennung vom OpenClaw-Agenten, Unit {args.unit} (#567)\n")
+        print(f"Trennung vom dh-bot-Agenten, Unit {args.unit} (#567)\n")
         for line in format_rows(rows):
             print("  " + line)
         print(f"\n{held} erfüllt, {failed} nicht erfüllt, {unmeasured} nicht gemessen.")
