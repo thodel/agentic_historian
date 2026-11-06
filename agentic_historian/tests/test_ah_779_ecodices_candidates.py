@@ -83,7 +83,23 @@ def _get(calls=None):
 def test_ids_come_from_oai_across_resumption_tokens():
     assert ec.list_ids_oai(_get()) == sorted(VOLUMES)
     assert ec.vol_id_of("oai:e-codices.unifr.ch:saa-0428") == "saa-0428"
-    assert ec.vol_id_of("https://e-codices.ch/en/list/one/csg/1072") is None
+    assert ec.vol_id_of("https://e-codices.ch/en/list/one/csg/1072") == "csg-1072"
+
+
+def test_ids_are_read_from_e_codices_record_urls():
+    """The identifiers e-codices actually sends (OAI, 6.11.2026)."""
+    url = "oai:e-codices.ch:https://www.e-codices.ch/en/list/one/{}"
+    assert ec.vol_id_of(url.format("bpun/A0021")) == "bpun-a0021"
+    assert ec.vol_id_of(url.format("csg/0001")) == "csg-0001"
+    assert ec.vol_id_of(url.format("saa/0428/")) == "saa-0428"
+    assert ec.vol_id_of(url.format("ubb/AN-I-0008")) == "ubb-an-i-0008"
+    assert ec.vol_id_of("oai:e-codices.ch:https://www.e-codices.ch/en/list/stibe") is None, \
+        "a shelfmark alone is no id (the first run asked for an-i-0008 and got 400)"
+    page = ('<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/"><ListIdentifiers>'
+            + "".join(f"<header><identifier>{url.format(t)}</identifier><setSpec>x</setSpec></header>"
+                      for t in ("bpun/A0021", "bpun/A0001", "csg/0001"))
+            + '<resumptionToken completeListSize="3" cursor="0"/></ListIdentifiers></OAI-PMH>')
+    assert ec.list_ids_oai(lambda u: page.encode()) == ["bpun-a0001", "bpun-a0021", "csg-0001"]
 
 
 def test_an_oai_error_is_said_not_swallowed():
