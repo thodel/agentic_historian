@@ -2149,7 +2149,14 @@ def ask_cmd(args) -> int:
     print(f"answer    : {out / 'answer.md'}")
     print(f"claims    : {len(res.claims)} supported, "
           f"{len(res.rejected_claims)} rejected")
+    from collections import Counter
+    reasons = Counter(b.reason for c in res.claims + res.rejected_claims
+                      for b in c.bindings if not b.ok)
+    if reasons:
+        print("rejected  : " + "; ".join(f"{r} ×{n}" for r, n in reasons.most_common()))
     print(f"evidence  : {len(res.pool)} found, {len(res.sampled)} shown")
+    by_status = Counter(c["status"] for c in res.coverage)
+    print("searches  : " + ", ".join(f"{k} {v}" for k, v in sorted(by_status.items())))
     print(f"cost      : {len(res.audit.calls)} call(s), {res.audit.tokens} tokens")
     if not res.complete:
         print("incomplete: " + (res.audit.stopped_because

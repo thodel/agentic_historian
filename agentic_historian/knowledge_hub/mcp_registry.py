@@ -146,7 +146,11 @@ SOURCES: tuple[MCPSource, ...] = (
     MCPSource(
         name="kf",
         title="KF — Königsfelden register",
-        kinds=("person", "place"),
+        # fulltext since #812: the server's search_fulltext answers with the
+        # edition's transcriptions (shelfmark, year, snippet), checked against
+        # it on 2026-11-06. HLS has hls_search_fulltext too and is left out on
+        # purpose: a lexicon is secondary literature, not a source to quote.
+        kinds=("person", "place", "fulltext"),
         path="kf",
         authority=False,
         transport="http",   # streamable-HTTP server (nginx rewrites /mcp/kf → /mcp)
