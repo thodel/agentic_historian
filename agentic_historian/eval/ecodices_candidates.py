@@ -45,14 +45,30 @@ from xml.etree import ElementTree as ET
 
 OAI_URL = "https://www.e-codices.unifr.ch/oai/oai.php"
 OAI = "{http://www.openarchives.org/OAI/2.0/}"
-ID_RE = re.compile(r"^[a-z]{2,6}-[0-9a-z][0-9a-z_.-]*$")
+ID_RE = re.compile(r"^[a-z]{2,12}-[0-9a-z][0-9a-z_.-]*$")
+LIST_ONE_RE = re.compile(r"/list/one/([A-Za-z]{2,12})/([^/?#]+)/?(?:[?#].*)?$")
 MUST = ("saa-0428",)
 PREFER = ("saa",)
 
 
 def vol_id_of(identifier: str) -> str | None:
-    """``oai:e-codices.unifr.ch:saa-0428`` (or a URL ending in it) → ``saa-0428``."""
-    tail = re.split(r"[:/]", (identifier or "").strip().rstrip("/"))[-1].lower()
+    """A volume id from an OAI identifier.
+
+    e-codices names records by their page (6.11.2026):
+    ``oai:e-codices.ch:https://www.e-codices.ch/en/list/one/csg/0001`` →
+    ``csg-0001`` (library, then shelfmark, lowercased). A bare id at the end
+    (``oai:…:saa-0428``) is taken as it is. Anything else is None — never the
+    shelfmark alone, which is not an id (the first run asked for ``an-i-0008``
+    and got 400).
+    """
+    ident = (identifier or "").strip()
+    m = LIST_ONE_RE.search(ident)
+    if m:
+        vid = f"{m.group(1)}-{m.group(2)}".lower()
+        return vid if ID_RE.match(vid) else None
+    if "/list/" in ident:
+        return None
+    tail = ident.rstrip("/").rsplit(":", 1)[-1].lower()
     return tail if ID_RE.match(tail) else None
 
 

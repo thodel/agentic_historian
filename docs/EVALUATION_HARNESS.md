@@ -341,6 +341,12 @@ between requests (default 1, a global option before the subcommand), retries on
 429/5xx with `Retry-After` or 5/20/60 s, and `candidates` stops after
 `--max-failures` unreadable volumes in a row. What was read stays cached, so a
 second run continues. 300 volumes take about ten minutes this way.
+
+**What OAI calls a volume.** e-codices' OAI-PMH (3107 records, 6.11.2026)
+names each record by its page, `oai:e-codices.ch:https://www.e-codices.ch/en/list/one/csg/0001`;
+the volume id is library and shelfmark, `csg-0001`. The first runs took the
+shelfmark alone (`an-i-0008`), which is no id: 400 from e-codices, and 503 once
+the stream of bad requests went on.
 Check the parser against two or three
 descriptions read by hand before trusting a report. The offline fixtures are
 synthetic, so the first `fetch` is where the parser first meets real files.
