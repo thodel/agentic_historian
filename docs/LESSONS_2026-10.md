@@ -1718,9 +1718,56 @@ des Empfängers oder seinen Wohnsitz in die letzten Zeilen eines Briefes
 schreibt, ist die Seite zu prüfen, bevor sie in ein Register geht. Mit der
 CER misst man das nicht. Man braucht dafür einen Blick auf die Stellen, an
 denen die Lesungen auseinandergehen, hier die Unterschrift, und eine
-Lesung ohne Sprachmodell daneben. Die Karte des Qwen-Modells auf Hugging
-Face nennt alle vier Fälle; die olmOCR-Karte noch keinen. Geprüft sind nur
-die 29 Thurgauer Seiten, nicht die übrigen 195 Transkribus-Seiten.
+Lesung ohne Sprachmodell daneben. Beide Modellkarten auf Hugging Face nennen
+ihre vier Fälle und verweisen auf die des anderen Modells.
+
+**Die übrigen 195 Seiten** (nachgetragen am 6. November). Mit dem
+Briefregister (`michaelscho/lassberg`, `correspDesc`) habe ich die übrigen
+Transkribus-Seiten nach Absender geteilt und die Schlüsse in beiden
+Lesungen gegen kraken gelesen:
+
+| Gruppe | Seiten | falscher Schluss Qwen | falscher Schluss olmOCR |
+|---|---:|---:|---:|
+| Wackernagel an Laßberg | 68 | 0 | 0 |
+| nicht im Register (fast alles Briefe Laßbergs an Zellweger, Hartmann u. a.) | 89 | 0 | 0 |
+| Laßberg als Absender | 38 | nicht prüfbar | nicht prüfbar |
+
+Auf Laßbergs eigenen Briefen steht sein Name zu Recht am Schluss; eine
+Ersetzung lässt sich dort nicht erkennen. Wo die Modelle auf den
+unregistrierten Seiten Laßberg schreiben, hat kraken an derselben Stelle eine
+Form seines Namens („Jouphevon Lakberg“, „IvLaszberg“). Unklar bleiben drei
+Stellen, an denen kraken nichts Lesbares hat: eine Empfangsnotiz unter der
+Unterschrift (Appenzell 1257), Aarau 1810 und St. Gallen 230_1; dafür
+braucht es das Bild. Der falsche Schluss ist also auf die Thurgauer
+Pupikofer-Briefe beschränkt, deren Hand die Modelle nicht kennen.
+Wackernagels und Laßbergs Hände lesen sie gut genug, um die Unterschrift zu
+treffen.
+
+Im **Brieftext** dagegen tun sie es auch hier. Fünf Seiten habe ich selbst
+gegen kraken gelesen:
+
+| Seite | Modell | Modell schreibt | kraken liest |
+|---|---|---|---|
+| St. Gallen 254_1 (Laßberg an Hartmann, 1832) | beide | „die arbeit für H. von Laszberg“ / „Hr. von Lasperg“ | „für Hr. von n Tuppin“ (Lupin) |
+| UB Freiburg 2326 (Laßberg, 1842) | Qwen | „Herr Meersburg hatte … vertrag“, „welchen Meersburg als hofmeister“ | „Herr Schücking“, „Schühing“ |
+| UB Freiburg 2902 (Laßberg, 1850) | olmOCR | „werke des Hr Oberst von Lassberg“, „Oberst von Lassher“ | „von Etgger“, „Efger“ (Elgger) |
+| Basel 1729, S. 146 (Wackernagel an Laßberg, 1833) | Qwen | „als ich in Eppishausen war“ | „Göllingen“ (olmOCR: „Göttingen“) |
+| Weimar GSA 96/1743, S. 4 (Laßberg an Leonhard, 1838) | Qwen | unterschreibt „Haxthaus“ | „Makberg“ (olmOCR: „JvLaszberg“) |
+
+Auf 254_1 machen beide Modelle zum ersten Mal denselben Fehler auf derselben
+Seite: Laßberg schreibt dort scheinbar über eine Arbeit für sich selbst. In
+Weimar läuft es umgekehrt: Qwen ersetzt Laßbergs eigene Unterschrift durch
+„Haxthaus“, den Namen der Familie seiner Schwiegermutter. Die Schlüsse sind auf allen Seiten
+gelesen, der Brieftext nicht überall vollständig; die fünf Seiten sind eine
+Untergrenze, keine Zählung.
+
+Die Regel aus dem vorigen Absatz ist damit zu eng. Nicht nur in der
+Unterschrift, sondern überall im Text setzen beide Modelle für einen
+Personen- oder Ortsnamen, den sie nicht sicher lesen, gern Laßberg,
+Eppishausen oder Meersburg ein, auch in Briefen, die Laßberg selbst
+geschrieben hat. Für ein Personen- oder Ortsregister heisst das: **Jeder
+Treffer auf Laßberg, Eppishausen oder Meersburg in einer Lesung der
+Seitenmodelle ist mit kraken oder dem Bild abzugleichen.**
 
 ## What held up
 
