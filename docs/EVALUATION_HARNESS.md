@@ -333,6 +333,14 @@ round-robin over centuries, several catalogued hands before one before unstated.
 `saa-0428` (#375) is always in. The choice is deterministic. The OAI base URL is
 e-codices' documented one but unverified from here (no cloud access): if it
 answers otherwise, `--oai-url` or `--ids-file` (one id per line) route around it.
+
+**A guest on the library's server.** The first run (6.11.2026) fired 300
+manifest requests back to back; e-codices answered all but the first with 503
+or 400. Every request now goes through `PoliteGetter`: `--delay` seconds
+between requests (default 1, a global option before the subcommand), retries on
+429/5xx with `Retry-After` or 5/20/60 s, and `candidates` stops after
+`--max-failures` unreadable volumes in a row. What was read stays cached, so a
+second run continues. 300 volumes take about ten minutes this way.
 Check the parser against two or three
 descriptions read by hand before trusting a report. The offline fixtures are
 synthetic, so the first `fetch` is where the parser first meets real files.
