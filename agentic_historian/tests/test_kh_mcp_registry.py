@@ -95,6 +95,20 @@ def test_repointing_base_url_moves_all_tei_sources(monkeypatch):
     """
     import config
     monkeypatch.setattr(config, "MCP_BASE_URL", "https://staging.example/mcp")
-    assert reg.get_source("hls").url == "https://staging.example/mcp/hls"
+    assert reg.get_source("hls").url == "https://staging.example/mcp/hls/mcp"
     # external source is unaffected
     assert reg.get_source("wikidata").url == ""
+
+
+def test_every_tei_source_is_streamable_http_at_its_mcp_path():
+    """Since #800 every source on tei answers at /mcp/<name>/mcp; /mcp/<name>
+    is a landing page (302). Agent F's first run on tei found eos, kf, hbls and
+    hls still at the old paths (#812)."""
+    for s in reg.list_sources(include_external=False):
+        assert s.transport == "http", s.name
+        assert s.url.endswith(f"/mcp/{s.name}/mcp"), s.url
+
+
+def test_only_hls_needs_basic_auth():
+    needs = {s.name: s.basic_auth_config for s in reg.SOURCES if s.basic_auth_config}
+    assert needs == {"hls": "HLS_BASIC"}

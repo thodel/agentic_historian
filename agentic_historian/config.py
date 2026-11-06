@@ -329,6 +329,10 @@ SOURCE_URL_BASE = _get("SOURCE_URL_BASE", "").rstrip("/")
 MCP_BASE_URL = _get("MCP_BASE_URL", "https://tei.dh.unibe.ch/mcp").rstrip("/")
 # Per-request timeout (seconds) when querying an MCP source.
 MCP_TIMEOUT = float(_get("MCP_TIMEOUT", "15"))
+# HTTP Basic for the HLS MCP (mcp-hls on idhefix behind tei's nginx): base64 of
+# "user:pass", the same value dh-bot keeps as HLS_BASIC in ~/.hermes/.env (#800).
+# Unset, the hls source fails closed with this name instead of retrying a 401.
+HLS_BASIC = _get("HLS_BASIC", "")
 # Agent C links PERSON entities via the MCP federation (#92). When the
 # federation is unreachable it degrades gracefully to the local hub chain.
 ENABLE_MCP_LINKING = _get("ENABLE_MCP_LINKING", "true").lower() == "true"
