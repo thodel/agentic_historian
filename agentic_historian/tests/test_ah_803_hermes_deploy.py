@@ -250,7 +250,8 @@ def test_the_digest_skill_calls_the_script_it_ships():
 def test_the_queue_skill_keeps_the_protocol_rules():
     text = (BUNDLE / "skills" / "dh-bot-queue" / "SKILL.md").read_text()
     for rule in ("Teil von #", "500 changed lines", "never `git add -A`", "claude/",
-                 "No merge, no approve", "--remove-label dh-bot", "Hand-back"):
+                 "No merge, no approve", "--remove-label dh-bot", "Hand-back",
+                 "including one that sits in `done` or `failed`", "Push only the branch you open the PR"):
         assert rule in text, rule
     assert "/home/dh" not in text, "the worker must not know the production checkouts"
 
@@ -270,7 +271,8 @@ def test_the_cron_run_keeps_deny_mode_and_allows_exactly_what_the_worker_needs()
     import yaml
     cfg = yaml.safe_load((BUNDLE / "config.yaml.example").read_text())
     assert cfg["approvals"]["cron_mode"] == "deny"
-    assert cfg["command_allowlist"] == ["script execution via heredoc", "git branch force delete"]
+    assert cfg["command_allowlist"] == ["script execution via heredoc",
+                                        "script execution via -e/-c flag", "git branch force delete"]
     atr = cfg["mcp_servers"]["atr"]
     assert atr["auth"] == "oauth"
     include = atr["tools"]["include"]                      # the documented key; include_tools is ignored

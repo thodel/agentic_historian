@@ -69,9 +69,10 @@ this out, so:
 
 - **`terminal` only.** `execute_code` is blocked in cron sessions; do not try it.
 - Write files, the state included, through the terminal with a heredoc
-  (`cat > "${DHBOT_STATE}" <<'EOF' … EOF`): the operator's `command_allowlist`
-  carries `script execution via heredoc` and `git branch force delete` for
-  you. `write_file` refuses to overwrite an existing file.
+  (`cat > "${DHBOT_STATE}" <<'EOF' … EOF`) or `python3 -c`: the operator's
+  `command_allowlist` carries `script execution via heredoc`, `script
+  execution via -e/-c flag` and `git branch force delete` for you.
+  `write_file` refuses to overwrite an existing file.
 - Everything else the approval system blocks (`rm -r`, `systemctl`, `sh -c`,
   pipes into a shell) stays blocked: there is nobody to ask in a cron run, and
   the answer would be no. Find a path without it, or hand the task back.
@@ -99,7 +100,11 @@ exist. Write it back after every state change, not only at the end.
    **exit silently.**
 2. Scan the nine repositories for open issues labelled `dh-bot`
    (`gh issue list --repo thodel/<r> --label dh-bot --state open --json number,title,createdAt`).
-   Enqueue every issue not already in `queue`, `done` or `failed`.
+   Enqueue every labelled issue that is not already in `queue` or `active` —
+   **including one that sits in `done` or `failed`**: the label is the human's
+   "try again" (a rejected PR, the next part of a split issue), and a state
+   file that remembers the first attempt must not swallow the second. Record
+   the retry (`"attempt": 2`) and drop the old entry from `done`/`failed`.
 3. If the queue is empty: exit.
 4. Pop the head of the queue into `active`.
 5. If a PR for that issue already exists (`gh pr list --repo … --search "Teil von #N"`,
@@ -114,14 +119,20 @@ exist. Write it back after every state change, not only at the end.
     a checkout that holds data takes it along (a 3.4 MB harvest database once
     landed in ch-h-bot PR #442 that way). Commit: `fix(dh-bot) #<N>: <title>`.
 11. `git push -u origin HEAD`, then `gh pr create --repo … --base main --title "…" --body-file -`
-    with the body below. Not a draft.
+    with the body below. Not a draft. **Push only the branch you open the PR
+    for.** The repositories open a draft PR for every pushed branch without one
+    (`draft-pr` workflow) — pushing the next parts of a split issue "for later"
+    produced two drafts on 06.11.2026 (serving#260, #261) that nobody asked for
+    and that block `gh pr create` on those branches later. Further parts stay
+    local until their turn, or go into the issue comment as a plan.
 12. State: `active` → `done`, with the PR URL.
 13. **Strip the label at once:** `gh issue edit <N> --repo … --remove-label dh-bot`.
     The label means "waiting for the bot", not "the bot may try again";
     leaving it on is how agentic_historian#395 collected four PRs in one day.
     A human puts it back if the PR is rejected.
 14. Report (this is the delivered output): `Issue #N in <repo>: **title** → <PR_URL>`.
-15. Finish. The next scheduled run takes the next item. Do not schedule
+15. Leave the clone on `main` (`git checkout main`), so the next run starts
+    clean. Finish. The next scheduled run takes the next item. Do not schedule
     anything; cron sessions cannot create cron jobs.
 
 On any failure in 6–11: `active` → `failed` with the error, restore the clone
