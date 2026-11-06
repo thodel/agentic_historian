@@ -366,7 +366,15 @@ class KnowledgeHub:
 
 # Singleton + module-level convenience API (Agent C calls hub.search_person(...)).
 # All access goes through get_store() so the backend is swappable (#26).
-_hub = KnowledgeHub()
+#
+# Built on first use, not at import (#812). Constructing it reads and seeds
+# hub.json under a lock file; `knowledge_hub/__init__` imports this module, so
+# importing anything in the package — `mcp_registry` for a full-text search —
+# took that lock. On tei the file belongs to the service user, and every
+# federation search the CLI ran as `dh` died on `Permission denied:
+# .hub.json.lock` before it reached the network.
+_hub: "KnowledgeHub | None" = None
+_hub_guard = threading.Lock()
 
 
 def get_store() -> "HubStore":
@@ -374,8 +382,13 @@ def get_store() -> "HubStore":
     JSON). Swap seam (#26): a QLEVER triple-store backend (WP4) implements
     ``HubStore`` and is selected here — agents and the ``hub.*`` helpers below
     are unchanged."""
+    global _hub
     backend = getattr(config, "KH_BACKEND", "json")
     if backend == "json":
+        if _hub is None:
+            with _hub_guard:
+                if _hub is None:
+                    _hub = KnowledgeHub()
         return _hub
     raise ValueError(f"unknown KH_BACKEND {backend!r} (known: 'json')")
 

@@ -92,7 +92,23 @@ _ADDED_COLUMNS = {
     # reading of every row written before the column existed and of every
     # caller that does not know. It is not "no holding".
     "bestand": "TEXT",
+    # In the first schema, and still missing from the database on tei
+    # (06.11.2026: `no such column: gnd_id` on the first Agent F run, #812) —
+    # whatever built that file, a row without them is a row nobody linked.
+    "gnd_id": "TEXT",
+    "hls_id": "TEXT",
 }
+
+#: The columns `query_passages` returns, in order.
+_ROW_COLUMNS = (
+    "id", "doc_id", "page", "bestand", "entity_type", "text", "normalised",
+    "char_start", "char_end", "context",
+    "hub_id", "gnd_id", "hls_id", "created_at",
+)
+
+
+def _columns(db: sqlite3.Connection) -> set[str]:
+    return {row[1] for row in db.execute("PRAGMA table_info(passages)")}
 
 
 def _add_missing_columns(db: sqlite3.Connection) -> None:
@@ -107,11 +123,19 @@ def _add_missing_columns(db: sqlite3.Connection) -> None:
     column would need the rows read, and this is the wrong place to be clever
     about a corpus somebody spent hours filling.
     """
-    have = {row[1] for row in db.execute("PRAGMA table_info(passages)")}
+    have = _columns(db)
     for name, decl in _ADDED_COLUMNS.items():
         if name in have:
             continue
-        db.execute(f"ALTER TABLE passages ADD COLUMN {name} {decl}")
+        try:
+            db.execute(f"ALTER TABLE passages ADD COLUMN {name} {decl}")
+        except sqlite3.OperationalError as e:
+            # A reader without write access — the CLI as `dh` on a database
+            # the service owns. Reading must still work: `query_passages`
+            # reads only the columns that exist (#812).
+            logger.warning(f"[passage_index] cannot add column {name} ({e}); "
+                           f"rows are read without it")
+            continue
         logger.info(f"[passage_index] added column {name} {decl}")
 
 
@@ -213,21 +237,18 @@ def query_passages(
     where_sql = ("WHERE " + " AND ".join(where_parts)) if where_parts else ""
     params["limit"] = limit
     params["offset"] = offset
+    # Only the columns the file has: one the migration could not add reads
+    # as None rather than failing the whole query (#812).
+    have = _columns(db)
+    select = ", ".join(c if c in have else f"NULL AS {c}" for c in _ROW_COLUMNS)
     sql = (
-        "SELECT id, doc_id, page, bestand, entity_type, text, normalised,"
-        "       char_start, char_end, context,"
-        "       hub_id, gnd_id, hls_id, created_at"
+        f"SELECT {select}"
         " FROM passages " + where_sql +
         " ORDER BY doc_id, char_start, id"
         " LIMIT :limit OFFSET :offset"
     )
     rows = db.execute(sql, params).fetchall()
-    cols = [
-        "id", "doc_id", "page", "bestand", "entity_type", "text", "normalised",
-        "char_start", "char_end", "context",
-        "hub_id", "gnd_id", "hls_id", "created_at",
-    ]
-    return [dict(zip(cols, r)) for r in rows]
+    return [dict(zip(_ROW_COLUMNS, r)) for r in rows]
 
 
 def passage_count(doc_id: str | None = None) -> int:
