@@ -68,6 +68,9 @@ class MCPSource:
     tool_map: dict = field(default_factory=dict)
     adapter: Optional[Callable] = None
     notes: str = ""
+    #: What a reader of this holding's text needs to know, given to the model
+    #: beside its passages (#812: "littera abbatisse" was read as an abbot's).
+    context: str = ""
     basic_auth_config: Optional[str] = None
     #: The tool that returns one whole document, its id argument, and the
     #: field holding the text (#812): Agent F reads a passage in its document
@@ -132,6 +135,9 @@ SOURCES: tuple[MCPSource, ...] = (
         path="eos/mcp",
         transport="http",
         document_tool="get_document",
+        context=("Historisches Grundbuch Basel: Auszüge aus Basler Zins-, "
+                 "Kauf- und Gerichtsquellen zu Häusern, 15.–17. Jh.; \"Almosen\" "
+                 "ist dort meist das städtische Almosenamt, eine Institution."),
         authority=False,
         # eos exposes search_persons but names full-text search `search_text`
         # (verified via tools/list 2026-07-06); no get_person.
@@ -179,6 +185,11 @@ SOURCES: tuple[MCPSource, ...] = (
         transport="http",
         document_tool="get_entry",
         document_arg="entry_id",
+        context=("Kloster Königsfelden (Aargau), 1309 von den Habsburgern "
+                 "gestiftet: ein Doppelkloster aus Klarissen unter einer Äbtissin "
+                 "(abbatissa) und Franziskanern unter einem Guardian; Königin Agnes "
+                 "von Ungarn als Stifterin. Rückvermerke (Dorsualnotizen) stehen am "
+                 "Ende des Texts."),
         notes="Königsfelden persons, places, register entries.",
     ),
     MCPSource(

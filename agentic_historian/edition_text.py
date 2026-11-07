@@ -45,7 +45,7 @@ import re
 import unicodedata
 from dataclasses import dataclass
 
-__all__ = ["ReadingLayer", "locate", "reading_layer"]
+__all__ = ["ReadingLayer", "locate", "reading_layer", "search_variants"]
 
 #: Letters that stand for an abbreviation and decompose to nothing useful;
 #: mapped to the letter they abbreviate from, or to "" when they carry none.
@@ -155,3 +155,32 @@ def locate(quote: str, layer: ReadingLayer, original: str) -> list[tuple[int, in
         spans.append((start, end))
         i = hay.find(q, i + 1)
     return spans
+
+
+# ── search: the edition's spelling of a normalised word ──────────────────────
+
+#: Superscript vowels the edition writes as combining letters: ``uͦ`` (u with
+#: o above, for "uo"), ``uͤ``/``oͤ``/``aͤ`` (e above, for "ue"/"oe"/"ae" and the
+#: umlauts). A model searches "almuosen"; the edition writes ``almuͦsen`` and
+#: the full-text search does not fold one into the other — 0 hits against 5 on
+#: 07.11.2026, among them the charters that answered the question (#812).
+_DIGRAPHS = (("uo", "u\u0366"), ("ue", "u\u0364"), ("oe", "o\u0364"), ("ae", "a\u0364"))
+_UMLAUTS = (("ü", "u\u0364"), ("ö", "o\u0364"), ("ä", "a\u0364"))
+
+
+def search_variants(term: str) -> list[str]:
+    """``term`` and the edition's spellings of it, the term first, no repeats.
+
+    One variant per rule set (digraphs, umlauts), each applied to every
+    occurrence — a few searches, not every combination.
+    """
+    term = unicodedata.normalize("NFC", (term or "").strip())
+    if not term:
+        return []
+    out = [term]
+    for rules in (_DIGRAPHS, _UMLAUTS):
+        v = term
+        for plain, edition in rules:
+            v = v.replace(plain, edition)
+        out.append(v)
+    return list(dict.fromkeys(out))
