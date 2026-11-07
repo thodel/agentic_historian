@@ -245,3 +245,22 @@ def test_run_shows_the_first_written_page_not_the_cover(tmp_path):
     seen.clear()
     eb.run(spread, describe=describe, runs=1, pages="spread", get=get)
     assert all(int(n[5:9]) in range(2, 8) for n in seen[0][0]), seen
+
+
+def test_the_publication_year_comes_from_the_edition_when_e_codices_gives_no_other():
+    """e-codices' TEI (saa-0428, 7.11.2026): no publicationStmt/date, but the
+    editionStmt dates the conversion to TEI."""
+    xml = b'''<TEI xmlns="http://www.tei-c.org/ns/1.0"><teiHeader><fileDesc>
+      <titleStmt><title>K\xc3\xb6nigsfelder Kopialbuch I</title></titleStmt>
+      <editionStmt><edition>Elektronische Version nach TEI P5.1</edition>
+        <respStmt><resp>Konvertierung nach TEI: <persName>R. P.</persName>
+          <date when="2008-03-22">22.03.2008</date></resp></respStmt></editionStmt>
+      <publicationStmt><publisher>e-codices</publisher>
+        <availability status="restricted" n="cc-by">
+          <licence target="http://creativecommons.org/licenses/by/3.0/"><p>CC BY 3.0</p></licence>
+        </availability></publicationStmt>
+      <sourceDesc><msDesc><msIdentifier><idno>AA/0428</idno></msIdentifier></msDesc></sourceDesc>
+    </fileDesc></teiHeader></TEI>'''
+    ref = eb.parse_tei(xml, "saa-0428")
+    assert ref.published == "2008-03-22"
+    assert ref.licence == "http://creativecommons.org/licenses/by/3.0/"

@@ -140,6 +140,10 @@ def parse_tei(data: bytes, vol_id: str) -> Reference:
         ref.licence = (lic.get("target") if lic is not None and lic.get("target")
                        else _text(lic) or avail.get("status"))
     pub = root.find(f".//{TEI}publicationStmt/{TEI}date")
+    if pub is None:
+        # e-codices gives no publicationStmt/date; its editionStmt dates the
+        # conversion to TEI (saa-0428: 2008-03-22) — online at least since then.
+        pub = root.find(f".//{TEI}editionStmt//{TEI}date")
     if pub is not None:
         ref.published = pub.get("when") or _text(pub)
     ms = root.find(f".//{TEI}msDesc")
