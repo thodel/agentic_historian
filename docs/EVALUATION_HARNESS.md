@@ -347,6 +347,20 @@ names each record by its page, `oai:e-codices.ch:https://www.e-codices.ch/en/lis
 the volume id is library and shelfmark, `csg-0001`. The first runs took the
 shelfmark alone (`an-i-0008`), which is no id: 400 from e-codices, and 503 once
 the stream of bad requests went on.
+
+**The binding is no page.** e-codices puts the binding first: canvas 0 was
+"Front cover" on 29 of the first 30 volumes (7.11.2026), so `--pages first`
+showed Agent B a book cover. `text_indices` drops canvases whose label names the
+binding (cover, spine, edges, pastedowns, colour chart; German and French
+labels too) before any page is picked, for `run` and for
+`hand_consistency validate` alike. Without labels, every canvas counts.
+
+**The leaf on a dark ground.** e-codices photographs each leaf on a dark ground,
+often with a colour chart. Otsu over the whole photograph separated leaf from
+ground, so line finding saw nothing on 21 of 30 volumes. `hand_consistency.ink_mask`
+now finds the leaf first (the longest band of mostly bright rows, then
+columns, when the image border is dark) and thresholds ink within it; a scan
+cropped to the leaf, as ours are, is unchanged.
 Check the parser against two or three
 descriptions read by hand before trusting a report. The offline fixtures are
 synthetic, so the first `fetch` is where the parser first meets real files.

@@ -423,16 +423,29 @@ def score(bench_dir: Path) -> tuple[list[VolumeScore], str]:
 
 # ── fetch and run: on tei ────────────────────────────────────────────────────
 
-def canvases(manifest: dict) -> list[str]:
-    """Image URLs of a IIIF Presentation 2 or 3 manifest, in page order, at ≤1600 px."""
-    urls = []
+def _label(label) -> str:
+    """A IIIF label as text: v2 string or ``{"@value"}`` list, v3 language map."""
+    if isinstance(label, str):
+        return label
+    if isinstance(label, dict):
+        return " ".join(str(v) for vals in label.values()
+                        for v in (vals if isinstance(vals, list) else [vals]))
+    if isinstance(label, list):
+        return " ".join(_label(x.get("@value") if isinstance(x, dict) else x) for x in label)
+    return ""
+
+
+def canvas_entries(manifest: dict) -> list[tuple[str, str]]:
+    """``(image URL at ≤1600 px, canvas label)`` of a IIIF 2 or 3 manifest, in page order."""
+    out = []
     for seq in manifest.get("sequences") or []:                       # v2
         for canvas in seq.get("canvases") or []:
             for image in canvas.get("images") or []:
                 service = (image.get("resource") or {}).get("service") or {}
                 sid = service.get("@id") or service.get("id")
                 if sid:
-                    urls.append(f"{sid.rstrip('/')}/full/!1600,1600/0/default.jpg")
+                    out.append((f"{sid.rstrip('/')}/full/!1600,1600/0/default.jpg",
+                                _label(canvas.get("label"))))
     for canvas in manifest.get("items") or []:                         # v3
         for page in canvas.get("items") or []:
             for anno in page.get("items") or []:
@@ -440,8 +453,35 @@ def canvases(manifest: dict) -> list[str]:
                 services = body.get("service") or []
                 sid = (services[0].get("id") or services[0].get("@id")) if services else None
                 if sid:
-                    urls.append(f"{sid.rstrip('/')}/full/!1600,1600/0/default.jpg")
-    return urls
+                    out.append((f"{sid.rstrip('/')}/full/!1600,1600/0/default.jpg",
+                                _label(canvas.get("label"))))
+    return out
+
+
+def canvases(manifest: dict) -> list[str]:
+    """Image URLs of a IIIF Presentation 2 or 3 manifest, in page order, at ≤1600 px."""
+    return [url for url, _ in canvas_entries(manifest)]
+
+
+#: Canvas labels that name the binding, not a written page. e-codices puts the
+#: front cover first (29 of 30 volumes, 6.11.2026), so "page 1" was the cover.
+NOT_TEXT = re.compile(
+    r"\b(?:(?:front|back|upper|lower|inside\s+(?:front|back))\s+cover|cover|binding|spine|"
+    r"(?:head|tail|fore|front|top|bottom)[\s-]*edge|edges?|pastedown|"
+    r"colou?r\s*(?:chart|checker|card)|scale|ruler|"
+    r"(?:vorder|rück|rueck|hinter)deckel|einband|buchrücken|rücken|schnitt|spiegel|farbkarte|"
+    r"reliure|plat\s+(?:supérieur|inférieur)|contre-?plat|dos|tranche)\b",
+    re.IGNORECASE)
+
+
+def text_indices(manifest: dict) -> list[int]:
+    """Indices of the canvases that are written pages, not the binding.
+
+    Falls back to every canvas when the labels leave none (or there are none).
+    """
+    entries = canvas_entries(manifest)
+    idx = [i for i, (_, label) in enumerate(entries) if not NOT_TEXT.search(label or "")]
+    return idx or list(range(len(entries)))
 
 
 def tei_url(manifest: dict) -> Optional[str]:
@@ -499,7 +539,9 @@ def run(bench_dir: Path, *, describe: Callable[[str, list, int], dict], runs: in
     import page_sample
 
     for vdir in sorted(p for p in bench_dir.iterdir() if (p / "tei.xml").exists()):
-        urls = canvases(json.loads((vdir / "manifest.json").read_text(encoding="utf-8")))
+        manifest = json.loads((vdir / "manifest.json").read_text(encoding="utf-8"))
+        urls = canvases(manifest)
+        text = text_indices(manifest)          # the binding is no page to describe
 
         def page(i: int, vdir=vdir, urls=urls) -> Path:
             path = vdir / f"page-{i:04d}.jpg"
@@ -513,12 +555,13 @@ def run(bench_dir: Path, *, describe: Callable[[str, list, int], dict], runs: in
 
             if features is None:
                 from page_features import image_features as features
-            chosen = page_sample.choose(len(urls), config.AGENT_B_PAGES, "typical",
-                                        features=lambda i: features(page(i)))
+            chosen = [(text[j], role) for j, role in page_sample.choose(
+                len(text), config.AGENT_B_PAGES, "typical",
+                features=lambda j, text=text: features(page(text[j])))]
             images = [page(i) for i, _ in chosen]
             roles = {page(i).name: role for i, role in chosen if role != page_sample.SAMPLE}
         else:
-            images = [page(i) for i in pick_pages(len(urls), pages)]
+            images = [page(text[j]) for j in pick_pages(len(text), pages)]
         (vdir / "runs").mkdir(exist_ok=True)
         for r in range(runs):
             out = vdir / "runs" / f"{r:02d}.json"

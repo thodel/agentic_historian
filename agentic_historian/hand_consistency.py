@@ -88,8 +88,71 @@ def otsu(gray: np.ndarray) -> int:
     return int(np.argmax(between))
 
 
+#: A page whose "ink" covers more than this is blank parchment split by noise,
+#: or an illumination — not writing. Text pages measured 5–20 %.
+MAX_INK_FRACTION = 0.35
+#: Inset from the found page edge, against the shadow along the edge.
+PAGE_INSET = 0.03
+
+
+def _longest_run(mask: np.ndarray) -> tuple[int, int]:
+    """``(start, end)`` of the longest run of True in a 1-d mask; (0, 0) if none."""
+    best, start = (0, 0), None
+    for i, v in enumerate(np.append(mask, False)):
+        if v and start is None:
+            start = i
+        elif not v and start is not None:
+            if i - start > best[1] - best[0]:
+                best = (start, i)
+            start = None
+    return best
+
+
+def page_region(g: np.ndarray) -> tuple[int, int, int, int]:
+    """``(x0, y0, x1, y1)`` of the written surface within a photograph.
+
+    e-codices photographs the leaf on a dark ground, often with a colour chart
+    (6.11.2026: the first validation found no lines on 21 of 30 volumes, because
+    Otsu over the whole image split leaf from ground, not ink from leaf). The
+    leaf is the longest band of rows, then of columns, that are mostly bright;
+    inset by ``PAGE_INSET``. An image whose border is mostly bright (a scan
+    cropped to the leaf, as ours are) is its own page.
+    """
+    h, w = g.shape
+    bright = g > otsu(g)
+    b = max(2, min(h, w) // 50)                # is there a ground? the image's border says
+    border = np.concatenate([bright[:b].ravel(), bright[-b:].ravel(),
+                             bright[:, :b].ravel(), bright[:, -b:].ravel()])
+    if border.mean() > 0.5:
+        return 0, 0, w, h
+    y0, y1 = _longest_run(bright.mean(axis=1) > 0.5)
+    if y1 - y0 < 0.3 * h:
+        return 0, 0, w, h
+    x0, x1 = _longest_run(bright[y0:y1].mean(axis=0) > 0.5)
+    if x1 - x0 < 0.3 * w:
+        return 0, 0, w, h
+    dy, dx = int((y1 - y0) * PAGE_INSET), int((x1 - x0) * PAGE_INSET)
+    return x0 + dx, y0 + dy, x1 - dx, y1 - dy
+
+
+def ink_mask(g: np.ndarray) -> np.ndarray:
+    """Boolean ink mask of a grey image, same shape: Otsu within the leaf only.
+
+    Outside the leaf is never ink. A leaf whose "ink" exceeds
+    ``MAX_INK_FRACTION`` gives an empty mask (blank, or a picture).
+    """
+    x0, y0, x1, y1 = page_region(g)
+    sub = g[y0:y1, x0:x1]
+    ink = np.zeros(g.shape, dtype=bool)
+    if sub.size:
+        m = sub <= otsu(sub)
+        if m.mean() <= MAX_INK_FRACTION:
+            ink[y0:y1, x0:x1] = m
+    return ink
+
+
 def load_ink(path: str | Path) -> np.ndarray:
-    """The page as a boolean ink mask (ink = at or below Otsu's threshold)."""
+    """The page as a boolean ink mask (``ink_mask``: the leaf found, then Otsu in it)."""
     from PIL import Image
 
     with Image.open(path) as im:
@@ -97,7 +160,7 @@ def load_ink(path: str | Path) -> np.ndarray:
         if im.width > MAX_WIDTH:
             im = im.resize((MAX_WIDTH, max(1, round(im.height * MAX_WIDTH / im.width))))
         g = np.asarray(im, dtype=np.uint8)
-    return g <= otsu(g)
+    return ink_mask(g)
 
 
 def find_lines(ink: np.ndarray, min_height: int = 6) -> list[tuple[int, int, int, int]]:
@@ -552,9 +615,11 @@ def validate(bench_dir: Path, pages: int = 30, get=None) -> list[dict]:
     rows = []
     for vdir in sorted(p for p in bench_dir.iterdir() if (p / "tei.xml").exists()):
         ref = eb.parse_tei((vdir / "tei.xml").read_bytes(), vdir.name)
-        urls = eb.canvases(json.loads((vdir / "manifest.json").read_text(encoding="utf-8")))
+        manifest = json.loads((vdir / "manifest.json").read_text(encoding="utf-8"))
+        urls = eb.canvases(manifest)
+        text = eb.text_indices(manifest)       # covers and edges are no hand
         files = []
-        for i in page_sample.spread(len(urls), min(pages, len(urls))):
+        for i in (text[j] for j in page_sample.spread(len(text), min(pages, len(text)))):
             path = vdir / f"page-{i:04d}.jpg"
             if not path.exists():
                 if get is None:
