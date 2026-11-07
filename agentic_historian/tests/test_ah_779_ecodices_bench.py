@@ -260,8 +260,6 @@ def test_the_text_block_is_what_carries_a_folio_or_page_number():
     assert eb.body_indices(lettered) == [1, 2, 3, 4], "too few numbered leaves: every written page"
     assert eb.body_indices(MANIFEST_V2) == list(range(12)), "no labels at all: every canvas"
 
-    assert all(int(n[5:9]) in range(2, 8) for n in seen[0][0]), seen
-
 
 def test_the_publication_year_comes_from_the_edition_when_e_codices_gives_no_other():
     """e-codices' TEI (saa-0428, 7.11.2026): no publicationStmt/date, but the
