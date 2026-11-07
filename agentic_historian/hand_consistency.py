@@ -617,7 +617,7 @@ def validate(bench_dir: Path, pages: int = 30, get=None) -> list[dict]:
         ref = eb.parse_tei((vdir / "tei.xml").read_bytes(), vdir.name)
         manifest = json.loads((vdir / "manifest.json").read_text(encoding="utf-8"))
         urls = eb.canvases(manifest)
-        text = eb.text_indices(manifest)       # covers and edges are no hand
+        text = eb.body_indices(manifest)       # covers and flyleaves are no hand of the volume
         files = []
         for i in (text[j] for j in page_sample.spread(len(text), min(pages, len(text)))):
             path = vdir / f"page-{i:04d}.jpg"

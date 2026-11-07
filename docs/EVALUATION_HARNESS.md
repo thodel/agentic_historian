@@ -355,6 +355,14 @@ binding (cover, spine, edges, pastedowns, colour chart; German and French
 labels too) before any page is picked, for `run` and for
 `hand_consistency validate` alike. Without labels, every canvas counts.
 
+**Nor are the flyleaves.** The run on the text pages (7.11.2026) still met
+endleaves: rebound parchment codices have paper flyleaves with a librarian's
+note, and Agent B read "Papier", "Kurrent", "19. Jh." for Carolingian volumes;
+the hand's changepoints clustered at the front of the volume. `body_indices`
+keeps the canvases whose label is a folio or page number (`1r`, `p. 3`,
+`f. 1r`, `S. 5`); lettered and roman flyleaves drop out. When fewer than half
+the written pages carry such a number, every written page counts.
+
 **The leaf on a dark ground.** e-codices photographs each leaf on a dark ground,
 often with a colour chart. Otsu over the whole photograph separated leaf from
 ground, so line finding saw nothing on 21 of 30 volumes. `hand_consistency.ink_mask`
