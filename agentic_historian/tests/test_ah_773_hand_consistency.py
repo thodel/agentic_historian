@@ -152,3 +152,37 @@ def test_validation_table_names_the_decision():
              "changepoint_ratio": 1.9, "changepoint_page": "p07", "outliers": 1, "typical": "p02"}]
     table = hc.format_validation(rows)
     assert "| a | 1 | 10 |" in table and "0.5 (n=1)" in table and "#777/#778 fall away" in table
+
+
+# ── the leaf on a dark ground (e-codices; 6.11.2026 no lines on 21 of 30 volumes) ──
+
+def _photographed(g: np.ndarray, pad: int = 120) -> np.ndarray:
+    """The page as e-codices shows it: on a dark ground, with a colour chart beside it."""
+    h, w = g.shape
+    out = np.full((h + 2 * pad, w + 2 * pad + 160), 25, dtype=np.uint8)
+    out[pad:pad + h, pad:pad + w] = g
+    for k in range(8):                                  # the chart: patches from white to black
+        y = pad + k * (h // 8)
+        out[y:y + h // 8 - 6, w + 2 * pad + 20:w + 2 * pad + 140] = 255 - k * 32
+    return out
+
+
+def test_the_leaf_is_found_on_a_dark_ground_and_its_lines_read():
+    g = _page("A", 3, lines=7)
+    photo = _photographed(g)
+    assert hc.find_lines(photo <= hc.otsu(photo)) != hc.find_lines(_ink(g)), \
+        "Otsu over the whole photograph splits leaf from ground"
+    x0, y0, x1, y1 = hc.page_region(photo)
+    assert 120 <= x0 < 160 and 120 <= y0 < 160 and x1 <= 120 + g.shape[1] and y1 <= 120 + g.shape[0]
+    assert len(hc.find_lines(hc.ink_mask(photo))) == 7
+    f = hc.page_features(hc.ink_mask(photo))
+    assert f is not None and f.lines == 7
+
+
+def test_a_blank_leaf_gives_no_ink_and_a_plain_page_stays_as_it_was():
+    rnd = np.random.default_rng(0)
+    blank = np.clip(rnd.normal(225, 6, (500, 400)), 0, 255).astype(np.uint8)
+    assert not hc.ink_mask(_photographed(blank)).any()
+    g = _page("B", 4)
+    assert hc.page_region(g) == (0, 0, g.shape[1], g.shape[0])
+    assert len(hc.find_lines(hc.ink_mask(g))) == len(hc.find_lines(_ink(g)))

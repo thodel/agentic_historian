@@ -196,3 +196,52 @@ def test_the_bench_calls_agent_bs_real_image_only_path(tmp_path, monkeypatch):
     img.write_bytes(b"\xff\xd8\xff")
     result = eb._agent_b_image_only("saa-x-r0", str(img), 12)
     assert result["source_json"]["Schrift"]["wert"] == "Bastarda"
+
+
+# ── the binding is no page (6.11.2026: canvas 0 was "Front cover" on 29 of 30) ──
+
+MANIFEST_COVERS = {"seeAlso": "https://e-codices.ch/xml/tei_published/x_CMDCH.xml",
+                   "sequences": [{"canvases": [
+                       {"label": lab,
+                        "images": [{"resource": {"service": {"@id": f"https://img/x/{i}"}}}]}
+                       for i, lab in enumerate(["Front cover", "Inside front cover", "A", "1r", "1v",
+                                                "2r", "2v", "3r", "Inside back cover",
+                                                "Back cover", "Spine", "Front edge"])]}]}
+
+
+def test_covers_spine_and_edges_are_not_pages():
+    assert eb.text_indices(MANIFEST_COVERS) == [2, 3, 4, 5, 6, 7]
+    assert eb.text_indices(MANIFEST_V2) == list(range(12)), "no labels: every canvas"
+    for lab in ("Vorderdeckel", "Rückdeckel", "Spiegel", "Colour chart", "Plat supérieur", "Dos"):
+        assert eb.NOT_TEXT.search(lab), lab
+    for lab in ("1r", "p. 1", "A", "Fol. 12v", "Dossier 3", "Coversheet of letter 4", "Spieglein"):
+        assert not eb.NOT_TEXT.search(lab), lab
+    v3 = {"items": [{"label": {"en": ["Front cover"]}, "items": [{"items": [
+        {"body": {"service": [{"id": "https://img/y/0"}]}}]}]},
+        {"label": {"none": ["1r"]}, "items": [{"items": [
+            {"body": {"service": [{"id": "https://img/y/1"}]}}]}]}]}
+    assert eb.text_indices(v3) == [1]
+
+
+def test_run_shows_the_first_written_page_not_the_cover(tmp_path):
+    def get(url):
+        if url.endswith("manifest.json"):
+            return json.dumps(MANIFEST_COVERS).encode()
+        if url.endswith(".xml"):
+            return _tei("paper-two-hands")
+        return b"\xff\xd8\xff"
+
+    assert eb.fetch(["saa-x"], tmp_path, get=get) == ["saa-x"]
+    seen = []
+
+    def describe(doc_id, images, page_count):
+        seen.append(([Path(i).name for i in images], page_count))
+        return {"source_json": _sj("Bastarda")}
+
+    eb.run(tmp_path, describe=describe, runs=1, get=get)
+    assert seen == [(["page-0002.jpg"], 12)], "the first written leaf; the volume still has 12 canvases"
+    spread = tmp_path / "spread"
+    eb.fetch(["saa-x"], spread, get=get)
+    seen.clear()
+    eb.run(spread, describe=describe, runs=1, pages="spread", get=get)
+    assert all(int(n[5:9]) in range(2, 8) for n in seen[0][0]), seen
