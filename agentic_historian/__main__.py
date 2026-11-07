@@ -2179,6 +2179,10 @@ def ask_cmd(args) -> int:
                       for b in c.bindings if not b.ok)
     if reasons:
         print("rejected  : " + "; ".join(f"{r} ×{n}" for r, n in reasons.most_common()))
+    layers = Counter(b.layer for c in res.claims for b in c.bindings if b.ok)
+    if layers:
+        print("quotes    : " + ", ".join(f"{n} {k}" for k, n in sorted(layers.items()))
+              + " (reading = matched in the edition's resolved layer)")
     print(f"evidence  : {len(res.pool)} found, {len(res.sampled)} shown")
     by_status = Counter(c["status"] for c in res.coverage)
     print("searches  : " + ", ".join(f"{k} {v}" for k, v in sorted(by_status.items())))
