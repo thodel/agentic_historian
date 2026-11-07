@@ -61,6 +61,7 @@ from pathlib import Path
 from loguru import logger
 
 import config
+import edition_text
 import evidence as ev
 
 __all__ = [
@@ -162,6 +163,9 @@ class Plan:
     period: dict | None = None          # {"from": 1300, "to": 1399}
     languages: list[str] = field(default_factory=list)
     from_model: bool = True             # False: the fallback plan, said so
+    #: A holding the question names ("Königsfelder Urkunden" → kf), as the
+    #: model read it; used as the filter when the caller set none (#812).
+    bestand: str | None = None
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -173,6 +177,11 @@ class Binding:
     quote: str
     ok: bool = False
     reason: str = ""                    # why a binding was rejected
+    #: "literal" — the quote stands as written in the passage; "reading" — it
+    #: stands in the passage's expanded reading layer, and ``source_span`` is
+    #: the edition's own characters for it, both layers (#812).
+    layer: str = ""
+    source_span: str = ""
 
 
 @dataclass
@@ -263,12 +272,24 @@ _PLAN_PROMPT = """Forschungsfrage: {question}
 
 Zerlege die Frage in 2 bis 4 Teilfragen. Gib zu jeder Teilfrage bis zu drei
 Suchbegriffe in der Sprache und Schreibung der Quellen (frühneuhochdeutsch,
-mittelhochdeutsch oder lateinisch, z. B. "almuosen", "elemosina"). Nenne den
-Zeitraum der Frage in Jahren, falls sie einen hat, und die Quellsprachen.
+mittelhochdeutsch oder lateinisch, z. B. "almuosen", "elemosina") — einzelne
+Wörter, keine Suchoperatoren. Nenne den Zeitraum der Frage in Jahren, falls sie
+einen hat, und die Quellsprachen. Nennt die Frage einen dieser Bestände, gib
+seine Kennung an, sonst null:
+{holdings}
 
 {{"subquestions": [{{"text": "...", "terms": ["..."]}}],
  "period": {{"from": 1300, "to": 1399}} oder null,
- "languages": ["de", "la"]}}"""
+ "languages": ["de", "la"],
+ "bestand": "kf" oder null}}"""
+
+
+def _holdings() -> dict[str, str]:
+    """The holdings a question can name: the federation's full-text sources."""
+    from knowledge_hub import mcp_registry as reg
+
+    return {s.name: s.title for s in reg.sources_for_kind("fulltext")
+            if not s.external}
 
 
 def _year(v) -> int | None:
@@ -284,8 +305,11 @@ def plan(question: str, *, llm: LLM, audit: Audit,
     """Sub-questions and search terms. A plan the model fails to give falls
     back to the question itself as the only sub-question, marked as such."""
     try:
-        data = _call(llm, audit, "plan", _PLAN_PROMPT.format(question=question),
-                     _PLAN_SYSTEM)
+        holdings = _holdings()
+        data = _call(llm, audit, "plan", _PLAN_PROMPT.format(
+            question=question,
+            holdings="\n".join(f"- {k}: {v}" for k, v in sorted(holdings.items()))),
+            _PLAN_SYSTEM)
     except BudgetExhausted:
         raise
     except (ValueError, TypeError) as e:
@@ -310,9 +334,15 @@ def plan(question: str, *, llm: LLM, audit: Audit,
     if p and _year(p.get("from")) and _year(p.get("to")):
         model_period = {"from": _year(p["from"]), "to": _year(p["to"])}
     langs = [str(x) for x in (data.get("languages") or []) if str(x).strip()]
+    named = str(data.get("bestand") or "").strip().lower() or None
+    if named and named not in holdings:
+        audit.events.append(f"plan: the model named holding {named!r}, which is "
+                            "not one of the federation's; ignored")
+        named = None
     # A period the caller set is a filter; the model's is a reading of the
     # question. The caller's wins.
-    return Plan(question, subs, period=period or model_period, languages=langs)
+    return Plan(question, subs, period=period or model_period, languages=langs,
+                bestand=named)
 
 
 # ── 2. retrieve ──────────────────────────────────────────────────────────────
@@ -337,6 +367,11 @@ def own_passages(query: str, *, bestand: str | None = None,
                             "scored_by": hit.scored_by}
             items.append(it)
     if not items and not found.hits:
+        if found.indexed and not found.candidates:
+            # The index has passages, none in the holding asked: that is an
+            # empty answer, not a failed search (#812: ten such "failures"
+            # marked a Königsfelden-only answer incomplete).
+            return []
         raise LookupError(found.why_empty() or "no passages")
     return items
 
@@ -427,6 +462,116 @@ def _load_state(doc_id: str):
         return None
 
 
+# ── 3b. context: the passage in its document ─────────────────────────────────
+
+#: ``fetch(source, doc_id) -> text | None``; raising is a recorded gap.
+DocumentFetch = Callable[[str, str], "str | None"]
+
+
+def fetch_document(source: str, doc_id: str) -> str | None:
+    """The whole text of one edition document, from its federation source."""
+    import asyncio
+
+    from utils import mcp_client
+
+    return asyncio.run(mcp_client.get_document_text(source, doc_id))
+
+
+def _find_in(snippet: str, full: str) -> tuple[int, int] | None:
+    """Where a search snippet stands in its document: exactly, else with the
+    whitespace between its words loosened. ``None`` when it does not."""
+    core = snippet.strip().strip("…").strip()
+    if not core:
+        return None
+    i = full.find(core)
+    if i != -1:
+        return i, i + len(core)
+    words = core.split()
+    if not words:
+        return None
+    m = re.search(r"\s+".join(re.escape(w) for w in words), full)
+    return (m.start(), m.end()) if m else None
+
+
+def _window(full: str, start: int, end: int, chars: int) -> str:
+    """``chars`` on each side of ``[start, end)``, cut at whitespace, marked."""
+    a, b = max(0, start - chars), min(len(full), end + chars)
+    if a > 0:
+        sp = full.find(" ", a)
+        a = sp + 1 if 0 <= sp < start else a
+    if b < len(full):
+        sp = full.rfind(" ", end, b)
+        b = sp if sp > end else b
+    return ("…" if a > 0 else "") + full[a:b].strip() + ("…" if b < len(full) else "")
+
+
+def expand_context(ids: list[str], pool: dict, *, audit: Audit,
+                   fetch: DocumentFetch | None = None,
+                   cache: dict | None = None,
+                   chars: int | None = None) -> list[str]:
+    """Replace each sampled edition passage by a window of its whole document.
+
+    A search snippet is ~200 characters; on the first run on tei that was too
+    little to tell a dating formula or an endorsement from the text of a
+    charter. For sources with a document tool (KF ``get_entry``, EOS
+    ``get_document``) the snippet is located in the document and a window of
+    ``ARGUMENT_CONTEXT_CHARS`` on each side becomes the passage — a new
+    evidence item, carrying the old one's retrieval record, in the pool and in
+    the sample. A document that cannot be fetched, or a snippet that does not
+    stand in it, leaves the snippet as it was and says so in the audit.
+    """
+    from knowledge_hub import mcp_registry as reg
+
+    fetch = fetch or fetch_document
+    cache = {} if cache is None else cache
+    chars = config.ARGUMENT_CONTEXT_CHARS if chars is None else chars
+    out = []
+    for eid in ids:
+        it = pool.get(eid)
+        source = (it.reading or {}).get("model_id") if it is not None else None
+        if (it is None or it.reading.get("status") != ev.EDITION
+                or (it.retrieval or {}).get("context") == "document"):
+            out.append(eid)
+            continue
+        try:
+            has_tool = bool(reg.get_source(source).document_tool)
+        except KeyError:
+            has_tool = False
+        if not has_tool:
+            out.append(eid)
+            continue
+        key = (source, it.doc_id)
+        try:
+            if key not in cache:
+                cache[key] = fetch(source, it.doc_id)
+            full = cache[key]
+        except Exception as e:                # noqa: BLE001 — a gap, recorded
+            cache[key] = None
+            audit.events.append(f"context: {source} {it.doc_id} not fetched ({e})"[:300])
+            out.append(eid)
+            continue
+        if not full:
+            audit.events.append(f"context: {source} {it.doc_id}: no document "
+                                "text; the snippet stands")
+            out.append(eid)
+            continue
+        hit = _find_in(it.quote, full)
+        if hit is None:
+            audit.events.append(f"context: {source} {it.doc_id}: snippet not found "
+                                "in the document; the snippet stands")
+            out.append(eid)
+            continue
+        new = ev.edition_item(source, it.doc_id, _window(full, *hit, chars),
+                              datierung=it.source.get("datierung"),
+                              title=it.source.get("title"), url=it.catalogue_url)
+        new.retrieval = {**(it.retrieval or {}), "context": "document",
+                         "snippet_id": eid}
+        pool.pop(eid, None)
+        pool.setdefault(new.evidence_id, new)
+        out.append(new.evidence_id)
+    return list(dict.fromkeys(out))
+
+
 DEFAULT_RETRIEVERS: dict[str, Retriever] = {
     "passages": own_passages,
     "fulltext": federation_fulltext,
@@ -444,11 +589,15 @@ def retrieve(queries: list[dict], *, retrievers: dict[str, Retriever],
     Every call leaves a row in ``coverage`` — including the failed ones.
     """
     added = 0
+    asked = {(c["retriever"], c["query"].casefold()) for c in coverage}
     for q in queries:
         for name, fn in retrievers.items():
             asks = ([q["text"]] if name != "fulltext"
                     else (q.get("terms") or [q["text"]]))
             for query in asks:
+                if (name, query.casefold()) in asked:
+                    continue                  # the same search, already in coverage
+                asked.add((name, query.casefold()))
                 row = {"subquestion": q["id"], "retriever": name, "query": query}
                 try:
                     items = fn(query, bestand=bestand, limit=limit) or []
@@ -562,10 +711,20 @@ Passagen (Kennung, Herkunft, Text):
 
 Beantworte die Frage in Behauptungen. Jede Behauptung stützt sich auf mindestens
 eine Passage. Für jede Stütze gibst du die Kennung und ein wörtliches Zitat aus
-genau dieser Passage an — Zeichen für Zeichen, in der Sprache und Schreibung der
-Quelle, ohne Übersetzung, Normalisierung oder Auslassung. Übersetzen darfst du in
-der Behauptung, nie im Zitat. Behaupte nichts, was keine Passage trägt. Eine
-Zusammenfassung verweist auf Behauptungen als [1], [2], … und zitiert nicht.
+genau dem angezeigten Text dieser Passage an — Zeichen für Zeichen, in der
+Sprache und Schreibung der Quelle, ohne Übersetzung, Normalisierung oder
+Auslassung. Übersetzen darfst du in der Behauptung, nie im Zitat.
+
+Behaupte nur, was das Zitat selbst sagt:
+- Schreibe einer Quelle keinen Zweck und kein Motiv zu ("um … zu"), den sie
+  nicht selbst nennt.
+- Eine Datierungsformel ist ein Datum, kein Inhalt: "nach Misericordia",
+  "Invocavit", "an sant Agten abende" nennen einen Tag, keine Barmherzigkeit.
+- Zeigt eine Passage etwas anderes als gefragt (etwa wie etwas finanziert,
+  nicht wie es begründet wird), sag das so, statt es passend zu machen.
+- Achte auf den Bestand jeder Passage und schreibe einem Bestand nichts zu,
+  was aus einem anderen stammt.
+Eine Zusammenfassung verweist auf Behauptungen als [1], [2], … und zitiert nicht.
 
 {{"claims": [{{"claim": "...", "evidence": [{{"id": "ev-…", "quote": "..."}}]}}],
  "summary": "..."}}"""
@@ -593,8 +752,11 @@ def _describe(it) -> str:
 
 
 def _passages_block(items: list) -> str:
-    return "\n\n".join(f"[{it.evidence_id}] ({_describe(it)})\n{it.quote}"
-                       for it in items)
+    """The passages as the model sees them: edition text in its reading layer
+    (abbreviations resolved, #812), everything else as stored."""
+    return "\n\n".join(
+        f"[{it.evidence_id}] ({_describe(it)})\n{it.reading_text or it.quote}"
+        for it in items)
 
 
 def check_bindings(raw_claims: list, pool: dict,
@@ -603,7 +765,10 @@ def check_bindings(raw_claims: list, pool: dict,
 
     A binding is accepted only when its id names an item the model was shown
     (``allowed``, default the whole pool) and its quote is a verbatim substring
-    of that item's quote. A rejected binding carries its reason:
+    of that item's quote — or, for edition text, of its reading layer, apart
+    from whitespace (``edition_text.locate``; the binding then records
+    ``layer="reading"`` and the edition's own characters as ``source_span``).
+    A rejected binding carries its reason:
 
     * ``unknown id`` — no such item
     * ``not shown`` — an item from the pool the model was not given
@@ -634,7 +799,12 @@ def check_bindings(raw_claims: list, pool: dict,
             elif not quote.strip():
                 bd.reason = "empty quote"
             elif quote in item.quote:
-                bd.ok = True
+                bd.ok, bd.layer = True, "literal"
+            elif item.reading_text is not None and (
+                    spans := edition_text.locate(
+                        quote, edition_text.reading_layer(item.quote), item.quote)):
+                start, end = spans[0]
+                bd.ok, bd.layer, bd.source_span = True, "reading", item.quote[start:end]
             else:
                 elsewhere = next((k for k in sorted(allowed)
                                   if k != eid and k in pool and quote in pool[k].quote),
@@ -736,6 +906,7 @@ def ask(question: str, *, bestand: str | None = None,
         llm: LLM | None = None, retrievers: dict[str, Retriever] | None = None,
         max_tokens: int | None = None, max_calls: int | None = None,
         max_rounds: int | None = None, sample_size: int | None = None,
+        fetch: DocumentFetch | None = None,
         now: str | None = None) -> Result:
     """Answer ``question`` from evidence. Never raises for a model or retriever
     failure: what could not be done is in the result."""
@@ -765,14 +936,24 @@ def ask(question: str, *, bestand: str | None = None,
         p = Plan(question, [{"id": "q1", "text": question, "terms": []}],
                  period=period, from_model=False)
 
+    # A holding the caller set is a filter; one the question names is used
+    # when the caller set none, and said (#812: "Königsfelder Urkunden" was
+    # answered from Basel's Grundbuch).
+    scope = bestand or p.bestand
+    if p.bestand and not bestand:
+        audit.events.append(f"holding from the question: {p.bestand}")
+    documents: dict = {}
+
     try:
         retrieve(p.subquestions, retrievers=retrievers, pool=pool,
-                 coverage=coverage, bestand=bestand)
+                 coverage=coverage, bestand=scope)
         while True:
             sampled, dropped = sample(pool, p, size=size)
             if not sampled:
                 audit.events.append("no evidence to argue from")
                 break
+            sampled = expand_context(sampled, pool, audit=audit, fetch=fetch,
+                                     cache=documents)
             try:
                 claims, rejected, summary, summary_rejected = bind(
                     question, [pool[e] for e in sampled], pool, llm=llm, audit=audit)
@@ -791,7 +972,7 @@ def ask(question: str, *, bestand: str | None = None,
                 break
             gaps_all += gaps
             added = retrieve(gaps, retrievers=retrievers, pool=pool,
-                             coverage=coverage, bestand=bestand)
+                             coverage=coverage, bestand=scope)
             if not added:
                 audit.events.append(f"round {audit.rounds}: the follow-up "
                                     "queries found nothing new")
@@ -830,11 +1011,13 @@ _DROP_DE = {
 }
 
 
-def _cite(it, quote: str) -> list[str]:
+def _cite(it, quote: str, source_span: str = "") -> list[str]:
     r, s = it.reading, it.source or {}
     where = _where(it)
     link = f"[{where}]({it.catalogue_url})" if it.catalogue_url else where
     head = f"- `{it.evidence_id}` „{quote}“ — {link}"
+    if source_span and source_span != quote:
+        head += f"\n  Edition, beide Schichten: „{source_span}“"
     status = _STATUS_DE.get(r.get("status"), r.get("status") or "")
     if r.get("status") == ev.EDITION:
         meta = [f"{status} ({r.get('model_id')})"]
@@ -864,6 +1047,9 @@ def render_markdown(res: Result) -> str:
     f = {k: v for k, v in res.filters.items() if v}
     if f:
         out += ["Filter: " + ", ".join(f"{k} = {v}" for k, v in f.items()), ""]
+    if res.plan.bestand and not res.filters.get("bestand"):
+        out += [(f"Bestand aus der Frage gelesen: {res.plan.bestand} "
+                 "(mit `--bestand` gesetzt hätte er Vorrang)"), ""]
     if not res.complete:
         out += ["> **Unvollständig.** "
                 + ("; ".join(filter(None, [
@@ -882,7 +1068,8 @@ def render_markdown(res: Result) -> str:
         out.append(f"{i}. {c.text}")
         for b in c.bindings:
             if b.ok:
-                out += ["   " + ln for ln in _cite(res.pool[b.evidence_id], b.quote)]
+                out += ["   " + ln for ln in _cite(res.pool[b.evidence_id], b.quote,
+                                                  b.source_span)]
         out.append("")
     out += ["## Was nicht trägt oder fehlt", ""]
     n_bad = sum(1 for c in res.claims for b in c.bindings if not b.ok)

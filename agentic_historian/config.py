@@ -373,6 +373,10 @@ ARGUMENT_MAX_ROUNDS = int(_get("ARGUMENT_MAX_ROUNDS", "2"))
 ARGUMENT_SAMPLE_SIZE = int(_get("ARGUMENT_SAMPLE_SIZE", "12"))
 #: Per call. A reasoning model spends part of it before any content.
 ARGUMENT_CALL_MAX_TOKENS = int(_get("ARGUMENT_CALL_MAX_TOKENS", "8192"))
+#: Characters of the whole document on each side of a hit, for a passage the
+#: model is shown (#812): a 200-character search snippet could not tell an
+#: endorsement from the charter it is written on.
+ARGUMENT_CONTEXT_CHARS = int(_get("ARGUMENT_CONTEXT_CHARS", "600"))
 
 # Retrieval models (planned: hub linking + corpus semantic analysis)
 GPUSTACK_MODEL_EMBEDDING = _get("GPUSTACK_MODEL_EMBEDDING", "qwen3-embedding-4b")

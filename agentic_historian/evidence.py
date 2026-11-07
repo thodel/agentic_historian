@@ -61,6 +61,7 @@ from dataclasses import asdict, dataclass, field
 from difflib import SequenceMatcher
 
 import config
+from edition_text import reading_layer
 
 __all__ = [
     "COMBINED",
@@ -205,6 +206,10 @@ class EvidenceItem:
     catalogue_url: str | None = None
     #: Filled by the consumer (#812): sub-question, tier, score.
     retrieval: dict = field(default_factory=dict)
+    #: For edition text: the expanded reading layer of ``quote``
+    #: (``edition_text.reading_layer``) — what a model is shown and quotes
+    #: from. ``quote`` keeps the edition's own characters, both layers (#812).
+    reading_text: str | None = None
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -756,4 +761,5 @@ def edition_item(source: str, doc_id: str, text: str, *,
         source={"datierung": datierung, "datierung_unsicher": None,
                 "sprache": None, "sprachen": [], "bestand": source,
                 "title": title},
-        anchor=None, catalogue_url=url)
+        anchor=None, catalogue_url=url,
+        reading_text=reading_layer(text).text)
