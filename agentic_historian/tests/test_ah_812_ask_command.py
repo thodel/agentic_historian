@@ -30,6 +30,13 @@ from utils import publish_github
 SPITAL = "Item der spital ze Basel git järlich x ß umb almuosen den armen"
 
 
+@pytest.fixture(autouse=True)
+def _no_federation(monkeypatch):
+    """`ask` reads each edition passage in its document (#812); offline, no
+    document is fetched and the snippet stands."""
+    monkeypatch.setattr(af, "fetch_document", lambda source, doc_id: None)
+
+
 def _result(question="Wie wird Almosen begründet?", *, claims=1, quote=None,
             bound="almuosen den armen", complete=True):
     it = ev.edition_item("eos", "HGB-0815", quote or SPITAL, datierung="1438")

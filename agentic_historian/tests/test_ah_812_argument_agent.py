@@ -32,6 +32,13 @@ SPITAL = "Item der spital ze Basel git järlich x ß umb almuosen den armen"
 ELEMOSINA = "pro elemosina pauperum in hospitali dari solebat"
 
 
+@pytest.fixture(autouse=True)
+def _no_federation(monkeypatch):
+    """`ask` reads each edition passage in its document (#812); offline, no
+    document is fetched and the snippet stands."""
+    monkeypatch.setattr(af, "fetch_document", lambda source, doc_id: None)
+
+
 @pytest.fixture(scope="module")
 def bat_rs():
     p = json.loads((FIX / "BAT_664_r_00027.json").read_text(encoding="utf-8"))

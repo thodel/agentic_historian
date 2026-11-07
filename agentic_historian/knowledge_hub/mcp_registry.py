@@ -69,6 +69,12 @@ class MCPSource:
     adapter: Optional[Callable] = None
     notes: str = ""
     basic_auth_config: Optional[str] = None
+    #: The tool that returns one whole document, its id argument, and the
+    #: field holding the text (#812): Agent F reads a passage in its document
+    #: rather than in a 200-character search snippet.
+    document_tool: Optional[str] = None
+    document_arg: str = "doc_id"
+    document_text_field: str = "text_raw"
 
     def tool(self, logical: str) -> str:
         """Resolve a logical operation to this source's actual tool name."""
@@ -125,6 +131,7 @@ SOURCES: tuple[MCPSource, ...] = (
         kinds=("person", "place", "org", "fulltext"),
         path="eos/mcp",
         transport="http",
+        document_tool="get_document",
         authority=False,
         # eos exposes search_persons but names full-text search `search_text`
         # (verified via tools/list 2026-07-06); no get_person.
@@ -170,6 +177,8 @@ SOURCES: tuple[MCPSource, ...] = (
         path="kf/mcp",
         authority=False,
         transport="http",
+        document_tool="get_entry",
+        document_arg="entry_id",
         notes="Königsfelden persons, places, register entries.",
     ),
     MCPSource(

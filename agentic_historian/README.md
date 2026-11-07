@@ -755,6 +755,35 @@ checked is that each quote stands verbatim in the passage it names. Measuring
 the bindings is the job of a historian's review (Gate 4 in the SPIRE
 comparison), not of another model.
 
+### Edition text: the reading layer, the document, the holding (#812)
+
+Three things the first runs on tei (06./07.11.2026) showed, and what the agent
+does about them:
+
+* **Two layers in one string.** The Königsfelden edition keeps every
+  abbreviation beside its expansion (`de eliā elemosina ꝓ pro infirmis`), so no
+  quote of the words could stand in it (0 of 5 claims). `edition_text.py`
+  derives the **reading layer** by a fixed rule — an abbreviation token
+  (combining mark, `ˀ ₎ ꝓ ꝝ ƺ …`, or a final period) followed by its expansion
+  is dropped; `✳` and `¬` are removed — and keeps an index back to the edition's
+  characters. The model is shown the reading layer; a quote is checked
+  **exactly** against it, whitespace aside, and the answer prints the edition's
+  own characters beside it (*Edition, beide Schichten*). A token with no mark is
+  never dropped (`mt mütt` stays). Our own HTR readings have one layer and are
+  checked literally, as before.
+* **A snippet is not a passage.** For sources with a document tool (KF
+  `get_entry`, EOS `get_document`) each sampled hit is replaced by a window of
+  `ARGUMENT_CONTEXT_CHARS` (600) on each side in its whole document — enough to
+  tell an endorsement (*elemosina pro infirmis* on the back of a sale) from the
+  charter, or a dating formula from content.
+* **The holding the question names.** The plan returns it (`kf`, `eos`) and it
+  scopes the search unless `--bestand` set one; the answer says so. "No
+  passages in this holding" is an empty search, not a failed one.
+
+The prompt also says: no motive or purpose the quote does not state; a dating
+formula (*nach Misericordia*) is a date; say when a passage shows something
+other than what was asked.
+
 ### The first live run (#812)
 
 Everything above is tested offline against recorded federation answers; what

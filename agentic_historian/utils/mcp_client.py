@@ -418,6 +418,28 @@ async def search_fulltext(
     return hits
 
 
+async def get_document_text(
+    source_name: str,
+    doc_id: str,
+    call_tool: Optional[CallTool] = None,
+) -> Optional[str]:
+    """The whole text of one document, from a source that offers it (#812).
+
+    ``None`` when the source has no document tool or the answer has no text.
+    A failing call raises: the caller decides whether a missing document is a
+    gap to record.
+    """
+    source = reg.get_source(source_name)
+    if not source.document_tool or not doc_id:
+        return None
+    ct = call_tool or _call_tool
+    raw = await ct(source, source.document_tool, {source.document_arg: doc_id})
+    if isinstance(raw, dict):
+        text = raw.get(source.document_text_field)
+        return str(text) if text else None
+    return None
+
+
 # ── Sync convenience (for non-async callers, e.g. Agent C) ───────────────────
 
 def search_persons_sync(query: str, limit: int = 20) -> FederatedResult:
