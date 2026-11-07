@@ -188,6 +188,9 @@ class Binding:
 class Claim:
     text: str
     bindings: list[Binding]
+    #: The claim's place in the model's own list, which is how its summary
+    #: refers to it ([n]); the answer renumbers the accepted ones (#812).
+    number: int = 0
 
     @property
     def supported(self) -> bool:
@@ -592,8 +595,11 @@ def retrieve(queries: list[dict], *, retrievers: dict[str, Retriever],
     asked = {(c["retriever"], c["query"].casefold()) for c in coverage}
     for q in queries:
         for name, fn in retrievers.items():
+            # Full text: each term and the edition's spellings of it
+            # (`almuosen` → `almuͦsen`); the semantic search gets the question.
             asks = ([q["text"]] if name != "fulltext"
-                    else (q.get("terms") or [q["text"]]))
+                    else [v for t in (q.get("terms") or [q["text"]])
+                          for v in edition_text.search_variants(t)])
             for query in asks:
                 if (name, query.casefold()) in asked:
                     continue                  # the same search, already in coverage
@@ -724,7 +730,14 @@ Behaupte nur, was das Zitat selbst sagt:
   nicht wie es begründet wird), sag das so, statt es passend zu machen.
 - Achte auf den Bestand jeder Passage und schreibe einem Bestand nichts zu,
   was aus einem anderen stammt.
-Eine Zusammenfassung verweist auf Behauptungen als [1], [2], … und zitiert nicht.
+Die Edition trennt Wörter an aufgelösten Abkürzungen: "su per" ist "super",
+"Bremgar ten" ist "Bremgarten". Lies solche Silben als ein Wort; im Zitat darfst
+du sie getrennt oder zusammen schreiben.
+{holdings}
+Schreibe Behauptungen und Zusammenfassung in der Sprache der Forschungsfrage.
+Jeder Satz der Zusammenfassung nennt die Behauptungen, die ihn tragen, als [1],
+[2], … (in der Reihenfolge deiner Liste) und zitiert nicht; ein Satz ohne
+Verweis wird nicht gezeigt.
 
 {{"claims": [{{"claim": "...", "evidence": [{{"id": "ev-…", "quote": "..."}}]}}],
  "summary": "..."}}"""
@@ -749,6 +762,23 @@ def _describe(it) -> str:
         if it.agreement == "contested":
             bits.append("Engines uneinig an dieser Stelle")
     return " · ".join(bits)
+
+
+def _holding_context(items: list) -> str:
+    """What the model needs to know about the holdings its passages come from
+    (the registry's ``context``), one line each; empty when none says more."""
+    from knowledge_hub import mcp_registry as reg
+
+    lines = []
+    for source in sorted({(it.reading or {}).get("model_id") for it in items
+                          if (it.reading or {}).get("status") == ev.EDITION}):
+        try:
+            ctx = reg.get_source(source).context
+        except KeyError:
+            continue
+        if ctx:
+            lines.append(f"- Bestand {source}: {ctx}")
+    return ("Zu den Beständen:\n" + "\n".join(lines) + "\n") if lines else ""
 
 
 def _passages_block(items: list) -> str:
@@ -781,7 +811,7 @@ def check_bindings(raw_claims: list, pool: dict,
     """
     allowed = set(pool) if allowed is None else allowed
     ok_claims, bad_claims = [], []
-    for raw in raw_claims or []:
+    for number, raw in enumerate(raw_claims or [], 1):
         if not isinstance(raw, dict):
             continue
         text = str(raw.get("claim") or "").strip()
@@ -814,46 +844,75 @@ def check_bindings(raw_claims: list, pool: dict,
             bindings.append(bd)
         if not text:
             continue
-        claim = Claim(text, bindings)
+        claim = Claim(text, bindings, number)
         (ok_claims if claim.supported else bad_claims).append(claim)
     return ok_claims, bad_claims
 
 
 #: Anything between quotation marks in a summary must be a bound quote. Plain
 #: apostrophes are left out: "des Spitals' Rechte" is not a quotation.
-_QUOTED = re.compile(r'"([^"]{4,})"|„([^“”"]{4,})[“”"]|«([^»]{4,})»|»([^«]{4,})«'
-                     r"|‚([^‘’]{4,})[‘’]")
+_QUOTED = re.compile(r'"([^"]{4,})"|„([^“”"]{4,})[“”"]|“([^“”]{4,})”'
+                     r"|«([^»]{4,})»|»([^«]{4,})«|‚([^‘’]{4,})[‘’]|‘([^‘’]{4,})’")
+
+#: A sentence ends at . ! ? followed by space — enough for a model's summary.
+_SENTENCE = re.compile(r"(?<=[.!?])\s+")
 
 
 def check_summary(summary: str, claims: list[Claim]) -> tuple[str, str]:
-    """``(summary, "")`` or ``("", reason)``: a summary that quotes anything not
-    bound in an accepted claim, or cites a claim number that does not exist,
-    is withheld — the claims stand on their own."""
+    """``(summary, reason)``: the summary, sentence by sentence, reduced to
+    what the accepted claims carry.
+
+    A sentence stands only when it cites at least one claim (``[n]``, the
+    model's own numbering), every claim it cites was accepted, and anything it
+    puts in quotation marks is a bound quote. Its references are renumbered to
+    the answer's numbering. Every other sentence is withheld, and ``reason``
+    says how many and why. On the third run on tei the summary — no references
+    at all — said the documents justify alms "as a God-ordered righteous
+    duty", which no accepted claim said (#812).
+    """
     summary = (summary or "").strip()
     if not summary:
         return "", ""
+    shown = {c.number: i for i, c in enumerate(claims, 1)}
     bound = [b.quote for c in claims for b in c.bindings if b.ok]
-    for groups in _QUOTED.findall(summary):
-        q = next(g for g in groups if g)
-        if not any(q.strip() in b for b in bound):
-            return "", f"quotes text no accepted binding carries: {q.strip()[:80]!r}"
-    for n in re.findall(r"\[(\d+)\]", summary):
-        if not 1 <= int(n) <= len(claims):
-            return "", f"cites claim [{n}], which does not exist"
-    return summary, ""
+    kept, why = [], []
+    for sentence in _SENTENCE.split(summary):
+        sentence = sentence.strip()
+        if not sentence:
+            continue
+        refs = [int(n) for n in re.findall(r"\[(\d+)\]", sentence)]
+        quoted = [next(g for g in groups if g).strip()
+                  for groups in _QUOTED.findall(sentence)]
+        if not refs:
+            why.append("cites no claim")
+        elif any(n not in shown for n in refs):
+            why.append(f"cites claim [{next(n for n in refs if n not in shown)}], "
+                       "which was not accepted")
+        elif any(not any(q in b for b in bound) for q in quoted):
+            why.append(f"quotes text no accepted binding carries: "
+                       f"{next(q for q in quoted if not any(q in b for b in bound))[:80]!r}")
+        else:
+            kept.append(re.sub(r"\[(\d+)\]", lambda m: f"[{shown[int(m.group(1))]}]",
+                               sentence))
+            continue
+    if not why:
+        return " ".join(kept), ""
+    reason = (f"{len(why)} sentence(s) withheld: " + "; ".join(dict.fromkeys(why)))
+    return " ".join(kept), reason
 
 
 def bind(question: str, items: list, pool: dict, *, llm: LLM,
          audit: Audit) -> tuple[list[Claim], list[Claim], str, str]:
     """Claims from the sampled items, checked. One call."""
     data = _call(llm, audit, "bind",
-                 _BIND_PROMPT.format(question=question, passages=_passages_block(items)),
+                 _BIND_PROMPT.format(question=question, passages=_passages_block(items),
+                                     holdings=_holding_context(items)),
                  _BIND_SYSTEM)
     ok, bad = check_bindings(data.get("claims") or [], pool,
                              allowed={it.evidence_id for it in items})
     summary, why = check_summary(str(data.get("summary") or ""), ok)
     if why:
-        audit.events.append(f"bind: summary withheld — {why}")
+        audit.events.append(f"bind: summary — {why}")
     return ok, bad, summary, why
 
 
