@@ -239,9 +239,23 @@ def test_run_shows_the_first_written_page_not_the_cover(tmp_path):
         return {"source_json": _sj("Bastarda")}
 
     eb.run(tmp_path, describe=describe, runs=1, get=get)
-    assert seen == [(["page-0002.jpg"], 12)], "the first written leaf; the volume still has 12 canvases"
+    assert seen == [(["page-0003.jpg"], 12)], "folio 1r, past cover and flyleaf A; still 12 canvases"
     spread = tmp_path / "spread"
     eb.fetch(["saa-x"], spread, get=get)
     seen.clear()
     eb.run(spread, describe=describe, runs=1, pages="spread", get=get)
-    assert all(int(n[5:9]) in range(2, 8) for n in seen[0][0]), seen
+    assert all(int(n[5:9]) in range(3, 8) for n in seen[0][0]), seen
+
+
+def test_the_text_block_is_what_carries_a_folio_or_page_number():
+    """7.11.2026: paper endleaves with a librarian's note were read as the volume."""
+    assert eb.body_indices(MANIFEST_COVERS) == [3, 4, 5, 6, 7], "flyleaf A is out"
+    for lab in ("1r", "12v", "f. 1r", "fol. 3", "p. 3", "S. 5", "7", "1r (Initiale)"):
+        assert eb.FOLIO.match(lab), lab
+    for lab in ("A", "Ir", "IIv", "Vorsatz", "Front cover", "0", "a1r"):
+        assert not eb.FOLIO.match(lab), lab
+    lettered = {"sequences": [{"canvases": [
+        {"label": lab, "images": [{"resource": {"service": {"@id": f"https://img/z/{i}"}}}]}
+        for i, lab in enumerate(["Front cover", "A", "B", "C", "1r", "Back cover"])]}]}
+    assert eb.body_indices(lettered) == [1, 2, 3, 4], "too few numbered leaves: every written page"
+    assert eb.body_indices(MANIFEST_V2) == list(range(12)), "no labels at all: every canvas"

@@ -474,6 +474,26 @@ NOT_TEXT = re.compile(
     re.IGNORECASE)
 
 
+#: A foliated or paginated leaf of the text block: "1r", "12v", "f. 1r", "fol. 3",
+#: "p. 3", "S. 5", "7". Flyleaves are lettered or in roman numerals ("A", "Ir").
+FOLIO = re.compile(r"^\s*(?:(?:f|fol|p|pag|s|seite|page)\.?\s*)?0*[1-9]\d*\s*[rv]?\s*(?:[\s(].*)?$",
+                   re.IGNORECASE)
+
+
+def body_indices(manifest: dict) -> list[int]:
+    """Indices of the text block: written pages that carry a folio or page number.
+
+    The first run on the text pages (7.11.2026) still met flyleaves: rebound
+    parchment codices with paper endleaves and a librarian's note in Kurrent —
+    Agent B read "Papier", "Kurrent", "19. Jh." for Carolingian volumes. Falls
+    back to ``text_indices`` when the labels number fewer than half of them.
+    """
+    entries = canvas_entries(manifest)
+    text = text_indices(manifest)
+    body = [i for i in text if FOLIO.match(entries[i][1] or "")]
+    return body if len(body) >= max(1, len(text) // 2) else text
+
+
 def text_indices(manifest: dict) -> list[int]:
     """Indices of the canvases that are written pages, not the binding.
 
@@ -541,7 +561,7 @@ def run(bench_dir: Path, *, describe: Callable[[str, list, int], dict], runs: in
     for vdir in sorted(p for p in bench_dir.iterdir() if (p / "tei.xml").exists()):
         manifest = json.loads((vdir / "manifest.json").read_text(encoding="utf-8"))
         urls = canvases(manifest)
-        text = text_indices(manifest)          # the binding is no page to describe
+        text = body_indices(manifest)          # not the binding, not the flyleaves
 
         def page(i: int, vdir=vdir, urls=urls) -> Path:
             path = vdir / f"page-{i:04d}.jpg"
