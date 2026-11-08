@@ -287,3 +287,15 @@ def test_the_labels_e_codices_actually_uses_for_the_binding():
         assert eb.NOT_TEXT.search(lab), lab
     for lab in ("Headings on 3r", "Tailpiece", "1r", "p. 12", "Profilbuch 3"):
         assert not eb.NOT_TEXT.search(lab), lab
+
+
+def test_a_span_of_centuries_written_out_is_the_whole_span():
+    """Agent B's answers in the third e-codices run (7.11.2026)."""
+    assert eb.date_range("16. oder 17. Jahrhundert (unsicher)") == (1501, 1700)
+    assert eb.date_range("13. Jh. - 14. Jh.") == (1201, 1400)
+    assert eb.date_range("15. bis 16. Jh.") == (1401, 1600)
+    assert eb.date_range("14./15. Jh.") == (1301, 1500)
+    assert eb.date_range("15. Jh. (älteste Hand); spätere Nachträge 16. Jh.") == (1401, 1500), \
+        "a later hand's century does not widen the main text's"
+    assert eb.date_range("15. Jahrhundert (unsicher)") == (1401, 1500)
+    assert eb.date_range("14. Jh. (um 1333, unsicher)") == (1323, 1343)

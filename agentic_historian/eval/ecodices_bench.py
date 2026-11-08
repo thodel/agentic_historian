@@ -200,7 +200,12 @@ def date_range(text: str) -> Optional[tuple[int, int]]:
             return lo - 10, hi + 10
         return lo, hi
     cents: list[int] = []
-    m = re.search(r"(\d{1,2})\s*\.?\s*(?:[/–-]\s*(\d{1,2})\s*\.?\s*)?(?:jh|jahrh)", low)
+    # a span written out: "16. oder 17. Jahrhundert", "13. Jh. - 14. Jh." (third
+    # e-codices run, 7.11.2026: read as the second century alone)
+    m = re.search(r"(\d{1,2})\s*\.?\s*(?:(?:jh|jahrh)\w*\.?\s*)?(?:[/–-]|oder|bis|und)\s*"
+                  r"(\d{1,2})\s*\.?\s*(?:jh|jahrh)", low)
+    if not m:
+        m = re.search(r"(\d{1,2})\s*\.?\s*(?:[/–-]\s*(\d{1,2})\s*\.?\s*)?(?:jh|jahrh)", low)
     if m:
         cents = [int(m.group(1))] + ([int(m.group(2))] if m.group(2) else [])
     if not cents:
