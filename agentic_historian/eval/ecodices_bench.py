@@ -471,8 +471,9 @@ def canvases(manifest: dict) -> list[str]:
 #: front cover first (29 of 30 volumes, 6.11.2026), so "page 1" was the cover.
 NOT_TEXT = re.compile(
     r"\b(?:(?:front|back|upper|lower|inside\s+(?:front|back))\s+cover|cover|binding|spine|"
-    r"(?:head|tail|fore|front|top|bottom)[\s-]*edge|edges?|pastedown|"
-    r"colou?r\s*(?:chart|checker|card)|scale|ruler|"
+    r"(?:head|tail|fore|front|top|bottom)[\s-]*edge|edges?|paste-?\s?downs?|"
+    r"colou?r\s*(?:chart|checker|card|profile)|\w*profil(?:e)?|qp\s+card|scale|ruler|"
+    r"casing|open\s+view|^\s*(?:head|tail)\s*$|"
     r"(?:vorder|rück|rueck|hinter)deckel|einband|buchrücken|rücken|schnitt|spiegel|farbkarte|"
     r"reliure|plat\s+(?:supérieur|inférieur)|contre-?plat|dos|tranche)\b",
     re.IGNORECASE)

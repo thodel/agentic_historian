@@ -278,3 +278,12 @@ def test_the_publication_year_comes_from_the_edition_when_e_codices_gives_no_oth
     ref = eb.parse_tei(xml, "saa-0428")
     assert ref.published == "2008-03-22"
     assert ref.licence == "http://creativecommons.org/licenses/by/3.0/"
+
+
+def test_the_labels_e_codices_actually_uses_for_the_binding():
+    """The label check on tei (7.11.2026): these were kept as written pages."""
+    for lab in ("Front paste-down", "Rear paste-down", "Head", "Tail", "Color profile",
+                "SGProfil", "QP card on page", "Open view", "Casing"):
+        assert eb.NOT_TEXT.search(lab), lab
+    for lab in ("Headings on 3r", "Tailpiece", "1r", "p. 12", "Profilbuch 3"):
+        assert not eb.NOT_TEXT.search(lab), lab
