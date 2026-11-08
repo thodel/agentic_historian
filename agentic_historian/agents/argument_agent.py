@@ -718,8 +718,12 @@ Passagen (Kennung, Herkunft, Text):
 Beantworte die Frage in Behauptungen. Jede Behauptung stützt sich auf mindestens
 eine Passage. Für jede Stütze gibst du die Kennung und ein wörtliches Zitat aus
 genau dem angezeigten Text dieser Passage an — Zeichen für Zeichen, in der
-Sprache und Schreibung der Quelle, ohne Übersetzung, Normalisierung oder
-Auslassung. Übersetzen darfst du in der Behauptung, nie im Zitat.
+Sprache und Schreibung der Quelle, ohne Übersetzung oder Normalisierung.
+Übersetzen darfst du in der Behauptung, nie im Zitat. Ein „…“ am Anfang oder
+Ende einer Passage heisst nur, dass der Ausschnitt dort abgeschnitten ist; es
+gehört nicht ins Zitat. Lässt du innerhalb eines Zitats etwas aus, setze „…“:
+jedes Stück muss dann wörtlich und in derselben Reihenfolge in der Passage
+stehen.
 
 Behaupte nur, was das Zitat selbst sagt:
 - Schreibe einer Quelle keinen Zweck und kein Motiv zu ("um … zu"), den sie
@@ -789,6 +793,76 @@ def _passages_block(items: list) -> str:
         for it in items)
 
 
+#: An omission mark inside a quote, or a cut mark at its edge.
+_ELLIPSIS = re.compile(r"\s*(?:…|\.\.\.)\s*")
+#: An omission may leave out at most this much of the passage: a quote that
+#: splices distant sentences together is not a quote.
+OMISSION_MAX_CHARS = 600
+
+
+def _trim_cut(quote: str) -> str:
+    """The quote without the cut marks at its edges (``…`` / ``...``)."""
+    q = quote.strip()
+    while True:
+        m = re.match(r"^(?:…|\.\.\.)\s*", q) or re.search(r"\s*(?:…|\.\.\.)$", q)
+        if not m:
+            return q
+        q = (q[m.end():] if m.start() == 0 else q[:m.start()]).strip()
+
+
+def _spans(piece: str, item) -> list[tuple[int, int, str]]:
+    """Where ``piece`` stands in the item: ``(start, end, layer)``, literal
+    occurrences first, then (edition text) those in the reading layer."""
+    out, i = [], item.quote.find(piece)
+    while i != -1:
+        out.append((i, i + len(piece), "literal"))
+        i = item.quote.find(piece, i + 1)
+    if item.reading_text is not None:
+        layer = edition_text.reading_layer(item.quote)
+        out += [(a, b, "reading") for a, b in edition_text.locate(piece, layer, item.quote)]
+    return out
+
+
+def _bind_quote(bd: Binding, item, pool: dict, allowed: set[str]) -> None:
+    """Check ``bd.quote`` against ``item`` and fill in ``ok``/``layer``/
+    ``source_span`` or ``reason``."""
+    pieces = [p for p in _ELLIPSIS.split(bd.quote) if p]
+    if len(pieces) == 1:
+        spans = _spans(bd.quote, item)
+        if spans:
+            start, end, layer = spans[0]
+            bd.ok, bd.layer = True, layer
+            bd.source_span = item.quote[start:end] if layer == "reading" else ""
+            return
+    bd.quote = " … ".join(pieces)          # one way of writing the omission
+    if len(pieces) > 1 and any(len(p.split()) < 2 for p in pieces):
+        bd.reason = "omission leaves a piece too short to check"
+        return
+    elif len(pieces) > 1:
+        pos, first, layers = 0, None, set()
+        for p in pieces:
+            hit = next(((a, b, lay) for a, b, lay in sorted(_spans(p, item))
+                        if a >= pos), None)
+            if hit is None:
+                break
+            first = hit[0] if first is None else first
+            pos = hit[1]
+            layers.add(hit[2])
+        else:
+            if pos - first > OMISSION_MAX_CHARS:
+                bd.reason = f"omission spans more than {OMISSION_MAX_CHARS} characters"
+                return
+            bd.ok = True
+            bd.layer = "reading" if "reading" in layers else "literal"
+            bd.source_span = item.quote[first:pos]
+            return
+    elsewhere = next((k for k in sorted(allowed)
+                      if k != bd.evidence_id and k in pool and bd.quote in pool[k].quote),
+                     None)
+    bd.reason = (f"quote is in {elsewhere}, not in the cited passage"
+                 if elsewhere else "quote not in the cited passage")
+
+
 def check_bindings(raw_claims: list, pool: dict,
                    allowed: set[str] | None = None) -> tuple[list[Claim], list[Claim]]:
     """Verify every binding mechanically; ``(supported, rejected)`` claims.
@@ -805,6 +879,15 @@ def check_bindings(raw_claims: list, pool: dict,
     * ``empty quote``
     * ``quote is in <id>, not in the cited passage`` — it exists, elsewhere
     * ``quote not in the cited passage``
+    * ``omission leaves a piece too short to check`` / ``omission spans more
+      than … characters`` — see below
+
+    A quote is read as a scholar writes one: ``…`` at its start or end only
+    marks that the shown passage was cut there and is dropped (a window of a
+    document begins and ends with it, and models copy it); ``…`` inside it
+    marks an omission — every piece must then stand verbatim, in order, in
+    the same passage, and ``source_span`` carries the whole stretch with what
+    was left out (#812, fourth tei run).
 
     A claim with no accepted binding is rejected as a whole. Nothing is
     repaired: a near-miss is a miss.
@@ -819,28 +902,18 @@ def check_bindings(raw_claims: list, pool: dict,
         for b in raw.get("evidence") or []:
             if not isinstance(b, dict):
                 continue
-            eid, quote = str(b.get("id") or "").strip(), str(b.get("quote") or "")
+            eid = str(b.get("id") or "").strip()
+            quote = _trim_cut(str(b.get("quote") or ""))
             bd = Binding(eid, quote)
             item = pool.get(eid)
             if item is None:
                 bd.reason = "unknown id"
             elif eid not in allowed:
                 bd.reason = "not shown"
-            elif not quote.strip():
+            elif not quote:
                 bd.reason = "empty quote"
-            elif quote in item.quote:
-                bd.ok, bd.layer = True, "literal"
-            elif item.reading_text is not None and (
-                    spans := edition_text.locate(
-                        quote, edition_text.reading_layer(item.quote), item.quote)):
-                start, end = spans[0]
-                bd.ok, bd.layer, bd.source_span = True, "reading", item.quote[start:end]
             else:
-                elsewhere = next((k for k in sorted(allowed)
-                                  if k != eid and k in pool and quote in pool[k].quote),
-                                 None)
-                bd.reason = (f"quote is in {elsewhere}, not in the cited passage"
-                             if elsewhere else "quote not in the cited passage")
+                _bind_quote(bd, item, pool, allowed)
             bindings.append(bd)
         if not text:
             continue
@@ -1076,7 +1149,9 @@ def _cite(it, quote: str, source_span: str = "") -> list[str]:
     link = f"[{where}]({it.catalogue_url})" if it.catalogue_url else where
     head = f"- `{it.evidence_id}` „{quote}“ — {link}"
     if source_span and source_span != quote:
-        head += f"\n  Edition, beide Schichten: „{source_span}“"
+        label = ("Im Zusammenhang, mit dem Ausgelassenen" if "…" in quote
+                 else "Edition, beide Schichten")
+        head += f"\n  {label}: „{source_span}“"
     status = _STATUS_DE.get(r.get("status"), r.get("status") or "")
     if r.get("status") == ev.EDITION:
         meta = [f"{status} ({r.get('model_id')})"]
