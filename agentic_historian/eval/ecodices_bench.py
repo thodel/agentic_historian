@@ -200,7 +200,12 @@ def date_range(text: str) -> Optional[tuple[int, int]]:
             return lo - 10, hi + 10
         return lo, hi
     cents: list[int] = []
-    m = re.search(r"(\d{1,2})\s*\.?\s*(?:[/–-]\s*(\d{1,2})\s*\.?\s*)?(?:jh|jahrh)", low)
+    # a span written out: "16. oder 17. Jahrhundert", "13. Jh. - 14. Jh." (third
+    # e-codices run, 7.11.2026: read as the second century alone)
+    m = re.search(r"(\d{1,2})\s*\.?\s*(?:(?:jh|jahrh)\w*\.?\s*)?(?:[/–-]|oder|bis|und)\s*"
+                  r"(\d{1,2})\s*\.?\s*(?:jh|jahrh)", low)
+    if not m:
+        m = re.search(r"(\d{1,2})\s*\.?\s*(?:[/–-]\s*(\d{1,2})\s*\.?\s*)?(?:jh|jahrh)", low)
     if m:
         cents = [int(m.group(1))] + ([int(m.group(2))] if m.group(2) else [])
     if not cents:
@@ -471,8 +476,9 @@ def canvases(manifest: dict) -> list[str]:
 #: front cover first (29 of 30 volumes, 6.11.2026), so "page 1" was the cover.
 NOT_TEXT = re.compile(
     r"\b(?:(?:front|back|upper|lower|inside\s+(?:front|back))\s+cover|cover|binding|spine|"
-    r"(?:head|tail|fore|front|top|bottom)[\s-]*edge|edges?|pastedown|"
-    r"colou?r\s*(?:chart|checker|card)|scale|ruler|"
+    r"(?:head|tail|fore|front|top|bottom)[\s-]*edge|edges?|paste-?\s?downs?|"
+    r"colou?r\s*(?:chart|checker|card|profile)|\w*profil(?:e)?|qp\s+card|scale|ruler|"
+    r"casing|open\s+view|^\s*(?:head|tail)\s*$|"
     r"(?:vorder|rück|rueck|hinter)deckel|einband|buchrücken|rücken|schnitt|spiegel|farbkarte|"
     r"reliure|plat\s+(?:supérieur|inférieur)|contre-?plat|dos|tranche)\b",
     re.IGNORECASE)
