@@ -154,6 +154,7 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `ENABLE_ROUTING_PRIOR` | Additive routing prior from historian feedback in model selection (default `false`) |
 | `ORCHESTRATOR_LLM_ENABLED` | Optional LLM-orchestration overlay (`nl_orchestrator` + `orchestrator_llm`), **off by default**; no slash command reaches the planner while it is off (S4, #569) |
 | `KH_BACKEND` | Knowledge-hub store backend (`json` today; QLEVER at WP4) |
+| `ARGUMENT_MODEL` | The model Agent F asks (default: `GPUSTACK_MODEL_TEXT`, i.e. `gpt-oss-120b`); named in `audit.json` → `audit.events` (#812) |
 | `ARGUMENT_MAX_TOKENS` / `_MAX_CALLS` | Agent F's budget per question (default 300000 tokens, 12 calls), checked before every call (#812) |
 | `ARGUMENT_MAX_ROUNDS` / `_SAMPLE_SIZE` / `_CALL_MAX_TOKENS` | Reflection rounds after the first answer (2), passages shown to the binding stage (12), `max_tokens` per call (8192) |
 
