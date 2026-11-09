@@ -48,7 +48,7 @@ What each job needs, beyond the skill:
 | dh-digest | network to the 17 feeds (four are Google Alerts) | — |
 | snsf-grants | network to data.snf.ch; writes `~/.hermes/scripts/snsf_grants_baseline_meta.json` | — |
 
-Model per job: the default (`qwen3.8-27b`) for all four; the queue worker ran
-on `gpt-oss-120b` in OpenClaw — pin it with `hermes cron edit dh-bot-queue`
-only if Qwen turns out to write worse PRs, and measure that on the merged PRs,
+Model per job: the default (`lfm2.5-24b-a2b`, before 09.11.2026 `qwen3.8-27b`)
+for all four; the queue worker ran on `gpt-oss-120b` in OpenClaw — pin it with
+`hermes cron edit dh-bot-queue` only if LFM turns out to write worse PRs, and measure that on the merged PRs,
 not on a feeling.

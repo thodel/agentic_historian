@@ -72,7 +72,7 @@ hermes skills list | grep -E 'dh-bot-queue|repo-status|dh-digest'
 chmod 700 ~/.hermes; touch ~/.hermes/.env && chmod 600 ~/.hermes/.env    # fill from env.example
 hermes config set model.provider custom
 hermes config set model.base_url https://gpustack.unibe.ch/v1
-hermes config set model.default qwen3.8-27b
+hermes config set model.default lfm2.5-24b-a2b
 hermes config set providers.gpustack-oss.base_url https://gpustack.unibe.ch/v1
 hermes config set providers.gpustack-oss.model gpt-oss-120b
 hermes config set providers.gpustack-oss.key_env GPUSTACK_API_KEY
@@ -83,8 +83,11 @@ hermes config set terminal.cwd /home/hermes/dh-bot
 hermes status
 ```
 
-Model: GPUStack serves `qwen3.8-27b` (the default, as in OpenClaw) and
-`gpt-oss-120b` (a reasoning model; pin it only where a job wants it). The API
+Model: the default is `lfm2.5-24b-a2b` on GPUStack (since 09.11.2026; before
+that `qwen3.8-27b`, as in OpenClaw), and `gpt-oss-120b` (a reasoning model; pin
+it only where a job wants it). Check the id against
+`curl -s -H "Authorization: Bearer $GPUSTACK_API_KEY" https://gpustack.unibe.ch/v1/models`
+before switching — a wrong id fails every turn with a 404 from GPUStack. The API
 key is the one in `.env.gpustack` until H6 rotates it.
 
 ```bash
