@@ -16,7 +16,7 @@ providers:
     request_timeout_seconds: 600
 
 agent:
-  max_turns: 60
+  max_turns: 150                        # as on tei (gateway log 09.11.2026: max_iterations=150)
   reasoning_effort: medium
   restart_after_turn_timeout: 300       # a turn parked on a clarify card held a restart for 30 min (06.11.)
 
