@@ -1769,6 +1769,44 @@ geschrieben hat. Für ein Personen- oder Ortsregister heisst das: **Jeder
 Treffer auf Laßberg, Eppishausen oder Meersburg in einer Lesung der
 Seitenmodelle ist mit kraken oder dem Bild abzugleichen.**
 
+## 49. Drei Läufe haben die Bank gemessen, bevor einer Agent B mass
+
+Der Vergleich mit e-codices (#779) und die Konsistenz der Hand (#773)
+liefen am 6. bis 8. November auf 30 Bänden, die `candidates` aus dem
+Katalog gewählt hatte. Jeder Lauf ergab eine glatte Zahl, und dreimal
+war es eine Zahl über die Bank, nicht über die Methode:
+
+- **Die Ids.** Die OAI-Kennungen sind Seitenadressen
+  (`…/list/one/csg/0001`). Der Parser nahm die Signatur allein, also
+  `an-i-0008` statt `ubb-an-i-0008`. Von 3107 Datensätzen blieben 363,
+  e-codices antwortete mit 400 und dann, wegen der Flut, mit 503 (#826).
+- **Der Einband.** Kanvas 0 ist bei e-codices der Vorderdeckel, bei 29
+  von 30 Bänden. „Seite 1“ war also ein Buchdeckel, und Agent B gab für
+  den Beschreibstoff in 65 von 90 Läufen keine Antwort (#837). Bei der Hand
+  trennte Otsu über das ganze Foto das Blatt vom dunklen Grund statt die
+  Tinte vom Blatt. 21 Bände hatten so gut wie keine Zeilen (#837).
+- **Die Vorsatzblätter.** Auch das erste beschriebene Blatt war oft ein
+  Papiervorsatz mit Bibliotheksnotiz in Kurrent. Agent B las für
+  karolingische Bände „Papier, Kurrent, 19. Jh.“, und die Wechselpunkte
+  der Hand lagen vorn im Band (#840). Erst die foliierten Blätter sind der
+  Buchblock.
+
+Was den Weg verkürzt hat, war jedes Mal dieselbe Frage: Was hat das
+Modell tatsächlich gesehen? Den Ausschlag gaben eine Tabelle mit dem
+Kanvas-Label je Band und eine mit Katalogwert neben Antwort, nicht die
+Trefferquoten. Danach waren beide Befunde eindeutig. Die Hand-Masse
+trennen eine von mehreren Händen nicht, in keiner der drei
+Konfigurationen (AUC 0.52 / 0.38; #773 negativ, #777/#778 entfallen).
+Agent B datiert im Bildpfad nie vor das 13. Jahrhundert, und der
+Beschreibstoff folgt seiner eigenen Datierung statt dem Blatt (#844).
+
+**Was daraus folgt.** Ein neuer Benchmark bekommt vor dem ersten Lauf
+einen Blick auf das, was gezeigt wird: Label, Bild, die rohe Antwort neben
+dem Referenzwert für ein paar Bände. Ein vorher festgelegtes
+Entscheidungskriterium (#773) hat sich bewährt. Es hat verhindert, dass
+die erste, noch verzerrte Tabelle als Befund durchging, und es hat den
+negativen Befund am Ende leicht gemacht.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
