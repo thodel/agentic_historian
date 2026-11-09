@@ -2183,10 +2183,14 @@ def ask_cmd(args) -> int:
     if layers:
         print("quotes    : " + ", ".join(f"{n} {k}" for k, n in sorted(layers.items()))
               + " (reading = matched in the edition's resolved layer)")
-    flagged = [c for c in res.claims if c.flags]
-    if flagged:
-        print(f"flagged   : {len(flagged)} claim(s) whose gloss contradicts the "
-              "glossary (marked in answer.md, kept out of the summary)")
+    by_gloss = sum(1 for c in res.claims if c.gloss_flags)
+    by_check = sum(1 for c in res.claims if c.checks and not c.gloss_flags)
+    parts = ([f"{by_gloss} claim(s) whose gloss contradicts the glossary"] if by_gloss
+             else []) + ([f"{by_check} claim(s) that failed the claim checks"]
+                         if by_check else [])
+    if parts:
+        print("flagged   : " + "; ".join(parts)
+              + " (marked in answer.md, kept out of the summary)")
     print(f"evidence  : {len(res.pool)} found, {len(res.sampled)} shown")
     by_status = Counter(c["status"] for c in res.coverage)
     print("searches  : " + ", ".join(f"{k} {v}" for k, v in sorted(by_status.items())))

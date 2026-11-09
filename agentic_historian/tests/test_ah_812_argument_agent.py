@@ -61,12 +61,14 @@ def _pool(*its):
 class ScriptedLLM:
     """Answers by stage; records every prompt. ``usage`` per call."""
 
-    def __init__(self, *, plan=None, binds=(), reflects=(), usage=None, fail=()):
+    def __init__(self, *, plan=None, binds=(), reflects=(), verifies=(), usage=None,
+                 fail=()):
         self.plan = plan if plan is not None else {
             "subquestions": [{"text": "Wer gibt Almosen?", "terms": ["almuosen"]},
                              {"text": "Wem?", "terms": ["armen"]}],
             "period": {"from": 1400, "to": 1499}, "languages": ["de"]}
         self.binds, self.reflects = list(binds), list(reflects)
+        self.verifies = list(verifies)
         self.usage = usage if usage is not None else {"prompt_tokens": 100,
                                                       "completion_tokens": 50}
         self.fail = set(fail)
@@ -75,13 +77,16 @@ class ScriptedLLM:
     def __call__(self, prompt, system, max_tokens):
         self.prompts.append(prompt)
         stage = ("plan" if "Zerlege die Frage" in prompt else
-                 "bind" if "Passagen (Kennung" in prompt else "reflect")
+                 "bind" if "Passagen (Kennung" in prompt else
+                 "verify" if "Prüfe jede Behauptung" in prompt else "reflect")
         if stage in self.fail:
             raise ConnectionError("GPUStack 403 (off VPN)")
         if stage == "plan":
             out = self.plan
         elif stage == "bind":
             out = self.binds.pop(0) if self.binds else {"claims": []}
+        elif stage == "verify":
+            out = self.verifies.pop(0) if self.verifies else {"checks": []}
         else:
             out = self.reflects.pop(0) if self.reflects else {"gaps": []}
         text = out if isinstance(out, str) else "Gedanken…\n" + json.dumps(out)
@@ -284,8 +289,9 @@ def test_ask_answers_with_checked_claims_and_counts_its_cost(items):
         "Der Brief beginnt mit einer Grussformel."]
     assert [c.text for c in res.rejected_claims] == ["Erfunden."]
     assert res.summary.startswith("Das Spital")
-    assert len(res.audit.calls) == 3                      # plan, bind, reflect
-    assert res.audit.tokens == 3 * 150
+    assert [c["stage"] for c in res.audit.calls] == ["plan", "bind", "verify",
+                                                     "reflect-1"]
+    assert res.audit.tokens == 4 * 150
     assert res.complete
     assert res.question_id.startswith("q-")
 
@@ -341,7 +347,7 @@ def test_missing_usage_is_unknown_not_zero(items):
     llm = ScriptedLLM(binds=[_good_bind(items)], usage={})
     res = af.ask("q", llm=llm, retrievers=_retrievers(*items.values()), max_rounds=0)
     assert res.audit.tokens == 0
-    assert res.audit.unknown_usage_calls == len(res.audit.calls) == 2
+    assert res.audit.unknown_usage_calls == len(res.audit.calls) == 3  # plan, bind, verify
 
 
 def test_a_model_that_cannot_be_reached_is_recorded(items):
