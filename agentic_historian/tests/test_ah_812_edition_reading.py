@@ -273,12 +273,15 @@ def test_the_same_search_runs_once():
     assert [q for q, _ in seen] == ["elemosina", "infirmis"]
 
 
-def test_no_passages_in_the_holding_is_empty_not_failed(monkeypatch):
+def test_no_passages_in_the_holding_is_not_in_holding_not_failed(monkeypatch):
+    """Since the seventh run: said once as ``NotInHolding`` (and the retriever
+    is not asked again), still never a failed search."""
     import passage_find
 
     monkeypatch.setattr(passage_find, "find", lambda *a, **k: passage_find.Found(
         query="x", bestand="kf", indexed=1, candidates=0))
-    assert af.own_passages("x", bestand="kf") == []
+    with pytest.raises(af.NotInHolding, match="holding kf"):
+        af.own_passages("x", bestand="kf")
     monkeypatch.setattr(passage_find, "find", lambda *a, **k: passage_find.Found(
         query="x", indexed=0))
     with pytest.raises(LookupError, match="leer"):

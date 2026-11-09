@@ -199,15 +199,24 @@ class Claim:
     #: The claim's place in the model's own list, which is how its summary
     #: refers to it ([n]); the answer renumbers the accepted ones (#812).
     number: int = 0
+    #: What the claim-level checks found: it rests only on a quote an earlier
+    #: claim already used (``check_reuse``), or it does not follow from its
+    #: own gloss (``verify``). Shown, and the claim leaves the summary.
+    checks: list[str] = field(default_factory=list)
 
     @property
     def supported(self) -> bool:
         return any(b.ok for b in self.bindings)
 
     @property
-    def flags(self) -> list[str]:
+    def gloss_flags(self) -> list[str]:
         """Every glossary contradiction in the glosses of its accepted quotes."""
         return [f for b in self.bindings if b.ok for f in b.gloss_flags]
+
+    @property
+    def flags(self) -> list[str]:
+        """Everything that keeps the claim out of the summary."""
+        return self.gloss_flags + self.checks
 
 
 @dataclass
@@ -432,12 +441,18 @@ def own_passages(query: str, *, bestand: str | None = None,
             items.append(it)
     if not items and not found.hits:
         if found.indexed and not found.candidates:
-            # The index has passages, none in the holding asked: that is an
-            # empty answer, not a failed search (#812: ten such "failures"
-            # marked a Königsfelden-only answer incomplete).
-            return []
+            # The index has passages, none in the holding asked: not a failed
+            # search (#812: ten such "failures" marked a Königsfelden-only
+            # answer incomplete), and no other query will change it.
+            raise NotInHolding(f"none of our own transcriptions is in holding {bestand}")
         raise LookupError(found.why_empty() or "no passages")
     return items
+
+
+class NotInHolding(LookupError):
+    """The retriever has nothing at all in the holding asked — whatever the
+    query. ``retrieve`` records it once and stops asking that retriever (#812,
+    seventh tei run: ten empty "passages" searches for an edition holding)."""
 
 
 class PartialRetrieval(RuntimeError):
@@ -654,8 +669,11 @@ def retrieve(queries: list[dict], *, retrievers: dict[str, Retriever],
     """
     added = 0
     asked = {(c["retriever"], c["query"].casefold()) for c in coverage}
+    skip = {c["retriever"] for c in coverage if c["status"] == "not in holding"}
     for q in queries:
         for name, fn in retrievers.items():
+            if name in skip:
+                continue
             # Full text: each term and the edition's spellings of it
             # (`almuosen` → `almuͦsen`); the semantic search gets the question.
             asks = ([q["text"]] if name != "fulltext"
@@ -668,6 +686,11 @@ def retrieve(queries: list[dict], *, retrievers: dict[str, Retriever],
                 row = {"subquestion": q["id"], "retriever": name, "query": query}
                 try:
                     items = fn(query, bestand=bestand, limit=limit) or []
+                except NotInHolding as e:
+                    row.update(status="not in holding", hits=0, error=str(e)[:300])
+                    coverage.append(row)
+                    skip.add(name)
+                    break
                 except PartialRetrieval as e:
                     items = e.items
                     row.update(status="partial", error=str(e)[:300])
@@ -801,7 +824,13 @@ als ein Wort; im Zitat darfst du sie getrennt oder zusammen schreiben.
 
 Übersetze jedes Zitat zuerst Wort für Wort ins heutige Deutsch ("gloss") und
 formuliere erst dann die Behauptung; sie sagt nichts, was nicht in deiner
-Übersetzung steht. Die Übersetzung wird neben dem Zitat gezeigt.
+Übersetzung steht — auch nicht, wer handelt und für wen. Die Übersetzung wird
+neben dem Zitat gezeigt.
+
+Nutze die Breite der Passagen: jeder Befund wird eine eigene Behauptung, gestützt
+auf die Urkunden, die ihn zeigen; verschiedene Befunde aus verschiedenen
+Urkunden, wo die Passagen das hergeben. Zwei Behauptungen stützen sich nie auf
+dasselbe Zitat.
 Wörter der Urkundensprache, die heute anders bedeuten:
 <<GLOSSAR>>
 {holdings}
@@ -1057,6 +1086,7 @@ def check_summary(summary: str, claims: list[Claim]) -> tuple[str, str]:
         return "", ""
     shown = {c.number: i for i, c in enumerate(claims, 1)}
     flagged = {c.number for c in claims if c.flags}
+    by_number = {c.number: c for c in claims}
     bound = [b.quote for c in claims for b in c.bindings if b.ok]
     kept, why = [], []
     for sentence in _SENTENCE.split(summary):
@@ -1072,8 +1102,10 @@ def check_summary(summary: str, claims: list[Claim]) -> tuple[str, str]:
             why.append(f"cites claim [{next(n for n in refs if n not in shown)}], "
                        "which was not accepted")
         elif any(n in flagged for n in refs):
-            why.append(f"cites claim [{shown[next(n for n in refs if n in flagged)]}], "
-                       "whose gloss contradicts the glossary")
+            c = by_number[next(n for n in refs if n in flagged)]
+            why.append(f"cites claim [{shown[c.number]}], "
+                       + ("whose gloss contradicts the glossary" if c.gloss_flags
+                          else "which did not pass the claim checks"))
         elif any(not any(q in b for b in bound) for q in quoted):
             why.append(f"quotes text no accepted binding carries: "
                        f"{next(q for q in quoted if not any(q in b for b in bound))[:80]!r}")
@@ -1087,15 +1119,90 @@ def check_summary(summary: str, claims: list[Claim]) -> tuple[str, str]:
     return " ".join(kept), reason
 
 
+def check_reuse(claims: list[Claim]) -> None:
+    """Mark a claim whose accepted quotes an earlier claim already used: the
+    same words cannot carry a second finding (#812, seventh tei run — two
+    claims, one quote, the second misreading it). Mechanical."""
+    seen: dict[tuple[str, str], int] = {}
+    for i, c in enumerate(claims, 1):
+        keys = [(b.evidence_id, b.quote) for b in c.bindings if b.ok]
+        if keys and all(k in seen for k in keys):
+            c.checks.append(f"stützt sich nur auf dasselbe Zitat wie Behauptung "
+                            f"[{seen[keys[0]]}]")
+        for k in keys:
+            seen.setdefault(k, i)
+
+
+_VERIFY_SYSTEM = (
+    "Du prüfst Behauptungen gegen Übersetzungen mittelalterlicher Urkunden. "
+    "Antworte nur mit einem JSON-Objekt."
+)
+
+_VERIFY_PROMPT = """Prüfe jede Behauptung allein gegen die Übersetzung ihrer
+Zitate (fehlt eine, gegen das Zitat). Folgt die Behauptung daraus? Achte darauf,
+wer handelt, für wen und was geschieht: "dass sie Gott für uns bitten" heisst,
+dass sie (etwa die Schwestern) beten, nicht Gott. Eine Behauptung, die mehr
+sagt als die Übersetzung, folgt nicht daraus.
+
+{claims}
+
+{{"checks": [{{"n": 1, "follows": true, "why": "..."}}]}}"""
+
+
+def _verify_block(claims: list[Claim]) -> str:
+    out = []
+    for i, c in enumerate(claims, 1):
+        out.append(f"[{i}] Behauptung: {c.text}")
+        for b in c.bindings:
+            if b.ok:
+                out.append(f"    Zitat: „{b.quote}“")
+                out.append(f"    Übersetzung: „{b.gloss}“" if b.gloss
+                           else "    Übersetzung: (keine)")
+    return "\n".join(out)
+
+
+def verify(claims: list[Claim], *, llm: LLM, audit: Audit, stage: str = "verify") -> None:
+    """Ask the model, in one call, whether each claim follows from the gloss of
+    its own quotes; mark those that do not (#812, seventh tei run: "dass si got
+    eweclich fùr uns bitten sùllent", glossed right, claimed as God praying).
+
+    A narrower question than the one that wrote the claim, which is why the
+    same model can answer it. A check that could not run marks nothing and
+    says so in the audit: a missing check never reads as a failed one.
+    """
+    if not claims:
+        return
+    try:
+        data = _call(llm, audit, stage, _VERIFY_PROMPT.format(claims=_verify_block(claims)),
+                     _VERIFY_SYSTEM)
+    except (BudgetExhausted, ValueError, TypeError) as e:
+        audit.events.append(f"{stage}: not run ({e}); no claim was checked against its gloss")
+        return
+    for raw in data.get("checks") or []:
+        if not isinstance(raw, dict) or raw.get("follows") is not False:
+            continue
+        try:
+            n = int(raw.get("n"))
+        except (TypeError, ValueError):
+            continue
+        if 1 <= n <= len(claims):
+            why = str(raw.get("why") or "").strip()[:240] or "ohne Begründung"
+            claims[n - 1].checks.append(f"Folgt nicht aus der eigenen Übersetzung: {why}")
+
+
 def bind(question: str, items: list, pool: dict, *, llm: LLM,
          audit: Audit) -> tuple[list[Claim], list[Claim], str, str]:
-    """Claims from the sampled items, checked. One call."""
+    """Claims from the sampled items, checked: bindings and glosses
+    mechanically, then reuse of a quote, then — one more call — whether each
+    claim follows from its own gloss. Two calls."""
     data = _call(llm, audit, "bind",
                  _BIND_PROMPT.format(question=question, passages=_passages_block(items),
                                      holdings=_holding_context(items)),
                  _BIND_SYSTEM)
     ok, bad = check_bindings(data.get("claims") or [], pool,
                              allowed={it.evidence_id for it in items})
+    check_reuse(ok)
+    verify(ok, llm=llm, audit=audit)
     summary, why = check_summary(str(data.get("summary") or ""), ok)
     if why:
         audit.events.append(f"bind: summary — {why}")
@@ -1320,8 +1427,13 @@ def render_markdown(res: Result) -> str:
     if not res.claims:
         out += ["Keine Behauptung liess sich aus den gefundenen Passagen belegen.", ""]
     for i, c in enumerate(res.claims, 1):
-        out.append(f"{i}. {c.text}" + (" ⚠️ *Übersetzung widerspricht dem Glossar — "
-                                         "nicht in der Zusammenfassung*" if c.flags else ""))
+        mark = ""
+        if c.gloss_flags:
+            mark = " ⚠️ *Übersetzung widerspricht dem Glossar — nicht in der Zusammenfassung*"
+        elif c.checks:
+            mark = " ⚠️ *Prüfung nicht bestanden — nicht in der Zusammenfassung*"
+        out.append(f"{i}. {c.text}{mark}")
+        out += [f"   ⚠️ {x}" for x in c.checks]
         for b in c.bindings:
             if b.ok:
                 out += ["   " + ln for ln in _cite(res.pool[b.evidence_id], b.quote,
