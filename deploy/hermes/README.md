@@ -73,6 +73,7 @@ chmod 700 ~/.hermes; touch ~/.hermes/.env && chmod 600 ~/.hermes/.env    # fill 
 hermes config set model.provider custom
 hermes config set model.base_url https://gpustack.unibe.ch/v1
 hermes config set model.default lfm2.5-24b-a2b
+hermes config set model.context_length 125000    # GPUStack: 125K; unset, Hermes assumes 256000
 hermes config set providers.gpustack-oss.base_url https://gpustack.unibe.ch/v1
 hermes config set providers.gpustack-oss.model gpt-oss-120b
 hermes config set providers.gpustack-oss.key_env GPUSTACK_API_KEY

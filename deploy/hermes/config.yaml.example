@@ -6,6 +6,11 @@ model:
   provider: custom                      # GPUStack is OpenAI-compatible
   base_url: https://gpustack.unibe.ch/v1
   default: lfm2.5-24b-a2b               # since 09.11.2026; was qwen3.8-27b (OpenClaw's default)
+  # GPUStack's /v1/models gives no window for LFM, and Hermes then falls back to
+  # 256000 ("Model context warmed: … (default)" in gateway.log) — twice what
+  # GPUStack serves (125K in its model list). Too high a value means compression
+  # starts too late and long turns fail at GPUStack instead.
+  context_length: 125000
   # api key: GPUSTACK_API_KEY in .env
 
 providers:
