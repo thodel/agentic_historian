@@ -11,7 +11,11 @@ model:
   # GPUStack serves (125K in its model list). Too high a value means compression
   # starts too late and long turns fail at GPUStack instead.
   context_length: 125000
-  # api key: GPUSTACK_API_KEY in .env
+  # Hermes keys a custom endpoint's credential by host (hermes_cli/config.py:
+  # HERMES_CUSTOM_<HOST>_API_KEY); this is the line in tei's config (09.11.2026).
+  # It holds the same GPUStack key as GPUSTACK_API_KEY (gpustack-oss below) —
+  # rotate both in .env (H6).
+  api_key: ${HERMES_CUSTOM_GPUSTACK_UNIBE_CH_API_KEY}
 
 providers:
   gpustack-oss:                         # the reasoning model, pinned per job only
