@@ -5,7 +5,7 @@
 model:
   provider: custom                      # GPUStack is OpenAI-compatible
   base_url: https://gpustack.unibe.ch/v1
-  default: qwen3.8-27b                  # OpenClaw's default too
+  default: lfm2.5-24b-a2b               # since 09.11.2026; was qwen3.8-27b (OpenClaw's default)
   # api key: GPUSTACK_API_KEY in .env
 
 providers:
