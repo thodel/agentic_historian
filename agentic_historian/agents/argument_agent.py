@@ -182,6 +182,10 @@ class Binding:
     #: the edition's own characters for it, both layers (#812).
     layer: str = ""
     source_span: str = ""
+    #: The model's word-for-word rendering of the quote in today's German,
+    #: written before its claim. Shown, never checked: it is how a reader sees
+    #: at a glance whether the model read the source (#812, fifth tei run).
+    gloss: str = ""
 
 
 @dataclass
@@ -238,12 +242,19 @@ class Result:
 
 # ── the model ────────────────────────────────────────────────────────────────
 
+def argument_model() -> str:
+    """The model Agent F asks: ``ARGUMENT_MODEL``, else GPUStack's text role
+    (``gpt-oss-120b``). A setting, so another model can be tried on the same
+    question without a code change (#812, fifth tei run)."""
+    return config.ARGUMENT_MODEL or config.GPUSTACK_MODEL_TEXT
+
+
 def gpustack_llm(prompt: str, system: str, max_tokens: int) -> tuple[str, dict]:
-    """The default model: GPUStack's text role (``gpt-oss-120b``)."""
+    """The default model, :func:`argument_model`, on GPUStack."""
     from utils import gpustack_client as gs
 
-    text = gs.chat_text(prompt, system=system, max_tokens=max_tokens,
-                        temperature=0.2, agent_name="agent_f")
+    text = gs.chat(prompt, model=argument_model(), system=system,
+                   max_tokens=max_tokens, temperature=0.2, agent_name="agent_f")
     return text, gs.last_usage()
 
 
@@ -271,12 +282,40 @@ _PLAN_SYSTEM = (
     "Antworte nur mit einem JSON-Objekt."
 )
 
+
+#: Words of medieval charter German (and their Latin) that a reader of today's
+#: German misreads — every one from a misreading on tei (#812, fifth run:
+#: "mit der bescheidenheit" as modesty, "gesun gen selmesse" as a healthy
+#: self-knowledge). Shown to the plan (as search terms) and to the binding
+#: stage (as meanings).
+_GLOSSARY = """\
+- bescheidenheit: Bestimmung, Bedingung ("mit der bescheidenheit, daz …" = unter
+  der Bedingung, dass …), nicht Bescheidenheit
+- jartzit, jarzit (lat. anniversarium): Jahrzeit, die jährliche Gedenkmesse für
+  einen Verstorbenen; began = (die Jahrzeit) begehen
+- selmesse: Seelmesse, Messe für das Seelenheil; gesungen: gesungen, nicht gesund
+- spende: Armenspende, Verteilung von Brot oder Geld an Arme
+- almuͦsen (lat. elemosina): fromme Gabe, auch das dafür gestiftete Geld oder Gut
+- durch got, durch … sele heiles willen (lat. pro anima, pro remedio animae): um
+  Gottes willen, um des Seelenheils willen — das Motiv einer Stiftung
+- siech: krank ("die siechen swestern" = die kranken Schwestern)
+- pflegen ("dù der jartzit pfliget"): besorgen, verantwortlich sein für
+- selig ("chùnig Fridrichs, seligen"): verstorben
+- gelt, gülte, zins: Ertrag, Rente, Abgabe
+- frowe: Herrin, auch Klosterfrau"""
+
 _PLAN_PROMPT = """Forschungsfrage: {question}
 
 Zerlege die Frage in 2 bis 4 Teilfragen. Gib zu jeder Teilfrage bis zu drei
 Suchbegriffe in der Sprache und Schreibung der Quellen (frühneuhochdeutsch,
-mittelhochdeutsch oder lateinisch, z. B. "almuosen", "elemosina") — einzelne
-Wörter, keine Suchoperatoren. Nenne den Zeitraum der Frage in Jahren, falls sie
+mittelhochdeutsch oder lateinisch, z. B. "almuosen", "elemosina", "jartzit",
+"spende", "selmesse") — einzelne Wörter, keine Suchoperatoren. Die Volltextsuche
+findet nur Wörter, die so in den Quellen stehen: keine heutigen Wörter
+("Beerdigung", "Gottesdienst", "bedürftig"), keine Namen von Beständen oder
+Editionen ("Königsfelder Urkunden"). Wörter der Urkundensprache:
+<<GLOSSAR>>
+
+Nenne den Zeitraum der Frage in Jahren, falls sie
 einen hat, und die Quellsprachen. Nennt die Frage einen dieser Bestände, gib
 seine Kennung an, sonst null:
 {holdings}
@@ -284,7 +323,7 @@ seine Kennung an, sonst null:
 {{"subquestions": [{{"text": "...", "terms": ["..."]}}],
  "period": {{"from": 1300, "to": 1399}} oder null,
  "languages": ["de", "la"],
- "bestand": "kf" oder null}}"""
+ "bestand": "kf" oder null}}""".replace("<<GLOSSAR>>", _GLOSSARY)
 
 
 def _holdings() -> dict[str, str]:
@@ -735,16 +774,23 @@ Behaupte nur, was das Zitat selbst sagt:
 - Achte auf den Bestand jeder Passage und schreibe einem Bestand nichts zu,
   was aus einem anderen stammt.
 Die Edition trennt Wörter an aufgelösten Abkürzungen: "su per" ist "super",
-"Bremgar ten" ist "Bremgarten". Lies solche Silben als ein Wort; im Zitat darfst
-du sie getrennt oder zusammen schreiben.
+"Bremgar ten" ist "Bremgarten", "gesun gen" ist "gesungen". Lies solche Silben
+als ein Wort; im Zitat darfst du sie getrennt oder zusammen schreiben.
+
+Übersetze jedes Zitat zuerst Wort für Wort ins heutige Deutsch ("gloss") und
+formuliere erst dann die Behauptung; sie sagt nichts, was nicht in deiner
+Übersetzung steht. Die Übersetzung wird neben dem Zitat gezeigt.
+Wörter der Urkundensprache, die heute anders bedeuten:
+<<GLOSSAR>>
 {holdings}
 Schreibe Behauptungen und Zusammenfassung in der Sprache der Forschungsfrage.
 Jeder Satz der Zusammenfassung nennt die Behauptungen, die ihn tragen, als [1],
 [2], … (in der Reihenfolge deiner Liste) und zitiert nicht; ein Satz ohne
 Verweis wird nicht gezeigt.
 
-{{"claims": [{{"claim": "...", "evidence": [{{"id": "ev-…", "quote": "..."}}]}}],
- "summary": "..."}}"""
+{{"claims": [{{"evidence": [{{"id": "ev-…", "quote": "...", "gloss": "..."}}],
+              "claim": "..."}}],
+ "summary": "..."}}""".replace("<<GLOSSAR>>", _GLOSSARY)
 
 
 def _where(it) -> str:
@@ -904,7 +950,7 @@ def check_bindings(raw_claims: list, pool: dict,
                 continue
             eid = str(b.get("id") or "").strip()
             quote = _trim_cut(str(b.get("quote") or ""))
-            bd = Binding(eid, quote)
+            bd = Binding(eid, quote, gloss=str(b.get("gloss") or "").strip())
             item = pool.get(eid)
             if item is None:
                 bd.reason = "unknown id"
@@ -1042,12 +1088,15 @@ def ask(question: str, *, bestand: str | None = None,
         now: str | None = None) -> Result:
     """Answer ``question`` from evidence. Never raises for a model or retriever
     failure: what could not be done is in the result."""
+    model_note = "" if llm else f"model: {argument_model()}"
     llm = llm or gpustack_llm
     retrievers = DEFAULT_RETRIEVERS if retrievers is None else retrievers
     audit = Audit(max_tokens=config.ARGUMENT_MAX_TOKENS if max_tokens is None else max_tokens,
                   max_calls=config.ARGUMENT_MAX_CALLS if max_calls is None else max_calls)
     max_rounds = config.ARGUMENT_MAX_ROUNDS if max_rounds is None else max_rounds
     size = config.ARGUMENT_SAMPLE_SIZE if sample_size is None else sample_size
+    if model_note:
+        audit.events.append(model_note)
     when = now or datetime.now(UTC).isoformat(timespec="seconds")
     period = ({"from": year_from or 0, "to": year_to or 9999}
               if (year_from or year_to) else None)
@@ -1143,7 +1192,7 @@ _DROP_DE = {
 }
 
 
-def _cite(it, quote: str, source_span: str = "") -> list[str]:
+def _cite(it, quote: str, source_span: str = "", gloss: str = "") -> list[str]:
     r, s = it.reading, it.source or {}
     where = _where(it)
     link = f"[{where}]({it.catalogue_url})" if it.catalogue_url else where
@@ -1152,6 +1201,8 @@ def _cite(it, quote: str, source_span: str = "") -> list[str]:
         label = ("Im Zusammenhang, mit dem Ausgelassenen" if "…" in quote
                  else "Edition, beide Schichten")
         head += f"\n  {label}: „{source_span}“"
+    if gloss:
+        head += f"\n  Übersetzung (Modell, ungeprüft): „{gloss}“"
     status = _STATUS_DE.get(r.get("status"), r.get("status") or "")
     if r.get("status") == ev.EDITION:
         meta = [f"{status} ({r.get('model_id')})"]
@@ -1203,7 +1254,7 @@ def render_markdown(res: Result) -> str:
         for b in c.bindings:
             if b.ok:
                 out += ["   " + ln for ln in _cite(res.pool[b.evidence_id], b.quote,
-                                                  b.source_span)]
+                                                  b.source_span, b.gloss)]
         out.append("")
     out += ["## Was nicht trägt oder fehlt", ""]
     n_bad = sum(1 for c in res.claims for b in c.bindings if not b.ok)

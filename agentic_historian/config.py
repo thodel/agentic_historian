@@ -365,6 +365,9 @@ ORCHESTRATOR_LLM_ENABLED = _get("ORCHESTRATOR_LLM_ENABLED", "false").lower() == 
 # reports ~505k tokens and ~22 calls per question; on gpt-oss-120b (a reasoning
 # model, see GPUSTACK_TEXT_MAX_TOKENS) that needs a ceiling. The agent checks
 # both before every call and stops — saying what it did not do — at either.
+#: The model Agent F asks; empty = GPUSTACK_MODEL_TEXT. A setting so another
+#: model (e.g. minimax-m2.7) can be tried on the same question (#812).
+ARGUMENT_MODEL = _get("ARGUMENT_MODEL", "")
 ARGUMENT_MAX_TOKENS = int(_get("ARGUMENT_MAX_TOKENS", "300000"))
 ARGUMENT_MAX_CALLS = int(_get("ARGUMENT_MAX_CALLS", "12"))
 #: Reflection rounds after the first answer. SPIRE caps at two.
