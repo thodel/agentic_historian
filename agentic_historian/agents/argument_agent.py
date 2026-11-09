@@ -186,6 +186,10 @@ class Binding:
     #: written before its claim. Shown, never checked: it is how a reader sees
     #: at a glance whether the model read the source (#812, fifth tei run).
     gloss: str = ""
+    #: Where the gloss reads a charter word in its modern sense against the
+    #: glossary (``check_gloss``); the claim is then marked and kept out of
+    #: the summary.
+    gloss_flags: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -199,6 +203,11 @@ class Claim:
     @property
     def supported(self) -> bool:
         return any(b.ok for b in self.bindings)
+
+    @property
+    def flags(self) -> list[str]:
+        """Every glossary contradiction in the glosses of its accepted quotes."""
+        return [f for b in self.bindings if b.ok for f in b.gloss_flags]
 
 
 @dataclass
@@ -292,28 +301,41 @@ _GLOSSARY = """\
 - bescheidenheit: Bestimmung, Bedingung ("mit der bescheidenheit, daz …" = unter
   der Bedingung, dass …), nicht Bescheidenheit
 - jartzit, jarzit (lat. anniversarium): Jahrzeit, die jährliche Gedenkmesse für
-  einen Verstorbenen; began = (die Jahrzeit) begehen
+  einen Verstorbenen
+- began, begangen: (eine Jahrzeit) begehen, feiern — nicht beginnen
 - selmesse: Seelmesse, Messe für das Seelenheil; gesungen: gesungen, nicht gesund
 - spende: Armenspende, Verteilung von Brot oder Geld an Arme
 - almuͦsen (lat. elemosina): fromme Gabe, auch das dafür gestiftete Geld oder Gut
 - durch got, durch … sele heiles willen (lat. pro anima, pro remedio animae): um
   Gottes willen, um des Seelenheils willen — das Motiv einer Stiftung
+- sele, sel, selen: Seele, Seelen — nicht selig, nicht heilig ("durch unserr
+  vordern sele willen" = um der Seelen unserer Vorfahren willen)
+- fùr uns bitten (lat. orare pro nobis): für uns beten — die Fürbitte, die eine
+  Stiftung erwartet
+- die wile: solange, während — nicht Wille
+- koͧffen, gekoͧft, gechoͧffet: kaufen, gekauft
 - siech: krank ("die siechen swestern" = die kranken Schwestern)
 - pflegen ("dù der jartzit pfliget"): besorgen, verantwortlich sein für
 - selig ("chùnig Fridrichs, seligen"): verstorben
 - gelt, gülte, zins: Ertrag, Rente, Abgabe
 - frowe: Herrin, auch Klosterfrau"""
 
-_PLAN_PROMPT = """Forschungsfrage: {question}
-
-Zerlege die Frage in 2 bis 4 Teilfragen. Gib zu jeder Teilfrage bis zu drei
+#: How a search term must look, for the plan and for every reflection round:
+#: on the fifth tei run the plan obeyed it and reflection, which had not been
+#: told, searched "Seelenheil", "Ablass", "Purgatorium", "Zehnt" — all empty.
+_TERMS_RULE = """\
 Suchbegriffe in der Sprache und Schreibung der Quellen (frühneuhochdeutsch,
 mittelhochdeutsch oder lateinisch, z. B. "almuosen", "elemosina", "jartzit",
 "spende", "selmesse") — einzelne Wörter, keine Suchoperatoren. Die Volltextsuche
 findet nur Wörter, die so in den Quellen stehen: keine heutigen Wörter
-("Beerdigung", "Gottesdienst", "bedürftig"), keine Namen von Beständen oder
-Editionen ("Königsfelder Urkunden"). Wörter der Urkundensprache:
-<<GLOSSAR>>
+("Beerdigung", "Gottesdienst", "Seelenheil", "Ablass"), keine Namen von
+Beständen oder Editionen ("Königsfelder Urkunden"). Wörter der Urkundensprache:
+""" + _GLOSSARY
+
+_PLAN_PROMPT = """Forschungsfrage: {question}
+
+Zerlege die Frage in 2 bis 4 Teilfragen. Gib zu jeder Teilfrage bis zu drei
+<<TERMS>>
 
 Nenne den Zeitraum der Frage in Jahren, falls sie
 einen hat, und die Quellsprachen. Nennt die Frage einen dieser Bestände, gib
@@ -323,7 +345,7 @@ seine Kennung an, sonst null:
 {{"subquestions": [{{"text": "...", "terms": ["..."]}}],
  "period": {{"from": 1300, "to": 1399}} oder null,
  "languages": ["de", "la"],
- "bestand": "kf" oder null}}""".replace("<<GLOSSAR>>", _GLOSSARY)
+ "bestand": "kf" oder null}}""".replace("<<TERMS>>", _TERMS_RULE)
 
 
 def _holdings() -> dict[str, str]:
@@ -909,6 +931,43 @@ def _bind_quote(bd: Binding, item, pool: dict, allowed: set[str]) -> None:
                  if elsewhere else "quote not in the cited passage")
 
 
+#: Charter words a gloss reads in their modern sense (#812, fifth and sixth
+#: tei runs): ``(word, in the quote, wrong in the gloss, right in the gloss,
+#: glossary meaning)``. A gloss is flagged only when it has the wrong reading
+#: **and not** the right one — "Bedingung (bescheidenheit)" passes.
+_FALSE_FRIENDS = (
+    ("bescheidenheit", r"bescheidenheit", r"bescheidenheit",
+     r"bedingung|bestimmung|auflage|vorbehalt", "Bedingung, Bestimmung"),
+    ("began", r"\bbegan\b", r"beginn", r"begeh|beging|feier", "begehen, feiern"),
+    ("sele", r"\bsel(?:e|en)?\b", r"heilig|selig", r"seel", "Seele"),
+    ("die wile", r"\bdie wile\b", r"\bwille\b", r"solange|während|weile|zeit",
+     "solange, während"),
+    ("gesungen", r"gesun\s?gen", r"gesund", r"gesungen", "gesungen"),
+    ("selmesse", r"selmesse", r"selbst", r"seel", "Seelmesse"),
+)
+
+
+def check_gloss(quote: str, gloss: str) -> list[str]:
+    """Where ``gloss`` reads a word of ``quote`` against the glossary, one
+    line each; empty when it does not, or when there is no gloss.
+
+    Mechanical, like the binding check: it knows a handful of words and only
+    whether the modern reading is there and the glossary's is not. It cannot
+    say a gloss is right; it can say this one is wrong.
+    """
+    if not gloss:
+        return []
+    q = " ".join(quote.split()).lower()
+    out = []
+    for word, in_quote, wrong, right, meaning in _FALSE_FRIENDS:
+        if not re.search(in_quote, q):
+            continue
+        m = re.search(rf"\w*(?:{wrong})\w*", gloss, re.IGNORECASE)
+        if m and not re.search(right, gloss, re.IGNORECASE):
+            out.append(f"„{word}“ als „{m.group()}“ übersetzt; Glossar: {meaning}")
+    return out
+
+
 def check_bindings(raw_claims: list, pool: dict,
                    allowed: set[str] | None = None) -> tuple[list[Claim], list[Claim]]:
     """Verify every binding mechanically; ``(supported, rejected)`` claims.
@@ -960,6 +1019,8 @@ def check_bindings(raw_claims: list, pool: dict,
                 bd.reason = "empty quote"
             else:
                 _bind_quote(bd, item, pool, allowed)
+                if bd.ok:
+                    bd.gloss_flags = check_gloss(bd.quote, bd.gloss)
             bindings.append(bd)
         if not text:
             continue
@@ -984,7 +1045,9 @@ def check_summary(summary: str, claims: list[Claim]) -> tuple[str, str]:
     A sentence stands only when it cites at least one claim (``[n]``, the
     model's own numbering), every claim it cites was accepted, and anything it
     puts in quotation marks is a bound quote. Its references are renumbered to
-    the answer's numbering. Every other sentence is withheld, and ``reason``
+    the answer's numbering. A claim whose gloss contradicts the glossary
+    (``Claim.flags``) is shown, marked, and carries no summary sentence. Every
+    other sentence is withheld, and ``reason``
     says how many and why. On the third run on tei the summary — no references
     at all — said the documents justify alms "as a God-ordered righteous
     duty", which no accepted claim said (#812).
@@ -993,6 +1056,7 @@ def check_summary(summary: str, claims: list[Claim]) -> tuple[str, str]:
     if not summary:
         return "", ""
     shown = {c.number: i for i, c in enumerate(claims, 1)}
+    flagged = {c.number for c in claims if c.flags}
     bound = [b.quote for c in claims for b in c.bindings if b.ok]
     kept, why = [], []
     for sentence in _SENTENCE.split(summary):
@@ -1007,6 +1071,9 @@ def check_summary(summary: str, claims: list[Claim]) -> tuple[str, str]:
         elif any(n not in shown for n in refs):
             why.append(f"cites claim [{next(n for n in refs if n not in shown)}], "
                        "which was not accepted")
+        elif any(n in flagged for n in refs):
+            why.append(f"cites claim [{shown[next(n for n in refs if n in flagged)]}], "
+                       "whose gloss contradicts the glossary")
         elif any(not any(q in b for b in bound) for q in quoted):
             why.append(f"quotes text no accepted binding carries: "
                        f"{next(q for q in quoted if not any(q in b for b in bound))[:80]!r}")
@@ -1044,10 +1111,10 @@ Gestützte Behauptungen:
 Suchen ohne Treffer oder fehlgeschlagen: {gaps}
 
 Was fehlt, um die Frage zu beantworten? Gib höchstens drei gezielte Suchanfragen
-(mit Suchbegriffen in der Schreibung der Quellen) — oder keine, wenn die
-Behauptungen die Frage tragen.
+— oder keine, wenn die Behauptungen die Frage tragen. Jede mit bis zu drei
+<<TERMS>>
 
-{{"gaps": [{{"text": "...", "terms": ["..."], "why": "..."}}]}}"""
+{{"gaps": [{{"text": "...", "terms": ["..."], "why": "..."}}]}}""".replace("<<TERMS>>", _TERMS_RULE)
 
 
 def reflect(question: str, plan_: Plan, claims: list[Claim], coverage: list[dict],
@@ -1192,7 +1259,8 @@ _DROP_DE = {
 }
 
 
-def _cite(it, quote: str, source_span: str = "", gloss: str = "") -> list[str]:
+def _cite(it, quote: str, source_span: str = "", gloss: str = "",
+          flags: list[str] | None = None) -> list[str]:
     r, s = it.reading, it.source or {}
     where = _where(it)
     link = f"[{where}]({it.catalogue_url})" if it.catalogue_url else where
@@ -1203,6 +1271,8 @@ def _cite(it, quote: str, source_span: str = "", gloss: str = "") -> list[str]:
         head += f"\n  {label}: „{source_span}“"
     if gloss:
         head += f"\n  Übersetzung (Modell, ungeprüft): „{gloss}“"
+    for f in flags or []:
+        head += f"\n  ⚠️ Fraglich gelesen: {f}"
     status = _STATUS_DE.get(r.get("status"), r.get("status") or "")
     if r.get("status") == ev.EDITION:
         meta = [f"{status} ({r.get('model_id')})"]
@@ -1250,11 +1320,13 @@ def render_markdown(res: Result) -> str:
     if not res.claims:
         out += ["Keine Behauptung liess sich aus den gefundenen Passagen belegen.", ""]
     for i, c in enumerate(res.claims, 1):
-        out.append(f"{i}. {c.text}")
+        out.append(f"{i}. {c.text}" + (" ⚠️ *Übersetzung widerspricht dem Glossar — "
+                                         "nicht in der Zusammenfassung*" if c.flags else ""))
         for b in c.bindings:
             if b.ok:
                 out += ["   " + ln for ln in _cite(res.pool[b.evidence_id], b.quote,
-                                                  b.source_span, b.gloss)]
+                                                  b.source_span, b.gloss,
+                                                  b.gloss_flags)]
         out.append("")
     out += ["## Was nicht trägt oder fehlt", ""]
     n_bad = sum(1 for c in res.claims for b in c.bindings if not b.ok)
