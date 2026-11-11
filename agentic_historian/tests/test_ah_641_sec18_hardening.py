@@ -117,7 +117,7 @@ def test_safe_job_id_message_names_the_rule_not_just_the_input():
         tc._safe_job_id("../../admin")
     msg = str(err.value)
     assert "Job-ID" in msg
-    assert "64" in msg, "the message must say what is allowed, not only that it failed"
+    assert str(atr_status.JOB_ID_MAX) in msg, "the message must say what is allowed, not only that it failed"
 
 
 @pytest.mark.parametrize("job_id,why", STEERING_IDS)
