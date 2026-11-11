@@ -35,15 +35,23 @@ TIMEOUT_S = 30
 
 #: A job id is interpolated into a gateway URL path (``/train/jobs/{job_id}``), so
 #: it must not be able to steer the request. Letters, digits, dot, underscore and
-#: hyphen only, 1–64 chars (SEC-6, #577). Real ids — uuids, ``train-<date>-…`` —
-#: fit; ``../../models``, ``?x=1`` and ``#frag`` do not.
+#: hyphen only, 1–128 chars (SEC-6, #577). Real ids — uuids, ``train-<date>-…``,
+#: the trainer's ``<YYYYMMDDTHHMMSSZ>-<model id>`` — fit; ``../../models``,
+#: ``?x=1`` and ``#frag`` do not.
+#:
+#: The bound was 64 until 11.11.2026, and the trainer's ids are not: it names a
+#: job after its model, and ``20261106T201855Z-kraken-medieval-finetune-vs-
+#: scratch-02-r0-82d99fccf9fa`` is 78 characters, so ``kraken_train status``
+#: by job id refused a real job. The safety is the character class; the length
+#: only has to be finite. 128 leaves a model id of 111 characters.
 #:
 #: **Public on purpose** (SEC-18, #641). ``agent_a.training_client`` is a second
 #: client against the same gateway and needs the same rule; it was written after
 #: SEC-6 was fixed here and interpolated ``job_id`` raw, because nothing tied the
 #: two together. One pattern, imported by both, and a test that feeds the same
 #: strings to both validators — so the next client cannot drift either.
-JOB_ID_RE = re.compile(r"^[A-Za-z0-9._-]{1,64}$")
+JOB_ID_MAX = 128
+JOB_ID_RE = re.compile(r"^[A-Za-z0-9._-]{1,%d}$" % JOB_ID_MAX)
 
 #: ``.`` and ``..`` match the character class above but are exactly the traversal
 #: specials, so they are refused by name rather than by pattern.
@@ -82,7 +90,7 @@ def _safe_job_id(job_id: str) -> str:
     if jid in JOB_ID_REFUSED or not JOB_ID_RE.match(jid):
         raise AtrStatusError(
             f"ungültige Job-ID {job_id!r} — erlaubt sind Buchstaben, Ziffern, "
-            "'.', '_' und '-' (max. 64 Zeichen)")
+            f"'.', '_' und '-' (max. {JOB_ID_MAX} Zeichen)")
     return jid
 
 

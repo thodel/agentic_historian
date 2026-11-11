@@ -47,7 +47,7 @@ STEERING_IDS = [
     ("a\\b",                "a backslash segment separator"),
     ("",                    "empty"),
     ("   ",                 "whitespace only"),
-    ("x" * 65,              "longer than any real id"),
+    ("x" * 129,             "longer than any real id"),
 ]
 
 #: Ids that really occur and must keep working — a regression here breaks the
@@ -58,7 +58,8 @@ REAL_IDS = [
     "job_42",
     "run.1.2.3",
     "x",
-    "X" * 64,
+    "X" * 128,
+    "20261106T201855Z-kraken-medieval-finetune-vs-scratch-02-r0-82d99fccf9fa",
 ]
 
 

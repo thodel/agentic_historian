@@ -1683,7 +1683,9 @@ def transkribus_collections_job(*, name: Optional[str] = None,
         raise JobError(str(exc)) from None
 
 
-TRAIN_JOB_ID_RE = re.compile(r"^[0-9]{8}T[0-9]{6}Z-[A-Za-z0-9_.:-]{1,80}$")
+#: 17 for the timestamp and its hyphen, the rest the model id, so the whole stays
+#: within ``atr_status.JOB_ID_MAX`` — and without ``:``, which that rule refuses.
+TRAIN_JOB_ID_RE = re.compile(r"^[0-9]{8}T[0-9]{6}Z-[A-Za-z0-9_.-]{1,111}$")
 
 
 def train_spec_argv(spec: str, action: str = "request", *,

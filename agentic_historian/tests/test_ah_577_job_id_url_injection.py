@@ -38,7 +38,8 @@ def asked(monkeypatch):
 
 # ── the validator ────────────────────────────────────────────────────────────
 
-VALID = ["abc123", "train-20260921-1a2b", "job_42", "a", "x" * 64, "v1.2.3"]
+VALID = ["abc123", "train-20260921-1a2b", "job_42", "a", "x" * 128, "v1.2.3",
+         "20261106T201855Z-kraken-medieval-finetune-vs-scratch-02-r0-82d99fccf9fa"]
 INVALID = [
     "../../models",            # path traversal → GET /models
     "..",                      # the traversal special on its own
@@ -48,7 +49,7 @@ INVALID = [
     "job#frag",                # fragment truncation
     "job id",                  # space
     "job/log",                 # extra path segment
-    "x" * 65,                  # too long
+    "x" * 129,                 # too long
     "",                        # empty
     "jöb",                     # non-ASCII
 ]
