@@ -331,7 +331,7 @@ def _safe_job_id(job_id: Any) -> str:
     if jid in atr_status.JOB_ID_REFUSED or not atr_status.JOB_ID_RE.match(jid):
         raise TrainingClientError(
             f"ungültige Job-ID {job_id!r} — erlaubt sind Buchstaben, Ziffern, "
-            "'.', '_' und '-' (max. 64 Zeichen)")
+            f"'.', '_' und '-' (max. {atr_status.JOB_ID_MAX} Zeichen)")
     return jid
 
 
