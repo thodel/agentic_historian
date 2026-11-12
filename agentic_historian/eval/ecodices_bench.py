@@ -30,6 +30,9 @@ e-codices.ch (31.10.2026: empty replies and 502) — and every judgement lives i
 * ``score``: per element hit / miss / not in the catalogue, and the stability of
   each element over the R runs. It reads only files, so the runs of an earlier
   day are scored again under today's rules (#842's century spans) for nothing.
+* ``compare``: two scored directories side by side — the same volumes with
+  ``--pages spread`` and with ``--pages typical`` (#774) — with a per-volume
+  balance of which choice is steadier and hits more often.
 
 Prompt variants and our own volumes (#844)
 ------------------------------------------
@@ -676,6 +679,84 @@ def score(bench_dir: Path, out: Path | None = None) -> tuple[list[VolumeScore], 
     return first, report
 
 
+# ── compare: one bench against another (#774) ───────────────────────────────
+
+def _cell(vs: Optional[VolumeScore], element: str) -> str:
+    """``hit 2, miss 1 · 67%`` for a volume's element, or ``–`` for a volume not run."""
+    if vs is None:
+        return "–"
+    j = vs.judgements.get(element, {})
+    verdicts = ", ".join(f"{k} {v}" for k, v in sorted(j.items())) or "–"
+    return f"{verdicts} · {_pct(vs.stability.get(element))}"
+
+
+def compare(dirs: list[Path], labels: Optional[list[str]] = None) -> str:
+    """Two or more bench directories side by side: the same volumes, other pages (#774).
+
+    Each directory is scored again (no network, no VLM; with several prompt
+    variants, the default prompt's runs, as ``score`` returns them), the columns carry the
+    ``pages`` of its ``meta.json`` unless ``labels`` names them, and the summary
+    counts only the volumes that every directory has run, so that a volume
+    missing from one run does not tilt the other.
+    """
+    cols = []
+    for i, d in enumerate(dirs):
+        meta_path = d / "meta.json"
+        meta = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
+        label = (labels[i] if labels and i < len(labels) and labels[i]
+                 else str(meta.get("pages") or d.name))
+        cols.append((label, meta, {vs.id: vs for vs in score(d)[0]}))
+    common = sorted(set.intersection(*(set(by_id) for _, _, by_id in cols)))
+    sums = [summarise([by_id[v] for v in common]) for _, _, by_id in cols]
+    rewards = [summarise_reward([by_id[v] for v in common]) for _, _, by_id in cols]
+    lines = ["# Agent B: Seitenwahl im Vergleich (#774)", "",
+             "- Läufe: " + " · ".join(f"`{lab}` ({d}, {meta.get('runs', '?')} Läufe je Band, "
+                                     f"{len(by_id)} Bände)"
+                                     for d, (lab, meta, by_id) in zip(dirs, cols)),
+             f"- Bände in allen Läufen: **{len(common)}**; nur sie zählen unten.", "",
+             "| Element | " + " | ".join(f"Trefferquote `{lab}` | Stabilität `{lab}`"
+                                         for lab, _, _ in cols) + " |",
+             "|---|" + "---:|---:|" * len(cols)]
+    for element in ELEMENTS:
+        cells = [f"{_pct(sm[element]['hit_rate'])} | {_pct(sm[element]['mean_stability'])}"
+                 for sm in sums]
+        lines.append(f"| {element} | " + " | ".join(cells) + " |")
+    lines.append("| Schrift, Top-2-Menge (#775) | " + " | ".join(
+        f"– | {_pct(sm[TOP2]['mean_stability'])}" for sm in sums) + " |")
+    lines.append("| Belohnung `total` (#782) | " + " | ".join(
+        ("– | –" if r.get("total") is None else f"{r['total']:+.3f} | –") for r in rewards) + " |")
+    lines += ["", "Trefferquote und Stabilität wie im Score-Report je Lauf, über die "
+              "gemeinsamen Bände.", ""]
+    if len(cols) >= 2 and common:
+        a, b = cols[0], cols[1]
+        lines += [f"## Bilanz `{b[0]}` gegen `{a[0]}`, je Band", "",
+                  "| Element | stabiler | gleich | weniger stabil | mehr Treffer | "
+                  "weniger Treffer |", "|---|---:|---:|---:|---:|---:|"]
+        for element in ("Schrift", "Datierung", "Schreiber", "Beschreibstoff"):
+            up = same = down = more = fewer = 0
+            for v in common:
+                sa, sb = a[2][v].stability.get(element), b[2][v].stability.get(element)
+                if sa is not None or sb is not None:
+                    sa, sb = sa or 0.0, sb or 0.0
+                    up, same, down = up + (sb > sa), same + (sb == sa), down + (sb < sa)
+                ha = a[2][v].judgements.get(element, {}).get(HIT, 0)
+                hb = b[2][v].judgements.get(element, {}).get(HIT, 0)
+                more, fewer = more + (hb > ha), fewer + (hb < ha)
+            lines.append(f"| {element} | {up} | {same} | {down} | {more} | {fewer} |")
+        lines += ["", "Stabilität je Band verglichen; «mehr Treffer»: mehr Läufe des Bandes "
+                  "treffen den Katalog.", ""]
+    lines += ["## Je Band: Schrift und Datierung", "",
+              "| Band | " + " | ".join(f"Schrift `{lab}`" for lab, _, _ in cols) + " | "
+              + " | ".join(f"Datierung `{lab}`" for lab, _, _ in cols) + " |",
+              "|---|" + "---|" * (2 * len(cols))]
+    every = sorted(set.union(*(set(by_id) for _, _, by_id in cols)))
+    for v in every:
+        cells = [_cell(by_id.get(v), "Schrift") for _, _, by_id in cols]
+        cells += [_cell(by_id.get(v), "Datierung") for _, _, by_id in cols]
+        lines.append(f"| `{v}` | " + " | ".join(cells) + " |")
+    return "\n".join(lines) + "\n"
+
+
 # ── fetch and run: on tei ────────────────────────────────────────────────────
 
 def _label(label) -> str:
@@ -1008,6 +1089,12 @@ def main(argv: Optional[list[str]] = None) -> int:
     s.add_argument("--out", type=Path, default=None,
                    help="write report.md and scores.json here instead of into DIR "
                         "(to score an old run again and keep its first report)")
+    cp = sub.add_parser("compare", help="two or more scored runs side by side, e.g. "
+                                        "--pages spread against --pages typical (#774)")
+    cp.add_argument("dirs", type=Path, nargs="+")
+    cp.add_argument("--label", action="append", default=None, metavar="NAME",
+                    help="column name per directory, in order (default: its meta.json pages)")
+    cp.add_argument("--out", type=Path, default=None, help="write the comparison here as well")
     args = ap.parse_args(argv)
     global _GETTER
     _GETTER = PoliteGetter(delay=args.delay)
@@ -1047,6 +1134,12 @@ def main(argv: Optional[list[str]] = None) -> int:
                                       "model": config.GPUSTACK_MODEL_VISION})
         run(args.dir, describe=_agent_b_image_only, runs=args.runs, pages=args.pages,
             get=_http_get, prompt=prompt)
+        return 0
+    if args.cmd == "compare":
+        report = compare(args.dirs, labels=args.label)
+        if args.out:
+            args.out.write_text(report, encoding="utf-8")
+        print(report)
         return 0
     _, report = score(args.dir, out=args.out)
     print(report)
