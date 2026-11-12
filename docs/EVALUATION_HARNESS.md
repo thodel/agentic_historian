@@ -400,7 +400,7 @@ own so the 30-volume baseline keeps three runs per volume:
 mkdir -p runs/ecodices-775/saa-0428
 cp runs/ecodices-2026-11/saa-0428/{manifest.json,tei.xml} runs/ecodices-775/saa-0428/
 ln -f runs/ecodices-2026-11/saa-0428/page-*.jpg runs/ecodices-775/saa-0428/ 2>/dev/null || true
-python -m eval.ecodices_bench run runs/ecodices-775 --runs 5 --pages spread
+AGENT_B_PAGES=4 python -m eval.ecodices_bench run runs/ecodices-775 --runs 5 --pages spread
 python -m eval.ecodices_bench score runs/ecodices-775
 ```
 
@@ -533,6 +533,16 @@ the second choice than under the first) and the Schrift and Datierung cells of
 every volume. The column names are each directory's `pages`; `--label` renames
 them.
 
+**Four images per call, and the budget.** tei's vLLM takes at most four images
+per prompt (12.11.2026); a five-page call is refused and Agent B falls back to
+the first page alone, which is what the third run (`--pages spread`, 7–8.11.)
+actually measured: every one of its 90 calls saw one page. Run multi-page
+variants with `AGENT_B_PAGES=4`. Four pages make the answer longer, and 4 of 5
+answers on `saa-0428` broke off inside the JSON at 3500 tokens: an answer the
+budget cuts off (`finish_reason == "length"`) whose JSON does not parse is now
+asked for once more with twice `AGENT_B_MAX_TOKENS`; raise that setting for a
+run that still shows `Antwort … abgeschnitten` in its log.
+
 ```bash
 # the same 30 volumes, typical pages, into a directory of its own
 mkdir -p runs/ecodices-2026-11-typical
@@ -541,7 +551,7 @@ for v in runs/ecodices-2026-11/*/; do
   mkdir -p "runs/ecodices-2026-11-typical/$id"
   cp "$v"/manifest.json "$v"/tei.xml "runs/ecodices-2026-11-typical/$id/"
 done
-python -m eval.ecodices_bench run runs/ecodices-2026-11-typical --runs 3 --pages typical
+AGENT_B_PAGES=4 python -m eval.ecodices_bench run runs/ecodices-2026-11-typical --runs 3 --pages typical
 python -m eval.ecodices_bench compare runs/ecodices-2026-11 runs/ecodices-2026-11-typical \
     --out runs/ecodices-2026-11-typical/compare.md
 ```

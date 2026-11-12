@@ -459,6 +459,10 @@ AGENT_B_PAGES = max(1, int(_get("AGENT_B_PAGES", "5")))
 # Long side, in pixels, of each page when several go into one call (#771). One
 # page alone is sent as it is.
 AGENT_B_PAGE_MAX_PX = int(_get("AGENT_B_PAGE_MAX_PX", "1600"))
+# Token budget of one Agent B answer. An answer the budget cuts off inside the
+# JSON is asked for once more with twice this (#774: four pages per call made
+# 4 of 5 answers on saa-0428 break off at 3500, 12.11.2026).
+AGENT_B_MAX_TOKENS = int(_get("AGENT_B_MAX_TOKENS", "3500"))
 # Which pages those are (#774): "spread" at even intervals (#771), or "typical" —
 # the most and the least typical page among them, chosen from page features.
 # "spread" until the e-codices bench has measured that "typical" is steadier.
