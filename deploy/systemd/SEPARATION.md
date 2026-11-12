@@ -384,7 +384,8 @@ Repo-Zustand:
       answers `ok` — 0600 dh, and the service runs as `agentic_historian`. **23.10.2026.**
 - [ ] Every secret that lived in the shared `.env.gpustack` rotated, the new value
       in `/etc/agentic_historian.env` only — tracked as #802 step 7 since the
-      agent moved; nothing but the CLI reads `.env.gpustack` now.
+      agent moved; nothing but the CLI reads `.env.gpustack` now. Checklist and
+      proof: `deploy/hermes/rotation.md`, `decommission_openclaw.sh --verify-gone`.
 
 ## S3 — the OpenClaw home is no longer in this repo (#568)
 

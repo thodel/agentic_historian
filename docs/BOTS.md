@@ -19,7 +19,7 @@ Historian über Pull Requests und *bedient* ihn nie.
 | Mail, Kalender, Web, Dateien des Teams, Ad-hoc-Skripte | ja (Credentials rotiert in H6) | nein, nie |
 | Cron und Berichte nach Discord | ja (#799: Queue, Repo-Status, Digest, SNSF) | nein — ausser dem, was Jobs selbst melden |
 | Secrets | `~/.hermes/.env` von `hermes` | `/etc/agentic_historian.env` (0640 `root:agentic_historian`); für `hermes` unlesbar |
-| Identität | Anwendung `dh-bot` (`1519706253314756758`); bis H6 die Test-Anwendung `dh-bot-hermes` | Anwendung `agentic_historian` (`1567234836224286832`, S1 #566) |
+| Identität | Anwendung `dh-bot-hermes` (seit dem Cut-over 06.11.2026); die alte Anwendung `dh-bot` (`1519706253314756758`, OpenClaw) wird mit dem Rückbau gelöscht | Anwendung `agentic_historian` (`1567234836224286832`, S1 #566) |
 | Wer ihn anspricht | Menschen mit der Projektrolle (`DISCORD_ALLOWED_ROLES`) und erlaubte Bots per Erwähnung | Menschen mit `REQUIRED_DISCORD_ROLE_ID`; Admin-Befehle mit `REQUIRED_ADMIN_ROLE_ID` |
 
 ## Kanäle
@@ -103,8 +103,10 @@ Sperre, die nicht vom Lesen abhängt:
 
 ## Offen
 
-- H6 (#802): das `dh-bot`-Token wechselt zu Hermes, OpenClaw geht aus, die
-  Credentials werden rotiert; dh-bot bekommt ein eigenes GitHub-Konto, damit
-  seine PRs und Kommentare nicht unter dem Token-Inhaber erscheinen.
+- H6 (#802): OpenClaw ist seit 06.11.2026 aus; Rückbau und Rotation ab
+  13.11.2026 (`deploy/hermes/decommission_openclaw.sh`,
+  `deploy/hermes/rotation.md`); dh-bot bekommt ein eigenes GitHub-Konto oder
+  eine App, damit seine PRs und Kommentare nicht unter dem Token-Inhaber
+  erscheinen.
 - Schreibende atr-mcp-Werkzeuge für dh-bot (z. B. `start_batch` mit
   Freigabe-Karte): **nicht in dieser Runde** — entschieden mit der Tabelle.

@@ -3,7 +3,7 @@
 The OpenClaw cron jobs were all failing (#797); what replaces them must be
 testable without tei. These pin:
 
-* ``digest_fetch.py`` reads RSS 2.0 and Atom, keeps only the last N days, at
+* ``digest_fetch.py`` reads RSS 2.0, RSS 1.0 (RDF) and Atom, keeps only the last N days, at
   most five per source, newest first, and lists a feed that failed under
   ``errors`` instead of dropping it silently;
 * ``snsf_check.sh`` prints nothing when nothing changed (a silent cron tick),
@@ -111,6 +111,76 @@ def test_rss_one_point_zero_is_read_too():
     assert out["errors"] == []
     assert [(i["title"], i["link"], i["authors"]) for i in out["items"]] == [
         ("neu", "https://r1/1", ["C 1"])]
+
+
+#: Histoire & mesure as OpenEdition served it on 12.11.2026, cut to two items:
+#: an rdf:Seq of resources in the channel, dc:date without a time, the
+#: description as CDATA HTML, the link after the creator.
+OPENEDITION = """<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+ xmlns="http://purl.org/rss/1.0/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:dcterms="http://purl.org/dc/terms/"
+>
+  <channel rdf:about="https://journals.openedition.org/histoiremesure">
+    <title>Histoire &amp; mesure</title>
+    <link>https://journals.openedition.org/histoiremesure</link>
+    <description>Histoire &#38; mesure. Revue bisannuelle.</description>
+    <items><rdf:Seq>
+      <rdf:li resource="https://journals.openedition.org/histoiremesure/2" />
+      <rdf:li resource="https://journals.openedition.org/histoiremesure/1" />
+    </rdf:Seq></items>
+  </channel>
+  <item rdf:about="https://journals.openedition.org/histoiremesure/2">
+    <title>Recenser l’Égypte</title>
+    <description><![CDATA[
+      <p class="texte">Tiré d’une thèse, au tournant des <span style="font-variant:small-caps;">xix</span><sup>e</sup> siècles.</p>
+    ]]></description>
+    <dc:creator>A. Autor</dc:creator>
+    <link>https://journals.openedition.org/histoiremesure/2</link>
+    <dc:date>2026-11-06</dc:date>
+  </item>
+  <item rdf:about="https://journals.openedition.org/histoiremesure/1">
+    <title>Älter</title>
+    <description><![CDATA[<p>alt</p>]]></description>
+    <dc:creator>B. Autorin</dc:creator>
+    <dc:creator>C. Autor</dc:creator>
+    <dc:date>2026-10-16</dc:date>
+  </item>
+</rdf:RDF>
+""".encode()
+
+#: Critical Digital Humanities (OJS WebFeedGatewayPlugin, rss = RSS 1.0) on
+#: 12.11.2026: a channel with prism metadata and an empty rdf:Seq — no issue yet.
+OJS_EMPTY = b"""<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:prism="http://prismstandard.org/namespaces/1.2/basic/">
+  <channel rdf:about="https://submission.wavehills.org/index.php/cdh">
+    <title>Critical Digital Humanities</title>
+    <link>https://submission.wavehills.org/index.php/cdh</link>
+    <description>&lt;p&gt;An interdisciplinary journal.&lt;/p&gt;</description>
+    <dc:publisher>WaveHills</dc:publisher>
+    <prism:publicationName>Critical Digital Humanities</prism:publicationName>
+    <items><rdf:Seq></rdf:Seq></items>
+  </channel>
+</rdf:RDF>
+"""
+
+
+def test_rss_one_point_zero_as_the_two_publishers_serve_it():
+    out = df.collect([("Histoire & mesure", "u1"), ("Critical Digital Humanities", "u2")], 7,
+                     fetch=lambda u: OPENEDITION if u == "u1" else OJS_EMPTY, now=NOW)
+    assert out["errors"] == [], "an empty journal is not a broken feed"
+    [item] = out["items"]                                   # 16.10. is outside the week
+    assert item["title"] == "Recenser l’Égypte"
+    assert item["link"] == "https://journals.openedition.org/histoiremesure/2"
+    assert item["published"] == "2026-11-06T00:00:00+00:00"           # a date alone is midnight UTC
+    assert item["summary"] == "Tiré d’une thèse, au tournant des xixe siècles."
+    assert item["authors"] == ["A. Autor"]
+    older = df.parse_feed(OPENEDITION)[1]
+    assert older["link"] == "https://journals.openedition.org/histoiremesure/1", "rdf:about without <link>"
+    assert older["authors"] == ["B. Autorin", "C. Autor"]
 
 
 def test_an_atom_link_without_rel_is_the_link():

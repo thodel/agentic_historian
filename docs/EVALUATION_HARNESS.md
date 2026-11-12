@@ -477,6 +477,29 @@ the TEI's `chart`/`perg`/`mixed`. Since #842 `NOT_TEXT` knows more binding
 labels than the third run did, so a volume that fell back to every written page
 (csg-1278) may be shown other pages in (b); `pages_shown` in each run says which.
 
+**A second reader on the same bench.** `run --describe external --model <id>`
+sends the image-only prompt, in the variant `--prompt` names, with the same
+pages at the same scaling, to an OpenAI-compatible API (`GEMINI_BASE_URL`,
+`GEMINI_API_KEY`, as the external ATR reader; `eval/ecodices_external.py`).
+Only the model changes, so the dating floor can be laid at the model's door or
+the prompt's: a second reader that dates the Carolingian volumes right makes it
+the model's; one that does not puts the prompt first. The model id is
+preflighted before the first page; `--reasoning` and `GEMINI_MAX_TOKENS` apply
+as for the ATR reader; each run file keeps the model, the tokens spent and
+whether the answer was cut off (`truncated`), and `meta.json` records the
+reader under the variant. Run it into a directory of its own, since its runs
+would otherwise sit beside Agent B's under the same names, and compare the
+reports.
+
+```bash
+# the same volumes and cached pages, a directory of its own, no runs of Agent B in it
+cp -r runs/ecodices-2026-11 runs/ecodices-2026-11-argon
+rm -rf runs/ecodices-2026-11-argon/*/runs runs/ecodices-2026-11-argon/{_descriptions,meta.json,report.md,scores.json,rescored,844}
+python -m eval.ecodices_bench run runs/ecodices-2026-11-argon --runs 1 --pages spread \
+    --describe external --model gemini-4-argon --reasoning low
+python -m eval.ecodices_bench score runs/ecodices-2026-11-argon
+```
+
 **What would justify switching the default.** All four, measured before anyone
 sets `AGENT_B_IMAGE_PROMPT=material-first` in production:
 

@@ -65,6 +65,7 @@ class PipelineContext:
         self.source_url: Optional[str] = None   # link back to the source (#208)
         self.dual_result: Optional[DualTranscriptionResult] = None
         self.recognitions: list[RecognitionResult] = []       # all OCR candidates (#234)
+        self.collection: str = ""   # the holding, for the catalogue partition (#383)
 
     def to_json(self) -> dict:
         base = {
@@ -78,6 +79,8 @@ class PipelineContext:
             base["a_meta"] = self.a_meta
         if self.source_url:
             base["source_url"] = self.source_url
+        if self.collection:
+            base["collection"] = self.collection
         base["recognitions"] = [
             {
                 "engine": r.engine,
@@ -400,9 +403,15 @@ def run_full_pipeline(
     source_url: Optional[str] = None,
     on_phase=None,
     publish: bool = True,
+    collection: str = "",
 ) -> PipelineResult:
     """
     Führt A → B → Kraken-Re-Run → C (→ D) Pipeline aus.
+
+    ``collection`` names the holding this document belongs to (#383). The
+    batch runner passes the folder it was pointed at; a single ``/run`` has
+    none. It is written to the RunState and to ``pipeline.json`` so the output
+    catalogue can partition by holding instead of by publication year.
 
     Zwei-Phasen-Agent-A-Logik:
       1. VLM-only erste Transkription ( fuer Agent B )
@@ -423,6 +432,7 @@ def run_full_pipeline(
     img = Path(image_path) if image_path else fp
     ctx = PipelineContext(doc_id)
     ctx.source_url = _derive_source_url(fp, source_url)
+    ctx.collection = collection or ""
 
     logger.info(f"[Orchestrator] Starte Pipeline: {doc_id}")
 
@@ -669,10 +679,17 @@ def run_full_pipeline(
                         ctx.recognitions,
                         llm_fn=None,          # deterministic if LLM skipped
                         strategy=config.FUSION_STRATEGY,
+                        scorer=_veto_scorer_for(ctx, image_path),
                     )
                     ctx.transcription = _fuse_result.text
                     ctx.a_meta["fusion_strategy"] = _fuse_result.strategy
                     ctx.a_meta["fusion_arbitrated"] = _fuse_result.arbitrated
+                    # #491 L3: which candidates the cell's scorer kept out of the
+                    # vote, and every candidate's bits/char under that scorer —
+                    # the record L2 calibrates the margin on. Empty without a
+                    # scorer; never a quality.
+                    ctx.a_meta["fusion_vetoed"] = _fuse_result.vetoed
+                    ctx.a_meta["fusion_scores"] = _fuse_result.scores
                     # Beside it, because `arbitrated` alone cannot say whether the
                     # call was worth making (#406): how many columns disagreed,
                     # and in how many the model chose against the vote. An
@@ -687,7 +704,9 @@ def run_full_pipeline(
                                    f"{_fuse_result.disagreed} disagreed, "
                                    f"{_fuse_result.arbitrated} arbitrated, "
                                    f"{_fuse_result.changed} changed, "
-                                   f"agreement CER {_max_cer:.1%}")
+                                   f"agreement CER {_max_cer:.1%}"
+                                   + (f", vetoed {', '.join(v['label'] for v in _fuse_result.vetoed)}"
+                                      if _fuse_result.vetoed else ""))
                     logger.info(
                         f"[Orchestrator] Phase 3: fused ({_fuse_result.strategy}), "
                         f"disagreed={_fuse_result.disagreed} slots, "
@@ -813,6 +832,8 @@ def run_full_pipeline(
         state = RunState.load_or_new(doc_id)
         # Carry source_url forward
         state.source_url = ctx.source_url
+        if ctx.collection:
+            state.collection = ctx.collection
         # Persist a back-compat hint so downstream readers know which version
         # of the pipeline produced this RunState.
         state.artifacts["pipeline_version"] = "225-derived"
@@ -889,6 +910,38 @@ def _gateway_registry() -> list:
             logger.warning(f"[ensemble] gateway registry unavailable, using raw ids: {e}")
             _GATEWAY_REGISTRY_CACHE = []
     return _GATEWAY_REGISTRY_CACHE
+
+
+def _veto_scorer_for(ctx, page):
+    """The scorer fusion may veto with on this page (#491 L3), or None.
+
+    The cell comes from Agent B's description as the model selector reads it
+    (lang, region, document_type, century), with the historian's pins from the
+    run state on top: a pinned century is the historian's, not the model's.
+    Off by default (``FUSION_SCORER_VETO``); never fatal — no scorer, no veto,
+    the page fuses as before.
+    """
+    try:
+        if not getattr(config, "FUSION_SCORER_VETO", False):
+            return None
+        from agent_a.model_selector import SourceCriteria
+        from scorer_reader import veto_scorer
+        desc = ctx.description or {}
+        crit = SourceCriteria.from_agent_b_and_json(desc.get("source_description", ""),
+                                                    desc.get("source_json"))
+        criteria = {k: getattr(crit, k, None) for k in ("lang", "region", "document_type", "century")}
+        try:
+            from runstate import RunState
+            state = RunState.load(ctx.doc_id)
+            for k in criteria:
+                if state is not None and state.criteria.get(k) is not None:
+                    criteria[k] = state.criteria[k]
+        except Exception:
+            pass
+        return veto_scorer(criteria, page=page)
+    except Exception as exc:
+        logger.warning(f"[Orchestrator] no scorer veto for {getattr(ctx, 'doc_id', '?')}: {exc}")
+        return None
 
 
 def _recognize_page_ensemble(img, criteria):
@@ -1367,8 +1420,12 @@ def run_full_pipeline_group(
     run_agent_d: bool = False,
     on_phase=None,
     publish: bool = True,
+    collection: str = "",
 ) -> PipelineResult:
     """Process a set of images as ONE multi-page document (a WebDAV "order"/folder).
+
+    ``collection`` is the holding the order belongs to (#383) — see
+    :func:`run_full_pipeline`.
 
     Agent A transcribes each page; the pages are combined into a single
     transcription (one .txt named after the order), then Agent B (one source
@@ -1379,6 +1436,7 @@ def run_full_pipeline_group(
         return [int(c) if c.isdigit() else c.lower() for c in re.split(r"(\d+)", name)]
     pages = sorted((Path(p) for p in image_paths), key=lambda p: _natural_key(p.name))
     ctx = PipelineContext(doc_id)
+    ctx.collection = collection or ""
     # Link the order back to its source folder (first page's parent), if a base is set.
     if pages and getattr(config, "SOURCE_URL_BASE", ""):
         ctx.source_url = f"{config.SOURCE_URL_BASE}/{pages[0].parent.name}"
@@ -1431,6 +1489,8 @@ def run_full_pipeline_group(
             state.artifacts["a_meta"] = ctx.a_meta
             if ctx.recognitions:                       # #272 ensemble candidates
                 state.artifacts["recognitions"] = ctx.recognitions
+            if ctx.collection:
+                state.collection = ctx.collection
             state.save()
         except Exception as e2:
             logger.warning(f"[Orchestrator] Group Phase 1 RunState persist skipped: {e2}")
@@ -1660,6 +1720,11 @@ def _save_pipeline_result(doc_id: str, ctx: PipelineContext, *, from_runstate: b
                 pipeline["closest_reading"] = state.closest_reading
             if state.source_url:
                 pipeline["source_url"] = state.source_url
+            # The holding (#383). The RunState's own value serves the re-derive
+            # path (ingest._default_export), which comes with an empty ctx.
+            _collection = ctx.collection or state.collection
+            if _collection:
+                pipeline["collection"] = _collection
             _where = "derived from RunState"
         except Exception as e:
             # Fallback: if RunState load fails for any reason, fall back to ctx
