@@ -387,6 +387,21 @@ answer, or not in the catalogue.
 Stability is the share of runs that give the most common answer. A run that
 answers nothing lowers it.
 
+**Schrift as a Top-2 set (#775).** Beside the single label, `score` reports the
+stability of the set of the first two candidates (`Schrift.kandidaten[:2]`, by
+family, order-free: "bastarda+kursive") under "Einzeletikett gegen Top-2-Menge",
+with each volume's most common label and set. A run without candidates lowers
+the set's stability as a run without `wert` lowers the label's. The #775
+measurement is five runs on the #379 volume, `saa-0428`, in a directory of its
+own so the 30-volume baseline keeps three runs per volume:
+
+```bash
+mkdir -p runs/ecodices-775 && cp -r runs/ecodices-2026-11/saa-0428 runs/ecodices-775/
+rm -rf runs/ecodices-775/saa-0428/runs            # five fresh runs, not the baseline's three
+python -m eval.ecodices_bench run runs/ecodices-775 --runs 5 --pages spread
+python -m eval.ecodices_bench score runs/ecodices-775
+```
+
 **What it is not.**
 - A hit on a description published years ago proves less, because the model may
   have read it in training. The report gives each volume's publication year.
