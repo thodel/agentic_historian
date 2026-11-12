@@ -77,7 +77,8 @@ esac
     "hermes": """#!/usr/bin/env bash
 echo "hermes $*" >> "$STUB_LOG"
 case "$*" in
-  "cron list") printf '%s\\n' \\
+  "cron list") if [ -n "${FAKE_CRON_FILE:-}" ]; then cat "$FAKE_CRON_FILE"; exit 0; fi
+    printf '%s\\n' \\
     "0466f6a110f5  dh-bot-queue  0 13,17,21 * * *  ok" \\
     "8f6c1ac36165  dh-digest     0 16 * * 0        ok" \\
     "ad898cb7126f  repo-status   0 15 * * 2        ok" \\
@@ -85,6 +86,11 @@ case "$*" in
   "skills list") ls "$HOME_H/.hermes/skills/"* 2>/dev/null ;;
   "claw cleanup") echo "cleanup ran" ;;
 esac
+""",
+    "df": """#!/usr/bin/env bash
+if [ -n "${FAKE_DF_AVAIL:-}" ]; then
+  printf 'Filesystem 1024-blocks Used Available Capacity Mounted on\\nfake 1 1 %s 1%% /\\n' "$FAKE_DF_AVAIL"
+else exec /bin/df "$@"; fi
 """,
     "crontab": """#!/usr/bin/env bash
 printf '%s\\n' "${FAKE_CRONTAB:-}"
@@ -312,3 +318,109 @@ def test_the_runbook_and_the_checklist_point_at_the_script_and_hold_no_values():
     for name in ("GPUSTACK_API_KEY", "GITHUB_TOKEN", "DISCORD_BOT_TOKEN", "HF_TOKEN",
                  "--collect-old-values", "--verify-gone"):
         assert name in rotation, name
+
+
+# ── the dry run of 12.11.2026 on tei ─────────────────────────────────────────
+
+#: `hermes cron list` on tei, 12.11.2026, verbatim.
+TEI_CRON = """
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         Scheduled Jobs (profile: default)               │
+└─────────────────────────────────────────────────────────────────────────┘
+
+  b82a9a2fe5ca [active]
+    Name:      snsf-grants
+    Schedule:  0 9 25 3,9 *
+    Last run:  2026-11-04T21:11:31.210781+01:00  ok
+    Execution: completed  cbe07185f733423ab456ad4c8a5cda50
+    ⚠ Last failure at 2026-11-04T20:51:22.224691+01:00: Script exited with code 23 — recovered since
+
+  ad898cb7126f [active]
+    Name:      repo-status
+    Schedule:  0 15 * * 2
+    Last run:  2026-11-10T15:02:18.198636+01:00  error: RuntimeError: The model's reply was cut off before it finished (it hit its output length limit), so Hermes didn't run the incomplete action.
+    Dispatch:  on time (scheduled 2026-11-10T15:00:00+01:00)
+    Execution: failed  48cfc2c13bad46b8b097be92481698e2
+    ⚠ Last failure at 2026-11-10T15:02:18.198636+01:00: RuntimeError: The model's reply was cut off before it finished (it hit its output length limit), so Hermes didn't run t…
+
+  8f6c1ac36165 [active]
+    Name:      dh-digest
+    Schedule:  0 16 * * 0
+    Last run:  2026-11-08T16:01:33.836047+01:00  ok
+    Execution: completed  67b95b9e27d24528b8cc0678aa256325
+
+  0466f6a110f5 [active]
+    Name:      dh-bot-queue
+    Schedule:  0 13,17,21 * * *
+    Last run:  2026-11-11T21:02:36.322821+01:00  ok
+    Execution: completed  f24f8068838348eea32fdcfa89f118e9
+    ⚠ Last failure at 2026-11-11T13:05:45.177719+01:00: RuntimeError: Model output entered a repetition loop and the stream was cut mid-loop; discarding the degenerate respons… — recovered since
+"""
+
+
+def test_every_job_in_the_list_is_found_however_long_the_list(host):
+    """On tei the job check said "dh-digest fehlt" with dh-digest in the list:
+    `printf | grep -q` under pipefail fails when grep stops early and printf
+    gets SIGPIPE. Past the pipe buffer that is certain, so the list is padded."""
+    f = host.tmp / "cron.txt"
+    f.write_text(TEI_CRON + "    │ padding │\n" * 6000)          # > 64 KiB
+    r = host(FAKE_CRON_FILE=str(f))
+    for name, id_ in (("dh-bot-queue", "0466f6a110f5"), ("dh-digest", "8f6c1ac36165"),
+                      ("repo-status", "ad898cb7126f"), ("snsf-grants", "b82a9a2fe5ca")):
+        assert f"[ok] Job {name} ({id_}) da" in r.stdout
+    assert "fehlt" not in r.stdout.split("== 5. Hermes")[1].split("letzte Ausgabe")[0]
+
+
+def test_a_failed_last_run_is_named_and_a_recovered_one_is_history(host):
+    f = host.tmp / "cron.txt"
+    f.write_text(TEI_CRON)
+    r = host(FAKE_CRON_FILE=str(f))
+    assert ("[!!] Job repo-status (ad898cb7126f): letzter Lauf gescheitert — "
+            "2026-11-10T15:02:18.198636+01:00  error: RuntimeError: The model's reply") in r.stdout
+    assert "Job dh-bot-queue (0466f6a110f5): letzter Lauf gescheitert" not in r.stdout
+    assert "[..] 2 frühere Fehler, seither wieder gelaufen (recovered since)" in r.stdout
+    assert "Zeilen mit error/failed" not in r.stdout
+
+
+def test_iscsiadm_m_node_is_not_node(host, tmp_path):
+    """tei's iscsi.service runs `iscsiadm -m node …`: not a unit that starts Node."""
+    units = tmp_path / "units"
+    units.mkdir(exist_ok=True)
+    (units / "iscsi.service").write_text(
+        "[Service]\nExecStart=/usr/sbin/iscsiadm -m node --loginall=automatic\n"
+        "ExecStop=/usr/sbin/iscsiadm -m node --logoutall=all\n")
+    (units / "web.service").write_text("[Service]\nExecStart=-/usr/bin/env node server.js\n")
+    r = host(FAKE_PS_USERS="", FAKE_PS_PIDS="", FAKE_CRONTAB="")
+    assert "iscsi.service" not in r.stdout
+    (units / "web.service").unlink()
+    (units / "app.service").write_text("[Service]\nExecStart=@/usr/bin/nodejs /srv/a.js\n")
+    r = host(FAKE_PS_USERS="", FAKE_PS_PIDS="", FAKE_CRONTAB="")
+    assert "Units, die Node starten:" in r.stdout and "app.service" in r.stdout
+
+
+def test_numbers_and_modes_are_not_listed_as_secrets(host):
+    cfg = json.loads((host.oc / "openclaw.json").read_text())
+    cfg["agents"] = {"defaults": {"params": {"max_tokens": 8192}}}
+    cfg["gateway"] = {"auth": {"mode": "token"}}
+    (host.oc / "openclaw.json").write_text(json.dumps(cfg))
+    r = host()
+    assert "max_tokens" not in r.stdout and "auth.mode" not in r.stdout
+    assert "channels.discord.token" in r.stdout
+
+
+def test_apply_stops_when_the_archive_would_not_fit(host):
+    before = _tree(host.tmp)
+    r = host("--apply", FAKE_DF_AVAIL="1")
+    assert r.returncode == 3, r.combined
+    assert "zu wenig Platz für" in r.stdout
+    assert host.oc.is_dir() and not (host.dh / "archiv").exists()
+    assert _tree(host.tmp) == before
+
+
+def test_the_reminder_names_only_archives_that_will_exist(host):
+    import shutil
+
+    shutil.rmtree(host.ws)
+    r = host()
+    line = next(ln for ln in r.stdout.splitlines() if "am 2026-12-13" in ln)
+    assert "openclaw-workspace" not in line and f"dot-openclaw-{TODAY}.tar.gz" in line
