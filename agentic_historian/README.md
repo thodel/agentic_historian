@@ -741,13 +741,13 @@ the two JSON files — one commit per answer, like a document — when
 
 | stage | what it does | model call |
 |---|---|---|
-| `plan` | 2–4 sub-questions, ≤3 search terms each in the sources' spelling, period, languages; a plan the model does not give falls back to the question, marked | 1 |
+| `plan` | 2–4 sub-questions, ≤3 search terms each in the sources' spelling, period, languages; a plan the model does not give falls back to the question, marked. The question's own nouns (`subject_terms`: "Hofmeister", "Konvent" — not the holding, not the question words) are searched whatever the plan says, as sub-question `q0`, said in the audit | 1 |
 | `retrieve` | own passages (`passage_find`, widened to the line and its neighbours) and the federation's full text (`search_fulltext`, as `edition` items); every call a coverage row: `ok` / `empty` / `partial` / `failed`; a holding not in our own transcriptions is `not in holding`, said once | — |
-| `sample` | balanced round-robin over sub-question × (holding, century, language); out of the asked period → dropped and counted | — |
+| `sample` | balanced round-robin over sub-question × (holding, century, language), passages naming the question's subject first within a group; out of the asked period → dropped and counted | — |
 | `bind` | claims citing evidence ids with quotes; `check_bindings` accepts a quote only as a verbatim substring of the passage its id names | 1 |
 | `verify` | mechanically: a gloss read against the glossary (`check_gloss`), a claim resting only on an earlier claim's quote (`check_reuse`); then one call: does each claim follow from its own gloss — who acts, for whom. A marked claim is shown and leaves the summary; a check that could not run marks nothing | 1 per bind |
 | `represent` | the answer page, rendered without a model | — |
-| `reflect` | up to `ARGUMENT_MAX_ROUNDS` rounds of targeted follow-up queries and rebinding | 1 per round |
+| `reflect` | up to `ARGUMENT_MAX_ROUNDS` rounds of targeted follow-up queries and rebinding; the model sees the claims that stand and the ones that fell (quote not in the passage, failed check) | 1 per round |
 
 What it refuses, each with its reason in `audit.json`: a quote not in the cited
 passage (`quote is in ev-…, not in the cited passage` when it stands
