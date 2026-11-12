@@ -65,6 +65,15 @@ class FusionResult:
     changed: int = 0
     strategy: str = "vote"
     n_candidates: int = 0
+    #: Candidates the scorer vetoed before the vote (#491 L3): label, bits/char,
+    #: z against the cell's held-out text, and the cell that answered. They took
+    #: no part in alignment, vote or no-merge selection.
+    vetoed: list[dict] = field(default_factory=list)
+    #: bits/char and z of **every** usable candidate under the same scorer, vetoed
+    #: or not — the per-page record that L2's calibration reads off real runs.
+    #: Empty when no scorer was given. Never a quality: a fluent hallucination
+    #: scores well here (#491, "Was ausdrücklich nicht behauptet wird").
+    scores: dict = field(default_factory=dict)
 
 
 # ── candidate extraction ─────────────────────────────────────────────────────
@@ -238,7 +247,8 @@ def _arbitrate(slots: list[dict], llm_fn: LLMFn) -> dict[int, str]:
 
 def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
          no_merge_cer: Optional[float] = None,
-         arbitrate: Optional[bool] = None) -> FusionResult:
+         arbitrate: Optional[bool] = None,
+         scorer=None, veto_margin: Optional[float] = None) -> FusionResult:
     """Fuse engine candidates into a best-fit transcription.
 
     ``strategy="vote"`` (default): align → majority-vote → arbitrate disagreements.
@@ -275,6 +285,21 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
     points. The hope above — that a VLM in the field changes the outcome — is
     measured and does not hold. The vote is also order-dependent (see
     ``_most_backed``): the same three candidates reversed give 0.190.
+
+    **Scorer veto (#491 L3):** with a ``scorer`` (``scorer_reader.ScorerArtefact``,
+    the cell's character n-gram trained on edition text), every candidate is
+    scored in bits/char under that one scorer, and a candidate more than
+    ``veto_margin`` bits/char above the **best candidate on this page** takes no
+    part in what follows — not in the alignment, not in the vote, not in the
+    no-merge selection. The best candidate can never be vetoed, so the veto
+    never empties the page; one survivor is returned verbatim with the source
+    ``veto``. Within one page under one scorer the numbers are comparable;
+    across cells they are not, which is why the rule is a margin to the page's
+    best and not an absolute threshold. The margin is provisional until L2
+    measures it (``FUSION_VETO_MARGIN``); on the #298 trace the two kraken
+    readings sit 1.7 and 3.2 bits/char above TrOCR's and the VLM's 0.3 — the
+    garbage edge is wide, the plausible band is narrow, and only the edge is
+    cut. Every candidate's number goes to ``scores`` whether vetoed or not.
     """
     if no_merge_cer is None:
         try:
@@ -297,6 +322,28 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
         return FusionResult(text=text, provenance=[Span(text, "single", [lbl])],
                             strategy=strategy, n_candidates=1)
 
+    # Scorer veto (#491 L3): cut the garbage edge before anything votes.
+    vetoed: list[dict] = []
+    scores: dict = {}
+    if scorer is not None:
+        if veto_margin is None:
+            try:
+                import config
+                veto_margin = float(getattr(config, "FUSION_VETO_MARGIN", 1.5))
+            except Exception:                          # pragma: no cover — defensive
+                veto_margin = 1.5
+        cands, vetoed, scores = _veto(cands, scorer, veto_margin)
+        if vetoed:
+            recognitions = _without(recognitions, {lbl for lbl, _ in cands})
+            logger.info(f"[fusion] veto ({scorer.cell.key()}, margin {veto_margin:.2f} bits/char): "
+                        + ", ".join(f"{v['label']} {v['bits_per_char']:.2f}" for v in vetoed)
+                        + f"; {len(cands)} candidate(s) remain")
+        if len(cands) == 1:
+            lbl, text = cands[0]
+            return FusionResult(text=text, provenance=[Span(text, "veto", [lbl])],
+                                strategy=f"{strategy}+veto", n_candidates=len(cands) + len(vetoed),
+                                vetoed=vetoed, scores=scores)
+
     llm = llm_fn or _default_llm
     if strategy == "llm_merge":
         # Out of scope for the no-merge band (#300): that band fixes majority
@@ -305,7 +352,9 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
         # the good one — so it is left alone rather than short-circuited on a
         # hunch. If it turns out to degrade the same way, that wants its own
         # evidence and its own issue.
-        return _llm_merge(cands, llm)
+        res = _llm_merge(cands, llm)
+        res.vetoed, res.scores, res.n_candidates = vetoed, scores, len(cands) + len(vetoed)
+        return res
 
     # No-merge band (#300) — vote strategy only.
     max_cer = _max_pairwise_cer_of(cands)
@@ -319,7 +368,8 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
             return FusionResult(
                 text=text,
                 provenance=[Span(text, f"no-merge (CER {max_cer:.1%})", [lbl])],
-                strategy=f"{strategy}+no-merge", n_candidates=len(cands))
+                strategy=f"{strategy}+no-merge", n_candidates=len(cands) + len(vetoed),
+                vetoed=vetoed, scores=scores)
 
     cols, labels = _align_columns(cands)
 
@@ -367,7 +417,41 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
             prov.append(Span(tok, sources[k], backers_l[k]))
     return FusionResult(text=fused, provenance=prov, disagreed=len(slots),
                         arbitrated=llm_decided, changed=llm_changed,
-                        strategy="vote", n_candidates=len(cands))
+                        strategy="vote" if not vetoed else "vote+veto",
+                        n_candidates=len(cands) + len(vetoed), vetoed=vetoed, scores=scores)
+
+
+def _veto(cands: list[Candidate], scorer, margin: float) -> tuple[list[Candidate], list[dict], dict]:
+    """Score every candidate under ``scorer``; drop those more than ``margin``
+    bits/char above the page's best. Returns (kept, vetoed, scores). A
+    candidate the scorer cannot score (empty after strip) is kept and absent
+    from ``scores``; the best is never dropped."""
+    scored: dict[str, dict] = {}
+    for lbl, text in cands:
+        try:
+            z, bpc = scorer.z(text)
+        except ValueError:
+            continue
+        scored[lbl] = {"bits_per_char": round(bpc, 4), "z": round(z, 3), "cell": scorer.cell.key()}
+    if not scored:
+        return cands, [], {}
+    best = min(v["bits_per_char"] for v in scored.values())
+    vetoed = [{"label": lbl, **scored[lbl]} for lbl, _ in cands
+              if lbl in scored and scored[lbl]["bits_per_char"] - best > margin]
+    gone = {v["label"] for v in vetoed}
+    kept = [(lbl, text) for lbl, text in cands if lbl not in gone]
+    return kept, vetoed, scored
+
+
+def _without(recognitions, keep_labels: set) -> list:
+    """The recognitions whose engine label survived the veto — so the no-merge
+    band's confidence pick cannot fall back on a vetoed reading."""
+    out = []
+    for r in recognitions or []:
+        label = r.get("engine", "?") if isinstance(r, dict) else getattr(r, "engine", "?")
+        if (label or "?") in keep_labels:
+            out.append(r)
+    return out
 
 
 def _llm_merge(cands: list[Candidate], llm: LLMFn) -> FusionResult:
