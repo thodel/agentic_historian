@@ -455,9 +455,90 @@ def _with_roles(result: dict, page_roles: Optional[dict]) -> dict:
     return result
 
 
+# ── the image-only prompt and its variants (#844) ─────────────────────────────
+#
+# The e-codices bench (third run, 7.11.2026, 30 volumes x 3, text block) found the
+# image path never dating below the 13th century — all 11 volumes before 1100
+# came out 13th-15th c. — never naming Carolingian minuscule although the prompt
+# gives it as an example, and calling parchment "Papier" in exactly the runs it
+# had dated to the 15th c.: the material followed the date, not the leaf.
+# "material-first" asks for the substrate from what the leaf shows before script
+# and date, and forbids inferring it from the date. It is a variant, not the
+# default, until it has been measured on e-codices and on our own volumes.
+
+IMAGE_PROMPT_VARIANTS = ("default", "material-first")
+
+_IMAGE_FOCUS = {
+    "default": (
+        "Am wichtigsten sind Schrift (z.B. Kurrent, Bastarda, Karolingische "
+        "Minuskel) und Jahrhundert — sie steuern die Modellauswahl fuer einen "
+        "erneuten Transkriptionsversuch.\n\n"),
+    "material-first": (
+        "Gehe in dieser Reihenfolge vor und lege dich bei jedem Schritt fest, bevor du "
+        "den naechsten beginnst:\n"
+        "1. Beschreibstoff — NUR aus dem, was am Blatt sichtbar ist. Pergament: Haar- "
+        "und Fleischseite (die Haarseite gelblicher, oft mit Haarfollikeln als feinen "
+        "Punkten), ungleichmaessige Durchscheinigkeit, Naehte, Loecher oder unregelmaessige "
+        "Raender der Haut. Papier: Kettlinien (Steglinien) in einigen Zentimetern Abstand, "
+        "dicht gestellte Ripplinien, Wasserzeichen, eine gleichmaessige Faserstruktur. "
+        "Nenne in \"notiz\" die Merkmale, die du siehst. Leite den Beschreibstoff "
+        "NICHT aus deiner Datierung oder aus der Schrift ab. Zeigt das Bild keines dieser "
+        "Merkmale, ist der Beschreibstoff null; unterscheiden sich die Blaetter, sag es.\n"
+        "2. Schrift — nach den Buchstabenformen, die du siehst. Moeglich ist jede "
+        "Schrift vom Fruehmittelalter bis ins 19. Jahrhundert, z.B. Karolingische "
+        "Minuskel, Textualis, Bastarda, Kurrent; deine Spezialisierung auf "
+        "spaetmittelalterliche Quellen schliesst keine davon aus.\n"
+        "3. Jahrhundert — erst jetzt, aus Schrift und Einrichtung. Die Datierung folgt "
+        "der Schrift, nicht umgekehrt, und der Beschreibstoff aus Schritt 1 wird ihr "
+        "nicht nachtraeglich angepasst.\n"
+        "Schreibe im JSON-Objekt Beschreibstoff, Schrift und Datierung in dieser "
+        "Reihenfolge als Erstes. Schrift und Jahrhundert steuern die Modellauswahl "
+        "fuer einen erneuten Transkriptionsversuch.\n\n"),
+}
+
+
+def image_prompt_variant(name: str | None = None) -> str:
+    """The image-only prompt variant to use: ``name``, else ``AGENT_B_IMAGE_PROMPT``.
+
+    An unknown name is the default prompt, said in the log; the result records the
+    variant actually used, so a typo cannot pass for a measurement of the variant.
+    """
+    want = (name or getattr(config, "AGENT_B_IMAGE_PROMPT", "") or "default").strip().lower()
+    if want not in IMAGE_PROMPT_VARIANTS:
+        logger.warning(f"[Agent B] unknown image prompt {want!r} "
+                       f"(have: {', '.join(IMAGE_PROMPT_VARIANTS)}) — using default")
+        return "default"
+    return want
+
+
+def _image_prompt(images: list, pins: dict | None, page_count: int | None,
+                  page_roles: dict | None, variant: str = "default") -> str:
+    """The image-only prompt. ``default`` is the production prompt, byte for byte."""
+    return (
+        f"{MANUSCRIPT_SYSTEM}\n\n"
+        f"{_pin_constraint(pins)}"
+        f"{_basis_instruction(len(images), page_count, _roles_instruction(images, page_roles))}"
+        "Die maschinelle Transkription dieses Dokuments ist unbrauchbar "
+        "(Wiederholungskollaps) und wird dir daher NICHT vorgelegt.\n"
+        "Beschreibe die Quelle AUSSCHLIESSLICH anhand des Bildes.\n\n"
+        + _IMAGE_FOCUS[variant] +
+        "Rate NICHT den Textinhalt. Was du im Bild nicht siehst, ist null.\n\n"
+        "Antworte ZUERST mit einem JSON-Objekt (Schema unten), DANN mit einem "
+        "kurzen Fliesstext in Markdown.\n\n"
+        "JSON-Schema (16 Elemente):\n"
+        + json.dumps(SIXTEEN_ELEMENT_SCHEMA, indent=2, ensure_ascii=False)
+        + "\n\nRegeln:\n"
+        "- Verwende KEINE Markdown-Codefences um das JSON.\n"
+        "- Nicht beobachtbare Felder: null bzw. leerer String/[].\n"
+        "- Unsichere Angaben mit \" (unsicher)\" kennzeichnen.\n"
+        + SCRIPT_CANDIDATES_RULE
+    )
+
+
 def _describe_from_image(doc_id: str, image_path, pins: Optional[dict],
                          page_count: Optional[int] = None,
-                         page_roles: Optional[dict] = None) -> Optional[dict]:
+                         page_roles: Optional[dict] = None,
+                         prompt_variant: str | None = None) -> Optional[dict]:
     """Describe the source from the IMAGE alone, when the transcription is
     unreadable (#301). Returns None if the VLM gives us nothing usable.
 
@@ -470,32 +551,15 @@ def _describe_from_image(doc_id: str, image_path, pins: Optional[dict],
     description — it is to give the model selector something TRUE to match on
     (script + century), so #299's re-run can pick a real model and recover the run.
 
-    ``image_path`` is one page or a list of pages (#771).
+    ``image_path`` is one page or a list of pages (#771). ``prompt_variant`` is
+    one of ``IMAGE_PROMPT_VARIANTS`` (#844); None takes ``AGENT_B_IMAGE_PROMPT``.
+    The result names the variant used in ``prompt_variant``.
     """
     images = _images(image_path)
     if not images:
         return None
-    prompt = (
-        f"{MANUSCRIPT_SYSTEM}\n\n"
-        f"{_pin_constraint(pins)}"
-        f"{_basis_instruction(len(images), page_count, _roles_instruction(images, page_roles))}"
-        "Die maschinelle Transkription dieses Dokuments ist unbrauchbar "
-        "(Wiederholungskollaps) und wird dir daher NICHT vorgelegt.\n"
-        "Beschreibe die Quelle AUSSCHLIESSLICH anhand des Bildes.\n\n"
-        "Am wichtigsten sind Schrift (z.B. Kurrent, Bastarda, Karolingische "
-        "Minuskel) und Jahrhundert — sie steuern die Modellauswahl fuer einen "
-        "erneuten Transkriptionsversuch.\n\n"
-        "Rate NICHT den Textinhalt. Was du im Bild nicht siehst, ist null.\n\n"
-        "Antworte ZUERST mit einem JSON-Objekt (Schema unten), DANN mit einem "
-        "kurzen Fliesstext in Markdown.\n\n"
-        "JSON-Schema (16 Elemente):\n"
-        + json.dumps(SIXTEEN_ELEMENT_SCHEMA, indent=2, ensure_ascii=False)
-        + "\n\nRegeln:\n"
-        "- Verwende KEINE Markdown-Codefences um das JSON.\n"
-        "- Nicht beobachtbare Felder: null bzw. leerer String/[].\n"
-        "- Unsichere Angaben mit \" (unsicher)\" kennzeichnen.\n"
-        + SCRIPT_CANDIDATES_RULE
-    )
+    variant = image_prompt_variant(prompt_variant)
+    prompt = _image_prompt(images, pins, page_count, page_roles, variant)
     try:
         raw, sent, cost = _vision_call(prompt, images, doc_id)
     except Exception as e:
@@ -527,6 +591,7 @@ def _describe_from_image(doc_id: str, image_path, pins: Optional[dict],
         "cost": cost,
         "low_confidence": True,       # honest: this is not a text-backed reading
         "source": "image-only",
+        "prompt_variant": variant,    # #844: which image prompt produced it
     }
     _with_roles(result, page_roles)
     _save(doc_id, result)
