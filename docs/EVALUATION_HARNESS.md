@@ -417,7 +417,89 @@ python -m eval.ecodices_bench score runs/ecodices-775
   up to 60 pages. Production uses it with `AGENT_B_PAGE_CHOICE=typical`; the
   default stays `spread` until this comparison says `typical` is steadier.
 
-## Consistency of the hand, all pages against all (#773)
+### Prompt variants and the period bias (#844)
+
+The third run (7.11.2026, 30 volumes × 3, text block, `--pages spread`) showed
+Agent B's image path never dating below the 13th century (all 11 volumes before
+1100 came out 13th–15th c.; Datierung 8 %, stable in 88 %), never naming
+Carolingian minuscule, and calling the material after its own dating: the 7
+parchment volumes it called *Papier* it had dated to the 15th c., the 2 paper
+volumes it called *Pergament* too early (Beschreibstoff 67 %). The system prompt
+all of Agent B shares introduces it as "spezialisiert auf spaetmittelalterliche
+Verwaltungsquellen (… 14.-16. Jahrhundert)" (`agents/source_heuristic.py`).
+
+**The variant.** `material-first` (`source_description.IMAGE_PROMPT_VARIANTS`)
+asks for the writing material from what the leaf shows (hair and flesh side,
+follicles, translucency; chain and laid lines, watermarks) before the script,
+and the century last; it forbids inferring the material from the date, names
+Carolingian minuscule among the possible scripts and says the specialisation
+rules none out. The rest of the prompt is the default's. Production keeps the
+default (`AGENT_B_IMAGE_PROMPT=default`); the setting also keys the description
+cache, so a variant never reuses the default's descriptions.
+
+**Recorded per run.** `run --prompt material-first` writes `runs/material-first-NN.json`
+beside the default's `runs/NN.json`, every run records its `prompt`, and
+`meta.json` keeps one entry per variant under `variants` (with the VLM's id).
+`score` gives each variant its own report and, when there are several, a table
+of them side by side first; `scores.json` has them under `by_prompt`. A run
+without `prompt` was made before #844 and is the default's. Every report now
+gives #844's two numbers: dating hits on volumes the catalogue dates no later
+than 1100, and how many material misses come with a dating miss.
+
+```bash
+cd ~/agentic_historian/agentic_historian
+# (a) The third run again under today's rules (#842's century spans). Files only:
+#     no model, no network. --out keeps the third run's own report beside it.
+python -m eval.ecodices_bench score runs/ecodices-2026-11 --out runs/ecodices-2026-11/rescored
+# (b) The variant on the same volumes and the same pages (the cached page-NNNN.jpg;
+#     --pages and AGENT_B_PAGES as in the third run), then both side by side.
+python -m eval.ecodices_bench run runs/ecodices-2026-11 --runs 3 --pages spread --prompt material-first
+python -m eval.ecodices_bench score runs/ecodices-2026-11 --out runs/ecodices-2026-11/844
+# (c) Our own volumes: one directory per ground-truth volume, its page images in
+#     pages/ (name order = document order) and a reference.json written from the
+#     archive's catalogue — never from Agent B. Keys left out are not judged.
+mkdir -p runs/agentb-gt/<volume>/pages
+cp <the volume's page images> runs/agentb-gt/<volume>/pages/
+cat > runs/agentb-gt/<volume>/reference.json <<'EOF'
+{"date_from": <year>, "date_to": <year>, "material": "papier", "script": "<as catalogued>", "hands": <n or null>}
+EOF
+python -m eval.ecodices_bench run runs/agentb-gt --runs 3 --pages spread
+python -m eval.ecodices_bench run runs/agentb-gt --runs 3 --pages spread --prompt material-first
+python -m eval.ecodices_bench score runs/agentb-gt
+```
+
+The commands of (c) are the bench's: a volume with `reference.json` and `pages/`
+instead of `tei.xml` and a manifest is read from disk, needs no `fetch` and is
+judged by the same rules. `material` takes `papier`, `pergament`, `gemischt` or
+the TEI's `chart`/`perg`/`mixed`. Since #842 `NOT_TEXT` knows more binding
+labels than the third run did, so a volume that fell back to every written page
+(csg-1278) may be shown other pages in (b); `pages_shown` in each run says which.
+
+**What would justify switching the default.** All four, measured before anyone
+sets `AGENT_B_IMAGE_PROMPT=material-first` in production:
+
+1. On e-codices, Beschreibstoff hits clearly more often than the default's 67 %,
+   and the material misses no longer travel with dating misses — not a lower
+   miss count bought with "no answer", which counts as not hit.
+2. On e-codices, dating of the volumes up to 1100 rises above zero and
+   Datierung overall does not fall; stability stays near the default's.
+3. On our own volumes, no element is worse than under the default: our
+   corpus is 13th–19th-c. archival paper, and a prompt that helps Carolingian
+   codices and costs chancery hands is not shipped (#844's scope note).
+4. Schrift is no worse on either, since it drives the model selection.
+
+If the variant fixes the material but the dating floor stays, the floor is the
+model's and not the prompt's, which is what a second reader was to tell apart.
+
+**No second reader yet.** #844 asked to run the bench with the external reader
+of #747 as `describe`. That reader (`external_atr.openai_recogniser`, reader G
+in `ruemlang/pipeline.py`) transcribes: one page per call, a fixed prompt file
+from `prompts/`, page text back (`Reading.text`). It cannot take Agent B's
+prompt, several pages or return the 16-element JSON, so it cannot be the
+bench's describer as it stands. A describer for that API would have to send
+`_image_prompt` with the pages to `GEMINI_BASE_URL` and parse the answer with
+Agent B's `_parse_response` — new code against a metered API, not a plug-in.
+, all pages against all (#773)
 
 `hand_consistency.py` asks whether page images say, without the VLM, if a
 volume is one hand and where it changes. It follows Ferilli & Piscopo (CEUR
