@@ -44,6 +44,11 @@ and a manifest is one of our own: the reference is written by a historian, the
 pages are local images. ``run`` and ``score`` treat it like an e-codices volume,
 so a variant is measured on our ground truth with the same commands.
 
+``run --describe external --model <id>`` sends the same prompt and pages to a
+second reader over an OpenAI-compatible API (``eval/ecodices_external.py``):
+only the model changes, so the dating floor can be laid at the model's door or
+the prompt's.
+
 What a number here is not
 -------------------------
 * **Contamination.** A model may have read these descriptions in training; a hit
@@ -873,10 +878,14 @@ def run(bench_dir: Path, *, describe: Callable[[str, list, int], dict], runs: in
             result = describe(f"{vdir.name}{tag}-r{r}", [str(p) for p in images], n_pages,
                               **extra)
             seen = result.get("pages_seen") or [p.name for p in images]
+            # what the reading cost and whether it was cut off, when the reader
+            # says (a second reader on a metered API, #844)
+            about = {k: result[k] for k in ("model", "cost", "truncated") if k in result}
             out.write_text(json.dumps({"source_json": result.get("source_json") or {},
                                        "pages_shown": [p.name for p in images],
                                        "pages_seen": seen, "page_roles": roles,
-                                       "prompt": result.get("prompt_variant") or prompt},
+                                       "prompt": result.get("prompt_variant") or prompt,
+                                       **about},
                                       ensure_ascii=False, indent=2), encoding="utf-8")
 
 
@@ -999,6 +1008,13 @@ def main(argv: Optional[list[str]] = None) -> int:
     r.add_argument("dir", type=Path)
     r.add_argument("--runs", type=int, default=3)
     r.add_argument("--pages", choices=("first", "spread", "typical"), default="first")
+    r.add_argument("--describe", choices=("agent-b", "external"), default="agent-b",
+                   help="agent-b: the gateway VLM, as production; external: the same prompt "
+                        "and pages to an OpenAI-compatible API (GEMINI_BASE_URL/GEMINI_API_KEY, "
+                        "#844) — run it into a directory of its own")
+    r.add_argument("--model", default=None, help="model id for --describe external")
+    r.add_argument("--reasoning", default=None,
+                   help="reasoning effort for --describe external (default GEMINI_REASONING)")
     r.add_argument("--prompt", choices=PROMPT_CHOICES, default=None,
                    help="the image prompt's variant (#844); default: AGENT_B_IMAGE_PROMPT, "
                         "i.e. 'default' unless set. Runs of another variant than 'default' "
@@ -1042,10 +1058,19 @@ def main(argv: Optional[list[str]] = None) -> int:
         config.DESCRIPTIONS_DIR.mkdir(parents=True, exist_ok=True)
         from agents.source_description import _sampling, image_prompt_variant
         prompt = image_prompt_variant(args.prompt)
-        write_meta(args.dir, prompt, {"runs": args.runs, "pages": args.pages,
-                                      "agent_b": _sampling(), "prompt": prompt,
-                                      "model": config.GPUSTACK_MODEL_VISION})
-        run(args.dir, describe=_agent_b_image_only, runs=args.runs, pages=args.pages,
+        if args.describe == "external":
+            if not args.model:
+                ap.error("--describe external needs --model")
+            from eval import ecodices_external
+            describe = ecodices_external.describer(args.model, reasoning=args.reasoning)
+            settings = {"runs": args.runs, "pages": args.pages, "prompt": prompt,
+                        **describe.settings}
+        else:
+            describe = _agent_b_image_only
+            settings = {"runs": args.runs, "pages": args.pages, "agent_b": _sampling(),
+                        "prompt": prompt, "model": config.GPUSTACK_MODEL_VISION}
+        write_meta(args.dir, prompt, settings)
+        run(args.dir, describe=describe, runs=args.runs, pages=args.pages,
             get=_http_get, prompt=prompt)
         return 0
     _, report = score(args.dir, out=args.out)
