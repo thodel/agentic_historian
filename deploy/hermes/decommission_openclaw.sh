@@ -41,7 +41,9 @@
 # Für Tests und andere Hosts überschreibbar: DECOM_OC_USER (dh),
 # DECOM_HERMES_USER (hermes), DECOM_OC_HOME, DECOM_HERMES_HOME,
 # DECOM_HERMES_BIN, DECOM_TODAY (JJJJ-MM-TT), DECOM_NOT_BEFORE (2026-11-13),
-# DECOM_SYSTEM_ENV (/etc/agentic_historian.env).
+# DECOM_SYSTEM_ENV (/etc/agentic_historian.env), DECOM_UNIT_GLOBS (die
+# Unit-Dateien, in denen nach Node gesucht wird; Vorgabe die System- und die
+# User-Units unter /home).
 set -uo pipefail
 
 MODE=dry
@@ -67,6 +69,7 @@ H_HOME=${DECOM_HERMES_HOME:-$(home_of "$H_USER")}
 TODAY=${DECOM_TODAY:-$(date +%F)}
 NOT_BEFORE=${DECOM_NOT_BEFORE:-2026-11-13}
 SYSTEM_ENV=${DECOM_SYSTEM_ENV:-/etc/agentic_historian.env}
+UNIT_GLOBS=${DECOM_UNIT_GLOBS:-/etc/systemd/system/*.service /home/*/.config/systemd/user/*.service}
 UNIT=openclaw-gateway
 
 OC_DIR=$OC_HOME/.openclaw
@@ -350,8 +353,9 @@ if [ -n "$others_node" ]; then
   warn "andere Node-Prozesse laufen: $(printf '%s' "$others_node" | tr '\n' ' ')"
   node_keep+=("Prozesse: $(printf '%s' "$others_node" | tr '\n' ' ')")
 else ok "kein anderer Node-Prozess"; fi
-units=$(grep -lsE '(^|[ /=])(node|nodejs|npm|npx)( |$)' /etc/systemd/system/*.service \
-        /home/*/.config/systemd/user/*.service 2>/dev/null | grep -v "$UNIT" | tr '\n' ' ')
+# shellcheck disable=SC2086  # the globs expand here, on purpose
+units=$(grep -lsE '(^|[ /=])(node|nodejs|npm|npx)( |$)' $UNIT_GLOBS 2>/dev/null \
+        | grep -v "$UNIT" | tr '\n' ' ')
 if [ -n "$units" ]; then
   warn "Units, die Node starten: $units"; node_keep+=("Units: $units")
 else ok "keine andere systemd-Unit startet Node"; fi

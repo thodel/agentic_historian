@@ -147,6 +147,8 @@ def host(tmp_path):
              "DECOM_OC_HOME": str(dh), "DECOM_HERMES_HOME": str(hm),
              "DECOM_HERMES_BIN": str(bin_dir / "hermes"), "DECOM_TODAY": TODAY,
              "DECOM_SYSTEM_ENV": str(system_env),
+             # the host's own units are not the test's: on a CI runner one starts node
+             "DECOM_UNIT_GLOBS": str(tmp_path / "units" / "*.service"),
              "FAKE_UNIT_FILE": str(unit), "FAKE_NPM_PREFIX": str(tmp_path / "npm"),
              # another user's node process; its arguments carry a secret
              "FAKE_PS_USERS": f"www-data node node /srv/app.js --token {SECRETS['cron']}",
@@ -210,6 +212,15 @@ def test_node_may_go_only_when_nothing_else_needs_it(host):
     assert "sudo apt purge nodejs" in r.stdout
     r = host(FAKE_PS_USERS="", FAKE_PS_PIDS="", FAKE_RDEPENDS="  some-tool\n")
     assert "installierte Pakete hängen an nodejs: some-tool" in r.stdout
+    assert "apt purge" not in r.stdout
+
+
+def test_a_unit_that_starts_node_keeps_node(host, tmp_path):
+    units = tmp_path / "units"
+    units.mkdir(exist_ok=True)
+    (units / "app.service").write_text("[Service]\nExecStart=/usr/bin/node /srv/app.js\n")
+    r = host(FAKE_PS_USERS="", FAKE_PS_PIDS="", FAKE_CRONTAB="")
+    assert "Units, die Node starten:" in r.stdout and "app.service" in r.stdout
     assert "apt purge" not in r.stdout
 
 
