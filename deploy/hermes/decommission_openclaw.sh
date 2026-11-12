@@ -219,7 +219,8 @@ if [ "$MODE" = verify ]; then
   [ -r "$VALUES_FILE" ] || { echo "  $VALUES_FILE fehlt oder ist unlesbar" >&2; exit 2; }
   perm=$(stat -c %a "$VALUES_FILE")
   case "$perm" in 600|400) ;; *) warn "$VALUES_FILE hat Modus $perm — chmod 600" ;; esac
-  pat=$(mktemp); trap 'rm -f "$pat"' EXIT
+  # the old values, filtered: on tmpfs like the values file, never on the disk
+  pat=$(mktemp -p /dev/shm 2>/dev/null || mktemp); trap 'rm -f "$pat"' EXIT
   # Leere und kurze Zeilen würden auf alles passen.
   awk 'length($0) >= 8' "$VALUES_FILE" > "$pat"
   n=$(wc -l < "$pat")
