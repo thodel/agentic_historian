@@ -524,7 +524,29 @@ prompt, several pages or return the 16-element JSON, so it cannot be the
 bench's describer as it stands. A describer for that API would have to send
 `_image_prompt` with the pages to `GEMINI_BASE_URL` and parse the answer with
 Agent B's `_parse_response` — new code against a metered API, not a plug-in.
-, all pages against all (#773)
+
+**Comparing two choices (#774).** `compare` scores two or more run directories
+again and puts them side by side: per element hit rate and stability over the
+volumes every run has, the Top-2 stability (#775) and the mean reward (#782),
+then a per-volume balance (how many volumes are steadier, hit more often, under
+the second choice than under the first) and the Schrift and Datierung cells of
+every volume. The column names are each directory's `pages`; `--label` renames
+them.
+
+```bash
+# the same 30 volumes, typical pages, into a directory of its own
+mkdir -p runs/ecodices-2026-11-typical
+for v in runs/ecodices-2026-11/*/; do
+  id=$(basename "$v"); [ -f "$v/tei.xml" ] || continue
+  mkdir -p "runs/ecodices-2026-11-typical/$id"
+  cp "$v"/manifest.json "$v"/tei.xml "runs/ecodices-2026-11-typical/$id/"
+done
+python -m eval.ecodices_bench run runs/ecodices-2026-11-typical --runs 3 --pages typical
+python -m eval.ecodices_bench compare runs/ecodices-2026-11 runs/ecodices-2026-11-typical \
+    --out runs/ecodices-2026-11-typical/compare.md
+```
+
+## Consistency of the hand, all pages against all (#773)
 
 `hand_consistency.py` asks whether page images say, without the VLM, if a
 volume is one hand and where it changes. It follows Ferilli & Piscopo (CEUR

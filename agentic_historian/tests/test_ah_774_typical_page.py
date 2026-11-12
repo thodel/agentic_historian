@@ -234,3 +234,66 @@ def test_the_line_pitch_is_measured(tmp_path, pitch):
     """The pitch is the third-last feature, as a share of the page height."""
     value = image_features(_page(tmp_path / "p.png", pitch))[-3]
     assert value == pytest.approx(pitch / 800, abs=0.006)
+
+
+# ── the measurement: one page choice against another, side by side (#774) ────
+
+FIX = PKG / "eval" / "fixtures" / "ecodices"
+
+
+def _sj(schrift, datierung):
+    return {"Schrift": {"wert": schrift}, "Datierung": {"wert": datierung},
+            "Schreiber": {"wert": None}, "Beschreibstoff": {"wert": None}}
+
+
+def _bench(root, pages, volumes):
+    """A scored bench directory: ``volumes`` maps id -> (fixture, [runs])."""
+    root.mkdir()
+    (root / "meta.json").write_text(json.dumps({"runs": 3, "pages": pages}))
+    for vol, (fixture, runs) in volumes.items():
+        (root / vol / "runs").mkdir(parents=True)
+        (root / vol / "tei.xml").write_bytes((FIX / f"{fixture}.xml").read_bytes())
+        for r, sj in enumerate(runs):
+            (root / vol / "runs" / f"{r:02d}.json").write_text(json.dumps({"source_json": sj}))
+    return root
+
+
+def test_compare_puts_two_page_choices_side_by_side(tmp_path):
+    """saa-x (paper, Bastarda/Kursive, 1450–1500): the spread names three scripts
+    and one hit; typical names Bastarda thrice. csg-x is only in the spread run
+    and must not count in the summary — but still appears in the per-volume table."""
+    from eval import ecodices_bench as eb
+    spread = _bench(tmp_path / "spread", "spread", {
+        "saa-x": ("paper-two-hands", [_sj("Bastarda", "15. Jh."), _sj("Kursive", "15. Jh."),
+                                      _sj("Textura", "13. Jh.")]),
+        "csg-x": ("parchment-gothic", [_sj("Textura", "14. Jh.")] * 3)})
+    typical = _bench(tmp_path / "typical", "typical", {
+        "saa-x": ("paper-two-hands", [_sj("Bastarda", "15. Jh.")] * 3)})
+    report = eb.compare([spread, typical])
+    assert "- Bände in allen Läufen: **1**" in report
+    assert "| Element | Trefferquote `spread` | Stabilität `spread` | Trefferquote `typical` " \
+           "| Stabilität `typical` |" in report
+    assert "| Schrift | 67% | 33% | 100% | 100% |" in report, "csg-x's three hits do not count"
+    assert "| Datierung | 67% | 67% | 100% | 100% |" in report
+    assert "## Bilanz `typical` gegen `spread`, je Band" in report
+    assert "| Schrift | 1 | 0 | 0 | 1 | 0 |" in report
+    assert "| Datierung | 1 | 0 | 0 | 1 | 0 |" in report
+    assert "| Schreiber | 0 | 0 | 0 | 0 | 0 |" in report, "nothing answered: no balance"
+    assert "| `saa-x` | hit 2, miss 1 · 33% | hit 3 · 100% | hit 2, miss 1 · 67% | " \
+           "hit 3 · 100% |" in report
+    assert "| `csg-x` | hit 3 · 100% | – | hit 3 · 100% | – |" in report
+    assert (spread / "report.md").exists() and (typical / "scores.json").exists(), \
+        "compare scores each directory afresh"
+
+
+def test_compare_from_the_command_line_names_the_columns_and_writes_the_file(tmp_path):
+    from eval import ecodices_bench as eb
+    runs = {"saa-x": ("paper-two-hands", [_sj("Bastarda", "15. Jh.")] * 2)}
+    a, b = _bench(tmp_path / "a", "first", runs), _bench(tmp_path / "b", "typical", runs)
+    out = tmp_path / "compare.md"
+    assert eb.main(["compare", str(a), str(b), "--label", "Seite 1", "--label", "typisch",
+                    "--out", str(out)]) == 0
+    text = out.read_text(encoding="utf-8")
+    assert "Trefferquote `Seite 1` | Stabilität `Seite 1` | Trefferquote `typisch`" in text
+    assert "| Schrift | 0 | 1 | 0 | 0 | 0 |" in text, "the same runs: equal, no change"
+    assert text.startswith("# Agent B: Seitenwahl im Vergleich (#774)")
