@@ -423,6 +423,24 @@ watermarks), before script and date, and says that the material is never
 inferred from the date — in the third run (7.–8.11.2026) every parchment volume
 called "Papier" had been dated to the 15th century.
 
+**A second reader on the same bench (#844).** `run --describe external --model
+<id>` sends Agent B's image-only prompt, unchanged, to an OpenAI-compatible
+API (`GEMINI_BASE_URL`, `GEMINI_API_KEY`, as `external_atr`): the same pages,
+the same text, another model. It separates "the model cannot date early
+hands" from "the prompt pulls towards the 15th century". The model id is
+preflighted before the first page; `--reasoning` and `GEMINI_MAX_TOKENS` apply
+as for the external ATR reader; each run file keeps the model, the tokens
+spent and whether the answer was cut off (`truncated`). Run it into a
+directory of its own and compare the two reports.
+
+```bash
+# on tei, after the e-codices volumes were fetched into runs/ecodices-2026-11
+cp -r runs/ecodices-2026-11 runs/ecodices-2026-11-external && rm -rf runs/ecodices-2026-11-external/*/runs
+python -m eval.ecodices_bench run runs/ecodices-2026-11-external --runs 1 --pages spread \
+    --describe external --model gemini-4-argon --reasoning low
+python -m eval.ecodices_bench score runs/ecodices-2026-11-external
+```
+
 ## Consistency of the hand, all pages against all (#773)
 
 `hand_consistency.py` asks whether page images say, without the VLM, if a

@@ -31,7 +31,8 @@ e-codices.ch (31.10.2026: empty replies and 502) — and every judgement lives i
   each element over the R runs.
 * A volume of our own (#844): ``reference.json`` and its page images in place of
   the TEI and the manifest, so a prompt change is measured on our corpus too and
-  not tuned to e-codices.
+  not tuned to e-codices. ``run --describe external`` sends the same prompt to a
+  second reader (``eval/ecodices_external.py``).
 
 What a number here is not
 -------------------------
@@ -760,6 +761,12 @@ def main(argv: Optional[list[str]] = None) -> int:
     r.add_argument("dir", type=Path)
     r.add_argument("--runs", type=int, default=3)
     r.add_argument("--pages", choices=("first", "spread", "typical"), default="first")
+    r.add_argument("--describe", choices=("agent-b", "external"), default="agent-b",
+                   help="agent-b: the gateway VLM, as production; external: the same prompt "
+                        "to an OpenAI-compatible API (GEMINI_BASE_URL/GEMINI_API_KEY, #844)")
+    r.add_argument("--model", default=None, help="model id for --describe external")
+    r.add_argument("--reasoning", default=None,
+                   help="reasoning effort for --describe external (default GEMINI_REASONING)")
     s = sub.add_parser("score", help="judge the runs against the TEI (no network)")
     s.add_argument("dir", type=Path)
     args = ap.parse_args(argv)
@@ -795,9 +802,17 @@ def main(argv: Optional[list[str]] = None) -> int:
         config.DESCRIPTIONS_DIR = args.dir / "_descriptions"      # not into production
         config.DESCRIPTIONS_DIR.mkdir(parents=True, exist_ok=True)
         from agents.source_description import _sampling
+        if args.describe == "external":
+            if not args.model:
+                ap.error("--describe external needs --model")
+            from eval import ecodices_external
+            describe = ecodices_external.describer(args.model, reasoning=args.reasoning)
+            about = describe.settings
+        else:
+            describe, about = _agent_b_image_only, _sampling()
         (args.dir / "meta.json").write_text(json.dumps(
-            {"runs": args.runs, "pages": args.pages, "agent_b": _sampling()}), encoding="utf-8")
-        run(args.dir, describe=_agent_b_image_only, runs=args.runs, pages=args.pages, get=_http_get)
+            {"runs": args.runs, "pages": args.pages, "agent_b": about}), encoding="utf-8")
+        run(args.dir, describe=describe, runs=args.runs, pages=args.pages, get=_http_get)
         return 0
     _, report = score(args.dir)
     print(report)
