@@ -282,11 +282,11 @@ der Cut-over-Entscheid. **OpenClaw ist seit 06.11.2026 07:47 aus**
 |---|---|
 | Dienst | User-Unit `hermes-gateway` von `hermes` (`systemctl --user`, braucht in einer `sudo -iu hermes`-Shell `XDG_RUNTIME_DIR` und `DBUS_SESSION_BUS_ADDRESS`, beides in `~/.bashrc`) |
 | Profil | `~/.hermes/` — `config.yaml` (Struktur: `deploy/hermes/config.yaml.example`), `.env` (0600, Namen: `deploy/hermes/env.example`), `SOUL.md`, `skills/`, `scripts/`, `cron/` |
-| Modell | `qwen3.8-27b` über `model.provider: custom` auf GPUStack; `gpt-oss-120b` als `providers.gpustack-oss`, nur je Job gepinnt |
-| Werkzeuge | `terminal.backend: local`, also Befehle **als `hermes`**; `approvals.mode: smart`, `cron_mode: deny` plus `command_allowlist` mit genau zwei Regeln (Heredoc, eigenen Branch löschen) |
+| Modell | `lfm2.5-24b-a2b` über `model.provider: custom` auf GPUStack (seit 09.11.2026, davor `qwen3.8-27b`); `gpt-oss-120b` als `providers.gpustack-oss`, nur je Job gepinnt |
+| Werkzeuge | `terminal.backend: local`, also Befehle **als `hermes`**; `approvals.mode: smart`, `cron_mode: deny` plus `command_allowlist` mit genau drei Regeln (Heredoc, `python3 -c`, eigenen Branch löschen) |
 | GitHub | `gh` per `gh auth login` als `hermes` (`~/.config/gh/hosts.yml`); **kein** `GH_TOKEN` in `.env` — Hermes reicht `*_TOKEN` nicht ans Terminal durch |
 | Klone | `~/repos/<repo>` für die neun Repos des Queue-Workers; keine Produktions-Checkouts, kein Blick in `/home/dh` |
-| Quellen | MCP über nginx: `https://tei.dh.unibe.ch/mcp/<name>/mcp` (kf, eos, hbls, ssrq); `hls` ohne Schlüssel entfernt (#800) |
+| Quellen | MCP über nginx: `https://tei.dh.unibe.ch/mcp/<name>/mcp`, neun Quellen samt `hls` (Basic) und `atr` (OAuth, nur Lesewerkzeuge) — Stand und Zählung in `deploy/hermes/README.md`, Abschnitt MCP (#800) |
 | Cron | vier Jobs in `~/.hermes/cron/jobs.json`, Ausgaben unter `~/.hermes/cron/output/<job>/`, Zustellung in den Home-Kanal; Befehle in `deploy/hermes/cron.md` |
 
 Was der Agent **nicht** kann, und warum das so ist: `/etc/agentic_historian.env`
@@ -307,8 +307,21 @@ Zwei Dinge, die beim Debuggen Zeit kosten:
   `approvals.deny` sperrt SSH, die GPU-Hosts und den Batch-Client im Terminal
   (`deploy/hermes/soul-boundaries.md`, `config.yaml.example`).
 * **`gh` schreibt als `thodel`.** Kommentare und PRs des Queue-Workers tragen
-  den Namen des Token-Inhabers. Ein eigenes GitHub-Konto für dh-bot ist Teil der
-  Rotation in H6.
+  den Namen des Token-Inhabers. Ein eigenes GitHub-Konto (oder eine App) für
+  dh-bot ist Teil der Rotation in H6 — der Vergleich steht in
+  `deploy/hermes/rotation.md`.
+
+**Rückbau und Rotation (#802 Schritt 6 und 7), ab 13.11.2026.** Was von
+OpenClaw übrig ist — die User-Unit, die npm-Binary, Node aus
+`deb.nodesource.com`, `~/.openclaw`, `~/openclaw-workspace`, der importierte
+Skill `openclaw-imports/batch-issue-processor` bei `hermes` — misst
+`deploy/hermes/decommission_openclaw.sh` (als root, ohne Option ein
+Trockenlauf); `--apply` archiviert datiert nach `/home/dh/archiv/` und
+benennt um, alles Unumkehrbare druckt es als Befehle. Die Abfolge steht im
+README (`deploy/hermes/README.md`, «Cut-over and after»), die Secrets mit Ort,
+Aussteller und Probe in `deploy/hermes/rotation.md`; fertig ist die Rotation,
+wenn `decommission_openclaw.sh --verify-gone` in keiner Live-Datei mehr einen
+alten Wert zählt.
 
 Prüfen, als `hermes`:
 
@@ -352,12 +365,12 @@ ist.
    (0700 dh, Pairing-Dateien); gemessen am 23.10.2026, für den Bot unerreichbar.
    Seit 06.11.2026 Historie: der Agent ist Hermes, seine Secrets sind
    `/home/hermes/.hermes/.env` (0600 hermes), ebenso unerreichbar; `.openclaw`
-   geht mit dem Rückbau (#802 Schritt 6).
+   geht mit dem Rückbau (#802 Schritt 6, `deploy/hermes/decommission_openclaw.sh`).
 7. **Die Rotation** (Punkt 4 von #567, jetzt #802 Schritt 7). Die nach
    `/etc/agentic_historian.env` kopierten Werte stehen weiter in `.env.gpustack`;
    seit OpenClaw aus ist, liest sie kein Agent mehr, nur noch die CLI als `dh`. Pro Dienst neu ausstellen, per `sudoedit` eintragen, Neustart,
    alten Wert widerrufen; `.env.gpustack` erst bereinigen, wenn feststeht, dass
-   die CLI den Key nicht braucht.
+   die CLI den Key nicht braucht. Liste und Prüfung: `deploy/hermes/rotation.md`.
 8. ~~**Grosse Uploads und Builds ausserhalb der 200 MB von `atr-mcp`** (#737).~~
    Entschieden am 27.10.2026: **eigene systemd-User-Unit pro schwerem Job**,
    das Terminal als Rückfall. Ein echtes `upload_hf` und ein echter
