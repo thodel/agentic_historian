@@ -203,6 +203,14 @@ default) publishes once at the end of the run; `--publish-every N` trades more
 index rebuilds for seeing the catalogue fill as it goes. A retry is safe: an
 identical tree makes no second commit.
 
+Every document of a run is filed under a **collection** — the folder the runner
+was pointed at, or `--collection NAME`; `--collection ""` files none. It is
+written to the RunState and to `pipeline.json`, and the output catalogue
+partitions its index by it (outputs#239) instead of by publication year, which
+is what two thousand documents from one holding would otherwise be sorted under
+(#383). A mailbox order carries none — the mailbox is one level of orders,
+so those stay filed by year until somebody names a holding.
+
 **It checks the engines before it claims anything (#599).** The run reads the
 gateway's `/health` and compares it with the engines a plan will ask for
 (`vlm`, `kraken`, `trocr`); a planned engine that does not answer refuses the

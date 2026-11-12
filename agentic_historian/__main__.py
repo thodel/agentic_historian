@@ -1528,8 +1528,12 @@ def batch(args: argparse.Namespace) -> int:
         back = corpus_manifest.requeue(run_id)
         print(f"requeued {len(back)} document(s) that had failed or been given up on")
 
+    collection = args.collection if args.collection is not None else root.name
     print(f"{run_id}: {len(source.doc_ids)} document(s), {source.pages} page(s), "
           f"mode={source.mode} ({source.why})")
+    print(f"collection: {collection or '(none)'}"
+          + (" — the catalogue partitions by it (#383)" if collection else
+             " — the catalogue files these under their publication year"))
     if args.dry_run:
         corpus_manifest.register(run_id, source.doc_ids, source=str(root),
                                  label=source.mode)
@@ -1547,6 +1551,7 @@ def batch(args: argparse.Namespace) -> int:
             run_id, source, workers=args.workers, max_attempts=args.max_attempts,
             publish_every=args.publish_every,
             per_doc_publish=args.allow_per_doc_publish,
+            collection=collection,
             restart_engines=args.restart_engines,
             announce=_batch_announce())
     except batch_runner.EnginesDown as e:
@@ -1652,6 +1657,10 @@ def build_parser() -> argparse.ArgumentParser:
                           help="Commit N documents' outputs at a time "
                                "(default BATCH_PUBLISH_EVERY; 0 = once at the "
                                "end, the fewest index rebuilds)")
+    p_corpus.add_argument("--collection", default=None, metavar="NAME",
+                          help="The holding these documents are filed under "
+                               "in the output catalogue (default: the folder "
+                               "name; \"\" for none)")
     p_corpus.add_argument("--allow-per-doc-publish", action="store_true",
                           help="Let the pipeline publish each document as it "
                                "goes — one commit and one index rebuild each")
