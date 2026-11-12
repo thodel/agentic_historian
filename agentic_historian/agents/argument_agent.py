@@ -418,6 +418,67 @@ def plan(question: str, *, llm: LLM, audit: Audit,
                 bestand=named)
 
 
+#: Words of a question that name no subject: question words, articles,
+#: auxiliaries, prepositions, and the words that describe the asking itself.
+_QUESTION_STOPWORDS = frozenset("""
+welche welcher welches welchen welchem wie was wer wem wen warum weshalb wieso wann
+wo woher wohin haben hat hatte hatten wird werden wurde wurden sind sein seine seiner
+seinen seinem ihre ihrer ihren ihrem einer eines einem einen eine nicht oder aber
+über unter nach durch gegen gegenüber zwischen während wegen trotz ohne für von vor
+bei mit dem den der des die das dies diese dieser dieses diesen diesem jener jene
+jenes dass damit sowie auch noch schon dann denn wenn weil kann können konnte konnten
+muss müssen musste soll sollen sollte darf dürfen lässt lassen gibt geben werden
+jahrhundert jahrhunderts jahrhunderten urkunde urkunden quelle quellen dokument
+dokumente bestand bestände begründet begründen erwähnt genannt beschrieben
+""".split())
+
+
+def subject_terms(question: str, holdings: dict[str, str] | None = None,
+                  limit: int = MAX_TERMS) -> list[str]:
+    """The nouns a question is about, as search terms: "Welche Pflichten hat der
+    Hofmeister von Königsfelden gegenüber dem Konvent?" → pflichten, hofmeister,
+    konvent. Words of five letters or more, not a question word (above), not the
+    name of a holding (``holdings``: its key or a word of its title, so
+    "Königsfelden" is the holding, not a subject).
+
+    The eighth run on tei (12.11.2026, #812) asked about the Hofmeister and the
+    plan's terms were almuͦsen, jartzit, zins, gülte …: the subject never got
+    searched, 1 of 81 passages named it, and no claim stood. The subject is
+    searched whatever the plan says.
+    """
+    holding_words: set[str] = set()
+    for key, title in (holdings or {}).items():
+        holding_words.add(key.casefold())
+        holding_words.update(w.casefold() for w in re.findall(r"\w+", title or ""))
+    out: list[str] = []
+    for word in re.findall(r"[^\W\d_]+", question or ""):
+        low = word.casefold()
+        if len(low) < 5 or low in _QUESTION_STOPWORDS or low in out:
+            continue
+        # "Königsfelden" against "Königsfelder": the stem of a holding's name
+        if any(low[:6] == h[:6] for h in holding_words if len(h) >= 6):
+            continue
+        out.append(low)
+    return out[:limit]
+
+
+def with_subject(plan_: Plan, question: str, holdings: dict[str, str] | None,
+                 audit: Audit) -> Plan:
+    """The plan with the question's subject searched: a sub-question ``q0`` of
+    the question itself, with the subject terms the plan's terms leave out.
+    Nothing is added when the plan already searches every one of them."""
+    searched = {v.casefold() for sub in plan_.subquestions for t in sub.get("terms") or []
+                for v in edition_text.search_variants(t)}
+    missing = [t for t in subject_terms(question, holdings)
+               if not any(v.casefold() in searched for v in edition_text.search_variants(t))]
+    if not missing:
+        return plan_
+    audit.events.append("plan: the question's subject was not among the search terms — "
+                        "added: " + ", ".join(missing))
+    plan_.subquestions.insert(0, {"id": "q0", "text": question, "terms": missing})
+    return plan_
+
+
 # ── 2. retrieve ──────────────────────────────────────────────────────────────
 
 def own_passages(query: str, *, bestand: str | None = None,
@@ -764,8 +825,21 @@ def sample(pool: dict, plan_: Plan, *, size: int) -> tuple[list[str], list[dict]
         return ((it.source or {}).get("bestand") or it.reading.get("model_id") or "",
                 span[0] // 100 if span else -1, langs[0] if langs else "")
 
+    # Passages that name the question's subject go first within a group: a
+    # full-text hit for "jartzit" scores 0.0 like every other, and the order
+    # would otherwise be the ids' (#812, eighth run).
+    subject = [v.casefold() for t in subject_terms(plan_.question)
+               for v in edition_text.search_variants(t)]
+
+    def names_subject(it) -> int:
+        text = (it.reading_text or it.quote or "").casefold()
+        hits = sum(1 for v in subject if v in text)
+        it.retrieval = {**(it.retrieval or {}), "subject_hits": hits}
+        return hits
+
     by_sub: dict[str, dict[tuple, list]] = defaultdict(lambda: defaultdict(list))
-    for it in sorted(eligible, key=lambda i: (-(i.retrieval or {}).get("score", 0.0),
+    for it in sorted(eligible, key=lambda i: (-names_subject(i),
+                                              -(i.retrieval or {}).get("score", 0.0),
                                               i.evidence_id)):
         by_sub[(it.retrieval or {}).get("subquestion", "q1")][group(it)].append(it)
 
@@ -1215,6 +1289,8 @@ _REFLECT_PROMPT = """Forschungsfrage: {question}
 Teilfragen: {subs}
 Gestützte Behauptungen:
 {claims}
+Verworfene Behauptungen (Zitat nicht in der Passage) oder Behauptungen, die der
+eigenen Übersetzung nicht folgen: {failed}
 Suchen ohne Treffer oder fehlgeschlagen: {gaps}
 
 Was fehlt, um die Frage zu beantworten? Gib höchstens drei gezielte Suchanfragen
@@ -1225,14 +1301,25 @@ Was fehlt, um die Frage zu beantworten? Gib höchstens drei gezielte Suchanfrage
 
 
 def reflect(question: str, plan_: Plan, claims: list[Claim], coverage: list[dict],
-            *, llm: LLM, audit: Audit, round_no: int) -> list[dict]:
-    """Targeted follow-up queries, or none. One call."""
+            *, llm: LLM, audit: Audit, round_no: int,
+            rejected: list[Claim] | None = None) -> list[dict]:
+    """Targeted follow-up queries, or none. One call.
+
+    The model sees what stands and what fell: a claim whose quote was not in
+    its passage (``rejected``) and a claim that failed a check (``checks``) are
+    gaps too — in the eighth run (12.11.2026) none of three claims stood and
+    the reflection, shown only the one that was bound, asked for nothing.
+    """
     misses = sorted({f"{c['retriever']}:{c['query']}" for c in coverage
                      if c["status"] != "ok"})
+    standing = [c for c in claims if not c.checks]
+    failed = [f"{c.text} — {'; '.join(c.checks)}" for c in claims if c.checks]
+    failed += [f"{c.text} — Zitat nicht in der genannten Passage" for c in (rejected or [])]
     data = _call(llm, audit, f"reflect-{round_no}", _REFLECT_PROMPT.format(
         question=question,
         subs="; ".join(s["text"] for s in plan_.subquestions),
-        claims="\n".join(f"[{i}] {c.text}" for i, c in enumerate(claims, 1)) or "(keine)",
+        claims="\n".join(f"[{i}] {c.text}" for i, c in enumerate(standing, 1)) or "(keine)",
+        failed="\n".join(f"- {f}" for f in failed) or "(keine)",
         gaps=", ".join(misses) or "(keine)"), _PLAN_SYSTEM)
     gaps = []
     for raw in (data.get("gaps") or [])[:MAX_GAPS]:
@@ -1297,6 +1384,11 @@ def ask(question: str, *, bestand: str | None = None,
     scope = bestand or p.bestand
     if p.bestand and not bestand:
         audit.events.append(f"holding from the question: {p.bestand}")
+    try:
+        p = with_subject(p, question, _holdings(), audit)
+    except Exception as e:                       # noqa: BLE001 — the federation's registry
+        p = with_subject(p, question, None, audit)
+        audit.events.append(f"plan: holdings unavailable for the subject check ({e})")
     documents: dict = {}
 
     try:
@@ -1319,7 +1411,7 @@ def ask(question: str, *, bestand: str | None = None,
             audit.rounds += 1
             try:
                 gaps = reflect(question, p, claims, coverage, llm=llm, audit=audit,
-                               round_no=audit.rounds)
+                               round_no=audit.rounds, rejected=rejected)
             except (ValueError, TypeError) as e:
                 audit.events.append(f"reflect: no usable answer ({e})")
                 break
