@@ -65,6 +65,7 @@ class PipelineContext:
         self.source_url: Optional[str] = None   # link back to the source (#208)
         self.dual_result: Optional[DualTranscriptionResult] = None
         self.recognitions: list[RecognitionResult] = []       # all OCR candidates (#234)
+        self.collection: str = ""   # the holding, for the catalogue partition (#383)
 
     def to_json(self) -> dict:
         base = {
@@ -78,6 +79,8 @@ class PipelineContext:
             base["a_meta"] = self.a_meta
         if self.source_url:
             base["source_url"] = self.source_url
+        if self.collection:
+            base["collection"] = self.collection
         base["recognitions"] = [
             {
                 "engine": r.engine,
@@ -400,9 +403,15 @@ def run_full_pipeline(
     source_url: Optional[str] = None,
     on_phase=None,
     publish: bool = True,
+    collection: str = "",
 ) -> PipelineResult:
     """
     Führt A → B → Kraken-Re-Run → C (→ D) Pipeline aus.
+
+    ``collection`` names the holding this document belongs to (#383). The
+    batch runner passes the folder it was pointed at; a single ``/run`` has
+    none. It is written to the RunState and to ``pipeline.json`` so the output
+    catalogue can partition by holding instead of by publication year.
 
     Zwei-Phasen-Agent-A-Logik:
       1. VLM-only erste Transkription ( fuer Agent B )
@@ -423,6 +432,7 @@ def run_full_pipeline(
     img = Path(image_path) if image_path else fp
     ctx = PipelineContext(doc_id)
     ctx.source_url = _derive_source_url(fp, source_url)
+    ctx.collection = collection or ""
 
     logger.info(f"[Orchestrator] Starte Pipeline: {doc_id}")
 
@@ -813,6 +823,8 @@ def run_full_pipeline(
         state = RunState.load_or_new(doc_id)
         # Carry source_url forward
         state.source_url = ctx.source_url
+        if ctx.collection:
+            state.collection = ctx.collection
         # Persist a back-compat hint so downstream readers know which version
         # of the pipeline produced this RunState.
         state.artifacts["pipeline_version"] = "225-derived"
@@ -1367,8 +1379,12 @@ def run_full_pipeline_group(
     run_agent_d: bool = False,
     on_phase=None,
     publish: bool = True,
+    collection: str = "",
 ) -> PipelineResult:
     """Process a set of images as ONE multi-page document (a WebDAV "order"/folder).
+
+    ``collection`` is the holding the order belongs to (#383) — see
+    :func:`run_full_pipeline`.
 
     Agent A transcribes each page; the pages are combined into a single
     transcription (one .txt named after the order), then Agent B (one source
@@ -1379,6 +1395,7 @@ def run_full_pipeline_group(
         return [int(c) if c.isdigit() else c.lower() for c in re.split(r"(\d+)", name)]
     pages = sorted((Path(p) for p in image_paths), key=lambda p: _natural_key(p.name))
     ctx = PipelineContext(doc_id)
+    ctx.collection = collection or ""
     # Link the order back to its source folder (first page's parent), if a base is set.
     if pages and getattr(config, "SOURCE_URL_BASE", ""):
         ctx.source_url = f"{config.SOURCE_URL_BASE}/{pages[0].parent.name}"
@@ -1431,6 +1448,8 @@ def run_full_pipeline_group(
             state.artifacts["a_meta"] = ctx.a_meta
             if ctx.recognitions:                       # #272 ensemble candidates
                 state.artifacts["recognitions"] = ctx.recognitions
+            if ctx.collection:
+                state.collection = ctx.collection
             state.save()
         except Exception as e2:
             logger.warning(f"[Orchestrator] Group Phase 1 RunState persist skipped: {e2}")
@@ -1660,6 +1679,11 @@ def _save_pipeline_result(doc_id: str, ctx: PipelineContext, *, from_runstate: b
                 pipeline["closest_reading"] = state.closest_reading
             if state.source_url:
                 pipeline["source_url"] = state.source_url
+            # The holding (#383). The RunState's own value serves the re-derive
+            # path (ingest._default_export), which comes with an empty ctx.
+            _collection = ctx.collection or state.collection
+            if _collection:
+                pipeline["collection"] = _collection
             _where = "derived from RunState"
         except Exception as e:
             # Fallback: if RunState load fails for any reason, fall back to ctx

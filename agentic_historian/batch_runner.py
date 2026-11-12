@@ -243,8 +243,12 @@ class Summary:
 
 
 def _default_pipeline(doc_id: str, paths: list, mode: str, *,
-                      publish: bool = False) -> None:
+                      publish: bool = False, collection: str = "") -> None:
     """The bot's own entry points, so batch and interactive cannot drift.
+
+    ``collection`` is the holding the run is over (#383) — by default the
+    folder the runner was pointed at. It reaches ``pipeline.json`` so the
+    output catalogue partitions by holding rather than by year.
 
     ``publish=False`` by default: the runner commits N documents in one commit
     (#394) and the output repo rebuilds its index once per commit. Publishing
@@ -255,9 +259,11 @@ def _default_pipeline(doc_id: str, paths: list, mode: str, *,
     import orchestrator
     if mode == ORDERS:
         orchestrator.run_full_pipeline_group(doc_id, [str(p) for p in paths],
-                                             publish=publish)
+                                             publish=publish,
+                                             collection=collection)
     else:
-        orchestrator.run_full_pipeline(str(paths[0]), publish=publish)
+        orchestrator.run_full_pipeline(str(paths[0]), publish=publish,
+                                       collection=collection)
 
 
 def _engine_preflight(say: Callable[[str], None], *,
@@ -314,6 +320,7 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
               publish_every: Optional[int] = None,
               publish: Optional[Callable] = None,
               per_doc_publish: bool = False,
+              collection: str | None = None,
               engines: Optional[Iterable[str]] = None,
               restart_engines: bool = False,
               check_engines: Optional[Callable] = None,
@@ -325,9 +332,15 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
     touched. Stale claims from a killed run are handed back **once, at the
     start** — explicitly, because a reclaim mid-run would fight the heartbeat.
     """
+    # The holding every document of this run is filed under (#383): the folder
+    # the runner was pointed at, unless the caller names one. `""` is the way
+    # to say "none" — a run over a scratch folder should not mint a holding.
+    if collection is None:
+        collection = source.root.name
     if pipeline is None:
         def pipeline(doc_id, paths, mode):
-            _default_pipeline(doc_id, paths, mode, publish=per_doc_publish)
+            _default_pipeline(doc_id, paths, mode, publish=per_doc_publish,
+                              collection=collection)
     publish = publish or _publish_batch
     if publish_every is None:
         publish_every = getattr(config, "BATCH_PUBLISH_EVERY", 0)

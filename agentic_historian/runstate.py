@@ -122,6 +122,14 @@ class RunState(BaseModel):
     message_ids: dict[str, Any] = Field(default_factory=dict)   # Discord placeholder
     stale: list[str] = Field(default_factory=list)
     source_url: Optional[str] = None                                    # #208 link to source image
+    #: The holding this document was processed as part of (#383): the folder a
+    #: batch run was pointed at, or a mailbox order's parent. Optional and
+    #: never derived from the doc_id — ``provenance.bestand_of`` and
+    #: ``entity_agent.bestand_from_doc_id`` disagree about where a holding
+    #: sits in an id, and a flat id has none (#399). Carried into
+    #: ``pipeline.json`` as ``collection`` so the output catalogue partitions
+    #: by holding rather than by publication year.
+    collection: str | None = None
 
     # ── queries ──────────────────────────────────────────────────────────────
 
