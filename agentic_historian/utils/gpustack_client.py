@@ -144,6 +144,12 @@ def last_usage() -> dict:
     return dict(getattr(_usage, "last", {}) or {})
 
 
+def last_finish() -> str:
+    """``finish_reason`` of this thread's last completion: ``"length"`` means the
+    budget cut the answer off, which the content alone does not show (#774)."""
+    return str(getattr(_usage, "finish", "") or "")
+
+
 @retry(
     retry=retry_if_exception_type((APIConnectionError, RateLimitError, APIError)),
     stop=stop_after_attempt(3),
@@ -182,6 +188,7 @@ def _create(
     response = client.chat.completions.create(**request)
     _record_usage(response)
     choice = response.choices[0]
+    _usage.finish = choice.finish_reason or ""
     return choice.message.content, (choice.finish_reason or "")
 
 

@@ -182,6 +182,14 @@ def _images(image_path) -> list[str]:
     return [str(image_path)]
 
 
+def _vision_once(prompt: str, sent: list[str], max_tokens: int) -> str:
+    if len(sent) > 1:
+        return gs.chat_vision(prompt, image_source=sent, system=None, max_tokens=max_tokens,
+                              image_max_px=config.AGENT_B_PAGE_MAX_PX, **_sampling())
+    return gs.chat_vision(prompt, image_source=sent[0], system=None, max_tokens=max_tokens,
+                          **_sampling())
+
+
 def _vision_call(prompt: str, images: list[str], doc_id: str) -> tuple[str, list[str], dict]:
     """Agent B's vision call over ``images``: ``(raw, images actually sent, cost)``.
 
@@ -189,16 +197,19 @@ def _vision_call(prompt: str, images: list[str], doc_id: str) -> tuple[str, list
     backend that refuses several images (vLLM's per-prompt image limit) is asked
     again with the first page alone, and the result says so: ``pages_seen`` then
     names one page, not five. Raises when the single-page call fails too.
+
+    An answer the budget cut off (``finish_reason == "length"``) whose JSON does
+    not parse is asked for once more with twice ``AGENT_B_MAX_TOKENS``, on the
+    same pages: four pages per call made 4 of 5 answers on saa-0428 break off
+    inside the JSON at 3500 tokens (12.11.2026), and the client's own retry
+    covers only an empty answer. A complete answer, or a broken one the budget
+    did not cut, is not asked again.
     """
     sent = list(images)
+    budget = config.AGENT_B_MAX_TOKENS
     t0 = time.monotonic()
     try:
-        if len(sent) > 1:
-            raw = gs.chat_vision(prompt, image_source=sent, system=None, max_tokens=3500,
-                                 image_max_px=config.AGENT_B_PAGE_MAX_PX, **_sampling())
-        else:
-            raw = gs.chat_vision(prompt, image_source=sent[0], system=None, max_tokens=3500,
-                                 **_sampling())
+        raw = _vision_once(prompt, sent, budget)
     except Exception as e:
         if len(sent) <= 1:
             raise
@@ -206,8 +217,11 @@ def _vision_call(prompt: str, images: list[str], doc_id: str) -> tuple[str, list
                        f"nur die erste: {e}")
         sent = sent[:1]
         t0 = time.monotonic()
-        raw = gs.chat_vision(prompt, image_source=sent[0], system=None, max_tokens=3500,
-                             **_sampling())
+        raw = _vision_once(prompt, sent, budget)
+    if gs.last_finish() == "length" and not _parse_response(raw)[0]:
+        logger.warning(f"[Agent B] {doc_id}: Antwort bei {budget} Tokens abgeschnitten, JSON "
+                       f"unvollstaendig — noch einmal mit {budget * 2}")
+        raw = _vision_once(prompt, sent, budget * 2)
     cost = {"seiten": len(sent), "sekunden": round(time.monotonic() - t0, 1),
             **gs.last_usage()}
     logger.info(f"[Agent B] {doc_id}: {cost['seiten']} Seite(n) gesehen, "
