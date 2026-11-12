@@ -60,6 +60,12 @@ def content_key(paths: Iterable, shown: Iterable = ()) -> str:
     shown = [Path(str(p)).name for p in shown or ()]
     if len(shown) > 1:
         joined += "|shown:" + ",".join(shown)
+    # A description made under another image prompt (#844) is another measurement:
+    # with AGENT_B_IMAGE_PROMPT set, the default prompt's entries must not answer.
+    # The default leaves the key as it was.
+    variant = (getattr(config, "AGENT_B_IMAGE_PROMPT", "") or "default").strip().lower()
+    if variant != "default":
+        joined += "|prompt:" + variant
     return hashlib.sha256(joined.encode("utf-8")).hexdigest()[:32]
 
 

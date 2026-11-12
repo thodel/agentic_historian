@@ -28,7 +28,21 @@ e-codices.ch (31.10.2026: empty replies and 502) — and every judgement lives i
   image-only path, the one production takes when the transcription is unusable;
   Schrift, Datierung, Schreiber and Beschreibstoff are read off the page in both.
 * ``score``: per element hit / miss / not in the catalogue, and the stability of
-  each element over the R runs.
+  each element over the R runs. It reads only files, so the runs of an earlier
+  day are scored again under today's rules (#842's century spans) for nothing.
+
+Prompt variants and our own volumes (#844)
+------------------------------------------
+``run --prompt material-first`` describes with the image prompt's variant
+(``source_description.IMAGE_PROMPT_VARIANTS``) into ``runs/<variant>-NN.json``
+beside the default's ``runs/NN.json``; every run records its ``prompt``, and
+``score`` reports each variant on its own and side by side. A run written before
+the field existed is the default prompt, which was the only one.
+
+A volume directory with ``reference.json`` and ``pages/`` instead of ``tei.xml``
+and a manifest is one of our own: the reference is written by a historian, the
+pages are local images. ``run`` and ``score`` treat it like an e-codices volume,
+so a variant is measured on our ground truth with the same commands.
 
 What a number here is not
 -------------------------
@@ -58,6 +72,9 @@ from xml.etree import ElementTree as ET
 TEI = "{http://www.tei-c.org/ns/1.0}"
 IIIF_MANIFEST = "https://www.e-codices.unifr.ch/metadata/iiif/{id}/manifest.json"
 ELEMENTS = ("Schrift", "Datierung", "Schreiber", "Beschreibstoff")
+#: The image prompt a run was made with when it does not say: the only one there
+#: was before #844 (``source_description.IMAGE_PROMPT_VARIANTS``).
+DEFAULT_PROMPT = "default"
 
 #: Script families, by the words catalogues and Agent B use for them, in the
 #: languages e-codices descriptions are written in (de, fr, it, en, la). Order
@@ -171,6 +188,48 @@ def parse_tei(data: bytes, vol_id: str) -> Reference:
     extent = ms.find(f".//{TEI}extent")
     ref.leaves = _text(extent) or None
     return ref
+
+
+def parse_reference(data: dict, vol_id: str) -> Reference:
+    """A reference written by hand for one of our own volumes (#844).
+
+    ``{"date_from": 1528, "date_to": 1528, "material": "papier",
+    "script": "Kanzleikursive", "hands": 2}``; anything left out is not judged.
+    ``material`` takes the TEI's ``perg``/``chart``/``mixed`` or the German words.
+    """
+    material = str(data.get("material") or "").strip().lower() or None
+    if material:
+        material = MATERIALS.get(material) or material_of(material) or material
+    script = str(data.get("script") or "")
+    return Reference(id=vol_id, published=data.get("published"),
+                     script_text=script, script_families=families(script),
+                     hands=int(data["hands"]) if data.get("hands") is not None else None,
+                     date_from=_year(str(data.get("date_from") or "")),
+                     date_to=_year(str(data.get("date_to") or data.get("date_from") or "")),
+                     material=material)
+
+
+def reference_of(vdir: Path) -> Reference:
+    """The catalogue's TEI for an e-codices volume, ``reference.json`` for one of ours."""
+    if (vdir / "tei.xml").exists():
+        return parse_tei((vdir / "tei.xml").read_bytes(), vdir.name)
+    return parse_reference(json.loads((vdir / "reference.json").read_text(encoding="utf-8")),
+                           vdir.name)
+
+
+def volumes(bench_dir: Path) -> list[Path]:
+    """The volume directories of a bench: e-codices (``tei.xml``) or ours (``reference.json``)."""
+    return sorted(p for p in bench_dir.iterdir()
+                  if (p / "tei.xml").exists() or (p / "reference.json").exists())
+
+
+IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".tif", ".tiff"}
+
+
+def local_pages(vdir: Path) -> list[Path]:
+    """The page images of one of our own volumes, ``<vol>/pages/``, in name order."""
+    return sorted(p for p in (vdir / "pages").iterdir()
+                  if p.suffix.lower() in IMAGE_SUFFIXES) if (vdir / "pages").is_dir() else []
 
 
 # ── Agent B's side ───────────────────────────────────────────────────────────
@@ -313,12 +372,19 @@ class VolumeScore:
     stability: dict = field(default_factory=dict)     # element -> share agreeing with the mode
     published: Optional[str] = None
     reward: dict = field(default_factory=dict)        # term -> mean reward, + brier (#782)
+    date_to: int | None = None                        # the catalogue's latest year (#844)
+    #: "Datierung verdict/Beschreibstoff verdict" -> runs (#844): does the
+    #: material miss where the dating misses?
+    date_and_material: dict = field(default_factory=dict)
 
 
 def score_volume(ref: Reference, runs: list[dict]) -> VolumeScore:
-    vs = VolumeScore(id=ref.id, runs=len(runs), published=ref.published)
+    vs = VolumeScore(id=ref.id, runs=len(runs), published=ref.published, date_to=ref.date_to)
+    judged = [judge(ref, sj) for sj in runs]
+    vs.date_and_material = dict(Counter(f"{j['Datierung']}/{j['Beschreibstoff']}"
+                                        for j in judged))
     for element in ELEMENTS:
-        verdicts = Counter(judge(ref, sj)[element] for sj in runs)
+        verdicts = Counter(j[element] for j in judged)
         vs.judgements[element] = dict(verdicts)
         answers = [_answer(element, sj) for sj in runs]
         given = [a for a in answers if a is not None]
@@ -361,6 +427,39 @@ def summarise(scores: list[VolumeScore]) -> dict:
     return out
 
 
+#: A volume the catalogue dates no later than this is "early" (#844): the third
+#: run dated all 11 of them to the 13th-15th century.
+EARLY = 1100
+
+
+def summarise_period_bias(scores: list[VolumeScore]) -> dict:
+    """The two findings of #844 as numbers: dating of early volumes, and whether
+    the material misses where the dating misses."""
+    early, pairs, n_early = Counter(), Counter(), 0
+    for vs in scores:
+        pairs.update(vs.date_and_material)
+        if vs.date_to is not None and vs.date_to <= EARLY:
+            n_early += 1
+            early.update(vs.judgements.get("Datierung", {}))
+    judged = early[HIT] + early[MISS] + early[NO_ANSWER]
+    material_miss = sum(n for k, n in pairs.items() if k.endswith(f"/{MISS}"))
+    return {"early_volumes": n_early, "early_dating_hit": early[HIT],
+            "early_dating_judged": judged,
+            "early_dating_hit_rate": round(early[HIT] / judged, 3) if judged else None,
+            "material_miss": material_miss,
+            "material_miss_with_dating_miss": pairs.get(f"{MISS}/{MISS}", 0)}
+
+
+def _period_lines(scores: list[VolumeScore]) -> list[str]:
+    p = summarise_period_bias(scores)
+    rate = "–" if p["early_dating_hit_rate"] is None else f"{p['early_dating_hit_rate']:.0%}"
+    return ["## Epochen-Bias (#844)", "",
+            (f"- Datierung der Bände bis {EARLY} (Katalog): {p['early_dating_hit']} von "
+             f"{p['early_dating_judged']} Läufen getroffen ({rate}), {p['early_volumes']} Bände."),
+            (f"- Beschreibstoff falsch: {p['material_miss']} Läufe, davon "
+             f"{p['material_miss_with_dating_miss']} mit falscher Datierung."), ""]
+
+
 def _reward_lines(scores: list[VolumeScore]) -> list[str]:
     r = summarise_reward(scores)
     if not r:
@@ -376,12 +475,15 @@ def _reward_lines(scores: list[VolumeScore]) -> list[str]:
     return lines
 
 
-def format_report(scores: list[VolumeScore], meta: dict) -> str:
+def format_report(scores: list[VolumeScore], meta: dict, prompt: str = DEFAULT_PROMPT) -> str:
     summary = summarise(scores)
-    lines = ["# Agent B gegen die Katalogbeschreibungen von e-codices (#779)", "",
+    title = "# Agent B gegen die Katalogbeschreibungen von e-codices (#779)"
+    lines = [title + (f" — Prompt `{prompt}`" if prompt != DEFAULT_PROMPT else ""), "",
              f"- Bände: **{len(scores)}**, Läufe je Band: {meta.get('runs')}, "
              f"Seiten: `{meta.get('pages')}`",
-             f"- Agent-B-Konfiguration: {meta.get('agent_b', '—')}", "",
+             f"- Agent-B-Konfiguration: {meta.get('agent_b', '—')}",
+             f"- Prompt des Bildpfads: `{prompt}`"
+             + (f", Modell `{meta['model']}`" if meta.get("model") else ""), "",
              "| Element | Treffer | Fehler | keine Antwort | nicht im Katalog | Trefferquote | Stabilität |",
              "|---|---:|---:|---:|---:|---:|---:|"]
     for element, s in summary.items():
@@ -394,6 +496,7 @@ def format_report(scores: list[VolumeScore], meta: dict) -> str:
               "zählt als nicht getroffen. Stabilität: Anteil der Läufe mit der häufigsten "
               "Antwort, im Mittel über die Bände.",
               "",
+              *_period_lines(scores),
               *_reward_lines(scores),
               "**Vorbehalte.** Die Beschreibungen können im Training der Modelle gewesen sein "
               "(siehe Jahr der Veröffentlichung je Band); e-codices ist vorwiegend "
@@ -410,24 +513,100 @@ def format_report(scores: list[VolumeScore], meta: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def score(bench_dir: Path) -> tuple[list[VolumeScore], str]:
-    """Read ``<dir>/<id>/tei.xml`` and ``runs/*.json``, judge, and write the report."""
+def run_prompt(record: dict) -> str:
+    """The image prompt one run was made with; a run older than #844 used the default."""
+    return str(record.get("prompt") or DEFAULT_PROMPT)
+
+
+def score_by_prompt(bench_dir: Path) -> dict[str, list[VolumeScore]]:
+    """Every volume's runs, judged per image-prompt variant (#844), the default first.
+
+    Reads ``tei.xml`` or ``reference.json`` and ``runs/*.json`` only: no network,
+    no model. Each variant's runs are a volume's runs of their own, so the
+    stability of one is never diluted by the other's answers.
+    """
+    groups: dict[str, list[VolumeScore]] = {}
+    for vol in volumes(bench_dir):
+        records = [json.loads(r.read_text(encoding="utf-8"))
+                   for r in sorted((vol / "runs").glob("*.json"))] if (vol / "runs").is_dir() else []
+        if not records:
+            continue
+        by: dict[str, list[dict]] = {}
+        for rec in records:
+            by.setdefault(run_prompt(rec), []).append(rec.get("source_json") or {})
+        ref = reference_of(vol)
+        for prompt, runs in by.items():
+            groups.setdefault(prompt, []).append(score_volume(ref, runs))
+    order = sorted(groups, key=lambda v: (v != DEFAULT_PROMPT, v))
+    return {v: groups[v] for v in order}
+
+
+def meta_for(meta: dict, prompt: str) -> dict:
+    """The run settings of one variant: its own entry in ``variants`` over the top level."""
+    return {**meta, **((meta.get("variants") or {}).get(prompt) or {})}
+
+
+def format_comparison(groups: dict[str, list[VolumeScore]]) -> str:
+    """The variants side by side: hit rate (stability) per element, and #844's two numbers."""
+    names = list(groups)
+
+    def pct(v):
+        return "–" if v is None else f"{v:.0%}"
+
+    lines = ["# Agent B gegen e-codices: Prompt-Varianten im Vergleich (#844)", "",
+             "| | " + " | ".join(f"`{n}`" for n in names) + " |",
+             "|---|" + "---:|" * len(names),
+             "| Bände | " + " | ".join(str(len(groups[n])) for n in names) + " |",
+             "| Läufe | " + " | ".join(str(sum(vs.runs for vs in groups[n])) for n in names) + " |"]
+    summaries = {n: summarise(groups[n]) for n in names}
+    for element in ELEMENTS:
+        lines.append(f"| {element} | " + " | ".join(
+            f"{pct(summaries[n][element]['hit_rate'])} "
+            f"({pct(summaries[n][element]['mean_stability'])})" for n in names) + " |")
+    bias = {n: summarise_period_bias(groups[n]) for n in names}
+    lines.append(f"| Datierung bis {EARLY} | " + " | ".join(
+        f"{bias[n]['early_dating_hit']}/{bias[n]['early_dating_judged']}" for n in names) + " |")
+    lines.append("| Beschreibstoff falsch (davon mit falscher Datierung) | " + " | ".join(
+        f"{bias[n]['material_miss']} ({bias[n]['material_miss_with_dating_miss']})"
+        for n in names) + " |")
+    lines += ["", ("Trefferquote (Stabilität) je Element; die Bände sind nur dann dieselben, "
+                   "wenn die Zeile «Bände» gleich ist. Je Variante folgt der vollständige Bericht."),
+              ""]
+    return "\n".join(lines) + "\n"
+
+
+def score(bench_dir: Path, out: Path | None = None) -> tuple[list[VolumeScore], str]:
+    """Judge every run in ``bench_dir`` and write ``report.md`` and ``scores.json``.
+
+    ``out`` is where they go (default: ``bench_dir``), so scoring an old run again
+    under new rules can leave its first report in place. Several prompt variants
+    give one report each, after a table of all of them side by side; the returned
+    scores are the default prompt's, or the first variant's when it has none.
+    """
     meta_path = bench_dir / "meta.json"
     meta = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
-    scores = []
-    for vol in sorted(p for p in bench_dir.iterdir() if (p / "tei.xml").exists()):
-        runs = [json.loads(r.read_text(encoding="utf-8")).get("source_json") or {}
-                for r in sorted((vol / "runs").glob("*.json"))]
-        if not runs:
-            continue
-        scores.append(score_volume(parse_tei((vol / "tei.xml").read_bytes(), vol.name), runs))
-    report = format_report(scores, meta)
-    (bench_dir / "report.md").write_text(report, encoding="utf-8")
-    (bench_dir / "scores.json").write_text(json.dumps(
-        {"summary": summarise(scores), "reward": summarise_reward(scores),
-         "volumes": [asdict(s) for s in scores]},
+    groups = score_by_prompt(bench_dir)
+    reports = [format_report(scores, meta_for(meta, prompt), prompt)
+               for prompt, scores in groups.items()]
+    if len(groups) > 1:
+        report = format_comparison(groups) + "\n" + "\n".join(reports)
+    else:
+        report = reports[0] if reports else format_report([], meta)
+    first = next(iter(groups.values()), [])
+    out = out or bench_dir
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "report.md").write_text(report, encoding="utf-8")
+    (out / "scores.json").write_text(json.dumps(
+        {"summary": summarise(first), "reward": summarise_reward(first),
+         "period_bias": summarise_period_bias(first),
+         "volumes": [asdict(s) for s in first],
+         "by_prompt": {prompt: {"summary": summarise(scores),
+                                "reward": summarise_reward(scores),
+                                "period_bias": summarise_period_bias(scores),
+                                "volumes": [asdict(s) for s in scores]}
+                       for prompt, scores in groups.items()}},
         indent=2, ensure_ascii=False), encoding="utf-8")
-    return scores, report
+    return first, report
 
 
 # ── fetch and run: on tei ────────────────────────────────────────────────────
@@ -556,8 +735,14 @@ def fetch(ids: Iterable[str], bench_dir: Path, *, get: Callable[[str], bytes],
     return done
 
 
+def run_name(r: int, prompt: str = DEFAULT_PROMPT) -> str:
+    """``runs/NN.json`` for the default prompt (as before #844), ``<variant>-NN.json`` else."""
+    return f"{r:02d}.json" if prompt == DEFAULT_PROMPT else f"{prompt}-{r:02d}.json"
+
+
 def run(bench_dir: Path, *, describe: Callable[[str, list, int], dict], runs: int = 3,
-        pages: str = "first", get: Callable[[str], bytes], features=None) -> None:
+        pages: str = "first", get: Callable[[str], bytes] | None = None, features=None,
+        prompt: str = DEFAULT_PROMPT) -> None:
     """Agent B on each fetched volume, R times, from page images only.
 
     ``describe`` gets the list of pages shown: one for ``first``, k at even
@@ -565,19 +750,36 @@ def run(bench_dir: Path, *, describe: Callable[[str, list, int], dict], runs: in
     typical page among them (#774), measured on up to
     ``page_sample.TYPICALITY_POOL`` pages; then it also gets ``page_roles``.
     ``features`` replaces ``page_features.image_features`` in the tests.
+
+    ``prompt`` is the image prompt's variant (#844): another than the default is
+    passed to ``describe`` as ``prompt_variant`` and its runs go to
+    ``runs/<variant>-NN.json``, beside the default's. Each run records the
+    variant ``describe`` says it used. One of our own volumes (``reference.json``,
+    ``pages/``) is shown its local pages; ``get`` is only for e-codices.
     """
     import page_sample
 
-    for vdir in sorted(p for p in bench_dir.iterdir() if (p / "tei.xml").exists()):
-        manifest = json.loads((vdir / "manifest.json").read_text(encoding="utf-8"))
-        urls = canvases(manifest)
-        text = body_indices(manifest)          # not the binding, not the flyleaves
+    for vdir in volumes(bench_dir):
+        if (vdir / "manifest.json").exists():
+            manifest = json.loads((vdir / "manifest.json").read_text(encoding="utf-8"))
+            urls = canvases(manifest)
+            n_pages = len(urls)
+            text = body_indices(manifest)          # not the binding, not the flyleaves
 
-        def page(i: int, vdir=vdir, urls=urls) -> Path:
-            path = vdir / f"page-{i:04d}.jpg"
-            if not path.exists():
-                path.write_bytes(get(urls[i]))
-            return path
+            def page(i: int, vdir=vdir, urls=urls) -> Path:
+                path = vdir / f"page-{i:04d}.jpg"
+                if not path.exists():
+                    path.write_bytes(get(urls[i]))
+                return path
+        else:
+            local = local_pages(vdir)
+            if not local:
+                print(f"{vdir.name}: no page images in pages/ — skipped", file=sys.stderr)
+                continue
+            n_pages, text = len(local), list(range(len(local)))
+
+            def page(i: int, local=local) -> Path:
+                return local[i]
 
         roles: dict[str, str] = {}
         if pages == "typical":
@@ -587,22 +789,27 @@ def run(bench_dir: Path, *, describe: Callable[[str, list, int], dict], runs: in
                 from page_features import image_features as features
             chosen = [(text[j], role) for j, role in page_sample.choose(
                 len(text), config.AGENT_B_PAGES, "typical",
-                features=lambda j, text=text: features(page(text[j])))]
+                features=lambda j, text=text, page=page: features(page(text[j])))]
             images = [page(i) for i, _ in chosen]
             roles = {page(i).name: role for i, role in chosen if role != page_sample.SAMPLE}
         else:
             images = [page(text[j]) for j in pick_pages(len(text), pages)]
         (vdir / "runs").mkdir(exist_ok=True)
         for r in range(runs):
-            out = vdir / "runs" / f"{r:02d}.json"
+            out = vdir / "runs" / run_name(r, prompt)
             if out.exists():
                 continue
             extra = {"page_roles": roles} if roles else {}
-            result = describe(f"{vdir.name}-r{r}", [str(p) for p in images], len(urls), **extra)
+            if prompt != DEFAULT_PROMPT:
+                extra["prompt_variant"] = prompt
+            tag = "" if prompt == DEFAULT_PROMPT else f"-{prompt}"
+            result = describe(f"{vdir.name}{tag}-r{r}", [str(p) for p in images], n_pages,
+                              **extra)
             seen = result.get("pages_seen") or [p.name for p in images]
             out.write_text(json.dumps({"source_json": result.get("source_json") or {},
                                        "pages_shown": [p.name for p in images],
-                                       "pages_seen": seen, "page_roles": roles},
+                                       "pages_seen": seen, "page_roles": roles,
+                                       "prompt": result.get("prompt_variant") or prompt},
                                       ensure_ascii=False, indent=2), encoding="utf-8")
 
 
@@ -666,9 +873,32 @@ def _http_get(url: str) -> bytes:
     return _GETTER(url)
 
 
-def _agent_b_image_only(doc_id: str, images, page_count: int, page_roles=None) -> dict:
+def _agent_b_image_only(doc_id: str, images, page_count: int, page_roles=None,
+                        prompt_variant=None) -> dict:
     from agents import source_description as agent_b
-    return agent_b._describe_from_image(doc_id, images, None, page_count, page_roles) or {}
+    return agent_b._describe_from_image(doc_id, images, None, page_count, page_roles,
+                                        prompt_variant=prompt_variant) or {}
+
+
+#: ``source_description.IMAGE_PROMPT_VARIANTS``, repeated so that ``--help`` and
+#: ``score`` import no agent; a test holds the two equal.
+PROMPT_CHOICES = ("default", "material-first")
+
+
+def write_meta(bench_dir: Path, prompt: str, settings: dict) -> dict:
+    """``meta.json``: one entry per prompt variant under ``variants`` (#844).
+
+    The top level stays what it was before #844 — the default prompt's settings,
+    or the first variant's in a directory without them — so a report of the
+    default does not take the pages or runs of a variant run afterwards.
+    """
+    path = bench_dir / "meta.json"
+    meta = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    if prompt == DEFAULT_PROMPT or not meta:
+        meta.update(settings)
+    meta.setdefault("variants", {})[prompt] = settings
+    path.write_text(json.dumps(meta, ensure_ascii=False), encoding="utf-8")
+    return meta
 
 
 def main(argv: Optional[list[str]] = None) -> int:
@@ -702,8 +932,15 @@ def main(argv: Optional[list[str]] = None) -> int:
     r.add_argument("dir", type=Path)
     r.add_argument("--runs", type=int, default=3)
     r.add_argument("--pages", choices=("first", "spread", "typical"), default="first")
-    s = sub.add_parser("score", help="judge the runs against the TEI (no network)")
+    r.add_argument("--prompt", choices=PROMPT_CHOICES, default=None,
+                   help="the image prompt's variant (#844); default: AGENT_B_IMAGE_PROMPT, "
+                        "i.e. 'default' unless set. Runs of another variant than 'default' "
+                        "go to runs/<variant>-NN.json beside the default's")
+    s = sub.add_parser("score", help="judge the runs against the TEI (no network, no model)")
     s.add_argument("dir", type=Path)
+    s.add_argument("--out", type=Path, default=None,
+                   help="write report.md and scores.json here instead of into DIR "
+                        "(to score an old run again and keep its first report)")
     args = ap.parse_args(argv)
     global _GETTER
     _GETTER = PoliteGetter(delay=args.delay)
@@ -736,12 +973,15 @@ def main(argv: Optional[list[str]] = None) -> int:
         import config
         config.DESCRIPTIONS_DIR = args.dir / "_descriptions"      # not into production
         config.DESCRIPTIONS_DIR.mkdir(parents=True, exist_ok=True)
-        from agents.source_description import _sampling
-        (args.dir / "meta.json").write_text(json.dumps(
-            {"runs": args.runs, "pages": args.pages, "agent_b": _sampling()}), encoding="utf-8")
-        run(args.dir, describe=_agent_b_image_only, runs=args.runs, pages=args.pages, get=_http_get)
+        from agents.source_description import _sampling, image_prompt_variant
+        prompt = image_prompt_variant(args.prompt)
+        write_meta(args.dir, prompt, {"runs": args.runs, "pages": args.pages,
+                                      "agent_b": _sampling(), "prompt": prompt,
+                                      "model": config.GPUSTACK_MODEL_VISION})
+        run(args.dir, describe=_agent_b_image_only, runs=args.runs, pages=args.pages,
+            get=_http_get, prompt=prompt)
         return 0
-    _, report = score(args.dir)
+    _, report = score(args.dir, out=args.out)
     print(report)
     return 0
 

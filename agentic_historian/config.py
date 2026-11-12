@@ -463,6 +463,13 @@ AGENT_B_PAGE_MAX_PX = int(_get("AGENT_B_PAGE_MAX_PX", "1600"))
 # the most and the least typical page among them, chosen from page features.
 # "spread" until the e-codices bench has measured that "typical" is steadier.
 AGENT_B_PAGE_CHOICE = _get("AGENT_B_PAGE_CHOICE", "spread").strip().lower()
+# The prompt of Agent B's image-only path (#844): "default", or "material-first"
+# — the writing material from the leaf before script and date, and never from the
+# date. The e-codices bench (third run, 7.11.2026) never dated below the 13th
+# century and called parchment "Papier" exactly where it dated to the 15th.
+# "default" until the variant has been measured on e-codices AND on our own
+# volumes (docs/EVALUATION_HARNESS.md, "Prompt variants").
+AGENT_B_IMAGE_PROMPT = _get("AGENT_B_IMAGE_PROMPT", "default").strip().lower()
 # After Agent B, a multi-page order is measured page against page (#773) and a
 # change or drift of the hand becomes the computed element ``Schriftverlauf``
 # (#777), written to ``<doc>_hand.json`` beside the outputs. Off until the
