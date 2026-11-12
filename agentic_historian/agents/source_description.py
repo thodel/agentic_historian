@@ -96,6 +96,27 @@ SCRIPT_CANDIDATES_RULE = (
     "Buchstabenformen, z.B. \"langes s\", \"Schleifen an Oberlaengen\"]}. Die Zuversichten "
     "summieren sich hoechstens zu 1; \"wert\" ist der erste Kandidat.\n")
 
+#: #844: the writing material is read off the leaf, before script and date, and
+#: never from the date. In the third e-codices run (7.–8.11.2026) all seven
+#: parchment volumes called "Papier" had been dated to the 15th century, and the
+#: two paper volumes called "Pergament" had been dated too early: the material
+#: followed the dating, not the leaf. The order below is the order of observation,
+#: not of importance — script and century still drive the model choice.
+MATERIAL_FIRST_RULE = (
+    "Beobachte in dieser Reihenfolge:\n"
+    "1. BESCHREIBSTOFF, nur aus dem Blatt selbst. Pergament: Haar- und Fleischseite "
+    "(eine Seite gelblich mit Follikelporen, die andere heller und glatter), "
+    "unregelmaessige Raender, Durchscheinen der Rueckseite, Loecher und Naehte. "
+    "Papier: Kett- und Rippenlinien (feine Streifung), Wasserzeichen, gleichmaessige "
+    "matte Flaeche, Knicke und Risse statt Wellen. Nenne die gesehenen Merkmale in "
+    "\"notiz\"; siehst du keines, ist der Beschreibstoff unsicher oder null.\n"
+    "2. Danach SCHRIFT, aus den Buchstabenformen.\n"
+    "3. Zuletzt DATIERUNG, aus Schrift und Einrichtung.\n"
+    "Der Beschreibstoff wird NIE aus der Datierung abgeleitet und die Datierung NIE "
+    "aus dem Beschreibstoff: Pergament wurde bis ins 19. Jahrhundert beschrieben, "
+    "Papier ist in Mitteleuropa seit dem 14. Jahrhundert in Gebrauch.\n\n"
+)
+
 
 def script_candidates(element) -> list[dict]:
     """The validated candidate list of a Schrift element: at most three, best first.
@@ -361,6 +382,7 @@ def describe(doc_id: str, transcription: str, image_path=None,
         f"{MANUSCRIPT_SYSTEM}\n\n"
         f"{_pin_constraint(pins)}"
         f"{_basis_instruction(len(images), page_count, _roles_instruction(images, page_roles))}"
+        f"{MATERIAL_FIRST_RULE if images else ''}"
         # SEC-16 (#587): the transcription is scan-derived data, not instructions.
         # Fence it and say so, so text inside the image cannot steer the
         # description that gets published.
@@ -455,6 +477,36 @@ def _with_roles(result: dict, page_roles: Optional[dict]) -> dict:
     return result
 
 
+def image_only_prompt(images: list[str], pins: Optional[dict],
+                      page_count: Optional[int] = None,
+                      page_roles: Optional[dict] = None) -> str:
+    """The prompt of the image-only path, for :func:`_describe_from_image` and for
+    a second reader on the same bench (``eval/ecodices_bench.py``, #844): the
+    text it sends is the one production sends, so a difference between two
+    readers is the readers', not the prompts'."""
+    return (
+        f"{MANUSCRIPT_SYSTEM}\n\n"
+        f"{_pin_constraint(pins)}"
+        f"{_basis_instruction(len(images), page_count, _roles_instruction(images, page_roles))}"
+        "Die maschinelle Transkription dieses Dokuments ist unbrauchbar "
+        "(Wiederholungskollaps) und wird dir daher NICHT vorgelegt.\n"
+        "Beschreibe die Quelle AUSSCHLIESSLICH anhand des Bildes.\n\n"
+        + MATERIAL_FIRST_RULE +
+        "Schrift (z.B. Kurrent, Bastarda, Karolingische Minuskel) und Jahrhundert "
+        "steuern die Modellauswahl fuer einen erneuten Transkriptionsversuch.\n\n"
+        "Rate NICHT den Textinhalt. Was du im Bild nicht siehst, ist null.\n\n"
+        "Antworte ZUERST mit einem JSON-Objekt (Schema unten), DANN mit einem "
+        "kurzen Fliesstext in Markdown.\n\n"
+        "JSON-Schema (16 Elemente):\n"
+        + json.dumps(SIXTEEN_ELEMENT_SCHEMA, indent=2, ensure_ascii=False)
+        + "\n\nRegeln:\n"
+        "- Verwende KEINE Markdown-Codefences um das JSON.\n"
+        "- Nicht beobachtbare Felder: null bzw. leerer String/[].\n"
+        "- Unsichere Angaben mit \" (unsicher)\" kennzeichnen.\n"
+        + SCRIPT_CANDIDATES_RULE
+    )
+
+
 def _describe_from_image(doc_id: str, image_path, pins: Optional[dict],
                          page_count: Optional[int] = None,
                          page_roles: Optional[dict] = None) -> Optional[dict]:
@@ -475,27 +527,7 @@ def _describe_from_image(doc_id: str, image_path, pins: Optional[dict],
     images = _images(image_path)
     if not images:
         return None
-    prompt = (
-        f"{MANUSCRIPT_SYSTEM}\n\n"
-        f"{_pin_constraint(pins)}"
-        f"{_basis_instruction(len(images), page_count, _roles_instruction(images, page_roles))}"
-        "Die maschinelle Transkription dieses Dokuments ist unbrauchbar "
-        "(Wiederholungskollaps) und wird dir daher NICHT vorgelegt.\n"
-        "Beschreibe die Quelle AUSSCHLIESSLICH anhand des Bildes.\n\n"
-        "Am wichtigsten sind Schrift (z.B. Kurrent, Bastarda, Karolingische "
-        "Minuskel) und Jahrhundert — sie steuern die Modellauswahl fuer einen "
-        "erneuten Transkriptionsversuch.\n\n"
-        "Rate NICHT den Textinhalt. Was du im Bild nicht siehst, ist null.\n\n"
-        "Antworte ZUERST mit einem JSON-Objekt (Schema unten), DANN mit einem "
-        "kurzen Fliesstext in Markdown.\n\n"
-        "JSON-Schema (16 Elemente):\n"
-        + json.dumps(SIXTEEN_ELEMENT_SCHEMA, indent=2, ensure_ascii=False)
-        + "\n\nRegeln:\n"
-        "- Verwende KEINE Markdown-Codefences um das JSON.\n"
-        "- Nicht beobachtbare Felder: null bzw. leerer String/[].\n"
-        "- Unsichere Angaben mit \" (unsicher)\" kennzeichnen.\n"
-        + SCRIPT_CANDIDATES_RULE
-    )
+    prompt = image_only_prompt(images, pins, page_count, page_roles)
     try:
         raw, sent, cost = _vision_call(prompt, images, doc_id)
     except Exception as e:

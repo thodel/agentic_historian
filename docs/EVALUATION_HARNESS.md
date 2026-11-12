@@ -402,6 +402,27 @@ answers nothing lowers it.
   up to 60 pages. Production uses it with `AGENT_B_PAGE_CHOICE=typical`; the
   default stays `spread` until this comparison says `typical` is steadier.
 
+**Volumes of our own as the counter-check (#844).** e-codices is mostly book
+hands and 11 of the 30 bench volumes are older than 1100; our corpus is
+13th–19th-century archival. A prompt change measured on e-codices alone could be
+tuned to e-codices. So the bench also takes a volume directory of our own: in
+place of `tei.xml` and the manifest, `reference.json` and the page images
+(`page-0001.jpg …`, any `.jpg/.png/.tif`, in name order; `run` shows them,
+`score` judges against the file, nothing is fetched).
+
+```json
+{"script": "Kanzleikursive", "hands": 1, "date": 1528, "material": "papier"}
+```
+
+`date_from`/`date_to` instead of `date` for a span; `material` is `papier`,
+`pergament`, `gemischt` or TEI's `chart`/`perg`/`mixed`; a key left out is
+"not in the catalogue", never a miss. One directory can hold both kinds of
+volume. The image prompt since #844 asks for the material first, from the leaf
+(hair and flesh side, follicles, translucency; chain and laid lines,
+watermarks), before script and date, and says that the material is never
+inferred from the date — in the third run (7.–8.11.2026) every parchment volume
+called "Papier" had been dated to the 15th century.
+
 ## Consistency of the hand, all pages against all (#773)
 
 `hand_consistency.py` asks whether page images say, without the VLM, if a

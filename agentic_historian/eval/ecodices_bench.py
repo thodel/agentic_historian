@@ -29,6 +29,9 @@ e-codices.ch (31.10.2026: empty replies and 502) — and every judgement lives i
   Schrift, Datierung, Schreiber and Beschreibstoff are read off the page in both.
 * ``score``: per element hit / miss / not in the catalogue, and the stability of
   each element over the R runs.
+* A volume of our own (#844): ``reference.json`` and its page images in place of
+  the TEI and the manifest, so a prompt change is measured on our corpus too and
+  not tuned to e-codices.
 
 What a number here is not
 -------------------------
@@ -174,6 +177,51 @@ def parse_tei(data: bytes, vol_id: str) -> Reference:
 
 
 # ── Agent B's side ───────────────────────────────────────────────────────────
+
+IMAGE_SUFFIXES = (".jpg", ".jpeg", ".png", ".tif", ".tiff")
+
+
+def parse_reference(data: dict, vol_id: str) -> Reference:
+    """A volume of our own as the counter-check (#844): ``reference.json`` in a
+    volume directory instead of e-codices' ``tei.xml``, beside the page images.
+
+    Keys, each optional: ``script`` (text; its families are compared), ``hands``
+    (int), ``date_from``/``date_to`` (years; ``date`` alone is both), ``material``
+    ("pergament"/"papier"/"gemischt", or TEI's "perg"/"chart"/"mixed"), ``published``.
+    A key left out is "not in the catalogue", as with a TEI that says nothing.
+    """
+    script = str(data.get("script") or "")
+    mat = str(data.get("material") or "").lower()
+    date = data.get("date")
+    lo, hi = data.get("date_from", date), data.get("date_to", date)
+    hands = data.get("hands")
+    return Reference(
+        id=vol_id, licence=data.get("licence"), published=data.get("published"),
+        script_text=script, script_families=families(script),
+        hands=int(hands) if hands is not None else None,
+        date_from=_year(str(lo)) if lo is not None else None,
+        date_to=_year(str(hi)) if hi is not None else None,
+        material=MATERIALS.get(mat, mat) or None,
+        leaves=data.get("leaves"))
+
+
+def volumes(bench_dir: Path) -> list[Path]:
+    """The volume directories: e-codices' (``tei.xml``) and our own (``reference.json``)."""
+    return sorted(p for p in bench_dir.iterdir()
+                  if (p / "tei.xml").exists() or (p / "reference.json").exists())
+
+
+def reference_of(vdir: Path) -> Reference:
+    if (vdir / "tei.xml").exists():
+        return parse_tei((vdir / "tei.xml").read_bytes(), vdir.name)
+    return parse_reference(json.loads((vdir / "reference.json").read_text(encoding="utf-8")),
+                           vdir.name)
+
+
+def local_pages(vdir: Path) -> list[Path]:
+    """The page images of a volume of our own, in name order."""
+    return sorted(p for p in vdir.iterdir() if p.suffix.lower() in IMAGE_SUFFIXES)
+
 
 def _wert(el) -> str:
     if isinstance(el, dict):
@@ -415,12 +463,12 @@ def score(bench_dir: Path) -> tuple[list[VolumeScore], str]:
     meta_path = bench_dir / "meta.json"
     meta = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
     scores = []
-    for vol in sorted(p for p in bench_dir.iterdir() if (p / "tei.xml").exists()):
+    for vol in volumes(bench_dir):
         runs = [json.loads(r.read_text(encoding="utf-8")).get("source_json") or {}
                 for r in sorted((vol / "runs").glob("*.json"))]
         if not runs:
             continue
-        scores.append(score_volume(parse_tei((vol / "tei.xml").read_bytes(), vol.name), runs))
+        scores.append(score_volume(reference_of(vol), runs))
     report = format_report(scores, meta)
     (bench_dir / "report.md").write_text(report, encoding="utf-8")
     (bench_dir / "scores.json").write_text(json.dumps(
@@ -568,16 +616,23 @@ def run(bench_dir: Path, *, describe: Callable[[str, list, int], dict], runs: in
     """
     import page_sample
 
-    for vdir in sorted(p for p in bench_dir.iterdir() if (p / "tei.xml").exists()):
-        manifest = json.loads((vdir / "manifest.json").read_text(encoding="utf-8"))
-        urls = canvases(manifest)
-        text = body_indices(manifest)          # not the binding, not the flyleaves
+    for vdir in volumes(bench_dir):
+        if (vdir / "manifest.json").exists():
+            manifest = json.loads((vdir / "manifest.json").read_text(encoding="utf-8"))
+            urls = canvases(manifest)
+            text = body_indices(manifest)      # not the binding, not the flyleaves
 
-        def page(i: int, vdir=vdir, urls=urls) -> Path:
-            path = vdir / f"page-{i:04d}.jpg"
-            if not path.exists():
-                path.write_bytes(get(urls[i]))
-            return path
+            def page(i: int, vdir=vdir, urls=urls) -> Path:
+                path = vdir / f"page-{i:04d}.jpg"
+                if not path.exists():
+                    path.write_bytes(get(urls[i]))
+                return path
+        else:                                  # a volume of our own (#844): its images, no network
+            urls = local_pages(vdir)
+            text = list(range(len(urls)))
+
+            def page(i: int, urls=urls) -> Path:
+                return urls[i]
 
         roles: dict[str, str] = {}
         if pages == "typical":
@@ -600,9 +655,12 @@ def run(bench_dir: Path, *, describe: Callable[[str, list, int], dict], runs: in
             extra = {"page_roles": roles} if roles else {}
             result = describe(f"{vdir.name}-r{r}", [str(p) for p in images], len(urls), **extra)
             seen = result.get("pages_seen") or [p.name for p in images]
+            # what the reading cost and whether it was cut off (#844: a second
+            # reader on a metered API), when the reader says
+            about = {k: result[k] for k in ("model", "cost", "truncated") if k in result}
             out.write_text(json.dumps({"source_json": result.get("source_json") or {},
                                        "pages_shown": [p.name for p in images],
-                                       "pages_seen": seen, "page_roles": roles},
+                                       "pages_seen": seen, "page_roles": roles, **about},
                                       ensure_ascii=False, indent=2), encoding="utf-8")
 
 
