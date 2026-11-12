@@ -178,7 +178,8 @@ def secrets_of(path):
 mode, args = sys.argv[1], sys.argv[2:]
 if mode == "inventory":
     for path in args:
-        names = [n for n, v in secrets_of(path) if v]
+        # max_tokens = 8192 or auth.mode = "token" are not secrets
+        names = [n for n, v in secrets_of(path) if plausible(v)]
         print(f"     {path}: {len(names)} Feld(er) mit Wert")
         for n in names:
             print(f"       - {n}")
@@ -354,7 +355,9 @@ if [ -n "$others_node" ]; then
   node_keep+=("Prozesse: $(printf '%s' "$others_node" | tr '\n' ' ')")
 else ok "kein anderer Node-Prozess"; fi
 # shellcheck disable=SC2086  # the globs expand here, on purpose
-units=$(grep -lsE '(^|[ /=])(node|nodejs|npm|npx)( |$)' $UNIT_GLOBS 2>/dev/null \
+# Only where node is the command of an Exec…= line: `iscsiadm -m node` in
+# iscsi.service is not Node (tei, 12.11.).
+units=$(grep -lsE '^[[:space:]]*Exec[A-Za-z]*=[-@+!:]*([^[:space:]]*/)?(node|nodejs|npm|npx)([[:space:]]|$)' $UNIT_GLOBS 2>/dev/null \
         | grep -v "$UNIT" | tr '\n' ' ')
 if [ -n "$units" ]; then
   warn "Units, die Node starten: $units"; node_keep+=("Units: $units")
@@ -375,6 +378,8 @@ fi
 head_ "4. Die OpenClaw-Dateien"
 info "$OC_DIR: $(size_of "$OC_DIR")   $WS: $(size_of "$WS")   $OC_PRE: $(size_of "$OC_PRE")"
 info "$H_HOME/openclaw-src (die Import-Kopie): $(size_of "$H_HOME/openclaw-src")"
+free_k=$(df -Pk "$OC_HOME" 2>/dev/null | awk 'NR == 2 {print $4}')
+[ -z "$free_k" ] || info "frei unter $OC_HOME (dort entstehen die Archive): $((free_k / 1024 / 1024)) GiB"
 if [ -d "$WS" ]; then
   while IFS= read -r g; do
     repo=$(dirname "$g")
@@ -417,12 +422,31 @@ else
   info "hermes: $h_bin"
   if cron=$(as_user "$H_USER" "$h_bin" cron list 2>&1); then
     printf '%s\n' "$cron" | sed 's/^/       /'
+    # A here-string, not a pipe: under pipefail, `printf | grep -q` fails when
+    # grep stops at its first hit and printf gets SIGPIPE — on tei (12.11.) that
+    # reported dh-digest as missing while it stood in the list.
     for pair in $JOB_IDS; do
       id=${pair%%:*}; name=${pair#*:}
-      if printf '%s' "$cron" | grep -q -e "$id" -e "$name"; then ok "Job $name ($id) da"; else warn "Job $name ($id) fehlt"; fi
+      if grep -q -e "$id" -e "$name" <<<"$cron"; then ok "Job $name ($id) da"; else warn "Job $name ($id) fehlt"; fi
     done
-    errs=$(printf '%s\n' "$cron" | grep -ciE 'error|fail')
-    [ "${errs:-0}" -eq 0 ] && ok "keine Zeile mit error/failed" || warn "$errs Zeilen mit error/failed — hermes cron status"
+    if grep -q 'Last run:' <<<"$cron"; then
+      # Hermes' block format: the last run of each job, and failures it has
+      # recovered from since ("recovered since") as history, not as a fault.
+      failed=$(awk '/^[[:space:]]*[0-9a-f]{12} \[/ {id=$1}
+                    /Last run:/ && tolower($0) ~ /error|fail/ {print id}' <<<"$cron" | sort -u)
+      for id in $failed; do
+        name=$(tr ' ' '\n' <<<"$JOB_IDS" | awk -F: -v i="$id" '$1 == i {print $2}')
+        why=$(awk -v i="$id" '/^[[:space:]]*[0-9a-f]{12} \[/ {cur=$1}
+                              cur == i && /Last run:/ {sub(/^[[:space:]]*Last run:[[:space:]]*/, ""); print; exit}' <<<"$cron")
+        warn "Job ${name:-$id} ($id): letzter Lauf gescheitert — ${why:0:160}"
+      done
+      [ -n "$failed" ] || ok "jeder Job: letzter Lauf ohne Fehler"
+      rec=$(grep -c 'recovered since' <<<"$cron")
+      [ "${rec:-0}" -eq 0 ] || info "$rec frühere Fehler, seither wieder gelaufen (recovered since)"
+    else
+      errs=$(grep -ciE 'error|fail' <<<"$cron")
+      [ "${errs:-0}" -eq 0 ] && ok "keine Zeile mit error/failed" || warn "$errs Zeilen mit error/failed — hermes cron status"
+    fi
   else
     warn "hermes cron list scheiterte"
   fi
@@ -457,6 +481,13 @@ archive() {  # <quelle> <ziel.tar.gz>
   local src=$1 dst=$2
   if [ ! -e "$src" ]; then info "$src fehlt — nichts zu archivieren"; return 0; fi
   if [ -e "$dst" ]; then info "$dst gibt es schon — nicht überschrieben"; return 0; fi
+  local need avail
+  need=$(du -sk "$src" 2>/dev/null | cut -f1)
+  avail=$(df -Pk "$OC_HOME" 2>/dev/null | awk 'NR == 2 {print $4}')
+  if [ -n "$need" ] && [ -n "$avail" ] && [ "$avail" -lt "$need" ]; then
+    warn "zu wenig Platz für $dst: $((need / 1024)) MiB nötig (unkomprimiert, obere Grenze), $((avail / 1024)) MiB frei"
+    return 1
+  fi
   as_user "$OC_USER" mkdir -p -m 700 "$OC_ARCHIVE" || return 1
   as_user "$OC_USER" sh -c 'umask 077 && tar -czf "$1" -C "$2" "$3"' sh "$dst" "$(dirname "$src")" "$(basename "$src")" \
     || { warn "tar für $src scheiterte"; as_user "$OC_USER" rm -f "$dst"; return 1; }
@@ -502,7 +533,9 @@ fi
 [ ! -d "$WS" ] || human "als $OC_USER, wenn Abschnitt 4 keine ungesicherte Git-Arbeit zeigt und $ARCH_WS existiert: rm -rf $WS"
 human "Discord Developer Portal: Anwendung dh-bot (1519706253314756758) löschen — macht ihr Token ungültig"
 [ ! -d "$H_HOME/openclaw-src" ] || human "als $H_USER, wenn SOUL und Gedächtnis in Hermes stimmen: rm -rf $H_HOME/openclaw-src (Import-Kopie)"
-human "am $DELETE_ON, als $OC_USER: rm $ARCH_WS $ARCH_OC && rm -rf $OC_PRE"
+arch_list=$ARCH_OC
+[ ! -e "$WS" ] || arch_list="$ARCH_WS $ARCH_OC"
+human "am $DELETE_ON, als $OC_USER: rm $arch_list && rm -rf $OC_PRE"
 human "danach #802 Schritt 7: deploy/hermes/rotation.md; dann der Rapid7-Rescan für #792/#795 (docs/SECURITY_TEI.md)"
 
 head_ "Für den Menschen — nicht ausgeführt, in dieser Reihenfolge"
