@@ -192,7 +192,7 @@ def test_the_command_line_counts_the_flagged_claims(items, monkeypatch, capsys, 
 
 def _reflect_prompt():
     return af._REFLECT_PROMPT.format(question="q", subs="s", claims="(keine)",
-                                     gaps="(keine)")
+                                     failed="(keine)", gaps="(keine)")
 
 
 def test_reflection_is_told_how_a_search_term_must_look():
