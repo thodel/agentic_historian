@@ -145,3 +145,68 @@ def test_gate1_opens_on_a_close_call(top, second, opens):
 def test_a_single_label_without_unsicher_does_not_open_gate1():
     assert uncertainty.agent_b_unsicher({"Schrift": {"wert": "Bastarda"}}) is False
     assert uncertainty.script_margin({"Schrift": {"wert": "Bastarda"}}) is None
+
+
+# ── the measurement: Top-2 set against the single label, in the bench (#779) ──
+
+import json  # noqa: E402
+
+from eval import ecodices_bench as eb  # noqa: E402
+
+
+def _run(wert, *cands):
+    """A bench run whose Schrift names ``wert`` and ranks ``cands`` (labels only)."""
+    el = {"wert": wert}
+    if cands:
+        el["kandidaten"] = [{"schrift": c, "zuversicht": 0.5, "merkmale": []} for c in cands]
+    return {"Schrift": el, "Datierung": {"wert": None}, "Schreiber": {"wert": None},
+            "Beschreibstoff": {"wert": None}}
+
+
+def test_the_top2_set_is_by_family_and_order_free():
+    assert eb.top2_set(_run("Bastarda", "Bastarda", "Kursive", "Textura")) == "bastarda+kursive"
+    assert eb.top2_set(_run("Kursive", "Kursivschrift", "Bastarda")) == "bastarda+kursive", \
+        "first and second swapped is the same set"
+    assert eb.top2_set(_run("Bastarda", "Bastarda")) == "bastarda", "one candidate: a set of one"
+    assert eb.top2_set(_run("Bastarda")) is None, "no candidates: no Top-2 answer"
+    assert eb.top2_set(_run("x", "Schönschrift", "Zierschrift")) is None, "no family named"
+
+
+def test_the_top2_stability_stands_beside_the_label(tmp_path):
+    """The #379 case: three runs, three labels — but the same two families lead
+    the ranking every time. The label is stable in one run of three, the set in all."""
+    ref = eb.parse_tei((eb.Path(__file__).parents[1] / "eval/fixtures/ecodices"
+                        / "paper-two-hands.xml").read_bytes(), "saa-0428")
+    runs = [_run("Kursive", "Kursive", "Gotische Textura"),
+            _run("Fraktur", "Textura", "Kursivschrift", "Fraktur"),
+            _run("Gotische Textura", "Textura", "Kursive")]
+    vs = eb.score_volume(ref, runs)
+    assert vs.stability["Schrift"] == pytest.approx(0.333)
+    assert vs.stability[eb.TOP2] == pytest.approx(1.0)
+    assert vs.script_modes == {"wert": "kursive", "top2": "kursive+textualis"}
+
+    vol = tmp_path / "saa-0428"
+    (vol / "runs").mkdir(parents=True)
+    (vol / "tei.xml").write_bytes((eb.Path(__file__).parents[1] / "eval/fixtures/ecodices"
+                                   / "paper-two-hands.xml").read_bytes())
+    for r, sj in enumerate(runs):
+        (vol / "runs" / f"{r:02d}.json").write_text(json.dumps({"source_json": sj}))
+    _, report = eb.score(tmp_path)
+    assert "## Schrift: Einzeletikett gegen Top-2-Menge (#775)" in report
+    assert "**100%** über 1 Bände; Einzeletikett `wert`: **33%**" in report
+    assert "| `saa-0428` | kursive | 33% | kursive+textualis | 100% |" in report
+    summary = json.loads((tmp_path / "scores.json").read_text())["summary"]
+    assert summary[eb.TOP2] == {"mean_stability": 1.0, "volumes": 1}
+    assert summary["Schrift"]["mean_stability"] == pytest.approx(0.333)
+
+
+def test_a_run_without_candidates_lowers_the_top2_stability():
+    ref = eb.Reference(id="x", script_families=["bastarda"])
+    runs = [_run("Bastarda", "Bastarda", "Kursive"), _run("Bastarda", "Bastarda", "Kursive"),
+            _run("Bastarda")]
+    vs = eb.score_volume(ref, runs)
+    assert vs.stability["Schrift"] == pytest.approx(1.0)
+    assert vs.stability[eb.TOP2] == pytest.approx(0.667), "a missing list counts as a run"
+    assert eb.score_volume(ref, [_run("Bastarda")] * 2).stability[eb.TOP2] is None
+    assert "Top-2" not in eb.format_report([eb.score_volume(ref, [_run("Bastarda")] * 2)], {}), \
+        "no run ranked anything: nothing to report"

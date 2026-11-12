@@ -350,6 +350,31 @@ def judge(ref: Reference, source_json: dict) -> dict[str, str]:
     return out
 
 
+#: The key under which the stability of the script's Top-2 set is reported (#775).
+TOP2 = "Schrift_top2"
+
+
+def top2_set(source_json: dict) -> Optional[str]:
+    """The script families of the first two candidates (#775), as one answer.
+
+    ``kandidaten[:2]`` by family, order-free ("bastarda+kursive"), so that two
+    runs that swap first and second place still agree. None when the run gives
+    no candidate that names a family — like a missing ``wert``, that lowers the
+    stability rather than being left out of it.
+    """
+    el = source_json.get("Schrift") if isinstance(source_json, dict) else None
+    cands = el.get("kandidaten") if isinstance(el, dict) else None
+    if not isinstance(cands, list):
+        return None
+    fams = set()
+    for cand in cands[:2]:
+        text = cand.get("schrift") if isinstance(cand, dict) else cand
+        found = families(str(text or ""))
+        if found:
+            fams.add(found[0])
+    return "+".join(sorted(fams)) if fams else None
+
+
 def _answer(element: str, source_json: dict) -> Optional[str]:
     """The normalised answer whose agreement across runs is the stability."""
     value = _wert(source_json.get(element))
@@ -376,6 +401,18 @@ class VolumeScore:
     #: "Datierung verdict/Beschreibstoff verdict" -> runs (#844): does the
     #: material miss where the dating misses?
     date_and_material: dict = field(default_factory=dict)
+    script_modes: dict = field(default_factory=dict)  # "wert"/"top2" -> most common answer (#775)
+
+
+def _stability(answers: list) -> Optional[float]:
+    """Share of the runs giving the most common answer; None when none answered."""
+    given = [a for a in answers if a is not None]
+    return round(Counter(given).most_common(1)[0][1] / len(answers), 3) if given else None
+
+
+def _mode(answers: list) -> Optional[str]:
+    given = [a for a in answers if a is not None]
+    return Counter(given).most_common(1)[0][0] if given else None
 
 
 def score_volume(ref: Reference, runs: list[dict]) -> VolumeScore:
@@ -386,10 +423,10 @@ def score_volume(ref: Reference, runs: list[dict]) -> VolumeScore:
     for element in ELEMENTS:
         verdicts = Counter(j[element] for j in judged)
         vs.judgements[element] = dict(verdicts)
-        answers = [_answer(element, sj) for sj in runs]
-        given = [a for a in answers if a is not None]
-        vs.stability[element] = (round(Counter(given).most_common(1)[0][1] / len(runs), 3)
-                                 if given else None)
+        vs.stability[element] = _stability([_answer(element, sj) for sj in runs])
+    vs.stability[TOP2] = _stability([top2_set(sj) for sj in runs])
+    vs.script_modes = {"wert": _mode([_answer("Schrift", sj) for sj in runs]),
+                       "top2": _mode([top2_set(sj) for sj in runs])}
     from eval import ecodices_reward              # lazy: it imports this module
     vs.reward = ecodices_reward.summarise_runs(ref, runs)
     return vs
@@ -424,6 +461,9 @@ def summarise(scores: list[VolumeScore]) -> dict:
             "hit_rate": round(total[HIT] / judged, 3) if judged else None,
             "mean_stability": round(sum(stab) / len(stab), 3) if stab else None,
         }
+    stab = [vs.stability[TOP2] for vs in scores if vs.stability.get(TOP2) is not None]
+    out[TOP2] = {"mean_stability": round(sum(stab) / len(stab), 3) if stab else None,
+                 "volumes": len(stab)}
     return out
 
 
@@ -475,6 +515,31 @@ def _reward_lines(scores: list[VolumeScore]) -> list[str]:
     return lines
 
 
+def _pct(v: Optional[float]) -> str:
+    return "–" if v is None else f"{v:.0%}"
+
+
+def _top2_lines(scores: list[VolumeScore], summary: dict) -> list[str]:
+    """Schrift as a Top-2 set of candidates against the single label (#775)."""
+    top2 = summary.get(TOP2) or {}
+    if not top2.get("volumes"):
+        return []
+    lines = ["## Schrift: Einzeletikett gegen Top-2-Menge (#775)", "",
+             f"Stabilität der Top-2-Menge (`kandidaten[:2]`, nach Familie, ohne Reihenfolge): "
+             f"**{_pct(top2['mean_stability'])}** über {top2['volumes']} Bände; "
+             f"Einzeletikett `wert`: **{_pct(summary['Schrift']['mean_stability'])}**. "
+             "Ein Lauf ohne Kandidaten senkt die Top-2-Stabilität wie ein Lauf ohne `wert` "
+             "die des Etiketts.", "",
+             "| Band | Etikett (häufigste) | stabil | Top-2 (häufigste) | stabil |",
+             "|---|---|---:|---|---:|"]
+    for vs in scores:
+        m = vs.script_modes or {}
+        lines.append(f"| `{vs.id}` | {m.get('wert') or '–'} | "
+                     f"{_pct(vs.stability.get('Schrift'))} | {m.get('top2') or '–'} | "
+                     f"{_pct(vs.stability.get(TOP2))} |")
+    return lines + [""]
+
+
 def format_report(scores: list[VolumeScore], meta: dict, prompt: str = DEFAULT_PROMPT) -> str:
     summary = summarise(scores)
     title = "# Agent B gegen die Katalogbeschreibungen von e-codices (#779)"
@@ -486,7 +551,8 @@ def format_report(scores: list[VolumeScore], meta: dict, prompt: str = DEFAULT_P
              + (f", Modell `{meta['model']}`" if meta.get("model") else ""), "",
              "| Element | Treffer | Fehler | keine Antwort | nicht im Katalog | Trefferquote | Stabilität |",
              "|---|---:|---:|---:|---:|---:|---:|"]
-    for element, s in summary.items():
+    for element in ELEMENTS:
+        s = summary[element]
         rate = "–" if s["hit_rate"] is None else f"{s['hit_rate']:.0%}"
         stab = "–" if s["mean_stability"] is None else f"{s['mean_stability']:.0%}"
         lines.append(f"| {element} | {s['hit']} | {s['miss']} | {s['no_answer']} | "
@@ -497,6 +563,7 @@ def format_report(scores: list[VolumeScore], meta: dict, prompt: str = DEFAULT_P
               "Antwort, im Mittel über die Bände.",
               "",
               *_period_lines(scores),
+              *_top2_lines(scores, summary),
               *_reward_lines(scores),
               "**Vorbehalte.** Die Beschreibungen können im Training der Modelle gewesen sein "
               "(siehe Jahr der Veröffentlichung je Band); e-codices ist vorwiegend "
