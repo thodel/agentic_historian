@@ -396,8 +396,10 @@ measurement is five runs on the #379 volume, `saa-0428`, in a directory of its
 own so the 30-volume baseline keeps three runs per volume:
 
 ```bash
-mkdir -p runs/ecodices-775 && cp -r runs/ecodices-2026-11/saa-0428 runs/ecodices-775/
-rm -rf runs/ecodices-775/saa-0428/runs            # five fresh runs, not the baseline's three
+# the volume's catalogue, manifest and cached pages; not the baseline's runs
+mkdir -p runs/ecodices-775/saa-0428
+cp runs/ecodices-2026-11/saa-0428/{manifest.json,tei.xml} runs/ecodices-775/saa-0428/
+ln -f runs/ecodices-2026-11/saa-0428/page-*.jpg runs/ecodices-775/saa-0428/ 2>/dev/null || true
 python -m eval.ecodices_bench run runs/ecodices-775 --runs 5 --pages spread
 python -m eval.ecodices_bench score runs/ecodices-775
 ```
