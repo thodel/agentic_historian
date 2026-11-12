@@ -637,6 +637,20 @@ WATCHED_EXTENSIONS = frozenset(
 
 # ── Datenverzeichnisse ───────────────────────────────────────────────────────
 DATA_DIR = BASE_DIR / "data"
+
+# #491 L3: before the vote, a cell's scorer (character n-gram on edition text,
+# training-atr-models#110) vetoes the candidates that sit more than
+# FUSION_VETO_MARGIN bits/char above the page's best candidate. A veto, never a
+# ranking: the pre-experiment in #491 shows the n-gram scoring the broken fusion
+# of #298 *best*. OFF until L2 (Kendall τ against the Federal Council minutes,
+# on asteraix) has calibrated the margin.
+FUSION_SCORER_VETO = _get("FUSION_SCORER_VETO", "false").lower() in ("1", "true", "yes")
+# Directory of `*.scorer.json` artefacts, one per cell, as `CharNgramScorer.save`
+# writes them on the training host; read by `scorer_reader.ScorerMatrix`.
+FUSION_SCORER_DIR = _get("FUSION_SCORER_DIR", str(DATA_DIR / "scorers"))
+# Provisional (12.11.2026): on the #298 trace the kraken readings sit 1.7 and
+# 3.2 bits/char above TrOCR's, the VLM's 0.3. L2 replaces this number.
+FUSION_VETO_MARGIN = float(_get("FUSION_VETO_MARGIN", "1.5"))
 # What the ATR watcher has already announced (#418), see above.
 ATR_WATCH_STATE = DATA_DIR / "atr_watch.json"
 

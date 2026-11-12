@@ -59,4 +59,6 @@ Thumbs.db
 
 # IDE
 .idea/
-.vscode/
+.vscode/# Eine vierte (#491 L3): das Scorer-Artefakt, das der Trainingscode geschrieben
+# hat, und seine Zahlen — der Beleg, dass scorer_reader dieselbe Formel rechnet.
+!tests/fixtures/scorer/*.json
