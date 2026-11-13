@@ -21,12 +21,22 @@ if str(PKG) not in sys.path:
 from eval import ecodices_bench as eb  # noqa: E402
 from eval import own_volume as ov  # noqa: E402
 
-Image = pytest.importorskip("PIL.Image")
+pytest.importorskip("PIL")
+
+
+def _image():
+    """Pillow at call time, not at import: ``test_ah_108`` puts a MagicMock in
+    ``sys.modules["PIL.Image"]`` while the suite is collected and hands Pillow
+    back only afterwards — a module-level import here would keep the mock."""
+    from PIL import Image
+
+    Image.init()
+    return Image
 
 
 def _jpeg(w=3000, h=4000) -> bytes:
     out = io.BytesIO()
-    Image.new("RGB", (w, h), (230, 220, 200)).save(out, "JPEG")
+    _image().new("RGB", (w, h), (230, 220, 200)).save(out, "JPEG")
     return out.getvalue()
 
 
@@ -64,7 +74,7 @@ def test_the_volume_is_written_once_and_read_by_the_bench(tmp_path):
     images = [(f"p{i:04d}", fetch(i)) for i in (3, 20, 39)]
     vdir = ov.add(tmp_path, "a-v-1443", ref, images=images, source={"transkribus": {"doc": 1}})
     assert sorted(p.name for p in (vdir / "pages").iterdir()) == ["p0003.jpg", "p0020.jpg", "p0039.jpg"]
-    with Image.open(vdir / "pages" / "p0003.jpg") as im:
+    with _image().open(vdir / "pages" / "p0003.jpg") as im:
         assert max(im.size) == ov.MAX_SIDE, "scaled like the bench's e-codices pages"
     ov.add(tmp_path, "a-v-1443", ref, images=images, source={})
     assert calls == [3, 20, 39], "a page on disk is not fetched again"
