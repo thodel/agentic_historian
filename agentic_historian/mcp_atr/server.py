@@ -72,6 +72,7 @@ if str(_PKG) not in sys.path:               # same flat-import arrangement as __
     sys.path.insert(0, str(_PKG))
 
 import config                                # noqa: E402
+from mcp_atr import gt                       # noqa: E402
 from mcp_atr import jobs                     # noqa: E402
 from mcp_atr import lineset                  # noqa: E402
 from mcp_atr import transkribus              # noqa: E402
@@ -290,6 +291,9 @@ def build_server(provider=None, auth_settings=None):
             "Slurm queue, the trainer's records and their evaluation reports there; "
             "ubelix_purge_candidates and ubelix_purge_plan read clean-up plans; "
             "none of them can submit, cancel or delete — a person runs the one line. "
+            "gt_survey reads a GitHub or Zenodo source and drafts a register entry; "
+            "gt_import imports only a source already in the register (gt_sources), "
+            "dry-run by default, never public. "
             "A Transkribus volume (export ground truth, fine-tune kraken, evaluate, "
             "read the rest, post it back) runs through transkribus_gt_export, "
             "upload_hf, kraken_train, transkribus_pipeline and transkribus_status, "
@@ -1350,6 +1354,57 @@ def build_server(provider=None, auth_settings=None):
         one ``removed``/``skip`` line per entry. Read-only.
         """
         return ubelix.purge_plan(name)
+
+    # ── foreign ground truth: survey anything, import only the register ─────
+    # (training-atr-models#200, through the gateway's /train/gt/*)
+
+    @server.tool()
+    def gt_sources(check_hf: bool = True) -> dict:
+        """The register of foreign ground truth: every source ``gt_import``
+        accepts, with its licence, where that licence is written, the image
+        rights, the HF target, and ``uploaded`` (``true``/``false``, ``null``
+        when HF did not answer). A source not listed here cannot be imported:
+        it comes into the register by pull request, after a ``gt_survey``.
+        """
+        return gt.sources(check_hf)
+
+    @server.tool()
+    def gt_survey(url: str) -> dict:
+        """Survey a GitHub repository or Zenodo record before anyone imports it.
+
+        Reads the licence at every place it is usually written (GitHub's own
+        detection, ``LICENSE*``, ``METADATA.yml``, ``.zenodo.json``,
+        ``htr-united.yml``, ``CITATION.cff``; on Zenodo ``metadata.license`` and
+        ``LICENSE*`` files), and reports size, image path, and the commit or
+        versioned DOI read. ``licence.state`` is ``agree``, ``contradiction``,
+        ``unrecognised``, ``partly_unrecognised`` or ``none`` — the survey
+        **does not decide** between two places that disagree. ``draft`` is a
+        register entry for a pull request, with ``licence`` set only when all
+        places agree and ``attribution`` always left for a person to fill.
+        Uploads nothing, writes nothing.
+        """
+        return gt.survey(url)
+
+    @server.tool()
+    def gt_import(source_id: str, dry_run: bool = True,
+                  parts: Optional[list[str]] = None, all_parts: bool = False) -> dict:
+        """Import a **registered** source (an id from ``gt_sources``) into its
+        private HF dataset, as a job on the trainer. ``dry_run`` by default: it
+        selects and reports, fetches no image and uploads nothing. ``parts``
+        and ``all_parts`` pick a Zenodo source's sub-collections. There is no
+        way to make the dataset public from here — that is a person's step in
+        the HF interface once the image rights are clear. Returns the job;
+        follow it with ``gt_import_status``.
+        """
+        return gt.start_import(source_id, dry_run, parts, all_parts)
+
+    @server.tool()
+    def gt_import_status(job_id: str) -> dict:
+        """An import job: ``status`` (``running``, ``completed``, ``failed``,
+        ``refused`` with the reason, or ``gone``), the exit code, the report
+        lines (licence, pages and lines, what was dropped and why, image URLs)
+        and the end of the log."""
+        return gt.import_status(job_id)
 
     # ── a Transkribus volume: ground truth → kraken fine-tune → full read ───
 
