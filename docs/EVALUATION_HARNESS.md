@@ -412,7 +412,7 @@ python -m eval.ecodices_bench score runs/ecodices-775
 - `--pages first` shows page 1 alone, as Agent B did before #771. Its report is
   the baseline that #771, #775 and #776 are measured against.
 - `--pages spread` shows the pages production now shows: `AGENT_B_PAGES` (default
-  5) at even intervals, first and last included (#771). Run both into separate
+  4 since #867) at even intervals, first and last included (#771). Run both into separate
   directories and compare the two reports.
 - `--pages typical` puts the most and the least typical page among them (#774),
   chosen from page features (`page_features`, a stand-in until #773) measured on
@@ -534,10 +534,12 @@ every volume. The column names are each directory's `pages`; `--label` renames
 them.
 
 **Four images per call, and the budget.** tei's vLLM takes at most four images
-per prompt (12.11.2026); a five-page call is refused and Agent B falls back to
+per prompt (12.11.2026); a five-page call is refused and Agent B fell back to
 the first page alone, which is what the third run (`--pages spread`, 7–8.11.)
-actually measured: every one of its 90 calls saw one page. Run multi-page
-variants with `AGENT_B_PAGES=4`. Four pages make the answer longer, and 4 of 5
+actually measured: every one of its 90 calls saw one page. Since #867
+`AGENT_B_PAGES` defaults to 4, and a refusal that names a lower limit ("At most
+N image(s)") is answered with that many pages, first and last among them,
+before the fallback to one; `pages_seen` says which. Four pages make the answer longer, and 4 of 5
 answers on `saa-0428` broke off inside the JSON at 3500 tokens: an answer the
 budget cuts off (`finish_reason == "length"`) whose JSON does not parse is now
 asked for once more with twice `AGENT_B_MAX_TOKENS`; raise that setting for a
