@@ -190,13 +190,26 @@ def _vision_once(prompt: str, sent: list[str], max_tokens: int) -> str:
                           **_sampling())
 
 
+#: vLLM's refusal of too many images: "At most 4 image(s) may be provided in one prompt".
+_IMAGE_LIMIT = re.compile(r"at most (\d+) image", re.IGNORECASE)
+
+
+def _image_limit(error: BaseException) -> Optional[int]:
+    """The number of images the backend says it takes, when its refusal names one."""
+    m = _IMAGE_LIMIT.search(str(error))
+    return int(m.group(1)) if m else None
+
+
 def _vision_call(prompt: str, images: list[str], doc_id: str) -> tuple[str, list[str], dict]:
     """Agent B's vision call over ``images``: ``(raw, images actually sent, cost)``.
 
     Several pages go into one call, scaled to ``AGENT_B_PAGE_MAX_PX`` (#771). A
-    backend that refuses several images (vLLM's per-prompt image limit) is asked
-    again with the first page alone, and the result says so: ``pages_seen`` then
-    names one page, not five. Raises when the single-page call fails too.
+    backend that refuses several images (vLLM's per-prompt image limit) and
+    names its limit in the refusal is asked again with that many pages — first
+    and last always among them, as the sample was made (#867: tei takes four,
+    production sent five and saw page 1 for weeks); one that names none is asked
+    with the first page alone. Either way the result says so: ``pages_seen``
+    names the pages actually seen. Raises when the single-page call fails too.
 
     An answer the budget cut off (``finish_reason == "length"``) whose JSON does
     not parse is asked for once more with twice ``AGENT_B_MAX_TOKENS``, on the
@@ -213,11 +226,28 @@ def _vision_call(prompt: str, images: list[str], doc_id: str) -> tuple[str, list
     except Exception as e:
         if len(sent) <= 1:
             raise
-        logger.warning(f"[Agent B] {len(sent)} Seiten in einem Aufruf abgelehnt, "
-                       f"nur die erste: {e}")
-        sent = sent[:1]
-        t0 = time.monotonic()
-        raw = _vision_once(prompt, sent, budget)
+        limit = _image_limit(e)
+        if limit and 1 < limit < len(sent):
+            import page_sample
+            fewer = [sent[i] for i in page_sample.spread(len(sent), limit)]
+            logger.warning(f"[Agent B] {len(sent)} Seiten in einem Aufruf abgelehnt, das "
+                           f"Backend nimmt {limit}: noch einmal mit {len(fewer)} Seiten "
+                           f"(AGENT_B_PAGES={config.AGENT_B_PAGES}, #867)")
+            try:
+                sent = fewer
+                t0 = time.monotonic()
+                raw = _vision_once(prompt, sent, budget)
+            except Exception as e2:
+                logger.warning(f"[Agent B] {len(sent)} Seiten abgelehnt, nur die erste: {e2}")
+                sent = sent[:1]
+                t0 = time.monotonic()
+                raw = _vision_once(prompt, sent, budget)
+        else:
+            logger.warning(f"[Agent B] {len(sent)} Seiten in einem Aufruf abgelehnt, "
+                           f"nur die erste: {e}")
+            sent = sent[:1]
+            t0 = time.monotonic()
+            raw = _vision_once(prompt, sent, budget)
     if gs.last_finish() == "length" and not _parse_response(raw)[0]:
         logger.warning(f"[Agent B] {doc_id}: Antwort bei {budget} Tokens abgeschnitten, JSON "
                        f"unvollstaendig — noch einmal mit {budget * 2}")

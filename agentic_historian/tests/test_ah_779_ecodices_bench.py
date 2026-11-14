@@ -148,7 +148,7 @@ def test_the_manifest_gives_pages_and_the_tei():
     assert len(eb.canvases(MANIFEST_V2)) == 12
     assert eb.tei_url(MANIFEST_V2) == "https://e-codices.ch/xml/tei_published/x_CMDCH.xml"
     assert eb.pick_pages(12, "first") == [0]
-    assert eb.pick_pages(12, "spread") == [0, 3, 6, 8, 11]
+    assert eb.pick_pages(12, "spread") == [0, 4, 7, 11], "AGENT_B_PAGES=4 since #867"
 
 
 def test_fetch_then_run_shows_agent_b_the_chosen_pages_and_not_the_tei(tmp_path):
@@ -179,7 +179,7 @@ def test_fetch_then_run_shows_agent_b_the_chosen_pages_and_not_the_tei(tmp_path)
     assert eb.fetch(["saa-x"], spread, get=get) == ["saa-x"]
     seen.clear()
     eb.run(spread, describe=describe, runs=1, pages="spread", get=get)
-    assert seen == [([f"page-{i:04d}.jpg" for i in (0, 3, 6, 8, 11)], 12)]
+    assert seen == [([f"page-{i:04d}.jpg" for i in (0, 4, 7, 11)], 12)]
     run = json.loads((spread / "saa-x" / "runs" / "00.json").read_text())
     assert run["pages_seen"] == run["pages_shown"] == seen[0][0]
 
