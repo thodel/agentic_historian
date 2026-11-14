@@ -656,9 +656,15 @@ FUSION_SCORER_VETO = _get("FUSION_SCORER_VETO", "false").lower() in ("1", "true"
 # Directory of `*.scorer.json` artefacts, one per cell, as `CharNgramScorer.save`
 # writes them on the training host; read by `scorer_reader.ScorerMatrix`.
 FUSION_SCORER_DIR = _get("FUSION_SCORER_DIR", str(DATA_DIR / "scorers"))
-# Provisional (12.11.2026): on the #298 trace the kraken readings sit 1.7 and
-# 3.2 bits/char above TrOCR's, the VLM's 0.3. L2 replaces this number.
-FUSION_VETO_MARGIN = float(_get("FUSION_VETO_MARGIN", "1.5"))
+# Calibrated 14.11.2026 (training-atr-models scripts/calibrate_veto_margin.py,
+# 231 lines × 8 VLM-XIX arms, generic de scorer): at 2.5 bits/char the veto
+# loses 0.6 % of the plausible readings (CER < 0.3), removes 12 % of the garbage
+# (CER ≥ 0.5) and vetoes the line's best reading on 0.9 % of the lines; the
+# earlier 1.5 lost 2 % and hit the best reading on 3.5 % of the lines. The arms
+# are one model, so the garbage there is that model's hard lines, not another
+# engine's gibberish (#298: kraken +1.7 and +3.2 above TrOCR) — the gain is a
+# floor, the cost is the measured one. docs/SCORER_VETO.md has the table.
+FUSION_VETO_MARGIN = float(_get("FUSION_VETO_MARGIN", "2.5"))
 # What the ATR watcher has already announced (#418), see above.
 ATR_WATCH_STATE = DATA_DIR / "atr_watch.json"
 
