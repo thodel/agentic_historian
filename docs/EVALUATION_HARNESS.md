@@ -417,7 +417,8 @@ python -m eval.ecodices_bench score runs/ecodices-775
 - `--pages typical` puts the most and the least typical page among them (#774),
   chosen from page features (`page_features`, a stand-in until #773) measured on
   up to 60 pages. Production uses it with `AGENT_B_PAGE_CHOICE=typical`; the
-  default stays `spread` until this comparison says `typical` is steadier.
+  default stays `spread`: the comparison (12.–14.11.2026, below) found the
+  choice of page makes nothing steadier.
 
 ### Prompt variants and the period bias (#844)
 
@@ -557,6 +558,29 @@ AGENT_B_PAGES=4 python -m eval.ecodices_bench run runs/ecodices-2026-11-typical 
 python -m eval.ecodices_bench compare runs/ecodices-2026-11 runs/ecodices-2026-11-typical \
     --out runs/ecodices-2026-11-typical/compare.md
 ```
+
+**The result (#774, 12.–14.11.2026).** The same 30 volumes, 3 runs each,
+`qwen3.8-27b` at temperature 0, image path. "Seite 1" is the third run of
+7–8.11. (its five-page calls all fell back to the first text page); the other
+two ran with `AGENT_B_PAGES=4`. Hit rate / stability per element:
+
+| Element | Seite 1 | spread, 4 pages | typical, 4 pages |
+|---|---:|---:|---:|
+| Schrift | 17 % / 92 % | 21 % / 79 % | 23 % / 82 % |
+| Datierung | 11 % / 86 % | 14 % / 63 % | 20 % / 61 % |
+| Schreiber | 31 % / 85 % | 33 % / 72 % | 28 % / 67 % |
+| Beschreibstoff | 67 % / 99 % | 58 % / 86 % | 64 % / 89 % |
+| Schrift, Top-2 set (#775), stability | 91 % | 76 % | 66 % |
+| reward `total` (#782) | −1.253 | −1.157 | −1.145 |
+
+Four pages instead of one is the lever: it costs stability on every element
+and buys hits on Schrift and Datierung (the baseline's stability was mostly
+"consistently wrong", #779). The typical page against the spread, at the same
+page count, changes little — ±3 points of stability, a few hits either way,
+Schreiber worse because the least typical page makes Agent B see more hands.
+So `AGENT_B_PAGE_CHOICE` stays `spread`; which page count production runs is
+#867. On `saa-0428` over five runs the Top-2 set was as stable as the label
+(80 % / 80 %), and over the 30 volumes 91 % against 92 % (#775, closed).
 
 ## Consistency of the hand, all pages against all (#773)
 
