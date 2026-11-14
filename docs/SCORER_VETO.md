@@ -37,9 +37,24 @@ Königsfelden-Urkundendeutsch, Ordnung 5):
 | kraken-catmus_medieval | 6.92 | +1.69 |
 | kraken-mccatmus | 8.46 | +3.23 |
 
+Unter dem **echten** Scorer (generische `de`-Zelle, 2.4 Mio. Zeichen, tei
+14.11.2026) liegen dieselben vier Lesungen so:
+
+| Lesung | bits/char | Abstand zum Besten |
+|---|---:|---:|
+| trocr-kurrent-xvi-xvii | 4.85 | — |
+| vlm/internvl3-8b-instruct | 5.22 | +0.37 |
+| kraken-catmus_medieval | 7.01 | +2.16 |
+| kraken-mccatmus | 8.16 | +3.31 |
+
 Der Müllrand ist breit, das plausible Band schmal. Mit `FUSION_VETO_MARGIN =
-2.5` fallen die zwei kraken-Lesungen, TrOCR und das VLM bleiben, und die
-No-Merge-Bande wählt unter den zweien.
+2.5` fällt kraken-mccatmus; kraken-catmus bleibt 0.34 unter der Marge und geht
+mit TrOCR und dem VLM in die No-Merge-Bande (#300), die bei 50 % paarweiser CER
+nicht abstimmt, sondern die konfidenteste Lesung wörtlich nimmt. TrOCR steht.
+Eine Marge von 2.0 hätte beide kraken-Lesungen genommen — und auf dem
+L2-Material auf 1.7 % statt 0.9 % der Zeilen die beste Lesung (Tabelle unten).
+Die Marge ist nach dem gemessenen Material gesetzt, nicht nach dieser einen
+Zeile.
 
 ## Die Schwelle, gemessen (14.11.2026)
 
@@ -117,7 +132,10 @@ sagt, wenn der Leser nicht mitgezogen hat.
   spezifische Zelle bringt nichts gegen die generische. Folge: dieses Veto
   bleibt, L4 wird nicht gebaut, keine Matrix über eine Zelle je Sprache hinaus
   (#491, Kommentar vom 14.11.).
-- **Noch offen:** die Zelle nach `data/scorers/` auf tei, `FUSION_SCORER_VETO=true`,
-  und der Trace aus #298 unter dem echten Scorer — das Fertig-Kriterium des
-  Epics. Und die externe Referenz (Bundesratsprotokolle, 2 751 Zeilen), sobald
-  der Satz wieder auf einem Host liegt.
+- **Auf tei:** `data/scorers/de.scorer.json` (Kopie von
+  `/mnt/wbkolleg_dh_1/Textrecognition_Training/scorers/`, wo asteraix die
+  Zellen ablegt). Der Trace aus #298 unter diesem Scorer steht oben: TrOCR
+  bleibt stehen — das Fertig-Kriterium des Epics.
+- **Noch offen:** der Schalter (`FUSION_SCORER_VETO=true` in
+  `/etc/agentic_historian.env`), und die externe Referenz (Bundesratsprotokolle,
+  2 751 Zeilen), sobald der Satz wieder auf einem Host liegt.
