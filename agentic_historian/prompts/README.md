@@ -151,3 +151,11 @@ one is a commit with a diff rather than an edit to a shell line somebody pasted.
   misreading; v4 leaves endorsements and dockets out and transcribes an
   address leaf's address alone. A new file; `64a5acdf` is v3.
 
+
+- `thun_missiven_page_v1.md` — `sg_missiven_page_v4.md` for the Thun Missiven
+  (Burgerarchiv Thun, Transkribus collection 2329424, 36 documents, 5,165
+  pages). Only the description of the corpus changes; the transcription
+  conventions are the St. Gallen edition's, so that a tagger trained on the
+  St. Gallen edition reads the Thun readings in the forms it learned. There is
+  no ground truth for Thun: the text in Transkribus is a PyLaia reading
+  (Medieval_Scripts_M2.4), not a correction.
