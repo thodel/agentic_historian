@@ -282,7 +282,7 @@ der Cut-over-Entscheid. **OpenClaw ist seit 06.11.2026 07:47 aus**
 |---|---|
 | Dienst | User-Unit `hermes-gateway` von `hermes` (`systemctl --user`, braucht in einer `sudo -iu hermes`-Shell `XDG_RUNTIME_DIR` und `DBUS_SESSION_BUS_ADDRESS`, beides in `~/.bashrc`) |
 | Profil | `~/.hermes/` — `config.yaml` (Struktur: `deploy/hermes/config.yaml.example`), `.env` (0600, Namen: `deploy/hermes/env.example`), `SOUL.md`, `skills/`, `scripts/`, `cron/` |
-| Modell | `lfm2.5-24b-a2b` über `model.provider: custom` auf GPUStack (seit 09.11.2026, davor `qwen3.8-27b`); `gpt-oss-120b` als `providers.gpustack-oss`, nur je Job gepinnt |
+| Modell | `qwen3.8-27b` über `model.provider: custom` auf GPUStack (`lfm2.5-24b-a2b` vom 09. bis 15.11.2026: kaputte Tool-Argumente, jeder Queue-Lauf verloren, #799); `gpt-oss-120b` als `providers.gpustack-oss`, nur je Job gepinnt |
 | Werkzeuge | `terminal.backend: local`, also Befehle **als `hermes`**; `approvals.mode: smart`, `cron_mode: deny` plus `command_allowlist` mit genau drei Regeln (Heredoc, `python3 -c`, eigenen Branch löschen) |
 | GitHub | `gh` per `gh auth login` als `hermes` (`~/.config/gh/hosts.yml`); **kein** `GH_TOKEN` in `.env` — Hermes reicht `*_TOKEN` nicht ans Terminal durch |
 | Klone | `~/repos/<repo>` für die neun Repos des Queue-Workers; keine Produktions-Checkouts, kein Blick in `/home/dh` |

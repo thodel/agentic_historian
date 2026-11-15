@@ -74,7 +74,7 @@ hermes skills list | grep -E 'dh-bot-queue|repo-status|dh-digest'
 chmod 700 ~/.hermes; touch ~/.hermes/.env && chmod 600 ~/.hermes/.env    # fill from env.example
 hermes config set model.provider custom
 hermes config set model.base_url https://gpustack.unibe.ch/v1
-hermes config set model.default lfm2.5-24b-a2b
+hermes config set model.default qwen3.8-27b
 hermes config set model.context_length 125000    # GPUStack: 125K; unset, Hermes assumes 256000
 hermes config set providers.gpustack-oss.base_url https://gpustack.unibe.ch/v1
 hermes config set providers.gpustack-oss.model gpt-oss-120b
@@ -86,9 +86,12 @@ hermes config set terminal.cwd /home/hermes/dh-bot
 hermes status
 ```
 
-Model: the default is `lfm2.5-24b-a2b` on GPUStack (since 09.11.2026; before
-that `qwen3.8-27b`, as in OpenClaw), and `gpt-oss-120b` (a reasoning model; pin
-it only where a job wants it). Check the id against
+Model: the default is `qwen3.8-27b` on GPUStack (as in OpenClaw; `lfm2.5-24b-a2b`
+was the default 09.–15.11.2026 and lost every queue run: it emits broken
+tool-call JSON — `"\ueue"` for `"queue"` — and Hermes then raises the output
+budget past GPUStack's `max_model_len`, #799), and `gpt-oss-120b` (a reasoning
+model; pin it only where a job wants it). There is no output-token setting in
+Hermes ("provider-owned", its cli-config.yaml.example). Check the id against
 `curl -s -H "Authorization: Bearer $GPUSTACK_API_KEY" https://gpustack.unibe.ch/v1/models`
 before switching — a wrong id fails every turn with a 404 from GPUStack. The API
 key is the one in `.env.gpustack` until H6 rotates it.

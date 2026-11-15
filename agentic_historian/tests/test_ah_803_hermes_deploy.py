@@ -371,8 +371,11 @@ def test_bots_md_lists_every_slash_command_of_the_historian():
     cfg = yaml.safe_load((BUNDLE / "config.yaml.example").read_text())
     assert "ssh *" in cfg["approvals"]["deny"] and "*atr_batch*" in cfg["approvals"]["deny"]
     assert cfg["agent"]["restart_after_turn_timeout"] == 300
-    # 15.11.2026: two cron runs lost to the model's default output budget (#799)
-    assert cfg["model"]["max_tokens"] >= 16384
+    # 15.11.2026 (#799): there is no output-token setting in Hermes; the key that
+    # was tried did nothing and must not come back. The worker model is the one
+    # that writes tool-call JSON correctly.
+    assert "max_tokens" not in cfg["model"]
+    assert cfg["model"]["default"] == "qwen3.8-27b"
 
 
 def test_the_bundle_holds_no_secret_values():
