@@ -35,6 +35,16 @@ umask 077
 sudo grep -m1 '^GPUSTACK_API_KEY=' /home/dh/agentic_historian/.env.gpustack | cut -d= -f2- | tr -d '"' > /dev/shm/alt-gpustack
 ```
 
+Trockenlauf vom 15.11.2026, «Was OpenClaw hielt»: `.env.gpustack` 7 Felder
+(GPUSTACK_API_KEY, SWITCHDRIVE_PASS, ATR_API_KEY, GITHUB_TOKEN,
+NEXTCLOUD_SHARE_PASS, TRANSKRIBUS_PASS, GEMINI_API_KEY), `dmj_management/.env`
+3 (OJS_API_KEY, GPUSTACK_API_KEY, DMJ_MCP_TOKEN), `openclaw.json` 4
+(`gateway.auth.token`, `gateway.remote.token`, `channels.discord.token`,
+`models.providers.openai.apiKey`), `.openclaw/tmp/.gh_token` 1. Jeder Name hat
+unten eine Zeile. Dazu 32 weitere `.env`-Dateien unter `/home/dh`, die `dh`
+lesen konnte (MCP-Server, ch-h-bot, eperiodica, sg-missiven …): deren Keys
+sind nicht in dieser Liste und werden je Projekt rotiert, mit derselben Probe.
+
 ## Pro Secret, immer gleich
 
 1. neu ausstellen (Spalte «stellt aus»);
@@ -71,6 +81,9 @@ curl -s -o /dev/null -w '%{http_code}\n' \
 | SwitchDrive (`SWITCHDRIVE_PASS`) | `.env.gpustack`, `/etc/agentic_historian.env` | drive.switch.ch → Einstellungen → Sicherheit → App-Passwort neu, altes löschen | WebDAV-`PROPFIND` mit dem alten → 401 |
 | Nextcloud-Freigabe (`NEXTCLOUD_SHARE_PASS`) | `.env.gpustack`, `/etc/agentic_historian.env` | das Passwort der Freigabe neu setzen (wer sie angelegt hat) | die Freigabe mit dem alten → 401 |
 | DMJ-MCP (`DMJ_MCP_TOKEN`) | `/home/dh/dmj_management/.env` | dmj_management selbst (neuen Token setzen, Dienst neu starten) | `/mcp/dmj/mcp` mit dem alten → 401 |
+| OJS (`OJS_API_KEY`) | `/home/dh/dmj_management/.env` (der Trockenlauf vom 15.11. nennt ihn) | im OJS-Konto, das dmj_management benutzt: API-Key neu erzeugen, alten löschen | OJS-API mit dem alten → 401/403 |
+| OpenAI (`models.providers.openai.apiKey`) | `openclaw.json` (OpenClaw hatte neben GPUStack einen OpenAI-Key; Hermes benutzt keinen) | platform.openai.com → API keys: den alten **widerrufen**, keinen neuen ausstellen | `https://api.openai.com/v1/models` mit dem alten → 401; Hermes-Config nennt `openai` nirgends |
+| OpenClaw-Gateway (`gateway.auth.token`, `gateway.remote.token`) | `openclaw.json` | — sterben mit OpenClaw: sie schützten nur dessen eigenes Gateway (Port 18789), das nicht mehr läuft | `ss -ltnp` zeigt keinen Lauscher auf 18789; nichts auszustellen |
 | Mail (IMAP/SMTP, App-Passwort) | `openclaw.json` (Feldname zeigt der Trockenlauf) | Konto-Inhaber im Konto (Unibe-Konto: App-Passwort widerrufen) | Login mit dem alten scheitert. **Hermes bekommt keines** (#801) |
 | Kalender (CalDAV/OAuth) | `openclaw.json`, `.openclaw/credentials/` | Konto-Inhaber: App-Zugriff widerrufen | wie Mail; Hermes bekommt keinen |
 | SSH | die Schlüssel, die OpenClaw benutzte — `~dh/.ssh/` oder ein Pfad in `openclaw.json` | `ssh-keygen -t ed25519` neu als `dh`, der öffentliche Teil auf die Ziele | auf jedem Ziel (idhefix, asteraix, UBELIX, GitHub-Deploy-Keys): der alte Fingerabdruck (`ssh-keygen -lf alt.pub`) steht nicht mehr in `authorized_keys` (`ssh-keygen -lf ~/.ssh/authorized_keys`) |
