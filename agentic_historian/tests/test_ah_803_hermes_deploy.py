@@ -371,6 +371,8 @@ def test_bots_md_lists_every_slash_command_of_the_historian():
     cfg = yaml.safe_load((BUNDLE / "config.yaml.example").read_text())
     assert "ssh *" in cfg["approvals"]["deny"] and "*atr_batch*" in cfg["approvals"]["deny"]
     assert cfg["agent"]["restart_after_turn_timeout"] == 300
+    # 15.11.2026: two cron runs lost to the model's default output budget (#799)
+    assert cfg["model"]["max_tokens"] >= 16384
 
 
 def test_the_bundle_holds_no_secret_values():

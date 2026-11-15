@@ -11,6 +11,13 @@ model:
   # GPUStack serves (125K in its model list). Too high a value means compression
   # starts too late and long turns fail at GPUStack instead.
   context_length: 125000
+  # Without this Hermes used the model's default output budget, and the long
+  # replies of the queue worker (a diff read, a test tail, a PR body) hit it:
+  # repo-status 10.11. and dh-bot-queue 14.11. 21:00 (twice in a row) failed
+  # with "The model's reply was cut off before it finished (output length
+  # limit) … Nothing was changed". Set on tei 15.11.2026 with
+  # `hermes config set model.max_tokens 16384`; the 13:00 queue run proves it.
+  max_tokens: 16384
   # Hermes keys a custom endpoint's credential by host (hermes_cli/config.py:
   # HERMES_CUSTOM_<HOST>_API_KEY); this is the line in tei's config (09.11.2026).
   # It holds the same GPUStack key as GPUSTACK_API_KEY (gpustack-oss below) —
