@@ -5,12 +5,21 @@
 model:
   provider: custom                      # GPUStack is OpenAI-compatible
   base_url: https://gpustack.unibe.ch/v1
-  default: lfm2.5-24b-a2b               # since 09.11.2026; was qwen3.8-27b (OpenClaw's default)
+  default: qwen3.8-27b                  # back since 15.11.2026: lfm2.5-24b-a2b (09.–15.11.) garbled
+                                        # tool-call JSON and lost every queue run (#799, #846)
   # GPUStack's /v1/models gives no window for LFM, and Hermes then falls back to
   # 256000 ("Model context warmed: … (default)" in gateway.log) — twice what
   # GPUStack serves (125K in its model list). Too high a value means compression
   # starts too late and long turns fail at GPUStack instead.
   context_length: 125000
+  # There is no output-token setting: "Output-token limits are provider-owned,
+  # not user configuration" (Hermes' cli-config.yaml.example). Hermes raises the
+  # budget itself when a reply is cut off (agent/turn_truncation.py,
+  # boosted_output_cap) — up to 131072, which GPUStack refuses above
+  # max_model_len 128000. `model.max_tokens: 16384` was tried on tei 15.11.2026
+  # and changed nothing; removed. When a job fails with "reply was cut off",
+  # read errors.log: on 15.11. the cause was lfm2.5-24b-a2b emitting broken
+  # tool-call JSON ("\ueue" for "queue"), not a budget (#799).
   # Hermes keys a custom endpoint's credential by host (hermes_cli/config.py:
   # HERMES_CUSTOM_<HOST>_API_KEY); this is the line in tei's config (09.11.2026).
   # It holds the same GPUStack key as GPUSTACK_API_KEY (gpustack-oss below) —
