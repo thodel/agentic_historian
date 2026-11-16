@@ -1,0 +1,12 @@
+# idhefix, user unit of tobias (KG-4, #330). Nightly; a night without changed
+# inputs costs one stat per database and one COUNT query.
+[Unit]
+Description=Bestandsgraph refresh, nightly (KG-4)
+
+[Timer]
+OnCalendar=*-*-* 03:17
+Persistent=true
+RandomizedDelaySec=10m
+
+[Install]
+WantedBy=timers.target

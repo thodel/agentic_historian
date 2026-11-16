@@ -1,0 +1,55 @@
+# QLever for the Bestandsgraph on idhefix (KG-4, #330; phase 2 of #325).
+#
+#   docker compose -f docker-compose.bestand.yml run --rm index   # index $QLEVER_DATA/parts/*.nt
+#   docker compose -f docker-compose.bestand.yml up -d qlever     # serve $QLEVER_DATA/index/
+#
+# refresh_bestand.sh drives both; it sets QLEVER_DATA and the memory limits.
+# The index is built into index.new/ and only then swapped for index/, so the
+# served index is never half-written.
+#
+# QLEVER_ACCESS_TOKEN has no default on purpose. nginx on tei forwards GET and
+# POST with their query strings, so a token anyone can read in this repository
+# would reach QLever's admin commands from the public internet. It lives in
+# ~/.config/qlever/env on idhefix (0600), generated once with
+# `openssl rand -hex 24`, and is never proxied or printed.
+services:
+  index:
+    image: adfreiburg/qlever:latest
+    profiles: ["tools"]          # never started by `up`; run explicitly
+    volumes:
+      - ${QLEVER_DATA:?set QLEVER_DATA}:/data
+    working_dir: /data
+    environment:
+      QLEVER_INDEX: ${QLEVER_INDEX:-ah-bestand}
+    entrypoint: ["bash", "-c"]
+    command: >
+      set -euo pipefail;
+      rm -rf index.new && mkdir index.new;
+      cat parts/*.nt | IndexBuilderMain -i index.new/$${QLEVER_INDEX} -F ttl -f -
+      -s $${QLEVER_INDEX}.settings.json
+
+  qlever:
+    image: adfreiburg/qlever:latest
+    restart: unless-stopped
+    volumes:
+      - ${QLEVER_DATA:?set QLEVER_DATA}:/data
+    working_dir: /data
+    environment:
+      QLEVER_INDEX: ${QLEVER_INDEX:-ah-bestand}
+      QLEVER_MEMORY: ${QLEVER_MEMORY:-16G}
+      QLEVER_CACHE: ${QLEVER_CACHE:-8G}
+      QLEVER_ACCESS_TOKEN: ${QLEVER_ACCESS_TOKEN:?set QLEVER_ACCESS_TOKEN in ~/.config/qlever/env}
+    # Loopback only: tei reaches it through the SSH tunnel, nothing else does.
+    ports:
+      - "127.0.0.1:7019:7019"
+    entrypoint: ["bash", "-c"]
+    command: >
+      ServerMain -i index/$${QLEVER_INDEX} -p 7019 -m $${QLEVER_MEMORY} -c $${QLEVER_CACHE}
+      -a "$${QLEVER_ACCESS_TOKEN}"
+    healthcheck:
+      test: ["CMD", "bash", "-c",
+             "curl -sf 'http://localhost:7019/?query=SELECT%20*%20WHERE%20%7B%3Fs%20%3Fp%20%3Fo%7D%20LIMIT%201' > /dev/null"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s

@@ -1,0 +1,21 @@
+# tei, user unit of dh (KG-4, #330): the SPARQL endpoint on idhefix, reachable
+# on tei as 127.0.0.1:7019 for nginx (/sparql/) and the bot (KG_SPARQL_ENDPOINT).
+# Same pattern as the MCP tunnels to idhefix, but as a unit: a tunnel that died
+# with a login session is how /sparql/ goes dark without anyone noticing.
+#
+#   cp deploy/qlever/systemd/sparql-tunnel.service ~/.config/systemd/user/
+#   systemctl --user daemon-reload && systemctl --user enable --now sparql-tunnel
+#   loginctl show-user dh -p Linger     # must be yes, or the unit stops at logout
+[Unit]
+Description=SSH tunnel tei:7019 -> idhefix QLever (KG-4)
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/ssh -N -o BatchMode=yes -o ExitOnForwardFailure=yes \
+    -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
+    -L 127.0.0.1:7019:127.0.0.1:7019 tobias@130.92.59.240
+Restart=always
+RestartSec=15
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,17 @@
+# idhefix, user unit of tobias (KG-4, #330): rebuild the Bestandsgraph when an
+# input changed, reindex, swap, verify. Started by qlever-refresh.timer.
+#
+#   cp deploy/qlever/systemd/qlever-refresh.{service,timer} ~/.config/systemd/user/
+#   systemctl --user daemon-reload && systemctl --user enable --now qlever-refresh.timer
+[Unit]
+Description=Bestandsgraph: build, index, swap (KG-4)
+After=docker.service network-online.target
+
+[Service]
+Type=oneshot
+# Paths, optional sources and QLEVER_ACCESS_TOKEN; 0600, never in the repository.
+EnvironmentFile=%h/.config/qlever/env
+ExecStart=/usr/bin/env bash %h/agentic_historian/deploy/qlever/refresh_bestand.sh
+# A full build of seven holdings is minutes, the index a few more.
+TimeoutStartSec=2h
+Nice=10
