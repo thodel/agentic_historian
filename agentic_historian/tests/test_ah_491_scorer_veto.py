@@ -204,3 +204,38 @@ def test_config_defaults_keep_the_veto_off():
     assert config.FUSION_SCORER_VETO is False
     assert config.FUSION_VETO_MARGIN == 2.5                 # calibrated 14.11.2026, docs/SCORER_VETO.md
     assert config.FUSION_SCORER_DIR.endswith("scorers")
+
+
+# ── two readings from one engine (#875: what production records) ────────────
+
+def _two_krakens(order):
+    good = {"engine": "kraken", "model_id": "catmus_medieval", "text": TRACE["trocr"],
+            "confidence": 0.6}
+    bad = {"engine": "kraken", "model_id": "mccatmus", "text": TRACE["kraken-mccatmus"],
+           "confidence": 0.6}
+    vlm = {"engine": "vlm", "model_id": "internvl3-8b-instruct", "text": TRACE["vlm"],
+           "confidence": 0.5}
+    return [good, bad, vlm] if order == "good-first" else [bad, good, vlm]
+
+
+@pytest.mark.parametrize("order", ["good-first", "bad-first"])
+def test_two_readings_of_one_engine_are_scored_and_vetoed_apart(scorer, order):
+    """In production a page often has two kraken readings (Phase 1 and the
+    Phase 3 re-run with Agent B's model), both `engine == "kraken"`. Keyed by
+    engine alone, the second overwrote the first: both got one number and were
+    vetoed or kept together, and `fusion_scores` lost one."""
+    res = fuse(_two_krakens(order), scorer=scorer, veto_margin=2.5, arbitrate=False)
+    assert [v["label"] for v in res.vetoed] == ["kraken/mccatmus"]
+    assert set(res.scores) == {"kraken/catmus_medieval", "kraken/mccatmus",
+                               "vlm/internvl3-8b-instruct"}
+    assert res.scores["kraken/catmus_medieval"]["bits_per_char"] < \
+        res.scores["kraken/mccatmus"]["bits_per_char"]
+    assert TRACE["kraken-mccatmus"] not in res.text
+
+
+def test_the_same_engine_and_model_twice_get_their_own_keys(scorer):
+    a = {"engine": "kraken", "model_id": "m", "text": TRACE["trocr"], "confidence": 0.6}
+    b = {"engine": "kraken", "model_id": "m", "text": TRACE["kraken-mccatmus"], "confidence": 0.6}
+    res = fuse([a, b], scorer=scorer, veto_margin=2.5, arbitrate=False)
+    assert set(res.scores) == {"kraken/m", "kraken/m#2"}
+    assert [v["label"] for v in res.vetoed] == ["kraken/m#2"]

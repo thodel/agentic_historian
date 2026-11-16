@@ -94,6 +94,33 @@ Pipeline (`fusion_vetoed`, `fusion_scores`). Keine dieser Zahlen heisst
 «Qualität» oder «CER» (#326, #336): ein halluzinierendes VLM, das flüssiges
 Frühneuhochdeutsch erfindet, bekommt eine gute Zahl.
 
+**Je Lesung, nicht je Engine (#875).** Beide sind nach der Lesung benannt,
+`engine/model_id` (`kraken/catmus_medieval`), mit `#2`, `#3` …, wenn Engine und
+Modell auf einer Seite zweimal vorkommen. Bis 16.11.2026 hiessen sie nur nach
+der Engine: eine Seite trägt oft zwei kraken-Lesungen (Phase 1 und der
+Phase-3-Lauf mit dem Modell aus Agent B), die zweite überschrieb die erste, beide
+bekamen eine Zahl und fielen oder blieben zusammen — eine Müll-Lesung konnte so
+mit ihrer guten Schwester durchrutschen. Aufzeichnungen aus dieser Zeit sind an
+Schlüsseln ohne `/` zu erkennen; der Bericht unten zählt sie getrennt.
+
+## In der Produktion lesen (#875)
+
+`eval/veto_report.py` liest die Aufzeichnung zurück: wie oft eine Seite einen
+Scorer hat und wie oft das Veto greift, je Engine und je Lesung; den Abstand
+zur besten Lesung der Seite als Histogramm um die Marge; die Lesungen knapp
+unter der Marge (die eine um 0.5 kleinere Marge genommen hätte); die Zellen;
+und je Lesung den Zeichenabstand zur Fusion — Übereinstimmung, keine Qualität.
+
+```bash
+cd ~/agentic_historian/agentic_historian
+.venv/bin/python -m eval.veto_report data/outputs --json /tmp/veto.json   # <doc>_pipeline.json auf tei
+.venv/bin/python -m eval.veto_report ../../agentic-historian-outputs/docs  # oder der veröffentlichte Katalog
+```
+
+Was er nicht kann: sagen, ob die Marge die richtigen Lesungen trifft. Das
+braucht Ground Truth — `calibrate_veto_margin.py` auf den Bundesratsprotokollen
+(training-atr-models, #875 Teil 1).
+
 ## Schalter und Dateien
 
 | Einstellung | Default | Bedeutung |

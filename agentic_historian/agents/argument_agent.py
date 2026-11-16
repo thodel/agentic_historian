@@ -430,6 +430,7 @@ jenes dass damit sowie auch noch schon dann denn wenn weil kann können konnte k
 muss müssen musste soll sollen sollte darf dürfen lässt lassen gibt geben werden
 jahrhundert jahrhunderts jahrhunderten urkunde urkunden quelle quellen dokument
 dokumente bestand bestände begründet begründen erwähnt genannt beschrieben
+frage fragen antwort antworten
 """.split())
 
 

@@ -332,9 +332,9 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
                 veto_margin = float(getattr(config, "FUSION_VETO_MARGIN", 1.5))
             except Exception:                          # pragma: no cover — defensive
                 veto_margin = 1.5
-        cands, vetoed, scores = _veto(cands, scorer, veto_margin)
+        recognitions, vetoed, scores = _veto(recognitions, scorer, veto_margin)
+        cands = _candidates(recognitions)
         if vetoed:
-            recognitions = _without(recognitions, {lbl for lbl, _ in cands})
             logger.info(f"[fusion] veto ({scorer.cell.key()}, margin {veto_margin:.2f} bits/char): "
                         + ", ".join(f"{v['label']} {v['bits_per_char']:.2f}" for v in vetoed)
                         + f"; {len(cands)} candidate(s) remain")
@@ -421,37 +421,70 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
                         n_candidates=len(cands) + len(vetoed), vetoed=vetoed, scores=scores)
 
 
-def _veto(cands: list[Candidate], scorer, margin: float) -> tuple[list[Candidate], list[dict], dict]:
-    """Score every candidate under ``scorer``; drop those more than ``margin``
-    bits/char above the page's best. Returns (kept, vetoed, scores). A
-    candidate the scorer cannot score (empty after strip) is kept and absent
-    from ``scores``; the best is never dropped."""
+def _reading_key(r) -> tuple[str, str, str]:
+    """(engine, model_id, text) of a recognition, object or dict."""
+    if isinstance(r, dict):
+        return (r.get("engine") or "?", r.get("model_id") or "", r.get("text") or "")
+    return (getattr(r, "engine", "") or "?", getattr(r, "model_id", "") or "",
+            getattr(r, "text", "") or "")
+
+
+def _usable_with_keys(recognitions) -> list[tuple[str, object, str]]:
+    """(key, recognition, text) for each usable recognition, the key unique on
+    the page: ``engine/model_id`` (``engine`` alone without a model id), with
+    ``#2``, ``#3`` … when that still repeats.
+
+    A page often carries two readings of one engine — kraken in Phase 1 and
+    again in Phase 3 with the model Agent B chose — and keyed by engine alone
+    the second overwrote the first in the veto: both got one number and were
+    vetoed or kept together (#875).
+    """
+    usable = {id(r) for r in _usable_recognitions(recognitions)}
+    out, seen = [], {}
+    for r in recognitions or []:
+        if id(r) not in usable:
+            continue
+        engine, model_id, text = _reading_key(r)
+        key = f"{engine}/{model_id}" if model_id else engine
+        seen[key] = seen.get(key, 0) + 1
+        out.append((key if seen[key] == 1 else f"{key}#{seen[key]}", r, text))
+    return out
+
+
+def _usable_recognitions(recognitions) -> list:
+    """The recognitions ``_candidates`` would use: text, no error."""
+    out = []
+    for r in recognitions or []:
+        err = r.get("error", "") if isinstance(r, dict) else getattr(r, "error", "")
+        _, _, text = _reading_key(r)
+        if text and text.strip() and not err:
+            out.append(r)
+    return out
+
+
+def _veto(recognitions, scorer, margin: float) -> tuple[list, list[dict], dict]:
+    """Score every usable reading under ``scorer``; drop those more than
+    ``margin`` bits/char above the page's best. Returns (recognitions kept,
+    vetoed, scores), ``vetoed`` and ``scores`` keyed per reading
+    (``_usable_with_keys``). A reading the scorer cannot score (empty after
+    strip) is kept and absent from ``scores``; the best is never dropped;
+    unusable recognitions pass through untouched, as before."""
+    keyed = _usable_with_keys(recognitions)
     scored: dict[str, dict] = {}
-    for lbl, text in cands:
+    for key, _r, text in keyed:
         try:
             z, bpc = scorer.z(text)
         except ValueError:
             continue
-        scored[lbl] = {"bits_per_char": round(bpc, 4), "z": round(z, 3), "cell": scorer.cell.key()}
+        scored[key] = {"bits_per_char": round(bpc, 4), "z": round(z, 3), "cell": scorer.cell.key()}
     if not scored:
-        return cands, [], {}
+        return list(recognitions or []), [], {}
     best = min(v["bits_per_char"] for v in scored.values())
-    vetoed = [{"label": lbl, **scored[lbl]} for lbl, _ in cands
-              if lbl in scored and scored[lbl]["bits_per_char"] - best > margin]
-    gone = {v["label"] for v in vetoed}
-    kept = [(lbl, text) for lbl, text in cands if lbl not in gone]
+    vetoed = [{"label": key, **scored[key]} for key, _r, _t in keyed
+              if key in scored and scored[key]["bits_per_char"] - best > margin]
+    gone = {id(r) for key, r, _t in keyed if key in {v["label"] for v in vetoed}}
+    kept = [r for r in recognitions or [] if id(r) not in gone]
     return kept, vetoed, scored
-
-
-def _without(recognitions, keep_labels: set) -> list:
-    """The recognitions whose engine label survived the veto — so the no-merge
-    band's confidence pick cannot fall back on a vetoed reading."""
-    out = []
-    for r in recognitions or []:
-        label = r.get("engine", "?") if isinstance(r, dict) else getattr(r, "engine", "?")
-        if (label or "?") in keep_labels:
-            out.append(r)
-    return out
 
 
 def _llm_merge(cands: list[Candidate], llm: LLMFn) -> FusionResult:
