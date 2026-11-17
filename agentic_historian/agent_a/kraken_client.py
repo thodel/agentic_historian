@@ -88,35 +88,6 @@ class KrakenHTTPClient(AtrClient):
         """``/ocr`` only, as it always was here; ``read()`` routes by engine."""
         return self.ocr(image, model, seg_mode=seg_mode)
 
-    @staticmethod
-    def _result(response, *, model: str, engine: str) -> AtrResult:
-        """Build the result whether ``lines`` is the lines or their count (#878).
-
-        ``/ocr`` answers ``lines`` as a **number** — ``len(result.lines)``, since
-        2026-07 — while ``/recognize`` answers the lines themselves. The installed
-        client does ``list(data["lines"])`` for both, which passes on ``0`` and
-        raises ``'int' object is not iterable`` on every page that has a line.
-        Through this shim that was every kraken and every TrOCR reading of the
-        pipeline since #664, so the ensemble ran on the VLM alone and said
-        nothing about it (#595). The count is dropped: ``AtrResult`` has no field
-        for it and no caller here reads it. Remove this when the pinned client
-        accepts the count itself.
-        """
-        data = response.json()
-        if not isinstance(data.get("lines"), list):
-            data = {**data, "lines": []}
-        return AtrClient._result(_Decoded(data), model=model, engine=engine)
-
-
-class _Decoded:
-    """What ``AtrClient._result`` reads from a response: its ``.json()``."""
-
-    def __init__(self, data: dict) -> None:
-        self._data = data
-
-    def json(self) -> dict:
-        return self._data
-
 
 def kraken_transcribe(
     image: Path | bytes | io.BytesIO,

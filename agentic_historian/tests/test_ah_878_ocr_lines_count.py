@@ -7,6 +7,10 @@ failed with ``'int' object is not iterable`` — every one of them, since the sh
 over the shared client (#664). Observed on tei in the ``lassberg-proof`` batch
 of 2026-11-16.
 
+#879 worked around it in the shim; the client itself accepts the count since
+serving-atr-inference#272, and the shim no longer overrides ``_result``. These
+tests now check the pinned client through the shim.
+
 Offline. Run from the repo root:
     pytest agentic_historian/tests/test_ah_878_ocr_lines_count.py
 """
@@ -75,3 +79,11 @@ def test_read_reaches_the_tolerant_result(monkeypatch):
     got = client.read(b"\xff\xd8\xff", model="kraken-inzigkofen", engine="kraken")
 
     assert got.text == OCR_ANSWER["text"] and got.lines == []
+
+
+def test_the_shim_no_longer_overrides_the_result():
+    """The workaround from #879 is gone; the pinned client does the work."""
+    from atr_client import AtrClient
+
+    assert "_result" not in KrakenHTTPClient.__dict__
+    assert KrakenHTTPClient._result is AtrClient._result
