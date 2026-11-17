@@ -27,11 +27,21 @@ E41 ``std``, Familie als C5 Membership + P107, Beruf als C13/C12, Geburt/Tod
 E67/E69 so genau wie die Quelle («01.05.1218» ein Tag, «vor 07.04.1363» nur
 eine Obergrenze, «1349/1350» eine Spanne, «1351?» ein Jahr mit Notiz); Ort
 E53 mit geo, HLS, GND; Organisation E74 mit ``desc_de`` als Gruppentyp.
+
+**Personen und HLS (#830).** Das Register trägt für keine Person eine HLS-Id.
+``knowledge_hub/crosswalks/kf_hls_id_map.json`` (gebaut von
+``crosswalks/kf_hls.py``, gegen den HLS-Artikel selbst geprüft) gibt sie nach:
+``high`` wird ``owl:sameAs`` auf den HLS-Artikel — und damit für die
+Human-Lineage-Schicht auflösbar; ``medium`` nur eine E42 vom Typ
+``hls-kandidat`` mit der Begründung als Notiz, nie ``sameAs`` und nie von
+Human Lineage gelesen (die liest nur ``hls``/``gnd``). ``--no-hls-map`` baut
+ohne.
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sqlite3
 import sys
@@ -53,6 +63,8 @@ DATASET = bg.Dataset(
     "kf.db, 30.09.2026 (Editionsprojekt, TEI)")
 HLS = "https://hls-dhs-dss.ch/de/articles/{id}/"
 GND = "https://d-nb.info/gnd/{id}"
+#: The crosswalk of #830; ``None`` builds without it.
+HLS_MAP = Path(__file__).resolve().parents[1] / "crosswalks" / "kf_hls_id_map.json"
 _REGISTER_ID = re.compile(r"^(per|loc|org)\d{6}$")
 _DMY = re.compile(r"^(\d{1,2})\.(\d{1,2})\.(\d{4})$")
 _YEAR = re.compile(r"^(\d{4})\??$")
@@ -119,8 +131,18 @@ def _geo(raw: Optional[str]) -> tuple[Optional[float], Optional[float]]:
     return (float(m.group(1)), float(m.group(2))) if m else (None, None)
 
 
+def load_hls_map(path: Path | None) -> dict[str, dict]:
+    """``{kf person id: row}`` from the crosswalk, ``high`` and ``medium`` only."""
+    if path is None:
+        return {}
+    doc = json.loads(Path(path).read_text(encoding="utf-8"))
+    return {pid: r for pid, r in doc.get("persons", {}).items()
+            if r.get("confidence") in ("high", "medium") and r.get("hls_id")}
+
+
 def export(db: Path, out: Path, *, limit: Optional[int] = None, validate: bool = False,
-           shacl: bool = False, commit: Optional[str] = None) -> ExportReport:
+           shacl: bool = False, commit: Optional[str] = None,
+           hls_map: Path | None = HLS_MAP) -> ExportReport:
     t0 = time.monotonic()
     con = sqlite3.connect(f"file:{db}?mode=ro", uri=True)
     con.row_factory = sqlite3.Row
@@ -131,7 +153,8 @@ def export(db: Path, out: Path, *, limit: Optional[int] = None, validate: bool =
     counts = {"documents": 0, "persons": 0, "places": 0, "groups": 0,
               "mentions_person": 0, "mentions_place": 0, "mentions_group": 0,
               "names_orig": 0, "names_norm": 0, "memberships": 0, "occupations": 0,
-              "births": 0, "deaths": 0}
+              "births": 0, "deaths": 0, "persons_hls_same_as": 0, "persons_hls_candidate": 0}
+    crosswalk = load_hls_map(hls_map)
     held: dict = {"dangling_refs": 0, "editorial_refs": 0, "editorial_by_prefix": {},
                   "undated_documents": 0, "missing_families": 0, "unparsed_spans": 0}
 
@@ -162,9 +185,20 @@ def export(db: Path, out: Path, *, limit: Optional[int] = None, validate: bool =
         if p is None:
             return None
         label = (p["main_name"] or p["full_name"] or " ".join(x for x in (p["forename"], p["surname"]) if x) or pid).strip()
-        u = b.person(pid, label, identifier=("kf", pid))
+        cw = crosswalk.get(pid)
+        hls = str(cw["hls_id"]).zfill(6) if cw else None
+        high = bool(cw) and cw["confidence"] == "high"
+        u = b.person(pid, label, identifier=("kf", pid),
+                     same_as=[HLS.format(id=hls)] if high else [])
         person_uri[pid] = u
         counts["persons"] += 1
+        if high:
+            counts["persons_hls_same_as"] += 1
+        elif cw:
+            e42 = b.identifier(u, "hls-kandidat", hls)
+            b.note(e42, f"HLS {hls} «{cw.get('hls_title', '')}», mittlere Sicherheit: "
+                        + ", ".join(cw.get("basis", [])) + " (crosswalks/kf_hls.py, #830)")
+            counts["persons_hls_candidate"] += 1
         std = " ".join(x for x in (p["forename"], p["surname"]) if x).strip()
         if std and std != label:
             b.name(u, std, kind="std", key=f"{pid}-std")
@@ -269,9 +303,12 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--validate", action="store_true")
     ap.add_argument("--shacl", action="store_true")
     ap.add_argument("--commit", default=None)
+    ap.add_argument("--hls-map", type=Path, default=HLS_MAP,
+                    help="crosswalk KF person → HLS (#830); default the committed one")
+    ap.add_argument("--no-hls-map", action="store_true", help="build without the crosswalk")
     args = ap.parse_args(argv)
     rep = export(args.db, args.out, limit=args.limit, validate=args.validate, shacl=args.shacl,
-                 commit=args.commit)
+                 commit=args.commit, hls_map=None if args.no_hls_map else args.hls_map)
     print(rep.render())
     return 0 if (not args.validate or rep.validation.get("ok")) else 1
 
