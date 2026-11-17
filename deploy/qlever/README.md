@@ -17,8 +17,8 @@ holdings' databases lie there (`docs/KG_BESTANDSGRAPH_PLAN.md`, decision 1).
 
 | Piece | Where | What |
 |---|---|---|
-| `knowledge_hub/bestand_build.py` | idhefix | runs the seven exporters, one sorted `.nt` per holding under `~/kg/parts/`, one manifest; rebuilds only when an input or the commit changed; a failed holding, or one that shrank below half its last build, swaps nothing in |
-| `refresh_bestand.sh` + `docker-compose.bestand.yml` | idhefix | indexes `parts/*.nt` into `index.new/`, swaps it for `index/`, starts QLever on `127.0.0.1:7019`, checks the served count against the manifest |
+| `knowledge_hub/bestand_build.py` | idhefix | runs the seven exporters, one sorted `.nt` per holding under `~/kg/parts/`, then the Human Lineage layer over them, one manifest; rebuilds only when an input or the commit changed; a failed holding, or one that shrank below half its last build, swaps nothing in |
+| `refresh_bestand.sh` + `docker-compose.bestand.yml` | idhefix | indexes `parts/*.nt` into `index.new/` (a part with a `.nt.graph` sidecar into that named graph), swaps it for `index/`, starts QLever on `127.0.0.1:7019`, checks the served count — and each layer's graph count — against the manifest |
 | `systemd/qlever-refresh.{service,timer}` | idhefix, user `tobias` | nightly 03:17 |
 | `systemd/sparql-tunnel.service` | tei, user `dh` | `127.0.0.1:7019` on tei → idhefix |
 | `nginx-qlever.conf` | tei | `/sparql/` → the tunnel; refuses `access-token`/`cmd` parameters, strips `Authorization` |
@@ -28,7 +28,35 @@ it to `ah-corpus-admin`, and nginx forwards query strings — a token anyone can
 read would reach QLever's admin commands. Phase 2 requires
 `QLEVER_ACCESS_TOKEN` from `~/.config/qlever/env` on idhefix and fails without it.
 
-Human Lineage (HL-9) is not a source until its licence is decided (#830).
+**Human Lineage is a layer in its own named graph (#830, decided 17.11.2026).**
+Kinship (`P152_has_parent`, marriages) and `sameAs` from Human Lineage are CC
+BY-SA 4.0. They are built as `parts/humanlineage.nt`, after the holdings and from
+their fresh parts (all but Dodis, whose persons carry no id Human Lineage
+resolves), and indexed into `<https://tei.dh.unibe.ch/id/graph/humanlineage>`.
+The holdings sit in the default graph under their own terms. Attribution:
+«Human Lineage, https://humanlineage.org». In queries:
+
+```sparql
+# everything (default): holdings and the layer
+SELECT ?child ?parent WHERE { ?child <http://www.cidoc-crm.org/cidoc-crm/P152_has_parent> ?parent }
+# only the layer
+SELECT * FROM <https://tei.dh.unibe.ch/id/graph/humanlineage> WHERE { ?s ?p ?o }
+# without the layer
+SELECT * WHERE { ?s ?p ?o MINUS { GRAPH <https://tei.dh.unibe.ch/id/graph/humanlineage> { ?s ?p ?o } } }
+```
+
+`KG_HUMANLINEAGE=0` in `~/.config/qlever/env` switches the layer off;
+`KG_HUMANLINEAGE_SOURCES=kf,ssrq` narrows what it reads. It needs the Human
+Lineage MCP (idhefix :8025). If that does not answer, the holdings are swapped
+in all the same and the layer keeps its previous build (`kept` in `--status`).
+A new Human Lineage snapshot is not an input: run with `--force` after one.
+
+**The QLever image is pinned** (`QLEVER_IMAGE` overrides it). On 17.11.2026
+`adfreiburg/qlever:latest` had renamed `IndexBuilderMain`/`ServerMain` to
+`qlever-index`/`qlever-server`. And Compose splits a string `command` into
+words, so `bash -c` ran only `set`: the index step "succeeded" without
+indexing anything. Both are fixed in `docker-compose.bestand.yml` and tested
+end to end against the pinned image (index, serve, `--check`).
 
 ### On idhefix, as `tobias`
 

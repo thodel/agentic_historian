@@ -29,8 +29,20 @@ Three rules carried over from KG-4 phase 1 (``corpus_build``, ``refresh.sh``):
   every input file, plus the commit. Unchanged inputs, unchanged graph — the
   refresh timer can run nightly at no cost.
 
-Human Lineage (HL-9, #830) is **not** a source here: its licence (CC BY-SA,
-share-alike) is an open decision, and the default is not published.
+**Layers.** Human Lineage (HL-9, #830) is not a holding but a layer over
+them: kinship and ``sameAs`` from a CC BY-SA 4.0 dataset. Decided 17.11.2026
+(#830, option a): it is built as its own part, after the holdings and from
+their freshly built parts, and indexed into its own **named graph**
+(``https://tei.dh.unibe.ch/id/graph/humanlineage``), so the share-alike
+terms attach to that graph and not to the holdings. A query without
+``GRAPH`` sees the union (checked against QLever 17.11.2026); ``FROM`` or
+``MINUS { GRAPH … }`` selects or leaves out the layer. ``KG_HUMANLINEAGE=0``
+switches it off.
+
+A layer that fails (the Human Lineage MCP does not answer) does not hold the
+holdings back: the previous build of the layer is kept and said so
+(``kept``), or, without one, the layer is ``failed`` and absent. The graph
+IRI travels next to the part as ``<part>.nt.graph``; the index step reads it.
 """
 
 from __future__ import annotations
@@ -49,8 +61,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable, Optional
 
-__all__ = ["SOURCES", "Planned", "Source", "build", "check_endpoint", "fingerprint",
-           "plan", "read_manifest", "MANIFEST"]
+__all__ = ["LAYERS", "SOURCES", "Layer", "Planned", "Source", "build", "check_endpoint",
+           "fingerprint", "layers_enabled", "plan", "read_manifest", "MANIFEST"]
 
 #: The manifest next to the parts; ``--status`` and ``--check`` read it.
 MANIFEST = "bestand.manifest.json"
@@ -84,6 +96,49 @@ SOURCES: tuple[Source, ...] = (
     _db("bullinger", "KG-15", "KG_BULLINGER_DB"),
     _db("escher", "KG-16", "KG_ESCHER_DB"),
 )
+
+@dataclass(frozen=True)
+class Layer:
+    """A part built *over* the holdings, into its own named graph under its
+    own licence. ``reads`` are the holdings whose parts it is given."""
+
+    name: str
+    module: str
+    graph: str
+    licence: str
+    licence_uri: str
+    attribution: str
+    switch: str                 # env var; 0/false/no/off switches the layer off
+    reads: tuple[str, ...]
+    reads_env: str              # env var overriding ``reads`` (comma-separated)
+    issue: str
+
+
+#: Dodis is not read: its persons carry only their Dodis URI, which Human
+#: Lineage does not resolve, and its part is the largest by far.
+LAYERS: tuple[Layer, ...] = (
+    Layer("humanlineage", "humanlineage", "https://tei.dh.unibe.ch/id/graph/humanlineage",
+          "CC BY-SA 4.0", "https://creativecommons.org/licenses/by-sa/4.0/",
+          "Human Lineage, https://humanlineage.org (Zenodo, concept DOI 10.5281/zenodo.23284943)",
+          "KG_HUMANLINEAGE", ("kf", "ssrq", "mls", "sikart", "bullinger", "escher"),
+          "KG_HUMANLINEAGE_SOURCES", "HL-9 (#830)"),
+)
+#: Next to a part: the named graph it goes into. Without one, the default graph.
+GRAPH_SUFFIX = ".graph"
+_OFF = {"0", "false", "no", "off"}
+
+
+def layers_enabled(env: dict | None = None) -> list[tuple[Layer, tuple[str, ...]]]:
+    """The layers to build, each with the holdings it reads."""
+    env = dict(os.environ if env is None else env)
+    out = []
+    for layer in LAYERS:
+        if env.get(layer.switch, "1").strip().lower() in _OFF:
+            continue
+        reads = tuple(x.strip() for x in env.get(layer.reads_env, "").split(",") if x.strip())
+        out.append((layer, reads or layer.reads))
+    return out
+
 
 #: The pipeline's own corpus graph (Turtle from ``corpus_build``), converted to
 #: sorted N-Triples so every part has one format.
@@ -151,11 +206,16 @@ def _stat_key(path: Path) -> list:
     return [str(path), st.st_size, st.st_mtime_ns]
 
 
-def fingerprint(planned: list[Planned], commit: str) -> str:
-    """One hash over the commit and the inputs of every runnable source. The
-    same inputs and code give the same fingerprint, whatever the clock says."""
+def fingerprint(planned: list[Planned], commit: str,
+                layers: list[tuple[Layer, tuple[str, ...]]] | None = None) -> str:
+    """One hash over the commit, the inputs of every runnable source and the
+    layers switched on. The same inputs and code give the same fingerprint,
+    whatever the clock says. (A new Human Lineage snapshot is not an input
+    here: ``--force`` after one.)"""
     body = {"commit": commit,
             "sources": {p.name: [_stat_key(i) for i in p.inputs] for p in planned if p.runnable}}
+    if layers:
+        body["layers"] = {layer.name: list(reads) for layer, reads in layers}
     return hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()
 
 
@@ -198,7 +258,7 @@ SHRINK_LIMIT = 0.5
 
 def _previous_triples(manifest: Optional[dict], source: str) -> int:
     for row in (manifest or {}).get("sources", []):
-        if row.get("source") == source and row.get("status") == "built":
+        if row.get("source") == source and row.get("status") in ("built", "kept"):
             return int(row.get("triples", 0))
     return 0
 
@@ -222,7 +282,8 @@ def build(out_dir: str | Path, *, env: Optional[dict] = None, commit: Optional[s
     runner = runner or _run
     commit = _commit() if commit is None else commit
     planned = plan(env)
-    fp = fingerprint(planned, commit)
+    layers = layers_enabled(env)
+    fp = fingerprint(planned, commit, layers)
     previous = read_manifest(out_dir)
     parts = out_dir / "parts"
     if (not force and previous and previous.get("fingerprint") == fp
@@ -272,10 +333,20 @@ def build(out_dir: str | Path, *, env: Optional[dict] = None, commit: Optional[s
                      "withheld": {k: v for k, v in (report.get("withheld") or {}).items() if v}})
 
     built = [r for r in rows if r["status"] == "built"]
+    if built and not failed:
+        for layer, reads in layers:
+            rows.append(_build_layer(layer, reads, staging, parts, previous, runner=runner,
+                                     python=python, commit=commit, allow_shrink=allow_shrink))
+    served = [r for r in rows if r["status"] in ("built", "kept")]
     manifest = {"schema": "bestandsgraph/1", "fingerprint": fp, "commit": commit,
                 "started_at": started, "built_at": _now(),
-                "triples": sum(r.get("triples", 0) for r in built),
-                "sources": rows, "humanlineage": "not included (licence open, #830)"}
+                "triples": sum(r.get("triples", 0) for r in served),
+                "sources": rows,
+                "graphs": {"default": "the holdings, each under its own terms",
+                           **{r["graph"]: {"layer": r["source"], "licence": r["licence"],
+                                           "licence_uri": r["licence_uri"],
+                                           "attribution": r["attribution"]}
+                              for r in served if r.get("graph")}}}
     if failed or not built:
         shutil.rmtree(staging, ignore_errors=True)
         reason = (f"failed: {', '.join(failed)}" if failed else "no source could be built")
@@ -294,21 +365,76 @@ def build(out_dir: str | Path, *, env: Optional[dict] = None, commit: Optional[s
     return manifest
 
 
+def _build_layer(layer: Layer, reads: tuple[str, ...], staging: Path, parts: Path,
+                 previous: dict | None, *, runner: Runner, python: str, commit: str,
+                 allow_shrink: bool) -> dict:
+    """Build one layer from the staged holdings. A failure keeps the previous
+    build of the layer, if there is one; it never fails the holdings."""
+    part = staging / f"{layer.name}.nt"
+    meta = {"source": layer.name, "graph": layer.graph, "licence": layer.licence,
+            "licence_uri": layer.licence_uri, "attribution": layer.attribution,
+            "reads": list(reads)}
+    inputs = [staging / f"{s}.nt" for s in reads if (staging / f"{s}.nt").exists()]
+    if not inputs:
+        return {**meta, "status": "skipped", "reason": "none of the holdings it reads was built"}
+    argv = [python, "-m", f"knowledge_hub.sources.{layer.module}", "--graph",
+            *[str(i) for i in inputs], "--out", str(part)]
+    if commit:
+        argv += ["--commit", commit]
+    code = runner(argv)
+    man = Path(str(part) + ".manifest.json")
+    reason = ""
+    if code != 0 or not part.exists():
+        reason = f"exit {code}"
+    else:
+        report = json.loads(man.read_text(encoding="utf-8")) if man.exists() else {}
+        triples = int(report.get("triples", 0))
+        before = _previous_triples(previous, layer.name)
+        if not allow_shrink and before and triples < before * SHRINK_LIMIT:
+            reason = f"shrank from {before:,} to {triples:,} triples (--allow-shrink to accept)"
+        else:
+            Path(str(part) + GRAPH_SUFFIX).write_text(layer.graph + "\n", encoding="utf-8")
+            return {**meta, "status": "built", "triples": triples,
+                    "built_at": report.get("built_at", ""), "counts": report.get("counts", {}),
+                    "withheld": {k: v for k, v in (report.get("withheld") or {}).items() if v}}
+    for leftover in (part, man):
+        leftover.unlink(missing_ok=True)
+    old = parts / f"{layer.name}.nt"
+    if old.exists():
+        for suffix in ("", ".manifest.json"):
+            src = Path(str(old) + suffix)
+            if src.exists():
+                shutil.copy2(src, Path(str(part) + suffix))
+        Path(str(part) + GRAPH_SUFFIX).write_text(layer.graph + "\n", encoding="utf-8")
+        return {**meta, "status": "kept", "triples": _previous_triples(previous, layer.name),
+                "reason": f"{reason}; the previous build of the layer is kept"}
+    return {**meta, "status": "failed", "reason": f"{reason}; no previous build, the layer is absent"}
+
+
 COUNT_QUERY = "SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }"
+GRAPH_COUNT_QUERY = "SELECT (COUNT(*) AS ?n) WHERE {{ GRAPH <{graph}> {{ ?s ?p ?o }} }}"
 
 
-def _sparql_count(endpoint: str, timeout: float = 30.0) -> int:
-    url = endpoint.rstrip("/") + "/?" + urllib.parse.urlencode({"query": COUNT_QUERY})
+def _sparql_count(endpoint: str, timeout: float = 30.0, *, graph: str | None = None) -> int:
+    query = GRAPH_COUNT_QUERY.format(graph=graph) if graph else COUNT_QUERY
+    url = endpoint.rstrip("/") + "/?" + urllib.parse.urlencode({"query": query})
     req = urllib.request.Request(url, headers={"Accept": "application/sparql-results+json"})
     with urllib.request.urlopen(req, timeout=timeout) as resp:      # noqa: S310 — our own endpoint
         data = json.loads(resp.read().decode("utf-8"))
     return int(data["results"]["bindings"][0]["n"]["value"])
 
 
+def _graph_count(endpoint: str, graph: str) -> int:
+    return _sparql_count(endpoint, graph=graph)
+
+
 def check_endpoint(out_dir: str | Path, endpoint: str, *,
-                   count: Callable[[str], int] = _sparql_count) -> tuple[bool, str]:
+                   count: Callable[[str], int] = _sparql_count,
+                   count_graph: Callable[[str, str], int] = _graph_count) -> tuple[bool, str]:
     """Does the endpoint serve the graph the manifest describes? The served
-    triple count must equal the built one; anything else is a stale index."""
+    triple count must equal the built one; anything else is a stale index.
+    Each layer must sit in its own named graph with its own count — a layer
+    indexed into the default graph would carry its licence into the holdings."""
     manifest = read_manifest(Path(out_dir))
     if not manifest:
         return False, f"no {MANIFEST} in {out_dir} — nothing built yet"
@@ -320,6 +446,16 @@ def check_endpoint(out_dir: str | Path, endpoint: str, *,
     if served != built:
         return False, (f"{endpoint} serves {served:,} triples, the build from "
                        f"{manifest.get('built_at')} has {built:,} — the index is stale")
+    for row in manifest.get("sources", []):
+        if row.get("graph") and row.get("status") in ("built", "kept"):
+            try:
+                in_graph = count_graph(endpoint, row["graph"])
+            except Exception as exc:                # noqa: BLE001 — the answer is the finding
+                return False, f"{endpoint} does not answer for <{row['graph']}>: {exc}"
+            if in_graph != int(row.get("triples", 0)):
+                return False, (f"<{row['graph']}> holds {in_graph:,} triples, the layer "
+                               f"{row['source']} has {int(row.get('triples', 0)):,} — not in its "
+                               "own graph, or stale")
     return True, f"{endpoint} serves {served:,} triples = build {manifest.get('built_at')}"
 
 
@@ -328,8 +464,11 @@ def render(manifest: dict) -> str:
              f"(built {manifest.get('built_at', '–')}, commit {manifest.get('commit') or '–'})",
              f"  triples  {manifest.get('triples', 0):,}"]
     for r in manifest.get("sources", []):
+        layer = f"  <{r['graph']}>, {r['licence']}" if r.get("graph") else ""
         if r["status"] == "built":
-            lines.append(f"  {r['source']:<10} {r.get('triples', 0):>12,}")
+            lines.append(f"  {r['source']:<10} {r.get('triples', 0):>12,}{layer}")
+        elif r["status"] == "kept":
+            lines.append(f"  {r['source']:<10} {r.get('triples', 0):>12,}{layer}  kept: {r.get('reason', '')}")
         else:
             lines.append(f"  {r['source']:<10} {r['status']}: {r.get('reason', '')}")
     if manifest.get("reason"):

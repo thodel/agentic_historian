@@ -29,10 +29,12 @@ bei ssrq, blanke P152 und erben die Provenienz über den Datensatz (das Manifest
 nennt ihn). Mehrdeutige Treffer (``status`` nicht ``match``, oder mehr als eine
 Person) werden gezählt und nicht geraten.
 
-**Lizenz.** CC BY-SA 4.0: der Graph ist abgeleitet. Nennung «Human Lineage»
-mit Profil-URL steht an jedem ``sameAs``-Ziel; ob ShareAlike mit der
-Graph-Lizenz verträglich ist, ist vor einem Export zu entscheiden und im
-Manifest unter ``licence`` festgehalten — dieses Modul entscheidet es nicht.
+**Lizenz.** CC BY-SA 4.0: die Schicht ist abgeleitet. Nennung «Human Lineage»
+mit Profil-URL steht an jedem ``sameAs``-Ziel. Entschieden 17.11.2026 (#830,
+Variante a): die Schicht ist ein eigener Teil im eigenen benannten Graphen
+``https://tei.dh.unibe.ch/id/graph/humanlineage`` (``bestand_build.LAYERS``)
+und steht als einzige unter CC BY-SA 4.0; die Bestände bleiben unter ihren
+eigenen Bedingungen. Wer die Schicht nicht will, lässt den Graphen weg.
 """
 
 from __future__ import annotations
@@ -56,7 +58,8 @@ from knowledge_hub.sources._common import (ExportReport, git_commit, now,
 HL_PERSON = "https://humanlineage.org/person/{}"
 WD = "https://www.wikidata.org/entity/{}"
 LICENCE_NOTE = ("CC BY-SA 4.0 — attribution «Human Lineage, https://humanlineage.org»; "
-                "ShareAlike against the graph's licence to be decided before export (#830)")
+                "published as its own named graph <https://tei.dh.unibe.ch/id/graph/humanlineage>, "
+                "the holdings keep their own terms (#830, decided 17.11.2026)")
 
 _WD_RE = re.compile(r"wikidata\.org/entity/(Q\d+)$")
 _HLS_RE = re.compile(r"hls-dhs-dss\.ch/\w+/articles/(\d+)/?$")
@@ -247,10 +250,13 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--graph", nargs="+", required=True, help="the built .nt files to enrich")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--validate", action="store_true", help="run the KG-6 check (SHACL) on the result")
+    ap.add_argument("--commit", default=None, help="the code's commit, for the manifest (bestand_build)")
     args = ap.parse_args(argv)
     graph = load_graphs(args.graph)
     g, report = build(graph, MCPClient(), progress=lambda s: print(s, file=sys.stderr))
     report.destination = str(args.out)
+    if args.commit:
+        report.commit = args.commit
     report.triples = write_sorted_ntriples(g, args.out)
     if args.validate:
         report.validation.update(validate_graph(graph + g, shacl=True))
