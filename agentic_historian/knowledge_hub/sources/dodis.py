@@ -17,12 +17,20 @@ owl:sameAs dodis.ch/P<id>; jede Verknüpfung P67; author → E65/P14; die drei
 anderen Rollen → E13 mit P177-Rollentyp; Orte E53 mit geo + Wikidata; Themen
 E55 über P129. Eine Kante auf eine Id ohne Datensatz wird gezählt
 (``withheld``), nie zu einem Knoten erfunden.
+
+**Personen und Normdaten (#830).** Dodis selbst führt keine GND/Wikidata, aber
+Wikidata führt die Dodis-Id (P701): ``knowledge_hub/crosswalks/dodis_wikidata.json``
+(gebaut von ``crosswalks/dodis_wikidata.py``, 17.11.2026: 7 675 Personen) gibt
+je Person Wikidata, GND, HLS und VIAF als ``owl:sameAs``. Damit erreicht die
+Human-Lineage-Schicht Dodis-Personen. Eine Dodis-Id, die Wikidata zwei Items
+gibt, bekommt nichts. ``--no-wikidata-map`` baut ohne.
 """
 
 from __future__ import annotations
 
 import argparse
 import calendar
+import json
 import re
 from datetime import date
 import sqlite3
@@ -35,6 +43,18 @@ from knowledge_hub import bestandsgraph as bg
 from knowledge_hub.sources._common import (
     ExportReport, git_commit, now, validate_graph, write_manifest, write_sorted_ntriples,
 )
+
+#: The crosswalk of #830; ``None`` builds without it.
+WIKIDATA_MAP = Path(__file__).resolve().parents[1] / "crosswalks" / "dodis_wikidata.json"
+SAME_AS = {"wikidata": "https://www.wikidata.org/entity/{}", "gnd": "https://d-nb.info/gnd/{}",
+           "hls": "https://hls-dhs-dss.ch/de/articles/{}/", "viaf": "https://viaf.org/viaf/{}"}
+
+
+def load_wikidata_map(path: Path | None) -> dict[str, dict]:
+    if path is None:
+        return {}
+    return json.loads(Path(path).read_text(encoding="utf-8")).get("persons", {})
+
 
 DATASET = bg.Dataset(
     "dodis", "Dodis — Diplomatische Dokumente der Schweiz, Open Data",
@@ -82,7 +102,8 @@ def _date_bounds(doc_date: Optional[str], year: Optional[int]) -> tuple[Optional
 
 def export(db: Path, out: Path, *, limit: Optional[int] = None,
            validate: bool = False, shacl: bool = False,
-           commit: Optional[str] = None) -> ExportReport:
+           commit: Optional[str] = None,
+           wikidata_map: Path | None = WIKIDATA_MAP) -> ExportReport:
     t0 = time.monotonic()
     con = sqlite3.connect(f"file:{db}?mode=ro", uri=True)
     con.row_factory = sqlite3.Row
@@ -92,7 +113,9 @@ def export(db: Path, out: Path, *, limit: Optional[int] = None,
                        commit=commit or git_commit())
     counts = {"documents": 0, "persons": 0, "places": 0, "topics": 0,
               "mentions_person": 0, "authors": 0, "roles": 0,
-              "mentions_place": 0, "about": 0}
+              "mentions_place": 0, "about": 0, "persons_wikidata": 0, "persons_gnd": 0,
+              "persons_hls": 0, "persons_viaf": 0}
+    crosswalk = load_wikidata_map(wikidata_map)
     held = {"dangling_persons": 0, "dangling_places": 0, "dangling_topics": 0,
             "unknown_roles": 0, "undated_documents": 0}
 
@@ -130,9 +153,14 @@ def export(db: Path, out: Path, *, limit: Optional[int] = None,
         if p is None:
             return None
         label = (p["name"] or " ".join(x for x in (p["first_name"], p["last_name"]) if x) or f"P{pid}").strip()
-        u = b.person(pid, label, same_as=[f"https://dodis.ch/P{pid}"])
+        ids = crosswalk.get(str(pid), {})
+        same = [f"https://dodis.ch/P{pid}"] + [SAME_AS[k].format(ids[k]) for k in SAME_AS if ids.get(k)]
+        u = b.person(pid, label, same_as=same)
         person_uri[pid] = u
         counts["persons"] += 1
+        for k in SAME_AS:
+            if ids.get(k):
+                counts[f"persons_{k}"] += 1
         return u
 
     def place_node(plid: str):
@@ -244,9 +272,13 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--shacl", action="store_true", help="auch SHACL — nur für kleine Graphen")
     ap.add_argument("--commit", default=None,
                     help="der Commit, der gebaut hat — wo das Paket ohne Git-Checkout läuft (idhefix)")
+    ap.add_argument("--wikidata-map", type=Path, default=WIKIDATA_MAP,
+                    help="Dodis-Person → Wikidata/GND/HLS/VIAF (#830); Standard: der eingecheckte")
+    ap.add_argument("--no-wikidata-map", action="store_true", help="ohne den Abgleich bauen")
     args = ap.parse_args(argv)
     rep = export(args.db, args.out, limit=args.limit, validate=args.validate, shacl=args.shacl,
-                 commit=args.commit)
+                 commit=args.commit,
+                 wikidata_map=None if args.no_wikidata_map else args.wikidata_map)
     print(rep.render())
     return 0 if (not args.validate or rep.validation.get("ok")) else 1
 

@@ -258,6 +258,7 @@ HL_GRAPH = "https://tei.dh.unibe.ch/id/graph/humanlineage"
 
 
 def test_the_layer_is_built_after_the_holdings_from_their_staged_parts(tmp_path):
+    # Dodis included: its persons carry Wikidata via P701 (crosswalks/dodis_wikidata.json)
     run = FakeRunner(triples={"humanlineage": 4})
     out = tmp_path / "kg"
     m = bb.build(out, env=_env(tmp_path, KG_HUMANLINEAGE="1"), commit="abc", runner=run, python="py")
@@ -265,7 +266,7 @@ def test_the_layer_is_built_after_the_holdings_from_their_staged_parts(tmp_path)
     hl = run.calls[-1]
     assert hl[:3] == ["py", "-m", "knowledge_hub.sources.humanlineage"]
     read = [Path(p).name for p in hl[hl.index("--graph") + 1:hl.index("--out")]]
-    assert read == ["kf.nt", "ssrq.nt", "mls.nt", "sikart.nt", "bullinger.nt", "escher.nt"]  # no Dodis
+    assert read == ["dodis.nt", "kf.nt", "ssrq.nt", "mls.nt", "sikart.nt", "bullinger.nt", "escher.nt"]
     assert hl[-2:] == ["--commit", "abc"]
     assert (out / "parts" / "humanlineage.nt.graph").read_text().strip() == HL_GRAPH
     assert not (out / "parts" / "kf.nt.graph").exists()            # holdings: default graph

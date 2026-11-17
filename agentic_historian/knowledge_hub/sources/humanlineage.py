@@ -238,10 +238,37 @@ def build(graph: Graph, client: Client, *, snapshot: Optional[dict] = None,
     return b.g, report
 
 
-def load_graphs(paths: Iterable[str | Path]) -> Graph:
+#: One N-Triples line: subject, predicate, the rest.
+_NT_LINE = re.compile(r"^(\S+)\s+<([^>]+)>\s+(.+?)\s*\.\s*$")
+_E21 = f"<{CRM['E21_Person']}>"
+_KEEP = {str(OWL["sameAs"]), str(CRM["P1_is_identified_by"]), str(CRM["P190_has_symbolic_content"])}
+_ID_SOURCE = "/identifier-source/"
+
+
+def _person_lines(path: str | Path) -> Iterable[str]:
+    """The lines ``person_identifiers`` reads: person types, ``sameAs``, the
+    identifiers with their content, and the identifier-source types with
+    their labels. Dodis's part is millions of document triples the layer never
+    looks at; this keeps it out of memory."""
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            m = _NT_LINE.match(line)
+            if not m:
+                continue
+            subj, pred, obj = m.groups()
+            if ((pred == str(RDF.type) and obj == _E21) or pred in _KEEP
+                    or (pred == str(CRM["P2_has_type"]) and _ID_SOURCE in obj)
+                    or (pred == str(RDFS.label) and _ID_SOURCE in subj)):
+                yield line
+
+
+def load_graphs(paths: Iterable[str | Path], *, persons_only: bool = False) -> Graph:
     g = Graph()
     for p in paths:
-        g.parse(str(p), format="nt")
+        if persons_only:
+            g.parse(data="".join(_person_lines(p)), format="nt")
+        else:
+            g.parse(str(p), format="nt")
     return g
 
 
@@ -252,7 +279,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--validate", action="store_true", help="run the KG-6 check (SHACL) on the result")
     ap.add_argument("--commit", default=None, help="the code's commit, for the manifest (bestand_build)")
     args = ap.parse_args(argv)
-    graph = load_graphs(args.graph)
+    # the whole graph only for the SHACL check; the layer needs only the persons
+    graph = load_graphs(args.graph, persons_only=not args.validate)
     g, report = build(graph, MCPClient(), progress=lambda s: print(s, file=sys.stderr))
     report.destination = str(args.out)
     if args.commit:

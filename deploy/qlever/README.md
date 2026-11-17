@@ -31,8 +31,9 @@ read would reach QLever's admin commands. Phase 2 requires
 **Human Lineage is a layer in its own named graph (#830, decided 17.11.2026).**
 Kinship (`P152_has_parent`, marriages) and `sameAs` from Human Lineage are CC
 BY-SA 4.0. They are built as `parts/humanlineage.nt`, after the holdings and from
-their fresh parts (all but Dodis, whose persons carry no id Human Lineage
-resolves), and indexed into `<https://tei.dh.unibe.ch/id/graph/humanlineage>`.
+their fresh parts (Dodis included since its persons carry Wikidata, GND and
+HLS from Wikidata's P701; the layer reads only the person lines of each part),
+and indexed into `<https://tei.dh.unibe.ch/id/graph/humanlineage>`.
 The holdings sit in the default graph under their own terms. Attribution:
 «Human Lineage, https://humanlineage.org». In queries:
 

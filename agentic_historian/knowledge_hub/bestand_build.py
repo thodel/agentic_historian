@@ -114,13 +114,14 @@ class Layer:
     issue: str
 
 
-#: Dodis is not read: its persons carry only their Dodis URI, which Human
-#: Lineage does not resolve, and its part is the largest by far.
+#: Dodis is read since its persons carry Wikidata/GND/HLS from Wikidata's own
+#: P701 (``crosswalks/dodis_wikidata.json``); ``humanlineage`` reads only the
+#: person lines of each part, so Dodis's document triples cost nothing.
 LAYERS: tuple[Layer, ...] = (
     Layer("humanlineage", "humanlineage", "https://tei.dh.unibe.ch/id/graph/humanlineage",
           "CC BY-SA 4.0", "https://creativecommons.org/licenses/by-sa/4.0/",
           "Human Lineage, https://humanlineage.org (Zenodo, concept DOI 10.5281/zenodo.23284943)",
-          "KG_HUMANLINEAGE", ("kf", "ssrq", "mls", "sikart", "bullinger", "escher"),
+          "KG_HUMANLINEAGE", ("dodis", "kf", "ssrq", "mls", "sikart", "bullinger", "escher"),
           "KG_HUMANLINEAGE_SOURCES", "HL-9 (#830)"),
 )
 #: Next to a part: the named graph it goes into. Without one, the default graph.
