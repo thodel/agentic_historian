@@ -234,9 +234,9 @@ The HBLS MCP is live at `…/mcp/hbls` and registered in `mcp_registry.py`.
 4. Confidence-ranked unified response
 
 **Key crosswalk files (already built):**
-- `~/.openclaw/tmp/kf_hls_id_map.json` — 162 KF→HLS IDs (155 high confidence, 7 medium)
-- `~/.openclaw/tmp/kf_ssrq_hls_crossref.json` — full 5,260-person crossref
-- `~/.openclaw/tmp/kf_ssrq_exclusions.json` — persons excluded from safe crosswalk
+- `knowledge_hub/crosswalks/kf_hls_id_map.json` — KF→HLS IDs, rebuilt 17.11.2026 (#830) by `crosswalks/kf_hls.py`: 116 high, 21 medium, each with its basis. The October file at `~/.openclaw/tmp/` (162 IDs, 155 high, 7 medium, no method recorded) was not at `~/.openclaw.pre-migration/tmp/` on tei after the OpenClaw migration; the 15.11. archive was not searched.
+- `~/.openclaw/tmp/kf_ssrq_hls_crossref.json` — full 5,260-person crossref (not found with the map on 17.11.; not rebuilt)
+- `~/.openclaw/tmp/kf_ssrq_exclusions.json` — persons excluded from safe crosswalk (likewise)
 
 ### Milestone 4 — API / Discord interface
 1. `/search <name>` slash command → federated search

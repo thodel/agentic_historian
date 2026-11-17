@@ -74,6 +74,7 @@ Gruppentyp (`sdh:P99` → `crm-sup:C9`).
 | `spans.text` | `E41_Appellation` an der Entität, P190 Text, P2 Typ `orig` | die Schreibung im Dokument |
 | `spans` `measure`/`date` | **kein** Tripel | keine Entitäten |
 | `persons` | `E21_Person`, `E42` (`kf`); `forename/surname` als `E41` Typ `std`; `birth/death` → E67/E69 mit P4 | 5 260; **0** HLS-Ids |
+| `persons` × `crosswalks/kf_hls_id_map.json` (#830) | `high` → `owl:sameAs hls-dhs-dss.ch/de/articles/<id>/` (und damit für Human Lineage auflösbar); `medium` → nur `E42` Typ `hls-kandidat` mit Begründung als Notiz | 116 high, 21 medium (17.11.2026); Kandidaten aus Wikidata P902, geprüft gegen Titel und Lebensdaten des HLS-Artikels (`crosswalks/kf_hls.py`) |
 | `persons.org_ref` | `sdh-slc:C5 Membership` (Typ `Familie`) + `P107` an der E74 | 5 257 |
 | `persons.occupation` | `sdh-slc:C13 Social Role Embodiment` → `C12` Rolle | |
 | `places` | `E53_Place`; `geo` «lat lon» → geo:lat/long + P168; `hls_id` → `owl:sameAs hls-dhs-dss.ch/de/articles/<id>/`; `gnd_id` → `owl:sameAs d-nb.info/gnd/<id>` | 237 HLS, 170 GND, 384 geo |
