@@ -7,6 +7,15 @@
 # The index is built into index.new/ and only then swapped for index/, so the
 # served index is never half-written.
 #
+# The image is pinned. On 17.11.2026 `adfreiburg/qlever:latest` had renamed
+# IndexBuilderMain/ServerMain to qlever-index/qlever-server, so the next pull
+# would have broken the index step. To upgrade: pull the new image, index a
+# copy of parts/ with it, query it, then set QLEVER_IMAGE or change the digest.
+#
+# Named graphs (#830): a part with a sidecar `<part>.nt.graph` goes into the
+# graph that file names (the Human Lineage layer, CC BY-SA 4.0); every other
+# part into the default graph. A query without GRAPH sees the union.
+#
 # QLEVER_ACCESS_TOKEN has no default on purpose. nginx on tei forwards GET and
 # POST with their query strings, so a token anyone can read in this repository
 # would reach QLever's admin commands from the public internet. It lives in
@@ -14,7 +23,7 @@
 # `openssl rand -hex 24`, and is never proxied or printed.
 services:
   index:
-    image: adfreiburg/qlever:latest
+    image: ${QLEVER_IMAGE:-adfreiburg/qlever@sha256:7f26dc0ba0f2573144deb414f46a1d5501599dbe58313e4fb1968db30b1d6445}
     profiles: ["tools"]          # never started by `up`; run explicitly
     volumes:
       - ${QLEVER_DATA:?set QLEVER_DATA}:/data
@@ -22,14 +31,21 @@ services:
     environment:
       QLEVER_INDEX: ${QLEVER_INDEX:-ah-bestand}
     entrypoint: ["bash", "-c"]
-    command: >
-      set -euo pipefail;
-      rm -rf index.new && mkdir index.new;
-      cat parts/*.nt | IndexBuilderMain -i index.new/$${QLEVER_INDEX} -F ttl -f -
-      -s $${QLEVER_INDEX}.settings.json
+    # One list element: `bash -c` takes its script from the first argument only,
+    # and Compose splits a plain string into words (17.11.2026: `bash -c set`).
+    command:
+      - |
+        set -euo pipefail
+        rm -rf index.new && mkdir index.new
+        args=()
+        for f in parts/*.nt; do
+          g=-; if [ -s "$$f.graph" ]; then g=$$(head -n1 "$$f.graph"); fi
+          args+=(-f "$$f" -g "$$g")
+        done
+        qlever-index -i index.new/$${QLEVER_INDEX} -F nt "$${args[@]}" -s $${QLEVER_INDEX}.settings.json
 
   qlever:
-    image: adfreiburg/qlever:latest
+    image: ${QLEVER_IMAGE:-adfreiburg/qlever@sha256:7f26dc0ba0f2573144deb414f46a1d5501599dbe58313e4fb1968db30b1d6445}
     restart: unless-stopped
     volumes:
       - ${QLEVER_DATA:?set QLEVER_DATA}:/data
@@ -43,9 +59,8 @@ services:
     ports:
       - "127.0.0.1:7019:7019"
     entrypoint: ["bash", "-c"]
-    command: >
-      ServerMain -i index/$${QLEVER_INDEX} -p 7019 -m $${QLEVER_MEMORY} -c $${QLEVER_CACHE}
-      -a "$${QLEVER_ACCESS_TOKEN}"
+    command:
+      - qlever-server -i index/$${QLEVER_INDEX} -p 7019 -m $${QLEVER_MEMORY} -c $${QLEVER_CACHE} -a "$${QLEVER_ACCESS_TOKEN}"
     healthcheck:
       test: ["CMD", "bash", "-c",
              "curl -sf 'http://localhost:7019/?query=SELECT%20*%20WHERE%20%7B%3Fs%20%3Fp%20%3Fo%7D%20LIMIT%201' > /dev/null"]

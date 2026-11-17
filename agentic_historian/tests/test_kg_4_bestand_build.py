@@ -35,7 +35,9 @@ def _dbs(tmp_path: Path, names=("dodis", "kf", "mls", "sikart", "bullinger", "es
 
 
 def _env(tmp_path: Path, **extra) -> dict:
-    env = {"KG_SOURCE_DB_DIR": str(_dbs(tmp_path))}
+    # The holdings' tests run without the Human Lineage layer; it has its own
+    # section below (#830).
+    env = {"KG_SOURCE_DB_DIR": str(_dbs(tmp_path)), "KG_HUMANLINEAGE": "0"}
     reg = tmp_path / "ssrq__fuseki_042810.ttl"
     reg.write_text("# register\n", encoding="utf-8")
     env["KG_SSRQ_REGISTER"] = str(reg)
@@ -57,6 +59,9 @@ class FakeRunner:
         source = argv[argv.index("-m") + 1].rsplit(".", 1)[-1]
         if source in self.fail:
             return 1
+        if "--graph" in argv:                       # a layer reads the staged holdings
+            for p in argv[argv.index("--graph") + 1:argv.index("--out")]:
+                assert Path(p).exists(), p
         out = Path(argv[argv.index("--out") + 1])
         n = self.triples.get(source, 10)
         out.write_text("".join(f"<urn:{source}:{i}> <urn:p> <urn:o> .\n" for i in range(n)),
@@ -77,7 +82,7 @@ def test_the_plan_names_every_holding_and_what_is_missing(tmp_path):
     assert planned["dodis"].runnable and planned["dodis"].argv[0] == "--db"
     assert planned["ssrq"].missing == ["KG_SSRQ_REGISTER not set"]
     assert any("mls.db missing" in m for m in planned["mls"].missing)
-    assert "humanlineage" not in planned and "corpus" not in planned     # licence open (#830); corpus opt-in
+    assert "humanlineage" not in planned and "corpus" not in planned     # a layer, not a holding; corpus opt-in
 
 
 def test_ssrq_tei_is_optional_and_a_db_can_be_pointed_elsewhere(tmp_path):
@@ -245,3 +250,131 @@ def test_the_units_run_the_refresh_and_keep_the_tunnel_up():
     assert "-L 127.0.0.1:7019:127.0.0.1:7019" in tunnel
     assert "ExitOnForwardFailure=yes" in tunnel and "BatchMode=yes" in tunnel
     assert "Restart=always" in tunnel
+
+
+# ── the Human Lineage layer: its own part, its own graph, its own licence (#830) ──
+
+HL_GRAPH = "https://tei.dh.unibe.ch/id/graph/humanlineage"
+
+
+def test_the_layer_is_built_after_the_holdings_from_their_staged_parts(tmp_path):
+    # Dodis included: its persons carry Wikidata via P701 (crosswalks/dodis_wikidata.json)
+    run = FakeRunner(triples={"humanlineage": 4})
+    out = tmp_path / "kg"
+    m = bb.build(out, env=_env(tmp_path, KG_HUMANLINEAGE="1"), commit="abc", runner=run, python="py")
+    assert m["status"] == "built" and len(run.calls) == 8
+    hl = run.calls[-1]
+    assert hl[:3] == ["py", "-m", "knowledge_hub.sources.humanlineage"]
+    read = [Path(p).name for p in hl[hl.index("--graph") + 1:hl.index("--out")]]
+    assert read == ["dodis.nt", "kf.nt", "ssrq.nt", "mls.nt", "sikart.nt", "bullinger.nt", "escher.nt"]
+    assert hl[-2:] == ["--commit", "abc"]
+    assert (out / "parts" / "humanlineage.nt.graph").read_text().strip() == HL_GRAPH
+    assert not (out / "parts" / "kf.nt.graph").exists()            # holdings: default graph
+    row = next(r for r in m["sources"] if r["source"] == "humanlineage")
+    assert (row["status"], row["triples"], row["licence"]) == ("built", 4, "CC BY-SA 4.0")
+    assert m["triples"] == 7 * 10 + 4
+    assert m["graphs"][HL_GRAPH]["licence_uri"] == "https://creativecommons.org/licenses/by-sa/4.0/"
+    assert "Human Lineage" in m["graphs"][HL_GRAPH]["attribution"]
+    assert "humanlineage" not in m and "licence open" not in json.dumps(m)
+
+
+def test_the_layer_graph_is_in_the_project_namespace():
+    from knowledge_hub.bestandsgraph import AH
+    assert bb.LAYERS[0].graph == str(AH) + "graph/humanlineage"
+
+
+def test_the_layer_is_on_by_default_and_can_be_switched_off_or_narrowed(tmp_path):
+    assert [layer.name for layer, _ in bb.layers_enabled({})] == ["humanlineage"]
+    assert bb.layers_enabled({"KG_HUMANLINEAGE": "off"}) == []
+    (_, reads), = bb.layers_enabled({"KG_HUMANLINEAGE_SOURCES": "kf, ssrq"})
+    assert reads == ("kf", "ssrq")
+    planned = bb.plan(_env(tmp_path))
+    assert bb.fingerprint(planned, "c", bb.layers_enabled({})) != bb.fingerprint(planned, "c", [])
+
+
+def test_a_failed_layer_keeps_its_previous_build_and_never_holds_the_holdings_back(tmp_path):
+    env = _env(tmp_path, KG_HUMANLINEAGE="1")
+    out = tmp_path / "kg"
+    m = bb.build(out, env=env, commit="a", runner=FakeRunner(fail={"humanlineage"}))
+    row = next(r for r in m["sources"] if r["source"] == "humanlineage")
+    assert m["status"] == "built" and row["status"] == "failed" and "absent" in row["reason"]
+    assert not (out / "parts" / "humanlineage.nt").exists() and m["triples"] == 70
+    assert HL_GRAPH not in m["graphs"]
+
+    bb.build(out, env=env, commit="b", runner=FakeRunner(triples={"humanlineage": 6}))
+    served = (out / "parts" / "humanlineage.nt").read_text(encoding="utf-8")
+    m = bb.build(out, env=env, commit="c", runner=FakeRunner(fail={"humanlineage"}, triples={"kf": 12}))
+    row = next(r for r in m["sources"] if r["source"] == "humanlineage")
+    assert m["status"] == "built" and row["status"] == "kept" and row["triples"] == 6
+    assert (out / "parts" / "humanlineage.nt").read_text(encoding="utf-8") == served
+    assert (out / "parts" / "humanlineage.nt.graph").read_text().strip() == HL_GRAPH
+    assert m["triples"] == 6 * 10 + 12 + 6 and HL_GRAPH in m["graphs"]
+    assert "kept" in bb.render(m)
+
+
+def test_a_failed_holding_builds_no_layer(tmp_path):
+    run = FakeRunner(fail={"kf"})
+    m = bb.build(tmp_path / "kg", env=_env(tmp_path, KG_HUMANLINEAGE="1"), commit="a", runner=run)
+    assert m["status"] == "failed"
+    assert not any("humanlineage" in " ".join(c) for c in run.calls)
+
+
+def test_the_check_wants_the_layer_in_its_own_graph(tmp_path):
+    out = tmp_path / "kg"
+    bb.build(out, env=_env(tmp_path, KG_HUMANLINEAGE="1"), commit="a",
+             runner=FakeRunner(triples={"humanlineage": 4}))
+    ok, msg = bb.check_endpoint(out, "http://x/", count=lambda e: 74, count_graph=lambda e, g: 4)
+    assert ok, msg
+    # indexed into the default graph: the total matches, the graph is empty
+    ok, msg = bb.check_endpoint(out, "http://x/", count=lambda e: 74, count_graph=lambda e, g: 0)
+    assert not ok and HL_GRAPH in msg and "own graph" in msg
+
+
+def test_the_index_step_puts_each_part_in_the_graph_its_sidecar_names():
+    import yaml
+    compose = (QDIR / "docker-compose.bestand.yml").read_text(encoding="utf-8")
+    services = yaml.safe_load(compose)["services"]
+    index, serve = services["index"]["command"][0], services["qlever"]["command"][0]
+    # renamed in QLever: IndexBuilderMain → qlever-index, ServerMain → qlever-server
+    assert "qlever-index " in index and "IndexBuilderMain" not in index
+    assert serve.startswith("qlever-server ") and "ServerMain" not in serve
+    assert '.graph"' in index and '-g "$$g"' in index
+    # the image is pinned: an unpinned :latest renamed the binaries under us (17.11.2026)
+    for svc in services.values():
+        assert re.fullmatch(r"\$\{QLEVER_IMAGE:-adfreiburg/qlever@sha256:[0-9a-f]{64}\}", svc["image"])
+
+
+def test_humanlineage_takes_the_commit_like_every_exporter():
+    import argparse
+
+    from knowledge_hub.sources import humanlineage as hl
+    seen = {}
+    real = argparse.ArgumentParser.parse_args
+
+    def spy(self, argv=None, namespace=None):
+        ns = real(self, argv, namespace)
+        seen.update(vars(ns))
+        raise SystemExit(0)
+    argparse.ArgumentParser.parse_args = spy
+    try:
+        try:
+            hl.main(["--graph", "a.nt", "--out", "b.nt", "--commit", "abc1234"])
+        except SystemExit:
+            pass
+    finally:
+        argparse.ArgumentParser.parse_args = real
+    assert seen["commit"] == "abc1234"
+
+
+def test_each_compose_command_is_one_script_for_bash_c():
+    """Compose splits a string ``command`` into words; ``bash -c`` then runs only
+    the first (``set``) and the index step "succeeds" without indexing anything
+    — seen 17.11.2026 with Compose v5. One list element is the whole script."""
+    import yaml
+    services = yaml.safe_load((QDIR / "docker-compose.bestand.yml").read_text(encoding="utf-8"))["services"]
+    for name in ("index", "qlever"):
+        svc = services[name]
+        assert svc["entrypoint"] == ["bash", "-c"]
+        assert isinstance(svc["command"], list) and len(svc["command"]) == 1, name
+    assert services["index"]["command"][0].lstrip().startswith("set -euo pipefail")
+    assert services["qlever"]["command"][0].startswith("qlever-server ")
