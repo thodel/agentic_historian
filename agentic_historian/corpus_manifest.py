@@ -90,11 +90,13 @@ __all__ = [
     "items",
     "mark_done",
     "mark_failed",
+    "mark_published",
     "progress",
     "reclaim_stale",
     "register",
     "requeue",
     "runs",
+    "unpublished",
 ]
 
 MANIFEST_SCHEMA = "ah-manifest/1"
@@ -199,11 +201,19 @@ def _init_schema(conn: sqlite3.Connection) -> None:
             heartbeat_at  TEXT,
             started_at    TEXT,
             finished_at   TEXT,
+            published_at  TEXT,
             PRIMARY KEY (run_id, doc_id)
         );
         CREATE INDEX IF NOT EXISTS ix_manifest_items_status
             ON manifest_items(run_id, status);
     """)
+    # #884: a manifest written before `published_at` existed gets the column
+    # here. Additive and NULL — the runner treats NULL on a `done` row as "owed
+    # a publish", so the first resume of an old run republishes its documents;
+    # an identical tree makes no commit (#394), so that costs calls, not commits.
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(manifest_items)")}
+    if "published_at" not in cols:
+        conn.execute("ALTER TABLE manifest_items ADD COLUMN published_at TEXT")
 
 
 # ── rows ─────────────────────────────────────────────────────────────────────
@@ -237,6 +247,12 @@ class Item:
     heartbeat_at: Optional[str] = None
     started_at: Optional[str] = None
     finished_at: Optional[str] = None
+    #: When the batch publish committed this document's outputs (#884), or
+    #: ``None``: not yet, or not since it was last finished. Kept here rather
+    #: than in the runner's memory, because a run that is killed between
+    #: finishing a document and the closing publish must leave a trace that the
+    #: next run can act on.
+    published_at: Optional[str] = None
 
     @property
     def last_seen(self) -> Optional[str]:
@@ -275,7 +291,8 @@ def _item(row: sqlite3.Row) -> Item:
                 attempts=int(row["attempts"] or 0), worker=row["worker"] or "",
                 error=row["error"], registered_at=row["registered_at"] or "",
                 claimed_at=row["claimed_at"], heartbeat_at=row["heartbeat_at"],
-                started_at=row["started_at"], finished_at=row["finished_at"])
+                started_at=row["started_at"], finished_at=row["finished_at"],
+                published_at=row["published_at"])
 
 
 # ── registering ──────────────────────────────────────────────────────────────
@@ -491,14 +508,52 @@ def heartbeat(run_id: str, doc_id: str, *, worker: str = "") -> bool:
 
 
 def mark_done(run_id: str, doc_id: str) -> Optional[Item]:
-    """Record a finished document. Clears the error: it succeeded."""
+    """Record a finished document. Clears the error: it succeeded.
+
+    Clears ``published_at`` too (#884): the outputs were just (re)written, and
+    whatever an earlier publish committed is not them.
+    """
     conn = connect()
     stamp = _now()
     conn.execute(
         "UPDATE manifest_items SET status=?, finished_at=?, error=NULL, "
-        "heartbeat_at=NULL WHERE run_id=? AND doc_id=?",
+        "heartbeat_at=NULL, published_at=NULL WHERE run_id=? AND doc_id=?",
         (DONE, stamp, run_id, doc_id))
     return item(run_id, doc_id)
+
+
+def mark_published(run_id: str, doc_ids: Iterable[str]) -> int:
+    """Record that these documents' outputs are in the output repo (#884).
+
+    Only ``done`` rows are touched: a document that was requeued while the
+    publish ran has outputs nobody has committed yet. Returns the number of
+    rows marked.
+    """
+    ids = [d for d in dict.fromkeys(doc_ids) if d]
+    if not ids:
+        return 0
+    conn = connect()
+    stamp = _now()
+    marked = 0
+    for doc_id in ids:
+        cur = conn.execute(
+            "UPDATE manifest_items SET published_at=? "
+            "WHERE run_id=? AND doc_id=? AND status=?",
+            (stamp, run_id, doc_id, DONE))
+        marked += cur.rowcount
+    return marked
+
+
+def unpublished(run_id: str) -> list[Item]:
+    """``done`` documents of this run that no publish has committed (#884).
+
+    What a run killed between finishing and its closing publish still owes; the
+    next run's closing publish takes them along.
+    """
+    conn = connect()
+    return [_item(r) for r in conn.execute(
+        "SELECT * FROM manifest_items WHERE run_id=? AND status=? "
+        "AND published_at IS NULL ORDER BY doc_id", (run_id, DONE))]
 
 
 def mark_failed(run_id: str, doc_id: str, error: str = "", *,
