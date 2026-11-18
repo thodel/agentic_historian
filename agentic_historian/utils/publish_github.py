@@ -782,9 +782,12 @@ def collect_tree(local_dir: Path, path_prefix: str,
     if not config.GITHUB_TOKEN:
         raise RuntimeError("GITHUB_TOKEN is not set — cannot publish")
 
+    import restricted
+
     prefix = path_prefix.strip("/")
     files: dict[str, bytes] = {}
     skipped: list[str] = []
+    withheld: list[str] = []
     for p in sorted(local_dir.rglob("*")):
         if not p.is_file():
             continue
@@ -792,7 +795,15 @@ def collect_tree(local_dir: Path, path_prefix: str,
             skipped.append(p.name)
             continue
         rel = p.relative_to(local_dir).as_posix()
+        barred = restricted.restriction(rel)
+        if barred is not None:
+            # Never leaves the host, whatever the run directory holds (#481).
+            withheld.append(f"{rel} — {barred.describe()}")
+            continue
         files[f"{prefix}/{rel}" if prefix else rel] = p.read_bytes()
+
+    for line in withheld:
+        logger.warning(f"[Publish] withheld {line}")
 
     if skipped:
         logger.info(

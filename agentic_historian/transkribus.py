@@ -37,6 +37,7 @@ import requests
 from loguru import logger
 
 import config
+import restricted
 
 #: The legacy REST server. Confirmed live on 2026-10-01: an unauthenticated
 #: `collections/list` answers with a Tomcat 401, not a 404, so the host and path
@@ -142,6 +143,10 @@ def letters_from_cache(cache_dir: Path, *,
         rel = path.relative_to(cache_dir)
         if SKIP_DIRS.intersection(rel.parts):
             continue
+        barred = restricted.restriction(rel)
+        if barred is not None:
+            logger.warning(f"[transkribus] {rel} not uploaded — {barred.describe()}")
+            continue
         by_folder.setdefault(path.parent, []).append(path)
 
     letters: list[Letter] = []
@@ -166,6 +171,7 @@ class Unassigned:
     """Pages that would not become a document, counted by why."""
 
     no_letter_segment: int = 0      # no lassberg-letter-NNNN in the path
+    restricted: int = 0             # on the register of restricted material (#481)
     not_in_register: int = 0        # a letter id the edition has no file for
     letters_not_in_register: set = field(default_factory=set)
     #: The same file, byte for byte, under two folders of one letter: uploaded
@@ -239,6 +245,9 @@ def letters_by_register(source_dir: Path, register, *,
         rel = path.relative_to(source_dir)
         if SKIP_DIRS.intersection(rel.parts):
             continue
+        if restricted.restriction(rel) is not None:
+            un.restricted += 1
+            continue
         key = "__".join(rel.with_suffix("").parts)
         group = letter_of(key)
         if group.basis != "letter":
@@ -302,6 +311,8 @@ def format_unassigned(un: Unassigned) -> str:
     if un.letters_not_in_register:
         some = sorted(un.letters_not_in_register)[:8]
         lines.append("  e.g. " + ", ".join(some) + (" …" if len(un.letters_not_in_register) > 8 else ""))
+    if un.restricted:
+        lines.append(f"left out, restricted (restricted.py, #481): {un.restricted} page(s)")
     if un.duplicate_copies:
         lines.append(f"identical copies under a second folder, uploaded once: {un.duplicate_copies} page(s)")
     if un.conflicting:

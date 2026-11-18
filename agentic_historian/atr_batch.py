@@ -57,6 +57,7 @@ import provenance
 
 import config
 import page_quality
+import restricted
 from run_layout import ENERGY_FILE, LEASE_FILE, page_files, read_lease
 
 __all__ = [
@@ -291,6 +292,11 @@ def _expand(rels: list[Path], root: Path, exts: set,
     skipped: list[SkippedFile] = []
 
     for rel in rels:
+        barred = restricted.restriction(rel)
+        if barred is not None:
+            # Before any reading — a PDF is opened to count its pages (#481).
+            skipped.append(SkippedFile(rel.as_posix(), barred.describe()))
+            continue
         suffix = rel.suffix.lower()
         if suffix in exts:
             pages.append(PageRef(path=root / rel if root else Path(str(rel)),
