@@ -52,6 +52,26 @@ configuration and names ``publish-batch`` instead. It does not quietly turn the
 setting off for the duration: a batch that mutates global configuration behind
 the operator's back is how a bot running at the same time starts behaving
 differently for reasons nobody can see.
+
+A run that dies owes nothing it cannot pay later (#884)
+──────────────────────────────────────────────────────
+Three ways a killed run used to leave work behind, observed on tei with
+``lassberg-proof`` and ``lassberg-proof-2``:
+
+* **The closing publish never ran.** The buffer of finished documents lived in
+  memory, so SIGKILL or a lost session left ``done`` rows whose outputs nobody
+  committed — and a resume published only what *it* finished. The manifest now
+  records ``published_at``; the closing publish of every run takes along the
+  ``done`` rows of its ``run_id`` that no publish has committed yet.
+* **A document without a reading was ``done``.** An interrupted ensemble writes a
+  ``pipeline.json`` whose every page says ``cannot schedule new futures after
+  shutdown``; the runner marked it finished and no later run read it again. A
+  pipeline result with no text anywhere and something attempted is now a
+  failure (:class:`NoReading`), so the next run claims it.
+* **Ctrl-C left the workers running in a dying interpreter.** That is where the
+  readings above came from. The interrupt lands in the main thread, not in a
+  worker; ``run_batch`` now stops claiming, waits for the documents in flight,
+  publishes, and only then re-raises. A second Ctrl-C does not wait.
 """
 
 from __future__ import annotations
@@ -76,6 +96,7 @@ __all__ = [
     "PAGES",
     "PROGRESS_EVERY",
     "AmbiguousSource",
+    "NoReading",
     "Source",
     "Summary",
     "backoff",
@@ -243,7 +264,7 @@ class Summary:
 
 
 def _default_pipeline(doc_id: str, paths: list, mode: str, *,
-                      publish: bool = False, collection: str = "") -> None:
+                      publish: bool = False, collection: str = "") -> Optional[dict]:
     """The bot's own entry points, so batch and interactive cannot drift.
 
     ``collection`` is the holding the run is over (#383) — by default the
@@ -255,15 +276,57 @@ def _default_pipeline(doc_id: str, paths: list, mode: str, *,
     per document here as well is the 500-commits-per-holding that #394 replaced.
     True restores the old behaviour for whoever wants it, at one commit and one
     index rebuild per document.
+
+    Returns what the pipeline wrote to ``pipeline.json``, so the runner can tell
+    a document with a reading from one without (#884).
     """
     import orchestrator
     if mode == ORDERS:
-        orchestrator.run_full_pipeline_group(doc_id, [str(p) for p in paths],
-                                             publish=publish,
-                                             collection=collection)
-    else:
-        orchestrator.run_full_pipeline(str(paths[0]), publish=publish,
-                                       collection=collection)
+        return orchestrator.run_full_pipeline_group(doc_id, [str(p) for p in paths],
+                                                    publish=publish,
+                                                    collection=collection)
+    return orchestrator.run_full_pipeline(str(paths[0]), publish=publish,
+                                          collection=collection)
+
+
+class NoReading(RuntimeError):
+    """The pipeline returned, but produced no text at all (#884).
+
+    Raised by the runner, not the pipeline: the pipeline records per-page errors
+    and writes its result regardless, which is right for the interactive path
+    and wrong for a batch, where ``done`` means "no later run touches this".
+    """
+
+
+def no_reading(result) -> Optional[str]:
+    """Why ``result`` (a ``pipeline.json`` dict) counts as no reading, or None.
+
+    No reading means: no transcription, no recognition with text, **and**
+    something was attempted — recognitions were asked for or errors recorded.
+    A result with nothing attempted and nothing failed is left alone, and so is
+    anything that is not a dict (a custom pipeline that returns nothing has
+    made no claim either way). Deliberately wider than the publisher's
+    ``ensemble_coverage.may_publish``: that one lets a document with no
+    measured readings through, and the interrupted run's documents had exactly
+    that — no recognitions, only errors.
+    """
+    if not isinstance(result, dict):
+        return None
+    if (result.get("transcription") or "").strip():
+        return None
+    recs = result.get("recognitions") or []
+    if any((r.get("text") if isinstance(r, dict) else getattr(r, "text", "")) or ""
+           for r in recs):
+        return None
+    errors = result.get("errors") or []
+    if not recs and not errors:
+        return None
+    first = ""
+    if errors:
+        e = errors[0]
+        first = f"; erster Fehler: {e.get('error', e) if isinstance(e, dict) else e}"
+    return (f"keine Lesung — keine Transkription, {len(recs)} Erkennung(en) ohne "
+            f"Text, {len(errors)} Fehler{first}")
 
 
 def _engine_preflight(say: Callable[[str], None], *,
@@ -339,8 +402,8 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
         collection = source.root.name
     if pipeline is None:
         def pipeline(doc_id, paths, mode):
-            _default_pipeline(doc_id, paths, mode, publish=per_doc_publish,
-                              collection=collection)
+            return _default_pipeline(doc_id, paths, mode, publish=per_doc_publish,
+                                     collection=collection)
     publish = publish or _publish_batch
     if publish_every is None:
         publish_every = getattr(config, "BATCH_PUBLISH_EVERY", 0)
@@ -401,6 +464,9 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
             f"{prog.dead} aufgegeben")
 
     pending_publish: list = []
+    #: Every doc_id this run has handed to `publish`, so the closing catch-up
+    #: (#884) does not retry in the same run what a periodic flush just tried.
+    handed: set = set()
 
     def _flush_publish(final: bool = False) -> None:
         """Commit the documents finished since the last publish.
@@ -411,30 +477,54 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
         next flush try the same documents twice; the content is idempotent
         anyway (identical tree, no commit), but the log would claim two
         attempts at work that was one.
+
+        The closing flush also takes the run's ``done`` documents that no
+        publish has committed (#884): what a killed run owed, or what a failed
+        publish left. Documents a publish committed are marked in the manifest,
+        so the debt is in the database rather than in this process.
         """
         if per_doc_publish:
             # The pipeline already committed each document. Publishing them
             # again would be a second commit with an identical tree — harmless
             # (no commit is made) but it would claim a publish that was not one.
             return
+        owed: list = []
+        if final:
+            try:
+                owed = [i.doc_id for i in cm.unpublished(run_id)]
+            except Exception as e:               # noqa: BLE001
+                logger.warning(f"[batch] reading unpublished documents failed: {e}")
         with guard:
-            if not pending_publish:
+            owed = [d for d in owed if d not in handed and d not in pending_publish]
+            if not pending_publish and not owed:
                 return
             if not final and (publish_every <= 0
                               or len(pending_publish) < publish_every):
                 return
-            batch = list(pending_publish)
+            batch = list(pending_publish) + owed
             pending_publish.clear()
+            handed.update(batch)
         try:
             got = publish(batch, f"{run_id}")
         except Exception as e:                   # noqa: BLE001
             logger.warning(f"[batch] publish of {len(batch)} doc(s) failed: {e}")
             return
         summary.publishes.append(got)
+        ok = getattr(got, "ok", None)
+        if ok is None:
+            ok = getattr(got, "outcome", None) in ("published", "unchanged")
+        if ok:
+            committed = getattr(got, "published", None)
+            try:
+                cm.mark_published(run_id, batch if committed is None else committed)
+            except Exception as e:               # noqa: BLE001
+                logger.warning(f"[batch] marking the publish failed: {e}")
         outcome = getattr(got, "outcome", "?")
         say(f"**{run_id}** publiziert: {len(batch)} Dokument(e) in einem "
             f"Commit — {outcome}"
-            + (f" ({got.url})" if getattr(got, "url", None) else ""))
+            + (f" ({got.url})" if getattr(got, "url", None) else "")
+            + (f"; davon {len(owed)} aus einem früheren Lauf nachgeholt (#884)"
+               if owed else ""))
 
     def _work(name: str) -> None:
         while not stop.is_set():
@@ -449,8 +539,12 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
             with guard:
                 in_flight[item.doc_id] = name
             try:
-                pipeline(item.doc_id, source.paths.get(item.doc_id, []),
-                         source.mode)
+                result = pipeline(item.doc_id, source.paths.get(item.doc_id, []),
+                                  source.mode)
+                why = no_reading(result)
+                if why:
+                    # Not `done`: no later run would touch it again (#884).
+                    raise NoReading(why)
                 cm.mark_done(run_id, item.doc_id)
                 summary.done[item.doc_id] = name
                 with guard:
@@ -482,14 +576,47 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
 
     beat = threading.Thread(target=_beat, name="batch-heartbeat", daemon=True)
     beat.start()
-    threads = [threading.Thread(target=_work, args=(f"w{i + 1}",),
+    # Each worker says when it has left, and the main thread waits on that
+    # rather than on `Thread.join`. On Python 3.11 a `join` interrupted by
+    # Ctrl-C marks the thread stopped although it still runs (the bpo-45274
+    # cleanup takes the held lock for a finished one), so a second `join`
+    # returns at once — found by the #884 test, which then re-raised over a
+    # document still in flight.
+    gone = [threading.Event() for _ in range(workers)]
+
+    def _worker(name: str, left: threading.Event) -> None:
+        try:
+            _work(name)
+        finally:
+            left.set()
+
+    threads = [threading.Thread(target=_worker, args=(f"w{i + 1}", gone[i]),
                                 name=f"batch-w{i + 1}")
                for i in range(workers)]
     try:
         for t in threads:
             t.start()
-        for t in threads:
-            t.join()
+        try:
+            for left in gone:
+                left.wait()
+        except (KeyboardInterrupt, SystemExit) as e:
+            # Ctrl-C lands here, in the main thread — not in a worker. Leaving
+            # now would let the workers carry on in a dying interpreter, where
+            # every ThreadPoolExecutor.submit raises and the pipeline writes a
+            # result without a reading (#884). So: claim nothing more, let the
+            # documents in flight finish, then publish and re-raise. A second
+            # Ctrl-C ends the wait; the claims it leaves behind are reclaimed by
+            # the next run and the publish it skips is caught up then.
+            stop.set()
+            with guard:
+                interrupted.append(e)
+                busy = sorted(in_flight)
+            say(f"**{run_id}** abgebrochen — es wird nichts mehr beansprucht; "
+                f"warte auf {len(busy)} laufende(s) Dokument(e)"
+                + (f" ({', '.join(busy)})" if busy else "")
+                + ". Ein zweites Ctrl-C wartet nicht.")
+            for left in gone:
+                left.wait()
     finally:
         stop.set()
         beat.join(timeout=5)

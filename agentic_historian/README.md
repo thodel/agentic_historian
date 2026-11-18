@@ -133,7 +133,7 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `DISCORD_GUILD_ID` | Register slash commands in this guild, where Discord makes them usable at once. Empty = global commands, which take up to an hour to propagate — a new command is then indistinguishable from a missing one |
 | `CREDENTIAL_WATCH_CHANNEL_ID` / `_INTERVAL_S` | Announce when the mailbox credentials stop being accepted, instead of letting a failed pull be the first sign. Empty = off |
 | `BATCH_WORKERS` / `BATCH_MAX_ATTEMPTS` | Documents in flight at once for `batch`, and attempts before one goes to the dead letter (defaults 2 and 3; `--workers` / `--max-attempts` override per run) |
-| `BATCH_PUBLISH_EVERY` | Documents per publish commit in a batch run (default 0 = once at the end, the fewest index rebuilds). `--publish-every` overrides per run |
+| `BATCH_PUBLISH_EVERY` | Documents per publish commit in a batch run (default 0 = once at the end, the fewest index rebuilds). `--publish-every` overrides per run. The manifest records each document's publish (`published_at`, #884): the closing publish of a run also takes the run's finished documents that no publish has committed, so a resume pays what a killed run owed |
 | `ATR_GATEWAY_URL` / `ATR_API_KEY` | The recognition gateway on idhefix and its static key. Also what `/atr_engines`, `/atr_restart` and the batch run's engine preflight use; `/health` needs no key, the restart does |
 | `NEXTCLOUD_SHARE_URL` / `_PASS` / `NEXTCLOUD_REMOTE_DIR` | Nextcloud **public share** ingestion — the share token is the WebDAV user (`docs/BATCH_ATR.md`) |
 | `NEXTCLOUD_STAGING_DIR` / `VLM_TEST_ROOT` | Where a share is mirrored to, and the root for multi-model comparison runs |
