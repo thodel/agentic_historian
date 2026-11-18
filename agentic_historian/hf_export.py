@@ -88,6 +88,7 @@ from typing import Optional, Sequence
 from loguru import logger
 
 import config
+import restricted
 
 #: Places Laßberg wrote from. Eppishausen is his house in Thurgau until 1838,
 #: Meersburg the castle after it; a letter headed with either is in his hand.
@@ -637,6 +638,10 @@ def plan(scored: Sequence, index: dict[str, Path], *,
             # Transkribus holds the same page under several doc ids; exporting it
             # twice would hand the trainer one page with twice the weight.
             out.rejected.append(Rejected(name, f"duplicate: {key} already exported"))
+            continue
+        barred = restricted.restriction(key)
+        if barred is not None:
+            out.rejected.append(Rejected(name, barred.describe()))
             continue
         image = index.get(key)
         if image is None:
