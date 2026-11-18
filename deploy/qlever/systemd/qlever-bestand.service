@@ -1,0 +1,41 @@
+# idhefix, user unit of tobias (KG-4, #330; 18.11.2026): QLever serving the
+# Bestandsgraph with rootless Podman. tobias has neither sudo nor the docker
+# group there; Podman runs the same pinned image without either. Port on
+# 127.0.0.1:7019 only — tei reaches it through sparql-tunnel.service.
+#
+#   cp deploy/qlever/systemd/qlever-bestand.service ~/.config/systemd/user/
+#   systemctl --user daemon-reload && systemctl --user enable qlever-bestand.service
+#
+# refresh_bestand.sh (QLEVER_ENGINE=podman) stops it before the index swap and
+# starts it after; enabled, it comes back after a reboot (Linger=yes).
+#
+# The container runs as tobias (--userns=keep-id --user %U:%G): without it the
+# image's user 999 writes files as a sub-UID that tobias cannot delete.
+[Unit]
+Description=QLever Bestandsgraph (rootless Podman, 127.0.0.1:7019)
+After=network-online.target
+
+[Service]
+# Defaults; ~/.config/qlever/env (0600) overrides them and holds the token.
+Environment=QLEVER_IMAGE=docker.io/adfreiburg/qlever@sha256:7f26dc0ba0f2573144deb414f46a1d5501599dbe58313e4fb1968db30b1d6445
+Environment=QLEVER_INDEX=ah-bestand
+Environment=QLEVER_MEMORY=16G
+Environment=QLEVER_CACHE=8G
+Environment=KG_DIR=%h/kg
+EnvironmentFile=%h/.config/qlever/env
+ExecStartPre=-/usr/bin/podman rm -f --ignore ah-qlever
+# $$ is a literal $ for systemd: the variables are expanded inside the
+# container, so the token is passed as an environment variable (-e), not on
+# podman's command line.
+ExecStart=/usr/bin/podman run --rm --name ah-qlever --userns=keep-id --user %U:%G \
+    -p 127.0.0.1:7019:7019 -v ${KG_DIR}:/data -w /data \
+    -e QLEVER_INDEX -e QLEVER_MEMORY -e QLEVER_CACHE -e QLEVER_ACCESS_TOKEN \
+    --entrypoint bash ${QLEVER_IMAGE} \
+    -c 'exec qlever-server -i "index/$${QLEVER_INDEX}" -p 7019 -m "$${QLEVER_MEMORY}" -c "$${QLEVER_CACHE}" -a "$${QLEVER_ACCESS_TOKEN}"'
+ExecStop=/usr/bin/podman stop --ignore -t 10 ah-qlever
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=5min
+
+[Install]
+WantedBy=default.target

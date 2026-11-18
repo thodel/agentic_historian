@@ -223,7 +223,8 @@ def test_no_access_token_in_the_repository_and_loopback_only():
     assert "QLEVER_ACCESS_TOKEN:?" in compose                 # required, no default
     assert "ah-corpus-admin" not in compose
     assert '"127.0.0.1:7019:7019"' in compose
-    assert "index.new" in compose and "parts/*.nt" in compose
+    script = (QDIR / "index_parts.sh").read_text(encoding="utf-8")
+    assert "index.new" in script and "parts/*.nt" in script
     refresh = (QDIR / "refresh_bestand.sh").read_text(encoding="utf-8")
     assert "bestand_build" in refresh and "--check http://127.0.0.1:7019/" in refresh
     assert 'mv "$KG_DIR/index.new" "$KG_DIR/index"' in refresh
@@ -330,18 +331,52 @@ def test_the_check_wants_the_layer_in_its_own_graph(tmp_path):
     assert not ok and HL_GRAPH in msg and "own graph" in msg
 
 
-def test_the_index_step_puts_each_part_in_the_graph_its_sidecar_names():
+def test_the_index_step_puts_each_part_in_the_graph_its_sidecar_names(tmp_path):
+    """index_parts.sh, run for real with a stand-in qlever-index that records
+    its arguments: each part with ``-f``, the sidecar's graph with ``-g``."""
+    import subprocess
+    (tmp_path / "parts").mkdir()
+    for name in ("dodis", "kf"):
+        (tmp_path / "parts" / f"{name}.nt").write_text("<urn:a> <urn:p> <urn:b> .\n")
+    (tmp_path / "parts" / "humanlineage.nt").write_text("<urn:a> <urn:p> <urn:c> .\n")
+    (tmp_path / "parts" / "humanlineage.nt.graph").write_text(HL_GRAPH + "\n")
+    (tmp_path / "parts" / "kf.nt.manifest.json").write_text("{}")         # not a part
+    bindir = tmp_path / "bin"
+    bindir.mkdir()
+    fake = bindir / "qlever-index"
+    fake.write_text('#!/usr/bin/env bash\nprintf "%s\\n" "$@" > "$PWD/args.txt"\n')
+    fake.chmod(0o755)
+    env = {**os.environ, "PATH": f"{bindir}:{os.environ['PATH']}", "QLEVER_INDEX": "ah-bestand"}
+    subprocess.run(["bash", str(QDIR / "index_parts.sh")], cwd=tmp_path, env=env, check=True)
+    args = (tmp_path / "args.txt").read_text().split("\n")[:-1]
+    assert args[:4] == ["-i", "index.new/ah-bestand", "-F", "nt"]
+    assert args[4:-2] == ["-f", "parts/dodis.nt", "-g", "-",
+                          "-f", "parts/humanlineage.nt", "-g", HL_GRAPH,
+                          "-f", "parts/kf.nt", "-g", "-"]
+    assert args[-2:] == ["-s", "ah-bestand.settings.json"]
+    assert (tmp_path / "index.new").is_dir()
+    script = (QDIR / "index_parts.sh").read_text(encoding="utf-8")
+    assert "IndexBuilderMain" not in script                   # renamed in QLever (17.11.2026)
+
+
+def test_the_image_is_pinned_to_one_digest_everywhere():
+    """An unpinned :latest renamed the binaries under us (17.11.2026). Compose,
+    the Podman route and its unit must name the same image."""
     import yaml
     compose = (QDIR / "docker-compose.bestand.yml").read_text(encoding="utf-8")
     services = yaml.safe_load(compose)["services"]
-    index, serve = services["index"]["command"][0], services["qlever"]["command"][0]
-    # renamed in QLever: IndexBuilderMain → qlever-index, ServerMain → qlever-server
-    assert "qlever-index " in index and "IndexBuilderMain" not in index
-    assert serve.startswith("qlever-server ") and "ServerMain" not in serve
-    assert '.graph"' in index and '-g "$$g"' in index
-    # the image is pinned: an unpinned :latest renamed the binaries under us (17.11.2026)
+    digests = set()
     for svc in services.values():
-        assert re.fullmatch(r"\$\{QLEVER_IMAGE:-adfreiburg/qlever@sha256:[0-9a-f]{64}\}", svc["image"])
+        m = re.fullmatch(r"\$\{QLEVER_IMAGE:-adfreiburg/qlever@(sha256:[0-9a-f]{64})\}", svc["image"])
+        assert m, svc["image"]
+        digests.add(m.group(1))
+    for path in (QDIR / "refresh_bestand.sh", QDIR / "systemd" / "qlever-bestand.service"):
+        found = set(re.findall(r"docker\.io/adfreiburg/qlever@(sha256:[0-9a-f]{64})",
+                               path.read_text(encoding="utf-8")))
+        assert found, path
+        digests |= found
+    assert len(digests) == 1, digests
+    assert "qlever:latest" not in json.dumps(services)
 
 
 def test_humanlineage_takes_the_commit_like_every_exporter():
@@ -366,15 +401,41 @@ def test_humanlineage_takes_the_commit_like_every_exporter():
     assert seen["commit"] == "abc1234"
 
 
-def test_each_compose_command_is_one_script_for_bash_c():
-    """Compose splits a string ``command`` into words; ``bash -c`` then runs only
-    the first (``set``) and the index step "succeeds" without indexing anything
-    — seen 17.11.2026 with Compose v5. One list element is the whole script."""
+def test_each_compose_command_reaches_bash_whole():
+    """Compose splits a string ``command`` into words; ``bash -c`` then ran only
+    the first (``set``) and the index step "succeeded" without indexing anything
+    — seen 17.11.2026 with Compose v5. The index runs a script file now, the
+    server one ``bash -c`` element."""
     import yaml
     services = yaml.safe_load((QDIR / "docker-compose.bestand.yml").read_text(encoding="utf-8"))["services"]
-    for name in ("index", "qlever"):
-        svc = services[name]
-        assert svc["entrypoint"] == ["bash", "-c"]
-        assert isinstance(svc["command"], list) and len(svc["command"]) == 1, name
-    assert services["index"]["command"][0].lstrip().startswith("set -euo pipefail")
-    assert services["qlever"]["command"][0].startswith("qlever-server ")
+    index, serve = services["index"], services["qlever"]
+    assert index["entrypoint"] == ["bash"] and index["command"] == ["/index_parts.sh"]
+    assert "./index_parts.sh:/index_parts.sh:ro" in index["volumes"]
+    assert serve["entrypoint"] == ["bash", "-c"] and len(serve["command"]) == 1
+    assert serve["command"][0].startswith("qlever-server ") and "ServerMain" not in serve["command"][0]
+
+
+# ── rootless Podman, where there is no docker group (idhefix, 18.11.2026) ────
+
+def test_the_podman_route_runs_as_the_user_without_network():
+    refresh = (QDIR / "refresh_bestand.sh").read_text(encoding="utf-8")
+    assert 'ENGINE="${QLEVER_ENGINE:-docker}"' in refresh
+    assert "QLEVER_ENGINE must be docker or podman" in refresh
+    run = refresh[refresh.index("podman run --rm"):refresh.index("/index_parts.sh\n")]
+    # keep-id + --user: else the image's user 999 writes sub-UID files tobias cannot delete
+    assert "--userns=keep-id" in run and '--user "$(id -u):$(id -g)"' in run
+    assert "--network none" in run
+    assert "systemctl --user start" in refresh and "systemctl --user stop" in refresh
+
+
+def test_the_podman_unit_serves_on_loopback_and_keeps_the_token_off_the_command_line():
+    unit = (QDIR / "systemd" / "qlever-bestand.service").read_text(encoding="utf-8")
+    exec_start = re.search(r"^ExecStart=(.*?)\n(?=\S)", unit, re.MULTILINE | re.DOTALL).group(1)
+    assert "-p 127.0.0.1:7019:7019" in exec_start
+    assert "--userns=keep-id --user %U:%G" in exec_start
+    assert "EnvironmentFile=%h/.config/qlever/env" in unit
+    # the token reaches the container by name (-e); systemd leaves the $ alone ($$)
+    assert "-e QLEVER_ACCESS_TOKEN" in exec_start
+    assert '-a "$${QLEVER_ACCESS_TOKEN}"' in exec_start
+    assert "${QLEVER_ACCESS_TOKEN}" not in exec_start.replace("$${QLEVER_ACCESS_TOKEN}", "")
+    assert "WantedBy=default.target" in unit

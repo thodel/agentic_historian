@@ -18,7 +18,8 @@ holdings' databases lie there (`docs/KG_BESTANDSGRAPH_PLAN.md`, decision 1).
 | Piece | Where | What |
 |---|---|---|
 | `knowledge_hub/bestand_build.py` | idhefix | runs the seven exporters, one sorted `.nt` per holding under `~/kg/parts/`, then the Human Lineage layer over them, one manifest; rebuilds only when an input or the commit changed; a failed holding, or one that shrank below half its last build, swaps nothing in |
-| `refresh_bestand.sh` + `docker-compose.bestand.yml` | idhefix | indexes `parts/*.nt` into `index.new/` (a part with a `.nt.graph` sidecar into that named graph), swaps it for `index/`, starts QLever on `127.0.0.1:7019`, checks the served count — and each layer's graph count — against the manifest |
+| `refresh_bestand.sh` + `index_parts.sh` | idhefix | indexes `parts/*.nt` into `index.new/` (a part with a `.nt.graph` sidecar into that named graph), swaps it for `index/`, starts QLever on `127.0.0.1:7019`, checks the served count — and each layer's graph count — against the manifest; with rootless Podman (`QLEVER_ENGINE=podman`) or Docker Compose (`docker-compose.bestand.yml`) |
+| `systemd/qlever-bestand.service` | idhefix, user `tobias` | QLever under rootless Podman, `127.0.0.1:7019` only |
 | `systemd/qlever-refresh.{service,timer}` | idhefix, user `tobias` | nightly 03:17 |
 | `systemd/sparql-tunnel.service` | tei, user `dh` | `127.0.0.1:7019` on tei → idhefix |
 | `nginx-qlever.conf` | tei | `/sparql/` → the tunnel; refuses `access-token`/`cmd` parameters, strips `Authorization` |
@@ -65,15 +66,35 @@ end to end against the pinned image (index, serve, `--check`).
    `python3 -m venv agentic_historian/.venv` and install the package's
    requirements into it.
 2. `~/.config/qlever/env`, mode 0600, with `KG_DIR`, `KG_SOURCE_DB_DIR`,
-   `KG_SSRQ_REGISTER`, `KG_SSRQ_TEI` and `QLEVER_ACCESS_TOKEN` (generated once
-   with `openssl rand -hex 24`, never printed).
-3. The first build by hand, to read what it says:
+   `KG_SSRQ_REGISTER`, `KG_SSRQ_TEI`, `QLEVER_ENGINE=podman` and
+   `QLEVER_ACCESS_TOKEN` (generated once with `openssl rand -hex 24`, never
+   printed). The SSRQ register lies on tei (`/home/dh/resources/`); copy it
+   over, and clone `SSRQ-SDS-FDS/editio-data` for `KG_SSRQ_TEI`.
+3. **The container engine.** `tobias` has neither sudo nor the `docker` group
+   on idhefix (18.11.2026), so QLever runs with **rootless Podman** (4.9.3
+   there): `QLEVER_ENGINE=podman`. The index step runs as `tobias`
+   (`--userns=keep-id --user`, no network); without `--user` the image's user
+   999 writes files as a sub-UID that `tobias` cannot delete. The server is a
+   user unit, port on `127.0.0.1:7019` only:
+   copy `systemd/qlever-bestand.service` to `~/.config/systemd/user/`,
+   `systemctl --user daemon-reload`, `systemctl --user enable qlever-bestand.service`
+   (not `--now`: there is no index yet; the refresh starts it).
+   `qlever-server` ignores SIGTERM (PID 1 without a handler), so a stop takes
+   the 10 s until Podman kills it — harmless, the index is read-only.
+   Apptainer is no alternative: it shares the host's network, and
+   `qlever-server` has no option to bind to loopback.
+   With the docker group (another host), leave `QLEVER_ENGINE` unset:
+   `docker-compose.bestand.yml` does the same with the same `index_parts.sh`.
+4. The first build by hand, to read what it says:
    `set -a; . ~/.config/qlever/env; set +a; bash deploy/qlever/refresh_bestand.sh`.
    Expected tail: `serves N triples = build …` and the per-holding table.
-4. The timer: copy `systemd/qlever-refresh.{service,timer}` to
+   `KG_HUMANLINEAGE=0` in front gets the holdings served first; the Human
+   Lineage layer asks its MCP for every person with an identifier, which takes
+   long.
+5. The timer: copy `systemd/qlever-refresh.{service,timer}` to
    `~/.config/systemd/user/`, `systemctl --user daemon-reload`,
    `systemctl --user enable --now qlever-refresh.timer`;
-   `loginctl show-user tobias -p Linger` must say `yes`.
+   `loginctl show-user tobias -p Linger` must say `yes` (it does, 18.11.2026).
 
 ### On tei, as `dh`
 
