@@ -150,3 +150,92 @@ def test_the_result_validates_against_the_ontology():
     from knowledge_hub.sources._common import validate_graph
     rep = validate_graph(g + out, shacl=True)
     assert rep["ok"], rep
+
+
+# ── a server that drops out (the night of 19.11.2026: 502 from the gateway) ──
+
+def _http_error(status: int):
+    import httpx
+    req = httpx.Request("POST", "https://tei.dh.unibe.ch/mcp/humanlineage/mcp")
+    return httpx.HTTPStatusError(f"{status}", request=req, response=httpx.Response(status, request=req))
+
+
+def _client(answers, pauses=(2.0, 10.0, 30.0)):
+    """An MCPClient whose transport answers from ``answers`` in turn (a value,
+    or an exception to raise), sleeping into a list instead of the clock."""
+    c = hl.MCPClient.__new__(hl.MCPClient)
+    c.source, c.pauses, c.retries = None, pauses, 0
+    c.slept = []
+    c.sleep = c.slept.append
+    seq = iter(answers)
+
+    def once(tool, arguments):
+        a = next(seq)
+        if isinstance(a, BaseException):
+            raise a
+        return a
+    c._once = once
+    return c
+
+
+def test_a_502_is_asked_again_and_then_answers():
+    c = _client([_http_error(502), _http_error(503), {"snapshot_date": "2026-10-10"}])
+    assert c.snapshot_info() == {"snapshot_date": "2026-10-10"}
+    assert c.slept == [2.0, 10.0] and c.retries == 2
+
+
+def test_a_server_that_stays_down_fails_after_the_retries():
+    import httpx
+    import pytest
+    c = _client([_http_error(502)] * 4)
+    with pytest.raises(httpx.HTTPStatusError):
+        c.snapshot_info()
+    assert c.slept == [2.0, 10.0, 30.0]
+
+
+def test_a_4xx_is_not_asked_again():
+    import httpx
+    import pytest
+    c = _client([_http_error(404)])
+    with pytest.raises(httpx.HTTPStatusError):
+        c.get_relatives("HLX")
+    assert c.slept == []
+
+
+class FlakyClient(FakeClient):
+    """FakeClient whose calls fail for the identifiers in ``bad``."""
+
+    def __init__(self, bad=(), relatives_bad=()):
+        super().__init__()
+        self.bad, self.relatives_bad = set(bad), set(relatives_bad)
+
+    def get_by_identifier(self, scheme, value):
+        if value in self.bad:
+            raise _http_error(502)
+        return super().get_by_identifier(scheme, value)
+
+    def get_relatives(self, pid):
+        if pid in self.relatives_bad:
+            raise _http_error(502)
+        return super().get_relatives(pid)
+
+
+def test_one_failing_person_costs_that_person_not_the_layer():
+    g, _ = _kf_graph()
+    _, report_good = hl.build(g, FakeClient())
+    out, report = hl.build(g, FlakyClient(bad={"Q454769"}, relatives_bad={"HL2DM2FSQ3XX"}))
+    assert report.withheld["lookup_error"] == 1 and report.withheld["relatives_error"] == 1
+    assert 0 < report.counts["persons_matched"] < report_good.counts["persons_matched"]
+    assert len(out) > 0
+
+
+def test_a_server_gone_for_twenty_persons_in_a_row_ends_the_layer(monkeypatch):
+    import pytest
+    g, _ = _kf_graph()
+    monkeypatch.setattr(hl, "MAX_CONSECUTIVE_FAILURES", 2)
+
+    class Down(FakeClient):
+        def get_by_identifier(self, scheme, value):
+            raise _http_error(502)
+    with pytest.raises(RuntimeError, match="failed for 2 persons in a row"):
+        hl.build(g, Down())

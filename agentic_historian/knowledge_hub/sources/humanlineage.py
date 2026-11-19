@@ -75,16 +75,52 @@ class Client(Protocol):
     def snapshot_info(self) -> dict: ...
 
 
+#: Pauses before the retries of one call (seconds). The night run of
+#: 19.11.2026 died on the first 502 of the gateway; a layer over thousands of
+#: persons must outlive a short gap.
+RETRY_PAUSES = (2.0, 10.0, 30.0)
+#: This many persons in a row whose calls failed even after the retries: the
+#: server is gone, not hiccupping — stop instead of failing for hours.
+MAX_CONSECUTIVE_FAILURES = 20
+
+
+def _transient(exc: BaseException) -> bool:
+    """A 5xx, a dropped connection or a timeout — worth asking again. A 4xx
+    or a malformed answer is not."""
+    try:
+        import httpx
+    except ImportError:                              # pragma: no cover — httpx is a dependency
+        return isinstance(exc, (TimeoutError, ConnectionError))
+    if isinstance(exc, httpx.HTTPStatusError):
+        return exc.response is not None and exc.response.status_code >= 500
+    return isinstance(exc, (httpx.TransportError, TimeoutError, ConnectionError))
+
+
 class MCPClient:
     """The registry's ``humanlineage`` source over ``utils.mcp_client``."""
 
-    def __init__(self, source_name: str = "humanlineage"):
+    def __init__(self, source_name: str = "humanlineage", *,
+                 pauses: tuple[float, ...] = RETRY_PAUSES,
+                 sleep: Callable[[float], None] = time.sleep):
         from knowledge_hub import mcp_registry as reg
         self.source = reg.get_source(source_name)
+        self.pauses = pauses
+        self.sleep = sleep
+        self.retries = 0
 
-    def _call(self, tool: str, arguments: dict) -> Any:
+    def _once(self, tool: str, arguments: dict) -> Any:
         from utils import mcp_client
         return asyncio.run(mcp_client._call_tool(self.source, tool, arguments))
+
+    def _call(self, tool: str, arguments: dict) -> Any:
+        for pause in (*self.pauses, None):
+            try:
+                return self._once(tool, arguments)
+            except Exception as exc:                 # any error; _transient sorts them
+                if pause is None or not _transient(exc):
+                    raise
+                self.retries += 1
+                self.sleep(pause)
 
     def get_by_identifier(self, scheme: str, value: str) -> dict:
         return self._call("get_by_identifier", {"scheme": scheme, "value": value}) or {}
@@ -169,11 +205,28 @@ def build(graph: Graph, client: Client, *, snapshot: Optional[dict] = None,
     persons = person_identifiers(graph)
     counts["persons_with_identifier"] = len(persons)
 
+    # A call that still fails after MCPClient's retries costs one person, not
+    # the layer; MAX_CONSECUTIVE_FAILURES of them in a row end it.
+    streak = {"n": 0, "last": ""}
+
+    def failed(kind: str, exc: Exception) -> None:
+        held[kind] += 1
+        streak["n"] += 1
+        streak["last"] = f"{type(exc).__name__}: {str(exc)[:200]}"
+        if streak["n"] >= MAX_CONSECUTIVE_FAILURES:
+            raise RuntimeError(f"Human Lineage MCP failed for {streak['n']} persons in a row, "
+                               f"the last: {streak['last']}") from exc
+
     # pass 1: who is in Human Lineage — and under which keys the graph knows them
     matched: dict[URIRef, dict] = {}
     by_key: dict[tuple[str, str], URIRef] = {}
     for i, (uri, ids) in enumerate(sorted(persons.items(), key=lambda kv: str(kv[0]))):
-        rec, outcome = _lookup(client, ids)
+        try:
+            rec, outcome = _lookup(client, ids)
+        except Exception as exc:                     # noqa: BLE001 — counted, see failed()
+            failed("lookup_error", exc)
+            continue
+        streak["n"] = 0
         if rec is None:
             held[f"lookup_{outcome}"] += 1
             continue
@@ -200,7 +253,12 @@ def build(graph: Graph, client: Client, *, snapshot: Optional[dict] = None,
             same.append(WD.format(rec["wikidata_id"]))
         b.same_as(uri, same)
         counts["same_as"] += len(same)
-        rel = client.get_relatives(rec["id"]) or {}
+        try:
+            rel = client.get_relatives(rec["id"]) or {}
+        except Exception as exc:                     # noqa: BLE001 — counted, see failed()
+            failed("relatives_error", exc)
+            continue
+        streak["n"] = 0
         for parent in rel.get("parents") or []:
             pu = resolve(parent)
             if pu is None:
