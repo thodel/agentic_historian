@@ -117,6 +117,10 @@ RUNNER_VERSION = "0.1.0"
 REVISION_KINDS = ("zenodo_record", "weights_digest", "hf_commit", "hf_commit_cached",
                   "unversioned_repo", "unversioned_path", "unreported")
 
+#: The levels the gateway serves (serving-atr-inference#186). A value outside
+#: them is recorded as None: a level nobody defined is not a fact about the run.
+LEVELS = ("page", "line", "block")
+
 _SHA1 = re.compile(r"[0-9a-f]{40}")
 _SHA256 = re.compile(r"[0-9a-f]{64}")
 
@@ -131,7 +135,9 @@ def _now() -> str:
 class ModelIdentity:
     """Which model ran, as the gateway describes it — never as we configured it.
 
-    ``level`` is the recognition level #482 asks for, ``page`` or ``line``, and
+    ``level`` is the recognition level #482 asks for — ``page``, ``line`` or,
+    since serving-atr-inference#186, ``block`` (k consecutive lines of a region
+    per call, answered as one line with the strip's box) — and
     it is read from the registry entry the gateway serves rather than guessed
     from the engine name or from whether ``lines`` came back empty. A page-level
     engine returning no lines and a line-level engine that found none look the
@@ -200,7 +206,7 @@ def model_identity(model: str,
     identity = {
         "model": model,
         "engine": spec.get("engine") or None,
-        "level": level if level in ("page", "line") else None,
+        "level": level if level in LEVELS else None,
         "base_model": spec.get("base_model") or None,
     }
 
