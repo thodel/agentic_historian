@@ -113,6 +113,67 @@ if [ "$IS_ROOT" -eq 1 ] && have nginx; then
     else say FAIL "nginx" "nginx -t fails"; fi
 fi
 
+# nginx HTTP/2 RCE (F5, 18.11.2026; wiz.io/blog/nginx-http2-rce-vulnerabilities):
+# CVE-2026-123007 (flow control, 1.9.5–1.31.8, default configs with HTTP/2) and
+# CVE-2026-123633 (use-after-free, 1.19.7–1.31.8, HTTP/2 reverse proxy — what
+# tei is). Both need HTTP/2. Upstream fixed in 1.30.7 (stable) and 1.31.9
+# (mainline); Ubuntu backports into its own version (1.24.0-2ubuntu7.x), so
+# for a distribution package the changelog says whether the fix is in.
+NGINX_CVES="CVE-2026-123007 CVE-2026-123633"
+if have nginx; then
+    nv_out=$(nginx -v 2>&1)
+    nver="unknown"; fixed=""
+    if [[ $nv_out =~ nginx/([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
+        nver="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}.${BASH_REMATCH[3]}"
+        ma=${BASH_REMATCH[1]}; mi=${BASH_REMATCH[2]}; pa=${BASH_REMATCH[3]}
+        if (( ma > 1 || mi >= 32 || (mi == 31 && pa >= 9) || (mi == 30 && pa >= 7) )); then
+            fixed="upstream $nver"
+        fi
+    fi
+    if [ -z "$fixed" ]; then
+        for chl in "$ROOT/usr/share/doc/nginx-common/changelog.Debian.gz" \
+                   "$ROOT/usr/share/doc/nginx/changelog.Debian.gz"; do
+            [ -f "$chl" ] || continue
+            text=$(gzip -dc "$chl" 2>/dev/null)
+            missing=""
+            for c in $NGINX_CVES; do
+                grep -q -- "$c" <<<"$text" || missing="$missing $c"
+            done
+            [ -z "$missing" ] && fixed="the package changelog names both CVEs"
+            break
+        done
+    fi
+    http2="unknown"
+    if [ "$IS_ROOT" -eq 1 ]; then
+        if conf=$(nginx -T 2>/dev/null); then
+            if grep -Eq '^[[:space:]]*(listen[^;]*[[:space:]]http2([[:space:];]|$)|http2[[:space:]]+on[[:space:]]*;)' <<<"$conf"; then
+                http2="on"
+            else
+                http2="off"
+            fi
+        fi
+    fi
+    if [ -n "$fixed" ]; then
+        say OK "nginx http2-rce" "$nver: fixed ($fixed)"
+    elif [ "$http2" = on ]; then
+        say FAIL "nginx http2-rce" "$nver without the fix for $NGINX_CVES, HTTP/2 on — sudo apt update && sudo apt install --only-upgrade nginx nginx-common; until then http2 off"
+    elif [ "$http2" = off ]; then
+        say WARN "nginx http2-rce" "$nver without the fix for $NGINX_CVES, but HTTP/2 off: not exploitable (both need it) — upgrade when the fix ships"
+    else
+        say WARN "nginx http2-rce" "$nver without the fix for $NGINX_CVES; HTTP/2 not checked (needs root for nginx -T)"
+    fi
+    # After an upgrade the old master keeps the old code until a restart; its
+    # /proc exe then points at a "(deleted)" binary (the article: "confirm the
+    # old workers have exited").
+    if [ "$IS_ROOT" -eq 1 ] && [ -r "$ROOT/run/nginx.pid" ]; then
+        npid=$(head -n1 "$ROOT/run/nginx.pid")
+        exe=$(readlink "$ROOT/proc/$npid/exe" 2>/dev/null || true)
+        if [[ $exe == *"(deleted)"* ]]; then
+            say FAIL "nginx binary" "the running master ($npid) still runs the replaced binary — sudo systemctl restart nginx"
+        fi
+    fi
+fi
+
 # Local ports from the inventory (#792, 02.–05.11.): atr-mcp, the federation's
 # SSH tunnels to idhefix, QLever. Any HTTP answer counts; 000 is no answer.
 if have curl; then

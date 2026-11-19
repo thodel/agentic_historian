@@ -45,6 +45,14 @@ HTTP-Codes aus, nie Dateiinhalte. Es prüft:
   atr-mcp apertus-web R7ScanAssistant`, `nginx -t`, und die lokalen Ports
   8300 (atr-mcp), 8000–8004 (die SSH-Tunnel der Föderation nach idhefix) und
   7019 (QLever).
+- **nginx HTTP/2-RCE** (CVE-2026-123007, CVE-2026-123633; F5, 18.11.2026): beide
+  brauchen HTTP/2, die zweite trifft nginx als Reverse Proxy — genau tei. Behoben
+  upstream in 1.30.7/1.31.9; Ubuntu portiert in die eigene Version zurück
+  (1.24.0-2ubuntu7.x), darum gilt dort das Changelog des Pakets, nicht die
+  Versionsnummer. Ohne Korrektur und mit HTTP/2 (`listen … http2`, `http2 on`)
+  ein `FAIL`; ohne Korrektur, aber HTTP/2 aus, ein `WARN` (nicht ausnutzbar).
+  Dazu ein `FAIL`, wenn der laufende nginx-Master noch das ersetzte Binary
+  ausführt (`systemctl restart nginx` nach dem Update).
 - **Pakete:** `esm-apps`/`esm-infra` aktiv, keines der sieben entfernten Pakete
   wieder da, `gh` aus `cli.github.com`, der Stand von `python3-urllib3` und
   `python3-pip-whl`, nichts mehr aktualisierbar.
