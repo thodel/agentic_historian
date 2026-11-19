@@ -231,6 +231,17 @@ def test_the_level_is_read_from_the_registry_not_guessed_from_the_lines():
     assert line_level.level == "line"
 
 
+def test_a_block_model_is_recorded_as_block_and_a_made_up_level_as_none():
+    """serving-atr-inference#186: k lines per call is a level of its own, and
+    the record says so rather than dropping it."""
+    models = {"models": [
+        {"id": "strip", "engine": "vllm", "level": "block", "lines_per_crop": 6},
+        {"id": "odd", "engine": "vllm", "level": "paragraph"},
+    ]}
+    assert provenance.model_identity("strip", models).level == "block"
+    assert provenance.model_identity("odd", models).level is None
+
+
 def test_our_own_registry_is_never_consulted(monkeypatch):
     """The field would otherwise be a restatement of our configuration file
     dressed as a fact about the weights."""
