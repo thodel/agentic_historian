@@ -10,6 +10,7 @@ Q1b (Offsets) and Q1c (Agent C writes) are separate issues.
 
 from __future__ import annotations
 
+import hashlib
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
@@ -177,6 +178,22 @@ def _select_expr(column: str, have: set[str]) -> str:
     return f"NULL AS {column}"
 
 
+def _legacy_content_hash(doc_id: str, char_start: int, char_end: int,
+                         text: str) -> str:
+    """The #395 prototype's hash, unchanged (commit 803d575, 2026-09-23).
+
+    Its table made the column `content_hash TEXT NOT NULL` and keyed the
+    embedding cache on it — a cache that later moved to the `passage_vectors`
+    table, leaving the column behind. A database it built still has the column
+    and the old rows keyed on it, so a row the current code writes must land
+    on the *same* key for the same span and text: a second recipe would split
+    one passage across two keys in a file that carries both generations.
+    """
+    return hashlib.sha1(
+        f"{doc_id}:{char_start}:{char_end}:{text}".encode()
+    ).hexdigest()[:16]
+
+
 def upsert_passages(doc_id: str, records: list[dict]) -> int:
     """
     Delete then re-insert all passages for one doc (idempotent).
@@ -192,6 +209,14 @@ def upsert_passages(doc_id: str, records: list[dict]) -> int:
 
     Validation still runs before the database is touched, so a malformed batch
     raises without having deleted anything.
+
+    A database the #395 prototype built declares `content_hash TEXT NOT NULL`,
+    a column no schema this module creates has. `CREATE TABLE IF NOT EXISTS`
+    does nothing to a file that already exists and the migration only adds
+    columns, so that file still carries a NOT NULL column the insert would
+    otherwise omit — `NOT NULL constraint failed: passages.content_hash` on
+    every non-empty upsert (#892). The file is not ours to re-shape: where the
+    column exists, it is filled with the prototype's own recipe.
     """
     # Validate required fields before touching the DB.
     required = {"doc_id", "page", "entity_type", "text", "normalised",
@@ -203,21 +228,27 @@ def upsert_passages(doc_id: str, records: list[dict]) -> int:
     
     db = _get_db()
     now = datetime.now(timezone.utc).isoformat()
-    
+
     # Delete existing for this doc.
     db.execute("DELETE FROM passages WHERE doc_id = ?", (doc_id,))
-    
+
+    # See the docstring: a #395-prototype file still declares
+    # `content_hash TEXT NOT NULL`, so where the column exists it is part of
+    # the insert and filled with that prototype's recipe.
+    columns = ["doc_id", "page", "bestand", "entity_type", "text",
+               "normalised", "char_start", "char_end", "context",
+               "hub_id", "gnd_id", "hls_id", "created_at"]
+    legacy_hash = "content_hash" in _columns(db)
+    if legacy_hash:
+        columns.append("content_hash")
+    insert_sql = ("INSERT INTO passages ("
+                  + ", ".join(columns)
+                  + ") VALUES ("
+                  + ", ".join(f":{c}" for c in columns)
+                  + ")")
+
     for rec in records:
-        db.execute("""
-            INSERT INTO passages
-                (doc_id, page, bestand, entity_type, text, normalised,
-                 char_start, char_end, context,
-                 hub_id, gnd_id, hls_id, created_at)
-            VALUES
-                (:doc_id, :page, :bestand, :entity_type, :text, :normalised,
-                 :char_start, :char_end, :context,
-                 :hub_id, :gnd_id, :hls_id, :created_at)
-        """, {
+        row = {
             "doc_id":      rec["doc_id"],
             "page":        rec["page"],
             # Absent rather than empty when the caller does not know (#396).
@@ -232,7 +263,11 @@ def upsert_passages(doc_id: str, records: list[dict]) -> int:
             "gnd_id":      rec.get("gnd_id"),
             "hls_id":      rec.get("hls_id"),
             "created_at":  now,
-        })
+        }
+        if legacy_hash:
+            row["content_hash"] = _legacy_content_hash(
+                rec["doc_id"], rec["char_start"], rec["char_end"], rec["text"])
+        db.execute(insert_sql, row)
     db.commit()
     rows_written = db.execute(
         "SELECT COUNT(*) FROM passages WHERE doc_id = ?",
