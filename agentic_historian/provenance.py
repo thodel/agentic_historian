@@ -47,6 +47,7 @@ one), and copying the images anywhere.
 from __future__ import annotations
 
 import hashlib
+import re
 import subprocess
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -87,24 +88,37 @@ RUNNER_NAME = "agentic-historian"
 #: host that matters is worse than a constant somebody has to bump.
 RUNNER_VERSION = "0.1.0"
 
-#: What the gateway's answer lets us say about *which* weights ran, in the four
-#: cases that actually occur. The distinction is the point of the field: three
-#: of these four are not versions, and a record that presented them as one would
-#: be citable-looking and wrong.
+#: What the gateway's answer lets us say about *which* weights ran. The
+#: distinction is the point of the field: some of these are not versions, and a
+#: record that presented them as one would be citable-looking and wrong. The
+#: first four yield a ``revision``; the last three do not.
 #:
 #: * ``zenodo_record`` — a Zenodo record id. Genuinely version-bearing: Zenodo
-#:   mints a new record per version, so the id fixes the deposited files. This
-#:   is the only kind that yields a ``revision``.
+#:   mints a new record per version, so the id fixes the deposited files.
+#: * ``weights_digest`` — the sha256 the gateway's registry carries for the
+#:   weight files, measured at the promotion gate (serving-atr-inference#200,
+#:   training-atr-models#259). The version every model we trained ourselves can
+#:   have: a rewritten finetune gets a different digest.
+#: * ``hf_commit`` — the commit of the Hugging Face repo the running vLLM
+#:   instance loaded, read by the gateway at its launch (serving#200).
+#: * ``hf_commit_cached`` — the commit the gateway's hub cache resolved the
+#:   repo's ref to while the model was **not** running: what a launch would
+#:   load, unless vLLM then finds a newer commit on the hub. A run that begins
+#:   before its models are loaded gets this kind, and says so rather than
+#:   passing it off as the loaded one.
 #: * ``unversioned_repo`` — the gateway names a Hugging Face repository and no
 #:   commit. A repository name is not a version; its ``main`` moves. ``revision``
 #:   is None and ``weights`` says which repo.
-#: * ``unversioned_path`` — weights on the serving host, by path. A path is not a
-#:   version either, and this is the case for every model we trained ourselves.
+#: * ``unversioned_path`` — weights on the serving host, by path, with no digest
+#:   measured. A path is not a version either.
 #: * ``unreported`` — the gateway said nothing: the model is not in ``/models``,
 #:   or ``/models`` did not answer. Not the same as "no version exists", and the
 #:   two must not collapse into one empty string.
-REVISION_KINDS = ("zenodo_record", "unversioned_repo", "unversioned_path",
-                  "unreported")
+REVISION_KINDS = ("zenodo_record", "weights_digest", "hf_commit", "hf_commit_cached",
+                  "unversioned_repo", "unversioned_path", "unreported")
+
+_SHA1 = re.compile(r"[0-9a-f]{40}")
+_SHA256 = re.compile(r"[0-9a-f]{64}")
 
 
 def _now() -> str:
@@ -134,6 +148,10 @@ class ModelIdentity:
     #: commit" is a far better citation than silence.
     weights: Optional[str] = None
     base_model: Optional[str] = None
+    #: When the gateway established ``revision``: the digest's ``measured_at``,
+    #: or the hub-cache read's ``read_at``. None for a Zenodo record (the record
+    #: carries its own date) and whenever there is no revision.
+    revision_at: Optional[str] = None
 
     def to_dict(self) -> dict:
         return {
@@ -142,6 +160,7 @@ class ModelIdentity:
             "level": self.level,
             "revision": self.revision,
             "revision_kind": self.revision_kind,
+            "revision_at": self.revision_at,
             "weights": self.weights,
             "base_model": self.base_model,
         }
@@ -186,11 +205,29 @@ def model_identity(model: str,
     }
 
     # Order matters: a model can carry more than one of these, and the
-    # version-bearing one wins. Only the first is a revision.
+    # version-bearing one wins — the deposited record, then a measurement of
+    # the bytes, then the commit the hub cache names. A value of the wrong
+    # shape is not a revision: it falls through, never into the field.
     if spec.get("zenodo_id"):
         return ModelIdentity(**identity, revision=str(spec["zenodo_id"]),
                              revision_kind="zenodo_record",
                              weights=str(spec["zenodo_id"]))
+    where = spec.get("local_path") or spec.get("hf_repo") or None
+    digest = spec.get("weights_digest")
+    if (isinstance(digest, dict) and isinstance(digest.get("sha256"), str)
+            and _SHA256.fullmatch(digest["sha256"])):
+        return ModelIdentity(**identity, revision=digest["sha256"],
+                             revision_kind="weights_digest",
+                             revision_at=digest.get("measured_at") or None,
+                             weights=str(where) if where else None)
+    commit = spec.get("hf_revision")
+    if (spec.get("hf_repo") and isinstance(commit, dict)
+            and isinstance(commit.get("sha"), str) and _SHA1.fullmatch(commit["sha"])):
+        return ModelIdentity(**identity, revision=commit["sha"],
+                             revision_kind=("hf_commit" if commit.get("loaded") is True
+                                            else "hf_commit_cached"),
+                             revision_at=commit.get("read_at") or None,
+                             weights=str(spec["hf_repo"]))
     if spec.get("hf_repo"):
         return ModelIdentity(**identity, revision_kind="unversioned_repo",
                              weights=str(spec["hf_repo"]))
