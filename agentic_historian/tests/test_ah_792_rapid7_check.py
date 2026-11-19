@@ -29,7 +29,7 @@ REPO = Path(__file__).resolve().parents[2]
 SCRIPT = REPO / "deploy" / "tei" / "check_rapid7.sh"
 
 #: Real tools the script uses; everything else on PATH is a stub.
-REAL = ("bash", "find", "head", "tr", "grep", "sort", "awk", "stat", "ls")
+REAL = ("bash", "find", "head", "tr", "grep", "sort", "awk", "stat", "ls", "gzip", "readlink")
 
 STUBS = {
     "id": 'echo "${STUB_UID:-0}"',
@@ -41,7 +41,15 @@ case "$1" in
 esac''',
     "docker": r'''[ -n "${STUB_DOCKER_DOWN:-}" ] && exit 1
 printf '%s\n' ${STUB_IMAGES:-ch-h-bot-app:mcp ch-h-bot-api:mcp ch-h-bot-bridge:mcp swisslib-mcp:latest adfreiburg/qlever:latest}''',
-    "nginx": "exit 0",
+    "nginx": r'''case "$1" in
+  -v) echo "nginx version: nginx/${STUB_NGINX_VERSION:-1.24.0} (Ubuntu)" >&2 ;;
+  -T) [ -n "${STUB_NGINX_T_FAILS:-}" ] && exit 1
+      printf '# configuration file /etc/nginx/sites-enabled/tei:\nserver {\n'
+      printf '    %s\n' "${STUB_NGINX_LISTEN:-listen 443 ssl;}"
+      printf '    # listen 443 ssl http2;   (a comment is not a setting)\n'
+      printf '    http2_max_concurrent_streams 64;\n}\n' ;;
+esac
+exit 0''',
     "curl": r'''for a in "$@"; do url="$a"; done
 port=${url##*:}; port=${port%%/*}
 case " ${STUB_DOWN_PORTS:-} " in *" $port "*) printf 000; exit 7 ;; esac
@@ -213,3 +221,73 @@ def test_world_writable_files_are_named_but_never_read(tei):
     assert "WARN  world-writable: 1 file(s), e.g. " in r.stdout
     assert ".venv/.lock" in r.stdout
     assert "do-not-print-me" not in r.stdout + r.stderr
+
+
+
+# ── nginx HTTP/2 RCE (CVE-2026-123007, CVE-2026-123633; F5, 18.11.2026) ─────
+
+def _changelog(root, *cves):
+    import gzip
+    d = root / "usr/share/doc/nginx-common"
+    d.mkdir(parents=True, exist_ok=True)
+    body = "nginx (1.24.0-2ubuntu7.20) noble-security; urgency=medium\n\n"
+    body += "".join(f"  * SECURITY UPDATE: HTTP/2\n    - {c}\n" for c in cves)
+    (d / "changelog.Debian.gz").write_bytes(gzip.compress(body.encode()))
+
+
+def test_tei_today_unpatched_but_without_http2_is_a_warning(tei):
+    r = tei()
+    assert ("WARN  nginx http2-rce: 1.24.0 without the fix for CVE-2026-123007 CVE-2026-123633, "
+            "but HTTP/2 off: not exploitable") in r.stdout
+    assert r.returncode == 0
+
+
+@pytest.mark.parametrize("listen", ["listen 443 ssl http2;", "listen [::]:443 ssl http2 default_server;",
+                                    "http2 on;"])
+def test_unpatched_with_http2_on_fails(tei, listen):
+    r = tei(STUB_NGINX_LISTEN=listen)
+    assert "FAIL  nginx http2-rce: 1.24.0 without the fix" in r.stdout
+    assert "HTTP/2 on — sudo apt update && sudo apt install --only-upgrade nginx" in r.stdout
+    assert r.returncode == 1
+
+
+def test_the_ubuntu_backport_counts_only_with_both_cves_in_the_changelog(tei):
+    _changelog(tei.root, "CVE-2026-123007")
+    r = tei(STUB_NGINX_LISTEN="listen 443 ssl http2;")
+    assert "FAIL  nginx http2-rce" in r.stdout
+    _changelog(tei.root, "CVE-2026-123007", "CVE-2026-123633")
+    r = tei(STUB_NGINX_LISTEN="listen 443 ssl http2;")
+    assert ("OK    nginx http2-rce: 1.24.0: fixed (the package changelog names both CVEs)"
+            in r.stdout)
+
+
+@pytest.mark.parametrize("version,fixed", [("1.30.7", True), ("1.31.9", True), ("1.32.0", True),
+                                           ("1.30.6", False), ("1.31.8", False), ("1.26.3", False)])
+def test_upstream_versions_against_the_fixed_releases(tei, version, fixed):
+    r = tei(STUB_NGINX_VERSION=version, STUB_NGINX_LISTEN="http2 on;")
+    if fixed:
+        assert f"OK    nginx http2-rce: {version}: fixed (upstream {version})" in r.stdout
+    else:
+        assert f"FAIL  nginx http2-rce: {version} without the fix" in r.stdout
+
+
+@pytest.mark.parametrize("env", [{"STUB_UID": 1000}, {"STUB_NGINX_T_FAILS": 1}])
+def test_http2_unknown_is_a_warning_never_an_ok(tei, env):
+    r = tei(STUB_NGINX_LISTEN="listen 443 ssl http2;", **env)
+    assert "WARN  nginx http2-rce: 1.24.0 without the fix" in r.stdout
+    assert "HTTP/2 not checked" in r.stdout
+    assert "nginx http2-rce" not in "".join(_lines(r.stdout, "OK"))
+
+
+def test_a_master_still_running_the_replaced_binary_fails(tei):
+    (tei.root / "run").mkdir(exist_ok=True)
+    (tei.root / "run/nginx.pid").write_text("4242\n")
+    proc = tei.root / "proc/4242"
+    proc.mkdir(parents=True)
+    os.symlink("/usr/sbin/nginx (deleted)", proc / "exe")
+    r = tei()
+    assert ("FAIL  nginx binary: the running master (4242) still runs the replaced binary — "
+            "sudo systemctl restart nginx") in r.stdout
+    (proc / "exe").unlink()
+    os.symlink("/usr/sbin/nginx", proc / "exe")
+    assert "nginx binary" not in tei().stdout
