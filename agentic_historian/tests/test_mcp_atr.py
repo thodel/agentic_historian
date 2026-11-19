@@ -222,20 +222,37 @@ def test_a_job_whose_process_vanished_is_not_reported_as_done(sandbox):
 
 
 def _is_zombie(pid: int) -> bool:
-    import subprocess
-    out = subprocess.run(["ps", "-o", "stat=", "-p", str(pid)], capture_output=True, text=True,
-                         check=False)
-    return out.stdout.strip().startswith("Z")
+    """Read the state from /proc, never by starting a process to ask.
+
+    Not ``ps``: ``jobs.start`` lets go of its ``Popen`` while the runner still
+    runs, so ``Popen.__del__`` parks it in ``subprocess._active``, and every later
+    ``Popen()`` in this process begins with ``_cleanup()`` — a
+    ``waitpid(runner, WNOHANG)``. A ``ps`` started after the runner died reaped
+    it before it could look, and the test then waited out its deadline for a
+    zombie that no longer existed (1 run in ~20 under load, 17. and 19.11.2026).
+    """
+    try:
+        stat = Path(f"/proc/{pid}/stat").read_text()
+    except (FileNotFoundError, ProcessLookupError):
+        return False
+    # "pid (comm) S ...": comm may hold spaces and parentheses; the state follows the last ")".
+    return stat.rpartition(")")[2].split()[0] == "Z"
 
 
 def test_a_killed_runner_is_vanished_not_a_running_zombie(sandbox):
     """tei, 02.11.2026: a finished runner sat <defunct> under atr-mcp for 75 minutes,
     because nothing waited for it, and os.kill(pid, 0) succeeds on a zombie. A
     runner killed before it writes an exit code must read "vanished", and asking
-    must reap it."""
+    must reap it.
+
+    Nothing between the kill and ``jobs.status`` may start a process: that would
+    reap the runner first (see ``_is_zombie``), and this test is about who does."""
     job = jobs.start("test", [sys.executable, "-c", "import time; time.sleep(30)"])
     os.killpg(os.getpgid(job.pid), signal.SIGKILL)
-    assert _wait_for(lambda: _is_zombie(job.pid)), "the killed runner is our zombie now"
+    # The kernel finishes the exit when it gets to it; the deadline is generous
+    # because a loaded box is the only reason it would take more than a moment.
+    assert _wait_for(lambda: _is_zombie(job.pid), timeout=60.0), \
+        "the killed runner is our zombie now"
     assert jobs.status(job.job_id).state == "vanished"
     assert not _is_zombie(job.pid), "asking reaped it"
     with pytest.raises(ChildProcessError):
