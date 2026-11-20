@@ -284,13 +284,50 @@ def test_the_layer_graph_is_in_the_project_namespace():
     assert bb.LAYERS[0].graph == str(AH) + "graph/humanlineage"
 
 
-def test_the_layer_is_on_by_default_and_can_be_switched_off_or_narrowed(tmp_path):
-    assert [layer.name for layer, _ in bb.layers_enabled({})] == ["humanlineage"]
+def test_the_layer_is_off_by_default_since_the_dataset_was_withdrawn(tmp_path):
+    """19.11.2026: the Human Lineage dataset was withdrawn from Zenodo
+    (copyright, ch-h-bot#640). Unset means off; only an explicit 1 builds it."""
+    assert bb.layers_enabled({}) == []
+    assert bb.layers_enabled({"KG_HUMANLINEAGE": ""}) == []
     assert bb.layers_enabled({"KG_HUMANLINEAGE": "off"}) == []
-    (_, reads), = bb.layers_enabled({"KG_HUMANLINEAGE_SOURCES": "kf, ssrq"})
+    assert bb.layers_enabled({"KG_HUMANLINEAGE_SOURCES": "kf, ssrq"}) == []
+    assert "withdrawn" in bb.LAYERS[0].withdrawn and "#640" in bb.LAYERS[0].withdrawn
+    for on in ("1", "true", "yes", "on"):
+        assert [layer.name for layer, _ in bb.layers_enabled({"KG_HUMANLINEAGE": on})] == ["humanlineage"]
+    (_, reads), = bb.layers_enabled({"KG_HUMANLINEAGE": "1", "KG_HUMANLINEAGE_SOURCES": "kf, ssrq"})
     assert reads == ("kf", "ssrq")
     planned = bb.plan(_env(tmp_path))
-    assert bb.fingerprint(planned, "c", bb.layers_enabled({})) != bb.fingerprint(planned, "c", [])
+    on = bb.layers_enabled({"KG_HUMANLINEAGE": "1"})
+    assert bb.fingerprint(planned, "c", on) != bb.fingerprint(planned, "c", [])
+
+
+def test_a_build_without_the_switch_says_the_layer_is_off_and_why(tmp_path):
+    env = _env(tmp_path)
+    env.pop("KG_HUMANLINEAGE")
+    run = FakeRunner()
+    m = bb.build(tmp_path / "kg", env=env, commit="a", runner=run)
+    assert m["status"] == "built"
+    assert not any("humanlineage" in " ".join(c) for c in run.calls)
+    row = next(r for r in m["sources"] if r["source"] == "humanlineage")
+    assert row["status"] == "off" and "withdrawn" in row["reason"]
+    assert "KG_HUMANLINEAGE=1 builds it" in row["reason"]
+    assert HL_GRAPH not in m["graphs"] and m["triples"] == 70
+    assert "humanlineage off: dataset withdrawn" in bb.render(m)
+
+
+def test_switching_off_drops_a_previously_built_layer_rather_than_keeping_it(tmp_path):
+    """Off is not a failure: nothing is `kept`. A part from an earlier build
+    leaves parts/ with the next swap, and the index no longer holds it."""
+    out = tmp_path / "kg"
+    env = _env(tmp_path, KG_HUMANLINEAGE="1")
+    bb.build(out, env=env, commit="a", runner=FakeRunner(triples={"humanlineage": 6}))
+    assert (out / "parts" / "humanlineage.nt").exists()
+    env.pop("KG_HUMANLINEAGE")
+    m = bb.build(out, env=env, commit="a", runner=FakeRunner())
+    assert m["status"] == "built"        # the fingerprint changed: the layer set did
+    assert not (out / "parts" / "humanlineage.nt").exists()
+    assert not (out / "parts" / "humanlineage.nt.graph").exists()
+    assert HL_GRAPH not in m["graphs"] and m["triples"] == 70
 
 
 def test_a_failed_layer_keeps_its_previous_build_and_never_holds_the_holdings_back(tmp_path):
