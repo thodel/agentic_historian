@@ -74,6 +74,13 @@ def test_the_questions_nouns_are_its_subject_not_the_holding_or_the_asking():
     assert af.subject_terms("", HOLDINGS) == []
 
 
+def test_the_field_name_typed_with_the_question_is_no_subject():
+    """Third Hofmeister run (16.11.2026): `/ask frage:Welche Pflichten …` arrived
+    with the field name in front, and "frage" was searched as the subject."""
+    assert af.subject_terms("frage:" + QUESTION, HOLDINGS) == ["pflichten", "hofmeister",
+                                                                "konvent"]
+
+
 def test_the_label_of_the_discord_field_is_not_a_subject():
     """16.11.2026 (#868): the question arrived as "frage:Welche Pflichten …",
     with the slash command's field name in front, and "frage" became a subject."""
