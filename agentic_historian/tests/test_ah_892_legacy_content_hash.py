@@ -12,9 +12,11 @@ embedding cache that later moved to the `passage_vectors` table.
 the migration only adds columns, so tei's file still carries a NOT NULL
 column the insert omitted — and failed on, for every document whose passage
 list was not empty. The three clean logs are the same fact without the
-insert: QA 0.00 left them no usable reading, hence no vocabulary hit with a
-verbatim occurrence, hence an empty list — the delete ran, the insert never
-did, and zero is the true count ("none is a statement", #467).
+insert: their published entities (0041, 0053, 0054) are PERSON, PLACE, DATE
+and ORG only — none of `VOCAB_TYPES` — hence an empty list; the delete ran,
+the insert never did, and zero is the true count ("none is a statement",
+#467). (QA 0.00 belonged to the two letters that failed, 0036 and 0048, which
+had 3 and 5 located vocabulary entities; `index-passages` writes them now.)
 
 Offline. Run from the repo root:
     pytest agentic_historian/tests/test_ah_892_legacy_content_hash.py
@@ -188,8 +190,8 @@ def test_agent_c_indexes_a_passage_in_a_prototype_database(legacy_db, monkeypatc
 
 
 def test_zero_passages_is_a_true_statement_not_a_failure(legacy_db, monkeypatch):
-    """The three clean letters: no usable reading, no vocabulary hit with a
-    verbatim occurrence, an empty list. The delete runs, the insert never
+    """The three clean letters: no entity of a vocabulary type, hence an
+    empty list. The delete runs, the insert never
     does, nothing is logged at warning — and the first pass's row is gone,
     because "none" is a statement (#467)."""
     rec = _Recorder()
