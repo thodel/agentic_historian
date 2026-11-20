@@ -4,7 +4,8 @@
 # (mcp-tunnel@.service, mcp-tunnel-nginx@.service: ~/.ssh/id_ed25519_idhefix_mcp).
 # Without -i, ssh offers dh's default keys, which idhefix does not know, and the
 # unit loops in auto-restart with "Permission denied (publickey,password)"
-# (tei, 20.11.2026).
+# (tei, 20.11.2026). idhefix restricts that key with permitopen: 127.0.0.1:7019
+# has to be in its line of ~tobias/.ssh/authorized_keys (README).
 #
 #   cp deploy/qlever/systemd/sparql-tunnel.service ~/.config/systemd/user/
 #   systemctl --user daemon-reload && systemctl --user enable --now sparql-tunnel

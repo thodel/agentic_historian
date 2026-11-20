@@ -102,9 +102,18 @@ end to end against the pinned image (index, serve, `--check`).
 2. The tunnel: copy `systemd/sparql-tunnel.service` to
    `~/.config/systemd/user/`, `daemon-reload`, `enable --now sparql-tunnel`;
    a `COUNT(*)` against `http://127.0.0.1:7019/` gives the number idhefix gives.
-   It logs in with the MCP tunnels' key, `~/.ssh/id_ed25519_idhefix_mcp`; if
-   idhefix restricts that key with `permitopen`, `127.0.0.1:7019` has to be
-   in the list (the journal says `administratively prohibited`).
+   It logs in with the MCP tunnels' key, `~/.ssh/id_ed25519_idhefix_mcp`.
+   On idhefix that key's line in `~tobias/.ssh/authorized_keys` (comment
+   `tei-mcp-tunnel`) is `command="/bin/false",restrict,port-forwarding` plus
+   one `permitopen` per forwarded port, so `permitopen="127.0.0.1:7019"` has
+   to be in it; without it the journal says `channel 1: open failed:
+   administratively prohibited` and curl gets `Connection reset by peer`
+   (added 20.11.2026; QLever binds `127.0.0.1`, the MCP containers
+   `172.17.0.1`):
+
+   ```bash
+   sed -i.bak-$(date +%F) '/tei-mcp-tunnel$/ s/permitopen="172.17.0.1:8000"/permitopen="127.0.0.1:7019",permitopen="172.17.0.1:8000"/' ~/.ssh/authorized_keys
+   ```
 3. nginx: `nginx-qlever.conf` to `/etc/nginx/snippets/qlever.conf`, one
    `include` line in the `tei.dh.unibe.ch` server block, `nginx -t` before
    every reload. From outside: the same count at `https://tei.dh.unibe.ch/sparql/`,
