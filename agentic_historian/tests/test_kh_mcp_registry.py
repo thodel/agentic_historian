@@ -87,6 +87,7 @@ def test_the_layer_client_says_why_it_has_no_source():
     """The Bestandsgraph layer module still exists (off by default, #899); if
     someone switches it on, it says why instead of a bare KeyError."""
     import pytest
+
     from knowledge_hub.sources import humanlineage as hl
     with pytest.raises(RuntimeError, match="withdrawn"):
         hl.MCPClient()
