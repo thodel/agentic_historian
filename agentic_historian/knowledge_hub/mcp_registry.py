@@ -68,6 +68,10 @@ class MCPSource:
     tool_map: dict = field(default_factory=dict)
     adapter: Optional[Callable] = None
     notes: str = ""
+    #: Leer heisst: in Betrieb. Sonst der Grund, warum die Quelle nicht
+    #: abgefragt wird. `list_sources` und `sources_for_kind` lassen sie aus,
+    #: `get_source` findet sie weiter — eine Rückkehr ist dann ein Schalter.
+    withdrawn: str = ""
     #: What a reader of this holding's text needs to know, given to the model
     #: beside its passages (#812: "littera abbatisse" was read as an abbot's).
     context: str = ""
@@ -195,6 +199,11 @@ SOURCES: tuple[MCPSource, ...] = (
     MCPSource(
         name="humanlineage",
         title="Human Lineage — open genealogical dataset (GEDCOM-X, Zenodo snapshot)",
+        # Zenodo hat den Datensatz am 10.11.2026 entfernt («copyright»); die
+        # Route auf tei ist seit dem 19.11. abgeschaltet und antwortet 404.
+        # Bis das geklärt ist, fragt die Personenauflösung ihn nicht mehr.
+        withdrawn="Zenodo-Datensatz am 10.11.2026 entfernt (copyright), "
+                  "Route seit 19.11.2026 abgeschaltet — ch-h-bot#640",
         kinds=("person",),
         # The streamable-HTTP client POSTs to the bare `url`, and the server is
         # mounted at its public path /mcp/humanlineage/mcp (nginx proxies without
@@ -234,9 +243,13 @@ SOURCES: tuple[MCPSource, ...] = (
 
 # ── Accessors (what consumers use) ───────────────────────────────────────────
 
-def list_sources(include_external: bool = True) -> list[MCPSource]:
-    """All registered sources (optionally excluding external/gateway ones)."""
-    return [s for s in SOURCES if include_external or not s.external]
+def list_sources(include_external: bool = True,
+                 include_withdrawn: bool = False) -> list[MCPSource]:
+    """All registered sources in service (optionally excluding external/gateway
+    ones). A withdrawn source only with ``include_withdrawn=True``."""
+    return [s for s in SOURCES
+            if (include_external or not s.external)
+            and (include_withdrawn or not s.withdrawn)]
 
 
 def get_source(name: str) -> MCPSource:
@@ -252,7 +265,7 @@ def sources_for_kind(kind: str) -> list[MCPSource]:
     """Sources that can resolve a given entity kind (e.g. 'person')."""
     if kind not in KINDS:
         raise ValueError(f"unknown kind {kind!r}; valid: {KINDS}")
-    return [s for s in SOURCES if kind in s.kinds]
+    return [s for s in SOURCES if kind in s.kinds and not s.withdrawn]
 
 
 def validate() -> None:

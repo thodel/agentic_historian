@@ -84,7 +84,26 @@ def test_humanlineage_is_a_person_hub_with_the_genealogical_tools():
     assert hl.url.endswith("/mcp/humanlineage/mcp")
     assert {"search_persons", "get_person", "resolve_name", "get_by_identifier",
             "get_relatives", "get_family_tree"} <= set(hl.tools)
-    assert hl in reg.sources_for_kind("person")
+
+
+def test_humanlineage_is_withdrawn_and_no_longer_queried():
+    """Zenodo hat den Datensatz am 10.11.2026 entfernt («copyright»,
+    ch-h-bot#640), die Route auf tei antwortet seit dem 19.11. mit 404. Die
+    Personenauflösung fragt ihn nicht mehr — jede Anfrage wäre ein Fehler,
+    als «nicht erreichbar» verbucht. Der Eintrag selbst bleibt auffindbar,
+    damit eine Rückkehr ein Schalter ist."""
+    hl = reg.get_source("humanlineage")
+    assert hl.withdrawn and "ch-h-bot#640" in hl.withdrawn
+    assert hl not in reg.sources_for_kind("person")
+    assert hl not in reg.list_sources()
+    assert hl in reg.list_sources(include_withdrawn=True)
+
+
+def test_every_other_source_is_in_service():
+    """Zurückziehen ist die Ausnahme, mit Grund — nicht ein Zustand, in den
+    eine Quelle unbemerkt gerät."""
+    assert [s.name for s in reg.list_sources(include_withdrawn=True)
+            if s.withdrawn] == ["humanlineage"]
 
 
 def test_repointing_base_url_moves_all_tei_sources(monkeypatch):
