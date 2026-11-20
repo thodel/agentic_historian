@@ -24,7 +24,10 @@ schema migration and no changes to the agents**.
 | `hls` | `…/mcp/hls` | person, place, org | HLS, GND | replaces the local `hls.json` dump |
 | `kf` | `…/mcp/kf` | person, place | – | Königsfelden register |
 | `wikidata` | gateway `wikidata` MCP | person, place, org | Wikidata, GND | reconciliation (external) |
-| `humanlineage` | `…/mcp/humanlineage/mcp` | person | Wikidata, GND, VIAF, HLS (via P902) | Human Lineage snapshot (Zenodo, CC BY-SA 4.0): 2.7 M deceased persons, 615k parent–child and couple relations; `resolve_name`, `get_by_identifier`, `get_relatives`, `get_family_tree` |
+
+Human Lineage (`…/mcp/humanlineage/mcp`) was a person source from 06.11. to
+20.11.2026; removed after the dataset was withdrawn from Zenodo (copyright,
+ch-h-bot#640).
 
 `…` = `config.MCP_BASE_URL` (default `https://tei.dh.unibe.ch/mcp`, VPN-gated).
 

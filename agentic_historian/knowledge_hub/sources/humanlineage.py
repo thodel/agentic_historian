@@ -103,7 +103,13 @@ class MCPClient:
                  pauses: tuple[float, ...] = RETRY_PAUSES,
                  sleep: Callable[[float], None] = time.sleep):
         from knowledge_hub import mcp_registry as reg
-        self.source = reg.get_source(source_name)
+        try:
+            self.source = reg.get_source(source_name)
+        except KeyError:
+            raise RuntimeError(
+                f"no MCP source {source_name!r} in the registry: Human Lineage was "
+                "removed on 20.11.2026, its dataset withdrawn from Zenodo "
+                "(copyright; ch-h-bot#640)") from None
         self.pauses = pauses
         self.sleep = sleep
         self.retries = 0
