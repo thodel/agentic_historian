@@ -102,6 +102,9 @@ end to end against the pinned image (index, serve, `--check`).
 2. The tunnel: copy `systemd/sparql-tunnel.service` to
    `~/.config/systemd/user/`, `daemon-reload`, `enable --now sparql-tunnel`;
    a `COUNT(*)` against `http://127.0.0.1:7019/` gives the number idhefix gives.
+   It logs in with the MCP tunnels' key, `~/.ssh/id_ed25519_idhefix_mcp`; if
+   idhefix restricts that key with `permitopen`, `127.0.0.1:7019` has to be
+   in the list (the journal says `administratively prohibited`).
 3. nginx: `nginx-qlever.conf` to `/etc/nginx/snippets/qlever.conf`, one
    `include` line in the `tei.dh.unibe.ch` server block, `nginx -t` before
    every reload. From outside: the same count at `https://tei.dh.unibe.ch/sparql/`,
