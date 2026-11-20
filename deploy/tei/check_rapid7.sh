@@ -236,9 +236,19 @@ for p in python3-urllib3 python3-pip-whl; do
     fi
 done
 
-upgradable=$(apt list --upgradable 2>/dev/null | grep -c '/' || true)
-if [ "${upgradable:-0}" -gt 0 ]; then
-    say WARN "apt" "$upgradable package(s) upgradable — sudo apt upgrade before the scan"
+# What the scan reports are security fixes: a package whose newer version is
+# in a -security pocket (noble-security, and Pro's noble-apps-security /
+# noble-infra-security). A bugfix from noble-updates alone is no finding — and
+# Ubuntu phases those, so `apt upgrade` may hold them back on purpose (systemd
+# 255.4-1ubuntu8.19 on tei, 20.11.2026: "deferred due to phasing"), and the
+# old advice "sudo apt upgrade" then did nothing.
+up=$(apt list --upgradable 2>/dev/null | grep '/' || true)
+n_up=$(echo -n "$up" | grep -c '^' || true)
+n_sec=$(echo -n "$up" | awk '{split($1, a, "/"); if (a[2] ~ /-security/) n++} END {print n+0}')
+if [ "${n_sec:-0}" -gt 0 ]; then
+    say WARN "apt" "$n_sec security update(s) pending, e.g. $(echo "$up" | awk '{split($1, a, "/"); if (a[2] ~ /-security/) print a[1]}' | head -3 | tr '\n' ' ')— sudo apt upgrade before the scan"
+elif [ "${n_up:-0}" -gt 0 ]; then
+    say OK "apt" "no security update pending; $n_up bugfix update(s) from -updates (Ubuntu may phase them; not a scan finding)"
 else
     say OK "apt" "nothing upgradable"
 fi

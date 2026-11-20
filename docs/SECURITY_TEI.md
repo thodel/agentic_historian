@@ -17,14 +17,18 @@ davon übrig ist, und was vor dem Nachscan noch geschehen muss.
 | weltschreibbare Dateien, Home-Modus | zwölf `uv`-Lockdateien; das Dienstkonto `agentic_historian` hatte ein Home, das es nicht gab | `o-w`; `/home/agentic_historian` angelegt, 0750 (#796) | 03.11. |
 | `mnt-gwdg.mount` failed | Freigabe-Passwort geändert (siehe #792, 05.11.) | repariert; `systemctl --failed` leer | 05.11. |
 | ungenutzte Docker-Images | `weaviate`, `hello-world`, alte `*-mcp`- und `ch-h-bot-*:latest`-Images | entfernt; es bleiben `ch-h-bot-{app,api,bridge}:mcp`, `swisslib-mcp`, `adfreiburg/qlever` | 05.11. |
+| OpenClaw, Node, `deb.nodesource.com` | H6-Rückbau | Unit, Binary, `nodejs` und die nodesource-Quelle entfernt (#802) | 15.11. |
+| nginx HTTP/2-RCE (CVE-2026-123007, -123633) | Ubuntus nginx 1.24.0-2ubuntu7.19; HTTP/2 war aus | 1.24.0-2ubuntu7.20, neu gestartet; `check_rapid7` prüft es (#893) | 19.11. |
+| verschobene Neustarts (dbus, logind) | Paket-Update vom 04.11. | Neustart | 20.11. |
+| Port 7019 (QLever) | QLever läuft seit KG-4 auf idhefix | `sparql-tunnel.service` (User-Unit von `dh`, #898) | 20.11. |
+| `log4j-core-2.19.0.jar` unter `pytest-of-hermes` | Platzhalter aus `test_ah_792_rapid7_check.py`; pytest behält die Temp-Verzeichnisse | gelöscht; der Test räumt seither selbst auf (#898) | 20.11. |
 
 ## Was noch offen ist
 
 | | wartet auf | was dann |
 |---|---|---|
 | `python3-urllib3` 2.0.7-1ubuntu0.8 (CVE-2025-66418, -66471) | Canonical: `esm-apps` hat noch keine korrigierte Version | `sudo apt upgrade python3-urllib3`, sobald `apt policy` eine `+esm`-Version nennt. Bis dahin begründet akzeptiert: Abhängigkeit von `python3-requests` im System-Python; die Dienste laufen in venvs mit eigenem urllib3, das System-Python ruft keine fremden URLs auf (#795) |
-| OpenClaw, Node, `deb.nodesource.com` | H6-Rückbau (#802), ab 13.11.2026 | Rückbau vor dem Nachscan spart einen zweiten Scan: Node/npm sind dann vom Host |
-| Neustart | Wartungsfenster | dbus, logind und unattended-upgrades wurden nach dem Paket-Update vom 04.11. verschoben (`needrestart`) |
+| weltschreibbare `uv`-Lockdateien unter `/home/hermes` | `uv` legt neue Lockdateien so an, auch bei `umask 0002` | vor dem Scan `sudo find /home/hermes -xdev -type f -perm -0002 -exec chmod o-w {} +`; nicht ausnutzbar, `/home/hermes` ist 750 |
 | **Nachscan** | Informatikdienste | Bericht an #792; dann #795 und #792 schliessen |
 
 ## Bereit für den Nachscan?
@@ -55,7 +59,8 @@ HTTP-Codes aus, nie Dateiinhalte. Es prüft:
   ausführt (`systemctl restart nginx` nach dem Update).
 - **Pakete:** `esm-apps`/`esm-infra` aktiv, keines der sieben entfernten Pakete
   wieder da, `gh` aus `cli.github.com`, der Stand von `python3-urllib3` und
-  `python3-pip-whl`, nichts mehr aktualisierbar.
+  `python3-pip-whl`, kein ausstehendes Sicherheitsupdate (eine Version in einem
+  `-security`-Pocket; gestaffelte Fehlerkorrekturen aus `-updates` zählen nicht).
 - **Dateien:** weltschreibbare Dateien; die Home-Verzeichnisse von root, aller
   Konten ab UID 1000 und aller Konten mit einem Home unter `/home` — auch
   Dienstkonten mit `nologin` und System-UID wie `agentic_historian`: vorhanden,
@@ -65,7 +70,11 @@ HTTP-Codes aus, nie Dateiinhalte. Es prüft:
 Ohne `sudo` läuft es auch und sagt, was es dann nicht prüfen konnte.
 
 Erwartet vor dem Nachscan: kein `FAIL`; als `WARN` nur `python3-urllib3`
-(solange Canonical nichts liefert) — nach Rückbau und Neustart sonst nichts.
+(solange Canonical nichts liefert). Fehlerkorrekturen aus `noble-updates`, die
+Ubuntu gestaffelt verteilt («deferred due to phasing»), sind `OK`: `apt
+upgrade` nimmt sie dann absichtlich nicht, und Rapid7 meldet sie nicht.
+
+**Stand 20.11.2026:** `exit 0`, kein `FAIL` — bereit für den Nachscan.
 
 ## In dieser Reihenfolge
 
@@ -97,6 +106,10 @@ Erwartet vor dem Nachscan: kein `FAIL`; als `WARN` nur `python3-urllib3`
 >   Ubuntu-Pakete sind aktualisiert oder entfernt. Vier der gemeldeten Pakete
 >   (`libass9`, `libmbedcrypto7t64`, `libcjson1`, `libzvbi0t64`) waren nie
 >   installiert, sondern lagen im entfernten Container-Export.
+> - OpenClaw, Node.js und die Paketquelle `deb.nodesource.com` sind vom Host
+>   entfernt.
+> - nginx ist auf 1.24.0-2ubuntu7.20 aktualisiert (CVE-2026-123007,
+>   CVE-2026-123633); HTTP/2 war ohnehin nicht aktiv.
 > - Für `python3-urllib3` (CVE-2025-66418, -66471) gibt es auch in `esm-apps`
 >   noch keine korrigierte Version; wir spielen sie ein, sobald Canonical sie
 >   liefert.

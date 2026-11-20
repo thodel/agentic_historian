@@ -1,7 +1,11 @@
 # tei, user unit of dh (KG-4, #330): the SPARQL endpoint on idhefix, reachable
 # on tei as 127.0.0.1:7019 for nginx (/sparql/) and the bot (KG_SPARQL_ENDPOINT).
-# Same pattern as the MCP tunnels to idhefix, but as a unit: a tunnel that died
-# with a login session is how /sparql/ goes dark without anyone noticing.
+# Same pattern, key and options as the MCP tunnels to idhefix
+# (mcp-tunnel@.service, mcp-tunnel-nginx@.service: ~/.ssh/id_ed25519_idhefix_mcp).
+# Without -i, ssh offers dh's default keys, which idhefix does not know, and the
+# unit loops in auto-restart with "Permission denied (publickey,password)"
+# (tei, 20.11.2026). idhefix restricts that key with permitopen: 127.0.0.1:7019
+# has to be in its line of ~tobias/.ssh/authorized_keys (README).
 #
 #   cp deploy/qlever/systemd/sparql-tunnel.service ~/.config/systemd/user/
 #   systemctl --user daemon-reload && systemctl --user enable --now sparql-tunnel
@@ -12,7 +16,9 @@ After=network-online.target
 
 [Service]
 ExecStart=/usr/bin/ssh -N -o BatchMode=yes -o ExitOnForwardFailure=yes \
-    -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
+    -o ServerAliveInterval=20 -o ServerAliveCountMax=3 \
+    -o StrictHostKeyChecking=accept-new \
+    -i %h/.ssh/id_ed25519_idhefix_mcp -o IdentitiesOnly=yes \
     -L 127.0.0.1:7019:127.0.0.1:7019 tobias@130.92.59.240
 Restart=always
 RestartSec=15
