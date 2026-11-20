@@ -113,13 +113,18 @@ def _remove_fake_host(root):
     itself found `…/pytest-of-hermes/pytest-49/…/root/opt/x/log4j-core-2.19.0.jar`
     and failed — and Rapid7 matches by file name too. So the tree goes with
     the test; the stubs beside it name nothing a scanner looks for."""
-    def make_writable_and_retry(func, path, _exc):
-        Path(path).parent.chmod(0o700)
-        if Path(path).is_dir():
-            Path(path).chmod(0o700)
-        func(path)
-    if root.exists():
-        shutil.rmtree(root, onexc=make_writable_and_retry)
+    if not root.exists():
+        return
+    # Open every directory up before rmtree walks it: a test may lock one
+    # (chmod 000), and without root rmtree cannot enter it. os.walk is
+    # top-down, so a directory is opened before it is listed.
+    root.chmod(0o700)
+    for dirpath, dirnames, _files in os.walk(root):
+        for d in dirnames:
+            sub = os.path.join(dirpath, d)
+            if not os.path.islink(sub):
+                os.chmod(sub, 0o700)
+    shutil.rmtree(root)
 
 
 def _lines(out, level):
@@ -318,8 +323,9 @@ def test_the_fake_host_goes_with_the_test(tmp_path):
     root = tmp_path / "root"
     (root / "opt/x").mkdir(parents=True)
     (root / "opt/x/log4j-core-2.19.0.jar").write_text("jar")
-    (root / "home/locked").mkdir(parents=True)
-    (root / "home/locked/f").write_text("x")
+    (root / "home/locked/deeper").mkdir(parents=True)
+    (root / "home/locked/deeper/f").write_text("x")
+    (root / "home/locked/deeper").chmod(0o000)
     (root / "home/locked").chmod(0o000)
     _remove_fake_host(root)
     assert not root.exists()
