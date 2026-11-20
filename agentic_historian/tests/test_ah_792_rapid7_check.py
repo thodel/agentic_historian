@@ -100,7 +100,26 @@ def tei(tmp_path):
                               capture_output=True, text=True, timeout=60)
 
     run.root = root
-    return run
+    try:
+        yield run
+    finally:
+        _remove_fake_host(root)
+
+
+def _remove_fake_host(root):
+    """The fake tree holds a file named like the real log4j-core-2.19.0.jar and
+    world-writable files on purpose. pytest keeps the last three runs' temp
+    directories, and on tei the suite runs as hermes: on 20.11.2026 the check
+    itself found `…/pytest-of-hermes/pytest-49/…/root/opt/x/log4j-core-2.19.0.jar`
+    and failed — and Rapid7 matches by file name too. So the tree goes with
+    the test; the stubs beside it name nothing a scanner looks for."""
+    def make_writable_and_retry(func, path, _exc):
+        Path(path).parent.chmod(0o700)
+        if Path(path).is_dir():
+            Path(path).chmod(0o700)
+        func(path)
+    if root.exists():
+        shutil.rmtree(root, onexc=make_writable_and_retry)
 
 
 def _lines(out, level):
@@ -291,3 +310,17 @@ def test_a_master_still_running_the_replaced_binary_fails(tei):
     (proc / "exe").unlink()
     os.symlink("/usr/sbin/nginx", proc / "exe")
     assert "nginx binary" not in tei().stdout
+
+
+def test_the_fake_host_goes_with_the_test(tmp_path):
+    """What the rescan would flag must not outlive the test, even under a
+    directory the test locked (a home made 000, a file made read-only)."""
+    root = tmp_path / "root"
+    (root / "opt/x").mkdir(parents=True)
+    (root / "opt/x/log4j-core-2.19.0.jar").write_text("jar")
+    (root / "home/locked").mkdir(parents=True)
+    (root / "home/locked/f").write_text("x")
+    (root / "home/locked").chmod(0o000)
+    _remove_fake_host(root)
+    assert not root.exists()
+    assert not list(tmp_path.rglob("log4j-core-*.jar"))
