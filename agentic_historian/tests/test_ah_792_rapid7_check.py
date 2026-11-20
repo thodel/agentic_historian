@@ -201,8 +201,10 @@ def test_a_removed_package_back_does_not_also_say_none_is_back(tei):
 
 
 @pytest.mark.parametrize("env,expected", [
-    ({"STUB_UPGRADABLE": "libfoo/noble-updates"},
-     "WARN  apt: 1 package(s) upgradable"),
+    ({"STUB_UPGRADABLE": "libfoo/noble-updates,noble-security"},
+     "WARN  apt: 1 security update(s) pending, e.g. libfoo"),
+    ({"STUB_UPGRADABLE": "libbar/noble-apps-security"},
+     "WARN  apt: 1 security update(s) pending, e.g. libbar"),
     ({"STUB_UID": "1000"}, "WARN  privileges: not root"),
 ])
 def test_what_is_known_or_waiting_is_a_warning(tei, env, expected):
@@ -330,3 +332,13 @@ def test_the_fake_host_goes_with_the_test(tmp_path):
     _remove_fake_host(root)
     assert not root.exists()
     assert not list(tmp_path.rglob("log4j-core-*.jar"))
+
+
+def test_a_bugfix_update_alone_is_no_finding(tei):
+    """tei, 20.11.2026: eleven systemd packages from noble-updates, held back by
+    Ubuntu's phasing. `apt upgrade` did nothing, and the check still said to
+    run it. A bugfix from -updates is not what Rapid7 reports."""
+    r = tei(STUB_UPGRADABLE="systemd/noble-updates udev/noble-updates")
+    assert "OK    apt: no security update pending; 2 bugfix update(s) from -updates" in r.stdout
+    assert "sudo apt upgrade" not in r.stdout
+    assert r.returncode == 0
