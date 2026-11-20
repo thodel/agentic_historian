@@ -29,6 +29,15 @@ it to `ah-corpus-admin`, and nginx forwards query strings — a token anyone can
 read would reach QLever's admin commands. Phase 2 requires
 `QLEVER_ACCESS_TOKEN` from `~/.config/qlever/env` on idhefix and fails without it.
 
+**Human Lineage: off since 20.11.2026.** The dataset was withdrawn from Zenodo
+on 19.11.2026 (copyright; ch-h-bot#640) and its MCP switched off at nginx the
+same day. The layer is no longer built unless `KG_HUMANLINEAGE=1` is set, and it
+should not be while the dataset stays withdrawn. A build without it says
+`humanlineage off: dataset withdrawn …` in `--status`, and drops a part from an
+earlier build instead of keeping it. The served graph never held it: on tei
+20.11.2026 the named graph counted 0 triples and no IRI anywhere contained
+humanlineage.org. What follows describes the layer as it was designed.
+
 **Human Lineage is a layer in its own named graph (#830, decided 17.11.2026).**
 Kinship (`P152_has_parent`, marriages) and `sameAs` from Human Lineage are CC
 BY-SA 4.0. They are built as `parts/humanlineage.nt`, after the holdings and from
@@ -47,8 +56,9 @@ SELECT * FROM <https://tei.dh.unibe.ch/id/graph/humanlineage> WHERE { ?s ?p ?o }
 SELECT * WHERE { ?s ?p ?o MINUS { GRAPH <https://tei.dh.unibe.ch/id/graph/humanlineage> { ?s ?p ?o } } }
 ```
 
-`KG_HUMANLINEAGE=0` in `~/.config/qlever/env` switches the layer off;
-`KG_HUMANLINEAGE_SOURCES=kf,ssrq` narrows what it reads. It needs the Human
+`KG_HUMANLINEAGE=1` in `~/.config/qlever/env` switches the layer on (off by
+default since 20.11.2026, see above); `KG_HUMANLINEAGE_SOURCES=kf,ssrq` narrows
+what it reads. It needs the Human
 Lineage MCP (idhefix :8025). If that does not answer, the holdings are swapped
 in all the same and the layer keeps its previous build (`kept` in `--status`).
 A new Human Lineage snapshot is not an input: run with `--force` after one.
@@ -88,9 +98,7 @@ end to end against the pinned image (index, serve, `--check`).
 4. The first build by hand, to read what it says:
    `set -a; . ~/.config/qlever/env; set +a; bash deploy/qlever/refresh_bestand.sh`.
    Expected tail: `serves N triples = build …` and the per-holding table.
-   `KG_HUMANLINEAGE=0` in front gets the holdings served first; the Human
-   Lineage layer asks its MCP for every person with an identifier, which takes
-   long.
+   The Human Lineage layer is off by default (withdrawn dataset, see above).
 5. The timer: copy `systemd/qlever-refresh.{service,timer}` to
    `~/.config/systemd/user/`, `systemctl --user daemon-reload`,
    `systemctl --user enable --now qlever-refresh.timer`;

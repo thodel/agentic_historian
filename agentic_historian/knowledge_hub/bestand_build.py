@@ -36,8 +36,17 @@ their freshly built parts, and indexed into its own **named graph**
 (``https://tei.dh.unibe.ch/id/graph/humanlineage``), so the share-alike
 terms attach to that graph and not to the holdings. A query without
 ``GRAPH`` sees the union (checked against QLever 17.11.2026); ``FROM`` or
-``MINUS { GRAPH … }`` selects or leaves out the layer. ``KG_HUMANLINEAGE=0``
-switches it off.
+``MINUS { GRAPH … }`` selects or leaves out the layer.
+
+**Off by default since 20.11.2026.** On 19.11.2026 the Human Lineage dataset
+was withdrawn from Zenodo (copyright; ch-h-bot#640), and its MCP was switched
+off at nginx the same day. The layer is therefore not built unless
+``KG_HUMANLINEAGE=1`` says so, and nothing in the repository should say so
+while the dataset stays withdrawn. Off means absent, not ``kept``: a build
+without the layer stages no ``humanlineage.nt``, so a part from an earlier
+build leaves the graph with the next swap. (The served graph never held it:
+the layer had failed on every build, 0 triples in the named graph and no
+humanlineage.org IRI anywhere, counted on tei 20.11.2026.)
 
 A layer that fails (the Human Lineage MCP does not answer) does not hold the
 holdings back: the previous build of the layer is kept and said so
@@ -108,10 +117,12 @@ class Layer:
     licence: str
     licence_uri: str
     attribution: str
-    switch: str                 # env var; 0/false/no/off switches the layer off
+    switch: str                 # env var; 1/true/yes/on or 0/false/no/off
     reads: tuple[str, ...]
     reads_env: str              # env var overriding ``reads`` (comma-separated)
     issue: str
+    default_on: bool = True     # whether the layer is built when ``switch`` is unset
+    withdrawn: str = ""         # why it is off by default, if it is
 
 
 #: Dodis is read since its persons carry Wikidata/GND/HLS from Wikidata's own
@@ -122,7 +133,8 @@ LAYERS: tuple[Layer, ...] = (
           "CC BY-SA 4.0", "https://creativecommons.org/licenses/by-sa/4.0/",
           "Human Lineage, https://humanlineage.org (Zenodo, concept DOI 10.5281/zenodo.23284943)",
           "KG_HUMANLINEAGE", ("dodis", "kf", "ssrq", "mls", "sikart", "bullinger", "escher"),
-          "KG_HUMANLINEAGE_SOURCES", "HL-9 (#830)"),
+          "KG_HUMANLINEAGE_SOURCES", "HL-9 (#830)", default_on=False,
+          withdrawn="dataset withdrawn from Zenodo 19.11.2026 (copyright; ch-h-bot#640)"),
 )
 #: Next to a part: the named graph it goes into. Without one, the default graph.
 GRAPH_SUFFIX = ".graph"
@@ -134,7 +146,8 @@ def layers_enabled(env: dict | None = None) -> list[tuple[Layer, tuple[str, ...]
     env = dict(os.environ if env is None else env)
     out = []
     for layer in LAYERS:
-        if env.get(layer.switch, "1").strip().lower() in _OFF:
+        value = env.get(layer.switch, "").strip().lower()
+        if value in _OFF or (not value and not layer.default_on):
             continue
         reads = tuple(x.strip() for x in env.get(layer.reads_env, "").split(",") if x.strip())
         out.append((layer, reads or layer.reads))
@@ -338,6 +351,12 @@ def build(out_dir: str | Path, *, env: Optional[dict] = None, commit: Optional[s
         for layer, reads in layers:
             rows.append(_build_layer(layer, reads, staging, parts, previous, runner=runner,
                                      python=python, commit=commit, allow_shrink=allow_shrink))
+    on = {layer.name for layer, _ in layers}
+    for layer in LAYERS:            # a layer that is off is said so, never just absent
+        if layer.name not in on:
+            rows.append({"source": layer.name, "status": "off",
+                         "reason": (f"{layer.withdrawn}; " if layer.withdrawn else "")
+                                   + f"{layer.switch}=1 builds it"})
     served = [r for r in rows if r["status"] in ("built", "kept")]
     manifest = {"schema": "bestandsgraph/1", "fingerprint": fp, "commit": commit,
                 "started_at": started, "built_at": _now(),
