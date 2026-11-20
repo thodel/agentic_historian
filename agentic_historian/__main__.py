@@ -2111,6 +2111,16 @@ def build_parser() -> argparse.ArgumentParser:
     p_emb.add_argument("--doc-id", help="Only this document's passages")
     p_emb.set_defaults(func=embed_passages_cmd)
 
+    p_idx = sub.add_parser(
+        "index-passages",
+        help="Rebuild documents' passages from their saved <doc>_entities.json, "
+             "without a model — for a run whose index write failed (#892)")
+    p_idx.add_argument("doc_ids", nargs="*", metavar="DOC_ID",
+                       help="Documents to re-index")
+    p_idx.add_argument("--all", action="store_true",
+                       help="Every <doc>_entities.json in OUTPUTS_DIR")
+    p_idx.set_defaults(func=index_passages_cmd)
+
     p_ask = sub.add_parser(
         "ask",
         help="Agent F: answer a question from evidence, every quote checked (#812)")
@@ -2169,6 +2179,57 @@ def embed_passages_cmd(args) -> int:
     print(f"embedded  : {done.embedded} new, {done.cached} already had a vector, "
           f"{done.skipped} with no text to embed")
     return 0
+
+
+def index_passages_cmd(args) -> int:
+    """Rebuild passages from the saved entities, the way Agent C writes them.
+
+    Agent C writes a document's passages right after its entities, and a
+    write that fails is only a warning (#467): the entities are saved, the
+    passages are not, and the document is missing from /find. On tei that was
+    #892 — `lassberg-letter-0036` and `-0048` lost 3 and 5 passages to a
+    legacy column. Re-running the pipeline would call the model again for
+    nothing; the entities file holds everything a passage row needs.
+
+    Same rows as the run: `passage_records` with Agent C's defaults (page 1,
+    no holding — every call site passes those), through `_index_passages`,
+    which replaces the document's rows. Exit 1 when a document could not be
+    read or written.
+    """
+    from agents import entity_agent as agent_c
+
+    out = config.OUTPUTS_DIR
+    suffix = "_entities.json"
+    if args.all:
+        ids = sorted(f.name[:-len(suffix)] for f in out.glob(f"*{suffix}"))
+    else:
+        ids = list(args.doc_ids)
+    if not ids:
+        print(f"nothing to index — name DOC_IDs or pass --all (entities in {out})")
+        return 1
+    failed = 0
+    for doc_id in ids:
+        path = out / f"{doc_id}{suffix}"
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as e:
+            print(f"{doc_id}: cannot read {path.name} ({e})")
+            failed += 1
+            continue
+        enriched = data if isinstance(data, dict) else {"entities": data}
+        rows = agent_c.passage_records(doc_id, enriched.get("entities", []))
+        written = agent_c._index_passages(doc_id, enriched)
+        if written != len(rows):
+            print(f"{doc_id}: FAILED — {len(rows)} passage(s) to write, "
+                  f"{written} in the index (the warning above says why)")
+            failed += 1
+        else:
+            print(f"{doc_id}: {written} passage(s)")
+    print(f"documents : {len(ids)}, {failed} failed")
+    if len(ids) > failed:
+        print("then      : python -m agentic_historian embed-passages "
+              "(new passages have no vector yet)")
+    return 1 if failed else 0
 
 
 def ask_cmd(args) -> int:
