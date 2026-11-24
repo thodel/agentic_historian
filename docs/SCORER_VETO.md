@@ -84,6 +84,45 @@ bits/char über TrOCR). Gegen solchen Müll greift die Marge weiter; die 12 %
 sind ein Boden, die 0.6 % Verlust die gemessenen Kosten. Dazu die Vorbehalte
 von L2: eigener Draw, Scorer kennt andere Seiten derselben Hände.
 
+## Die Schwelle, auf fremdem Material (24.11.2026): 3.0
+
+Nachgemessen auf der Referenz von aussen (#875 Teil 1, training-atr-models#430):
+die 2 751 Zeilen der Bundesratsprotokolle (doi:10.5281/zenodo.4746342, md5
+`6d3417ef…`). Kein Dokument davon steckt in einem der beiden Scorer; die
+Referenzen sind für beide überraschender als deren eigener Held-out (mittleres z
++1.6 generisch, +5.9 XIX). Gelesen haben acht Modelle aus vier Engines: drei
+VLM-Zeilenarme, zwei VLM-Seitenarme, kraken (`german-xix-v1`, Baselines) und
+zwei TrOCR. Das ist die Lage, die die Fusion auf einer Seite sieht und L2 mit
+acht Armen eines Modells nicht zeigen konnte.
+
+Generische `de`-Zelle (die der Produktion):
+
+| Marge | vetoed | plausibel verloren | Müll entfernt | fatale Zeilen |
+|---:|---:|---:|---:|---:|
+| 1.5 | 11.9 % | 7.7 % | 51 % | 4.9 % |
+| 2.0 | 7.0 % | 3.6 % | 42 % | 2.5 % |
+| 2.5 | 4.6 % | 1.9 % | 36 % | **1.5 %** |
+| **3.0** | 3.2 % | **1.0 %** | **30 %** | **0.9 %** |
+| 4.0 | 1.6 % | 0.2 % | 22 % | 0.3 % |
+
+Mit fremden Engines ist der Müll echter Müll (36 % statt 12 % entfernt bei 2.5),
+aber die beste Lesung einer Zeile fällt öfter: 1.5 % der Zeilen bei 2.5, über
+der Regel von 1 %. **3.0** ist die kleinste Marge, die beide Grenzen hält.
+Die XIX-Zelle gibt dieselben Zahlen auf ±0.2 Prozentpunkte. Auf dem
+#298-Trace ändert sich nichts: kraken-mccatmus liegt +3.31 über TrOCR und fällt,
+kraken-catmus (+2.16) bleibt.
+
+Was dieselbe Messung sonst entschieden hat: τ zwischen bits/char und CER liegt
+auf dem plausiblen Band im Median bei 0.25 (generisch) und 0.24 (XIX), unter
+0.3. Wie auf L2 ordnet der Scorer also brauchbare Lesungen nicht. Er bleibt ein
+Veto am Müllrand; das Routing nach Passung (L4) und die Scorer-Matrix je Zelle
+(training-atr-models#110) fallen. Unter den Engine-Paaren erreicht nur
+kraken–TrOCR die 0.7 (0.77). Jedes Paar mit einem VLM liegt bei 0.58–0.66,
+dort halluziniert das VLM flüssig.
+
+Ein Vorbehalt bleibt: Die Messung vetoed je Zeile gegen die beste von acht
+Lesungen, die Fusion je Seite gegen die beste von meist drei bis vier.
+
 ## Was aufgezeichnet wird
 
 `FusionResult.vetoed` nennt je vetoed Kandidat Label, bits/char, z und die
@@ -127,7 +166,7 @@ braucht Ground Truth — `calibrate_veto_margin.py` auf den Bundesratsprotokolle
 |---|---|---|
 | `FUSION_SCORER_VETO` | `false` | Das Veto ist aus, bis L2 (Kendall τ gegen die Bundesratsprotokolle, asteraix) die Schwelle gemessen hat. |
 | `FUSION_SCORER_DIR` | `data/scorers` | Verzeichnis mit `*.scorer.json`, je Zelle eine Datei, wie `CharNgramScorer.save` sie schreibt. |
-| `FUSION_VETO_MARGIN` | `2.5` | bits/char über dem Besten der Seite; kalibriert 14.11.2026, Tabelle oben. |
+| `FUSION_VETO_MARGIN` | `3.0` | bits/char über dem Besten der Seite; kalibriert 14.11.2026 (2.5), auf den Bundesratsprotokollen nachgemessen 24.11.2026 (3.0), Tabellen oben. |
 
 Die Zelle einer Seite kommt aus Agent B, wie der Modellselektor sie liest
 (`lang`, `region`, `document_type`, `century`), mit den Pins der Historikerin

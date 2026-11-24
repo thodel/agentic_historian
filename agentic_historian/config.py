@@ -664,7 +664,14 @@ FUSION_SCORER_DIR = _get("FUSION_SCORER_DIR", str(DATA_DIR / "scorers"))
 # are one model, so the garbage there is that model's hard lines, not another
 # engine's gibberish (#298: kraken +1.7 and +3.2 above TrOCR) — the gain is a
 # floor, the cost is the measured one. docs/SCORER_VETO.md has the table.
-FUSION_VETO_MARGIN = float(_get("FUSION_VETO_MARGIN", "2.5"))
+# Re-measured 24.11.2026 on an external reference (training-atr-models#430: the
+# 2,751 Federal Council lines, no shared document with either scorer, read by
+# eight models of four engines — VLM lines and pages, kraken, TrOCR): at 2.5 the
+# veto hit the line's best reading on 1.5 % of the lines, over the 1 % rule; at
+# 3.0 it loses 1.0 % of the plausible readings, removes 30 % of the garbage and
+# hits the best reading on 0.9 %. Hence 3.0. On the #298 trace nothing changes:
+# kraken-mccatmus (+3.31) still falls, kraken-catmus (+2.16) still stays.
+FUSION_VETO_MARGIN = float(_get("FUSION_VETO_MARGIN", "3.0"))
 # What the ATR watcher has already announced (#418), see above.
 ATR_WATCH_STATE = DATA_DIR / "atr_watch.json"
 
