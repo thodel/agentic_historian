@@ -137,10 +137,14 @@ def test_the_default_margin_leaves_one_survivor_who_is_returned_as_veto(scorer, 
     assert res.n_candidates == 4
 
 
-def test_the_calibrated_margin_cuts_both_kraken_readings_on_the_trace_and_keeps_the_vlm(scorer):
+def test_the_calibrated_margin_cuts_the_garbage_kraken_reading_and_keeps_the_rest(scorer):
+    """At 3.0 (Federal Council lines, 24.11.2026) only kraken-mccatmus falls on
+    the #298 trace: +4.30 over TrOCR under this fixture's scorer; kraken-catmus
+    (+2.72 here) stays, as it does under the real generic scorer (+2.16,
+    docs/SCORER_VETO.md). At 2.5 this fixture had cut both; TrOCR stands either way."""
     import config
     res = fuse(_recs(), llm_fn=lambda p: "", scorer=scorer, veto_margin=config.FUSION_VETO_MARGIN)
-    assert [v["label"] for v in res.vetoed] == ["kraken-catmus", "kraken-mccatmus"]
+    assert [v["label"] for v in res.vetoed] == ["kraken-mccatmus"]
     assert res.text == TRACE["trocr"]
 
 
@@ -202,7 +206,7 @@ def test_the_orchestrator_hook_reads_agent_b_and_the_pins(monkeypatch):
 def test_config_defaults_keep_the_veto_off():
     import config
     assert config.FUSION_SCORER_VETO is False
-    assert config.FUSION_VETO_MARGIN == 2.5                 # calibrated 14.11.2026, docs/SCORER_VETO.md
+    assert config.FUSION_VETO_MARGIN == 3.0                 # Federal Council lines, 24.11.2026, docs/SCORER_VETO.md
     assert config.FUSION_SCORER_DIR.endswith("scorers")
 
 
