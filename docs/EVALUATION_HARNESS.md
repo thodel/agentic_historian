@@ -627,3 +627,79 @@ number, and `score` writes the mean per term and the script's Brier score under
 
 `trl_reward_funcs()` returns the same terms in the signature TRL's
 `GRPOTrainer` takes, `f(completions, reference, **kwargs)`, with their weights.
+
+## The epoch's Qwen as a third reading (#903)
+
+`eval/third_reading.py` asks whether a Qwen fine-tuned on the epoch reads
+better when it gets the classical engines' transcription along with the image.
+It compares seven arms on the same lines, against ground truth:
+
+| arm | what it is |
+|---|---|
+| A1 | kraken |
+| A2 | TrOCR |
+| B | the vote of A1 and A2 (`fusion.fuse`, no LLM arbitration) |
+| C | the Qwen, image only, with its own prompt |
+| B3 | the vote of A1, A2 and C |
+| D | the Qwen with image and B as a hint |
+| D2 | D′: the Qwen with image, A1 and A2 as two hints |
+
+It measures at two levels:
+
+- **`line`**: the ground truth's own lines. kraken and TrOCR get them as
+  `lines` on `/recognize`; TrOCR honours them since
+  serving-atr-inference#285, so the gateway must run that version. The Qwen
+  reads each line's crop at the line budget (256·32·32).
+- **`page`**: one `/segment`, then kraken and TrOCR read those lines and B is
+  voted line by line. The page model (`qwen_page`) reads the whole page at
+  2048·32·32. A set without a page model has its line model read the segmented
+  lines instead.
+
+The plan is a JSON file; paths are relative to it. The `docs` CSV has the
+columns `page`, `doc` and `year`. It is the selection, and documents are what
+the bootstrap resamples:
+
+```json
+{"sets": [
+  {"name": "medieval", "pages": "missiven/pages", "docs": "missiven/docs.csv",
+   "years": [1450, 1550],
+   "kraken": "<kraken model>", "trocr": "trocr-medieval-escriptmask",
+   "qwen": "qwen3vl-medieval-german-v3"},
+  {"name": "early-modern", "pages": "kurrent-xvi-xix/data/pages",
+   "kraken": "<kraken model>", "trocr": "trocr-kurrent-xvi-xvii",
+   "qwen": "<kurrent line model>",
+   "qwen_page": "qwen3.5-4b-german-kurrent-xvi-xix-page-v1"},
+  {"name": "xix", "pages": "xix/pages",
+   "kraken": "<kraken model>", "trocr": "trocr-kurrent",
+   "qwen": "qwen3vl-german-xix-v2"}
+]}
+```
+
+```bash
+cd ~/agentic_historian/agentic_historian
+python -m eval.third_reading plan.json --out runs/903 --dry-run          # pages, documents, lines; no network
+python -m eval.third_reading plan.json --out runs/903 --max-pages 3       # a sample first
+python -m eval.third_reading plan.json --out runs/903                     # the rest; resumes
+python -m eval.third_reading plan.json --out runs/903 --report-only
+```
+
+**How it runs.**
+
+- Readings go to `readings.jsonl` as they come, keyed by item, arm and
+  settings. The settings are the model, the level, the pixel budget, the prompt
+  and, for D/D2, `HINT_VERSION`.
+- A stopped run resumes where it stopped.
+- A failed call is asked again on the next run.
+- If an engine fails on a page, the Qwen arms skip that page until the engine
+  has read it.
+
+**What the report gives.** `report.md` and `report.json` contain:
+
+- per arm: corpus CER and WER (whitespace collapsed, case and punctuation
+  kept), length ratio, empty and truncated answers, seconds and tokens;
+- a 95 % interval from resampling documents;
+- the paired differences D−B, D−C, D2−B, D2−C, B3−B and C−B on the same
+  resamples;
+- the anchoring of D and D2: with a right hint, whether the Qwen kept it or
+  broke it; with a wrong hint, whether it copied it or fixed it, and whether
+  its CER was better or worse than the hint's.
