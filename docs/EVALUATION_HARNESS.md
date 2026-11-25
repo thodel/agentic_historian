@@ -714,6 +714,15 @@ takes 83 pages.
 - If an engine fails on a page, the Qwen arms skip that page until the engine
   has read it.
 
+**B is often one engine, not a vote.** When kraken and TrOCR disagree by more
+than the pipeline's `no_merge_cer` (35 %), `fusion.fuse` does not blend: it takes
+the reading with the higher confidence verbatim (#300). The engines'
+per-line confidences go into the vote, as in the pipeline. Without them both
+readings had 0.0, and whichever was listed first won. That was the case in the
+first sample on 25.11.2026: hint version 903-v1, re-read since 903-v2. The
+report counts what the vote did per fused line: `vote`, `no-merge:<engine>`,
+`single:<engine>` or `empty`.
+
 **What the report gives.** `report.md` and `report.json` contain:
 
 - per arm: corpus CER and WER (whitespace collapsed, case and punctuation

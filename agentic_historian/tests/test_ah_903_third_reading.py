@@ -319,7 +319,7 @@ def test_a_new_hint_wording_is_read_anew_and_nothing_else(tmp_path, monkeypatch)
     _set(tmp_path, docs=("d1",))
     _plan(tmp_path)
     _run(tmp_path, FakeGateway(), level="line")
-    monkeypatch.setattr(tr, "HINT_VERSION", "903-v2")
+    monkeypatch.setattr(tr, "HINT_VERSION", "903-v99")
     gw = FakeGateway()
     _run(tmp_path, gw, level="line")
     prompts = [c[4] for c in gw.calls if c[0] == "chat"]
@@ -547,3 +547,65 @@ def test_a_gateway_error_is_raised_with_its_status():
         lambda r: httpx.Response(503, text="vLLM starting")))
     with pytest.raises(RuntimeError, match="503 vLLM starting"):
         gw.recognize(b"img", "p.jpg", "kr", [])
+
+
+# ── what the vote does ───────────────────────────────────────────────────────
+
+def test_no_merge_takes_the_more_confident_reading_not_the_first():
+    """Readings too far apart to blend: the vote takes one verbatim, the most
+    confident. Without confidences that is whichever came first (25.11.2026)."""
+    far = {"kraken": "Dem Edlen", "trocr": "wolgeborn vnnd vesten herren"}
+    modes = tr.Counter()
+    assert tr.fuse_texts(far, {"kraken": 0.2, "trocr": 0.9}, modes) == far["trocr"]
+    assert modes == tr.Counter({"no-merge:trocr": 1})
+    assert tr.fuse_texts(far, {"kraken": 0.9, "trocr": 0.2}) == far["kraken"]
+
+
+def test_the_modes_say_vote_single_and_empty():
+    modes = tr.Counter()
+    tr.fuse_texts({"kraken": "Dem Edlen Herrn", "trocr": "Dem Edlen Herm"}, None, modes)
+    tr.fuse_texts({"kraken": "Dem Edlen Herrn", "trocr": ""}, None, modes)
+    tr.fuse_texts({"kraken": "", "trocr": " "}, None, modes)
+    assert modes == tr.Counter({"vote": 1, "single:kraken": 1, "empty": 1})
+
+
+class ConfidentGateway(FakeGateway):
+    """TrOCR reads every line differently from kraken, and is the surer one."""
+
+    def recognize(self, image, name, model, lines):
+        res = super().recognize(image, name, model, lines)
+        for ln in res["lines"]:
+            if model == "tr":
+                ln["text"], ln["confidence"] = "ganz andere Wörter hier", 0.9
+            else:
+                ln["confidence"] = 0.3
+        return res
+
+
+def test_the_hint_and_b_follow_the_engines_confidences(tmp_path):
+    _set(tmp_path, docs=("d1",))
+    _plan(tmp_path)
+    gw = ConfidentGateway()
+    rep, _ = _run(tmp_path, gw, level="line")
+    hinted = [c[4] for c in gw.calls if c[0] == "chat" and "<reading>" in c[4]]
+    assert hinted and all("ganz andere Wörter hier" in p for p in hinted)
+    g = rep["groups"][0]
+    assert g["fusion"]["B"] == {"no-merge:trocr": 3}
+    assert _arm(rep, "line", "B")["cer"] == _arm(rep, "line", "A2")["cer"]
+    md = (tmp_path / "run" / "report.md").read_text()
+    assert "What the vote did, per fused line: B no-merge:trocr 3" in md
+
+
+def test_the_run_keeps_fusion_quiet_and_gives_the_log_back(tmp_path):
+    from loguru import logger
+    seen = []
+    sink = logger.add(lambda m: seen.append(m.record["name"]), level="INFO")
+    try:
+        _set(tmp_path, docs=("d1",))
+        _plan(tmp_path)
+        _run(tmp_path, ConfidentGateway(), level="line")
+        assert "fusion" not in seen
+        tr.fuse_texts({"kraken": "Dem Edlen", "trocr": "wolgeborn vnnd vesten herren"})
+        assert "fusion" in seen, "the log is back on after the run"
+    finally:
+        logger.remove(sink)
