@@ -15,7 +15,8 @@ import sys
 from pathlib import Path
 
 import pytest
-from PIL import Image
+
+pytest.importorskip("PIL")
 
 PKG = Path(__file__).resolve().parents[1]
 if str(PKG) not in sys.path:
@@ -24,6 +25,19 @@ if str(PKG) not in sys.path:
 from eval import third_reading as tr  # noqa: E402
 
 NS = "http://schema.primaresearch.org/PAGE/gts/pagecontent/2019-07-15"
+
+
+def _image():
+    """The real Pillow, resolved at run time. ``test_ah_108`` installs a
+    ``MagicMock`` PIL into ``sys.modules`` while pytest collects; a module-level
+    import binds to it and writes images that are not images (as in
+    ``test_ah_741_upload_size._pil``). ``third_reading`` imports PIL inside its
+    functions for the same reason."""
+    for name in [n for n in list(sys.modules) if n == "PIL" or n.startswith("PIL.")]:
+        if type(sys.modules[name]).__module__.startswith("unittest.mock"):
+            del sys.modules[name]
+    from PIL import Image
+    return Image
 
 
 def _page_xml(image: str, lines: list[tuple[str, tuple[int, int, int, int] | None]]) -> str:
@@ -41,7 +55,7 @@ def _page_xml(image: str, lines: list[tuple[str, tuple[int, int, int, int] | Non
 
 def _write_page(d: Path, stem: str, lines, size=(200, 100), xml_dir: str | None = None) -> Path:
     d.mkdir(parents=True, exist_ok=True)
-    Image.new("RGB", size, "white").save(d / f"{stem}.jpg")
+    _image().new("RGB", size, "white").save(d / f"{stem}.jpg")
     xd = d / xml_dir if xml_dir else d
     xd.mkdir(parents=True, exist_ok=True)
     p = xd / f"{stem}.xml"
@@ -102,7 +116,7 @@ class FakeGateway:
 
     def chat(self, model, image, mime, prompt, max_tokens):
         from io import BytesIO
-        w, h = Image.open(BytesIO(image)).size
+        w, h = _image().open(BytesIO(image)).size
         self.calls.append(("chat", model, w * h, mime, prompt, max_tokens))
         if self.fail_arm == "chat":
             raise RuntimeError("vLLM gone")
@@ -210,11 +224,11 @@ def test_a_sample_spreads_over_documents():
 
 
 def test_fit_scales_down_to_the_budget_and_never_up():
-    big = Image.new("RGB", (2000, 1000))
+    big = _image().new("RGB", (2000, 1000))
     small = tr.fit(big, 200_000)
     assert small.width * small.height <= 200_000
     assert abs(small.width / small.height - 2) < 0.05
-    tiny = Image.new("RGB", (10, 10))
+    tiny = _image().new("RGB", (10, 10))
     assert tr.fit(tiny, 200_000).size == (10, 10)
 
 
