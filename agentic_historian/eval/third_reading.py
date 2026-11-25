@@ -75,6 +75,7 @@ import sys
 import threading
 import time
 import xml.etree.ElementTree as ET
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -102,7 +103,7 @@ SEED = 903
 
 #: Bumped whenever the hint wording changes: it is part of every D/D2
 #: reading's settings, so a new wording is read anew, never mixed with the old.
-HINT_VERSION = "903-v1"
+HINT_VERSION = "903-v2"   # v2: the hint's vote sees the engines' confidences
 HINT_PROMPT = (
     "{base}\n\n"
     "Another recogniser read this image as follows. Its reading may contain errors.\n"
@@ -421,13 +422,49 @@ def qwen_settings(arm: str, spec: dict, level: str) -> str:
                        prompt=spec.get("prompt") or BASE_PROMPT)
 
 
-def fuse_texts(named: dict[str, str]) -> str:
-    """The pipeline's vote without arbitration over the non-empty readings."""
+def fusion_mode(res) -> str:
+    """What the vote did: ``vote``, ``single:<engine>`` (one usable reading) or
+    ``no-merge:<engine>`` — the readings disagreed past ``no_merge_cer`` and one
+    was taken verbatim, the one with the highest confidence."""
+    strategy = getattr(res, "strategy", "") or ""
+    prov = getattr(res, "provenance", None) or []
+    who = (prov[0].backers[0] if prov and prov[0].backers else "?")
+    if "no-merge" in strategy:
+        return f"no-merge:{who}"
+    if getattr(res, "n_candidates", 0) == 1:
+        return f"single:{who}"
+    return "vote"
+
+
+def fuse_texts(named: dict[str, str], conf: Optional[dict[str, Optional[float]]] = None,
+               modes: Optional[Counter] = None) -> str:
+    """The pipeline's vote without arbitration over the non-empty readings.
+
+    ``conf`` are the engines' own confidences, which the vote uses to pick a
+    reading when the readings disagree too much to blend (no-merge, #300).
+    Without them every reading has 0.0 and the first in ``named`` wins — list
+    order, not evidence (seen in the first sample on 25.11.2026). ``modes``
+    counts what the vote did (:func:`fusion_mode`).
+    """
     import fusion
-    recs = [{"engine": k, "text": v} for k, v in named.items() if (v or "").strip()]
+    recs = [{"engine": k, "text": v, "confidence": (conf or {}).get(k) or 0.0}
+            for k, v in named.items() if (v or "").strip()]
     if not recs:
+        if modes is not None:
+            modes["empty"] += 1
         return ""
-    return fusion.fuse(recs, arbitrate=False).text or ""
+    res = fusion.fuse(recs, arbitrate=False)
+    if modes is not None:
+        modes[fusion_mode(res)] += 1
+    return res.text or ""
+
+
+def _confs(r1: Optional[dict], r2: Optional[dict], i: int) -> dict[str, Optional[float]]:
+    """kraken's and TrOCR's confidence for line ``i``, where the engine gave one."""
+    def one(r):
+        c = (r or {}).get("confidences") or []
+        return c[i] if i < len(c) else None
+    return {"kraken": one(r1), "trocr": one(r2)}
 
 
 def hint_prompt(base: str, hint: str) -> str:
@@ -483,6 +520,7 @@ class Reader:
                                    f"(segmented_by={res.get('segmented_by')!r})")
             return {"lines": [(ln.get("text") or "").strip() for ln in got],
                     "text": "\n".join((ln.get("text") or "").strip() for ln in got),
+                    "confidences": [ln.get("confidence") for ln in got],
                     "segmented_by": res.get("segmented_by")}
         return self._call(key, arm, st, go, {"model": model, "level": level})
 
@@ -497,10 +535,12 @@ class Reader:
     def _px(spec: dict, level: str) -> int:
         return spec.get("max_pixels") or PIXELS[level]
 
-    def _qwen_lines(self, key_of, spec, img, boxes, a1, a2) -> None:
+    def _qwen_lines(self, key_of, spec, img, boxes, r1, r2) -> None:
         """C, D and D2 for each line box, in parallel; texts by line index."""
         base = spec.get("prompt") or BASE_PROMPT
         px = self._px(spec, "line")
+
+        a1, a2 = r1["lines"], r2["lines"]
 
         def one(i):
             piece = crop(img, boxes[i])
@@ -513,7 +553,7 @@ class Reader:
                                {"model": spec["id"], "level": "line"})
                 return
             png, mime = encode(fit(piece, px), "line")
-            hint = fuse_texts({"kraken": a1[i], "trocr": a2[i]})
+            hint = fuse_texts({"kraken": a1[i], "trocr": a2[i]}, _confs(r1, r2, i))
             for arm, prompt, extra in (
                 ("C", base, {}),
                 ("D", hint_prompt(base, hint), {"hint": hint}),
@@ -539,7 +579,7 @@ class Reader:
         with Image.open(page.image) as im:
             img = im.convert("RGB")
             self._qwen_lines(lambda i: f"{pkey}#{page.lines[i].id}", arms.qwen, img,
-                             [ln.bbox for ln in page.lines], r1["lines"], r2["lines"])
+                             [ln.bbox for ln in page.lines], r1, r2)
 
     def page_level(self, page: GtPage, arms: Arm) -> None:
         from PIL import Image
@@ -565,8 +605,8 @@ class Reader:
                 spec = arms.qwen_page
                 base = spec.get("prompt") or BASE_PROMPT
                 png, mime = encode(fit(img, self._px(spec, "page")), "page")
-                hint = "\n".join(fuse_texts({"kraken": a, "trocr": b})
-                                 for a, b in zip(r1["lines"], r2["lines"]))
+                hint = "\n".join(fuse_texts({"kraken": a, "trocr": b}, _confs(r1, r2, i))
+                                 for i, (a, b) in enumerate(zip(r1["lines"], r2["lines"])))
                 self._qwen(pkey, "C", spec, "page", png, mime, base, {})
                 self._qwen(pkey, "D", spec, "page", png, mime, hint_prompt(base, hint), {"hint": hint})
                 self._qwen(pkey, "D2", spec, "page", png, mime,
@@ -575,8 +615,7 @@ class Reader:
                 return
             # A line model reads the segmented lines; the page is their join.
             self._qwen_lines(lambda i: f"{pkey}#{i}", arms.qwen, img,
-                             [ln.get("bbox") or [0, 0, 0, 0] for ln in lines],
-                             r1["lines"], r2["lines"])
+                             [ln.get("bbox") or [0, 0, 0, 0] for ln in lines], r1, r2)
 
 
 # ── assembling items from readings ───────────────────────────────────────────
@@ -592,6 +631,10 @@ class Item:
     meta: dict[str, list[dict]] = field(default_factory=dict)       # arm → records behind it
     hint: Optional[str] = None
     hints: Optional[list[str]] = None
+    #: What the vote did for B and B3, per fused unit (:func:`fusion_mode`).
+    modes: dict[str, Counter] = field(default_factory=lambda: {"B": Counter(), "B3": Counter()})
+    #: The engines' confidences per fused line, for B3's vote as for B's.
+    confs: list[dict] = field(default_factory=list)
 
 
 def _text(rec: Optional[dict]) -> Optional[str]:
@@ -619,8 +662,10 @@ def items_for(page: GtPage, level: str, arms: Arm, store: Store) -> list[Item]:
             it.texts = {"A1": a1, "A2": a2, "C": _text(c), "D": _text(d), "D2": _text(d2)}
             it.meta = {"A1": [r1] if r1 else [], "A2": [r2] if r2 else [],
                        "C": [c] if c else [], "D": [d] if d else [], "D2": [d2] if d2 else []}
-            it.hint = fuse_texts({"kraken": a1 or "", "trocr": a2 or ""})
+            it.hint = fuse_texts({"kraken": a1 or "", "trocr": a2 or ""}, _confs(r1, r2, i),
+                                 it.modes["B"])
             it.hints = [a1 or "", a2 or ""]
+            it.confs = [_confs(r1, r2, i)]
             out.append(it)
     else:
         pkey = f"{page.set}/page/{page.key}"
@@ -629,8 +674,10 @@ def items_for(page: GtPage, level: str, arms: Arm, store: Store) -> list[Item]:
         it.texts = {"A1": _text(r1), "A2": _text(r2)}
         it.meta = {"A1": [r1] if r1 else [], "A2": [r2] if r2 else []}
         if r1 and r2:
-            it.hint = "\n".join(fuse_texts({"kraken": a, "trocr": b})
-                                for a, b in zip(r1["lines"], r2["lines"]))
+            it.hint = "\n".join(fuse_texts({"kraken": a, "trocr": b}, _confs(r1, r2, i),
+                                            it.modes["B"])
+                                 for i, (a, b) in enumerate(zip(r1["lines"], r2["lines"])))
+            it.confs = [_confs(r1, r2, i) for i in range(len(r1["lines"]))]
         it.hints = [it.texts["A1"] or "", it.texts["A2"] or ""]
         if arms.qwen_page is not None:
             for a in ("C", "D", "D2"):
@@ -653,7 +700,7 @@ def items_for(page: GtPage, level: str, arms: Arm, store: Store) -> list[Item]:
             it.texts["B3"] = _b3(it, level)
         else:
             it.texts["B3"] = (fuse_texts({"kraken": it.texts["A1"], "trocr": it.texts["A2"],
-                                          "qwen": it.texts["C"]})
+                                          "qwen": it.texts["C"]}, None, it.modes["B3"])
                               if None not in (it.texts["A1"], it.texts["A2"], it.texts["C"]) else None)
     return out
 
@@ -662,10 +709,14 @@ def _b3(it: Item, level: str) -> Optional[str]:
     a1, a2, c = it.texts.get("A1"), it.texts.get("A2"), it.texts.get("C")
     if None in (a1, a2, c):
         return None
+    confs = getattr(it, "confs", None) or []
     if level == "line":
-        return fuse_texts({"kraken": a1, "trocr": a2, "qwen": c})
+        return fuse_texts({"kraken": a1, "trocr": a2, "qwen": c}, confs[0] if confs else None,
+                          it.modes["B3"])
     rows = zip(a1.split("\n"), a2.split("\n"), c.split("\n"))
-    return "\n".join(fuse_texts({"kraken": x, "trocr": y, "qwen": z}) for x, y, z in rows)
+    return "\n".join(fuse_texts({"kraken": x, "trocr": y, "qwen": z},
+                                 confs[i] if i < len(confs) else None, it.modes["B3"])
+                      for i, (x, y, z) in enumerate(rows))
 
 
 # ── scoring ──────────────────────────────────────────────────────────────────
@@ -807,6 +858,8 @@ def report(groups: dict[tuple[str, str], list[Item]], meta: dict) -> dict:
             "arms": [corpus(items, a) for a in ARMS],
             "bootstrap": bootstrap(items, ARMS),
             "anchoring": anchoring(items),
+            "fusion": {arm: dict(sum((it.modes[arm] for it in items), Counter()).most_common())
+                       for arm in ("B", "B3")},
         })
     return out
 
@@ -830,6 +883,11 @@ def markdown(rep: dict) -> str:
                 lines.append(f"| {k} | {v['ci']} | {v['p_better']} |")
         lines += ["", "| anchoring | hint right | kept | broke | hint wrong | copied | fixed | better | worse |",
                   "|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
+        fus = g.get("fusion") or {}
+        if any(fus.values()):
+            lines += ["", "What the vote did, per fused line: "
+                      + "; ".join(f"{arm} " + ", ".join(f"{k} {v}" for k, v in m.items())
+                                  for arm, m in fus.items() if m)]
         for arm, s in g["anchoring"].items():
             lines.append(f"| {arm} | {s['hint_right']} | {s['kept']} | {s['broke']} | {s['hint_wrong']} "
                          f"| {s['copied']} | {s['fixed']} | {s['better']} | {s['worse']} |")
@@ -859,6 +917,18 @@ def resolve(spec: dict, models: dict[str, dict], levels: Iterable[str]) -> Arm:
 
 
 def run(args, gateway_factory=None, log=print) -> int:
+    """fusion logs every no-merge at INFO, and a run fuses thousands of lines,
+    twice (reading, report). What the vote did is counted in the report; the
+    log is off for the run and back on after it."""
+    from loguru import logger
+    logger.disable("fusion")
+    try:
+        return _run(args, gateway_factory, log)
+    finally:
+        logger.enable("fusion")
+
+
+def _run(args, gateway_factory, log) -> int:
     plan_path = Path(args.plan).resolve()
     sets = load_plan(plan_path)
     if args.sets:
