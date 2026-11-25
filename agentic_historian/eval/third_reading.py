@@ -156,9 +156,15 @@ class GtPage:
     image: Path
     lines: list[GtLine]           # transcribed lines with a box, document order
     skipped_lines: int = 0        # transcribed lines without a box
+    #: Every transcribed line, boxed or not, document order. The page's text is
+    #: all of them: a TEI edition (the Missiven) has no coordinates at all and is
+    #: still a page reference. None means "the boxed lines are all there is".
+    ref_lines: Optional[list[str]] = None
 
     @property
     def reference(self) -> str:
+        if self.ref_lines is not None:
+            return "\n".join(self.ref_lines)
         return "\n".join(ln.text for ln in self.lines)
 
 
@@ -188,11 +194,12 @@ def find_image(xml: Path, name: Optional[str]) -> Path:
 
 def read_page(set_name: str, root: Path, xml: Path, doc: str, year: Optional[int]) -> GtPage:
     text = xml.read_text(encoding="utf-8")
-    lines, skipped = [], 0
+    lines, skipped, every = [], 0, []
     for raw in parse_lines(text):
         ref = (raw["text"] or "").strip()
         if not ref:
             continue
+        every.append(ref)
         if not raw["bbox"]:
             skipped += 1
             continue
@@ -202,7 +209,7 @@ def read_page(set_name: str, root: Path, xml: Path, doc: str, year: Optional[int
             boundary=[list(p) for p in raw["points"]] if raw["points"] else None))
     return GtPage(set=set_name, key=xml.relative_to(root).as_posix(), doc=doc, year=year,
                   xml=xml, image=find_image(xml, _image_name(text)), lines=lines,
-                  skipped_lines=skipped)
+                  skipped_lines=skipped, ref_lines=every)
 
 
 def _is_page_xml(path: Path) -> bool:
@@ -871,6 +878,17 @@ def run(args, gateway_factory=None, log=print) -> int:
                 p.skipped_lines for p in ps) else ""))
         if not ps:
             raise PlanError(f"set {s['name']}: no pages after the filter")
+    def levels_of(name: str) -> tuple[str, ...]:
+        """A set without any line geometry — a TEI edition — has no line level:
+        there is nothing to crop and nothing to hand kraken as given lines."""
+        if any(p.lines for p in chosen[name]):
+            return levels
+        return tuple(lv for lv in levels if lv != "line")
+
+    for s in sets:
+        if "line" in levels and "line" not in levels_of(s["name"]):
+            log(f"{s['name']}: no line has coordinates (an edition without geometry) — "
+                "page level only")
     if args.dry_run:
         return 0
 
@@ -889,14 +907,14 @@ def run(args, gateway_factory=None, log=print) -> int:
         reader = Reader(gw, store, workers=args.workers, log=log)
         for s in sets:                    # set by set: one Qwen resident at a time
             arms = resolved[s["name"]]
-            for level in levels:
+            for level in levels_of(s["name"]):
                 for i, page in enumerate(chosen[s["name"]], 1):
                     log(f"{s['name']} {level} {i}/{len(chosen[s['name']])} {page.key}")
                     (reader.line_level if level == "line" else reader.page_level)(page, arms)
 
     groups: dict[tuple[str, str], list[Item]] = {}
     for s in sets:
-        for level in levels:
+        for level in levels_of(s["name"]):
             groups[(s["name"], level)] = [it for page in chosen[s["name"]]
                                           for it in items_for(page, level, resolved[s["name"]], store)]
     meta = {"plan": str(plan_path), "hint_version": HINT_VERSION, "levels": list(levels),

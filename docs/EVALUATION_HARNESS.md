@@ -683,6 +683,27 @@ python -m eval.third_reading plan.json --out runs/903                     # the 
 python -m eval.third_reading plan.json --out runs/903 --report-only
 ```
 
+**The Missiven set (1450–1550).** The medieval set is built from the TEI
+edition of the St. Gallen missives (CC-BY-SA-4.0) and its IIIF images.
+`eval/tei_pages.py` writes the pages, a PAGE file with each page's text,
+`docs.csv` and `selection.json`. It takes the letters by their sent date,
+evenly spaced across the period, and every page of each letter. The page text
+is split exactly as `dh-unibe/image-text_sg-missiven` was built.
+
+```bash
+git clone --depth 1 https://github.com/Briefverkehr-der-Stadt-St-Gallen/sg-missiven-data
+python -m eval.tei_pages sg-missiven-data --out sets/missiven --years 1450 1550 --letters 40 --dry-run
+python -m eval.tei_pages sg-missiven-data --out sets/missiven --years 1450 1550 --letters 40
+```
+
+The edition has no coordinates, so this set has no line level. `third_reading`
+says so and measures it at page level only. The page reference is every
+transcribed line, with or without a box. None of the medieval epoch models was
+trained on the Missiven.
+
+On 25.11.2026 the edition had 473 letters between 1450 and 1550; `--letters 40`
+takes 83 pages.
+
 **How it runs.**
 
 - Readings go to `readings.jsonl` as they come, keyed by item, arm and
