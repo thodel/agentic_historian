@@ -609,3 +609,26 @@ def test_the_run_keeps_fusion_quiet_and_gives_the_log_back(tmp_path):
         assert "fusion" in seen, "the log is back on after the run"
     finally:
         logger.remove(sink)
+
+
+def test_every_reading_is_compared_with_the_classical_engine_alone():
+    """Missiven, 25.11.2026: kraken alone was best, and D2 "better than B" with
+    P = 1.0 hid that D2 was worse than kraken."""
+    items = [_item(d, "abcdefghij", A1="abcdefghij", B="abcdefghXX", D2="abcdefghiX")
+             for d in "abcdef"]
+    bs = tr.bootstrap(items, ("A1", "B", "D2"), n=50)
+    assert bs["diff"]["D2-B"]["p_better"] == 1.0
+    assert bs["diff"]["D2-A1"] == {"ci": [0.1, 0.1], "p_better": 0.0}
+    assert {"D-A1", "C-A1", "B-A1", "B3-A1"} <= {f"{x}-{y}" for x, y in tr.PAIRS}
+
+
+def test_the_anchoring_table_is_one_table(tmp_path):
+    _set(tmp_path, docs=("d1",))
+    _plan(tmp_path)
+    _run(tmp_path, ConfidentGateway(), level="line")
+    md = (tmp_path / "run" / "report.md").read_text().splitlines()
+    head = next(i for i, ln in enumerate(md) if ln.startswith("| anchoring |"))
+    assert md[head + 1].startswith("|---") and md[head + 2].startswith("| D |")
+    assert md[head + 3].startswith("| D2 |")
+    vote = next(i for i, ln in enumerate(md) if ln.startswith("What the vote did"))
+    assert vote < head
