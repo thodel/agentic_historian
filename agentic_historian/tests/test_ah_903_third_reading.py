@@ -632,3 +632,58 @@ def test_the_anchoring_table_is_one_table(tmp_path):
     assert md[head + 3].startswith("| D2 |")
     vote = next(i for i, ln in enumerate(md) if ln.startswith("What the vote did"))
     assert vote < head
+
+
+# ── the usable line: a reading above 15 % CER is useless (26.11.2026) ───────
+
+@pytest.mark.parametrize("cer, ci, want", [
+    (0.334, [0.282, 0.397], "useless"),      # kraken on the Missiven
+    (0.12, [0.09, 0.14], "usable"),
+    (0.15, [0.15, 0.15], "usable"),          # the line itself is usable
+    (0.14, [0.10, 0.19], "undecided"),       # the interval crosses it
+    (0.16, [0.14, 0.20], "undecided"),
+    (0.16, None, "useless"),                 # one document: the point decides
+    (0.15, None, "usable"),
+    (None, None, "no reading"),
+])
+def test_the_verdict_asks_the_whole_interval(cer, ci, want):
+    assert tr.verdict(cer, ci) == want
+
+
+def test_each_arm_counts_the_items_at_or_under_the_line():
+    items = [_item("a", "abcdefghij", A1="abcdefghij"),       # 0.0
+             _item("b", "abcdefghij", A1="abcdefghiX"),       # 0.1
+             _item("c", "abcdefghij", A1="abcdefgXXX"),       # 0.3
+             _item("d", "abcdefghij", A1="")]                 # 1.0
+    c = tr.corpus(items, "A1")
+    assert c["usable_items"] == 2 and c["usable_share"] == 0.5
+
+
+def test_the_report_gives_each_arm_its_verdict(tmp_path):
+    _set(tmp_path, docs=("d1", "d2", "d3"))
+    _plan(tmp_path)
+    rep, _ = _run(tmp_path, FakeGateway(), level="line")
+    assert rep["meta"]["usable_cer"] == 0.15
+    a1, a2 = _arm(rep, "line", "A1"), _arm(rep, "line", "A2")
+    assert a1["verdict"] == "usable" and a1["usable_share"] == 1.0       # kraken reads every line
+    assert a2["cer"] == round(3 / sum(len(r) for r in REFS), 4)
+    md = (tmp_path / "run" / "report.md").read_text()
+    assert "A reading is usable at a CER of 15% or less" in md
+    assert "| A1 | 0.0 | [0.0, 0.0] | usable | 9 (100%) |" in md
+
+
+def test_an_item_on_the_line_is_usable():
+    items = [_item("a", "abcdefghijklmnopqrst", A1="abcdefghijklmnopqXXX")]   # 3/20 = 0.15
+    assert tr.corpus(items, "A1")["usable_items"] == 1
+
+
+def test_the_reports_verdict_uses_the_document_interval():
+    """Two clean documents and one bad one: the corpus CER is under the line,
+    the documents allow far more — undecided, not usable."""
+    items = [_item(d, "abcdefghij", A1=t) for d, t in
+             (("a", "abcdefghij"), ("b", "abcdefghij"), ("c", "abcdeXXXXX"))]
+    for it in items:
+        it.texts.update({a: it.texts["A1"] for a in tr.ARMS if a != "A1"})
+    rep = tr.report({("s", "page"): items}, {})
+    a1 = next(a for a in rep["groups"][0]["arms"] if a["arm"] == "A1")
+    assert a1["cer"] < 0.15 and a1["verdict"] == "undecided"

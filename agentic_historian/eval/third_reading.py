@@ -103,6 +103,10 @@ READ_ARMS = ("A1", "A2", "C", "D", "D2")
 PAIRS = (("D", "B"), ("D", "C"), ("D2", "B"), ("D2", "C"), ("B3", "B"), ("C", "B"),
          ("D2", "A1"), ("D", "A1"), ("C", "A1"), ("B", "A1"), ("B3", "A1"))
 BOOTSTRAP = 1000
+#: The project's line for a usable reading (26.11.2026): a reading with a CER
+#: above 15 % is useless, whatever it beats. Every arm and every item is held
+#: against it, so "better than B" can no longer stand in for "worth reading".
+USABLE_CER = 0.15
 SEED = 903
 
 #: Bumped whenever the hint wording changes: it is part of every D/D2
@@ -769,6 +773,11 @@ def corpus(items: list[Item], arm: str) -> dict:
         "per_item": None if not per else {
             "median": round(statistics.median(per), 4),
             "p90": round(per[min(len(per) - 1, round(0.9 * (len(per) - 1)))], 4)},
+        # Items (pages or lines) at or under the usable line, and the share of
+        # the reference characters they carry: a corpus CER of 0.33 can still
+        # hold pages someone could use, and this says how many.
+        "usable_items": sum(1 for v in per if v <= USABLE_CER),
+        "usable_share": _rate(sum(1 for v in per if v <= USABLE_CER), len(per)),
         "truncated": sum(1 for r in recs if r.get("finish") == "length"),
         "sec": round(sum(r.get("sec") or 0 for r in recs), 1),
         "prompt_tokens": sum(r.get("prompt_tokens") or 0 for r in recs),
@@ -853,14 +862,37 @@ def anchoring(items: list[Item]) -> dict:
     return out
 
 
+def verdict(cer: float | None, ci: list[float] | None) -> str:
+    """``usable`` / ``useless`` / ``undecided`` against :data:`USABLE_CER`.
+
+    With an interval, only a side the whole interval is on counts: a corpus
+    CER of 0.14 whose documents allow 0.19 is not shown to be usable. Without
+    one (a single document), the point estimate decides.
+    """
+    if cer is None:
+        return "no reading"
+    if ci:
+        lo, hi = ci
+        if lo > USABLE_CER:
+            return "useless"
+        if hi <= USABLE_CER:
+            return "usable"
+        return "undecided"
+    return "usable" if cer <= USABLE_CER else "useless"
+
+
 def report(groups: dict[tuple[str, str], list[Item]], meta: dict) -> dict:
-    out = {"meta": meta, "groups": []}
+    out = {"meta": meta | {"usable_cer": USABLE_CER}, "groups": []}
     for (set_name, level), items in sorted(groups.items()):
         docs = sorted({it.doc for it in items})
+        bs = bootstrap(items, ARMS)
+        arms = [corpus(items, a) for a in ARMS]
+        for a in arms:
+            a["verdict"] = verdict(a["cer"], (bs.get("cer") or {}).get(a["arm"]))
         out["groups"].append({
             "set": set_name, "level": level, "items": len(items), "documents": len(docs),
-            "arms": [corpus(items, a) for a in ARMS],
-            "bootstrap": bootstrap(items, ARMS),
+            "arms": arms,
+            "bootstrap": bs,
             "anchoring": anchoring(items),
             "fusion": {arm: dict(sum((it.modes[arm] for it in items), Counter()).most_common())
                        for arm in ("B", "B3")},
@@ -871,7 +903,9 @@ def report(groups: dict[tuple[str, str], list[Item]], meta: dict) -> dict:
 def markdown(rep: dict) -> str:
     lines = ["# Third reading (#903)", "",
              f"Hint prompt {rep['meta'].get('hint_version')}; CER/WER whitespace-collapsed, "
-             "case and punctuation kept; 95 % intervals from resampling documents.", ""]
+             "case and punctuation kept; 95 % intervals from resampling documents.",
+             f"A reading is usable at a CER of {rep['meta'].get('usable_cer', USABLE_CER):.0%} or "
+             "less; the verdict asks the whole interval to be on one side.", ""]
     for name, h in (rep["meta"].get("heldout") or {}).items():
         said = "; ".join(f"{mid} {o['status']}" + (f" ({', '.join(o['datasets'])})" if o["datasets"] else "")
                          + (" — allowed" if o["status"] == "overlap" and o.get("allowed") else "")
@@ -880,11 +914,14 @@ def markdown(rep: dict) -> str:
     for g in rep["groups"]:
         bs = g["bootstrap"]
         lines += [f"## {g['set']} · {g['level']} — {g['items']} items, {g['documents']} documents", "",
-                  "| arm | CER | 95 % | WER | len | answered | empty | trunc. | s |",
-                  "|---|---:|---|---:|---:|---:|---:|---:|---:|"]
+                  "| arm | CER | 95 % | verdict | items ≤ line | WER | len | answered | empty | trunc. | s |",
+                  "|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|"]
         for a in g["arms"]:
             ci = (bs.get("cer") or {}).get(a["arm"])
-            lines.append(f"| {a['arm']} | {a['cer']} | {ci or '—'} | {a['wer']} | {a['length_ratio']} "
+            share = a.get("usable_share")
+            lines.append(f"| {a['arm']} | {a['cer']} | {ci or '—'} | {a.get('verdict', '—')} "
+                         f"| {a.get('usable_items', 0)}" + (f" ({share:.0%})" if share is not None else "")
+                         + f" | {a['wer']} | {a['length_ratio']} "
                          f"| {a['answered']}/{a['items']} | {a['empty']} | {a['truncated']} | {a['sec']} |")
         if bs.get("diff"):
             lines += ["", "| difference | 95 % | P(better) |", "|---|---|---:|"]
