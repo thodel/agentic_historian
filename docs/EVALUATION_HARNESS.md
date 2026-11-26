@@ -714,6 +714,26 @@ takes 83 pages.
 - If an engine fails on a page, the Qwen arms skip that page until the engine
   has read it.
 
+**Held out, per model.** Before anything is read, every model of a set is compared
+with the training datasets the set's pages come from. The source is the set's
+`source_datasets` in the plan, or what `tei_pages` wrote into the set's
+`selection.json` (`dh-unibe/image-text_sg-missiven` for the Missiven). The model side
+is the `training_datasets` the gateway records for each model. The comparison gives
+one of four results:
+- `overlap`: refused;
+- `none`;
+- `unknown`: the model records no training data; noted, not refused;
+- `no-source`: the set names no source; noted, not refused.
+
+A model that overlaps at dataset level may still be held out at document level:
+the reserved test documents of `german-kurrent-xvi-xix-v1` (training-atr-models
+#319) are one case. Name such a model in the set's `allow_trained_on` once serving's
+`scripts/heldout_check.py` has said `clean`. `--not-held-out` allows every model,
+for a deliberate in-domain number. The report shows the result per set.
+
+Why: the October Kurrent XVI–XIX models trained on the very documents of
+`german-kurrent-xvi-xix-v1`, and on the Missiven too (serving#179).
+
 **B is often one engine, not a vote.** When kraken and TrOCR disagree by more
 than the pipeline's `no_merge_cer` (35 %), `fusion.fuse` does not blend: it takes
 the reading with the higher confidence verbatim (#300). The engines'

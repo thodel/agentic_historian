@@ -868,6 +868,11 @@ def markdown(rep: dict) -> str:
     lines = ["# Third reading (#903)", "",
              f"Hint prompt {rep['meta'].get('hint_version')}; CER/WER whitespace-collapsed, "
              "case and punctuation kept; 95 % intervals from resampling documents.", ""]
+    for name, h in (rep["meta"].get("heldout") or {}).items():
+        said = "; ".join(f"{mid} {o['status']}" + (f" ({', '.join(o['datasets'])})" if o["datasets"] else "")
+                         + (" — allowed" if o["status"] == "overlap" and o.get("allowed") else "")
+                         for mid, o in h["models"].items())
+        lines += [f"Held out ({name}, source {', '.join(h['source_datasets']) or 'not named'}): {said}", ""]
     for g in rep["groups"]:
         bs = g["bootstrap"]
         lines += [f"## {g['set']} · {g['level']} — {g['items']} items, {g['documents']} documents", "",
@@ -896,6 +901,62 @@ def markdown(rep: dict) -> str:
 
 
 # ── the run ──────────────────────────────────────────────────────────────────
+
+ROLES = ("kraken", "trocr", "qwen", "qwen_page")
+
+
+def _dataset_id(ref: str) -> str:
+    """``https://huggingface.co/datasets/dh-unibe/x`` and ``dh-unibe/x`` alike."""
+    ref = str(ref).strip().rstrip("/")
+    marker = "huggingface.co/datasets/"
+    return ref.split(marker, 1)[1] if marker in ref else ref
+
+
+def source_datasets(spec: dict, base: Path) -> list[str]:
+    """The training datasets this set's pages come from: the plan's
+    ``source_datasets``, else what ``tei_pages`` recorded in the set's
+    ``selection.json`` (beside ``pages``)."""
+    if spec.get("source_datasets"):
+        return [_dataset_id(d) for d in spec["source_datasets"]]
+    sel = (base / spec["pages"]).resolve().parent / "selection.json"
+    try:
+        found = json.loads(sel.read_text(encoding="utf-8")).get("source_datasets") or []
+    except (OSError, ValueError, AttributeError):
+        return []
+    return [_dataset_id(d) for d in found]
+
+
+def training_overlap(spec: dict, models: dict[str, dict], sources: list[str]) -> dict[str, dict]:
+    """Per model of the set: did it train on a dataset the set's pages come from?
+
+    ``overlap`` — yes, by the ``training_datasets`` the gateway records.
+    ``none`` — it records its training data, and none of it is the set's.
+    ``unknown`` — it records none (most models registered before the field
+    existed); not the same as ``none``.
+    ``no-source`` — the set names no source, so nothing could be compared.
+
+    Dataset level, deliberately coarse: a model trained on a dataset whose
+    test documents were reserved (training-atr-models #319) overlaps here and
+    may still be held out. That is for the plan to say, per model, with
+    ``allow_trained_on`` — after serving's ``scripts/heldout_check.py`` said
+    ``clean``. The other way round is the expensive mistake (serving#179).
+    """
+    out = {}
+    for role in ROLES:
+        mid = spec.get(role)
+        if not mid or mid in out:
+            continue
+        if not sources:
+            out[mid] = {"status": "no-source", "datasets": []}
+            continue
+        trained = [_dataset_id(d) for d in (models.get(mid, {}).get("training_datasets") or [])]
+        if not trained:
+            out[mid] = {"status": "unknown", "datasets": []}
+            continue
+        both = sorted(set(trained) & set(sources))
+        out[mid] = {"status": "overlap" if both else "none", "datasets": both}
+    return out
+
 
 def resolve(spec: dict, models: dict[str, dict], levels: Iterable[str]) -> Arm:
     """The set's models against /models: present, and the Qwen at the level it reads."""
@@ -972,6 +1033,25 @@ def _run(args, gateway_factory, log) -> int:
         gw = gateway_factory()
     models = gw.models()
     resolved = {s["name"]: resolve(s, models, levels) for s in sets}
+    heldout = {}
+    for s in sets:
+        sources = source_datasets(s, plan_path.parent)
+        over = training_overlap(s, models, sources)
+        allowed = set(s.get("allow_trained_on") or [])
+        for mid, o in over.items():
+            o["allowed"] = mid in allowed or bool(args.not_held_out)
+        heldout[s["name"]] = {"source_datasets": sources, "models": over}
+        bad = [f"{mid} ({', '.join(o['datasets'])})" for mid, o in over.items()
+               if o["status"] == "overlap" and not o["allowed"]]
+        if bad:
+            raise PlanError(
+                f"set {s['name']}: trained on this set's source — {'; '.join(bad)}. Its numbers "
+                "would not be held out. Use another model, or name it in the set's "
+                "allow_trained_on once serving's heldout_check.py says clean (or pass "
+                "--not-held-out for a deliberate in-domain number)")
+        for mid, o in over.items():
+            if o["status"] in ("unknown", "no-source"):
+                log(f"{s['name']}: {mid} — whether it trained on this set is not known ({o['status']})")
 
     if not args.report_only:
         reader = Reader(gw, store, workers=args.workers, log=log)
@@ -991,7 +1071,8 @@ def _run(args, gateway_factory, log) -> int:
             "max_pages": args.max_pages, "pixels": PIXELS,
             "sets": {s["name"]: {k: s.get(k) for k in ("kraken", "trocr", "qwen", "qwen_page", "years")}
                      for s in sets},
-            "pages": {n: [p.key for p in ps] for n, ps in chosen.items()}}
+            "pages": {n: [p.key for p in ps] for n, ps in chosen.items()},
+            "heldout": heldout, "not_held_out": bool(args.not_held_out)}
     rep = report(groups, meta)
     (out / "report.json").write_text(json.dumps(rep, ensure_ascii=False, indent=1), encoding="utf-8")
     (out / "report.md").write_text(markdown(rep), encoding="utf-8")
@@ -1014,6 +1095,8 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--gateway", help="gateway URL (default: ATR_GATEWAY_URL)")
     ap.add_argument("--dry-run", action="store_true", help="list what would be read; no network")
     ap.add_argument("--report-only", action="store_true", help="score what readings.jsonl holds")
+    ap.add_argument("--not-held-out", action="store_true",
+                    help="measure models that trained on a set's source anyway (said in the report)")
     return ap
 
 

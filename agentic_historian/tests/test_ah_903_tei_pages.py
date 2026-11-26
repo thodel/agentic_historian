@@ -237,3 +237,102 @@ def test_a_page_without_text_is_not_a_page_of_the_set():
     body = '<div><pb facs="A_1.JPG"/><lb/>Min dienst<pb facs="A_2.JPG"/><pb facs="A_3.JPG"/><lb/>Datum</div>'
     pages = tp.page_texts(_letter('<date when="1490-03-02"/>', body))
     assert [p.image for p in pages] == ["A_1.JPG", "A_3.JPG"]
+
+
+# ── held out: no model of a set may have trained on the set's source ─────────
+
+def test_the_set_records_the_dataset_built_from_its_edition(tmp_path):
+    _build(tmp_path)
+    sel = json.loads((tmp_path / "set" / "selection.json").read_text())
+    assert sel["source_datasets"] == ["dh-unibe/image-text_sg-missiven"]
+    ed = tmp_path / "edition"
+    tp.build(ed, tmp_path / "set2", (1450, 1550), None, fetch=_jpeg, log=lambda m: None,
+             source_datasets=("dh-unibe/a", "dh-unibe/b"))
+    assert json.loads((tmp_path / "set2" / "selection.json").read_text())["source_datasets"] == \
+        ["dh-unibe/a", "dh-unibe/b"]
+
+
+MODELS_HELD = {
+    "kr": {"id": "kr", "engine": "kraken", "level": "page",
+           "training_datasets": ["https://huggingface.co/datasets/dh-unibe/image-text_rats"]},
+    "tr": {"id": "tr", "engine": "trocr", "level": "line"},
+    "qline": {"id": "qline", "engine": "vllm", "level": "line", "prompt": "Read it.",
+              "training_datasets": ["https://huggingface.co/datasets/dh-unibe/image-text_sg-missiven",
+                                    "dh-unibe/image-text_rats"]},
+}
+
+
+def test_training_overlap_says_overlap_none_unknown_and_no_source():
+    spec = {"name": "m", "kraken": "kr", "trocr": "tr", "qwen": "qline"}
+    got = tr.training_overlap(spec, MODELS_HELD, ["dh-unibe/image-text_sg-missiven"])
+    assert got == {"kr": {"status": "none", "datasets": []},
+                   "tr": {"status": "unknown", "datasets": []},
+                   "qline": {"status": "overlap", "datasets": ["dh-unibe/image-text_sg-missiven"]}}
+    assert {o["status"] for o in tr.training_overlap(spec, MODELS_HELD, []).values()} == {"no-source"}
+
+
+def test_the_plan_names_the_source_or_the_sets_selection_does(tmp_path):
+    _build(tmp_path)
+    spec = {"name": "m", "pages": "pages"}
+    assert tr.source_datasets(spec, tmp_path / "set") == ["dh-unibe/image-text_sg-missiven"]
+    spec["source_datasets"] = ["https://huggingface.co/datasets/dh-unibe/x/"]
+    assert tr.source_datasets(spec, tmp_path / "set") == ["dh-unibe/x"]
+    assert tr.source_datasets({"name": "n", "pages": "nowhere/pages"}, tmp_path) == []
+
+
+class HeldGateway:
+    def __init__(self):
+        from test_ah_903_third_reading import FakeGateway
+        self.inner = FakeGateway()
+        self.calls = self.inner.calls
+
+    def models(self):
+        return MODELS_HELD
+
+    def __getattr__(self, name):
+        return getattr(self.inner, name)
+
+
+def _held_plan(tmp_path, **extra):
+    _build(tmp_path)
+    plan = tmp_path / "set" / "plan.json"
+    plan.write_text(json.dumps({"sets": [{"name": "m", "pages": "pages", "docs": "docs.csv",
+                                          "kraken": "kr", "trocr": "tr", "qwen": "qline", **extra}]}))
+    return plan
+
+
+def test_a_model_trained_on_the_sets_source_is_refused_before_reading(tmp_path):
+    plan = _held_plan(tmp_path)
+    gw = HeldGateway()
+    args = tr.build_parser().parse_args([str(plan), "--out", str(tmp_path / "run")])
+    with pytest.raises(tr.PlanError, match=r"qline \(dh-unibe/image-text_sg-missiven\)"):
+        tr.run(args, gateway_factory=lambda: gw, log=lambda m: None)
+    assert gw.calls == [], "nothing read"
+    assert not (tmp_path / "run" / "readings.jsonl").exists() or \
+        (tmp_path / "run" / "readings.jsonl").read_text() == ""
+
+
+def test_allow_trained_on_lets_one_model_through_and_the_report_says_so(tmp_path):
+    plan = _held_plan(tmp_path, allow_trained_on=["qline"])
+    logs = []
+    args = tr.build_parser().parse_args([str(plan), "--out", str(tmp_path / "run")])
+    tr.run(args, gateway_factory=HeldGateway, log=logs.append)
+    rep = json.loads((tmp_path / "run" / "report.json").read_text())
+    h = rep["meta"]["heldout"]["m"]
+    assert h["source_datasets"] == ["dh-unibe/image-text_sg-missiven"]
+    assert h["models"]["qline"] == {"status": "overlap", "allowed": True,
+                                    "datasets": ["dh-unibe/image-text_sg-missiven"]}
+    assert h["models"]["kr"]["status"] == "none" and h["models"]["kr"]["allowed"] is False
+    assert any("tr — whether it trained on this set is not known (unknown)" in m for m in logs)
+    md = (tmp_path / "run" / "report.md").read_text()
+    assert "qline overlap (dh-unibe/image-text_sg-missiven) — allowed" in md
+    assert "tr unknown" in md and "kr none" in md
+
+
+def test_not_held_out_lets_every_model_through(tmp_path):
+    plan = _held_plan(tmp_path)
+    args = tr.build_parser().parse_args([str(plan), "--out", str(tmp_path / "run"), "--not-held-out"])
+    tr.run(args, gateway_factory=HeldGateway, log=lambda m: None)
+    rep = json.loads((tmp_path / "run" / "report.json").read_text())
+    assert rep["meta"]["not_held_out"] is True
+    assert rep["meta"]["heldout"]["m"]["models"]["qline"]["allowed"] is True
