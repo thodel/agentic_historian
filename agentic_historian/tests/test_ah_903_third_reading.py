@@ -681,7 +681,7 @@ def test_the_reports_verdict_uses_the_document_interval():
     """Two clean documents and one bad one: the corpus CER is under the line,
     the documents allow far more — undecided, not usable."""
     items = [_item(d, "abcdefghij", A1=t) for d, t in
-             (("a", "abcdefghij"), ("b", "abcdefghij"), ("c", "abcdeXXXXX"))]
+             (("a", "abcdefghij"), ("b", "abcdefghij"), ("c", "abcdefXXXX"))]   # 4/30
     for it in items:
         it.texts.update({a: it.texts["A1"] for a in tr.ARMS if a != "A1"})
     rep = tr.report({("s", "page"): items}, {})
