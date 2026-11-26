@@ -97,7 +97,11 @@ LEVELS = ("line", "page")
 ARMS = ("A1", "A2", "B", "C", "B3", "D", "D2")
 #: The arms that cost a call; B and B3 are computed from them.
 READ_ARMS = ("A1", "A2", "C", "D", "D2")
-PAIRS = (("D", "B"), ("D", "C"), ("D2", "B"), ("D2", "C"), ("B3", "B"), ("C", "B"))
+#: The hint against what it was made of, and every reading against the
+#: classical engine alone: on the Missiven (25.11.2026) kraken alone was the
+#: best reading, and "better than B" said nothing about that.
+PAIRS = (("D", "B"), ("D", "C"), ("D2", "B"), ("D2", "C"), ("B3", "B"), ("C", "B"),
+         ("D2", "A1"), ("D", "A1"), ("C", "A1"), ("B", "A1"), ("B3", "A1"))
 BOOTSTRAP = 1000
 SEED = 903
 
@@ -886,13 +890,13 @@ def markdown(rep: dict) -> str:
             lines += ["", "| difference | 95 % | P(better) |", "|---|---|---:|"]
             for k, v in bs["diff"].items():
                 lines.append(f"| {k} | {v['ci']} | {v['p_better']} |")
-        lines += ["", "| anchoring | hint right | kept | broke | hint wrong | copied | fixed | better | worse |",
-                  "|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
         fus = g.get("fusion") or {}
         if any(fus.values()):
             lines += ["", "What the vote did, per fused line: "
                       + "; ".join(f"{arm} " + ", ".join(f"{k} {v}" for k, v in m.items())
                                   for arm, m in fus.items() if m)]
+        lines += ["", "| anchoring | hint right | kept | broke | hint wrong | copied | fixed | better | worse |",
+                  "|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
         for arm, s in g["anchoring"].items():
             lines.append(f"| {arm} | {s['hint_right']} | {s['kept']} | {s['broke']} | {s['hint_wrong']} "
                          f"| {s['copied']} | {s['fixed']} | {s['better']} | {s['worse']} |")
