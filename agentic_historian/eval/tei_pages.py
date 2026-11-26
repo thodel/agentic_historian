@@ -68,6 +68,10 @@ DEFAULT_PREFIX = "sg-missiven!"
 #: originals are ~3000 px, and a page model's budget (2048 visual tokens)
 #: carries less detail than this already.
 DEFAULT_SIZE = "1500,"
+#: The training dataset built from the same edition (training-atr-models
+#: ``tei_edition_to_hf.py``). A model trained on it has read these letters;
+#: ``third_reading`` compares it with each model's ``training_datasets``.
+DEFAULT_DATASET = "dh-unibe/image-text_sg-missiven"
 IIIF = "{base}/{prefix}{facs}/full/{size}/0/default.jpg"
 
 #: Subtrees whose text is about the page, not on it (atr_training.tei).
@@ -254,7 +258,8 @@ def _commit(edition: Path) -> Optional[str]:
 def build(edition: Path, out: Path, years: tuple[int, int], letters: Optional[int],
           *, size: str = DEFAULT_SIZE, base: str = DEFAULT_IIIF, prefix: str = DEFAULT_PREFIX,
           fetch: Callable[[str], bytes] = http_fetch, dry_run: bool = False,
-          log: Callable[[str], None] = print) -> dict:
+          log: Callable[[str], None] = print,
+          source_datasets: tuple[str, ...] = (DEFAULT_DATASET,)) -> dict:
     every = list(read_letters(edition))
     chosen = select(every, years, letters)
     for lt in chosen:
@@ -298,6 +303,7 @@ def build(edition: Path, out: Path, years: tuple[int, int], letters: Optional[in
         "letters": [{"id": lt.id, "date": lt.date, "pages": len(lt.pages)} for lt in chosen],
         "pages_written": len(rows), "failed": failed,
         "iiif": {"base": base, "prefix": prefix, "size": size},
+        "source_datasets": list(source_datasets),
         "built_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "licence": "TEI: CC-BY-SA-4.0 (the edition); the images carry no statement — "
                    "this set is for measuring, not for publishing.",
@@ -322,6 +328,9 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--iiif", default=DEFAULT_IIIF)
     ap.add_argument("--prefix", default=DEFAULT_PREFIX)
     ap.add_argument("--dry-run", action="store_true", help="say what would be taken; fetch nothing")
+    ap.add_argument("--source-dataset", action="append", default=None,
+                    help=f"training dataset built from this edition, repeatable (default {DEFAULT_DATASET}); "
+                         "recorded so third_reading can refuse a model trained on it")
     return ap
 
 
@@ -335,7 +344,8 @@ def main(argv: Optional[list[str]] = None) -> int:
               file=sys.stderr)
         return 2
     res = build(args.edition, args.out, tuple(args.years), args.letters, size=args.size,
-                base=args.iiif, prefix=args.prefix, dry_run=args.dry_run)
+                base=args.iiif, prefix=args.prefix, dry_run=args.dry_run,
+                source_datasets=tuple(args.source_dataset or (DEFAULT_DATASET,)))
     return 1 if res["failed"] else 0
 
 
