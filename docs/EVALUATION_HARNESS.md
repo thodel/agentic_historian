@@ -14,6 +14,25 @@ to stop questioning it.
 Entity **linking** has its own instrument, with its own gold and its own
 boundary: [LINKING_EVALUATION.md](LINKING_EVALUATION.md).
 
+## The usable line: 15 % CER
+
+**A reading with a CER above 15 % is useless**, whatever it beats. This is the
+project's rule for every evaluation, set on 26.11.2026. A comparison between
+readings says which is less bad. Only the line says whether either can be used.
+So every result that compares readings also has to say where each one stands
+against 15 %.
+
+`eval/third_reading.py` applies it: `USABLE_CER = 0.15`.
+- Each arm gets a verdict against the 95 % document interval:
+  - `useless`: the whole interval is above 15 %;
+  - `usable`: the whole interval is at or under 15 %;
+  - `undecided`: the interval crosses the line.
+- Each arm also counts the items (pages or lines) at or under 15 % (`usable_items`,
+  `usable_share`). A useless corpus can still hold pages someone could use.
+
+On the Missiven (25.11.2026) every arm is useless. The best is kraken alone at
+0.334, with the interval [0.282, 0.397].
+
 ## What it measures
 
 `score_model(lines, recognise, model, engine)` runs one recogniser over a set of
