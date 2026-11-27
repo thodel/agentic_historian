@@ -723,6 +723,37 @@ trained on the Missiven.
 On 25.11.2026 the edition had 473 letters between 1450 and 1550; `--letters 40`
 takes 83 pages.
 
+**The medieval line level: `german-medieval-v1/test`.** The Missiven have no
+line coordinates; the frozen test pages of training-atr-models have. Point a set
+at the `data/pages` directory of a set `build_page_benchmark.py` wrote:
+
+```json
+{"sets": [{"name": "medieval-lines",
+           "pages": "/path/to/eval_sets/german-medieval-v1/vlm-pages-test/data/pages",
+           "doc_field": 1,
+           "source_datasets": ["…the set's four training datasets…"],
+           "kraken": "…", "trocr": "…", "qwen": "…"}]}
+```
+
+- `third_reading` finds the set's `benchmark.json` (in the directory or up to
+  two levels above), checks that `pages.jsonl` still has the md5 it recorded,
+  and reads only the pages in that draw. An edited draw is refused. The report
+  names the set, its side and the draw's md5 under `meta.frozen_sets`.
+- `doc_field: 1` takes the document from the page name,
+  `<pool index>_<docId>_<folio>_….xml`, as training-atr-models'
+  `heldout.document_of` does. Without it the whole flat directory is one
+  document and the bootstrap has nothing to resample; the run says so.
+- A name that carries no document is its own document: it never pools two
+  hands the name did not say belong together.
+- Before the run, `scripts/heldout_check.py` of serving-atr-inference tells for
+  each model whether it saw the set's documents. Name only models it calls
+  `clean` in `allow_trained_on`.
+
+```bash
+python -m eval.third_reading plan.json --out runs/903-lines --level line --dry-run
+python -m eval.third_reading plan.json --out runs/903-lines --level line --max-pages 100
+```
+
 **How it runs.**
 
 - Readings go to `readings.jsonl` as they come, keyed by item, arm and

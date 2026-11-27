@@ -242,12 +242,59 @@ def _docs_table(path: Path) -> dict[str, tuple[str, Optional[int]]]:
     return out
 
 
+def doc_of_name(name: str, field: int) -> Optional[str]:
+    """The document in a materialised page name, ``<pool index>_<docId>_<folio>_…``
+    (training-atr-models ``heldout.document_of``, field 1): pages of one
+    Transkribus document share a hand, and the bootstrap resamples documents.
+    None for a name that is not one."""
+    parts = Path(name).name.split("_")
+    if len(parts) <= field or not parts[0].isdigit():
+        return None
+    return parts[field] or None
+
+
+def frozen_set(root: Path) -> Optional[dict]:
+    """The frozen page set ``root`` lies in, if any: ``benchmark.json`` of
+    training-atr-models' ``build_page_benchmark.py``, in ``root`` or up to two
+    levels above (it writes ``<set>/data/pages``). Its draw must still have the
+    md5 it recorded — the set's name is what every number cites — and its
+    pages are the selection. None when there is no such record."""
+    for d in (root, root.parent, root.parent.parent):
+        bench = d / "benchmark.json"
+        if bench.is_file():
+            break
+    else:
+        return None
+    try:
+        record = json.loads(bench.read_text(encoding="utf-8"))
+        draw = bench.parent / record.get("draw", "pages.jsonl")
+        raw = draw.read_bytes()
+    except (OSError, ValueError) as exc:
+        raise PlanError(f"{bench}: unreadable frozen set: {exc}") from exc
+    md5 = hashlib.md5(raw).hexdigest()
+    if md5 != record.get("draw_md5"):
+        raise PlanError(f"{draw} has md5 {md5}, {bench} records {record.get('draw_md5')}: "
+                        "not the frozen draw")
+    pages = set()
+    for line in raw.decode("utf-8").splitlines():
+        if line.strip():
+            page = (bench.parent / json.loads(line)["page"]).resolve()
+            try:
+                pages.add(page.relative_to(root).as_posix())
+            except ValueError:
+                continue
+    return {"benchmark": str(bench), "set": record.get("set"), "side": record.get("side"),
+            "documents": record.get("documents"), "draw_md5": md5, "pages": pages}
+
+
 def load_set(spec: dict, base: Path) -> list[GtPage]:
     """The set's pages, filtered by year when asked, sorted by key."""
     name = spec["name"]
     root = (base / spec["pages"]).resolve()
     if not root.is_dir():
         raise PlanError(f"set {name}: pages {root} is not a directory")
+    frozen = frozen_set(root)
+    field = spec.get("doc_field")
     table = _docs_table(base / spec["docs"]) if spec.get("docs") else None
     years = spec.get("years")
     if years and table is None:
@@ -255,10 +302,16 @@ def load_set(spec: dict, base: Path) -> list[GtPage]:
     pages = []
     for xml in sorted(p for p in root.rglob("*.xml") if _is_page_xml(p)):
         key = xml.relative_to(root).as_posix()
+        if frozen is not None and key not in frozen["pages"]:
+            continue                  # the frozen draw is the selection
         if table is not None:
             if key not in table:
                 continue              # the CSV is the selection
             doc, year = table[key]
+        elif field is not None:
+            # A page whose name carries no document is its own: conservative,
+            # it never pools two hands the name did not say belong together.
+            doc, year = doc_of_name(xml.name, field) or xml.stem, None
         else:
             doc, year = (xml.parent.relative_to(root).as_posix() or xml.stem), None
         if years and (year is None or not years[0] <= year <= years[1]):
@@ -298,6 +351,10 @@ def load_plan(path: Path) -> list[dict]:
         if s["name"] in seen:
             raise PlanError(f"{path}: set {s['name']} twice")
         seen.add(s["name"])
+        f = s.get("doc_field")
+        if f is not None and (not isinstance(f, int) or isinstance(f, bool) or f < 0):
+            raise PlanError(f"set {s['name']}: doc_field must be a field index (1 for Transkribus "
+                            f"page names), not {f!r}")
         y = s.get("years")
         if y is not None and (len(y) != 2 or y[0] > y[1]):
             raise PlanError(f"set {s['name']}: years must be [from, to], not {y}")
@@ -1040,6 +1097,19 @@ def _run(args, gateway_factory, log) -> int:
             raise PlanError(f"no set named {sorted(wanted)} in the plan")
     levels = LEVELS if args.level == "both" else (args.level,)
     chosen = {s["name"]: spread(load_set(s, plan_path.parent), args.max_pages) for s in sets}
+    frozen = {}
+    for s in sets:
+        f = frozen_set((plan_path.parent / s["pages"]).resolve())
+        if f is not None:
+            frozen[s["name"]] = {k: v for k, v in f.items() if k != "pages"}
+            log(f"{s['name']}: frozen set {f['set']}/{f['side']} (draw {f['draw_md5'][:8]}), "
+                f"{len(f['pages'])} pages in its draw")
+            if s.get("doc_field") is None and not s.get("docs"):
+                # build_page_benchmark writes one flat directory: without the
+                # name's document every page is one document, and the
+                # bootstrap has nothing to resample.
+                log(f"{s['name']}: no doc_field, so the pages are one document per directory; "
+                    "Transkribus page names carry the document in field 1")
     for s in sets:
         ps = chosen[s["name"]]
         years = sorted(p.year for p in ps if p.year is not None)
@@ -1113,6 +1183,7 @@ def _run(args, gateway_factory, log) -> int:
             "sets": {s["name"]: {k: s.get(k) for k in ("kraken", "trocr", "qwen", "qwen_page", "years")}
                      for s in sets},
             "pages": {n: [p.key for p in ps] for n, ps in chosen.items()},
+            "frozen_sets": frozen,
             "heldout": heldout, "not_held_out": bool(args.not_held_out)}
     rep = report(groups, meta)
     (out / "report.json").write_text(json.dumps(rep, ensure_ascii=False, indent=1), encoding="utf-8")

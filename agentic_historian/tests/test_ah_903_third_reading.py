@@ -687,3 +687,89 @@ def test_the_reports_verdict_uses_the_document_interval():
     rep = tr.report({("s", "page"): items}, {})
     a1 = next(a for a in rep["groups"][0]["arms"] if a["arm"] == "A1")
     assert a1["cer"] < 0.15 and a1["verdict"] == "undecided"
+
+
+# ── a frozen page set of training-atr-models (build_page_benchmark.py) ──────
+
+import hashlib  # noqa: E402
+
+NAMES = ["0001_034854_f1_a", "0002_034854_f2_b", "0003_041122_f7_c", "0004_041122_f8_d", "0005_099_f1_e"]
+
+
+def _frozen(tmp: Path, in_draw=NAMES[:4], md5=None) -> Path:
+    root = tmp / "german-medieval-v1" / "vlm-pages-test"
+    for n in NAMES:
+        _write_page(root / "data" / "pages", n, list(zip(REFS, BOXES)))
+    draw = root / "pages.jsonl"
+    draw.write_text("".join(json.dumps({"image": f"data/pages/{n}.jpg", "text": "x",
+                                        "page": f"data/pages/{n}.xml"}) + "\n" for n in in_draw))
+    (root / "benchmark.json").write_text(json.dumps({
+        "set": "german-medieval-v1", "side": "test", "documents": 2, "draw": "pages.jsonl",
+        "draw_md5": md5 or hashlib.md5(draw.read_bytes()).hexdigest()}))
+    return root
+
+
+def test_the_document_is_the_second_field_of_a_transkribus_page_name():
+    assert tr.doc_of_name("0001_034854_f1_a.xml", 1) == "034854"
+    assert tr.doc_of_name("page7.xml", 1) is None
+    assert tr.doc_of_name("x_034854_f1.xml", 1) is None, "field 0 must be the pool index"
+
+
+def test_a_frozen_set_is_read_through_its_draw_with_documents_from_the_names(tmp_path):
+    root = _frozen(tmp_path)
+    spec = {"name": "m", "pages": str(root / "data" / "pages"), "doc_field": 1}
+    pages = tr.load_set(spec, tmp_path)
+    assert [p.key for p in pages] == [f"{n}.xml" for n in NAMES[:4]], "the fifth is not in the draw"
+    assert [p.doc for p in pages] == ["034854", "034854", "041122", "041122"]
+    assert all(len(p.lines) == 3 for p in pages)
+    f = tr.frozen_set(root / "data" / "pages")
+    assert (f["set"], f["side"]) == ("german-medieval-v1", "test") and len(f["pages"]) == 4
+
+
+def test_an_edited_draw_is_refused(tmp_path):
+    root = _frozen(tmp_path, md5="0" * 32)
+    with pytest.raises(tr.PlanError, match="not the frozen draw"):
+        tr.load_set({"name": "m", "pages": str(root / "data" / "pages")}, tmp_path)
+
+
+def test_without_doc_field_a_frozen_set_is_one_directory_one_document(tmp_path):
+    root = _frozen(tmp_path)
+    pages = tr.load_set({"name": "m", "pages": str(root / "data" / "pages")}, tmp_path)
+    assert {p.doc for p in pages} == {"."}, "one flat directory, one document"
+
+
+def test_doc_field_must_be_an_index(tmp_path):
+    p = tmp_path / "plan.json"
+    p.write_text(json.dumps({"sets": [{"name": "a", "pages": "x", "kraken": "k", "trocr": "t",
+                                        "qwen": "q", "doc_field": "1"}]}))
+    with pytest.raises(tr.PlanError, match="doc_field must be a field index"):
+        tr.load_plan(p)
+
+
+def test_the_report_names_the_frozen_set_it_read(tmp_path):
+    root = _frozen(tmp_path)
+    plan = tmp_path / "plan.json"
+    plan.write_text(json.dumps({"sets": [{"name": "med", "pages": str(root / "data" / "pages"),
+                                          "doc_field": 1, "kraken": "kr", "trocr": "tr",
+                                          "qwen": "qline"}]}))
+    logs = []
+    args = tr.build_parser().parse_args([str(plan), "--out", str(tmp_path / "run"), "--level", "line"])
+    tr.run(args, gateway_factory=FakeGateway, log=logs.append)
+    rep = json.loads((tmp_path / "run" / "report.json").read_text())
+    f = rep["meta"]["frozen_sets"]["med"]
+    assert (f["set"], f["side"]) == ("german-medieval-v1", "test") and len(f["draw_md5"]) == 32
+    assert rep["groups"][0]["documents"] == 2 and rep["groups"][0]["items"] == 12
+    assert any("frozen set german-medieval-v1/test" in m and "4 pages in its draw" in m for m in logs)
+
+
+def test_a_frozen_set_without_doc_field_is_flagged(tmp_path):
+    root = _frozen(tmp_path)
+    plan = tmp_path / "plan.json"
+    plan.write_text(json.dumps({"sets": [{"name": "med", "pages": str(root / "data" / "pages"),
+                                          "kraken": "kr", "trocr": "tr", "qwen": "qline"}]}))
+    logs = []
+    args = tr.build_parser().parse_args([str(plan), "--out", str(tmp_path / "run"), "--level", "line"])
+    tr.run(args, gateway_factory=FakeGateway, log=logs.append)
+    assert any("no doc_field" in m for m in logs)
+    rep = json.loads((tmp_path / "run" / "report.json").read_text())
+    assert rep["groups"][0]["documents"] == 1
