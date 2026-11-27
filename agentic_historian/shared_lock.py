@@ -81,10 +81,39 @@ def _lock_path(target: Path) -> Path:
     return target.parent / f".{target.name}.lock"
 
 
+def _current_umask() -> int:
+    """The process umask, read without changing it for longer than a call.
+
+    ``os.umask`` is the only way to read it, and it sets at the same time; the
+    two calls happen back to back, which is what every library that needs the
+    value does.
+    """
+    old = os.umask(0)
+    os.umask(old)
+    return old
+
+
+def _shared_mode() -> int:
+    """The mode a plain ``open(path, "w")`` would give a new file (#911).
+
+    Two users write these files on tei — the bot as its service user, the CLI
+    as ``dh`` — into the same directories. ``tempfile.mkstemp`` creates 0600 and
+    ``os.open`` without a mode creates 0644, so whatever one of them wrote the
+    other could not read (run states) or not lock (the hub). A directory's
+    default ACL does not help: its mask follows the mode's group bits. So the
+    file gets the mode an ordinary write would have, and the deployment's umask
+    decides how far it is shared.
+    """
+    return 0o666 & ~_current_umask()
+
+
 def _acquire(lock_path: Path) -> int:
     """Acquire an exclusive blocking lock; return the file descriptor."""
     lock_path.parent.mkdir(parents=True, exist_ok=True)
-    fd = os.open(str(lock_path), os.O_CREAT | os.O_RDWR)
+    # Mode given explicitly: a lock file nobody else may open is a lock nobody
+    # else can take, and the other user then fails with "Permission denied"
+    # instead of waiting (#911). The umask still applies.
+    fd = os.open(str(lock_path), os.O_CREAT | os.O_RDWR, 0o666)
     fcntl.flock(fd, fcntl.LOCK_EX)
     return fd
 
@@ -113,6 +142,10 @@ def _write_atomic(path: Path, data: Any) -> None:
     try:
         with os.fdopen(tmp_fd, "w", encoding="utf-8") as tmp:
             json.dump(data, tmp, ensure_ascii=False, indent=2)
+        # mkstemp made the file 0600 and os.replace keeps that, so a run state
+        # the CLI wrote was unreadable to the bot (#911). Give it the mode a
+        # plain open() would have, before it becomes the target.
+        os.chmod(tmp_name, _shared_mode())
         os.replace(tmp_name, path)
     finally:
         if os.path.exists(tmp_name):
