@@ -468,6 +468,18 @@ def format_coverage_stats(events=None) -> str:
 # distinction was theoretical, because this and the three reports above were
 # reachable from no command at all.
 
+def _bucket_order(bucket: tuple) -> tuple:
+    """A sort key for ``(script, century, lang)`` that survives ``None`` (#912).
+
+    A bucket may be partly unknown — ``("kurrent", None, None)`` is a real, coarse
+    key in the preference log — and Python refuses to order ``None`` against a
+    string or a number. ``sorted(thin.items())`` did exactly that the first time
+    the log held both shapes, and the one bucket that had just reached n≥10 was
+    unreadable behind the exception.
+    """
+    return tuple("" if v is None else str(v) for v in bucket)
+
+
 def format_strength_stats(events=None) -> str:
     """Bradley–Terry engine strength per bucket, gated on sufficiency.
 
@@ -502,7 +514,8 @@ def format_strength_stats(events=None) -> str:
     if thin:
         short = ", ".join(
             f"`{s or '?'}/{c or '?'}/{la or '?'}` {info['comparisons']:.1f}"
-            for (s, c, la), info in sorted(thin.items()))
+            for (s, c, la), info in sorted(thin.items(),
+                                           key=lambda kv: _bucket_order(kv[0])))
         lines.append(f"Noch zu dünn (unter {MIN_COMPARISONS:.0f} Vergleichen, "
                      f"daher keine Schätzung): {short}")
     return "\n".join(lines).rstrip()
